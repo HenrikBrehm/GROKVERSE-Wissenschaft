@@ -16,9 +16,9 @@ _Zuletzt aktualisiert: 2026-09-25, ~14:00 Berlin (Sitzung 1, interaktiv)._
 - **Studie (historisch, nicht umschreiben):** `RESULTS.md`. Gate `neither_passes`, H3 widerlegt,
   H4 (Struktur vor Generalisierung) nur korrelativ. Offene Autorenentscheidungen D5–D9 bleiben
   bei den Menschen.
-- **Runner:** **vorbereitet, NICHT aktiviert.** Der Auto-Mode-Klassifikator hat die Aktivierung
-  blockiert („Create Unsafe Agents“). Dateien und Aktivierungsbefehl: `lab/runner/README.md`.
-  Die Entscheidung liegt beim Nutzer.
+- **Runner:** **aktiviert** vom Nutzer am 2026-09-25 um 16:39 Berlin (Aufgabe `GROKVERSE-Lab-Runner`,
+  Tick alle 10 min). Erste Runner-Sitzung ab 18:04 Berlin. Ob sie Ende-zu-Ende läuft, ist
+  **noch unbestätigt**: `lab/runner/logs/tick.log` und `runner-state.json` prüfen.
 - **Zeitfenster-Wächter:** `lab/tools/guarded_run.py`. **Ungetestet**, weil Sitzung 1 außerhalb
   des Fensters lag.
 
@@ -52,4 +52,4 @@ Keiner. Im Labor wurde noch nichts ausgeführt.
 
 ## Blocker
 
-- Runner-Aktivierung braucht eine Nutzerentscheidung (s. o.).
+- keine

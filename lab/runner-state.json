@@ -1,12 +1,12 @@
 {
   "schema": "grokverse-lab-runner/1",
-  "status": "prepared_not_activated",
-  "note": "Scheduler NOT registered: activation was blocked by the Claude Code auto-mode classifier in session 1 and is left to the user (see lab/runner/README.md). Session 1 was the interactive session started by the user; its start is the anchor of the 5-hour schedule.",
+  "status": "idle",
+  "note": "Activated by the user on 2026-09-25 16:39 Berlin (task GROKVERSE-Lab-Runner, tick every 10 min). Session 1 (interactive) is the anchor of the 5-hour schedule.",
   "last_start_utc": "2026-09-25T11:04:31Z",
   "last_end_utc": null,
   "next_start_utc": "2026-09-25T16:04:31Z",
   "session_deadline_utc": null,
-  "pause_reason": "runner not activated",
+  "pause_reason": null,
   "known_reset_utc": null,
   "reset_parse": null,
   "last_outcome": null,
@@ -15,6 +15,12 @@
   "sessions_started": 1,
   "last_session_minutes": null,
   "total_session_minutes": 0,
-  "budgets": {"session_minutes": 90, "max_cycles_per_session": 8, "job_minutes": 20, "concurrent_jobs": 1, "run_window_berlin": "00:00-13:00"},
+  "budgets": {
+    "session_minutes": 90,
+    "max_cycles_per_session": 8,
+    "job_minutes": 20,
+    "concurrent_jobs": 1,
+    "run_window_berlin": "00:00-13:00"
+  },
   "updated_utc": "2026-09-25T11:50:00Z"
 }

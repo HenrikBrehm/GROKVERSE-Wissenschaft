@@ -1,4 +1,8 @@
-# Äußerer Runner — Status: **vorbereitet, NICHT aktiviert**
+# Äußerer Runner — Status: **aktiviert** (2026-09-25 16:39 Berlin, vom Nutzer selbst)
+
+Der Nutzer hat die Aufgabe `GROKVERSE-Lab-Runner` selbst registriert, nachdem der Klassifikator sie dem Agenten zweimal verweigert hatte. Geprüft sind der Tick alle 10 min (unbegrenzt), IgnoreNew und die Anmeldeart Interactive. Die Trockenprüfung um 16:38 hat sich korrekt still beendet, weil noch keine Sitzung fällig war. **Ende-zu-Ende noch unbestätigt**: Die erste echte Runner-Sitzung ist fällig ab 16:04Z (18:04 Berlin).
+
+## Ursprünglicher Stand (Sitzung 1)
 
 Stand 2026-09-25 (Sitzung 1). Die Dateien sind geschrieben und statisch geparst (PowerShell-Parser:
 keine Fehler). **Nichts davon wurde ausgeführt.** Das Aktivieren (Aufgabe registrieren, Probelauf)

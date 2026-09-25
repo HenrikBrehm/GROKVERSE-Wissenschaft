@@ -65,6 +65,26 @@ def test_random_frequencies_avoid_top() -> None:
     assert r == fb.random_frequencies(pw, 5, 123)     # seeded => reproducible
 
 
+def test_init_swap_exchanges_power_and_keeps_norm() -> None:   # EXP-010
+    B = fb.fourier_basis(P)
+    W = np.random.default_rng(1).normal(size=(P, 16))
+    before = fb.freq_power(W, B)
+    pairs = fb.swap_pairs(before, 5, 99)
+    strong = [k for k, _ in pairs]
+    weak = [j for _, j in pairs]
+    assert sorted(strong) == fb.top_frequencies(before, 5)
+    assert not set(strong) & set(weak)
+    W2 = fb.swap_frequency_coefficients(W, B, pairs)
+    after = fb.freq_power(W2, B)
+    for k, j in pairs:
+        assert np.isclose(after[k - 1], before[j - 1]) and np.isclose(after[j - 1], before[k - 1])
+    untouched = [k - 1 for k in range(1, 57) if k not in strong + weak]
+    assert np.allclose(after[untouched], before[untouched])
+    assert np.isclose((W2 ** 2).sum(), (W ** 2).sum())
+    assert np.allclose(B[:, 0] @ W2, B[:, 0] @ W)                   # constant component kept
+    assert fb.top_frequencies(after, 5) == sorted(weak)               # weak set now strongest
+
+
 def test_guard_window() -> None:
     # 2026-09-25 is CEST (UTC+2). 10:00 UTC = 12:00 Berlin -> in window, ~57 min left
     st = gr.window_status(datetime(2026, 9, 25, 10, 0, tzinfo=timezone.utc), None, 20.0)

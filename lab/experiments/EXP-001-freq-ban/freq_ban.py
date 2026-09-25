@@ -18,6 +18,11 @@ Conditions
   ban_random     K = m frequencies drawn (seeded) from power ranks > 2m at t0
   ban_destined   K = top-m W_E frequencies of the STORED 25k baseline model of
                  the same seed, banned from step 1 (t0 is ignored)
+  init_swap      (EXP-010) no ban. At init, the DFT coefficients of W_E[:p] of the m
+                 strongest frequencies T are swapped with those of m weak frequencies S
+                 (drawn like ban_random, seed + SWAP_SALT). Norm and distribution of the
+                 iid-normal init are preserved; data split and all other weights are
+                 identical to the baseline of the same seed. t0 is ignored.
 
 Run ONLY through lab/tools/guarded_run.py (run window). Example, from the root:
     python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/freq_ban.py \
@@ -48,8 +53,10 @@ from grokverse.seed import set_seed  # noqa: E402
 from grokverse.train import all_transitions, evaluate  # noqa: E402
 from grokverse.utils import git_commit, lib_versions  # noqa: E402
 
-CONDITIONS = ("baseline", "ban_emerging", "ban_random", "ban_destined")
+CONDITIONS = ("baseline", "ban_emerging", "ban_random", "ban_destined", "init_swap")
 EXP_ID = "EXP-001"
+EXP_ID_BY_CONDITION = {"init_swap": "EXP-010"}
+SWAP_SALT = 20_011            # init_swap draws S with seed + salt
 RANDOM_SALT = 10_007          # ban_random draws with seed + salt, never the run seed itself
 SPECTRUM_EVERY = 250          # steps between stored W_E power spectra
 PARTIAL_WRITE_EVERY = 500     # steps between partial result.json writes
@@ -98,6 +105,27 @@ def random_frequencies(power: np.ndarray, m: int, rng_seed: int) -> list[int]:
     return sorted(int(k) for k in rng.choice(pool, size=m, replace=False))
 
 
+def swap_pairs(power: np.ndarray, m: int, rng_seed: int) -> list[tuple[int, int]]:
+    """Pairs (t, s): the m strongest frequencies (by descending power) with m weak ones
+    drawn from power ranks >= 2m (ascending k), both 1-based."""
+    order = np.lexsort((np.arange(len(power)), -power))
+    strong = [int(i) + 1 for i in order[:m]]
+    weak = random_frequencies(power, m, rng_seed)
+    return list(zip(strong, weak))
+
+
+def swap_frequency_coefficients(W: np.ndarray, basis: np.ndarray,
+                                pairs: list[tuple[int, int]]) -> np.ndarray:
+    """New W [p, d] with the (cos, sin) DFT coefficient rows of each pair (k, j) exchanged.
+    Orthonormal basis: Frobenius norm and all other frequencies are unchanged."""
+    coef = basis.T @ W
+    new = coef.copy()
+    for k, j in pairs:
+        ck, cj = freq_columns([k]), freq_columns([j])
+        new[ck], new[cj] = coef[cj], coef[ck]
+    return basis @ new
+
+
 def ban_projector(basis: np.ndarray, freqs) -> np.ndarray:
     """[p, p] projector onto the orthogonal complement of the banned frequencies."""
     B = basis[:, freq_columns(freqs)]
@@ -127,7 +155,8 @@ def _choose_ban(cond: str, W_E: np.ndarray, basis: np.ndarray, m: int, seed: int
 def run(a: argparse.Namespace) -> dict:
     cfg = get_config("arch25k", seed=a.seed, steps=a.steps, threads=a.threads)
     p = cfg.p
-    run_id = f"{EXP_ID}_{a.condition}_t{a.t0}_m{a.m}_seed{a.seed}_thr{a.threads}"
+    exp_id = EXP_ID_BY_CONDITION.get(a.condition, EXP_ID)
+    run_id = f"{exp_id}_{a.condition}_t{a.t0}_m{a.m}_seed{a.seed}_thr{a.threads}"
     out_dir = Path(a.out_root) / run_id
     if (out_dir / "result.json").exists() and not a.force:
         prev = json.loads((out_dir / "result.json").read_text())
@@ -145,6 +174,18 @@ def run(a: argparse.Namespace) -> dict:
                             betas=(cfg.beta1, cfg.beta2))
     basis = fourier_basis(p)
 
+    events: dict = {}
+    if a.condition == "init_swap":   # numpy only: consumes no torch RNG, so data/weights match baseline
+        W0 = model.W_E.detach().numpy().astype(np.float64)[:p]
+        pw0 = freq_power(W0, basis)
+        pairs = swap_pairs(pw0, a.m, a.seed + SWAP_SALT)
+        with torch.no_grad():
+            model.W_E[:p] = torch.tensor(swap_frequency_coefficients(W0, basis, pairs),
+                                         dtype=model.W_E.dtype)
+        events["init_swap"] = {"pairs": pairs, "power_before": pw0.tolist(),
+                               "power_after": freq_power(
+                                   model.W_E.detach().numpy().astype(np.float64)[:p], basis).tolist()}
+
     ban_from = 1 if a.condition == "ban_destined" else a.t0
     banned: list[int] | None = None
     proj: torch.Tensor | None = None
@@ -155,10 +196,10 @@ def run(a: argparse.Namespace) -> dict:
     dense = {"train_steps": [], "train_acc": [], "train_loss": [], "test_steps": [],
              "test_acc": [], "test_loss": [], "eval_every_train": cfg.eval_every_train,
              "eval_every_test": cfg.eval_every_test}
-    spectra, spectra_steps, events = [], [], {}
-    res = {"exp_id": EXP_ID, "run_id": run_id, "status": "running",
+    spectra, spectra_steps = [], []
+    res = {"exp_id": exp_id, "run_id": run_id, "status": "running",
            "condition": a.condition, "seed": a.seed, "t0": a.t0, "m": a.m,
-           "ban_from_step": None if a.condition == "baseline" else ban_from,
+           "ban_from_step": None if a.condition in ("baseline", "init_swap") else ban_from,
            "stop_after_generalization": a.stop_after_gen, "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "git_commit": git_commit(), "versions": lib_versions(),
@@ -197,7 +238,7 @@ def run(a: argparse.Namespace) -> dict:
         opt.zero_grad(set_to_none=True)
         loss.backward()
         opt.step()
-        if a.condition != "baseline" and step == ban_from:
+        if a.condition not in ("baseline", "init_swap") and step == ban_from:
             if banned is None:
                 banned = _choose_ban(a.condition, model.W_E.detach().numpy().astype(np.float64)[:p],
                                      basis, a.m, a.seed)

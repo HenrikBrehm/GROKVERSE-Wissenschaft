@@ -1,3 +1,6 @@
+---
+tags: [lab/backlog]
+---
 # lab/BACKLOG.md — Forschungsfragen
 
 Priorität: P1 als Nächstes · P2 bald · P3 Idee. Status: offen · vorbereitet · läuft · erledigt · verworfen.
@@ -12,6 +15,9 @@ Priorität: P1 als Nächstes · P2 bald · P3 Idee. Status: offen · vorbereitet
 | EXP-006 | P3 | Schwellen-Sweep für die „structured neurons“ als *Labor*-Sensitivitätsanalyse (nicht als Änderung der Studie) | Die Schwelle trägt mehr als jede Messung (RESULTS §13) | offen | RESULTS §6, D6 |
 | EXP-007 | P3 | Lokale Reproduktion eines S1-Seed-Paars (100k Schritte)? Dazu nötig: Checkpoint und Resume in ≤ 20-min-Stücken inkl. Adam-Zustand | Bedingung des Reviewer-Runbooks, bisher nicht erfüllt | offen, braucht Resume-Infrastruktur | RESULTS §16 |
 | EXP-008 | P3 | Hat die Zeitreihe der Fourier-Konzentration eine architekturunabhängige Form, z. B. ρ gegen die „Plateau-Fraktion“ t/gen oder gegen F6 − F6(Init)? | Aus EXP-003c: Die Vorlaufzeit hängt von der Architektur ab. Eine normierte Zeitachse könnte das vereinheitlichen. Achtung: Auf den 40 gespeicherten Läufen wäre das nur explorativ | offen | EXP-003c |
+| EXP-009 | P1 | Sagt das Init-Spektrum von W_E voraus, welche Frequenzen das Netz am Ende nutzt? Wann ist die Wahl festgelegt? | Frequenz-Lotterie bei gemeinsamem Embedding ([[NOVEL_DIRECTIONS]] N2), schärft EXP-002 | **erledigt** (Auswertung): ja, p < 1e-5, seed-spezifisch. m2h nur pro Neuron. Lock-in beim Transformer vor dem Grokking (Median L/g 0.29) | [[experiments/EXP-009-freq-commitment/SUMMARY\|EXP-009]] |
+| EXP-010 | P1 | Wandert die Frequenzwahl mit, wenn man die Init-Koeffizienten zwischen Top-5 und schwachen Frequenzen tauscht (verteilungserhaltend)? | Kausale Steuerbarkeit der Lotterie. Nutzt die EXP-003d-Baselines und repliziert nebenbei EXP-009 an frischen Seeds | vorbereitet, ungetestet | [[experiments/EXP-010-init-swap/README\|EXP-010]] |
+| EXP-011 | P3 | Liegt der Lotterie-Effekt am Betrag, an der Phase oder an beidem? Kann man durch reinen Phasen- oder Betragstausch trennen. Gibt es bei W_E-Modellen zusätzlich eine Lotterie pro Neuron (W_in über W_E)? | Anschluss an He et al. 2026 (Betrag + Phase pro Neuron) | offen, Idee | EXP-009, EXP-010 |
 | TOOL-1 | P2 | Explorer-Ansicht „Spektrum über Zeit mit Eingriffsmarke“ für EXP-001/002 (HTML aus `spectra.npy`) | Macht Verbote und Ausweichfrequenzen sichtbar | offen, erst nach Daten | — |
 
 Hinweise: Seeds 3–9 der Primärsplits bleiben für die Bestätigung von EXP-001 unberührt. Die

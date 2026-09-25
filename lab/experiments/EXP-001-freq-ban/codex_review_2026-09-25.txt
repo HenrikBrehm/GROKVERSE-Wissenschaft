@@ -1,0 +1,64 @@
+(node:7788) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0da1e-b427-7c03-ab8c-f4b60f1ddac9).
+[codex] Turn started (01a0da1e-b6ba-7502-b5eb-e1e854dde4d3).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’m inspecting the focused branch diff and tracing it...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Pat...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Pat... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'trai...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'trai... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The core projection is algebraically correct, but the...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$dirs = Get-ChildI...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$dirs = Get-ChildI... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$rows = @(); $dirs...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$rows = @(); $dirs... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$dirs = Get-ChildI...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$dirs = Get-ChildI... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -Lit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -Lit... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$env:PYTHONDONTWRI...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$env:PYTHONDONTWRI... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -For...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -For... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'trai...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'trai... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff HEAD -- l...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff HEAD -- l... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Select-String -Lit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Select-String -Lit... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"No-ship: the analysis can manufacture conclusions fro...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against main
+Verdict: needs-attention
+
+No-ship: the analysis can manufacture conclusions from censored or mixed runs, while the intervention/control design does not isolate frequency identity from perturbation strength or Adam dynamics.
+
+Findings:
+- [high] Censored runs can produce false support or rejection (lab/experiments/EXP-001-freq-ban/analyze.py:55-62)
+  A censored crossing is represented by `steps_completed`. The classifier then unconditionally calls an emerging-censored/random-observed pair support, even if the random run crossed only 500 steps before a 15000-step cap, where the supported lower bound is merely >500. If both arms are censored at the same cap, their substituted delays are equal and the code declares `against`, although their true crossing-time difference is completely unidentified.
+  Recommendation: Represent crossings as intervals. Require the lower bound of `gen_emerging - gen_random` to be at least 1000 for support, and classify two censored arms as unclear. Add tests for every censoring combination and unequal caps.
+- [high] The random control is guaranteed to remove less embedding power (lab/experiments/EXP-001-freq-ban/freq_ban.py:87-98)
+  The treatment projects out ranks 1–5 while the control samples only ranks 11 and below. Consequently, the treatment removes at least as much Frobenius power as any such control set, generally much more. A larger accuracy loss or delay therefore cannot distinguish special frequency identity from simple perturbation magnitude. Recording pre/post accuracy does not fix this because the decision rule never matches or adjusts for it.
+  Recommendation: Add matched-energy and matched-immediate-damage controls, such as random subspaces conditioned on projected norm, and predefine the estimand accordingly. Use multiple control draws per seed.
+- [high] Analyzer silently overwrites protocol variants (lab/experiments/EXP-001-freq-ban/analyze.py:16-20)
+  Runs are keyed only by `(seed, condition)`. If the raw directory contains different t0, m, thread, cap, version, or rerun variants, the lexicographically later path silently replaces the earlier one. None of the recorded protocol metadata or split hashes are validated across the three arms, so a mixed experiment can receive a definitive verdict.
+  Recommendation: Reject duplicate seed/condition entries and require the exact preregistered 3×3 matrix. Validate t0, m, max_steps, threads, configuration, split hash, commit/version, and condition-specific ban step before evaluating.
+- [medium] Unconstrained Adam state contaminates the projected optimization (lab/experiments/EXP-001-freq-ban/freq_ban.py:194-211)
+  Although the assignment removes banned coefficients before the next forward pass, AdamW computes every update from unprojected gradients and unprojected `exp_avg`/`exp_avg_sq`. Adam's coordinate-wise division by `sqrt(v)` does not commute with the Fourier projector, so gradients and stale momentum in forbidden directions can change updates retained in allowed directions after projection. The observed effect is therefore not solely the effect of constraining W_E to the complementary subspace.
+  Recommendation: Parameterize the numeric-token embedding directly in an allowed Fourier basis and optimize those coefficients, with an equivalent optimizer-state reset/sham event in controls. Add an integration invariant checking banned power throughout training.
+- [medium] The 2-of-3 rule has no estimate of seed or control-draw noise (lab/experiments/EXP-001-freq-ban/README.md:22-30)
+  Each exploratory seed gets only one random frequency set, and that draw changes together with initialization and split. The fixed 500/1000-step margins are not calibrated against repeated random bans or held-out-seed variability, so two unusually benign random controls can determine the 2-of-3 verdict. The rule can label a noisy exploratory result as support or contradiction without quantifying uncertainty.
+  Recommendation: Run several independently drawn, power-matched controls within each seed, estimate paired uncertainty, and reserve any causal verdict for the preregistered held-out seeds 3–9.
+- [medium] EXP-002 has no executable decision or validity gate (lab/experiments/EXP-002-destined-ban/README.md:37-39)
+  The only analyzer ignores `ban_destined`, reads one raw root, and cannot apply EXP-002's stored-versus-local top-five eligibility rule or combine its separate baseline directory. The README explicitly defers implementation, leaving the most consequential exclusions and censoring decisions to an untested future/manual path.
+  Recommendation: Implement and test the EXP-002 analyzer before running it, including baseline joining, exact eligibility checks, duplicate/config rejection, and interval-correct censoring.
+
+Next steps:
+- Fix and test censoring and fail-closed run validation first.
+- Redesign the control and constrained optimizer before spending the nine-run budget.
+- Implement EXP-002 analysis before generating treatment results.

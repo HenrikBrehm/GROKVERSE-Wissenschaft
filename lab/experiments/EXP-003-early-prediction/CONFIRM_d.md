@@ -1,3 +1,10 @@
+---
+id: EXP-003d
+status: vorbereitet
+datum: 2026-09-25
+tags: [exp/vorbereitet]
+verwandt: ["[[experiments/EXP-003-early-prediction/SUMMARY|EXP-003]]", "[[experiments/EXP-010-init-swap/README|EXP-010]]"]
+---
 # EXP-003d: unabhängige Bestätigung an frischen Seeds (Training nötig)
 
 **Status:** vorbereitet, **noch nicht ausgeführt**. Die Definition wurde am 2026-09-25 um

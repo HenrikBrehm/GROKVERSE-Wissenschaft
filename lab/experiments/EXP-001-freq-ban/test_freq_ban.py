@@ -85,6 +85,30 @@ def test_init_swap_exchanges_power_and_keeps_norm() -> None:   # EXP-010
     assert fb.top_frequencies(after, 5) == sorted(weak)               # weak set now strongest
 
 
+def test_shrink_matches_top_ban_energy() -> None:              # amendment 2026-09-25b
+    B = fb.fourier_basis(P)
+    W = np.random.default_rng(2).normal(size=(P, 16))
+    pw = fb.freq_power(W, B)
+    f = fb.shrink_factor(pw, 5)
+    W2 = fb.shrink_nonconstant(W, B, f)
+    removed_shrink = pw.sum() - fb.freq_power(W2, B).sum()
+    removed_ban = pw.sum() - fb.freq_power(fb.ban_projector(B, fb.top_frequencies(pw, 5)) @ W, B).sum()
+    assert np.isclose(removed_shrink, removed_ban)
+    assert np.allclose(B[:, 0] @ W2, B[:, 0] @ W)
+
+
+def test_censoring_intervals() -> None:                         # amendment 2026-09-25b
+    import analyze as an
+    cap = 15000
+    assert an.classify((9000, 9000), (5000, 5000)) == "support"
+    assert an.classify((cap, None), (5000, 5000)) == "support"        # lower bound 10000
+    assert an.classify((cap, None), (14800, 14800)) == "unclear"      # lower bound only 200
+    assert an.classify((cap, None), (cap, None)) == "unclear"         # both censored
+    assert an.classify((6000, 6000), (5800, 5800)) == "against"
+    assert an.classify((5000, 5000), (cap, None)) == "against"        # upper bound < 0
+    assert an.classify((6000, 6000), (5200, 5200)) == "unclear"
+
+
 def test_guard_window() -> None:
     # 2026-09-25 is CEST (UTC+2). 10:00 UTC = 12:00 Berlin -> in window, ~57 min left
     st = gr.window_status(datetime(2026, 9, 25, 10, 0, tzinfo=timezone.utc), None, 20.0)

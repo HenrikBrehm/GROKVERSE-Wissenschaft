@@ -1,3 +1,10 @@
+---
+id: EXP-003
+status: abgeschlossen
+datum: 2026-09-25
+tags: [exp/abgeschlossen, befund/unklar]
+verwandt: ["[[experiments/EXP-003-early-prediction/README|EXP-003 Definition]]", "[[experiments/EXP-003-early-prediction/CONFIRM_d|EXP-003d]]", "[[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]"]
+---
 # EXP-003: Ergebnisse (Sitzung 2, 2026-09-25)
 
 Alle Zahlen stammen aus Auswertungen **gespeicherter** Läufe. Es gab kein neues Training. Code:

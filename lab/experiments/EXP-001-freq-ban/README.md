@@ -1,3 +1,10 @@
+---
+id: EXP-001
+status: vorbereitet
+datum: 2026-09-25
+tags: [exp/vorbereitet, neu/kandidat]
+verwandt: ["[[experiments/EXP-002-destined-ban/README|EXP-002]]", "[[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]", "[[BACKLOG]]", "[[NOVEL_DIRECTIONS]]"]
+---
 # EXP-001 — Frequenzverbot während des Trainings
 
 **Status:** vorbereitet, **noch nicht ausgeführt** (Definition geschrieben 2026-09-25, 13:3x Berlin,
@@ -46,3 +53,37 @@ implementiert, gehört aber **nicht** zu diesem Versuch; sie ist als EXP-002 im 
 5. `python lab/experiments/EXP-001-freq-ban/analyze.py` → `summary.json`, `SUMMARY.md`
 
 Rohdaten: `raw/` (gitignored). Kompakte Ergebnisse: `summary.json`, `SUMMARY.md` (committet).
+
+## Nachtrag 2026-09-25b (Sitzung 3, ~22:10 Berlin): vor jedem Lauf, nach Codex-Review
+
+Es gibt noch **keinen einzigen Lauf**. Diese Änderungen erfolgen also nicht in Kenntnis von
+Ergebnissen. Anlass war das adversariale Codex-Review (`codex_review_2026-09-25.txt`), dessen
+Befunde ich selbst geprüft habe (Protokoll in [[JOURNAL]], Sitzung 3).
+
+1. **Zensur als Intervall** (`analyze.py`). Die Entscheidung fällt auf gen(emerging) − gen(random).
+   Ein zensierter Lauf zählt als „> Cap“. *Unterstützt* heißt: Die **untere Schranke** der
+   Differenz ist ≥ 1000. *Widerspricht* heißt: Die **obere Schranke** ist ≤ 500. Sonst gilt
+   *unklar*. Damit ersetzt diese Regel die Sonderregel „zensiert zählt als ≥ 1000“. Sind beide
+   Arme zensiert, ist das Ergebnis jetzt *unklar*, nicht mehr fälschlich *widerspricht*.
+2. **Strikte Laufvalidierung.** Doppelte (Seed, Bedingung) führen zum Abbruch. t0, m, Cap,
+   Stoppregel, Split-Hash, Protokollversion und Threads müssen über alle Arme eines Seeds gleich
+   sein, sonst ist der Seed *nicht auswertbar*.
+3. **Verbot auch im Optimierer.** Ab dem Verbotsschritt wird zusätzlich der Gradient von
+   `W_E[:p]` vor `opt.step()` projiziert, und im Verbotsschritt einmalig Adams erstes Moment
+   `exp_avg`. Das zweite Moment (`exp_avg_sq`) ist elementweise und lässt sich nicht projizieren.
+   Die Nachprojektion der Gewichte bleibt deshalb bestehen. Als Invariante berichtet
+   `analyze.py` den maximalen Leistungsanteil der verbotenen Frequenzen nach dem Verbot. Erwartet
+   wird ≈ 0, weil zum Messzeitpunkt nachprojiziert ist.
+4. **Sekundäre Energiekontrolle `shrink_matched`** (3 zusätzliche Läufe, Seeds 0–2). Bei t0
+   werden alle nicht-konstanten Fourier-Anteile von `W_E[:p]` einmalig so skaliert, dass
+   genau so viel Leistung verloren geht wie beim Top-5-Verbot. Berichtet wird
+   `secondary_emerging_vs_shrink` mit derselben Intervallregel. Das Ergebnis ist **nicht
+   entscheidungsrelevant** und trennt „welche Frequenzen“ grob von „wie viel Energie“.
+   **Grenze:** Das Verbot wirkt dauerhaft, das Schrumpfen nur einmal.
+
+Nicht übernommen wurde der Vorschlag, mehrere Zufallskontrollen pro Seed zu rechnen und
+Margins zu kalibrieren. Bei n = 3 Explorationsseeds sprengt das das Budget. Die vorgesehene
+Antwort darauf bleibt die Bestätigung an den unberührten Seeds 3–9.
+
+Zusätzliche Läufe (nach den 9 Hauptläufen):
+`python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/freq_ban.py --seed S --condition shrink_matched`

@@ -18,6 +18,9 @@ Conditions
   ban_random     K = m frequencies drawn (seeded) from power ranks > 2m at t0
   ban_destined   K = top-m W_E frequencies of the STORED 25k baseline model of
                  the same seed, banned from step 1 (t0 is ignored)
+  shrink_matched (amendment, secondary control) at t0, ONCE, scale the non-constant
+                 Fourier part of W_E[:p] so that the removed power equals the power a
+                 top-m ban would remove at t0. No persistent constraint.
   init_swap      (EXP-010) no ban. At init, the DFT coefficients of W_E[:p] of the m
                  strongest frequencies T are swapped with those of m weak frequencies S
                  (drawn like ban_random, seed + SWAP_SALT). Norm and distribution of the
@@ -53,7 +56,8 @@ from grokverse.seed import set_seed  # noqa: E402
 from grokverse.train import all_transitions, evaluate  # noqa: E402
 from grokverse.utils import git_commit, lib_versions  # noqa: E402
 
-CONDITIONS = ("baseline", "ban_emerging", "ban_random", "ban_destined", "init_swap")
+CONDITIONS = ("baseline", "ban_emerging", "ban_random", "ban_destined", "init_swap",
+              "shrink_matched")
 EXP_ID = "EXP-001"
 EXP_ID_BY_CONDITION = {"init_swap": "EXP-010"}
 SWAP_SALT = 20_011            # init_swap draws S with seed + salt
@@ -124,6 +128,19 @@ def swap_frequency_coefficients(W: np.ndarray, basis: np.ndarray,
         ck, cj = freq_columns([k]), freq_columns([j])
         new[ck], new[cj] = coef[cj], coef[ck]
     return basis @ new
+
+
+def shrink_factor(power: np.ndarray, m: int) -> float:
+    """Amplitude factor that removes the same power as banning the top-m frequencies."""
+    top = np.sort(power)[::-1][:m].sum()
+    return float(np.sqrt(1.0 - top / power.sum()))
+
+
+def shrink_nonconstant(W: np.ndarray, basis: np.ndarray, factor: float) -> np.ndarray:
+    """W with all non-constant DFT coefficients scaled by ``factor`` (constant row kept)."""
+    coef = basis.T @ W
+    coef[1:] *= factor
+    return basis @ coef
 
 
 def ban_projector(basis: np.ndarray, freqs) -> np.ndarray:
@@ -200,6 +217,7 @@ def run(a: argparse.Namespace) -> dict:
     res = {"exp_id": exp_id, "run_id": run_id, "status": "running",
            "condition": a.condition, "seed": a.seed, "t0": a.t0, "m": a.m,
            "ban_from_step": None if a.condition in ("baseline", "init_swap") else ban_from,
+           "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "git_commit": git_commit(), "versions": lib_versions(),
@@ -237,19 +255,32 @@ def run(a: argparse.Namespace) -> dict:
         loss = F.cross_entropy(model.logits_last(trx)[:, :p], try_)
         opt.zero_grad(set_to_none=True)
         loss.backward()
+        if proj is not None and step > ban_from:   # amendment 2026-09-25: projected gradient
+            with torch.no_grad():
+                model.W_E.grad[:p] = proj @ model.W_E.grad[:p]
         opt.step()
         if a.condition not in ("baseline", "init_swap") and step == ban_from:
-            if banned is None:
-                banned = _choose_ban(a.condition, model.W_E.detach().numpy().astype(np.float64)[:p],
-                                     basis, a.m, a.seed)
+            W_now = model.W_E.detach().numpy().astype(np.float64)[:p]
+            if banned is None and a.condition != "shrink_matched":
+                banned = _choose_ban(a.condition, W_now, basis, a.m, a.seed)
                 proj = torch.tensor(ban_projector(basis, banned), dtype=model.W_E.dtype)
             events["pre_ban_acc"] = {"train": evaluate(model, trx, try_, p)[1],
                                      "test": evaluate(model, tex, tey, p)[1]}
-            events["power_at_ban"] = freq_power(
-                model.W_E.detach().numpy().astype(np.float64)[:p], basis).tolist()
+            events["power_at_ban"] = freq_power(W_now, basis).tolist()
+            if a.condition == "shrink_matched":     # one-time, energy matched to a top-m ban
+                factor = shrink_factor(np.asarray(events["power_at_ban"]), a.m)
+                with torch.no_grad():
+                    model.W_E[:p] = torch.tensor(shrink_nonconstant(W_now, basis, factor),
+                                                 dtype=model.W_E.dtype)
+                events["shrink_factor"] = factor
+                events["post_ban_acc"] = {"train": evaluate(model, trx, try_, p)[1],
+                                          "test": evaluate(model, tex, tey, p)[1]}
         if proj is not None and step >= ban_from:
             with torch.no_grad():
                 model.W_E[:p] = proj @ model.W_E[:p]
+                if step == ban_from:                # first-moment state into the allowed subspace
+                    m1 = opt.state[model.W_E]["exp_avg"]
+                    m1[:p] = proj @ m1[:p]
             if step == ban_from:
                 events["post_ban_acc"] = {"train": evaluate(model, trx, try_, p)[1],
                                           "test": evaluate(model, tex, tey, p)[1]}

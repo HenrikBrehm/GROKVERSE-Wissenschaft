@@ -1,3 +1,10 @@
+---
+id: EXP-002
+status: vorbereitet
+datum: 2026-09-25
+tags: [exp/vorbereitet]
+verwandt: ["[[experiments/EXP-001-freq-ban/README|EXP-001]]", "[[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]", "[[experiments/EXP-010-init-swap/README|EXP-010]]", "[[BACKLOG]]"]
+---
 # EXP-002: Verbot der „Ziel“-Frequenzen ab Schritt 1
 
 **Status:** vorbereitet, **noch nicht ausgeführt**. Die Definition wurde am 2026-09-25 um
@@ -37,3 +44,12 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/freq_
 Die Baselines liegen in `lab/experiments/EXP-001-freq-ban/raw/EXP-001_baseline_t2000_m5_seedS_thr4/`.
 Ein Auswerteskript fehlt noch. Es soll nach dem Muster von `EXP-001-freq-ban/analyze.py` entstehen,
 sobald die Ausgabe der EXP-001-Läufe real geprüft ist.
+
+**Nachtrag 2026-09-25b (Sitzung 3, vor jedem Lauf):** Das Auswerteskript liegt jetzt in `analyze.py`
+(ungetestet). Es übernimmt aus [[experiments/EXP-001-freq-ban/README|EXP-001]] den Nachtrag b:
+Zensur als Intervall (*privilegiert* heißt untere Schranke ≥ 1000, *nicht privilegiert* heißt
+beide Schranken innerhalb ±500), außerdem strikte Validierung und das projizierte Verbot im
+Optimierer. Die Sonderregel „zensiert zählt als ≥ 1000“ ist damit ersetzt.
+**Neuer Kontext:** Nach [[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]] sind die
+„Ziel“-Frequenzen teilweise die im Init-Spektrum starken. Ein Verbot ab Schritt 1 entfernt also
+auch deren Init-Vorsprung. Das ist eine Deutungshilfe und ändert kein Kriterium.

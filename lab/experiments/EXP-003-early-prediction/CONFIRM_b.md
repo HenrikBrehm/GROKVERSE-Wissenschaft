@@ -1,3 +1,10 @@
+---
+id: EXP-003b
+status: abgeschlossen
+datum: 2026-09-25
+tags: [exp/abgeschlossen, befund/unklar]
+verwandt: ["[[experiments/EXP-003-early-prediction/SUMMARY|EXP-003]]"]
+---
 # EXP-003b: Bestätigung von F6 an unberührten Läufen
 
 **Status:** Definition fixiert am 2026-09-25 um ~17:05 Berlin, **bevor** die Zielgröße oder ein

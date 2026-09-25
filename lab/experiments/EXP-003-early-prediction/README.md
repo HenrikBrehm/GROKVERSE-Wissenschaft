@@ -1,3 +1,10 @@
+---
+id: EXP-003
+status: abgeschlossen
+datum: 2026-09-25
+tags: [exp/abgeschlossen]
+verwandt: ["[[experiments/EXP-003-early-prediction/SUMMARY|EXP-003 Ergebnis]]", "[[BACKLOG]]"]
+---
 # EXP-003: Frühvorhersage des Generalisierungszeitpunkts
 
 **Status:** Definition fixiert am 2026-09-25 um ~16:50 Berlin (Sitzung 2), **bevor** ein Merkmal

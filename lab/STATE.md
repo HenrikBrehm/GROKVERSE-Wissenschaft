@@ -39,7 +39,9 @@ signifikant“ (003b), in der Exploration (003c) ein Fortschrittsmaß ohne feste
 3. Studientests als Baseline: `python lab/tools/guarded_run.py -- python training/tests/run_all.py`
 4. EXP-001-Funktionstest (README Schritt 2), s/Schritt notieren und das Abbruchkriterium anwenden.
 5. EXP-001-Hauptläufe, einer nach dem anderen, danach `analyze.py`.
-6. Bleibt Budget übrig: EXP-003d-Läufe (Befehl in `CONFIRM_d.md`), Seed für Seed. Jeder
+6. EXP-002-Läufe (Befehle in dessen README), die Baselines kommen aus EXP-001. Danach das
+   Auswerteskript nach dem Muster von EXP-001 `analyze.py` schreiben.
+7. Bleibt Budget übrig: EXP-003d-Läufe (Befehl in `CONFIRM_d.md`), Seed für Seed. Jeder
    abgeschlossene Seed ist für sich gültig. Wenn alle 10 vorliegen: `python lab/experiments/EXP-003-early-prediction/confirm_d.py`.
 
 ## Wiederaufnahme nach Abbruch

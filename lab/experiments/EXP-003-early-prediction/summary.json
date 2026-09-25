@@ -1,0 +1,141 @@
+{
+  "experiment": "EXP-003",
+  "code_commit": "7e6ae4e1f957a11c0ce3cf28e3668a571746d62c",
+  "n_perm": 20000,
+  "perm_seed": 0,
+  "candidate": "F6_WE_top8_conc",
+  "confirmations": {
+    "confirm_mlp512": {
+      "rho": -0.6484848484848483,
+      "p_one_sided": 0.0241,
+      "passes": true
+    },
+    "confirm_mlp572": {
+      "rho": -0.41337576970244394,
+      "p_one_sided": 0.1147,
+      "passes": false
+    }
+  },
+  "verdict": "teilweise",
+  "stats": {
+    "explore_txf": {
+      "F1_test_loss": {
+        "rho": 0.3586642707712381,
+        "p_two_sided": 0.3089,
+        "p_greater": 0.1509,
+        "p_less": 0.8539
+      },
+      "F2_test_loss_delta": {
+        "rho": 0.10942299786241164,
+        "p_two_sided": 0.76725,
+        "p_greater": 0.384,
+        "p_less": 0.62395
+      },
+      "F3_log_train_loss": {
+        "rho": 0.07294866524160776,
+        "p_two_sided": 0.84705,
+        "p_greater": 0.4202,
+        "p_less": 0.5867
+      },
+      "F4_param_norm": {
+        "rho": 0.4255338805760452,
+        "p_two_sided": 0.21955,
+        "p_greater": 0.111,
+        "p_less": 0.8928
+      },
+      "F5_norm_ratio": {
+        "rho": 0.4620082131968491,
+        "p_two_sided": 0.1794,
+        "p_greater": 0.0891,
+        "p_less": 0.9147
+      },
+      "F6_WE_top8_conc": {
+        "rho": -0.7112494861056755,
+        "p_two_sided": 0.02475,
+        "p_greater": 0.98815,
+        "p_less": 0.01235
+      }
+    },
+    "confirm_mlp512": {
+      "F1_test_loss": {
+        "rho": 0.0303030303030303,
+        "p_two_sided": 0.94485,
+        "p_greater": 0.4681,
+        "p_less": 0.5441
+      },
+      "F2_test_loss_delta": {
+        "rho": 0.11515151515151514,
+        "p_two_sided": 0.76165,
+        "p_greater": 0.38425,
+        "p_less": 0.6295
+      },
+      "F3_log_train_loss": {
+        "rho": 0.18787878787878787,
+        "p_two_sided": 0.6041,
+        "p_greater": 0.31015,
+        "p_less": 0.7019
+      },
+      "F4_param_norm": {
+        "rho": 0.11515151515151514,
+        "p_two_sided": 0.7585,
+        "p_greater": 0.3767,
+        "p_less": 0.63695
+      },
+      "F5_norm_ratio": {
+        "rho": 0.006060606060606061,
+        "p_two_sided": 1.0,
+        "p_greater": 0.4971,
+        "p_less": 0.5161
+      },
+      "F6_WE_top8_conc": {
+        "rho": -0.6484848484848483,
+        "p_two_sided": 0.0494,
+        "p_greater": 0.97885,
+        "p_less": 0.0241
+      }
+    },
+    "confirm_mlp572": {
+      "F1_test_loss": {
+        "rho": 0.3282689935872349,
+        "p_two_sided": 0.3529,
+        "p_greater": 0.1765,
+        "p_less": 0.8292
+      },
+      "F2_test_loss_delta": {
+        "rho": 0.2978737164032316,
+        "p_two_sided": 0.39855,
+        "p_greater": 0.19705,
+        "p_less": 0.8076
+      },
+      "F3_log_train_loss": {
+        "rho": 0.2796365500928297,
+        "p_two_sided": 0.43405,
+        "p_greater": 0.21745,
+        "p_less": 0.78805
+      },
+      "F4_param_norm": {
+        "rho": 0.32218993815043423,
+        "p_two_sided": 0.368,
+        "p_greater": 0.18515,
+        "p_less": 0.81915
+      },
+      "F5_norm_ratio": {
+        "rho": 0.3161108827136336,
+        "p_two_sided": 0.37185,
+        "p_greater": 0.1876,
+        "p_less": 0.81705
+      },
+      "F6_WE_top8_conc": {
+        "rho": -0.41337576970244394,
+        "p_two_sided": 0.2333,
+        "p_greater": 0.88955,
+        "p_less": 0.1147
+      }
+    }
+  },
+  "env": {
+    "python": "3.12.10",
+    "torch": "2.13.0+cpu",
+    "numpy": "2.5.1"
+  }
+}

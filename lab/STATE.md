@@ -28,7 +28,8 @@ signifikant“ (003b), in der Exploration (003c) ein Fortschrittsmaß ohne feste
 ## Vorbereitet, noch nicht ausgeführt (Grund: außerhalb 00:00–13:00 Berlin)
 
 1. **EXP-001 Frequenzverbot** (`lab/experiments/EXP-001-freq-ban/`), P1, Code ungetestet.
-2. **EXP-003d** (`lab/experiments/EXP-003-early-prediction/CONFIRM_d.md`): 10 Transformer-Baselines,
+2. **EXP-002** (`lab/experiments/EXP-002-destined-ban/README.md`): 6 Läufe nach EXP-001, Auswerteskript fehlt noch.
+3. **EXP-003d** (`lab/experiments/EXP-003-early-prediction/CONFIRM_d.md`): 10 Transformer-Baselines,
    Seeds 10–19, dann `confirm_d.py`. Auswerteskript ungetestet.
 
 ## Nächste konkrete Aktion (nur im Fenster 00:00–13:00 Berlin)

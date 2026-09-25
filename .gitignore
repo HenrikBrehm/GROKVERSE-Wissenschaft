@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+training/runs/
+node_modules/
+.DS_Store
+training/external/
+
+# lab: runner logs, locks and large experiment outputs
+lab/runner/logs/
+lab/runner/*.lock
+lab/experiments/*/raw/

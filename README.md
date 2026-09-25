@@ -11,6 +11,12 @@ network keeps memorizing for thousands of steps and then, long after its trainin
 **BWKI 2026 Hauptpreis entry.** Two non-negotiables: the science is real and honestly reported, and the
 artifact is genuinely impressive to use.
 
+> **Since 2026-09-25 this repository is also an open research lab** (`lab/`): new questions,
+> interventions and tasks beyond the original study, run under the rules in
+> [`lab/runner/PROMPT.md`](lab/runner/PROMPT.md) (honesty, reproducibility, a 00:00–13:00 Berlin
+> run window). The competition framing below is historical; the study's results and its open
+> author decisions are unchanged. Current lab state: [`lab/STATE.md`](lab/STATE.md).
+
 ---
 
 ## What we found

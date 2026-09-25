@@ -9,4 +9,4 @@ training/external/
 # lab: runner logs, locks and large experiment outputs
 lab/runner/logs/
 lab/runner/*.lock
-lab/experiments/*/raw/
+lab/experiments/*/raw*/

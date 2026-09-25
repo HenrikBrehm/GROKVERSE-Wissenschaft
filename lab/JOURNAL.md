@@ -94,3 +94,10 @@ gezielt eine Annahme an, nämlich ob F6 an **frischen** Seeds bestätigt wird �
 EXP-001 hat weiter Vorrang als kausaler Test.
 
 Alle Befunde stehen in `lab/experiments/EXP-003-early-prediction/SUMMARY.md`.
+
+**Statische Review der EXP-003-Skripte** (Code-Review-Agent, nur gelesen): Es gibt keine
+kritischen, schwerwiegenden oder mittleren Befunde. Geprüft wurden die Ränge mit Bindungen,
+die Richtung der einseitigen p-Werte, der rfft-Ausschnitt (Frequenzen 1..56), die Äquivalenz zu
+`freq_power`, `W_in[:p]` bei der Two-hot-MLP, die Run-ID in `confirm_d.py` und die
+Entscheidungsregeln gegen die Markdown-Definitionen. Zusätzlich wurde EXP-002 definiert
+(vorbereitet, nicht ausgeführt). Sitzung 2 endet ~17:00 Berlin, deutlich unter dem Budget.

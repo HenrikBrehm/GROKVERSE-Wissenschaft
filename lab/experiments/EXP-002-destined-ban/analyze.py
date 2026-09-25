@@ -42,6 +42,8 @@ def evaluate_seed(base: dict | None, dest: dict | None, rand: dict | None, seed:
     for f in SAME_ACROSS_ARMS:
         if len({json.dumps(a.get(f)) for a in arms.values()}) > 1:
             return {**row, "verdict": "not_evaluable", "reason": f"{f} differs across arms"}
+    if len({a["config"]["threads"] for a in arms.values()}) > 1:
+        return {**row, "verdict": "not_evaluable", "reason": "threads differ across arms"}
     # validity: local baseline must reproduce the stored model's top-5 (= destined set)
     row["destined"] = dest.get("banned_freqs")
     row["baseline_final_top"] = base.get("final_top_m_freqs")

@@ -48,3 +48,8 @@ Er ist also kein Eingriff „außerhalb der Verteilung“, er vertauscht nur die
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/freq_ban.py --seed S --condition init_swap --stop-after-gen 25 --out-root lab/experiments/EXP-010-init-swap/raw
 python lab/experiments/EXP-010-init-swap/analyze.py
 ```
+
+**Plausibilität von K_end** (Sitzung 3, aus den gespeicherten Transformer-Läufen, Seeds 0–9,
+`EXP-009/summary.json`): Die Top-5 am ersten Grid-Checkpoint ≥ Crossing überlappen im Mittel mit
+4,3 von 5 Frequenzen mit den Top-5 bei 25k, die Spanne liegt bei 3–5. K_end bei Crossing + 25 ist
+also eine brauchbare Näherung an die finale Wahl. Das ist Kontext, keine Kriterienänderung.

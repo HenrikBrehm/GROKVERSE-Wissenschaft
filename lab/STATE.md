@@ -1,6 +1,11 @@
+---
+tags: [lab/state]
+---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-25, ~16:55 Berlin (Sitzung 2, vom Runner gestartet 14:42Z)._
+_Zuletzt aktualisiert: 2026-09-25, ~22:05 Berlin (Sitzung 3, vom Runner gestartet 19:49Z)._
+
+Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Kurzlage
 
@@ -11,38 +16,41 @@ _Zuletzt aktualisiert: 2026-09-25, ~16:55 Berlin (Sitzung 2, vom Runner gestarte
   torch 2.12.1. Bit-Gleichheit ist deshalb nicht zu erwarten, eigene Baselines sind nötig.
 - **Studie (historisch, nicht umschreiben):** `RESULTS.md`. Die Interpretation liegt bei den Autoren.
 - **Runner:** aktiviert (Aufgabe `GROKVERSE-Lab-Runner`, Tick alle 10 min). Sitzung 2 hat der Runner
-  gestartet, der Sitzungsstart ist damit Ende-zu-Ende belegt. **Noch unbestätigt:** die
-  Klassifikation des Sitzungsendes. Prüfen in `lab/runner/logs/tick.log` („session end: outcome=…“).
-  Die Sitzung startete früher als der Plan von 16:04Z, vermutlich per manuellem Anstoß
-  (JOURNAL Sitzung 2). Bitte prüfen, dass zwischen den Starts ≥ 5 h liegen.
+  gestartet, der Sitzungsstart ist damit Ende-zu-Ende belegt. Auch die
+  Klassifikation des Sitzungsendes ist **in Sitzung 3 bestätigt:** Das Ende von Sitzung 2 wurde als `completed`
+  erkannt, der Abstand zwischen den Starts betrug 5 h 07 min.
 - **Zeitfenster-Wächter:** `lab/tools/guarded_run.py`, weiterhin **ungetestet**, weil beide
   Sitzungen außerhalb des Fensters lagen.
 
 ## Letzter abgeschlossener Versuch
 
-**EXP-003 / 003b / 003c** (Frühvorhersage, reine Auswertung gespeicherter Läufe):
-F6 = Fourier-Konzentration des Embeddings. Ergebnis: „teilweise“ (003), „richtungsgleich, nicht
-signifikant“ (003b), in der Exploration (003c) ein Fortschrittsmaß ohne feste Vorlaufzeit. Details:
-`lab/experiments/EXP-003-early-prediction/SUMMARY.md`.
+**EXP-009** (Frequenz-Lotterie, reine Auswertung): Das Init-Spektrum von W_E sagt die finalen
+Top-5-Frequenzen mit voraus (r̄ = 0.386 gegenüber 0.5, p < 1e-5, seed-spezifisch). Bei der
+Two-hot-MLP gilt das nur pro Neuron. → [[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]].
+Davor: EXP-003/b/c (F6-Frühvorhersage, teilweise).
 
 ## Vorbereitet, noch nicht ausgeführt (Grund: außerhalb 00:00–13:00 Berlin)
 
-1. **EXP-001 Frequenzverbot** (`lab/experiments/EXP-001-freq-ban/`), P1, Code ungetestet.
-2. **EXP-002** (`lab/experiments/EXP-002-destined-ban/README.md`): 6 Läufe nach EXP-001, Auswerteskript fehlt noch.
-3. **EXP-003d** (`lab/experiments/EXP-003-early-prediction/CONFIRM_d.md`): 10 Transformer-Baselines,
-   Seeds 10–19, dann `confirm_d.py`. Auswerteskript ungetestet.
+1. **EXP-001 Frequenzverbot**, jetzt mit *Nachtrag b* (Codex-Review): Intervall-Zensur,
+   Validierung, projizierter Gradient und Adam, Energiekontrolle `shrink_matched`. Code ungetestet.
+2. **EXP-002** mit Auswertung `analyze.py` (ungetestet).
+3. **EXP-003d**: 10 Transformer-Baselines, Seeds 10–19.
+4. **EXP-010 Init-Tausch**: 10 Läufe `init_swap`, Seeds 10–19. Braucht die Baselines aus EXP-003d.
 
-## Nächste konkrete Aktion (nur im Fenster 00:00–13:00 Berlin)
+## Nächste konkrete Aktion (nur im Fenster 00:00–13:00 Berlin; nächster Start ≈ 02:49 Berlin)
 
 1. `python lab/tools/guarded_run.py --check`
-2. `python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/test_freq_ban.py`
+2. `python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/test_freq_ban.py`.
+   Dazu gehören die neuen Tests für init_swap, shrink und Zensur-Intervalle.
 3. Studientests als Baseline: `python lab/tools/guarded_run.py -- python training/tests/run_all.py`
-4. EXP-001-Funktionstest (README Schritt 2), s/Schritt notieren und das Abbruchkriterium anwenden.
-5. EXP-001-Hauptläufe, einer nach dem anderen, danach `analyze.py`.
-6. EXP-002-Läufe (Befehle in dessen README), die Baselines kommen aus EXP-001. Danach das
-   Auswerteskript nach dem Muster von EXP-001 `analyze.py` schreiben.
-7. Bleibt Budget übrig: EXP-003d-Läufe (Befehl in `CONFIRM_d.md`), Seed für Seed. Jeder
-   abgeschlossene Seed ist für sich gültig. Wenn alle 10 vorliegen: `python lab/experiments/EXP-003-early-prediction/confirm_d.py`.
+4. Funktionstest EXP-001 (README Schritt 2): s/Schritt notieren und das Abbruchkriterium anwenden.
+   Zusätzlich ein Kurz-Smoke für `init_swap` (`--steps 300 --out-root …/raw_smoke`), der prüft,
+   dass `events.init_swap` und `split_hash` gleich der Baseline sind.
+5. **Prioritätsentscheidung (Sitzung 3):** Zuerst die EXP-003d-Baseline und EXP-010 `init_swap`
+   im Wechsel pro Seed (10–19). Das ist die stärkste neue Spur: Sie repliziert EXP-009 an frischen
+   Seeds und prüft sie kausal. Danach die 12 EXP-001-Läufe, dann EXP-002.
+   Auswertung: `confirm_d.py`, `EXP-010-init-swap/analyze.py`.
+6. Jede Sitzung hat nur 90 min. Pro Sitzung sind also etwa 3–4 Läufe à ≤ 20 min möglich.
 
 ## Wiederaufnahme nach Abbruch
 

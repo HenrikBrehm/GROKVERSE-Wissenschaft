@@ -35,3 +35,11 @@ ist. Das Paar Baseline/Kontrolle ist bis t0 identisch, deshalb ist der Vergleich
 Abbruchkriterium sind vor jedem Ergebnis festgelegt. Code: `freq_ban.py`, Unit-Checks
 `test_freq_ban.py`, Auswertung `analyze.py`. Alles **ungetestet, nicht ausgeführt**. Nächster
 Schritt: Funktionstest im Fenster ab 00:00.
+
+**Statische Review (nur gelesen, nichts ausgeführt).** Keine kritischen oder schwerwiegenden
+Befunde. Geprüft wurden: gleiche Reihenfolge wie `grokverse.train`, Projektor-Mathematik,
+Auswerteregel und Wächter-Arithmetik. Behoben wurde ein mittlerer Fehler: `--t0 0` hätte
+stillschweigend nichts verboten, jetzt wird der Wert abgelehnt. Außerdem wurde eine
+Metadaten-Lücke bei `ban_destined` geschlossen. Offen und gering: Es gibt keine Prüfung auf
+gleiche Konfiguration, wenn ein abgebrochenes Ausgabeverzeichnis wiederverwendet wird
+(Workaround: `--force` bzw. eine neue Run-ID). Sitzung 1 endet ~14:30 Berlin.

@@ -20,7 +20,7 @@ Geplant: Tests, dann die EXP-003d-Baselines und EXP-010 `init_swap` Seed für Se
 ## Verlauf dieser Sitzung
 
 - 22:03 Code-Review (statisch): keine kritischen oder schwerwiegenden Befunde. Die Thread-Prüfung in der EXP-002-Auswertung ist ergänzt. Alles committet.
-- 22:05 STATE, JOURNAL, BACKLOG, [[LAB]] und [[NOVEL_DIRECTIONS]] aktualisiert bzw. angelegt.
+- 22:02 STATE, JOURNAL, BACKLOG, [[LAB]] und [[NOVEL_DIRECTIONS]] aktualisiert bzw. angelegt.
 - 22:00 Codex-Review ausgewertet: 4 von 6 Befunden übernommen, als Nachtrag b zu [[experiments/EXP-001-freq-ban/README|EXP-001]], vor jedem Lauf. Auswertung für EXP-002 geschrieben.
 - 21:58 [[experiments/EXP-010-init-swap/README|EXP-010]] (Init-Tausch) definiert und Code vorbereitet, ungetestet.
 - 21:55 [[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]] ausgewertet: Das Init-Spektrum von W_E sagt die späteren Top-5 mit voraus (p < 1e-5, seed-spezifisch). Bei der Two-hot-MLP gilt das nur pro Neuron.

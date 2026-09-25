@@ -58,8 +58,17 @@ def load_ckpt(run_dir: Path, step: int) -> dict[str, torch.Tensor]:
     return torch.load(run_dir / f"ckpt_step{step:06d}.pt", weights_only=True, map_location="cpu")
 
 
-def features_for(run_id: str) -> dict:
-    run_dir = RUNS / run_id
+def embedding_matrix(sd: dict[str, torch.Tensor], emb_obj: str | None) -> torch.Tensor:
+    """The study's embedding object: W_E, or the a-token half of W_in for the two-hot MLP."""
+    if "W_E" in sd:
+        return sd["W_E"]
+    if emb_obj == "W_in_a_half":
+        return sd["W_in"]   # caller slices [:p] = the a-token rows
+    raise ValueError(f"no embedding object for keys {sorted(sd)} / {emb_obj!r}")
+
+
+def features_for(run_id: str, runs_root: Path = RUNS) -> dict:
+    run_dir = runs_root / run_id
     run = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
     dense, p = run["dense"], run["config"]["p"]
     gen = run["transitions"]["primary"]["generalization"]["first_crossing_step"]
@@ -76,7 +85,8 @@ def features_for(run_id: str) -> dict:
         "F1_test_loss": tl2, "F2_test_loss_delta": tl2 - tl1,
         "F3_log_train_loss": float(np.log10(trl)), "F4_param_norm": n_early,
         "F5_norm_ratio": n_early / param_norm(sd_ref),
-        "F6_WE_top8_conc": fourier_top_k_concentration(sd_early["W_E"], p, TOP_K_FREQ),
+        "F6_WE_top8_conc": fourier_top_k_concentration(
+            embedding_matrix(sd_early, run.get("embedding_object")), p, TOP_K_FREQ),
     }
 
 

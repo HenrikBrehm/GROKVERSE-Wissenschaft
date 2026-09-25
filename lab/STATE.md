@@ -1,54 +1,52 @@
-# lab/STATE.md — aktueller Stand
+# lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-25, ~14:00 Berlin (Sitzung 1, interaktiv)._
+_Zuletzt aktualisiert: 2026-09-25, ~16:55 Berlin (Sitzung 2, vom Runner gestartet 14:42Z)._
 
 ## Kurzlage
 
-- **Repo:** Das Projektverzeichnis war **kein Git-Repo** (Kopie ohne `.git`; Studien-Historie und
-  Freeze-Commit `0b55e1d` sind hier nicht vorhanden). In Sitzung 1 wurde lokal `git init` ausgeführt:
-  `main` = unveränderter Import-Snapshot, `lab/research` = Laborarbeit. Kein Remote, kein Push.
-- **Umgebung:** Windows 11, 12 logische CPUs, globales Python 3.12 mit torch **2.13.0**, numpy 2.5.1,
-  matplotlib 3.11.1 und tzdata 2026.3. Die Studie lief mit torch 2.12.1 / numpy 2.4.6
-  (`training/requirements.txt`). Es gibt kein venv. Folge: Bit-Gleichheit mit gespeicherten Läufen
-  ist nicht zu erwarten, deshalb eigene Baseline-Läufe.
-- **Daten vorhanden:** `training/runs/` (2,0 GB, 51 Studienläufe inkl. Checkpoints), `training/external/`
-  (2,7 GB, externe 100k- und Two-hot-Bündel), beide gitignored.
-- **Studie (historisch, nicht umschreiben):** `RESULTS.md`. Gate `neither_passes`, H3 widerlegt,
-  H4 (Struktur vor Generalisierung) nur korrelativ. Offene Autorenentscheidungen D5–D9 bleiben
-  bei den Menschen.
-- **Runner:** **aktiviert** vom Nutzer am 2026-09-25 um 16:39 Berlin (Aufgabe `GROKVERSE-Lab-Runner`,
-  Tick alle 10 min). Erste Runner-Sitzung ab 18:04 Berlin. Ob sie Ende-zu-Ende läuft, ist
-  **noch unbestätigt**: `lab/runner/logs/tick.log` und `runner-state.json` prüfen.
-- **Zeitfenster-Wächter:** `lab/tools/guarded_run.py`. **Ungetestet**, weil Sitzung 1 außerhalb
-  des Fensters lag.
+- **Repo:** lokales Git, `main` = Import-Snapshot, `lab/research` = Laborarbeit. Kein Remote, kein Push.
+  In `lab/runner/SESSION_PREAMBLE.md` liegt eine uncommittete Änderung, die nicht aus einer
+  Agentensitzung stammt. Sie wurde bewusst nicht committet, der Nutzer entscheidet.
+- **Umgebung:** Windows 11, globales Python 3.12, torch 2.13.0, numpy 2.5.1. Die Studie lief mit
+  torch 2.12.1. Bit-Gleichheit ist deshalb nicht zu erwarten, eigene Baselines sind nötig.
+- **Studie (historisch, nicht umschreiben):** `RESULTS.md`. Die Interpretation liegt bei den Autoren.
+- **Runner:** aktiviert (Aufgabe `GROKVERSE-Lab-Runner`, Tick alle 10 min). Sitzung 2 hat der Runner
+  gestartet, der Sitzungsstart ist damit Ende-zu-Ende belegt. **Noch unbestätigt:** die
+  Klassifikation des Sitzungsendes. Prüfen in `lab/runner/logs/tick.log` („session end: outcome=…“).
+  Die Sitzung startete früher als der Plan von 16:04Z, vermutlich per manuellem Anstoß
+  (JOURNAL Sitzung 2). Bitte prüfen, dass zwischen den Starts ≥ 5 h liegen.
+- **Zeitfenster-Wächter:** `lab/tools/guarded_run.py`, weiterhin **ungetestet**, weil beide
+  Sitzungen außerhalb des Fensters lagen.
 
 ## Letzter abgeschlossener Versuch
 
-Keiner. Im Labor wurde noch nichts ausgeführt.
+**EXP-003 / 003b / 003c** (Frühvorhersage, reine Auswertung gespeicherter Läufe):
+F6 = Fourier-Konzentration des Embeddings. Ergebnis: „teilweise“ (003), „richtungsgleich, nicht
+signifikant“ (003b), in der Exploration (003c) ein Fortschrittsmaß ohne feste Vorlaufzeit. Details:
+`lab/experiments/EXP-003-early-prediction/SUMMARY.md`.
 
-## Vorbereitet, noch nicht ausgeführt
+## Vorbereitet, noch nicht ausgeführt (Grund: außerhalb 00:00–13:00 Berlin)
 
-- **EXP-001 Frequenzverbot** (`lab/experiments/EXP-001-freq-ban/`). Definition fixiert, Code
-  ungetestet. Grund für die Nicht-Ausführung: Sitzung 1 lief um 13:04–14:30 Berlin, also
-  außerhalb von 00:00–13:00.
+1. **EXP-001 Frequenzverbot** (`lab/experiments/EXP-001-freq-ban/`), P1, Code ungetestet.
+2. **EXP-003d** (`lab/experiments/EXP-003-early-prediction/CONFIRM_d.md`): 10 Transformer-Baselines,
+   Seeds 10–19, dann `confirm_d.py`. Auswerteskript ungetestet.
 
 ## Nächste konkrete Aktion (nur im Fenster 00:00–13:00 Berlin)
 
 1. `python lab/tools/guarded_run.py --check`
 2. `python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/test_freq_ban.py`
-3. Vorhandene Studientests als Baseline der Funktionsfähigkeit:
-   `python lab/tools/guarded_run.py -- python training/tests/run_all.py` (Laufzeit unbekannt; falls
-   Refusal/Timeout, mit einzelnen Testdateien).
-4. Funktionstest von EXP-001 (Befehl in dessen README, Schritt 2). s/Schritt notieren und das
-   Abbruchkriterium anwenden.
-5. EXP-001 Hauptläufe in der README-Reihenfolge, **einer nach dem anderen**, dann `analyze.py`.
+3. Studientests als Baseline: `python lab/tools/guarded_run.py -- python training/tests/run_all.py`
+4. EXP-001-Funktionstest (README Schritt 2), s/Schritt notieren und das Abbruchkriterium anwenden.
+5. EXP-001-Hauptläufe, einer nach dem anderen, danach `analyze.py`.
+6. Bleibt Budget übrig: EXP-003d-Läufe (Befehl in `CONFIRM_d.md`), Seed für Seed. Jeder
+   abgeschlossene Seed ist für sich gültig. Wenn alle 10 vorliegen: `python lab/experiments/EXP-003-early-prediction/confirm_d.py`.
 
 ## Wiederaufnahme nach Abbruch
 
-- EXP-001-Läufe schreiben alle 500 Schritte `raw/<run_id>/result.json` mit `status: running`. Ein
-  abgebrochener Lauf (Status bleibt `running`) wird **neu** gestartet (`--force`), nicht fortgesetzt:
-  Der Adam-Zustand wird nicht gespeichert.
-- `lab/runner/logs/guarded_runs.jsonl` protokolliert jeden Start und jede Verweigerung.
+- Läufe von EXP-001 und EXP-003d schreiben alle 500 Schritte `raw*/<run_id>/result.json` mit
+  `status: running`. Ein abgebrochener Lauf wird mit `--force` **neu** gestartet, nicht
+  fortgesetzt, weil der Adam-Zustand nicht gespeichert wird.
+- `lab/runner/logs/guarded_runs.jsonl` protokolliert Starts und Verweigerungen.
 
 ## Blocker
 

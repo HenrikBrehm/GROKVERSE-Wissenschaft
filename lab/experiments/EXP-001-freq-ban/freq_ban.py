@@ -197,10 +197,11 @@ def run(a: argparse.Namespace) -> dict:
         opt.zero_grad(set_to_none=True)
         loss.backward()
         opt.step()
-        if a.condition != "baseline" and step == ban_from and banned is None:
-            banned = _choose_ban(a.condition, model.W_E.detach().numpy().astype(np.float64)[:p],
-                                 basis, a.m, a.seed)
-            proj = torch.tensor(ban_projector(basis, banned), dtype=model.W_E.dtype)
+        if a.condition != "baseline" and step == ban_from:
+            if banned is None:
+                banned = _choose_ban(a.condition, model.W_E.detach().numpy().astype(np.float64)[:p],
+                                     basis, a.m, a.seed)
+                proj = torch.tensor(ban_projector(basis, banned), dtype=model.W_E.dtype)
             events["pre_ban_acc"] = {"train": evaluate(model, trx, try_, p)[1],
                                      "test": evaluate(model, tex, tey, p)[1]}
             events["power_at_ban"] = freq_power(
@@ -251,7 +252,10 @@ def main() -> None:
     ap.add_argument("--out-root", default=str(HERE / "raw"))
     ap.add_argument("--save-model", action="store_true")
     ap.add_argument("--force", action="store_true")
-    run(ap.parse_args())
+    a = ap.parse_args()
+    if a.t0 < 1:
+        ap.error("--t0 must be >= 1 (the loop starts at step 1; t0=0 would silently ban nothing)")
+    run(a)
 
 
 if __name__ == "__main__":

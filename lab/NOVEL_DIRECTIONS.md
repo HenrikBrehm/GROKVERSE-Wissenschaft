@@ -380,5 +380,7 @@ initialization frequencies conflicting training sets“, „critical learning pe
 - Zusatzsuche (2026-09-26 ~15:16, „grokking modular addition change training set mid-training which Fourier frequencies
   persist critical period steps“): nur allgemeine Grokking-/Fourier-Arbeiten (Nanda et al. 2023, He et al. 2026, AGF
   arXiv 2506.06489), nichts zu Datenwechsel mit Frequenzmessung.
+**Stand 2026-09-26 (EXP-020 Nachtrag d, frische Seeds 33/34):** Init-Deutung **nicht bestätigt** (P-d1 1/2, P-d2 verfehlt, Rang 34).
+Fremde Frequenzen bei frühem Wechsel: 4/5 Seeds, Ursprung offen. Direktere Tests: EXP-036 (Init-Wechsel), EXP-037 (Wechselspiel).
 Nicht gefunden (vorläufig, nur Abstracts): dass **widersprüchliche Splits vor der Festlegung** die Wahl zur Init zurückgeben,
 also ein Zusammenspiel Split-Signal ↔ Init-Lotterie, messbar über den Wechselzeitpunkt. Einordnung: Kandidat, Teil bekannt.

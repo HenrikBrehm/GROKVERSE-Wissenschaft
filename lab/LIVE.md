@@ -5,18 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 14:49 Berlin (12:49Z, vom Runner)
 - **Deadline:** 2026-09-26 17:49 Berlin (15:49Z)
-- **Zuletzt aktualisiert:** 15:33 Berlin
+- **Zuletzt aktualisiert:** 15:48 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-Neue Warteschlange queue_s9.sh läuft: EXP-020 Seed 33 (danach 34, bis ~16:25), dann **EXP-037** (~42 min), dann EXP-035.
+queue_s9.sh: EXP-020 Seed 34 läuft (7 Läufe, bis ~16:25). Danach EXP-037 (~42 min), dann EXP-035 bis zur Deadline.
 
 ## Als Nächstes
 
-Seeds 33/34 auswerten (Vorhersage Nachtrag d); EXP-037 auswerten, danach Ablation der fremden Frequenzen (von Hand).
+Seed 34 entscheidet die Vorhersage P-d2 (kommen fremde Frequenzen aus der Initialisierung?).
 
 ## Verlauf dieser Sitzung
+
+- 15:48 Seed 33 fertig: wieder Festlegung bei 25–50 Schritten, aber nach strenger Regel „gegen“ (nur wegen einer Oberwelle). Fremde Frequenz 38 hat einen **mittleren** Init-Rang (34), passt nicht zur Init-Deutung. Ehrlich so notiert.
 
 - 15:33 EXP-020 Seed 33 (vorläufig, ohne t = 400/1000): wieder Festlegung zwischen Schritt 25 und 50, 4. Seed in Folge.
 

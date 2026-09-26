@@ -1,8 +1,8 @@
 ---
 id: EXP-020
-status: laufend
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/laufend, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat, befund/unklar]
 verwandt: ["[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experiments/EXP-013-lockin-curve/README|EXP-013]]", "[[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-020: Datenwechsel mitten im Training: kausale Festlegungszeit der Frequenzwahl
@@ -111,3 +111,29 @@ und das Init-Spektrum setzt sich durch.
 - **P-d2** (gepoolt über beide Seeds): Median des Init-Rangs der verschiedenen fremden Frequenzen ≤ 14 → *erfüllt*.
   Zufall wäre ≈ 28. Keine fremde Frequenz → *nicht erfüllt*.
 Grenze: 2 Seeds, keine Inferenzstatistik; die Beobachtung stammt aus denselben Läufen, aus denen die Deutung kommt.
+
+## Ergebnis (2026-09-26 16:22 Berlin, alle 5 Seeds, `analyze.py`, `summary.json`)
+
+**Vorab festgelegtes Urteil: *nicht bestätigt*** (4 von 5 Seeds stützen H20, einseitiger Vorzeichentest p = 0.19; für
+*bestätigt* wären 5/5 nötig gewesen). Die Gegenstimme ist Seed 33, und zwar allein, weil d(t) nicht monoton ist:
+d(0) = −4, d(10) = −5 (der reine G-Lauf enthält die Oberwelle 6 = 2 · 3 statt des G-Ziels 34).
+
+| Seed | d(0) | d(10) | d(25) | d(50) | d(150…∞) | Intervall | gen_F | H20 |
+|---|---|---|---|---|---|---|---|---|
+| 30 | −3 | −3 | −1 | +1 | +3 | (25, 50] | 950 | stützt |
+| 31 | −2 | −2 | 0 | +3 | +3 | (25, 50] | 625 | stützt |
+| 32 | −4 | −4 | −3 | +3 | +3 | (25, 50] | 1225 | stützt |
+| 33 | −4 | −5 | −5 | +2 | +3 | (25, 50] | 1325 | gegen (nicht monoton) |
+| 34 | −4 | −3 | −3 | +3 | +5 | (25, 50] | 650 | stützt |
+
+**Beschreibend (nicht Teil des Urteils):** Das Festlegungsintervall ist in **5/5 Seeds identisch (25, 50]** Schritte, weit vor
+gen_F (625–1325). Ab t = 150 ist K nach 2000 G-Schritten in 5/5 Seeds exakt gleich K des Laufs „nur F“. Mit dem nachträglich
+gewählten Oberwellen-erweiterten Maß d_h (JOURNAL Sitzung 9, Zyklus 7) ist d in allen Seeds monoton. Während der G-Phase
+wächst der F-Anteil weiter (Zyklus 4), die Festlegung vertieft sich. **Nachtrag c:** Train-Acc „nur F“ bei Schritt 50 in den
+Seeds 31–34: 0.108, 0.102, 0.089, 0.109, alle ≤ 0.5 → *Festlegung vor der Memorisierung bestätigt* (4/4).
+**Nachtrag d (fremde Frequenzen):** P-d1 in Seed 33 erfüllt, in Seed 34 **nicht** (keine fremde Frequenz); P-d2 **nicht
+erfüllt** (einzige frische fremde Frequenz 38 hat Init-Rang 34). Die Init-Deutung aus der Exploration (Seeds 30–32) hält an
+den frischen Seeds **nicht**. Fremde Frequenzen treten bei frühem Wechsel in 4/5 Seeds auf, ihr Ursprung bleibt offen.
+**Einordnung:** Die Messmethode (Datenwechsel) zeigt eine sehr gleichförmige kritische Periode; das vorab festgelegte Urteil
+fällt wegen einer zu strengen Monotonie-Regel auf *nicht bestätigt*. Das wird nicht nachträglich umgedeutet; ein
+Folgeversuch sollte d_h vorab festlegen.

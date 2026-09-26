@@ -1,8 +1,8 @@
 ---
 id: EXP-028
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat, befund/unklar]
 ---
 # EXP-028: Prägt die Memorisierungsphase das Masken-Spektrum ein, und bringt die Generalisierung die Oberwellen?
 
@@ -37,3 +37,12 @@ Läufen.
 ## Befehle
 
     python lab/tools/guarded_run.py -- python lab/experiments/EXP-028-memo-imprint/analyze.py
+
+## Ergebnis (2026-09-26 16:22 Berlin, `analyze.py` über die EXP-020-Läufe „nur F“/„nur G“, Seeds 30–34)
+
+**P28a: *teilweise*** (vorab festgelegte Regel): 10 auswertbare Läufe, 6 mit Überlappung 5/5 im Memorisierungsfenster
+(gefordert ≥ 8), mittlere Überlappung 4.5 (gefordert ≥ 4.5 für *bestätigt*, < 3 *widerspricht*). Am Laufende mittlere
+Überlappung 3.5.
+**P28b (nur berichtet):** In 5 der 6 Läufe mit 5/5 geht bis zum Laufende mindestens ein Ziel verloren (Arm F 2/3, Arm G 3/3);
+alle 8 Ersetzungen sind fold(2f) eines Ziels. Stützt das Bild „Memorisierung prägt das Masken-Spektrum ein, um die
+Generalisierung verdrängen 2k-Oberwellen Teile davon“ (N13) beschreibend.

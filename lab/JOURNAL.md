@@ -1173,3 +1173,14 @@ Seiten ausgenommen. *Ergebnis:* d_h ist in allen 4 Seeds (30–33) monoton, erst
 → Intervall (25, 50] in 4/4. Seed 33: −4, −4, −4, +2, +4, … *Einordnung:* Nachträglich gewählte Messgröße, ändert das vorab
 festgelegte Urteil nicht (Seed 33 bleibt *gegen H20*); zeigt aber, dass die Gegenstimme eine Messartefakt-Frage ist, kein
 anderes Festlegungsverhalten. Für künftige Versuche d_h vorab festlegen.
+
+**16:22 [[experiments/EXP-020-data-switch/README|EXP-020]] abgeschlossen, [[experiments/EXP-028-memo-imprint/README|EXP-028]] abgeschlossen, Nachtrag d entschieden.**
+Seed 34: d = −4, −3, −3, +3, +5 …, monoton, Intervall (25, 50], gen_F = 650, stützt H20; Train-Acc bei Schritt 50 = 0.109.
+**EXP-020 (vorab festgelegt): *nicht bestätigt*** (4/5 stützen, p = 0.19); einzige Gegenstimme Seed 33 wegen Nicht-Monotonie
+durch eine Oberwelle. Beschreibend: Intervall (25, 50] in 5/5 Seeds; Nachtrag c *bestätigt* (4/4). Keine nachträgliche
+Umdeutung: Die Monotonie-Regel war zu streng gewählt, das ist die Lehre für Folgeversuche (d_h vorab festlegen).
+**Nachtrag d:** P-d1 Seed 33 erfüllt, Seed 34 nicht; P-d2 nicht erfüllt (Rang 34). *Die Init-Deutung der fremden Frequenzen
+ist an frischen Seeds nicht bestätigt* (negativer Befund). N15 abgeschwächt; EXP-036 und EXP-037 bleiben als direktere Tests
+sinnvoll, die Erwartung für H36/H37 sinkt.
+**EXP-028: P28a *teilweise*** (6/10 Läufe mit 5/5 im Fenster, gefordert 8; Mittel 4.5); P28b: 5/6 verlieren Ziele, alle 8
+Ersetzungen sind 2k-Oberwellen.

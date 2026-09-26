@@ -3,13 +3,15 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 12:17 Berlin (Sitzung 8, Start 11:59, Deadline 14:59 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 12:15 Berlin (Sitzung 8, Start 11:59, Deadline 14:59 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
-- **Sitzung 8, 12:17:** `queue_s5.sh` läuft (EXP-020 Seed 30, Log `lab/runner/logs/queue_s5.log`). **EXP-033** vorab festgelegt
+- **Sitzung 8, 12:18:** `queue_s5.sh` **angehalten** (EXP-020 Seed 30: F, G, t = 150 fertig, t = 50 lief zu Ende). EXP-033-Queue
+  läuft im Hintergrund (Log `lab/runner/logs/queue_exp033.log`). Danach: `analyze.py` von EXP-033, dann `sh lab/experiments/queue_s5.sh`.
+- **Sitzung 8, 12:15:** `queue_s5.sh` läuft (EXP-020 Seed 30, Log `lab/runner/logs/queue_s5.log`). **EXP-033** vorab festgelegt
   (Nachtrag a nach Codex, commit 840e890), noch kein Lauf. Plan: nach EXP-020 Seed 30 Warteschlange anhalten (nur den
   `sh`-Prozess beenden, laufenden Lauf fertig werden lassen), dann `sh lab/experiments/EXP-033-optimizer-lockin/queue.sh`,
   dann `python lab/tools/guarded_run.py -- python lab/experiments/EXP-033-optimizer-lockin/analyze.py`, dann `queue_s5.sh`

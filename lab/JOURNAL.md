@@ -957,3 +957,10 @@ Init-Seed 99 und deterministischer Regel; Queue fail-closed. Nicht übernommen: 
 ersetzt das erste Design; es lief kein EXP-033-Lauf vorher. *Ergebnis des Zyklus:* Versuch vorbereitet, noch nicht
 ausgeführt (Jobplatz belegt durch EXP-020). Plan: nach EXP-020 Seed 30 die Warteschlange zwischen zwei Läufen anhalten,
 EXP-033 laufen lassen (~70 min), danach `queue_s5.sh` fortsetzen.
+**12:17 Nachtrag b zu EXP-033 (ohne Training):** Lineare Moden der σ_3-Phase (`linear_modes.py`): Die 10 obersten
+Singulärvektoren von J = Xᵀ(Y − 1/P) haben in 10/10 Splits ihre stärkste Frequenz in F; ds der Top-5-Moden 0.38, von J
+und sign(J) je 0.105; Spektrum flach (12.0 → 9.0 bei Index 20). Vorab: ds am Umschaltschritt GD > AR in ≥ 7/10 (schwach).
+Synthetischer Test der Auswertung 7/7 (`test_analyze.py`, über den Wächter), dabei Importkonflikt `analyze` behoben.
+**12:18 Warteschlange angehalten:** `sh`-Prozess von `queue_s5.sh` beendet, der laufende EXP-020-Lauf (Seed 30, t = 50) läuft
+zu Ende; danach startet `EXP-033/queue.sh` automatisch (Log `lab/runner/logs/queue_exp033.log`). EXP-020 Seed 30 fertig
+bisher: nur F (gen früh, 371 s), nur G (252 s), t = 150 (276 s).

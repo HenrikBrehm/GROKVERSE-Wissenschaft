@@ -411,3 +411,16 @@ benutzt, nur Replikation) 0.222 vs. 0.277, p 0.098; M0c gegen Null jeweils p < 1
 **Befund: richtungsgleich, nicht signifikant.** Entscheidung: vorab festgelegte Bestätigung
 [[experiments/EXP-019-coherent-mask/README|EXP-019]] an 12 frischen Seeds (EXP-018 Arm R 20–29, Baselines 18/19),
 ohne eigene Läufe. Auswertungsskript im Fenster trocken getestet.
+
+**Zyklus 5 (~06:13, neue Intervention): EXP-020 Datenwechsel.** Frage: Ab welcher Trainingszeit ist die Frequenzwahl
+**kausal** festgelegt? Bisher nur korrelativ gemessen (EXP-009, EXP-013). Eingriff: t Schritte auf konstruiertem Split F,
+dann auf G (disjunkte Zielfrequenzen). Literatur: Achille et al. 2019 (Critical Learning Periods) als nächstverwandt;
+Datenwechsel mit messbarer Merkmalsidentität bei modularer Addition nicht gefunden (vorläufig). Code:
+`--switch-split-file/--switch-step` in `freq_ban.py`, `make_splits.py` (Seeds 30–34; F und G teilen ≈ 72 % der Paare
+wegen gemeinsamer Ziehungsschlüssel), `analyze.py`, `queue.sh`, `check_smoke.py`. Tests 14/14 im Fenster.
+**Codex-Review** (`EXP-020-data-switch/codex_review_2026-09-26.txt`), 4 Befunde, alle geprüft und übernommen
+(README Nachtrag a): (1) Wechselzeit war mit der G-Trainingsmenge gekoppelt → gleiches G-Budget von 2000 Schritten;
+(2) Interpolation und nicht-monotone Kurven → Intervallzensur, Monotonie Pflicht; (3) Diagnose „neue Paare“ maß ganz G
+→ G\F, F\G, F∩G getrennt; (4) Warteschlange ignorierte normale Fehler → Stopp bei jedem Exit ≠ 0, „already completed“
+endet jetzt mit 0 (betrifft auch `queue_s4b.sh`: dort ändert sich nichts, weil sie nur 3/124 auswertet). Eigene
+Ergänzung: gen_F nicht mehr bei 2000 gedeckelt. Ergebnis des Zyklus: Versuch vorbereitet, **nicht ausgeführt**.

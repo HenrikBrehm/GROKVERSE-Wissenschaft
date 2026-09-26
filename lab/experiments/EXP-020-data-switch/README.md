@@ -55,3 +55,29 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/freq_
 sh lab/experiments/EXP-020-data-switch/queue.sh
 python lab/experiments/EXP-020-data-switch/analyze.py
 ```
+
+## Nachtrag a (2026-09-26 06:20 Berlin, nach Codex-Review, **vor jedem Lauf**): neues Design
+
+Codex (`codex_review_2026-09-26.txt`, „needs-attention“), 4 Befunde, selbst geprüft, alle **übernommen**. Die Tabelle
+oben gilt nur noch, wo sie hier nicht ersetzt wird.
+1. [high] *Wechselzeit und G-Trainingsmenge waren gekoppelt* (festes Ende bei 2000: späterer Wechsel = weniger G).
+   Auch ein vollständig reversibler Lerner hätte dann F „behalten“. → **Gleiches G-Budget:** Jeder Wechsel-Lauf trainiert
+   t Schritte auf F und danach **genau 2000 Schritte auf G** (`--steps t+2000`); K = Top-5 von W_E am Ende. t = 0 = nur G,
+   2000 Schritte. Sekundär: Ist K über die letzten 500 G-Schritte stabil?
+2. [high] *Lineare Interpolation in log(t + 25) erfindet einen Schwellenpunkt, und nicht-monotone Kurven konnten
+   „stützen“* (Beispiel d = [−1, 1, −1, −1, −1, 1]). → **Keine Interpolation.** Die Festlegungszeit ist
+   intervallzensiert: (letztes t mit d ≤ 0, erstes t mit d > 0]. Ein Seed **stützt H20 nur**, wenn d über das ganze
+   Gitter nicht abnimmt **und** das erste t mit d > 0 vor gen_F liegt (das ganze Intervall vor der Generalisierung).
+   Nicht monoton → *gegen*. Keine Kreuzung vor ∞ → *gegen*.
+3. [medium] *Die Diagnose „neue Paare“ maß ganz G* (72 % davon schon aus F bekannt). → Beim Wechsel werden die
+   Genauigkeiten auf G\F, F\G und F∩G getrennt mit Anzahlen gespeichert; G\F ist die Transfer-Diagnose.
+4. [medium] *Die Warteschlange stoppte nur bei Exit 3/124.* → `freq_ban.py` endet bei „already completed“ jetzt mit 0;
+   die Warteschlange stoppt bei **jedem** anderen Exit-Code. Nach dem Smoke prüft `check_smoke.py` Wechselschritt,
+   Hashes und Teilmengen-Diagnose, sonst Abbruch.
+Zusätzlich (eigener Punkt): gen_F war bei 2000 gedeckelt, dann wäre H20 trivial erfüllt. → Der Lauf „nur F“ läuft bis
+höchstens 8000 Schritte (`--stop-after-gen 2000`), K wird trotzdem bei Schritt 2000 gelesen; zensiertes gen_F → Seed
+für H20 *nicht auswertbar*.
+Entscheidung unverändert: 5/5 auswertbare Seeds stützen → *bestätigt*; 4/4 → *richtungsgleich, zu wenige Seeds*;
+mindestens ein *gegen* → *nicht bestätigt*; < 4 auswertbar → *nicht auswertbar*.
+Budget neu: pro Seed ≈ 2000–8000 (nur F) + 2000 (nur G) + 9600 (Wechsel) Schritte à 0.13 s ≈ 30–45 min; 5 Seeds ≈ 2.5–3.5 h.
+Vorgeschaltet: Die Reverse-Kontrolle (G → F) ist sinnvoll, aber nicht vorab festgelegt; sie wäre ein eigener Nachtrag.

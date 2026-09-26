@@ -213,7 +213,8 @@ def run(a: argparse.Namespace) -> dict:
     if (out_dir / "result.json").exists() and not a.force:
         prev = json.loads((out_dir / "result.json").read_text())
         if prev.get("status") == "completed":
-            raise SystemExit(f"[exp] {run_id} already completed; use --force to overwrite")
+            print(f"[exp] {run_id} already completed; use --force to overwrite", flush=True)
+            raise SystemExit(0)           # skip is not an error (EXP-020 queue stops on every other failure)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     # identical order to grokverse.train.train(): threads, seed, data, model, optimizer
@@ -352,9 +353,15 @@ def run(a: argparse.Namespace) -> dict:
                 events["post_ban_acc"] = {"train": evaluate(model, trx, try_, p)[1],
                                           "test": evaluate(model, tex, tey, p)[1]}
         if switch_idx is not None and step == a.switch_step:     # EXP-020: new train set from the next step on
+            old = data["train_idx"].numpy()
+            sub = {"G_minus_F": np.setdiff1d(switch_idx.numpy(), old), "F_minus_G": np.setdiff1d(old, switch_idx.numpy()),
+                   "F_and_G": np.intersect1d(old, switch_idx.numpy())}    # Codex review: new pairs separately
             events["switch"] = {"step": step, "train_acc_before": evaluate(model, trx, try_, p)[1],
-                                "new_train_acc_before": evaluate(model, data["all_x"][switch_idx],
-                                                                 data["all_y"][switch_idx], p)[1]}
+                                "new_train_hash": split_hash(switch_idx),
+                                **{f"acc_{k}": evaluate(model, data["all_x"][torch.from_numpy(v)],
+                                                        data["all_y"][torch.from_numpy(v)], p)[1]
+                                   for k, v in sub.items() if len(v)},
+                                **{f"n_{k}": int(len(v)) for k, v in sub.items()}}
             trx, try_ = data["all_x"][switch_idx], data["all_y"][switch_idx]
         dense_eval(step)
         if step % SPECTRUM_EVERY == 0:

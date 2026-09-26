@@ -3,12 +3,20 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 19:24 Berlin (Sitzung 11; nächster Start laut runner-state 2026-09-27 00:09 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 19:58 Berlin (Sitzung 12; nächster Runner-Start 2026-09-27 00:29 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **SITZUNG 12 (19:58) → NÄCHSTE SITZUNG (ab 00:00, im Fenster), gilt vor dem Sitzung-11-Block unten:**
+  Ablauf wie unten Schritte 1–5, aber die GPU-Queue ist jetzt **fail-closed** (Codex s12, commit 2b19820): Reihenfolge
+  GPU-001 → EXP-043 → **EXP-046** (neu: Diedergruppe D₅₉, nicht-abelsch) → EXP-044 → EXP-045. Endet sie mit
+  „done WITH FAILURES“ (rc 1), im Log nach „failed“ suchen; rc 3 = Wächter hat abgelehnt (Fenster/Deadline), Wiederaufnahme =
+  dieselbe Queue erneut starten (überspringt Fertiges). Nach GPU-001: `verdict_{regression,equivalence,throughput}.json`
+  lesen und ins JOURNAL (Regel 16b/c). Auswertung EXP-046: `summary.json` gegen README (Strukturprüfung zuerst!).
+  Nicht von mir: uncommittete Nutzeränderungen in `lab/tools/guarded_run.py` (DST-Fix) und `lab/runner/install_task.ps1`
+  (4 h Zeitlimit) sowie `lab/tools/parallel_queue.py` (Regel 17) — nicht anfassen/committen.
 - **SITZUNG 11 (19:24) → NÄCHSTE SITZUNG (ab 00:00, im Fenster) in dieser Reihenfolge:**
   1. `python lab/tools/guarded_run.py --check`; keine Queue aktiv (`ps -ef | grep -E "queue|guarded_run"`).
   2. `sh lab/experiments/queue_gpu_s11.sh > lab/runner/logs/gpu_s11.log 2>&1` im Hintergrund (GPU-001 → EXP-043 → EXP-044 →

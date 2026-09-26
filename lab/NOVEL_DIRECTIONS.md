@@ -466,3 +466,8 @@ Minibatch-Reihenfolge bestimmt die Grundfrequenz; keine Festlegungszeit, kein We
   perturbation same seed converges same Fourier frequencies“. Gefunden: Frequenzen variieren über Seeds und Optimierer (z. B.
   https://arxiv.org/abs/2606.17399, Discrete-Log Clock; He et al. 2026). Eine Untersuchung, ob **bei fester Init und festen Daten**
   verschiedene Trainingseingriffe in wenige, exakt wiederkehrende Frequenzmengen münden: **nicht gefunden** (vorläufig).
+- **Nachtrag (18:26, nach Codex):** Überschrift und Deutung sind zu stark. Belegt ist nur eine **unkalibrierte Top-5-Kollision**: zwei
+  exakte Übereinstimmungen von Mischzuständen über verschiedene Eingriffe, post hoc gesucht, ohne Zufallsvergleich; die Verdichtung
+  entsteht größtenteils durch die Plateaus „nur F“/„nur G“. „Wenige diskrete Zustände“ und „Attraktor“ sind **nicht** gezeigt.
+  Nötig wären: Plateaus ausschließen, Vergleiche vorab festlegen, seed-spezifische Zufalls-Null mit Mehrfachkorrektur, kontinuierliche
+  Spektren oder Verhalten statt Top-5, Störungs-/Neustart-Tests. Bis dahin: Kandidat mit niedriger Priorität.

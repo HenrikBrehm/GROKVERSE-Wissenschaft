@@ -11,7 +11,6 @@ part() { d=$1; shift; sh $R/$d/queue.sh "$@"; rc=$?; [ $rc -eq 0 ] && return 0
 while ps -ef | grep -v grep | grep -q "guarded_run.py"; do sleep 10; done
 part EXP-035-warmup-lockin 30 31 32
 python lab/tools/guarded_run.py -- python $R/EXP-035-warmup-lockin/analyze.py || echo "[queue10] EXP-035 analysis failed (continuing)"
-python lab/tools/guarded_run.py -- python $R/EXP-035-warmup-lockin/state_match.py || echo "[queue10] EXP-035 state_match failed (continuing)"
 part EXP-038-where-lockin
 python lab/tools/guarded_run.py -- python $R/EXP-038-where-lockin/analyze.py || echo "[queue10] EXP-038 analysis failed (continuing)"
 part EXP-036-init-conflict

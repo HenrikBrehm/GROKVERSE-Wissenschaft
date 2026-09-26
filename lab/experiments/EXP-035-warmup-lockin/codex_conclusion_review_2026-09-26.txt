@@ -1,0 +1,57 @@
+(node:18900) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0de85-2116-7910-95ff-b4db06f3125d).
+[codex] Turn started (01a0de85-226a-7e70-9a3e-9e4eb757099d).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’m inspecting the actual diff, experiment data, and ...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The core risk is statistical and design-level, not an...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"target|tar...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"target|tar... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Lit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Lit... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$roots = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$roots = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$roots = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$roots = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import json,ite...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import json,ite... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command py,pyt...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command py,pyt... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "node -e \"const fs...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "node -e \"const fs... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' const fs=requir...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' const fs=requir... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "node -e \"const fs...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "node -e \"const fs... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git ls-files "lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git ls-files "lab/... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"Do not ship: the attractor claim lacks a valid collis...
+[codex] Turn completed.
+# Codex Adversarial Review
+
+Target: branch diff against 61f36d9
+Verdict: needs-attention
+
+Do not ship: the attractor claim lacks a valid collision baseline, and P35d's asymmetric construction cannot distinguish an accumulated-learning-rate clock from generic warmup delay.
+
+Findings:
+- [high] Endpoint plateaus and post-hoc pair selection are being misread as discrete attractors (lab/NOVEL_DIRECTIONS.md:461-464)
+  The 58 runs are correlated deterministic trajectories sharing seed, initialization, and datasets—not independent draws from a state space—and they provide 342 within-seed pair opportunities. Most apparent compression is mechanically caused by pure-F/pure-G plateaus: for seed 30, 8 runs have the pure-F Top-5 and 3 have the pure-G Top-5; after removing them, 7 runs produce 6 sets, with only the selected mixed-state collision duplicated. The current result files also yield 8 unordered seed-30 sets, not the stated 9. No null preserves the constrained, highly nonuniform pool of F/G targets, harmonics, and initialization-favored frequencies or corrects the post-hoc pair search. Finally, equal Top-5 membership is only a lossy spectral projection, not equality of model state or evidence of an attractor basin.
+  Recommendation: Rewrite N21 and Zyklus 12 as an uncalibrated Top-5 collision observation, removing “few,” “discrete,” and “attractor” claims. Before restoring them, exclude designed endpoint plateaus, predefine eligible comparisons, evaluate collision frequency against a seed-specific marginal/randomization null with multiplicity correction, and verify convergence using continuous spectra or model behavior plus perturbation/restart tests.
+- [high] The Λ-versus-step score is biased by comparing different maturity ranges (lab/experiments/EXP-035-warmup-lockin/state_match.py:14-15)
+  LAM compares warmup times 50/100/150, while STEP compares 10/25/50. Thus the two hypotheses are not scored on the same warmup observations: STEP is loaded with the nearly pure-G early runs and omits later exact step controls. In seed 30, the omitted t=150 step match is 5/5 identical and would by itself erase the reported 3.0-versus-2.3 gap if added to the selected STEP score. Any mechanism that merely delays progression under warmup—not specifically an accumulated-learning-rate clock—can therefore satisfy this construction. P35d then declares success for any positive aggregate difference in one seed, potentially a single additional overlapping frequency, so it is neither calibrated nor capable of testing the exact/discrete-state claim used by N21.
+  Recommendation: Score both hypotheses on identical warmup runs, e.g. compare warmup 50/100/150 against each hypothesis's predicted no-warmup controls, adding or rerunning the missing t=100 control. Pre-register a meaningful effect threshold and a permutation/null distribution across multiple held-out seeds. Describe a positive seed-32 result only as consistency with generic warmup delay unless an intervention such as EXP-039 separates Λ from momentum, step, and schedule effects.
+- [medium] P35d does not fail closed on invalid or incomplete experiment inputs (lab/experiments/EXP-035-warmup-lockin/state_match.py:18-50)
+  K() accepts any result marked completed and verifies neither warmup/configuration, initialization and split hashes, step counts, nor the validity conditions enforced by analyze.py. It also converts missing inputs to None; main then writes a JSON file without P35d and exits successfully. Because the queue continues after EXP-035 or its main analysis fails, stale or incompatible runs can receive an “erfuellt” label, while a missing held-out result can be silently treated as a successful analysis step.
+  Recommendation: Reuse the main analysis metadata and evaluability checks, require exactly five unique frequencies in every input, and exit nonzero unless all six required seed-32 runs have matching init/split/configuration and valid protocol metadata. Record explicit invalid/not-evaluable status rather than omitting P35d.
+
+Next steps:
+- Reframe the post-hoc catalogue without attractor or Λ-clock support.
+- Replace P35d with a balanced, calibrated comparison on common warmup observations.
+- Make state_match.py fail closed on incomplete or incompatible runs.

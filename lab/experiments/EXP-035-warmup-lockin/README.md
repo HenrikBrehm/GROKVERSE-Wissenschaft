@@ -82,3 +82,16 @@ Seed 31 (4, 8, 36, 42, 46) ohne Warmup bei t = 10 (Λ = 10) **und** mit Warmup b
 (150, 50)) überlappen im Mittel stärker als schrittgleiche ((10, 10), (25, 25), (50, 50)) → *erfüllt*, sonst *nicht erfüllt*.
 Seeds 30, 31 nur als Exploration. Ein Seed ist nur ein Hinweis, kein Urteil. Code `state_match.py` (in `queue_s10.sh` nach
 `analyze.py`). Grenze: Die Λ-Paare sind nur angenähert gleich (6.4/10, 25.2/25, 56.6/50).
+
+## Nachtrag d (18:26 Berlin, Sitzung 10, nach Codex `codex_conclusion_review_2026-09-26.txt`, vor jedem Seed-32-Lauf): P35d zurückgezogen
+
+Codex (needs-attention): (1, hoch) Die „wenigen, exakt wiederkehrenden Endzustände“ sind vor allem die Plateaus „nur F“/„nur G“;
+ohne sie bleiben bei Seed 30 sieben Mischläufe mit sechs Mengen, die gezeigten Übereinstimmungen sind post hoc aus vielen möglichen
+Paaren gesucht, und es fehlt jeder Zufallsvergleich für einen eingeschränkten Kandidatenvorrat. (2, hoch) Der Λ-/Schritt-Vergleich
+bewertet verschiedene Läufe (Λ: Warmup 50/100/150; Schritt: 10/25/50, fast reine G-Läufe); jede bloße Verzögerung durch Warmup erfüllte
+P35d, und ein zusätzliches gemeinsames Frequenzelement genügte. (3, mittel) `state_match.py` prüft Eingaben nicht fail-closed.
+**Übernommen, alles:** P35d ist **zurückgezogen** (kein Urteil, auch nicht beschreibend), `state_match.py` ist aus der Queue
+entfernt und bleibt nur als Werkzeug liegen. Die Beobachtung aus Nachtrag c gilt nur noch als **unkalibrierte Top-5-Kollision**
+(zwei exakte Übereinstimmungen von Mischzuständen über verschiedene Eingriffe), ohne Aussage über Attraktoren oder eine Λ-Uhr.
+Ein sauberer Test bräuchte gleiche Warmup-Läufe gegen die jeweils vorhergesagten Kontrollen (fehlender Kontrollpunkt t = 100
+ohne Warmup), eine vorab festgelegte Effektgröße und eine Zufalls-Null über mehrere frische Seeds. Die Λ-Frage prüft EXP-039.

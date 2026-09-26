@@ -1412,3 +1412,12 @@ t = 10 = Warmup t = 50 (Λ 10 bzw. 6.4). Seed 30: Λ-gleiche Paare überlappen i
 *Deutung (Spekulation):* Je Seed gibt es wenige diskrete Endzustände, und welcher erreicht wird, hängt eher an Λ beim Wechsel als an
 der Schrittzahl. *Entscheidung:* P35d für Seed 32 (noch ohne Warmup-Läufe) vorab festgelegt (EXP-035 Nachtrag c, `state_match.py`,
 in der Queue). Idee für später: Attraktor-Katalog als eigene Messgröße (N21).
+
+**Zyklus 13 (18:26): Codex greift Zyklus 12 an** (`EXP-035-warmup-lockin/codex_conclusion_review_2026-09-26.txt`, needs-attention).
+Einwände: keine Zufalls-Null für Top-5-Kollisionen bei eingeschränktem Vorrat, Verdichtung vor allem durch die Plateaus, Paarsuche
+post hoc; P35d vergleicht verschiedene Läufe und wird von jeder Warmup-Verzögerung erfüllt; `state_match.py` nicht fail-closed.
+*Übernommen, alles:* P35d **zurückgezogen** (vor jedem Seed-32-Lauf), `state_match.py` aus der Queue, N21 und die Deutung von
+Zyklus 12 auf „unkalibrierte Top-5-Kollision“ zurückgestuft. Die Zahlen aus Zyklus 12 bleiben stehen, die Wörter „diskret“ und
+„Attraktor“ gelten als nicht gezeigt. Codex zählt bei Seed 30 acht statt neun Mengen; meine Zählung nimmt „nur F“ bei Schritt 2000
+aus den Spektren, was die Warmup-Variante von „nur F“ als eigene Menge zählt. Lehre: Eine Beobachtung aus einer Katalog-Suche
+ist noch kein Vorhersagetest; ein schief gebauter Vergleich hätte eine falsche Bestätigung liefern können.

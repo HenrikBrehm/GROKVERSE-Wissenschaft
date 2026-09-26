@@ -1231,6 +1231,13 @@ Seed 32: 30, 13, 50). *Ergebnis:* starke Assoziation in der Exploration (7/7 auf
 frischen Inits von EXP-036 vorab festgelegt (Nachtrag b). Das ist eine Konkurrenz zur Init-Deutung: nicht die Init allein,
 sondern die gemeinsame frühe Unterstützung durch beide Datensätze.
 
+**Zyklus 10 (17:07): Ist „gemeinsame frühe Unterstützung“ nur der Init-Rang in anderer Form? (post hoc, ohne Training).**
+Position der 7 Kern-Konfliktfrequenzen unter den Kandidaten außerhalb A (≈ 37) nach gemeinsamer Unterstützung bzw. nach Init-Rang:
+34: 1 / 9; 22: 4 / 6; 42: 7 / 2; 36: 3 / 1; 8: 4 / 3; 13: 2 / 13; 38: 3 / 23. Median 3 gegen 6; Maximum 7 gegen 23.
+*Ergebnis:* Beide Ordnungen sind verwandt (die frühe Unterstützung enthält die Init), aber die gemeinsame Unterstützung ist der
+engere Prädiktor; die Fälle 13 und 38 erklärt nur sie. Exploration an denselben Daten, keine Bestätigung. Prüfung an frischen
+Inits: EXP-036 P36b (vorab festgelegt).
+
 ### Abschlussbericht Sitzung 9 (2026-09-26, 14:49–~17:45 Berlin; geschrieben 17:06)
 
 **Wichtigste Befunde:**

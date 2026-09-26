@@ -293,3 +293,4 @@ Init-Zufälligkeit) Frequenzen, und sagt M0 sie voraus? Eigene Implementierung (
 gegen finite Differenzen und Frequenzmaß an einer zirkulanten Matrix im Fenster geprüft (2/2). **Nicht ausgeführt**
 (ein Job gleichzeitig; kommt in eine spätere Warteschlange). Vorbedingung vorab: RFM muss generalisieren und
 Frequenzen konzentrieren, sonst nicht auswertbar.
+Baseline Seed 13 fertig 03:47: gen 5275, K {7, 15, 16, 25, 42}.

@@ -1486,3 +1486,7 @@ EXP-035 Seed 30; scheitert er, macht `queue_s10.sh` mit EXP-038 weiter).
 **Zyklus 18 (18:48, ohne Training): Was genau widerlegt EXP-040?** Unter Adam (lineares Wachstum, gemessen) sagt die Schwellenidee
 Zeit ∝ s voraus, unter Gradientenfluss (exponentielles Wachstum) nur ∝ log(1/s). *Ergebnis:* Einordnung in EXP-040 ergänzt: *unverändert*
 widerlegt nur die lineare Fassung von H40, nicht jede Schwellenidee. Regeln unverändert.
+
+**Zyklus 19 (18:49, ohne Training): Google Scholar direkt.** Ein Treffer (Liu et al. 2026, Spectral Lens), im Volltext ohne Datenwechsel
+oder Festlegungszeit; der Abruf-Zusammenfasser hatte einen Bezug behauptet, den der Text nicht hat. *Lehre:* Werkzeug-Zusammenfassungen
+von Suchtreffern immer am Volltext prüfen. N14 unverändert.

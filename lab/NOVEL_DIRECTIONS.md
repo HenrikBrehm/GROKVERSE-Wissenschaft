@@ -497,3 +497,9 @@ keine Festlegungszeit); „Circuit Synchronization Precedes Generalization“ (h
 „First-Passage Prediction of Grokking Delay under AdamW“ (https://arxiv.org/abs/2605.18845, Grokking-*Zeitpunkt*, nicht die
 Frequenzwahl; nicht geprüft). Ergebnis: Die EXP-020-Frage (kausale Festlegungszeit der Frequenzwahl per Datenwechsel) bleibt
 **nicht gefunden** (vorläufig; Google Scholar weiterhin nicht direkt durchsucht).
+
+**Google Scholar (erstmals direkt, 18:49):** Abfrage „grokking modular addition "data switch" OR "switching the training set" frequencies
+early training“. Einziger gemeldeter Treffer: Liu, Paquette & Sous 2026, „Spectral Lens“ (https://arxiv.org/abs/2605.05683). Im
+HTML-Volltext geprüft: modulare Arithmetik nur als statisches Spielzeugmodell, **kein** Datenwechsel mitten im Training und keine
+Festlegungszeit (die Zusammenfassung des Abruf-Werkzeugs hatte „data switch“ fälschlich als Inhalt angegeben). Einordnung von N14
+unverändert: nicht gefunden (vorläufig).

@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 21:19 Berlin (19:19Z, vom Runner)
 - **Deadline:** 2026-09-27 00:19 Berlin (22:19Z)
-- **Zuletzt aktualisiert:** 22:00 Berlin (gemessen).
+- **Zuletzt aktualisiert:** 22:03 Berlin (gemessen).
 - **Run-Fenster:** zu. Heute Nacht Läufe erst ab 03:00 (Regel 18). Diese Sitzung: nur Code, Rechnung auf Dateien, Literatur.
 
 ## Gerade
@@ -17,6 +17,8 @@ Nächste Frage wählen.
 Ab 03:00 (nächste Sitzung): Wächter-Abnahme, Tests (jetzt auch EXP-052-Selbsttest), Nachtprogramm.
 
 ## Verlauf dieser Sitzung
+
+- 22:03 **Neue Idee N29:** Man könnte die Frequenzen auch über Gewichte im Fehlermaß steuern, statt Paare wegzulassen. Rechnerisch ist das Signal fast gleich stark, mit allen Paaren sogar viel stärker. Das wäre ein direkter Test, *warum* die Steuerung funktioniert. Umsetzung nach der Nacht.
 
 - 22:00 Für zwei Nachtversuche (Lernrate, anderer Datenwechsel) sind jetzt Zahlen-Vorhersagen eingefroren: Drei Modelle einer „inneren Uhr“ sagen unterschiedliche Werte voraus; die Nacht entscheidet, welches am nächsten liegt.
 

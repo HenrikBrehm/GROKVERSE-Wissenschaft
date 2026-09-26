@@ -92,3 +92,22 @@ Das beeinflusst keine Festlegung dieses Versuchs. π wird nach den Läufen zusä
 
 *Korrektur (Sitzung 14):* Nach Prüfung ist die EXP-035-Sicht nicht „Λ früh getroffen“, sondern: Warmup verzögert, keine der beiden Uhren
 passt an den trennscharfen Punkten. Beeinflusst die Festlegungen hier nicht.
+
+## Nachtrag (Sitzung 14, 21:59 Berlin, **vor jedem EXP-039-Lauf**): eingefrorene, nur beschreibende π-Vorhersagen dreier Uhren
+
+`predict_pi.py` → `predictions_pi.json` (reine Rechnung auf gespeicherten Post-hoc-Ergebnissen). Effektive Zeit τ(t) = Σ_s (lr_s/lr₀)^γ der
+F-Phase, π(t) = EXP-020-Kurve bei τ (stückweise linear durch 0, 10, 25, 50, 150). γ = 0 Schrittuhr, γ = 1 Λ-Uhr, γ = 0.65 angepasst an die
+gespeicherten EXP-035-Warmup-Läufe (RMSE dort 0.34 / 0.12 / 0.08; 1–2 Seeds, gesehene Daten).
+
+| Zelle | Schrittuhr | Λ-Uhr | γ = 0.65 |
+|---|---|---|---|
+| c = 2, t = 10 | 0.15 | 0.30 | 0.24 |
+| c = 2, t = 25 | 0.38 | **0.72** | 0.57 |
+| c = 2, t = 50 | 0.72 | 0.86 | 0.80 |
+| c = 0.5, t = 50 | **0.72** | 0.38 | 0.47 |
+| c = 0.5, t = 100 | 0.86 | 0.72 | 0.76 |
+| c = 0.5, t = 150 | 1.00 | 0.79 | 0.85 |
+
+Auswertung nach den Läufen: π je Seed (Normierung mit den reinen EXP-018-Läufen des Seeds), RMSE jedes Modells über alle Zellen. **Kein Urteil**,
+das vorab festgelegte Urteil von EXP-039 (Dominanzmaß d) bleibt allein maßgeblich. Grenzen: grobe Kurve zwischen 50 und 150; γ aus 1–2 Seeds;
+bei c = 2 ändert sich auch das Verhältnis lr/Weight Decay.

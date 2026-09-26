@@ -588,3 +588,13 @@ Masken-Kreuzterm ρ **0.05** (Transformer 0.50); Gradientenleistung ρ(M0) **0.3
 **Befund: Vorhersage bestätigt** (an vorhandenen, für diese Frage aber noch nicht betrachteten Daten; eine Konfiguration,
 10 Seeds). Der Mechanismus „geteilter Wertepfad → Interferenz der Positionen“ erklärt, warum M0c im Transformer und M0 in
 der MLP die bessere Statistik ist.
+
+**Zyklus 19 (06:58, In-silico-Eingriff, Vorhersage vor der Rechnung): Ist der geteilte Wertepfad die Ursache?**
+`posthoc/value_path_intervention.py`, Seeds 0–9, nur Init + ein Rückwärtsdurchlauf. Position 1 bekommt im ersten
+Gradienten eine **eigene** Wertematrix W_V′ (bzw. eigene Ausgabematrix W_O′, gleiche Init-Verteilung). Ergebnis:
+Kreuzterm gegen Masken-Kreuzterm ρ unverändert **0.468** (10/10 positiv; reproduziert die frühere Messung exakt),
+mit eigenem W_V′ **−0.026** (4/10), mit eigenem W_O′ **0.074** (7/10). **Befund: Vorhersage bestätigt.** Die Interferenz der
+beiden Positionen im ersten Gradienten entsteht durch den geteilten Wertepfad der Attention (W_V, W_O). Zusammen mit
+dem MLP-Kontrast (Zyklus 18) ist das der bislang stärkste Beleg für den Mechanismus hinter M0c. Grenze: nur der erste
+Gradient bei Init; ob das die finale Frequenzwahl kausal ändert, zeigt erst ein Training mit getrennten Wertepfaden
+(nicht vorbereitet).

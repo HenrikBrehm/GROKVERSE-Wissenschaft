@@ -30,7 +30,10 @@ Vorab festgelegt und bestätigt ist nur, was ausdrücklich so markiert ist.
    beiden Operanden durch verschiedene Hälften von W_in; dort folgt der Kreuzterm der Maske nicht (ρ 0.05), und M0 ist
    die bessere Statistik (Gradient 0.37 gegen 0.24; finale Frequenzen r̄ 0.323 gegen 0.351). Im Transformer (geteilter
    Wertepfad der Attention) ist es umgekehrt.
-5. Ob M0c auch die **finalen** Frequenzen besser vorhersagt, ist offen: post hoc richtungsgleich, nicht signifikant;
+5. **Eingriff (in silico, Vorhersage vorher):** Bekommt Position 1 im ersten Gradienten eine eigene Wertematrix W_V′,
+   verschwindet die Interferenz (ρ 0.47 → −0.03; eigene W_O′: 0.07). Ursache ist also der geteilte Wertepfad der
+   Attention. Nur für den ersten Gradienten gezeigt, nicht für die finale Wahl.
+6. Ob M0c auch die **finalen** Frequenzen besser vorhersagt, ist offen: post hoc richtungsgleich, nicht signifikant;
    Bestätigung vorab festgelegt in [[experiments/EXP-019-coherent-mask/README|EXP-019]].
 
 ## Konstruierte Splits: sofortige Prägung, spätere Verdrängung durch 2k (EXP-016, Seeds 10–15)

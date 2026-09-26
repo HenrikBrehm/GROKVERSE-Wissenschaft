@@ -114,3 +114,22 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   ein Begleitsymptom.
 - **Suche:** Nur in der Suche zu N3 mit abgedeckt, noch keine eigene. Vor einem Versuch
   gezielt suchen.
+
+## N3: Der Trainingssplit wählt die Frequenzen mit (Masken-Spektrum) #neu/kandidat
+
+- **Frage:** Bestimmt die zufällige Auswahl der Trainingspaare (nicht nur die Init), welche Fourier-Frequenzen ein
+  Transformer für modulare Addition lernt? Lässt sich die Wahl aus dem Split allein vorhersagen, bevor Gewichte existieren?
+- **Versuche:** [[experiments/EXP-014-split-vs-init/README|EXP-014]] (Kreuzdesign; Gradient-Vorschau: Spektrum des ersten
+  Gradienten folgt dem Split, ρ 0.34 vs. −0.01) · [[experiments/EXP-015-mask-spectrum/README|EXP-015]] (Masken-Spektrum
+  M0; Exploration Seeds 0–9: r̄ 0.307, p < 1e-5; Bestätigung offen)
+- **Suche 2026-09-26.** Suchbegriffe: „grokking modular addition which key frequencies learned determined by training data
+  subset split Fourier spectrum of training set“, „modular arithmetic neural network frequency selection "training set" mask
+  Fourier sparsity random subset predicts learned frequencies“, „grokking transformer frequencies depend on random
+  train/test split not initialization seed data-dependent frequency selection“.
+- **Nächstverwandt:** He et al. 2026 (https://arxiv.org/abs/2602.16849): Init entscheidet (pro Neuron), Split nicht
+  betrachtet. *Where Grokking Happens* (https://arxiv.org/html/2609.17571): stellt fest, dass der Seed Init **und** Split
+  zugleich variiert, trennt beides aber nicht. Nanda et al. 2023 (https://arxiv.org/abs/2301.05217): seed-abhängige
+  Schlüsselfrequenzen, ohne Ursache.
+- **Einordnung:** Eine Zuordnung der Frequenzwahl zum Split und ein Vorhersager nur aus der Maske wurden nach dieser
+  Suche **nicht gefunden**. Vorläufig, keine Garantie. Vor einem Anspruch: Bestätigung an Seeds 10–19 (EXP-015 Phase 2,
+  EXP-014) und eine gründlichere Suche (OpenReview, Google Scholar).

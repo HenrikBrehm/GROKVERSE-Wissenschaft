@@ -1,8 +1,8 @@
 ---
 id: EXP-015
-status: vorbereitet
+status: laufend
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/laufend, neu/kandidat]
 verwandt: ["[[experiments/EXP-014-split-vs-init/README|EXP-014]]", "[[experiments/EXP-012-init-gradient/README|EXP-012]]", "[[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]"]
 ---
 # EXP-015: Sagt allein der Trainingssplit die Frequenzen voraus? (Masken-Spektrum)
@@ -41,3 +41,9 @@ M0(k) = Σ_c ( |Σ_t N_links(t, c) e^{−2πikt/p}|² + |Σ_t N_rechts(t, c) e^{
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-015-mask-spectrum/mask_spectrum.py --phase 1
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-015-mask-spectrum/mask_spectrum.py --phase 2
 ```
+
+## Phase 1 (Exploration, Seeds 0–9), ausgeführt 2026-09-26 ~03:17 Berlin
+
+`summary_phase1.json`: **r̄(M0) = 0.307** (Null 0.5, MC p < 1e-5), im Mittel 1.3 von 5 Frequenzen in den M0-Top-5
+(Zufall 0.45). Zum Vergleich [[experiments/EXP-012-init-gradient/README|EXP-012]]: E0 0.375, G0 0.302. Die Maske allein
+ist also so informativ wie der tatsächliche erste Gradient. Explorativ; Bestätigung an Seeds 10–19 (Phase 2) offen.

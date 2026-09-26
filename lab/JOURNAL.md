@@ -245,3 +245,11 @@ Nächste anzugreifende Annahme: dass „die Init“ die Lotterie trägt. Der Spl
 sh-Prozess; der Tauschlauf Seed 10 lief weiter). Neue Warteschlange `lab/experiments/queue_s4.sh`: zuerst alle
 EXP-003d-Baselines (sie tragen EXP-010, EXP-012 Phase 2 und EXP-014), dann die EXP-014-Kreuzläufe, dann die
 übrigen Tauschläufe, am Sitzungsende EXP-013. Kein Kriterium wurde geändert, kein Lauf verworfen.
+
+**Zyklus 4 (neu): Gradient-Vorschau EXP-014 und EXP-015 Phase 1.** Frage: Hängt die Frequenzvorliebe des ersten
+Gradienten an der Init oder am Split? `grad_preview.py` (alle 100 Init×Split-Kombinationen der Seeds 0–9, 18 s):
+Spearman mit gleichem Split 0.34, mit gleicher Init −0.01, Split näher in 98 %. → Masken-Spektrum M0 (nur aus dem
+Split, Formel in EXP-015) vorab festgelegt und berechnet: **r̄ 0.307** (p < 1e-5), gleich gut wie G0. Literatur (3
+Suchen): keine Arbeit gefunden, die die Frequenzwahl dem Split zuordnet (vorläufig, [[NOVEL_DIRECTIONS]] N3).
+Entscheidung: bestätigen an Seeds 10–19 (Phase 2, sobald ≥ 8 Baselines) und kausal über EXP-014 (Kreuzläufe).
+Vorsicht: Seeds 0–9 sind Exploration, K dort bei 25k.

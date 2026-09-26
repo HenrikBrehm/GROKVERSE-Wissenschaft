@@ -19,6 +19,7 @@ EXP-043 bis EXP-049 existierte. Die Einzelurteile regeln die READMEs; hier steht
 | [[experiments/EXP-046-dihedral-steering/README\|EXP-046]] (D₅₉) | „Der Split steuert“ auch bei nicht-kommutativer Verknüpfung (Mechanismus nur über EXP-047) | Steuerung ist Eigenheit zyklischer Gruppen | *keine Irrep-Struktur*: keine Aussage, **nicht** als Gegenbeleg lesen |
 | [[experiments/EXP-048-intadd-steering/README\|EXP-048]] (a + b ohne mod) | Steuerung auch ohne Gruppenstruktur (als Fourier-Leistung in W_E, nicht als Funktion) | K2 an Gruppenaufgaben gebunden: wichtige Grenze | keine Aussage |
 | [[experiments/EXP-049-width-steering/README\|EXP-049]] (d = 512) | K2 hält bei 4× Breite | K2 ist Knappheitseffekt kleiner Modelle | keine Aussage |
+| [[experiments/EXP-052-oos-mask-prediction/README\|EXP-052]] (K1 an unberührten Fällen, eingefroren; Ergänzung Sitzung 14) | je Fall *K1 gilt hier*: Der Split allein sagt das W_E-Spektrum der Zufallssplit-Läufe voraus (Assoziation, keine Steuerung). Stützt die Deutung, dass EXP-043/046/048 über denselben Weg wirken | *nicht bestätigt* bei einem Fall mit *steuerbar* im Schwesterversuch: Steuerung ohne Abdruck im Zufallssplit, Mechanismus dort anders als M0 | *nicht auswertbar*: keine Aussage |
 
 ## Regeln für die Zusammenschau
 
@@ -34,3 +35,4 @@ EXP-043 bis EXP-049 existierte. Die Einzelurteile regeln die READMEs; hier steht
    Aufgabe bzw. Breite nicht direkt mit der EXP-016-Kalibrierung (8.4) vergleichbar.
 6. Befunde zu K4 (EXP-044) nur, wenn EXP-043 für die Aufgabe *steuerbar* war (so in der Queue festgelegt).
 7. **Ergänzung (20:54, Regel 18c):** Alle Versuche dieser Nacht sind **Pilot/Exploration** für das Programm A/B/C in [[FINDINGS]]. Ein *steuerbar* hier ist keine Bestätigung von P1–P3; es liefert die Streuung für die Stichprobenplanung und entscheidet, welche Aufgaben in den reservierten Bestätigungsblock (Seeds 1000–1099) kommen. Technische Ausfälle (Lader: „fehlt“/„defekt“) werden getrennt von wissenschaftlich negativen Ergebnissen berichtet.
+8. **Ergänzung (Sitzung 14):** EXP-052 ist der einzige Versuch dieser Nacht, dessen Vorhersagen nachweislich (Commit 7c6492a/1d71c5d/354e3dc) vor den Daten lagen. Seine Sekundärfragen (M0c > M0, M0 > E0, M0 > CNT) entscheiden zwischen den Mechanismus-Modellen; S1 (M0c) hat wegen ρ(M0, M0c) ≈ 0.7 wenig Trennschärfe, ein *n. s.* dort ist kein Beleg gegen die Rechnung erster Ordnung.

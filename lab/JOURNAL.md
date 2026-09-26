@@ -884,3 +884,5 @@ Neue Reihenfolge: EXP-027 → EXP-032 → EXP-027b → EXP-025 → queue_s5.
 **10:39 EXP-027 ausgewertet:** *nicht auswertbar* (Güte-Schwelle, Breite 32 Test 0.85). Beschreibend kein Trend (u −0.14…+0.14,
 q_H ≈ 0.5 in allen Breiten), n_eff fällt von 52 auf 30. Selbst 32 Neuronen nutzen noch ≈ 30 Frequenzen; die Idee „schmale
 Netze müssen auswählen“ trägt in dieser Form nicht. EXP-027b läuft trotzdem wie festgelegt (unabhängige Splits).
+**10:40 Priorität:** In `queue_s5.sh` läuft EXP-020 jetzt vor EXP-018/014, weil seine Läufe ohne Wechsel zugleich die
+Bestätigungsdaten für EXP-028 liefern. Keine inhaltliche Änderung an EXP-020.

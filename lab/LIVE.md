@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 19:59 Berlin (17:59Z, vom Runner)
 - **Deadline:** 2026-09-26 22:59 Berlin (20:59Z)
-- **Zuletzt aktualisiert:** 20:21 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 20:23 Berlin (gemessen)
 - **Run-Fenster:** zu, wieder ab 00:00. Die nächste Sitzung (Start 00:59 Berlin) startet die Nacht-Queues. Diese Sitzung: Prüf-, Code- und Denkarbeit.
 
 ## Gerade
@@ -18,6 +18,7 @@ Befunde der Prüfung einarbeiten. Danach keine neuen Versuche mehr heute: Die Na
 
 ## Verlauf dieser Sitzung
 
+- 20:23 Theorie: Eine einfache Rechnung zum ersten Lernschritt erklärt, warum im Transformer eine andere Maskengröße (M0c) passt als im MLP (M0). Vorab festgelegt, wie die sechs Nachtergebnisse zusammen zu lesen sind ([[LESART-nacht-2026-09-27]]).
 - 20:21 Alle sieben Auswertungen der Nacht abgesichert: Ein abgestürzter Lauf (NaN) hätte sonst still ein falsches Urteil erzeugt. Gefunden bei der Prüfung von EXP-049. Werkzeug für den Morgenbericht auf die GPU-Versuche erweitert.
 - 20:17 EXP-048 nach Review verbessert: Die Hauptmessgröße entfernt jetzt vorab den Zahlengeraden-Anteil (der sonst Scheineffekte erzeugt). Dabei einen eigenen fehlerhaften Selbsttest gefunden, der die Nacht-Queue gestoppt hätte. [[experiments/EXP-049-width-steering/README|EXP-049]] (Modellbreite) vorab festgelegt und eingereiht.
 - 20:13 Idee „frühe Festlegung aus Init-Skala und Lernrate vorhersagen“ verworfen: Sie steht schon als Vorhersage in EXP-040 (Nachtrag c). Stattdessen EXP-049 (Modellbreite) begonnen.

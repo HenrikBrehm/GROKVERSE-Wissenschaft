@@ -53,11 +53,20 @@ def main() -> None:
     ap.add_argument("--init-seed", type=int, default=None, help="default: --seed")
     ap.add_argument("--out", default=str(HERE / "raw"))
     ap.add_argument("--split-dir", default=str(S16))
+    ap.add_argument("--random-split", action="store_true",
+                    help="EXP-025: use the study's seeded random 30 %% split of --seed (make_dataset) instead of EXP-016")
     a = ap.parse_args()
     suf = "" if a.arm == "F" else "_G"
-    sd = Path(a.split_dir)
-    idx = np.load(sd / f"split_seed{a.seed}_eps2.0{suf}.npy")
-    meta = json.loads((sd / f"split_seed{a.seed}_eps2.0{suf}.json").read_text())
+    if a.random_split:
+        import sys
+        sys.path.insert(0, str(HERE.parents[0] / "EXP-015-mask-spectrum"))
+        from mask_spectrum import mask_matrix
+        idx = np.flatnonzero(mask_matrix(a.seed).ravel())
+        meta = {"targets": []}
+    else:
+        sd = Path(a.split_dir)
+        idx = np.load(sd / f"split_seed{a.seed}_eps2.0{suf}.npy")
+        meta = json.loads((sd / f"split_seed{a.seed}_eps2.0{suf}.json").read_text())
     test = np.setdiff1d(np.arange(P * P), idx)
     tr_a, tr_b = torch.tensor(idx // P), torch.tensor(idx % P)
     te_a, te_b = torch.tensor(test // P), torch.tensor(test % P)
@@ -74,7 +83,7 @@ def main() -> None:
     def fwd(xa, xb):
         return act(W_in[xa] + W_in[P + xb]) @ W_out
 
-    run_id = f"EXP-024_{a.act}_seed{a.seed}_{a.arm}" + ("" if a.init_seed is None else f"_init{a.init_seed}")
+    run_id = (f"EXP-025_{a.act}_seed{a.seed}_random" if a.random_split else f"EXP-024_{a.act}_seed{a.seed}_{a.arm}") + ("" if a.init_seed is None else f"_init{a.init_seed}")
     out_dir = Path(a.out) / run_id
     out_dir.mkdir(parents=True, exist_ok=True)
     snaps, curve, t0, gen, steps_done, finite = {}, [], time.time(), None, 0, True

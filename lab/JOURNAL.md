@@ -726,3 +726,13 @@ Codex bestätigte Indizierung, 57 = 2⁻¹ mod 113, Faltung und Komplement-Testm
 **08:52 EXP-024-Hauptserie gestartet** (`sh lab/experiments/EXP-024-quadratic-agf-mask/queue.sh`, Log
 `lab/runner/logs/queue_exp024.log`), 38 Läufe × ~80 s ≈ 50 min. `queue_s5.sh` ist angehalten (Shell um ~08:33 beendet,
 damit kein zweiter Job startet) und wird danach neu gestartet (setzt bei den Smokes EXP-018/020 fort).
+**08:55 EXP-015/012 Phase 2 mit n = 10 (nur berichtet):** EXP-015 r̄(M0) 0.279, p < 1e-5, fremde Masken 0.492
+(p = 5e-5); EXP-012 G0 0.239 gegen E0 0.381, p = 0.0078. Beide unverändert *bestätigt* (Nachträge in den READMEs).
+
+**Zyklus 2 (08:56, Vorhersage für Arm R vor dessen Läufen): Was sagt der Nutzen mit ReLU?** `utility_relu.py`:
+Top-5 des ReLU-Nutzens enthalten **4.68/5 Ziele F**, 0.37/5 halbe Ziele H. Die Nutzenrechnung sagt also eine
+**Umkehr zwischen den Aktivierungen** voraus (x² → H, ReLU → F); Grund ist der lineare Anteil x/2 der ReLU.
+Als sekundäre, gerichtete Entscheidung für Arm R eingetragen (EXP-024 Nachtrag b, committet 08:53, vor dem ersten
+R-Lauf; Q-Läufe liefen bereits, ihre Ergebnisse habe ich vorher nicht angesehen). Der Transformer (EXP-016: F) verhält
+sich wie die ReLU-Vorhersage. Die 2k-Oberwellen des Transformers erklärt diese Rechnung **nicht** (x² würde H = F/2
+begünstigen, nicht 2F); sie bleiben ein eigener Befund (EXP-021).

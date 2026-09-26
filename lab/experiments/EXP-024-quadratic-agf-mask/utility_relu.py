@@ -25,21 +25,26 @@ def utility(M, k, act, n_phase=16):
     return best
 
 
-res = {}
-for act in ("relu",):
-    rows = []
-    for seed in range(10, 20):
-        for arm, suf in (("F", ""), ("G", "_G")):
-            if (seed, arm) == (12, "G"):
-                continue
-            M = us.mask_from_idx(np.load(us.S16 / f"split_seed{seed}_eps2.0{suf}.npy"))
-            T = json.loads((us.S16 / f"split_seed{seed}_eps2.0{suf}.json").read_text())["targets"]
-            H = {us.fold(57 * t) for t in T}
-            U = np.array([utility(M, k, act) for k in range(1, us.K + 1)])
-            top = set(int(k) for k in np.argsort(-U)[:5] + 1)
-            rows.append({"seed": seed, "arm": arm, "top5": sorted(top), "ov_F": len(top & set(T)), "ov_H": len(top & H)})
-            print(act, rows[-1], flush=True)
-    res[act] = {"rows": rows, "ov_F_mean": float(np.mean([r["ov_F"] for r in rows])),
-                "ov_H_mean": float(np.mean([r["ov_H"] for r in rows]))}
-    print(act, res[act]["ov_F_mean"], res[act]["ov_H_mean"])
-(us.HERE / "utility_relu.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
+def main():
+    res = {}
+    for act in ("relu",):
+        rows = []
+        for seed in range(10, 20):
+            for arm, suf in (("F", ""), ("G", "_G")):
+                if (seed, arm) == (12, "G"):
+                    continue
+                M = us.mask_from_idx(np.load(us.S16 / f"split_seed{seed}_eps2.0{suf}.npy"))
+                T = json.loads((us.S16 / f"split_seed{seed}_eps2.0{suf}.json").read_text())["targets"]
+                H = {us.fold(57 * t) for t in T}
+                U = np.array([utility(M, k, act) for k in range(1, us.K + 1)])
+                top = set(int(k) for k in np.argsort(-U)[:5] + 1)
+                rows.append({"seed": seed, "arm": arm, "top5": sorted(top), "ov_F": len(top & set(T)), "ov_H": len(top & H)})
+                print(act, rows[-1], flush=True)
+        res[act] = {"rows": rows, "ov_F_mean": float(np.mean([r["ov_F"] for r in rows])),
+                    "ov_H_mean": float(np.mean([r["ov_H"] for r in rows]))}
+        print(act, res[act]["ov_F_mean"], res[act]["ov_H_mean"])
+    (us.HERE / "utility_relu.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()

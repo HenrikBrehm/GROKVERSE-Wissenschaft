@@ -287,3 +287,9 @@ Exploration: Kombination log E0 + log M0 r̄ 0.284 (M0 0.307, E0 0.375), als Sek
 Beim Test der Änderungen habe ich einen eigenen Fehler gefunden (Namenskonflikt `analyze` im sys.path), behoben, 11/11.
 Alle Änderungen vor jedem Lauf der betroffenen Versuche.
 Baseline Seed 12 fertig 03:35: gen 3525, K {19, 31, 41, 48, 51}. (Seed 11: gen 5975, K {1, 22, 31, 36, 42}.)
+
+**Zyklus 5 (neu, vorbereitet): EXP-017 RFM ohne Zufalls-Init.** Frage: Wählt eine Recursive Feature Machine (keine
+Init-Zufälligkeit) Frequenzen, und sagt M0 sie voraus? Eigene Implementierung (Gauß-Mahalanobis-Kern, AGOP), Jacobi
+gegen finite Differenzen und Frequenzmaß an einer zirkulanten Matrix im Fenster geprüft (2/2). **Nicht ausgeführt**
+(ein Job gleichzeitig; kommt in eine spätere Warteschlange). Vorbedingung vorab: RFM muss generalisieren und
+Frequenzen konzentrieren, sonst nicht auswertbar.

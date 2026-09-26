@@ -3,7 +3,16 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-25, ~22:05 Berlin (Sitzung 3, vom Runner gestartet 19:49Z)._
+_Zuletzt aktualisiert: 2026-09-26, ~02:57 Berlin (Sitzung 4, vom Runner gestartet 00:49Z, Deadline 03:49Z)._
+
+> **LÄUFT (Sitzung 4):** `sh lab/experiments/EXP-010-init-swap/run_pairs.sh` im Hintergrund, Log
+> `lab/runner/logs/pairs_s4.log`. Abwechselnd EXP-003d-Baseline (`raw_d`) und EXP-010 `init_swap`
+> (`EXP-010-init-swap/raw`), Seeds 10→19, je Lauf nur bei ≥ 33 min Restzeit. **Wiederaufnahme:** dasselbe
+> Skript erneut starten. Fertige Läufe überspringt `freq_ban.py`. Ein Lauf mit `status: running` war
+> abgebrochen und muss mit `--force` neu (oder Verzeichnis löschen, nachdem es geprüft wurde).
+> Geprüft in Sitzung 4: `test_freq_ban.py` 8/8, Studientests 24/24, Smoke 300 Schritte (Tausch korrekt,
+> gleicher `split_hash`, `power_before` = Baseline-Spektrum bei 0), 0.127 s/Schritt, `guarded_run.py`
+> funktioniert im Fenster.
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 

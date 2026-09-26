@@ -178,3 +178,23 @@ Arme hinweg, das tut sie jetzt. Der gesamte neue Code bleibt **ungetestet**, bis
 gelernt haben wir, dass die Frequenzwahl teils in der Init angelegt ist (EXP-009). Wir wiederholen
 uns nicht. Der Engpass ist klar das Run-Fenster: Alle kausalen Versuche warten auf die nächste
 Sitzung um ≈ 02:49 Berlin.
+
+
+## 2026-09-26, Sitzung 4 (Runner, 00:49Z–03:49Z, **im Run-Fenster**)
+
+**Start 02:50 Berlin.** Kein STOP, keine laufenden Python-Prozesse. Die uncommitteten Änderungen an
+`lab/runner/*` und `guarded_run.py` stammen vom Nutzer (Regeln 13/14: keine feste Jobgrenze mehr).
+Ich committe sie nicht mit.
+
+**Erste Prüfungen im Fenster (alle über `guarded_run.py`, damit ist auch der Wächter erstmals real getestet):**
+- `test_freq_ban.py`: 8/8 ok (1.8 s)
+- `training/tests/run_all.py`: 24/24 Dateien PASS (110 s)
+- Smoke Seed 10, 300 Schritte, `baseline` und `init_swap` (`EXP-010-init-swap/raw_smoke`): 0.127 s/Schritt.
+  Der `split_hash` ist gleich, `power_before` = Baseline-Spektrum bei Schritt 0 (rtol 1e-5). Bei Schritt 0
+  liegen die Top-5 der Tauschvariante genau auf S = {2, 9, 11, 20, 53}, die der Baseline auf
+  T = {25, 50, 30, 56, 31}. Der Tausch wirkt also wie definiert.
+- Laufzeitschätzung: gen der Transformer-Seeds 0–9 lag bei 5 625–10 275 → ≈ 12–22 min pro Lauf,
+  Obergrenze 15 000 Schritte ≈ 32 min. Daher `--min-minutes 33` pro Lauf.
+
+**Gestartet 02:54:** `run_pairs.sh` (Paare Baseline/Tausch, Seeds 10→19), Log `lab/runner/logs/pairs_s4.log`.
+In dieser Sitzung sind ≈ 4–5 Paare zu erwarten. Der Rest folgt in der nächsten Sitzung im Fenster.

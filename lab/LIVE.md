@@ -1,28 +1,27 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 3
+# LIVE: Laborsitzung 4
 
-- **Sitzungsstart:** 2026-09-25 21:49 Berlin (19:49Z, vom Runner)
-- **Deadline:** 2026-09-25 23:19 Berlin (21:19Z)
-- **Zuletzt aktualisiert:** 22:03 Berlin
-- **Run-Fenster:** geschlossen (00:00–13:00 Berlin). In dieser Sitzung laufen keine Tests und kein Training.
+- **Sitzungsstart:** 2026-09-26 02:49 Berlin (00:49Z, vom Runner)
+- **Deadline:** 2026-09-26 05:49 Berlin (03:49Z)
+- **Zuletzt aktualisiert:** 02:58 Berlin
+- **Run-Fenster:** offen (00:00–13:00 Berlin). Erste Sitzung mit Läufen.
 
 ## Gerade
 
-**Sitzung beendet** (22:03 Berlin).
+**Lauf:** EXP-003d-Baseline Seed 10 (Start 02:54, erwartet ≈ 15 min). Danach automatisch EXP-010 `init_swap` Seed 10, dann Seed 11 usw.
+Nebenher: Vorbereitung EXP-011 (Betrag vs. Phase trennen).
 
 ## Als Nächstes
 
-Nächster geplanter Start: **2026-09-26 02:49 Berlin** (00:49Z, `next_start_utc`), also **im** Run-Fenster.
-Geplant: Tests, dann die EXP-003d-Baselines und EXP-010 `init_swap` Seed für Seed. Siehe [[STATE]].
+Fortschritt alle ~5–10 min prüfen. Nach jedem Paar ein kurzer Blick: Wandert die Frequenzwahl mit dem Tausch?
 
 ## Verlauf dieser Sitzung
 
-- 22:03 Code-Review (statisch): keine kritischen oder schwerwiegenden Befunde. Die Thread-Prüfung in der EXP-002-Auswertung ist ergänzt. Alles committet.
-- 22:02 STATE, JOURNAL, BACKLOG, [[LAB]] und [[NOVEL_DIRECTIONS]] aktualisiert bzw. angelegt.
-- 22:00 Codex-Review ausgewertet: 4 von 6 Befunden übernommen, als Nachtrag b zu [[experiments/EXP-001-freq-ban/README|EXP-001]], vor jedem Lauf. Auswertung für EXP-002 geschrieben.
-- 21:58 [[experiments/EXP-010-init-swap/README|EXP-010]] (Init-Tausch) definiert und Code vorbereitet, ungetestet.
-- 21:55 [[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]] ausgewertet: Das Init-Spektrum von W_E sagt die späteren Top-5 mit voraus (p < 1e-5, seed-spezifisch). Bei der Two-hot-MLP gilt das nur pro Neuron.
-- 21:53 Literaturabgleich: He et al. 2026 ist nah verwandt (Lotterie pro Neuron).
-- 21:50 Stand gelesen. Der Runner hat das Ende von Sitzung 2 korrekt klassifiziert, der Abstand zwischen den Starts beträgt 5 h 07 min.
+- 02:54 Paar-Läufe gestartet (`run_pairs.sh`, Seeds 10→19).
+- 02:53 Smoke 300 Schritte: Tausch korrekt, 0.127 s/Schritt.
+- 02:52 Studientests 24/24 PASS.
+- 02:50 `test_freq_ban.py` 8/8 ok. Der Wächter funktioniert im Fenster.
+
+- 02:50 Stand gelesen, kein STOP, keine Python-Prozesse, Wächter meldet Fenster offen (180 min Sitzungsbudget).

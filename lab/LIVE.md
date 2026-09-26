@@ -5,18 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 21:19 Berlin (19:19Z, vom Runner)
 - **Deadline:** 2026-09-27 00:19 Berlin (22:19Z)
-- **Zuletzt aktualisiert:** 21:38 Berlin (gemessen).
+- **Zuletzt aktualisiert:** 21:39 Berlin (gemessen).
 - **Run-Fenster:** zu. Heute Nacht Läufe erst ab 03:00 (Regel 18). Diese Sitzung: nur Code, Rechnung auf Dateien, Literatur.
 
 ## Gerade
 
-Nächste Frage wählen (Paket B/C, Denkarbeit ohne Läufe).
+Ein Prüfer liest das neue Planungswerkzeug. Ich denke derweil über die nächste Frage nach.
 
 ## Als Nächstes
 
 Ab 03:00 (nächste Sitzung): Wächter-Abnahme, Tests (jetzt auch EXP-052-Selbsttest), Nachtprogramm.
 
 ## Verlauf dieser Sitzung
+
+- 21:39 Neue Nebenfrage: Kann man aus den Gewichten erkennen, auf welcher Teilmenge ein Netz trainiert wurde? Das wird an EXP-052 mitgemessen. Notfallplan steht, falls die Grafikkarte die Abnahme nicht besteht.
 
 - 21:38 Werkzeug für die Stichprobenplanung geschrieben: Nach der Nacht rechnet es aus, wie viele Seeds die Bestätigung braucht. Die Hauptgröße der Bestätigung fehlte in drei Nachtauswertungen.
 - 21:34 Literatur zu Paket B (Lyle et al. 2025, Volltext): Ein vierter Versuchsarm (höhere Lernrate nach dem Wechsel) trennt das dritte Erklärungsmodell ab.

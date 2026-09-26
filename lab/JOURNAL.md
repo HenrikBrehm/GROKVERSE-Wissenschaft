@@ -286,3 +286,4 @@ Exploration: Kombination log E0 + log M0 r̄ 0.284 (M0 0.307, E0 0.375), als Sek
 4. [medium] Split-Datei ungeprüft. **Übernommen:** fail-closed-Prüfung in `freq_ban.py`, Inhalts-Hash in der Auswertung.
 Beim Test der Änderungen habe ich einen eigenen Fehler gefunden (Namenskonflikt `analyze` im sys.path), behoben, 11/11.
 Alle Änderungen vor jedem Lauf der betroffenen Versuche.
+Baseline Seed 12 fertig 03:35: gen 3525, K {19, 31, 41, 48, 51}. (Seed 11: gen 5975, K {1, 22, 31, 36, 42}.)

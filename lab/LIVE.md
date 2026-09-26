@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 02:49 Berlin (00:49Z, vom Runner)
 - **Deadline:** 2026-09-26 05:49 Berlin (03:49Z)
-- **Zuletzt aktualisiert:** 03:28 Berlin
+- **Zuletzt aktualisiert:** 03:35 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin). Erste Sitzung mit Läufen.
 
 ## Gerade
 
-**Lauf:** Baseline Seed 12 (seit 03:27). Warteschlange `queue_s4b.sh`: Baselines 12–17 → [[experiments/EXP-016-engineered-split/README|EXP-016]] (je Seed 2 konstruierte Splits, 2000 Schritte) → Rest.
+**Lauf:** Baseline Seed 13 (seit 03:35). Warteschlange `queue_s4b.sh`: Baselines 12–17 → [[experiments/EXP-016-engineered-split/README|EXP-016]] (je Seed 2 konstruierte Splits, 2000 Schritte) → Rest.
 Codex-Review der Split-Linie ist eingearbeitet (Nachträge vor jedem Lauf).
 
 ## Als Nächstes
@@ -19,6 +19,7 @@ Sobald 8 Baselines fertig sind (10–17): Bestätigung EXP-015 und EXP-012 Phase
 
 ## Verlauf dieser Sitzung
 
+- 03:35 Baseline Seed 12 fertig: gen 3525. Neuer Stand: 3 von 10 frischen Baselines.
 - 03:28 Warteschlange umgestellt: Baselines 12–17, dann EXP-016 (nur Reihenfolge).
 - 03:27 Baseline Seed 11 fertig: gen 5975.
 - 03:26 Codex-Review Split-Linie: 4 Befunde übernommen. Test „fremde Masken“ an den Explorationsdaten: passend 0.31, fremd 0.51, p ≤ 5.5e-4. Der Effekt ist split-spezifisch.

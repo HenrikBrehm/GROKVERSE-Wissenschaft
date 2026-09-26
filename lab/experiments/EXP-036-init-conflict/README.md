@@ -105,7 +105,7 @@ am Ende generell Frequenzen mit großem frühem Wachstum, wäre Test 1 zu libera
 anderen Prädiktor unter derselben Auswahl) da. τ = 20 liegt vor dem in 5/5 alten Seeds gefundenen Fenster (25, 50]; bei
 neuer Init kann das Fenster anders liegen (beschreibend: EXP-036 misst es nicht direkt). Das Haupturteil zu H36 bleibt unberührt.
 
-## Nachtrag e (2026-09-26 17:42 Berlin, nach Codex-Review, **vor jedem EXP-036-Lauf**)
+## Nachtrag e (2026-09-26 17:40 Berlin, commit 73fb530, nach Codex-Review, **vor jedem EXP-036-Lauf**)
 
 Codex (`codex_review_nachtrag_d_2026-09-26.txt`, needs-attention, 2 hoch, 2 mittel). Übernommen:
 1. **(hoch) Die Null von Test 1 bildet die Auswahl nicht nach** (F_new = End-Top-5 minus A; der reine F-Lauf ist bis

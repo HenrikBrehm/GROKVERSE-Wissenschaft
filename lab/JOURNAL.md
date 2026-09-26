@@ -1287,3 +1287,37 @@ und `ablate_foreign.py` (je über `python lab/tools/guarded_run.py -- python …
 **Nächste Aktion:** Im Fenster (ab 00:00): `sh lab/experiments/queue_s10.sh` (EXP-035 → EXP-038 → EXP-036 → EXP-034 → queue_s5).
 **Scheduler:** Aufgabe `GROKVERSE-Lab-Runner` aktiv; nächster Start laut `runner-state.json` 2026-09-26T17:49:44Z = **19:49 Berlin**
 (außerhalb des Fensters: dann nur Denkarbeit; Läufe ab 00:00).
+
+## Sitzung 10 (2026-09-26, Start 17:29 Berlin, Deadline 20:29; Fenster heute bis 18:00)
+
+**Lage beim Start (17:30):** `queue_s9.sh` lief noch aus Sitzung 9 (EXP-035 Seed 30). Um 17:36 lehnte der Wächter den nächsten
+Lauf ab (Sitzungsbudget der alten Sitzung, rc 3), die Queue stoppte sauber. **EXP-035 Seed 30 vollständig** (7 Läufe, Warmup 200):
+nur F → K = [6, 12, 29, 42, 55] (gen 975); Wechsel t = 10, 25 → [19, 23, 36, 41, 47]; t = 50 → [23, 33, 36, 46, 47];
+t = 100 → [6, 19, 29, 34, 47]; t = 150, 250 → [6, 12, 29, 42, 55] = nur F. Beschreibend (kein Urteil, EXP-035 wertet über 3
+Seeds aus): Mit Warmup liegt die Festlegung bei Seed 30 zwischen 100 und 150 statt (25, 50]. Richtung H35.
+
+**Zyklus 1 (17:30–17:35): P36b kalibriert festlegen (EXP-036 Nachtrag d, ohne Training).** Frage: Sind die fremden Frequenzen die,
+die beide Datensätze *vor* der Festlegung anschieben, und ist das enger als das Init-Spektrum? Dafür braucht es Spektren vor
+Schritt 25; `freq_ban.py` speicherte nur alle 250 Schritte. Änderung: `--spectra-at` (reine Protokollierung, Run-ID unverändert,
+commit 3e1144e). Test: Wachstum bis τ = 20, konjunktiver Rang max(Rang_F, Rang_G), Paar als Einheit, Test 1 gegen Zufall
+(Bin(m, 0.25), konservativ, per Monte Carlo geprüft), Test 2 gegen den Init-Rang. Ergebnis: vorab festgelegt (commit a1c2642),
+Selbsttest ok. Eigener Fehler: zwei falsche Erwartungen im Selbsttest (Gleichstände bei wenigen Kandidaten übersehen); Tests
+korrigiert, nicht die Regel.
+
+**Zyklus 2 (17:35–17:41): Codex greift Nachtrag d an** (`codex_review_nachtrag_d_2026-09-26.txt`, needs-attention). (1, hoch) Die
+Gleichverteilungs-Null von Test 1 bildet die Auswahl (End-Top-5 minus A, gemeinsames Präfix) nicht nach. *Übernommen:* Test 1
+nur „nicht selektionsbereinigt“; neuer Test 3 gegen Einarm-Wachstum (F allein, G allein) unter derselben Auswahl, als eigentlicher
+Test von „beide“. (2, hoch) Kein positives Wachstum verlangt, τ = 20 nicht je Paar als „vor der Festlegung“ belegt.
+*Übernommen:* beide Arme müssen wachsen, Paar-Gate „bei t = 25 noch nicht festgelegt“. *Nicht übernommen:* Mindestgröße des
+Wachstums (keine begründbare Schwelle). (3, mittel) Überspringen ohne Spektren, (4, mittel) Smoke prüfte ggf. ein altes
+Artefakt: beide übernommen und im Fenster geprüft (Smoke [0, 5, 10, 20, 30]; fehlender Schritt → Exit 1; vorhandene → Exit 0).
+Commit 73fb530. *Entscheidung:* EXP-036 startet in der Nacht mit Nachträgen a–e. „Gemeinsame Unterstützung“ gilt nur als
+gestützt, wenn Test 1 und Test 3 (7/7 bei m = 7) bestehen. Das ist streng; ein *unklar* ist wahrscheinlich und ehrlich.
+*Zeitkorrektur:* Die Uhrzeiten dieses Abschnitts stammen aus den Commit-Zeiten (3e1144e 17:31:38, a1c2642 17:34:08, 73fb530
+17:40:59); ich hatte zuerst geschätzte, um 1–3 min zu späte Zeiten eingetragen (derselbe Fehler wie in Sitzung 9) und sie korrigiert.
+
+**Zyklus 3 (17:42, ohne Training): Liegt die Festlegung an einer „Lernraten-Uhr“?** Beim Warten nachgerechnet: Mit linearem Warmup
+über 200 Schritte ist Σlr(n) = n²/400 (in lr-Einheiten); Σlr = 25 bei n = 100, Σlr = 50 bei n ≈ 141. Das ist genau die schon
+vorab in EXP-035 (H35, quantitativ sekundär) festgelegte Erwartung (100, 150] für Seed 30, **keine neue Vorhersage**. Seed 30
+trifft sie: t = 100 noch gemischt ([6, 19, 29, 34, 47]), t = 150 = nur F. *Entscheidung:* nichts nachträglich festlegen; das
+Urteil fällt nach den Seeds 31, 32 mit der vorab festgelegten Regel (Nachtrag a).

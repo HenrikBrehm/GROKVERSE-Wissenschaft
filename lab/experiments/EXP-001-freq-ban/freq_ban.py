@@ -68,6 +68,7 @@ EXP_ID = "EXP-001"
 EXP_ID_BY_CONDITION = {"init_swap": "EXP-010", "init_magswap": "EXP-011"}
 SWAP_SALT = 20_011            # init_swap draws S with seed + salt
 RANDOM_SALT = 10_007          # ban_random draws with seed + salt, never the run seed itself
+LR_SCALE_UNTIL = 250          # EXP-039: last step with the scaled lr (on the first train set)
 SPECTRUM_EVERY = 250          # steps between stored W_E power spectra
 PARTIAL_WRITE_EVERY = 500     # steps between partial result.json writes
 STORED_RUN = "txf_add_p113_wd1.0_frac0.3_seed{seed}_arch25k"
@@ -223,6 +224,10 @@ def run(a: argparse.Namespace) -> dict:
         raise SystemExit("--test-file / --switch-split-file need --split-file")
     if a.warmup:                     # EXP-035: linear learning-rate warmup (default 0 = unchanged behaviour)
         run_id += f"_wu{a.warmup}"
+    if a.lr_scale != 1.0:            # EXP-039: lr * c on the first train set for steps <= LR_SCALE_UNTIL (1.0 = off)
+        if a.lr_scale <= 0 or a.warmup:
+            raise SystemExit("--lr-scale needs c > 0 and no --warmup")
+        run_id += f"_lrs{a.lr_scale:g}"
     if a.alternate_every:            # EXP-037: F/G blocks of this many steps before --switch-step (0 = off)
         if a.switch_split_file is None or a.alternate_every < 1 or a.alternate_every >= a.switch_step:
             raise SystemExit("--alternate-every needs --switch-split-file and 1 <= A < --switch-step")
@@ -292,7 +297,7 @@ def run(a: argparse.Namespace) -> dict:
         sys.path.insert(0, str(HERE.parent / "EXP-023-split-value"))
         from split_value import convert
         model = convert(model, a.seed, a.split_value)
-    keep_init = bool(a.warmup or a.reset_at_switch)
+    keep_init = bool(a.warmup or a.reset_at_switch or a.lr_scale != 1.0)
     init_params = [q.detach().clone() for q in model.parameters()] if keep_init else []   # EXP-035/038
     we_idx = next((i for i, q in enumerate(model.parameters()) if q is model.W_E), None) if keep_init else None
     opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay,
@@ -328,7 +333,7 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "spectra_at": sorted(extra_spec),
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "lr_scale_until": LR_SCALE_UNTIL, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "spectra_at": sorted(extra_spec),
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "test_hash": split_hash(data["test_idx"]),
@@ -377,8 +382,12 @@ def run(a: argparse.Namespace) -> dict:
             on_first = switch_idx is None or step <= a.switch_step
             for g in opt.param_groups:
                 g["lr"] = cfg.lr * (min(1.0, step / a.warmup) if on_first else 1.0)
+        if a.lr_scale != 1.0:   # EXP-039: c * lr while on the first train set and step <= LR_SCALE_UNTIL, else full lr
+            on_first = switch_idx is None or step <= a.switch_step
+            for g in opt.param_groups:
+                g["lr"] = cfg.lr * (a.lr_scale if on_first and step <= LR_SCALE_UNTIL else 1.0)
         opt.step()
-        if a.warmup and switch_idx is not None and step == a.switch_step:   # EXP-035 Nachtrag a: displacement at the switch
+        if (a.warmup or a.lr_scale != 1.0) and switch_idx is not None and step == a.switch_step:   # EXP-035 Nachtrag a: displacement at the switch
             with torch.no_grad():
                 d_all = sum(float(((q - q0) ** 2).sum()) for q, q0 in zip(model.parameters(), init_params)) ** 0.5
                 d_we = float((model.W_E - init_params[we_idx]).norm())
@@ -500,6 +509,8 @@ def main() -> None:
                     help="EXP-037: alternate F/G in blocks of this many steps until --switch-step (0 = off)")
     ap.add_argument("--reset-at-switch", choices=("we", "rest"), default=None,
                     help="EXP-038: at --switch-step reset W_E or all other parameters to init (+ their AdamW state)")
+    ap.add_argument("--lr-scale", type=float, default=1.0,
+                    help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
     ap.add_argument("--spectra-at", default="",
                     help="EXP-036 Nachtrag d: extra comma-separated steps with stored W_E spectra (logging only)")
     ap.add_argument("--save-model", action="store_true")

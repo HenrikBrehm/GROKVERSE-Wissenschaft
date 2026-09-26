@@ -3,11 +3,17 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 17:06 Berlin (Sitzung 9 endet 17:49; nächster Start 19:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 17:41 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
+
+- **SITZUNG 10 (17:41):** EXP-035 Seed 30 fertig (7 Läufe), Seed 31 t = 50, 150 laufen von Hand bis ~17:52 (Log
+  `lab/runner/logs/exp035_s10_manual.log`). `queue_s9.sh` ist beendet. EXP-036 hat **Nachtrag d + e** (kalibriertes P36b mit frühen
+  Spektren `--spectra-at`, Smoke vorgeschaltet und von Hand geprüft). **Nächstes Fenster (ab 00:00) unverändert:**
+  `python lab/tools/guarded_run.py --check`, keine Queue aktiv (`ps -ef | grep -E "queue|guarded_run"`), dann
+  `sh lab/experiments/queue_s10.sh` im Hintergrund (EXP-035 Rest überspringt Fertiges → EXP-038 → EXP-036 (+ `analyze_p36b.py`) → EXP-034 → queue_s5).
 
 - **ENDE SITZUNG 9 (17:06) → nächste Sitzung beginnt hier.** Nächster Start 19:49 Berlin = **außerhalb des Fensters** (heute bis
   18:00, ab 27.09. 00:00–13:00): bis 00:00 nur Denk-/Sucharbeit. **Im Fenster ein Befehl:** `python lab/tools/guarded_run.py --check`,

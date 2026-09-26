@@ -397,3 +397,15 @@ modular arithmetic where are Fourier features stored“):** arXiv 2609.18078 (Ko
 Beschleunigung vs. Stabilität, laut Abstract keine Frequenzmessung), arXiv 2505.15624 (Rolle des Embeddings beim Grokking,
 seltene Tokens, kein Rücksetzen), He et al. 2026 (Init-Lotterie). Teil-Resets sind aus RL bekannt (Primacy Bias, Resets der
 letzten Schichten); nicht gefunden (vorläufig): Lokalisierung der Frequenzwahl durch Teil-Rücksetzen nach einem Datenwechsel.
+
+## N17: Festlegung der Frequenzwahl auf einer „Lernraten-Uhr“ (aufsummierte Lernrate statt Schrittzahl) #neu/kandidat
+
+- **Beobachtung (Sitzung 10, beschreibend, ein Seed):** EXP-035 Seed 30 mit Warmup: Festlegung in (100, 150], vorab aus
+  Λ(n) = n(n+1)/400 ∈ (25, 50] erwartet (ohne Warmup (25, 50] in 5/5 Seeds, EXP-020). Frage: Hängt der Zeitpunkt allgemein an
+  Λ = Σ lr (unabhängig von der Form des Plans)? Test mit gleichmäßiger Skalierung: [[experiments/EXP-039-lr-clock/README|EXP-039]].
+- **Suche 2026-09-26 17:44:** siehe EXP-039-README. Nächstverwandt He et al. 2026 (https://arxiv.org/abs/2602.16849,
+  Frequenz-Lotterie über Init-Spektrum und Phasenausrichtung, auch relevant für N15/EXP-036), Tan et al. 2026
+  (https://arxiv.org/abs/2606.05863, zwei Uhren im Grokking), Achille et al. 2019. **Nicht gefunden** (vorläufig).
+- **Nachtrag zu N15 (Sitzung 10):** He et al. 2026 beschreiben (laut Abstract) im zweischichtigen Netz, dass Init-Betrag und
+  Phasenausrichtung den Frequenzwettbewerb entscheiden. Das stützt die Init-Deutung von N15 als plausible Vorannahme; EXP-036
+  prüft sie im Transformer unter Datenkonflikt, was dort nicht behandelt wird.

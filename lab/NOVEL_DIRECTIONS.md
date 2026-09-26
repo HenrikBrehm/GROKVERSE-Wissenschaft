@@ -141,5 +141,6 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   blockzirkulante Merkmale; welche Frequenzen und warum, wird laut WebFetch **nicht** analysiert. Mehrere Arbeiten halten
   den Datensplit über Seeds fest (dann kann der Split-Effekt gar nicht auftauchen). **Einordnung unverändert:** nicht
   gefunden, vorläufig.
+- **Stand 2026-09-26 04:53:** EXP-015 an frischen Seeds 10–17 **bestätigt** (r̄ 0.277, fremde Masken 0.499, p_perm 5e-5); EXP-012 bestätigt (erster Gradient > Init). Kausale Tests EXP-016 (läuft) und EXP-014 stehen aus.
 - **Idee (N3b):** In RFM gibt es keine zufällige Init; eine Frequenzauswahl dort müsste vollständig aus dem Split kommen.
   M0 sollte sie dann vorhersagen. Billiger Zusatztest außerhalb der Netze.

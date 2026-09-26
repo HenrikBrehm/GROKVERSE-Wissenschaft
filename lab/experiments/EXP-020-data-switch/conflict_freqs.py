@@ -45,17 +45,17 @@ def top(pw: np.ndarray) -> set[int]:
     return {k for k, r in ranks(pw).items() if r <= M}
 
 
-def run_name(init: int, s: int, arm: str, t: int | None) -> str:
+def run_name(init: int, s: int, arm: str, t: int | None, suffix: str = "") -> str:
     if t is None:
-        return f"EXP-018_baseline_seed{init}_thr4_seed{s}_train_{arm}"
-    return f"EXP-020_baseline_seed{init}_thr4_seed{s}_train_F_to_seed{s}_train_G_at{t}"
+        return f"EXP-018_baseline_seed{init}_thr4_seed{s}_train_{arm}{suffix}"
+    return f"EXP-020_baseline_seed{init}_thr4_seed{s}_train_F_to_seed{s}_train_G_at{t}{suffix}"
 
 
 def load_run(root: Path, init: int, s: int, arm: str, t: int | None, max_steps: int | None,
-             steps: tuple[int, ...]) -> tuple[dict | None, str | None]:
+             steps: tuple[int, ...], suffix: str = "") -> tuple[dict | None, str | None]:
     """Fail-closed loader. arm 'F'/'G' for pure runs (t None), 'FG' for a switch at t. Returns
     {'spec': {step: power}, 'init_checksum': str, 'test_acc': float} or (None, reason)."""
-    name = run_name(init, s, arm if t is None else "F", t)
+    name = run_name(init, s, arm if t is None else "F", t, suffix)
     d = root / name
     try:
         res = json.loads((d / "result.json").read_text(encoding="utf-8"))
@@ -88,7 +88,7 @@ def load_run(root: Path, init: int, s: int, arm: str, t: int | None, max_steps: 
             return None, f"{name}: non-finite spectrum at {st}"
         out[st] = pw
     return {"spec": out, "init_checksum": res.get("init_checksum_shared"),
-            "test_acc": res.get("final_acc", {}).get("test")}, None
+            "test_acc": res.get("final_acc", {}).get("test"), "result": res}, None
 
 
 def foreign_sets(root: Path, init: int, s: int, ts: tuple[int, ...], pure_f_max: int | None

@@ -223,6 +223,10 @@ def run(a: argparse.Namespace) -> dict:
         raise SystemExit("--test-file / --switch-split-file need --split-file")
     if a.warmup:                     # EXP-035: linear learning-rate warmup (default 0 = unchanged behaviour)
         run_id += f"_wu{a.warmup}"
+    if a.alternate_every:            # EXP-037: F/G blocks of this many steps before --switch-step (0 = off)
+        if a.switch_split_file is None or a.alternate_every < 1 or a.alternate_every >= a.switch_step:
+            raise SystemExit("--alternate-every needs --switch-split-file and 1 <= A < --switch-step")
+        run_id += f"_alt{a.alternate_every}"
     if a.split_value:                # EXP-023: position 1 gets its own attention value matrix
         exp_id = "EXP-023"
         run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_sv{a.split_value}"
@@ -311,7 +315,7 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup,
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "alternate_every": a.alternate_every,
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "test_hash": split_hash(data["test_idx"]),
@@ -402,6 +406,11 @@ def run(a: argparse.Namespace) -> dict:
                                    for k, v in sub.items() if len(v)},
                                 **{f"n_{k}": int(len(v)) for k, v in sub.items()}}
             trx, try_ = data["all_x"][switch_idx], data["all_y"][switch_idx]
+        elif a.alternate_every and step < a.switch_step and step % a.alternate_every == 0:
+            # EXP-037: block k = steps (k-1)A+1 .. kA trains on F for odd k, on G for even k
+            nxt = switch_idx if (step // a.alternate_every) % 2 == 1 else data["train_idx"]
+            trx, try_ = data["all_x"][nxt], data["all_y"][nxt]
+            events["alternations"] = events.get("alternations", 0) + 1
         dense_eval(step)
         if step % SPECTRUM_EVERY == 0:
             spectrum(step)
@@ -453,6 +462,8 @@ def main() -> None:
                     help="EXP-023: position 1 gets its own attention value matrix W_V1 (rand: separate generator, "
                          "copy: copy of W_V, untied afterwards)")
     ap.add_argument("--warmup", type=int, default=0, help="EXP-035: linear lr warmup over this many steps (0 = off)")
+    ap.add_argument("--alternate-every", type=int, default=0,
+                    help="EXP-037: alternate F/G in blocks of this many steps until --switch-step (0 = off)")
     ap.add_argument("--save-model", action="store_true")
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args()

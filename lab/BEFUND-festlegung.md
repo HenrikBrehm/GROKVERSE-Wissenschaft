@@ -13,9 +13,10 @@ Spekulation sind getrennt markiert. „Neu“ heißt immer: nach unserer Suche v
 ## Beobachtet (Messungen)
 
 - **Frühe Festlegung im Transformer** ([[experiments/EXP-020-data-switch/README|EXP-020]], 5 Seeds): Wird nach t Schritten von
-  Split F auf Split G gewechselt (danach 2000 Schritte G), endet das Netz ab t ∈ (25, 50] auf den F-Frequenzen (5/5 Seeds,
-  beschreibend; das vorab festgelegte Urteil war *nicht bestätigt*, 4/5, wegen einer Oberwelle in Seed 33). Das liegt vor der
-  Memorisierung und weit vor dem Grokking.
+  Split F auf Split G gewechselt (danach 2000 Schritte G), wird das Dominanzmaß d = (Anzahl F-Ziele) − (Anzahl G-Ziele) in den End-Top-5
+  zwischen t = 25 und t = 50 positiv (5/5 Seeds, beschreibend; das vorab festgelegte Urteil war *nicht bestätigt*, 4/5, wegen einer
+  Oberwelle in Seed 33). Bei t = 50 ist d nur +1 bis +3, die Endzustände sind dort noch **gemischt** (G- und fremde Frequenzen);
+  exakt gleich wie „nur F“ ist K erst ab t = 150. Der Vorzeichenwechsel liegt vor der Memorisierung und weit vor dem Grokking.
 - **Nach der Festlegung** wachsen unter G-Daten die F-Frequenzen weiter wie unter F, die G-Ziele schrumpfen (5/5, post hoc,
   JOURNAL Sitzung 10 Zyklus 20).
 - **Warmup verschiebt die Festlegung** ([[experiments/EXP-035-warmup-lockin/README|EXP-035]], bisher Seed 30 vollständig, Seed 31
@@ -24,8 +25,10 @@ Spekulation sind getrennt markiert. „Neu“ heißt immer: nach unserer Suche v
   ([[experiments/EXP-037-alternation-conflict/README|EXP-037]], nur an den 3 explorierten Seeds).
 - **Adam-Strecke:** ‖ΔW_E‖ ≈ 0.11 · Λ (Λ = aufsummierte Lernrate in lr-Einheiten) bis Λ ≈ 60 (post hoc, Sitzung 10).
 - **Anderes Modell, gleiche Richtung:** Mit Aktivierungswechsel legt ein Netz seine Neigung schon in ≤ 20 Schritten fest
-  ([[experiments/EXP-032-early-lockin/README|EXP-032]]), und das hängt am erreichten Amplitudenzustand, nicht am Optimierer
-  ([[experiments/EXP-033-optimizer-lockin/README|EXP-033]], *zustandsbestimmt*).
+  ([[experiments/EXP-032-early-lockin/README|EXP-032]]). In [[experiments/EXP-033-optimizer-lockin/README|EXP-033]] erzeugte reiner
+  Gradientenabstieg in der frühen Phase bei angeglichener Amplitude ebenfalls eine bleibende, gleichgerichtete Neigung; AdamW ist in
+  Phase 1 also **nicht nötig**. Nicht gezeigt ist dort, dass der erreichte Zustand allein entscheidet (die Zustände am Umschaltpunkt
+  unterschieden sich, Phase 2 lief immer mit AdamW); das Etikett *zustandsbestimmt* wurde dort selbst eingeschränkt.
 
 ## Einschränkungen (wichtig)
 
@@ -48,17 +51,24 @@ Spekulation sind getrennt markiert. „Neu“ heißt immer: nach unserer Suche v
 
 Die Urteile der einzelnen Versuche bleiben wie in deren READMEs festgelegt; hier steht nur, was eine **Kombination** für die
 Gesamtaussage bedeuten soll, damit sie nicht nachträglich zurechtgelegt wird.
-1. **EXP-041 P41a *nicht gezeigt*** (E → R kippt auf R): Die Festlegung aus EXP-020 gilt nur für Teilwechsel (≈ 27 % neue Paare). Alle
-   Uhr-Aussagen (EXP-035/039/040/042) werden dann ausdrücklich als Aussagen über den Teilwechsel formuliert.
-2. **P41a *geprägt*:** Die Festlegung überlebt einen fast vollständigen Datenwechsel; die Uhr-Versuche sprechen über eine allgemeine
-   Eigenschaft des Trainings in diesem Aufbau.
+1. **Unabhängig von EXP-041** gelten die Uhr-Aussagen (EXP-035/039/040/042) nur für ihr eigenes Protokoll (Teilwechsel F → G,
+   ≈ 27 % neue Paare).
+2. **EXP-041 P41a** beschreibt nur, ob die 150-Schritte-Prägung durch E den Wechsel auf R (≈ 63 % neue Paare) unter dem Top-5-Maß
+   überdauert: *geprägt* = ja (für diesen Eingriff); *nicht gezeigt* heißt **nicht** „kippt auf R“ (es umfasst auch gemischte Ausgänge
+   wie 8/10); ein Überschreiben wäre nur aus den Einzelwerten d < 0 beschreibend abzulesen.
 3. **EXP-039 *Λ* und EXP-040 *H40-Muster*:** gemeinsame Lesart „Amplitudenschwelle unter Adam“ (N18); nur Assoziation, kein Mechanismus.
    **EXP-039 *Λ*, EXP-040 *unverändert*:** Optimierer-Uhr ohne Init-Bezug (oder Schwelle mit exponentiellem Wachstum, EXP-040 Einordnung).
    **EXP-039 *Schritt*:** Uhr in Schritten (z. B. Adams Momenten-Horizont); H40 in linearer Fassung dann unwahrscheinlich.
-4. **EXP-042 *später*:** Der Zeitpunkt hängt auch vom zweiten Split ab; eine reine Uhr (egal welche) reicht dann nicht. Zusammen mit
-   3. hieße das: Schwelle *und* Gegenkraft (H40 + H42). **EXP-042 *gleich*:** keine Verschiebung bei dieser Gitterauflösung.
+4. **EXP-042 *später*:** Der Zeitpunkt hängt auch vom zweiten Split ab (Neigung und Überlappung nicht getrennt); eine reine,
+   vom zweiten Split unabhängige Uhr reicht dann nicht. Zusammen mit 3. hieße das höchstens: eine mit H40 assoziierte Schwelle **plus**
+   eine noch nicht identifizierte Abhängigkeit vom zweiten Split; den Mechanismus „Vorsprung gegen Neigung“ (H42) belegt das nicht.
+   **EXP-042 *gleich*:** keine Verschiebung bei dieser Gitterauflösung.
 5. Jede Kombination mit *unklar* wird als *unklar* berichtet, nicht durch die anderen Versuche „aufgefüllt“.
 6. Kein Versuch erlaubt eine Aussage über andere Architekturen oder Aufgaben.
+
+*Korrektur (18:59, nach Codex `codex_befund_festlegung_review_2026-09-26.txt`, vor allen betroffenen Läufen):* EXP-020-Kern
+präzisiert (d > 0, nicht „F-Frequenzen“), EXP-033 richtig wiedergegeben, Lesart 1/2 und 4 auf die Urteilskategorien der Versuche
+zurückgeführt.
 
 ## Nächstverwandte Literatur
 

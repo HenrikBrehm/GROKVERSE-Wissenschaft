@@ -1539,3 +1539,10 @@ Unterdrückung). Nicht festgelegt, kein Lauf.
 **Zyklus 24 (18:56, ohne Training): Literatur zur „Adam-Verdrängung“.** Allgemeiner Mechanismus bekannt (https://arxiv.org/abs/2608.15824):
 große Gradienten bleiben im zweiten Moment und dämpfen spätere Updates. Einordnung: Erklärungskandidat = Anwendung eines bekannten
 Effekts (#neu/bekannt), die Beobachtung (G-Unterdrückung nach Datenwechsel) bleibt beschreibend und ungeklärt.
+
+**Zyklus 25 (19:00): Codex prüft [[BEFUND-festlegung]]** (`lab/codex_befund_festlegung_review_2026-09-26.txt`, needs-attention, 2 × hoch,
+2 × mittel). Alle übernommen: (1) EXP-033 hatte ich zu stark gelesen („zustandsbestimmt“ ist dort selbst eingeschränkt: nur „AdamW in
+Phase 1 nicht nötig“); (2) Lesart für EXP-041 auf dessen Urteilskategorien zurückgeführt (*nicht gezeigt* ≠ „kippt“), Uhr-Aussagen
+bleiben in jedem Fall auf den Teilwechsel beschränkt; (3) EXP-020-Kern präzisiert: d wird in (25, 50] positiv, die Endzustände sind
+dort noch gemischt, exakt „nur F“ erst ab t = 150 (auch in der Lage von [[LAB]] korrigiert); (4) EXP-042 *später* belegt H42 nicht.
+Lehre: Eine Synthese ist die Stelle, an der sich Überaussagen einschleichen; sie braucht dieselbe Prüfung wie ein Versuch.

@@ -1,0 +1,169 @@
+{
+ "summary": {
+  "n_missed": 14,
+  "mean_E0_nonrank": 0.6371428571428571,
+  "mean_G0_nonrank": 0.5171428571428571,
+  "p_E0": 0.961975,
+  "p_G0": 0.585985,
+  "E0_top10_of_51": 1,
+  "G0_top10_of_51": 3
+ },
+ "rows": [
+  {
+   "seed": 10,
+   "arm": "F",
+   "missed": [
+    32
+   ],
+   "E0_nonrank": [
+    0.94
+   ],
+   "G0_nonrank": [
+    0.84
+   ]
+  },
+  {
+   "seed": 10,
+   "arm": "G",
+   "missed": [
+    11
+   ],
+   "E0_nonrank": [
+    0.74
+   ],
+   "G0_nonrank": [
+    0.62
+   ]
+  },
+  {
+   "seed": 11,
+   "arm": "F",
+   "missed": [
+    10
+   ],
+   "E0_nonrank": [
+    0.08
+   ],
+   "G0_nonrank": [
+    0.48
+   ]
+  },
+  {
+   "seed": 11,
+   "arm": "G",
+   "missed": [
+    38,
+    55
+   ],
+   "E0_nonrank": [
+    0.96,
+    0.4
+   ],
+   "G0_nonrank": [
+    0.18,
+    0.94
+   ]
+  },
+  {
+   "seed": 12,
+   "arm": "F",
+   "missed": [
+    12
+   ],
+   "E0_nonrank": [
+    0.78
+   ],
+   "G0_nonrank": [
+    0.1
+   ]
+  },
+  {
+   "seed": 12,
+   "arm": "G",
+   "missed": [
+    7,
+    10
+   ],
+   "E0_nonrank": [
+    0.78,
+    0.72
+   ],
+   "G0_nonrank": [
+    0.56,
+    0.88
+   ]
+  },
+  {
+   "seed": 13,
+   "arm": "F",
+   "missed": [
+    29
+   ],
+   "E0_nonrank": [
+    0.94
+   ],
+   "G0_nonrank": [
+    0.22
+   ]
+  },
+  {
+   "seed": 13,
+   "arm": "G",
+   "missed": [
+    7,
+    18
+   ],
+   "E0_nonrank": [
+    0.32,
+    0.28
+   ],
+   "G0_nonrank": [
+    0.9,
+    0.58
+   ]
+  },
+  {
+   "seed": 14,
+   "arm": "F",
+   "missed": [],
+   "E0_nonrank": [],
+   "G0_nonrank": []
+  },
+  {
+   "seed": 14,
+   "arm": "G",
+   "missed": [
+    28,
+    44
+   ],
+   "E0_nonrank": [
+    0.8,
+    0.98
+   ],
+   "G0_nonrank": [
+    0.14,
+    0.5
+   ]
+  },
+  {
+   "seed": 15,
+   "arm": "F",
+   "missed": [],
+   "E0_nonrank": [],
+   "G0_nonrank": []
+  },
+  {
+   "seed": 15,
+   "arm": "G",
+   "missed": [
+    16
+   ],
+   "E0_nonrank": [
+    0.2
+   ],
+   "G0_nonrank": [
+    0.3
+   ]
+  }
+ ]
+}

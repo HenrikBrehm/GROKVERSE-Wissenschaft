@@ -448,3 +448,21 @@ F > G in 5 von 5 ungebundenen Seeds). Die Konstruktion ist symmetrisch (G aus de
 Stärke 0.185–0.199), also vermutlich Zufall. **Vorab festgelegte Prüfung an Seeds 16–19** (noch nicht gelaufen): Ist
 F > G in ≥ 3 von 4, wird die Asymmetrie untersucht (z. B. Salz-Abhängigkeit der Stichprobe); sonst als Zufall
 abgelegt. Keine Auswirkung auf die Primärgröße Δ, die F und G symmetrisch behandelt.
+
+**Zyklus 8 (06:25–06:31, post hoc): Woher kommen die Fehlgriffe?** (a) Init (`posthoc_init_misses.py`): Die 14
+Nicht-Ziel-Frequenzen liegen im Init-Spektrum E0 **nicht** vorn (mittlerer Rang unter den Nicht-Zielen 0.64, Zufall 0.5)
+und im ersten Gradienten auf dem konstruierten Split auch nicht (0.52). Hypothese „Init“ widerlegt.
+(b) Beim Durchsehen aufgefallen (also post hoc): **alle 14 sind zweite Harmonische fold(2k) einer Zielfrequenz desselben
+Arms** (`posthoc_harmonics.py`; Zufall 1.4, p 7.6e-15; Kontrolle mit den Zielen des anderen Arms 0; 3k auf
+Zufallsniveau). (c) Auch unter Zufallssplits (`posthoc_harmonics_baseline.py`, Seeds 0–17): W_E-Top-5 enthält im Mittel
+0.89 Paare (k, 2k), Zufall 0.37, p 0.0005; Nachbarn k+1 und 3k etwa Zufall. (d) Die funktionalen Schlüsselfrequenzen der
+Studie (Ablation, Seeds 0–9, `posthoc_harmonics_functional.py`) zeigen **keine** Anreicherung (0.30 gegen 0.36, p 0.73);
+Beispiel Seed 1: W_E-Top-5 {9, 16, 17, 30, 32} mit 32 = 2·16, funktional {9, 16, 17, 30}.
+**Befund (explorativ):** Die 2k-Frequenzen in der W_E-Top-5 sind sehr wahrscheinlich Oberwellen einer nicht-sinusförmigen
+Embedding-Wellenform (passt zur Wellenform-Verschiebung der Studie), keine eigenständig genutzten Frequenzen. Folgen:
+(1) Die Steuerung in EXP-016 ist wohl vollständiger als Δ zeigt: Fast alle Nicht-Ziel-Frequenzen sind Oberwellen der
+Ziele. (2) Alle K-Maße auf Basis der W_E-Top-5 (EXP-009/012/015/016) sind durch Oberwellen verunreinigt; die
+Primärgrößen bleiben, aber eine oberwellen-bereinigte K_h wird als Sekundärgröße eingeführt (EXP-016 Nachtrag b, vor
+Seeds 16–19). Literatur-Kurzsuche („grokking key frequencies harmonics 2k“, „frequency pairs k and 2k second harmonic“):
+nichts Direktes gefunden; „The Order Is The Message“ (arXiv 2603.25047) handelt von Harmonischen durch Beispielreihenfolge,
+anderes Setup.

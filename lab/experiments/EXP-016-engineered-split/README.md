@@ -67,3 +67,17 @@ Codex, geprüft und **übernommen**:
    Auswertung vergleicht den `split_hash` des Laufs mit dem Inhalt der .npy statt nur mit dem Dateinamen.
 Budget neu: 20 Läufe × 2000 Schritte × 0.13 s ≈ 4.5 min, zusammen ≈ 90 min.
 Befehl: `freq_ban.py --seed I --condition baseline --steps 2000 --split-file lab/experiments/EXP-016-engineered-split/splits/split_seed{I}_eps2.0{,_G}.npy --out-root lab/experiments/EXP-016-engineered-split/raw`
+
+## Nachtrag b (2026-09-26 06:31 Berlin, Sitzung 5; nach 6 von 10 Seeds, **Primärgröße unverändert**)
+
+Post hoc an Seeds 10–15 (Idee nach Sicht der Daten, daher nur explorativ): Alle 14 gelernten Nicht-Ziel-Frequenzen sind
+**zweite Harmonische** fold(2k) = min(2k mod 113, 113 − 2k mod 113) einer Zielfrequenz k desselben Arms (Zufall 1.4 von
+14, p 7.6e-15; Harmonische der Ziele des anderen Arms 0 von 14; dritte Harmonische auf Zufallsniveau).
+Die Masken und die Init erklären sie nicht (`posthoc_m0c.py`, `posthoc_init_misses.py`). Auch unter Zufallssplits enthält
+die W_E-Top-5 mehr (k, 2k)-Paare als Zufall (0.89 gegen 0.37 je Menge, 18 Seeds), die **funktionalen**
+Schlüsselfrequenzen der Studie aber nicht (0.30 gegen 0.36). Deutung: 2k ist eine Oberwelle einer nicht-sinusförmigen
+Embedding-Wellenform, keine eigenständig genutzte Frequenz (`posthoc_harmonics*.py`).
+**Zusätzliche Sekundärgröße, vorab für Seeds 16–19 festgelegt:** K_h = die 5 stärksten W_E-Frequenzen bei Schritt 2000,
+nachdem jede Frequenz entfernt wurde, die fold(2k) einer **stärkeren** Frequenz k ist (iterativ von oben). Berichtet
+werden Δ_h analog zu Δ und der Anteil der Nicht-Ziel-Frequenzen in K, die Harmonische eines Ziels sind
+(Vorhersage: > 50 % an Seeds 16–19). Außerdem die F-gegen-G-Asymmetrie (JOURNAL Zyklus 7).

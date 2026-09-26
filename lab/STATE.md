@@ -3,12 +3,15 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 09:46 Berlin (Sitzung 7, vom Runner gestartet 06:59Z, Deadline 09:59Z = 11:59 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 09:59 Berlin (Sitzung 7, vom Runner gestartet 06:59Z, Deadline 09:59Z = 11:59 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **Sitzung 7, 09:59, neue Befunde (ohne Training, vorab festgelegt):** EXP-029 *teilweise* (W_E ist in der Memorisierungsphase
+  spezifisch mit der eigenen Maske ausgerichtet, 10/10; Abbau bis gen + 25 nur 8/10), EXP-030 *Rest gestützt* (M0 → K läuft
+  über W_E bei Schritt 250). EXP-028 vorbereitet (wartet auf EXP-020-Läufe). N13 nach Codex korrigiert.
 - **Sitzung 7, 09:46:** EXP-024 **abgeschlossen** (Q richtungsgleich n. s., R bestätigt aber memorierend). Läuft:
   `sh lab/experiments/queue_s7.sh` (Log `lab/runner/logs/queue_s7.log`): EXP-026-Smoke (ok) → EXP-026 (30 Läufe, seit 09:44,
   **Umschaltdesign nach Codex, Nachtrag a**, commit 53450e1) → EXP-027 (in EXP-026/queue.sh verkettet) → EXP-025 → `queue_s5.sh`. Alles überspringt Fertiges;

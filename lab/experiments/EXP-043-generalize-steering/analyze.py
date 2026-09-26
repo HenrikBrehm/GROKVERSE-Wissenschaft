@@ -21,6 +21,8 @@ LAB = HERE.parents[1]
 sys.path.insert(0, str(LAB.parent / "training"))
 sys.path.insert(0, str(HERE))
 from grokverse.data import split_hash  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
+from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
 from make_split import group  # noqa: E402
 
 TASKS = (("add", 97), ("mul", 113))
@@ -73,23 +75,13 @@ def row(task: str, p: int, s: int) -> dict:
     for arm in "FG":
         stem = f"split_{task}{p}_seed{s}_eps2.0_{arm}"
         T[arm] = set(json.loads((HERE / f"splits/{stem}.json").read_text(encoding="utf-8"))["targets"])
-        d = run_dir(task, p, s, arm)
-        if d is None:
-            r["reason"] = f"arm {arm}: missing, ambiguous or not completed run dir"
+        L = load_run(find_run(HERE / "raw", f"EXP-043_baseline_seed{s}_thr*_{stem}_*"),
+                     Expect(seed=s, device="cuda", max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
+                            config={"p": p, "task": task}, snapshots_at=(STEP,)))
+        if L.status != "ok":
+            r["reason"] = f"arm {arm}: {L.status}: {L.reason}"
             return r
-        res = json.loads((d / "result.json").read_text(encoding="utf-8"))
-        cfg = res["config"]
-        if (res["status"] != "completed" or res["steps_completed"] < STEP or res["seed"] != s
-                or cfg["p"] != p or cfg["task"] != task or res.get("device") != "cuda"):
-            r["reason"] = f"arm {arm}: status/steps/seed/task/device"
-            return r
-        if res["split_hash"] != split_hash(np.load(HERE / f"splits/{stem}.npy")):
-            r["reason"] = f"arm {arm}: split content hash mismatch"
-            return r
-        W = snapshot(d, STEP)
-        if W is None:
-            r["reason"] = f"arm {arm}: no W_E snapshot at {STEP}"
-            return r
+        d, res, W = L.path, L.res, L.snapshot(STEP)
         pw, nyq = group_power(W, task, p)
         K[arm] = top(pw)
         extra[arm] = {"gen": res["events"].get("generalization_step"), "test_acc": res["final_acc"]["test"],
@@ -104,9 +96,12 @@ def row(task: str, p: int, s: int) -> dict:
               "n_nontarget": len(nontarget),
               "n_nontarget_harmonic": sum(any(fold(2 * t, n) == k for t in T[arm]) for arm, k in nontarget),
               "arms": extra})
-    d = run_dir(task, p, s, "R", eps="0.0")                # secondary: random split (eps 0) against both target sets
-    if d is not None and (W := snapshot(d, STEP)) is not None:
-        kr = top(group_power(W, task, p)[0])
+    stem_r = f"split_{task}{p}_seed{s}_eps0.0_R"         # secondary: random split (eps 0), same checks as F/G (Astra 16)
+    L = load_run(find_run(HERE / "raw", f"EXP-043_baseline_seed{s}_thr*_{stem_r}_*"),
+                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=HERE / f"splits/{stem_r}.npy",
+                        config={"p": p, "task": task}, snapshots_at=(STEP,)))
+    if L.status == "ok":
+        kr = top(group_power(L.snapshot(STEP), task, p)[0])
         r["ov_random_F"], r["ov_random_G"] = len(kr & T["F"]), len(kr & T["G"])
     return r
 

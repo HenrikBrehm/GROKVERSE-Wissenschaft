@@ -20,6 +20,8 @@ HERE = Path(__file__).resolve().parent
 LAB = HERE.parents[1]
 sys.path.insert(0, str(LAB.parent / "training"))
 from grokverse.data import split_hash  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
+from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
 
 _spec = importlib.util.spec_from_file_location("exp043_analyze", LAB / "experiments/EXP-043-generalize-steering/analyze.py")
 _a43 = importlib.util.module_from_spec(_spec)
@@ -41,18 +43,19 @@ def find(task: str, p: int, s: int, kind: str) -> Path | None:
     return hits[0] if len(hits) == 1 else None
 
 
-def final_K(d: Path, task: str, p: int) -> tuple[set[int] | None, dict]:
-    if not (d / "result.json").exists() or not (d / "we_snapshot_steps.npy").exists():   # Codex s12: invalid, no crash
-        return None, {}
-    res = json.loads((d / "result.json").read_text(encoding="utf-8"))
-    steps = np.load(d / "we_snapshot_steps.npy").tolist()
-    last = res["steps_completed"]
-    if res["status"] != "completed" or res.get("device") != "cuda" or last not in steps:
-        return None, res
-    W = np.load(d / "we_snapshots.npy")[steps.index(last)].astype(np.float64)
-    if not np.isfinite(W).all():                        # s13: a diverged (NaN) run is invalid, not a silent K
-        return None, res
-    return top(group_power(W, task, p)[0]), res
+def final_K(d: Path | None, task: str, p: int, s: int, kind: str) -> tuple[set[int] | None, dict, str]:
+    """Astra 16: shared loader; checks seed, device, the exact budget (2000, or t + 2000 for a switch at t), train/test/switch
+    hashes, task/p and a finite W_E snapshot at the final step."""
+    st = HERE / f"splits/{task}{p}_seed{s}"
+    switch = kind not in ("F", "G")
+    budget = int(kind) + 2000 if switch else 2000
+    first = "G" if kind == "G" else "F"
+    L = load_run(d, Expect(seed=s, device="cuda", max_steps=budget, split_file=f"{st}_train_{first}.npy",
+                           test_file=f"{st}_test.npy", switch_file=f"{st}_train_G.npy" if switch else None,
+                           config={"p": p, "task": task}, snapshots_at=(budget,)))
+    if L.status != "ok":
+        return None, L.res, f"{L.status}: {L.reason}"
+    return top(group_power(L.snapshot(budget), task, p)[0]), L.res, ""
 
 
 def row(task: str, p: int, s: int) -> dict:
@@ -63,15 +66,9 @@ def row(task: str, p: int, s: int) -> dict:
     r: dict = {"seed": s, "valid": False, "F": sorted(F), "G": sorted(G)}
     d_of, extra = {}, {}
     for kind in ("F", "G") + tuple(str(t) for t in SWITCH):
-        dd = find(task, p, s, kind)
-        if dd is None:
-            r["reason"] = f"{kind}: missing/ambiguous"
-            return r
-        K, res = final_K(dd, task, p)
-        first = "G" if kind == "G" else "F"
-        if (K is None or res["split_hash"] != hashes[first] or res.get("test_hash") != test_hash
-                or res["config"]["task"] != task or res["config"]["p"] != p):
-            r["reason"] = f"{kind}: not completed / not cuda / no final snapshot / hash"
+        K, res, why = final_K(find(task, p, s, kind), task, p, s, kind)
+        if K is None:
+            r["reason"] = f"{kind}: {why}"
             return r
         if kind not in ("F", "G") and (res.get("switch_hash") != hashes["G"] or res["switch_step"] != int(kind)):
             r["reason"] = f"{kind}: switch hash/step"

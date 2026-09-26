@@ -17,6 +17,8 @@ HERE = Path(__file__).resolve().parent
 LAB = HERE.parents[1]
 sys.path.insert(0, str(LAB.parent / "training"))
 from grokverse.data import split_hash  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
+from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
 
 _spec = importlib.util.spec_from_file_location("exp043_analyze", LAB / "experiments/EXP-043-generalize-steering/analyze.py")
 _a43 = importlib.util.module_from_spec(_spec)
@@ -42,16 +44,14 @@ def row(s: int) -> dict:
     for arm in "FG":
         stem = f"split_add113_seed{s}_eps2.0_{arm}"
         T[arm] = set(json.loads((HERE / f"splits/{stem}.json").read_text(encoding="utf-8"))["targets"])
-        hits = sorted((HERE / "raw").glob(f"EXP-045_baseline_seed{s}_thr*_{stem}_mlp_*"))
-        if len(hits) != 1 or not (hits[0] / "result.json").exists():   # Codex s12: died before first write -> invalid
-            r["reason"] = f"arm {arm}: missing/ambiguous/no result.json"
+        L = load_run(find_run(HERE / "raw", f"EXP-045_baseline_seed{s}_thr*_{stem}_mlp_*"),
+                     Expect(seed=s, device="cuda", max_steps=PRIMARY, split_file=HERE / f"splits/{stem}.npy",
+                            config={"p": 113, "task": "add", "arch": "mlp"}, snapshots_at=(PRIMARY,)))
+        if L.status != "ok":
+            r["reason"] = f"arm {arm}: {L.status}: {L.reason}"
             return r
-        res = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))
-        if (res["status"] != "completed" or res["steps_completed"] < PRIMARY or res["config"]["arch"] != "mlp"
-                or res.get("device") != "cuda" or res["split_hash"] != split_hash(np.load(HERE / f"splits/{stem}.npy"))):
-            r["reason"] = f"arm {arm}: status/steps/arch/device/hash"
-            return r
-        K[arm], K2[arm] = K_at(hits[0], PRIMARY), K_at(hits[0], SECONDARY)
+        res = L.res
+        K[arm], K2[arm] = K_at(L.path, PRIMARY), K_at(L.path, SECONDARY)
         if K[arm] is None:
             r["reason"] = f"arm {arm}: no snapshot at {PRIMARY}"
             return r

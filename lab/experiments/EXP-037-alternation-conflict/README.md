@@ -1,8 +1,8 @@
 ---
 id: EXP-037
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat, befund/unklar]
 ---
 # EXP-037: Gibt anhaltender Datenkonflikt in der kritischen Periode die Frequenzwahl an die Init zurück?
 
@@ -68,6 +68,24 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-037-alternation-co
 python lab/experiments/EXP-037-alternation-conflict/analyze.py --selftest
 ```
 
-## Status
+## Ergebnis (2026-09-26 16:50 Berlin; Smoke bestanden, alle Prüfungen des Laders bestanden)
 
-Vorbereitet, nicht ausgeführt; `--alternate-every` ist im echten Lauf ungetestet (Smoke am Anfang der Queue).
+| Arm | Seed | K (Schritt 2200) | d | fremd | Init-Rang | Mischmasken-Rang | Test-Acc |
+|---|---|---|---|---|---|---|---|
+| C_F100 | 30 | 6, 12, 29, 42, 55 | +3 | – | – | – | 1.00 |
+| C_F100 | 31 | 23, 29, 41, 45, 55 | +3 | – | – | – | 1.00 |
+| C_F100 | 32 | 5, 11, 20, 22, 48 | +3 | – | – | – | 1.00 |
+| A = 5 | 30 | 6, 29, 34, 45, 47 | +1 | 34, 45 | 11, 26 | 19, 40 | 1.00 |
+| A = 5 | 31 | 8, 22, 29, 41, 44 | +1 | 22, 44 | 8, 26 | 13, 20 | 1.00 |
+| A = 5 | 32 | 8, 11, 13, 35, 50 | 0 | 8, 13, 50 | 4, 18, 9 | 9, 45, 54 | 0.48 |
+
+**Vorab festgelegtes Urteil (A = 5, primär): *gestützt*** (3/3 Seeds mit fremden Frequenzen, gepoolter Init-Rang-Median 11,
+keine F-Akkumulation oder Rezenz, Kontrolle C_F100 ohne fremde Frequenzen).
+**Einschränkungen (wichtig):** Der Median wird von Frequenzen getragen, die schon aus der Exploration bekannt waren (34, 22, 8,
+13 traten beim Einzelwechsel derselben Seeds auf); die neuen haben Init-Ränge 26, 26, 9. 45 = fold(2 · 34) und 44 = fold(2 · 22)
+sind Oberwellen der wiederkehrenden. An frischen Seeds (EXP-020 Nachtrag d) hielt die Init-Deutung nicht. Belastbar ist:
+**Anhaltender F/G-Konflikt erzeugt je Seed reproduzierbar dieselben „Konfliktfrequenzen“, gleiche Exposition ohne Konflikt
+nicht.** Ob sie aus der Init stammen, bleibt offen → [[experiments/EXP-036-init-conflict/README|EXP-036]].
+**Ablation (Nachtrag b, beschreibend, `ablate_foreign.json`):** Wiederkehrende fremde Frequenzen sind funktional (Δloss 34: 1.38,
+22: 1.57, 8: 3.28, 13: 4.19; Zufallsfrequenzen ≈ 0), die Oberwellen 45, 44 kaum (0.011, 0.005).
+A = 25 (sekundär): siehe unten.

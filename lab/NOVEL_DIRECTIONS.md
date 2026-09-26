@@ -296,6 +296,10 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   2024 (https://arxiv.org/abs/2411.05353, Nichtlinearität steuert Grokking, ohne Frequenzwahl oder Split); Kunin et al.
   2025 (AGF). Paritätszerlegung als Brücke Split-Spektrum (k vs 2k) ↔ gelernte Frequenz und der Umschlagpunkt als
   Zeitmesser: **nicht gefunden** (vorläufig; Google Scholar/OpenReview nicht gezielt).
+- **EXP-026 (Sitzung 7, 10:30):** Nach Codex zum Umschaltversuch umgebaut (die α-Stufen-Uhr war nicht haltbar). Ergebnis:
+  schon 50 Schritte mit 3x + x² legen die F-Neigung des danach reinen x²-Netzes fest (5/5, Plateau bis 2500); formal
+  *Anker ok, Trend n. s.*, weil der Rangtest nicht zur Stufenform passte. Feinere Auflösung: [[experiments/EXP-032-early-lockin/README|EXP-032]].
+  Die ursprüngliche Idee (Umschlagpunkt als Amplitudenuhr) ist **verworfen**, nicht getestet.
 
 ## N13: Memorisierung prägt das Masken-Spektrum ein, Generalisierung verdrängt Teile durch 2k-Oberwellen #neu/kandidat
 

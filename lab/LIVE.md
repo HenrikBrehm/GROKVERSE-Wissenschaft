@@ -19,6 +19,7 @@ Laufende EXP-016-Läufe beobachten. Ab ≈ 05:39 Stand sichern und Abschlussberi
 
 ## Verlauf dieser Sitzung
 
+- 05:02 EXP-016 Seed 10 Arm G: 4 von 5 Frequenzen aus **seiner** Zielmenge G, keine aus F. Δ = +8 von max. 10. Die Frequenzen folgen der Datenauswahl (1 Seed).
 - 04:58 EXP-016 Seed 10 Arm F: generalisiert schon bei Schritt 525 (Zufallssplit: 3925); 4 von 5 Frequenzen aus der Zielmenge. Einzelwert, Kontrolle (Arm G) folgt.
 - 04:53 **Bestätigt an frischen Seeds:** [[experiments/EXP-015-mask-spectrum/README|EXP-015]] (Split-Masken-Spektrum sagt Frequenzen voraus, r̄ 0.277, p < 1e-5; fremde Masken 0.499) und [[experiments/EXP-012-init-gradient/README|EXP-012]] (erster Gradient > Init, p = 0.031).
 - 04:53 Baseline Seed 17 fertig (8 von 10). EXP-016-Smoke ok.

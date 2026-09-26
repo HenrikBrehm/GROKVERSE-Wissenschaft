@@ -1,0 +1,59 @@
+(node:16952) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0de5a-7d68-7c92-863c-ef47e893c82f).
+[codex] Turn started (01a0de5a-8015-7b93-987a-ca69987871e5).
+[codex] Assistant message captured: {"verdict":"approve","summary":"I’m inspecting the exact diff and surrounding experiment/queu...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"spectra_at...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab/ex...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --unified...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"spectra_at... (exit 1)
+[codex] Assistant message captured: {"verdict":"approve","summary":"The first pass exposes two high-risk areas: the statistical n...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -For...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -For... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content lab/ex...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content lab/ex... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'python lab/experim...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'python lab/experim... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "sh -lc 'python lab...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "sh -lc 'python lab... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Command py,pyt...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Command py,pyt... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files -g AGEN...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files -g AGEN... (exit 1)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"Do not ship the “calibrated” P36b claim yet. Test 1’s...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against 3e1144e~1
+Verdict: needs-attention
+
+Do not ship the “calibrated” P36b claim yet. Test 1’s null does not reproduce how frequencies are selected, and the primary score does not reliably measure positive pre-lock-in support. The logging option also has unsafe completed-run reuse, while the smoke can inspect a stale artifact.
+
+Findings:
+- [high] Test 1 uses an invalid uniform-selection null (lab/experiments/EXP-036-init-conflict/analyze_p36b.py:75-113)
+  F_new comes from the final top-5 frequencies of the switched runs after subtracting A, yet the binomial calibration treats it as an independent random subset of C. C is itself conditioned on final pure-run top-5 sets, and the early-growth score uses the same datasets and initialization; for switches at 25 and 50, pure-F at step 20 is even the identical trajectory prefix of the outcome-generating run. The Monte Carlo self-test samples uniform indices and reproduces none of this selection. Ordinary early-to-final persistence can therefore produce a significant “gestuetzt” result without the claimed shared-support mechanism. Test 2 only compares two rankings on the same selected outcomes and cannot repair Test 1’s absolute p-value.
+  Recommendation: Calibrate against a null that reruns the complete A/final-top-5/F_new selection pipeline, or evaluate a prespecified score on genuinely held-out runs or pairs. Do not emit the Test 1 verdict from Bin(m, 0.25) until that selection-aware null is established.
+- [high] The primary score does not establish positive pre-lock-in support (lab/experiments/EXP-036-init-conflict/analyze_p36b.py:35-53)
+  shared_q ranks relative growth but never requires growth to be positive. If every candidate shrinks in both pure runs, the least-shrinking candidate still ranks first and can count as a success, contradicting the question of whether both datasets “push” it. Separately, TAU=20 is assumed to precede lock-in only from old initializations; no code measures or gates on the lock-in time for each new initialization. A pair that locks by step 20 would turn post-selection amplification into purported pre-lock-in evidence. The same issue makes Test 2 an unequal-information predictive comparison, not evidence against an initialization mechanism.
+  Recommendation: Require positive, materially sized growth in both arms in addition to rank, and make a pair evaluable only when its own switch runs demonstrate that tau precedes lock-in. Otherwise use an earlier prespecified tau such as 5 or 10 and narrow the interpretation to prediction rather than mechanism.
+- [medium] Unchanged run IDs can silently skip the requested spectra (lab/experiments/EXP-001-freq-ban/freq_ban.py:237-243)
+  The spectra schedule is excluded from run_id, but completed-run reuse happens immediately afterward without checking result.spectra_at or the stored steps. Running an existing configuration with --spectra-at can therefore exit successfully while producing none of the requested observations. In a resumed EXP-036 queue containing pre-amendment outputs, training would be skipped and the missing spectra discovered only during analysis, after the queue has spent substantial time on the remaining runs.
+  Recommendation: Before accepting a completed run, verify that its actual spectra_steps contain every requested step. If not, fail immediately with a force-rerun instruction or include the logging schedule in the artifact identity.
+- [medium] The smoke check can validate an unrelated stale run (lab/experiments/EXP-036-init-conflict/queue.sh:12-13)
+  The check loads glob(...)[0] from a persistent raw_smoke directory instead of the exact run produced on the preceding line. If another smoke configuration has left a directory there, ordering is unspecified: a stale artifact with the expected steps can make broken current logging pass, or a stale incompatible artifact can stop a valid queue. --force overwrites only the current run directory and does not remove these alternatives.
+  Recommendation: Load the exact expected run directory and verify result.json status, argv/spectra_at, steps_completed, and spectra_steps. Reject multiple or mismatched artifacts rather than selecting the first wildcard match.
+
+Next steps:
+- Replace Test 1 with a selection-aware calibration before running EXP-036.
+- Redefine the primary score to require positive growth and demonstrate tau is pre-lock-in per pair.
+- Make spectra reuse and the smoke check fail closed on exact artifacts.

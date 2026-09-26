@@ -105,6 +105,27 @@ am Ende generell Frequenzen mit großem frühem Wachstum, wäre Test 1 zu libera
 anderen Prädiktor unter derselben Auswahl) da. τ = 20 liegt vor dem in 5/5 alten Seeds gefundenen Fenster (25, 50]; bei
 neuer Init kann das Fenster anders liegen (beschreibend: EXP-036 misst es nicht direkt). Das Haupturteil zu H36 bleibt unberührt.
 
+## Nachtrag e (2026-09-26 17:42 Berlin, nach Codex-Review, **vor jedem EXP-036-Lauf**)
+
+Codex (`codex_review_nachtrag_d_2026-09-26.txt`, needs-attention, 2 hoch, 2 mittel). Übernommen:
+1. **(hoch) Die Null von Test 1 bildet die Auswahl nicht nach** (F_new = End-Top-5 minus A; der reine F-Lauf ist bis
+   Schritt t Präfix der Wechselläufe; gewöhnliche Persistenz früh → spät könnte Test 1 bestehen). Eine selektionsgetreue Null
+   bräuchte neue Trainingsläufe. **Übernommen:** Test 1 heißt nur noch „gegen gleichverteilte Auswahl, nicht
+   selektionsbereinigt“. Neu **Test 3**: Erfolg, wenn q_p (gemeinsam) < min(q_p nur-F-Wachstum, q_p nur-G-Wachstum);
+   Vorzeichentest über Paare. Das ist der eigentliche Test der Aussage „**beide** Datensätze“, weil Persistenz einer
+   einseitig früh wachsenden Frequenz die Einarm-Prädiktoren genauso begünstigt. **„Gemeinsame Unterstützung gestützt“ nur,
+   wenn Test 1 *gestützt* und Test 3 p < 0.05** (bei m = 7 also 7/7), sonst „nicht gezeigt“.
+2. **(hoch) Kein positives Wachstum verlangt; τ = 20 nur aus alten Inits als „vor der Festlegung“ begründet.**
+   Übernommen: Kandidaten ohne positives Wachstum in **beiden** Armen stehen hinter allen anderen. Paar-Gate: auswertbar nur,
+   wenn der Wechsellauf t = 25 **nicht** schon die Top-5 von „nur F“ hat (sonst Festlegung ≤ 25, τ nicht sicher davor).
+   Test 2 bleibt ein Vorhersagevergleich (ungleiche Information: Schritt 0 gegen 0 + 20), keine Aussage über den Mechanismus.
+   Nicht übernommen: „materiell großes“ Wachstum (keine vorab begründbare Schwelle).
+3. **(mittel) Übersprungene Läufe ohne die verlangten Spektren.** Übernommen: `freq_ban.py` bricht beim Überspringen ab, wenn
+   die verlangten Schritte fehlen (geprüft: fehlender Schritt → Exit 1, vorhandene → Exit 0).
+4. **(mittel) Smoke konnte ein altes Artefakt prüfen.** Übernommen: `raw_smoke` wird vorher gelöscht, geprüft wird der exakte
+   Lauf (Status, `spectra_at`, Schritte, Spektrumsschritte). Smoke von Hand im Fenster gelaufen (17:40): [0, 5, 10, 20, 30], ok.
+Selbsttest von `analyze_p36b.py` nach den Änderungen ok (über den Wächter).
+
 ## Reproduktion
 
 ```

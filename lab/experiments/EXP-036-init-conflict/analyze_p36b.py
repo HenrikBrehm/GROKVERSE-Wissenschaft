@@ -14,6 +14,11 @@ Test 1 (vs chance): success1_p = q_p <= 0.25. Under H0 (F_new independent of S w
 Test 2 (vs init): success2_p = q_p < q_init_p; one-sided sign test over pairs, p < 0.05 -> enger als Init;
   k / m <= 0.5 -> nicht enger; else unklar.
 Descriptive only: the same with TAU in (10, 50), and the level (not growth) variant at TAU.
+Nachtrag e (after Codex review, before any run): (1) candidates without positive growth in BOTH arms rank last;
+(2) pair evaluable only if not locked by t = 25 (top-5 of the t = 25 switch run != top-5 of pure F), so TAU = 20 is
+pre-lock-in; (3) Test 1 is NOT selection-corrected (uniform null); (4) Test 3: success3_p = q_p < min(q_p of one-arm
+growth F, G); sign test. "Shared support" is claimed only if Test 1 gestuetzt AND Test 3 significant; Test 2 is
+prediction, not mechanism (unequal information).
 Usage: python analyze_p36b.py [--selftest]
 """
 from __future__ import annotations
@@ -47,10 +52,16 @@ def positions(cand: list[int], key) -> dict[int, float]:
 
 
 def shared_q(cand: list[int], gf: np.ndarray, gg: np.ndarray) -> dict[int, float]:
-    """q per candidate under the conjunctive shared-support score; gf, gg indexed k-1."""
+    """q per candidate under the conjunctive shared-support score; gf, gg indexed k-1. Codex (Nachtrag e): candidates
+    that do not grow in BOTH arms rank after all that do."""
     rf = {k: r + 1 for r, k in enumerate(sorted(cand, key=lambda k: (-gf[k - 1], k)))}
     rg = {k: r + 1 for r, k in enumerate(sorted(cand, key=lambda k: (-gg[k - 1], k)))}
-    return positions(cand, lambda k: (max(rf[k], rg[k]), rf[k] + rg[k], k))
+    return positions(cand, lambda k: (not (gf[k - 1] > 0 and gg[k - 1] > 0), max(rf[k], rg[k]), rf[k] + rg[k], k))
+
+
+def single_q(cand: list[int], g: np.ndarray) -> dict[int, float]:
+    """Nachtrag e: one-arm growth predictor (Test 3 comparison)."""
+    return positions(cand, lambda k: (-g[k - 1], k))
 
 
 def verdict1(succ: list[bool]) -> str:
@@ -88,6 +99,11 @@ def pair_row(s: int, i: int) -> dict:
     allowed = fg | {fold(2 * k) for k in fg} | top(pf["spec"][G_BUDGET]) | top(pg["spec"][G_BUDGET])
     cand = [k for k in range(1, 57) if k not in allowed]
     assert set(f_new) <= set(cand), "foreign set must lie in the candidate set"
+    sw25, e3 = load_run(HERE / "raw", i, s, "FG", 25, None, (25 + G_BUDGET,))
+    if e3:
+        return {"split": s, "init": i, "status": f"invalid switch run: {e3}"}
+    if top(sw25["spec"][25 + G_BUDGET]) == top(pf["spec"][G_BUDGET]):   # Nachtrag e gate: locked by step 25
+        return {"split": s, "init": i, "status": "locked by t = 25 (tau not pre-lock-in, not evaluable)"}
     init = pf["spec"][0]
     q_init = positions(cand, lambda k: (-init[k - 1], k))
     row = {"split": s, "init": i, "status": "ok", "F_new": f_new, "n_cand": len(cand)}
@@ -96,6 +112,11 @@ def pair_row(s: int, i: int) -> dict:
         ql = shared_q(cand, pf["spec"][tau], pg["spec"][tau])
         row[f"tau{tau}"] = {"q_p": float(np.mean([q[k] for k in f_new])),
                             "q_level": float(np.mean([ql[k] for k in f_new])),
+                            "q_single": min(float(np.mean([qs[k] for k in f_new]))
+                                            for qs in (single_q(cand, pf["spec"][tau] - init),
+                                                       single_q(cand, pg["spec"][tau] - init))),
+                            "both_grow": sum(bool(pf["spec"][tau][k - 1] > init[k - 1]
+                                                  and pg["spec"][tau][k - 1] > init[k - 1]) for k in f_new),
                             "per_freq": {k: round(q[k], 3) for k in f_new}}
     row["q_init"] = float(np.mean([q_init[k] for k in f_new]))
     return row
@@ -106,11 +127,16 @@ def main() -> None:
     ok = [r for r in rows if r["status"] == "ok"]
     s1 = [r[f"tau{TAU}"]["q_p"] <= Q_MAX for r in ok]
     s2 = [r[f"tau{TAU}"]["q_p"] < r["q_init"] for r in ok]
+    s3 = [r[f"tau{TAU}"]["q_p"] < r[f"tau{TAU}"]["q_single"] for r in ok]
     summary = {"rows": rows, "pairs_evaluable": len(ok), "tau": TAU,
                "test1_successes": sum(s1), "test1_p": binom_p(sum(s1), len(s1), PI0) if s1 else None,
                "verdict_P36b_cal": verdict1(s1),
                "test2_successes": sum(s2), "test2_p": sign_p(sum(s2), len(s2)) if s2 else None,
                "verdict_vs_init": verdict2(s2),
+               "test3_successes": sum(s3), "test3_p": sign_p(sum(s3), len(s3)) if s3 else None,
+               "verdict_vs_single_arm": verdict2(s3).replace("Init", "Einarm"),
+               "verdict_shared_support": ("gestuetzt" if verdict1(s1) == "gestuetzt" and verdict2(s3) == "enger als Init"
+                                          else "nicht gezeigt"),
                "descriptive": {f"tau{t}": [round(r[f"tau{t}"]["q_p"], 3) for r in ok] for t in TAU_DESCR}
                | {"q_init": [round(r["q_init"], 3) for r in ok]}}
     for r in rows:

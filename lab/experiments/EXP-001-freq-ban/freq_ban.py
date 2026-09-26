@@ -239,6 +239,11 @@ def run(a: argparse.Namespace) -> dict:
         raise SystemExit("--spectra-at needs steps >= 1")
     out_dir = Path(a.out_root) / run_id
     if not a.force and previous_status(out_dir / "result.json") == "completed":
+        if extra_spec:                # Codex 2026-09-26: a skipped run must already hold the requested spectra
+            done = json.loads((out_dir / "result.json").read_text()).get("steps_completed", 0)
+            have = set(np.load(out_dir / "spectra_steps.npy").tolist())
+            if not {x for x in extra_spec if x <= done} <= have:
+                raise SystemExit(f"[exp] {run_id} completed without the --spectra-at steps; rerun with --force")
         print(f"[exp] {run_id} already completed; use --force to overwrite", flush=True)
         raise SystemExit(0)           # skip is not an error (EXP-020 queue stops on every other failure)
     out_dir.mkdir(parents=True, exist_ok=True)

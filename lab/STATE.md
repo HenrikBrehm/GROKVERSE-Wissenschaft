@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 06:21 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 06:41 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
@@ -48,6 +48,14 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 - [[experiments/EXP-020-data-switch/README|EXP-020]]: Datenwechsel F → G nach t Schritten, gleiches G-Budget:
   kausale Festlegungszeit der Frequenzwahl. Seeds 30–34.
 **Post hoc (Sitzung 5):** Die natürliche M0-Konzentration eines Zufallssplits sagt die Grokking-Zeit nicht voraus.
+**Mechanismus (Sitzung 5, post hoc, nach Codex-Angriff präzisiert):** Im ersten W_E-Gradienten interferieren linke und
+rechte Eingabeposition frequenzweise so, wie es der Kreuzterm der Maske (M0c − M0) vorhersagt (18/18 Seeds, fremde
+Maske −0.09); deshalb beschreibt M0c die Gradientenleistung besser als M0 (0.77 vs. 0.57). Ob M0c auch K besser
+vorhersagt: EXP-019.
+**Oberwellen (Sitzung 5, explorativ):** Alle 14 Nicht-Ziel-Frequenzen in EXP-016 (Seeds 10–15) sind fold(2k) eines Ziels.
+Auch unter Zufallssplits enthält die W_E-Top-5 gehäuft (k, 2k)-Paare. In den Studienmodellen sind die schwächeren
+2k-Glieder die unwichtigsten der Top-5 (Ablation 8/8), aber nicht null; Phasenkopplung nur in 3/10 Paaren deutlich;
+sie erreichen die Top-5 meist erst nach dem Grokking. Vorhersage für EXP-016 Seeds 16–19 vorab festgelegt (Nachtrag b).
 **Literatur (Sitzung 5):** N3 in anderer Form bekannt (Zhou et al. 2024, Frequency Principle, andere Aufgaben); bei
 festem Split variiert K trotzdem über Inits (GitHub-Nachbau) → Split ist nicht die einzige Ursache.
 

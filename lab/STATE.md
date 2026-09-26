@@ -18,7 +18,7 @@ _Zuletzt aktualisiert: 2026-09-26, ~02:57 Berlin (Sitzung 4, vom Runner gestarte
 > Danach wartet ein Hintergrund-Job auf `[pairs]` im Log und startet EXP-013 (`lockin.py`, Log `lockin_s4.log`).
 > Neu in Sitzung 4: EXP-011 (Normtausch) und EXP-012 (Init-Gradient) vorab festgelegt; EXP-012 Phase 1 fertig
 > (G0 gewählt); EXP-010/011 Nachtrag a nach Codex-Review; EXP-013 vorbereitet.
-> **Plan (03:27):** Wenn die Baselines 11–19 fertig sind, `queue_s4.sh` zwischen zwei Läufen beenden und EXP-016
+> **Plan (03:17):** Wenn die Baselines 11–19 fertig sind, `queue_s4.sh` zwischen zwei Läufen beenden und EXP-016
 > starten (Smoke `--steps 50`, dann 10 Läufe), vor EXP-014 und den restlichen EXP-010-Tauschläufen.
 > Neu: EXP-015 (Masken-Spektrum, Phase 1 r̄ 0.307) und EXP-016 (konstruierter Split) vorab festgelegt, Kandidat N3.
 > **Offen nach der Sitzung:** restliche Paare (Seeds, die in `raw_d`/`raw` fehlen), dann `EXP-010-init-swap/analyze.py`,

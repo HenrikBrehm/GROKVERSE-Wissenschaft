@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 02:49 Berlin (00:49Z, vom Runner)
 - **Deadline:** 2026-09-26 05:49 Berlin (03:49Z)
-- **Zuletzt aktualisiert:** 03:27 Berlin
+- **Zuletzt aktualisiert:** 03:17 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin). Erste Sitzung mit Läufen.
 
 ## Gerade
@@ -19,9 +19,9 @@ Nach den Baselines: Smoke-Test und Läufe für [[experiments/EXP-016-engineered-
 
 ## Verlauf dieser Sitzung
 
-- 03:25 [[experiments/EXP-016-engineered-split/README|EXP-016]] vorab festgelegt: Splits konstruiert, die Zielfrequenzen im Masken-Spektrum hervorheben (offline 10/10 erfolgreich).
-- 03:20 Post hoc: Token-Häufigkeiten erklären nichts (r̄ 0.50). Es zählt die Paarstruktur.
-- 03:18 [[experiments/EXP-015-mask-spectrum/README|EXP-015]] Phase 1: Masken-Spektrum sagt K voraus (r̄ 0.307, p < 1e-5). Mechanismus-Check: M0 ~ echter Gradient (ρ 0.57).
+- 03:16 [[experiments/EXP-016-engineered-split/README|EXP-016]] vorab festgelegt: Splits konstruiert, die Zielfrequenzen im Masken-Spektrum hervorheben (offline 10/10 erfolgreich).
+- 03:15 Post hoc: Token-Häufigkeiten erklären nichts (r̄ 0.50). Es zählt die Paarstruktur.
+- 03:14 [[experiments/EXP-015-mask-spectrum/README|EXP-015]] Phase 1: Masken-Spektrum sagt K voraus (r̄ 0.307, p < 1e-5). Mechanismus-Check: M0 ~ echter Gradient (ρ 0.57).
 - 03:14 EXP-010 Tausch Seed 10 fertig: gen 5175, d = +1 (1 S-Frequenz gewonnen).
 - 03:12 Gradient-Vorschau: Das Spektrum des ersten Gradienten folgt dem Split (ρ 0.34), nicht der Init (−0.01). Warteschlange umgestellt (Baselines zuerst).
 - 03:10 [[experiments/EXP-014-split-vs-init/README|EXP-014]] (Split vs. Init) vorab festgelegt.

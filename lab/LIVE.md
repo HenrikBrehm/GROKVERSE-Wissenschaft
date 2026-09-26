@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 21:19 Berlin (19:19Z, vom Runner)
 - **Deadline:** 2026-09-27 00:19 Berlin (22:19Z)
-- **Zuletzt aktualisiert:** 21:47 Berlin (gemessen).
+- **Zuletzt aktualisiert:** 21:49 Berlin (gemessen).
 - **Run-Fenster:** zu. Heute Nacht Läufe erst ab 03:00 (Regel 18). Diese Sitzung: nur Code, Rechnung auf Dateien, Literatur.
 
 ## Gerade
@@ -17,6 +17,8 @@ Nächste Frage wählen. Alle Werkzeuge für heute Nacht und für die spätere Be
 Ab 03:00 (nächste Sitzung): Wächter-Abnahme, Tests (jetzt auch EXP-052-Selbsttest), Nachtprogramm.
 
 ## Verlauf dieser Sitzung
+
+- 21:49 Auswertung der späteren Bestätigung als Code fertig (nur mit eingefrorenem Plan startbar). Literatur: eine neue Arbeit zu kritischen Zeitfenstern bei Transformern, aber ohne Frequenzen oder Datenwahl.
 
 - 21:47 Werkzeug für die Bestätigungs-Trainingsmengen geprüft: baut exakt die Konstruktion der Pilotversuche nach. Das Tor gegen verfrühtes Erzeugen ist jetzt strenger.
 

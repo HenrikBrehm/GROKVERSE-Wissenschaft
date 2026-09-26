@@ -384,3 +384,14 @@ initialization frequencies conflicting training sets“, „critical learning pe
 Fremde Frequenzen bei frühem Wechsel: 4/5 Seeds, Ursprung offen. Direktere Tests: EXP-036 (Init-Wechsel), EXP-037 (Wechselspiel).
 Nicht gefunden (vorläufig, nur Abstracts): dass **widersprüchliche Splits vor der Festlegung** die Wahl zur Init zurückgeben,
 also ein Zusammenspiel Split-Signal ↔ Init-Lotterie, messbar über den Wechselzeitpunkt. Einordnung: Kandidat, Teil bekannt.
+
+## N16: Wo sitzt die Festlegung der Frequenzwahl? Teil-Rücksetzen nach der kritischen Periode #neu/kandidat
+
+Idee (Sitzung 9): Nach der Festlegung (EXP-020, t = 150) nur W_E bzw. nur den Rest auf die Init zurücksetzen und dann auf
+dem Konkurrenz-Split G weitertrainieren. Zeigt, ob die Wahl im Embedding oder in den nachgelagerten Gewichten gespeichert ist.
+Versuch: [[experiments/EXP-038-where-lockin/README|EXP-038]].
+**Literatur (Suche 2026-09-26 16:25 Berlin, „reset embedding layer vs reinitialize other layers localize learned features grokking
+modular arithmetic where are Fourier features stored“):** arXiv 2609.18078 (Komponenten-Transfer zwischen Operationen,
+Beschleunigung vs. Stabilität, laut Abstract keine Frequenzmessung), arXiv 2505.15624 (Rolle des Embeddings beim Grokking,
+seltene Tokens, kein Rücksetzen), He et al. 2026 (Init-Lotterie). Teil-Resets sind aus RL bekannt (Primacy Bias, Resets der
+letzten Schichten); nicht gefunden (vorläufig): Lokalisierung der Frequenzwahl durch Teil-Rücksetzen nach einem Datenwechsel.

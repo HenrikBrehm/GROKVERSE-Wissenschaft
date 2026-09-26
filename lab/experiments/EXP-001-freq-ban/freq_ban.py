@@ -227,6 +227,10 @@ def run(a: argparse.Namespace) -> dict:
         if a.switch_split_file is None or a.alternate_every < 1 or a.alternate_every >= a.switch_step:
             raise SystemExit("--alternate-every needs --switch-split-file and 1 <= A < --switch-step")
         run_id += f"_alt{a.alternate_every}"
+    if a.reset_at_switch:            # EXP-038: reset W_E ("we") or all other parameters ("rest") at --switch-step
+        if a.switch_split_file is None:
+            raise SystemExit("--reset-at-switch needs --switch-split-file")
+        run_id += f"_rs{a.reset_at_switch}"
     if a.split_value:                # EXP-023: position 1 gets its own attention value matrix
         exp_id = "EXP-023"
         run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_sv{a.split_value}"
@@ -280,8 +284,9 @@ def run(a: argparse.Namespace) -> dict:
         sys.path.insert(0, str(HERE.parent / "EXP-023-split-value"))
         from split_value import convert
         model = convert(model, a.seed, a.split_value)
-    init_params = [q.detach().clone() for q in model.parameters()] if a.warmup else []   # EXP-035 displacement
-    we_idx = next((i for i, q in enumerate(model.parameters()) if q is model.W_E), None) if a.warmup else None
+    keep_init = bool(a.warmup or a.reset_at_switch)
+    init_params = [q.detach().clone() for q in model.parameters()] if keep_init else []   # EXP-035/038
+    we_idx = next((i for i, q in enumerate(model.parameters()) if q is model.W_E), None) if keep_init else None
     opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay,
                             betas=(cfg.beta1, cfg.beta2))
     basis = fourier_basis(p)
@@ -315,7 +320,7 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "alternate_every": a.alternate_every,
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch,
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "test_hash": split_hash(data["test_idx"]),
@@ -406,6 +411,16 @@ def run(a: argparse.Namespace) -> dict:
                                    for k, v in sub.items() if len(v)},
                                 **{f"n_{k}": int(len(v)) for k, v in sub.items()}}
             trx, try_ = data["all_x"][switch_idx], data["all_y"][switch_idx]
+            if a.reset_at_switch:    # EXP-038: selected parameters back to their init, their AdamW state cleared
+                n_reset = 0
+                with torch.no_grad():
+                    for i, q in enumerate(model.parameters()):
+                        if (i == we_idx) == (a.reset_at_switch == "we"):
+                            q.copy_(init_params[i])
+                            opt.state.pop(q, None)
+                            n_reset += q.numel()
+                events["reset_at_switch"] = {"which": a.reset_at_switch, "n_params": n_reset,
+                                             "train_acc_after": evaluate(model, trx, try_, p)[1]}
         elif a.alternate_every and step < a.switch_step and step % a.alternate_every == 0:
             # EXP-037: block k = steps (k-1)A+1 .. kA trains on F for odd k, on G for even k
             nxt = switch_idx if (step // a.alternate_every) % 2 == 1 else data["train_idx"]
@@ -465,6 +480,8 @@ def main() -> None:
     ap.add_argument("--warmup", type=int, default=0, help="EXP-035: linear lr warmup over this many steps (0 = off)")
     ap.add_argument("--alternate-every", type=int, default=0,
                     help="EXP-037: alternate F/G in blocks of this many steps until --switch-step (0 = off)")
+    ap.add_argument("--reset-at-switch", choices=("we", "rest"), default=None,
+                    help="EXP-038: at --switch-step reset W_E or all other parameters to init (+ their AdamW state)")
     ap.add_argument("--save-model", action="store_true")
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args()

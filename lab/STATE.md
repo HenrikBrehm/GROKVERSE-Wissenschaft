@@ -19,6 +19,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
   fertige Läufe werden übersprungen (`freq_ban.py` endet dann seit Sitzung 5 mit 0). Neu starten = fortsetzen.
 - **Abgebrochene Läufe** stehen mit `status: running` in `result.json` und werden neu gestartet (kein Resume).
 - Vor jedem Start: `python lab/tools/guarded_run.py --check`.
+- **Zeilenenden:** Python schreibt unter Windows im Textmodus CRLF. Shell-Skripte müssen LF haben (sonst bricht `sh`).
+  Nach Änderungen an `*.sh` mit `file` prüfen; beim Schreiben aus Python `newline='
+'` benutzen.
 - Nach EXP-016 Seed 17 (8 Seeds): `python lab/experiments/EXP-016-engineered-split/analyze.py`.
 
 ## Kurzlage

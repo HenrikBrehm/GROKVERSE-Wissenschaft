@@ -557,3 +557,8 @@ bei Schritt 0/250/500/1000/2000 in allen 12 Läufen (Seeds 10–15): 0–2 / **5
 Schritt 50 5/5. Die Daten prägen die Frequenzen also sofort auf; später ersetzen 2k-Harmonische einzelne Ziele (passt zu
 Zyklus 7–8). Folge: EXP-020-Gitter vor jedem Lauf um t = 10 und 25 ergänzt (Nachtrag b). Die Überlappung bei 250 ist eine
 vorab festgelegte Sekundärgröße von EXP-016; hier nur als Zwischenblick, keine Entscheidung.
+
+**Technik (06:55):** Beim Prüfen gefunden: Meine Python-Bearbeitungen haben mehrere Dateien auf CRLF umgestellt, darunter
+`queue_s5.sh` und `EXP-020-data-switch/queue.sh`, die unter `sh` gebrochen wären (`sh -n` meldet das nicht). Alle in
+dieser Sitzung geänderten oder neuen Dateien, die zu Sitzungsbeginn LF hatten oder neu sind, wieder auf LF gestellt;
+Tests danach 14/14 und 5/5. Hinweis in STATE. Zwei Probe-`summary.json` (Trockenläufe, „nicht auswertbar“) aus Git entfernt.

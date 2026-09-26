@@ -21,6 +21,8 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[2] / "training"))
 from grokverse.data import split_hash  # noqa: E402
+sys.path.insert(0, str(HERE.parents[1] / "tools"))
+from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
 
 SEEDS = range(180, 190)
 STEP, ALPHA, MIN_VALID = 2000, 0.05, 8
@@ -52,25 +54,14 @@ def holm(ps: dict[str, float]) -> dict[str, bool]:
 
 def spectrum(s: int, mode: str, arm: str) -> tuple[np.ndarray | None, str, dict]:
     stem = f"split_add113_seed{s}_{mode}_{arm}"
-    hits = sorted((HERE / "raw").glob(f"*_seed{s}_thr*_{stem}_devcuda"))
-    if len(hits) != 1 or not (hits[0] / "result.json").exists():
-        return None, "missing/ambiguous/no result.json", {}
-    d = hits[0]
-    res = json.loads((d / "result.json").read_text(encoding="utf-8"))
-    if (res["status"] != "completed" or res["steps_completed"] < STEP or res["seed"] != s or res.get("device") != "cuda"
-            or res["config"]["p"] != 113 or res["config"]["task"] != "add"):
-        return None, "status/steps/seed/device/task", {}
-    if res["split_hash"] != split_hash(np.load(HERE / f"splits/{stem}.npy")):
-        return None, "split content hash mismatch", {}
-    steps = np.load(d / "spectra_steps.npy").tolist()
-    if STEP not in steps:
-        return None, f"no spectrum at {STEP}", {}
-    pw = np.load(d / "spectra.npy")[steps.index(STEP)]
-    if not np.isfinite(pw).all():
-        return None, "non-finite spectrum", {}
-    info = {"gen": res["events"].get("generalization_step"), "test_acc": res["final_acc"]["test"],
-            "train_acc": res["final_acc"]["train"]}
-    return pw, "", info
+    r = load_run(find_run(HERE / "raw", f"*_seed{s}_thr*_{stem}_devcuda"),
+                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
+                        config={"p": 113, "task": "add", "arch": "transformer"}, at=(STEP,)))
+    if r.status != "ok":
+        return None, f"{r.status}: {r.reason}", {}
+    info = {"gen": r.res["events"].get("generalization_step"), "test_acc": r.res["final_acc"]["test"],
+            "train_acc": r.res["final_acc"]["train"]}
+    return r.spectrum(STEP), "", info
 
 
 def row(s: int) -> dict:

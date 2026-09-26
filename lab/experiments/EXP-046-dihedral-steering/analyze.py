@@ -20,6 +20,8 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[2] / "training"))
 sys.path.insert(0, str(HERE))
 from grokverse.data import split_hash  # noqa: E402
+sys.path.insert(0, str(HERE.parents[1] / "tools"))
+from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
 
 from dihedral import irrep_basis, irrep_power, n_irrep2, rho  # noqa: E402
 
@@ -38,19 +40,10 @@ def top(pw: np.ndarray) -> set[int]:
     return {int(k) + 1 for k in np.lexsort((np.arange(len(pw)), -pw))[:M]}
 
 
-def load(d: Path, s: int, stem: str) -> tuple[dict, np.ndarray] | str:
-    res = json.loads((d / "result.json").read_text(encoding="utf-8"))
-    if res["status"] != "completed" or res["steps_completed"] < STEP or res["seed"] != s or res.get("device") != "cuda":
-        return "status/steps/seed/device"
-    if res["split_hash"] != split_hash(__import__("torch").from_numpy(np.load(HERE / f"splits/{stem}.npy"))):
-        return "split content hash mismatch"
-    steps = np.load(d / "spectra_steps.npy").tolist()
-    if STEP not in steps:
-        return f"no spectrum at {STEP}"
-    pw = np.load(d / "spectra.npy")[steps.index(STEP)]
-    if not np.isfinite(pw).all():                       # s13: a diverged (NaN) run is invalid, not a silent verdict
-        return "non-finite spectrum"
-    return res, pw
+def load(d: Path | None, s: int, stem: str) -> tuple[dict, np.ndarray] | str:
+    r = load_run(d, Expect(seed=s, device="cuda", max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
+                           config={"p": 2 * N}, at=(STEP,)))
+    return (r.res, r.spectrum(STEP)) if r.status == "ok" else f"{r.status}: {r.reason}"
 
 
 def row(s: int) -> dict:

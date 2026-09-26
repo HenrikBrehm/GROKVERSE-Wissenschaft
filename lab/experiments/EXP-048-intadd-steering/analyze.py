@@ -21,6 +21,8 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[2] / "training"))
 sys.path.insert(0, str(HERE))
 from grokverse.data import split_hash  # noqa: E402
+sys.path.insert(0, str(HERE.parents[1] / "tools"))
+from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
 
 SEEDS = range(160, 170)
 M, STEP, ALPHA, MIN_VALID, P = 5, 2000, 0.05, 8, 113
@@ -41,25 +43,16 @@ def spow(pw: np.ndarray, S) -> float:
 
 
 def load(s: int, arm: str) -> tuple[dict, np.ndarray, np.ndarray] | str:
-    d = run_dir(s, arm)
-    if d is None:
-        return "missing run dir / result.json"
     eps = "0.0" if arm == "R" else "2.0"
-    res = json.loads((d / "result.json").read_text(encoding="utf-8"))
-    if res["status"] != "completed" or res["steps_completed"] < STEP or res["seed"] != s or res.get("device") != "cuda":
-        return "status/steps/seed/device"
-    if res["split_hash"] != split_hash(np.load(HERE / f"splits/split_intadd113_seed{s}_eps{eps}_{arm}.npy")):
-        return "split content hash mismatch"
-    steps = np.load(d / "spectra_steps.npy").tolist()
-    if STEP not in steps:
-        return f"no spectrum at {STEP}"
-    if res["steps_completed"] != STEP or not (d / "we_final.npy").exists():
-        return "no final W_E at step 2000"
+    stem = f"split_intadd113_seed{s}_eps{eps}_{arm}"
+    r = load_run(find_run(HERE / "raw", f"EXP-048_seed{s}_{stem}_devcuda"),
+                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
+                        config={"p": 225}, at=(STEP,), files=("we_final.npy",)))
+    if r.status != "ok":
+        return f"{r.status}: {r.reason}"
     from intadd_train import dft_power
-    pw, W = np.load(d / "spectra.npy")[steps.index(STEP)], np.load(d / "we_final.npy").astype(float)
-    if not (np.isfinite(pw).all() and np.isfinite(W).all()):   # s13: a diverged (NaN) run is invalid
-        return "non-finite spectrum / W_E"
-    return res, pw, dft_power(detrend(W))
+    W = np.load(r.path / "we_final.npy").astype(float)
+    return r.res, r.spectrum(STEP), dft_power(detrend(W))
 
 
 def detrend(W: np.ndarray) -> np.ndarray:

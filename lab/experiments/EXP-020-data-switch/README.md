@@ -151,3 +151,11 @@ Glatter Übergang mit Halbwert bei ≈ 30–35 Schritten und sehr kleiner Streuu
 ohne dessen Schwellen. Grenzen: nur 5 Seeds, post hoc; F und G teilen ≈ 73 % der Paare (Persistenz kann an geteilten Paaren hängen; das
 trennt [[experiments/EXP-053-p3-overlap-design/README|EXP-053]]); die Wechselläufe enden bei t + 2000, die reinen bei 2000 (β wächst mit
 der Zeit, daher π > 1 bei t = 1000 möglich).
+
+*Korrektur nach adversarieller Prüfung (Sitzung 14, Claude-Subagent, alle Zahlen selbst nachgerechnet, keine Fehler im Code):*
+(1) β ist praktisch ein Maß über die 10 Zielfrequenzen (≈ 85–90 % der Varianz von log M0 liegt auf den 5 Zielen; ohne die Ziele wird π
+Rauschen). π misst also die Aufteilung der Leistung zwischen F- und G-Zielen; die Übereinstimmung mit dem Log-Verhältnis ist keine
+unabhängige Bestätigung. (2) Werte über 1 sind ein Artefakt der späteren Endschritte (D der reinen F-Läufe wächst nach 2000 um 5–10 %;
+bei gleichem Endschritt 0.99/0.99 statt 1.01/1.04). Richtig: **π ≈ 1 (0.94–1.04) ab t = 150.** Bestand hat: der Verlauf 0.15 / 0.38 / 0.72
+bei 10 / 25 / 50, monoton, Halbwert ≈ 34 Schritte (aus drei Punkten interpoliert), und dass π bei t = 25 Seeds trennt, deren Top-5 nur
+grob (0–2 F, 2–5 G) unterscheidbar sind. Reproduktion für EXP-035/037: `posthoc_pi_other.py` / `.json`.

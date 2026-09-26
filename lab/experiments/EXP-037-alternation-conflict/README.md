@@ -120,3 +120,9 @@ EXP-018-Läufen). Alle Arme haben 100 F-Schritte vor der reinen G-Phase:
 **Lesart (explorativ, 3 Seeds):** Gleiche Menge F-Training hält vollständig fest, wenn es am Stück kommt, aber nur zu ≈ 0.5–0.75, wenn
 G-Schritte dazwischen liegen; feinere Verschränkung hält weniger. Die Festlegung ist also kein bloßes Aufsummieren von F-Schritten, sondern
 ein Wettlauf, bei dem die konkurrierenden G-Schritte im Fenster zählen (passt zu [[NOVEL_DIRECTIONS]] N22). Nur beschreibend.
+
+*Korrektur nach adversarieller Prüfung (Sitzung 14):* Die Endschritte sind fair (auch at100 endet bei 2200), die Zahl der F- und G-Schritte
+ist gleich (100 F, 2100 G). Die Nullhypothese „nur die Summe zählt“ ist damit verworfen, aber schwach, weil EXP-020 schon zeigt, dass frühe
+Schritte dominieren. Die aussagekräftigere Null „nur der erste F-Block zählt“ (aus der EXP-020-Kurve: 5 F-Schritte → ≈ 0.1, 25 → ≈ 0.38) liegt
+**unter** den Beobachtungen (0.52–0.60 bzw. 0.63–0.75): **Spätere F-Blöcke tragen noch bei, das Fenster ist länger als der erste Block.**
+„Wettlauf“ ist eine Deutung, kein Test. alt5 Seed 32 hat nicht generalisiert (Test-Acc 0.48). Zahlen: `EXP-020-data-switch/posthoc_pi_other.json`.

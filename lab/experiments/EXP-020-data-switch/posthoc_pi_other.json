@@ -1,0 +1,47 @@
+{
+ "EXP-035": {
+  "seed30_t10": {
+   "pi": 0.01036983655637377,
+   "F_norm_with_warmup": true
+  },
+  "seed30_t25": {
+   "pi": 0.02258027388648019,
+   "F_norm_with_warmup": true
+  },
+  "seed30_t50": {
+   "pi": 0.08816115375370878,
+   "F_norm_with_warmup": true
+  },
+  "seed30_t100": {
+   "pi": 0.561202927735194,
+   "F_norm_with_warmup": true
+  },
+  "seed30_t150": {
+   "pi": 0.9383928800717695,
+   "F_norm_with_warmup": true
+  },
+  "seed30_t250": {
+   "pi": 1.0148932992161317,
+   "F_norm_with_warmup": true
+  },
+  "seed31_t50": {
+   "pi": 0.1754915429041386,
+   "F_norm_with_warmup": false
+  },
+  "seed31_t150": {
+   "pi": 0.9268820446851804,
+   "F_norm_with_warmup": false
+  }
+ },
+ "EXP-037": {
+  "seed30_at100": 1.0332837841632014,
+  "seed30_at200_alt25": 0.6647973958134775,
+  "seed30_at200_alt5": 0.6046744509499219,
+  "seed31_at100": 1.0102751306514683,
+  "seed31_at200_alt25": 0.7481869608832334,
+  "seed31_at200_alt5": 0.5162161394516956,
+  "seed32_at100": 1.037722403713588,
+  "seed32_at200_alt25": 0.6333694471468512,
+  "seed32_at200_alt5": 0.5232778818182914
+ }
+}

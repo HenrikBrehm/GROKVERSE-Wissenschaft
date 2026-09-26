@@ -83,6 +83,11 @@ gleichwertig, aus dem Log-Verhältnis der Zielleistung (beide Maße weichen höc
 Alles an bereits gesehenen Daten, wenige Seeds, F/G mit ≈ 73 % geteilten Paaren: keine Bestätigung. Nutzen: ein trennscharfes Maß für P3
 ([[BACKLOG]] „Persistenzmaß für P3“) und Konkurrenzmodelle mit Zeitstruktur.
 
+*Korrektur (Sitzung 14, nach adversarieller Prüfung):* π misst die Aufteilung der Leistung zwischen F- und G-Zielen (β fügt nichts
+darüber hinaus hinzu); π ≈ 1 ab t = 150 (Werte > 1 sind Endschritt-Artefakt). **Uhr:** Warmup verzögert, aber *weder* Schritt- *noch*
+Λ-Uhr passen (bei gleichem Λ halten Warmup-Läufe mehr fest). **Verschränkung:** π liegt über der Vorhersage „nur der erste F-Block zählt“,
+spätere F-Blöcke tragen also bei; „Wettlauf“ bleibt Deutung.
+
 ## Nächstverwandte Literatur
 
 LeDoux 2026 (https://arxiv.org/abs/2603.25047): Minibatch-Reihenfolge bestimmt die Grundfrequenz. He et al. 2026

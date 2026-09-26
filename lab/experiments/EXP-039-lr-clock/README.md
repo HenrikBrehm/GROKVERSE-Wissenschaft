@@ -89,3 +89,6 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-039-lr-clock/analy
 Post hoc an EXP-035 (Seeds 30/31, Warmup) gesehen: Ein kontinuierliches Persistenzmaß π ([[experiments/EXP-035-warmup-lockin/README|EXP-035]],
 letzter Abschnitt) folgt früh der aufsummierten Lernrate Λ und nicht der Schrittzahl, hält später aber stärker fest als Λ allein vorhersagt.
 Das beeinflusst keine Festlegung dieses Versuchs. π wird nach den Läufen zusätzlich **nur beschreibend** berechnet (gleiche Spektren).
+
+*Korrektur (Sitzung 14):* Nach Prüfung ist die EXP-035-Sicht nicht „Λ früh getroffen“, sondern: Warmup verzögert, keine der beiden Uhren
+passt an den trennscharfen Punkten. Beeinflusst die Festlegungen hier nicht.

@@ -121,3 +121,10 @@ Maß wie [[experiments/EXP-020-data-switch/README|EXP-020]] „Post hoc (Sitzung
 unterschätzt aber bei größerem t die Persistenz (Seed 30: 0.56 statt ≈ 0.36, 0.94 statt ≈ 0.72). Mögliche Deutung: Neben Λ zählt die Zahl
 der Schritte (Adam-Schritte haben eine Mindestgröße, Weight Decay wirkt pro Schritt). Keine Bestätigung; die vorab festgelegte Prüfung ist
 [[experiments/EXP-039-lr-clock/README|EXP-039]] (heute Nacht, CPU).
+
+*Korrektur nach adversarieller Prüfung (Sitzung 14):* Die Lesart „Λ-Uhr trifft den frühen Teil“ ist **nicht haltbar**. Λ = 1.6 und 6.4 liegen
+unter dem Messraster; die Vergleichswerte ≈ 0.02/0.08 sind lineare Interpolation zwischen π(0) = 0 und π(10), und *jede* verzögernde Uhr sagt
+dort ≈ 0 voraus. An den einzigen trennscharfen Punkten (t = 100, 150) liegt die Λ-Uhr daneben (0.56 statt ≈ 0.36, 0.94 statt ≈ 0.72).
+Richtig: **Warmup verzögert die Festlegung (Schrittuhr klar falsch); bei gleichem Λ halten die Warmup-Läufe mehr fest als die ohne Warmup;
+keine der beiden Uhren passt** (im Wesentlichen Seed 30, zwei Punkte von Seed 31). Außerdem: Seed 31 hat keinen F-Lauf mit Warmup und wurde
+mit dem F-Lauf ohne Warmup normiert (Wirkung ≤ 0.01). Zahlen: `EXP-020-data-switch/posthoc_pi_other.json`.

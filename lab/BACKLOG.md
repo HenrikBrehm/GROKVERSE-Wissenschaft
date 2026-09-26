@@ -78,6 +78,7 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 
 - **Idee (noch keine EXP-ID, erst nach der Pilotnacht festlegen):** EXP-016-artige F/G-Läufe (neue Ströme, Pilot-Seeds außerhalb 1000–1099) mit `freq_ban.py --save-model`; danach **ohne Nachtraining** die Zielfrequenzen aus dem gespeicherten Modell entfernen und die Testgenauigkeit auf der gemeinsamen Testmenge messen, gegen größengleiche Zufallsfrequenzmengen (Kontrollverteilung, z-Wert) und gegen die Zielmenge des anderen Arms. Werkzeug vorhanden: `training/grokverse/analysis/causal_ablation.py` (`transformer_ablations`, `random_frequency_sets`, `with_control`), die Methode der Studie mit vorab festgelegter Lesart auch für „kein Schaden“.
 - **Offene Designfrage:** Messzeitpunkt. Bei 2000 Schritten sind EXP-016-Läufe meist schon generalisiert (gen 500–975); für neue Aufgaben (EXP-048: nicht-modular) erst nach Kenntnis der gen-Schritte aus der Pilotnacht festlegen.
+- **Zum Messzeitpunkt (Sitzung 20, 01:36, post hoc an EXP-016):** Alle 20 EXP-016-Läufe generalisieren bis Schritt 1100 (gen 450–1100). Der Zielanteil an der W_E-Leistung klingt bis 2000 nicht ab (0.56 → 0.82, 20/20). Das Verdichten ist aber allgemein, auch Zufallssplits zeigen es. Für add 113 ist Schritt 2000 damit ein Zeitpunkt nach dem Grokking mit stabiler Wahl, und P2 kann dort messen. Für neue Aufgaben weiter erst nach den gen-Schritten der Pilotnacht festlegen ([[JOURNAL]] Sitzung 20, Zyklen 1–2).
 
 ## Entwurf P3-Bestätigung für Paket B (Plan, Sitzung 13, 21:01; wird nach der Pilotnacht eingefroren)
 

@@ -228,6 +228,10 @@ def run(a: argparse.Namespace) -> dict:
         if a.lr_scale <= 0 or a.warmup:
             raise SystemExit("--lr-scale needs c > 0 and no --warmup")
         run_id += f"_lrs{a.lr_scale:g}"
+    if a.we_init_scale != 1.0:       # EXP-040: W_E multiplied by s right after the (unchanged) init (1.0 = off)
+        if a.we_init_scale <= 0:
+            raise SystemExit("--we-init-scale needs s > 0")
+        run_id += f"_wes{a.we_init_scale:g}"
     if a.alternate_every:            # EXP-037: F/G blocks of this many steps before --switch-step (0 = off)
         if a.switch_split_file is None or a.alternate_every < 1 or a.alternate_every >= a.switch_step:
             raise SystemExit("--alternate-every needs --switch-split-file and 1 <= A < --switch-step")
@@ -297,7 +301,10 @@ def run(a: argparse.Namespace) -> dict:
         sys.path.insert(0, str(HERE.parent / "EXP-023-split-value"))
         from split_value import convert
         model = convert(model, a.seed, a.split_value)
-    keep_init = bool(a.warmup or a.reset_at_switch or a.lr_scale != 1.0)
+    if a.we_init_scale != 1.0:       # EXP-040: after the plain-init checksum, before the optimizer and keep_init
+        with torch.no_grad():
+            model.W_E.mul_(a.we_init_scale)
+    keep_init = bool(a.warmup or a.reset_at_switch or a.lr_scale != 1.0 or a.we_init_scale != 1.0)
     init_params = [q.detach().clone() for q in model.parameters()] if keep_init else []   # EXP-035/038
     we_idx = next((i for i, q in enumerate(model.parameters()) if q is model.W_E), None) if keep_init else None
     opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay,
@@ -333,7 +340,7 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "lr_scale_until": LR_SCALE_UNTIL, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "spectra_at": sorted(extra_spec),
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "lr_scale_until": LR_SCALE_UNTIL, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "spectra_at": sorted(extra_spec),
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "test_hash": split_hash(data["test_idx"]),
@@ -387,7 +394,7 @@ def run(a: argparse.Namespace) -> dict:
             for g in opt.param_groups:
                 g["lr"] = cfg.lr * (a.lr_scale if on_first and step <= LR_SCALE_UNTIL else 1.0)
         opt.step()
-        if (a.warmup or a.lr_scale != 1.0) and switch_idx is not None and step == a.switch_step:   # EXP-035 Nachtrag a: displacement at the switch
+        if (a.warmup or a.lr_scale != 1.0 or a.we_init_scale != 1.0) and switch_idx is not None and step == a.switch_step:   # EXP-035 Nachtrag a: displacement at the switch
             with torch.no_grad():
                 d_all = sum(float(((q - q0) ** 2).sum()) for q, q0 in zip(model.parameters(), init_params)) ** 0.5
                 d_we = float((model.W_E - init_params[we_idx]).norm())
@@ -511,6 +518,8 @@ def main() -> None:
                     help="EXP-038: at --switch-step reset W_E or all other parameters to init (+ their AdamW state)")
     ap.add_argument("--lr-scale", type=float, default=1.0,
                     help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
+    ap.add_argument("--we-init-scale", type=float, default=1.0,
+                    help="EXP-040: multiply W_E by s right after init (checksum = plain init; 1.0 = off)")
     ap.add_argument("--spectra-at", default="",
                     help="EXP-036 Nachtrag d: extra comma-separated steps with stored W_E spectra (logging only)")
     ap.add_argument("--save-model", action="store_true")

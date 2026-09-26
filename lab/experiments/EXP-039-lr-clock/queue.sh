@@ -5,7 +5,8 @@
 F=lab/experiments/EXP-001-freq-ban/freq_ban.py
 S20=lab/experiments/EXP-020-data-switch/splits
 O=lab/experiments/EXP-039-lr-clock/raw
-run() { mm=$1; shift; python lab/tools/guarded_run.py --min-minutes $mm -- python $F "$@" --out-root $O; rc=$?; [ $rc -eq 0 ] || { echo "[exp039] stop, rc=$rc"; exit $rc; }; }
+SA=5,10,12,15,20,25,30,40,50,75,100,150,200   # early W_E spectra, logging only (session 10)
+run() { mm=$1; shift; python lab/tools/guarded_run.py --min-minutes $mm -- python $F "$@" --spectra-at $SA --out-root $O; rc=$?; [ $rc -eq 0 ] || { echo "[exp039] stop, rc=$rc"; exit $rc; }; }
 # smoke: lr-scale + switch code path (60 steps), fail-closed check on the exact run directory
 rm -rf lab/experiments/EXP-039-lr-clock/raw_smoke
 python lab/tools/guarded_run.py --min-minutes 2 -- python $F --seed 30 --condition baseline --steps 60 --stop-after-gen 8000 \

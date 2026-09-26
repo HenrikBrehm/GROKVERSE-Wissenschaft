@@ -1121,3 +1121,7 @@ gemeinsamer strenger Lader (`load_run`) für Nachtrag d und EXP-036; Seeds 30/31
 Seed 32 wird korrekt abgelehnt, solange t = 1000 läuft. *Eigener Fehler:* Im Selbsttest 6/7 als signifikant angenommen
 (p = 0.0625); korrigiert, nicht die Regel. Und zweimal geschätzte Uhrzeiten in Nachträge geschrieben (korrigiert auf gemessene).
 Commit 6bf7775; `queue_s9.sh` = queue_s8 mit EXP-036 nach EXP-035.
+
+**15:02 EXP-020 Seed 32 (beschreibend, 3/5 Seeds):** gültig, d = −4 (t=0), −4 (10), −3 (25), **+3 (50)**, +3 (150…∞), monoton, gen_F = 1225
+→ stützt H20, Intervall wieder **(25, 50]** (3/3 Seeds identisch). Nachtrag c: Train-Acc „nur F“ bei Schritt 50 = 0.102 ≤ 0.5
+→ erfüllt (2/2 der Seeds 31–34). Nachtrag d (Exploration): fremd 13 (t = 10), 8, 13 (t = 25, 50), keine bei t ≥ 150.

@@ -449,7 +449,7 @@ Stärke 0.185–0.199), also vermutlich Zufall. **Vorab festgelegte Prüfung an 
 F > G in ≥ 3 von 4, wird die Asymmetrie untersucht (z. B. Salz-Abhängigkeit der Stichprobe); sonst als Zufall
 abgelegt. Keine Auswirkung auf die Primärgröße Δ, die F und G symmetrisch behandelt.
 
-**Zyklus 8 (06:25–06:31, post hoc): Woher kommen die Fehlgriffe?** (a) Init (`posthoc_init_misses.py`): Die 14
+**Zyklus 8 (06:24–06:26, post hoc): Woher kommen die Fehlgriffe?** (a) Init (`posthoc_init_misses.py`): Die 14
 Nicht-Ziel-Frequenzen liegen im Init-Spektrum E0 **nicht** vorn (mittlerer Rang unter den Nicht-Zielen 0.64, Zufall 0.5)
 und im ersten Gradienten auf dem konstruierten Split auch nicht (0.52). Hypothese „Init“ widerlegt.
 (b) Beim Durchsehen aufgefallen (also post hoc): **alle 14 sind zweite Harmonische fold(2k) einer Zielfrequenz desselben

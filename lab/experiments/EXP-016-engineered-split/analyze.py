@@ -29,6 +29,29 @@ ARMS = {"F": "", "G": "_G"}
 M, STEP, ALPHA, MIN_VALID = 5, 2000, 0.05, 8
 
 
+P = 113
+
+
+def fold(x: int) -> int:
+    x %= P
+    return min(x, P - x)
+
+
+def top_h_at(d: Path, step: int) -> set[int] | None:
+    """Nachtrag b: top-5 after dropping every frequency that is fold(2k) of a STRONGER kept frequency k."""
+    spec, steps = np.load(d / "spectra.npy"), np.load(d / "spectra_steps.npy").tolist()
+    if step not in steps:
+        return None
+    pw = spec[steps.index(step)]
+    kept: list[int] = []
+    for k in (int(j) + 1 for j in np.lexsort((np.arange(len(pw)), -pw))):
+        if all(fold(2 * q) != k for q in kept):
+            kept.append(k)
+        if len(kept) == M:
+            break
+    return set(kept)
+
+
 def top_at(d: Path, step: int) -> set[int] | None:
     spec, steps = np.load(d / "spectra.npy"), np.load(d / "spectra_steps.npy").tolist()
     if step not in steps:
@@ -61,6 +84,14 @@ def row(s: int) -> dict:
             return r
     F, G = targets["F"], targets["G"]
     ov = {f"{x}{y}": len(K[x] & targets[y]) for x in "FG" for y in "FG"}
+    Kh = {arm: top_h_at(Path(str(RUN).format(s=s, suffix=suf)), STEP) for arm, suf in ARMS.items()}
+    ovh = {f"{x}{y}": len(Kh[x] & targets[y]) for x in "FG" for y in "FG"}
+    nontarget = [k for arm in "FG" for k in K[arm] - targets[arm]]
+    r.update({"Kh_F": sorted(Kh["F"]), "Kh_G": sorted(Kh["G"]),
+              "Delta_h": ovh["FF"] + ovh["GG"] - ovh["FG"] - ovh["GF"],
+              "n_nontarget": len(nontarget),
+              "n_nontarget_harmonic": sum(any(fold(2 * t) == k for t in targets[arm])
+                                          for arm in "FG" for k in K[arm] - targets[arm])})
     r.update({"valid": True, "F": sorted(F), "G": sorted(G), "K_F": sorted(K["F"]), "K_G": sorted(K["G"]),
               **{f"ov_{k}": v for k, v in ov.items()},
               "Delta": ov["FF"] + ov["GG"] - ov["FG"] - ov["GF"]})
@@ -89,6 +120,15 @@ def main() -> None:
                     "ov_crossed_mean": float(np.mean([(r["ov_FG"] + r["ov_GF"]) / 2 for r in valid])),
                     "verdict": "widerspricht" if D.mean() <= 0 else
                     ("steuerbar" if p < ALPHA else "richtungsgleich, nicht signifikant")})
+        out["secondary_Nachtrag_b"] = {
+            "Delta_h_mean": float(np.mean([r["Delta_h"] for r in valid])),
+            "p_Delta_h": one_sided_p(np.array([r["Delta_h"] for r in valid], dtype=float)),
+            "share_nontarget_harmonic": (sum(r["n_nontarget_harmonic"] for r in valid)
+                                         / max(1, sum(r["n_nontarget"] for r in valid))),
+            "seeds16_19_share_harmonic": (sum(r["n_nontarget_harmonic"] for r in valid if r["seed"] >= 16)
+                                          / max(1, sum(r["n_nontarget"] for r in valid if r["seed"] >= 16))),
+            "F_gt_G_seeds16_19": sum((r["ov_FF"] > r["ov_GG"]) for r in valid if r["seed"] >= 16),
+            "G_gt_F_seeds16_19": sum((r["ov_GG"] > r["ov_FF"]) for r in valid if r["seed"] >= 16)}
         base = [r for r in valid if "ov_base_F" in r]
         if base:
             out["baseline_ov_mean"] = float(np.mean([(r["ov_base_F"] + r["ov_base_G"]) / 2 for r in base]))

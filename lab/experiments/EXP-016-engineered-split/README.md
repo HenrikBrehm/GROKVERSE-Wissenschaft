@@ -68,7 +68,7 @@ Codex, geprüft und **übernommen**:
 Budget neu: 20 Läufe × 2000 Schritte × 0.13 s ≈ 4.5 min, zusammen ≈ 90 min.
 Befehl: `freq_ban.py --seed I --condition baseline --steps 2000 --split-file lab/experiments/EXP-016-engineered-split/splits/split_seed{I}_eps2.0{,_G}.npy --out-root lab/experiments/EXP-016-engineered-split/raw`
 
-## Nachtrag b (2026-09-26 06:31 Berlin, Sitzung 5; nach 6 von 10 Seeds, **Primärgröße unverändert**)
+## Nachtrag b (2026-09-26 06:26 Berlin, Sitzung 5; nach 6 von 10 Seeds, **Primärgröße unverändert**)
 
 Post hoc an Seeds 10–15 (Idee nach Sicht der Daten, daher nur explorativ): Alle 14 gelernten Nicht-Ziel-Frequenzen sind
 **zweite Harmonische** fold(2k) = min(2k mod 113, 113 − 2k mod 113) einer Zielfrequenz k desselben Arms (Zufall 1.4 von
@@ -81,3 +81,6 @@ Embedding-Wellenform, keine eigenständig genutzte Frequenz (`posthoc_harmonics*
 nachdem jede Frequenz entfernt wurde, die fold(2k) einer **stärkeren** Frequenz k ist (iterativ von oben). Berichtet
 werden Δ_h analog zu Δ und der Anteil der Nicht-Ziel-Frequenzen in K, die Harmonische eines Ziels sind
 (Vorhersage: > 50 % an Seeds 16–19). Außerdem die F-gegen-G-Asymmetrie (JOURNAL Zyklus 7).
+Vorschau an Seeds 10–15 (06:28, Regel war vorher festgelegt): Δ_h = 8, 9, 7, 9, 8, 9 (Δ = 8, 7, 7, 7, 8, 9); 14/14
+Nicht-Ziel-Frequenzen sind Harmonische eines Ziels. **Grenze von K_h:** Die Regel entfernt auch echte Ziele, wenn zwei
+Ziele zufällig harmonisch verwandt sind (Seed 14 F: 13 = fold(2·50) wurde entfernt). K_h bleibt deshalb sekundär.

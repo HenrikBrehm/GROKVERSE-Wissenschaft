@@ -1531,3 +1531,7 @@ F-Ziele im Wechsellauf höher nur in 13/40, 14/35, 10/24. *Ergebnis:* Die G-Unte
 hinweg wiederkehrend (beschreibend, Zeitpunkte nicht unabhängig); meine Erklärung aus Zyklus 22 (schnelleres F-Wachstum drückt G)
 wird **nicht** gestützt und ist verworfen. Offene Frage (N22): Warum drückt Training auf G die G-Zielfrequenzen stärker als Training
 auf F? Keine Erklärung geprüft.
+
+**18:55: Erklärungskandidat „Adam-Verdrängung“** für die G-Unterdrückung (N22): Prämisse geprüft, der Verlust springt beim Wechsel
+(Seed 30: 0.04 → 1.65; Seed 31: 0.02 → 1.23) und fällt in ≈ 20 Schritten. Vorhersagen notiert (SGD in der G-Phase → keine zusätzliche
+Unterdrückung). Nicht festgelegt, kein Lauf.

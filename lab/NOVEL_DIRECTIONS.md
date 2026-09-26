@@ -512,3 +512,10 @@ einen Teilwechsel (≈ 27 %) gezeigt; EXP-041 (≈ 63 % Wechsel) ist der härter
 **niedriger** als unter fortgesetztem F-Training (t = 150: 39/40; t = 400: 33/40; t = 1000: 25/35; EXP-037 C_F100: 24/24). Die
 naheliegende Erklärung (schnelleres F-Wachstum) hält nicht (F höher nur in 13/40 bei t = 400). Ungeklärt; Kandidat für eine
 eigene Frage, falls es sich in EXP-041/042 wiederholt.
+
+- **Erklärungskandidat (18:55, Spekulation, ungeprüft):** „Adam-Verdrängung“: Der Verlustsprung beim Wechsel (Seed 30: 0.04 → 1.65,
+  Seed 31: 0.02 → 1.23; binnen ≈ 20 Schritten abgebaut) erzeugt große Gradienten in F-Richtung. Adams zweites Moment je W_E-Eintrag
+  steigt (die Einträge mischen alle Frequenzen), der normierte Schritt für die kleinen G-Anteile sinkt, der entkoppelte Weight Decay
+  bleibt gleich: G schrumpft schneller. Vorhersage: unter SGD ohne Momente keine zusätzliche Unterdrückung; ein kleinerer Verlustsprung
+  (späterer Wechsel) gibt schwächere Unterdrückung (passt qualitativ zu 39/40 → 33/40 → 25/35). Test wäre ein EXP-020-Wechsel mit SGD in
+  der G-Phase (`--opt2 gd` aus EXP-034 existiert). Nicht festgelegt.

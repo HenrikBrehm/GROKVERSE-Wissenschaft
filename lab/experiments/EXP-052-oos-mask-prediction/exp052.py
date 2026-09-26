@@ -277,7 +277,7 @@ def run_powers_043(task: str, p: int, s: int, f: Path) -> tuple[str | None, dict
 def run_powers_d59(s: int, f: Path) -> tuple[str | None, dict[int, np.ndarray]]:
     """Irrep power of W_E as logged by EXP-046 group_train.py (spectra.npy) at 0, 250, 500, 1000, 2000."""
     L = load_run(find_run(E46 / "raw", f"EXP-046_seed{s}_split_D{N59}_seed{s}_eps0.0_R_devcuda"),
-                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=f, config={"p": 2 * N59},
+                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=f, config={"p": 2 * N59, "group": f"D{N59}"},
                         at=(0, STEP) + EXTRA_D59))
     if L.status != "ok":
         return f"{L.status}: {L.reason}", {}
@@ -305,7 +305,8 @@ def case_rows(name: str, seeds: tuple[int, ...], pred: dict, spec_fn, run_fn, ex
             raise SystemExit(f"split file changed after freezing: {f}")
         sp = spec_fn(np.load(f))
         for k in PREDICTORS:                           # the frozen numbers must be what the code computes today
-            assert np.allclose(sp[k], c[k]), (name, s, k)
+            if not np.allclose(sp[k], c[k]):
+                raise SystemExit(f"frozen {k} differs from today's computation: {name} seed {s}")
         why, pw_at = run_fn(s, f)
         if why is not None:
             rows.append({"seed": s, "valid": False, "reason": why})
@@ -355,7 +356,7 @@ def analyze() -> None:
     out["tasks"]["intadd"], valid = case_rows("intadd", SEEDS_INT, predi, spectra_intadd, run_powers_intadd, (), rng,
                                               off=KLO_INT - 1)
     all_rows += valid
-    ps = {t: v["p_primary"] for t, v in out["tasks"].items() if "p_primary" in v}
+    ps = {t: v.get("p_primary", 1.0) for t, v in out["tasks"].items()}   # review s14: family fixed at four, missing = p 1
     adj = holm(ps)
     for t, v in out["tasks"].items():
         if t in adj:

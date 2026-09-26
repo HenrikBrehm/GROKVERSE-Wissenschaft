@@ -23,7 +23,7 @@ genannten Konkurrenzmodellen für den Mechanismus (erste Ordnung: M0c; EXP-015: 
 |---|---|
 | **Fragestellung** | Sagt das nur aus dem Trainingssplit berechnete M0 (in Gruppenkoordinaten) das W_E-Leistungsspektrum bei Schritt 2000 voraus, auch bei add 97 und mul 113? |
 | **H52 (primär, je Aufgabe)** | Spearman ρ(M0 des eigenen Splits, W_E-Spektrum) ist größer als mit dem M0 fremder Splits derselben Aufgabe |
-| **Test** | Permutation der Split-Zuordnung (20 000, einseitig), Statistik = mittleres ρ auf der Diagonalen; Holm über die zwei Aufgaben, α 0.05 |
+| **Test** | Permutation der Split-Zuordnung (20 000, einseitig), Statistik = mittleres ρ auf der Diagonalen; Holm über die zwei Aufgaben, α 0.05 (**nach Nachtrag a/b: über vier Fälle**) |
 | **Urteil je Aufgabe** | *K1 gilt hier*: Holm-p < 0.05 · sonst *nicht bestätigt* · < 8 gültige Läufe: *nicht auswertbar* |
 | **Sekundär (gepoolt, 20 Läufe, Vorzeichentest einseitig)** | S1 ρ(M0c) > ρ(M0) (Vorhersage der Rechnung erster Ordnung, [[BEFUND-split-mechanismus]]); S2 ρ(M0) > ρ(E0) (Split schlägt Init-Spektrum, vgl. K3); S3 ρ(M0) > ρ(CNT) (Häufigkeiten fallen in erster Ordnung heraus) |
 | **Beschreibend** | r̄ und Top-5-Überlappung je Prädiktor (vergleichbar mit EXP-015), ρ(M0) bei 50/250/500/1000 Schritten |
@@ -69,7 +69,7 @@ desselben Splits machte die Suche sonst mehrdeutig → „fehlt“). Vermerkt: (
 (Zeile i = W_E[g^i] = Log-Koordinate i), Schnappschuss bei 0 vorhanden, Statistik korrekt, fremde M0 untereinander unkorreliert
 (−0.015 / −0.012), kein Pfad, auf dem ein Fehler ein falsch-positives Urteil erzeugt.
 
-## Nachtrag b (Sitzung 14, 2026-09-26  Berlin gemessen, **vor jedem Lauf**): vierter Fall, nicht-modulare Addition
+## Nachtrag b (Sitzung 14, 2026-09-26 21:29 Berlin gemessen, **vor jedem Lauf**): vierter Fall, nicht-modulare Addition
 
 **Vierter Fall:** die 10 Zufallssplits (Arm R, ε = 0, Seeds 160–169) von [[experiments/EXP-048-intadd-steering/README|EXP-048]]
 (a + b ohne Modulo, Ausgabe 0..224). M0 wie `EXP-048/make_split.mask_power` (Ganzzahlversion), M0c kohärent, CNT aus den a/b-Häufigkeiten.
@@ -80,3 +80,11 @@ Gesehen nach dem Einfrieren: ρ(M0, M0c) 0.71, ρ(M0, CNT) 0.03, fremde Splits u
 k ≥ 6; betrifft eigen und fremd gleich, der Permutationstest bleibt gültig, verliert aber etwas Trennschärfe).
 **Erwartung hier offen:** Der Mechanismus erster Ordnung braucht keine Gruppe, aber das Netz kann bei a + b eine Zahlengerade statt Fourier-
 Merkmalen lernen; dann ist der Rest-W_E nach der Trendbereinigung womöglich Rauschen und der Fall *nicht bestätigt*, ohne dass K1 dort falsch ist.
+
+## Nachtrag c (Sitzung 14, vor jedem Lauf): zweite Prüfung
+
+Claude-Subagent (nur lesend, numpy): kein Blocker/Hoch; beide neuen Vorhersagedateien stimmen exakt mit der heutigen Rechnung überein,
+Versatz k = 6..56 bei intadd konsistent, D₅₉-Laufnamen/Spektren passen zu `group_train.py`. Übernommen: **Holm-Familie fest vier**
+(ein *nicht auswertbarer* Fall geht mit p = 1 ein, statt die Familie zu verkleinern; ersetzt Nachtrag a (i)); Prüfungen der eingefrorenen
+Werte als `SystemExit` statt `assert`; D₅₉-Läufe müssen `group = D59` tragen. Vermerkt: M0c ist bei D₅₉ ein Analogon erster Ordnung,
+aber die abelsche Identität M0c = 2·M0 für symmetrische Masken gilt dort nicht; S1 mischt also leicht verschiedene Größen.

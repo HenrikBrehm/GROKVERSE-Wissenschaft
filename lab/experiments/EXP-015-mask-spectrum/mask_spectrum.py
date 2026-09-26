@@ -69,8 +69,12 @@ def main() -> None:
             K = res["final_top_m_freqs"]
         pw = m0(mask_matrix(s))
         top = sorted((np.argsort(-pw, kind="stable")[:5] + 1).tolist())
-        rows.append({"seed": s, "valid": True, "K": K, "M0_top5": top, "ov": len(set(top) & set(K)),
-                     "rbar_M0": p12.rbar(pw, K)})
+        row = {"seed": s, "valid": True, "K": K, "M0_top5": top, "ov": len(set(top) & set(K)),
+               "rbar_M0": p12.rbar(pw, K)}
+        if a.phase == 2:                 # Nachtrag a: secondary log E0 + log M0
+            E0 = p12.init_predictors(s)[0]["E0"]
+            row["rbar_logprod"] = p12.rbar(np.log(E0) + np.log(pw), K)
+        rows.append(row)
     valid = [r for r in rows if r["valid"]]
     out: dict = {"phase": a.phase, "rows": rows, "n_valid": len(valid)}
     if len(valid) >= p12.MIN_VALID:
@@ -79,6 +83,9 @@ def main() -> None:
         out.update({"rbar_M0": rb, "p_vs_null": p, "ov_mean": float(np.mean([r["ov"] for r in valid]))})
         if a.phase == 2:
             out["verdict"] = "bestätigt" if p < p12.ALPHA else "nicht bestätigt"
+            diff = np.array([r["rbar_M0"] - r["rbar_logprod"] for r in valid])
+            out["secondary_logprod"] = {"rbar": float(np.mean([r["rbar_logprod"] for r in valid])),
+                                        "p_better_than_M0": p12.sign_flip_p(diff)}
     else:
         out["verdict"] = "nicht auswertbar"
     (HERE / f"summary_phase{a.phase}.json").write_text(json.dumps(out, indent=1), encoding="utf-8")

@@ -4,10 +4,12 @@ Per init seed i, a common held-out test set T*_i (20 % of all pairs, uniform) is
 Three train sets of exactly 3831 pairs (the standard 30 % size) are then drawn from the pool = all \\ T*_i:
   R  uniform random                                   (flat mask spectrum)
   E  weights q(a, b) as in EXP-016 (eps = 2, targets F_i)  (5 target frequencies dominate M0)
-  D  same construction, but the modulation is spread over all 56 frequencies (random phases) and rescaled to the
-     same standard deviation as E's wave: structured non-uniformity of equal strength, no concentrated spectrum
-(A shuffled-weight arm S was dropped before any run: one draw with permuted, unstructured inclusion weights is
-statistically just another uniform random subset, so it would duplicate R. Its train_S files are unused leftovers.)
+  D  E's exact post-clipping weights, randomly permuted WITHIN each anti-diagonal a+b = c of the pool, sampled with
+     the same uniform keys as E: identical weight multiset per anti-diagonal (hence identical expected c-marginal and
+     weight distribution), only the arrangement along a, i.e. the Fourier structure, is destroyed
+     (Nachtrag a, after the Codex review 2026-09-26; replaces a spread-spectrum D with only matched latent SD)
+(A globally shuffled arm S and the spread-spectrum D were dropped before any run. Their files train_S are unused
+leftovers of the first generator run; train_D was regenerated.)
 All arms are evaluated on the same T*_i, so the test set no longer depends on the treatment (EXP-016 used the
 complement, which carries the negated spectrum). Writes train_<arm>.npy and test.npy (flat index a*p + b) per seed.
 """
@@ -46,8 +48,22 @@ def q_from_wave(w: np.ndarray, eps: float) -> np.ndarray:
 
 def weighted_sample(pool: np.ndarray, w: np.ndarray, n: int, rng: np.random.Generator) -> np.ndarray:
     """n items from pool without replacement, inclusion ~ w (Efraimidis-Spirakis keys)."""
-    keys = rng.random(len(pool)) ** (1.0 / w)
+    return keyed_sample(pool, w, n, rng.random(len(pool)))
+
+
+def keyed_sample(pool: np.ndarray, w: np.ndarray, n: int, u: np.ndarray) -> np.ndarray:
+    keys = u ** (1.0 / w)
     return np.sort(pool[np.argsort(-keys)[:n]])
+
+
+def permute_within_antidiagonals(pool: np.ndarray, w: np.ndarray, rng: np.random.Generator) -> np.ndarray:
+    """Shuffle the weights among the pool pairs of each anti-diagonal c = a + b (mod p)."""
+    c = (pool // P + pool % P) % P
+    out = w.copy()
+    for cc in range(P):
+        j = np.flatnonzero(c == cc)
+        out[j] = w[rng.permutation(j)]
+    return out
 
 
 def build(seed: int, eps: float = 2.0) -> dict[str, np.ndarray]:
@@ -58,13 +74,20 @@ def build(seed: int, eps: float = 2.0) -> dict[str, np.ndarray]:
     perm = rng.permutation(n_all)
     test = np.sort(perm[:n_test])
     pool = np.sort(perm[n_test:])
-    w_e = wave(target_set(seed, "F"), rng)
-    w_d = wave(list(range(1, P // 2 + 1)), rng)
-    w_d = w_d * (w_e.std() / w_d.std())            # equal modulation strength, spread spectrum
+    q_e = q_from_wave(wave(target_set(seed, "F"), rng), eps)[pool]
+    q_d = permute_within_antidiagonals(pool, q_e, rng)
+    u = rng.random(len(pool))                      # common sampling keys for E and D
     return {"test": test,
             "R": np.sort(rng.choice(pool, size=n_train, replace=False)),
-            "E": weighted_sample(pool, q_from_wave(w_e, eps)[pool], n_train, rng),
-            "D": weighted_sample(pool, q_from_wave(w_d, eps)[pool], n_train, rng)}
+            "E": keyed_sample(pool, q_e, n_train, u),
+            "D": keyed_sample(pool, q_d, n_train, u)}
+
+
+def swap_share(of: np.ndarray, within: np.ndarray) -> float:
+    """Share of pairs (a, b) in `of` whose commuted pair (b, a) is in `within` (a != b only)."""
+    a, b = of // P, of % P
+    off = a != b
+    return float(np.isin(b[off] * P + a[off], within).mean())
 
 
 def describe(seed: int, sets: dict[str, np.ndarray]) -> dict:
@@ -80,7 +103,10 @@ def describe(seed: int, sets: dict[str, np.ndarray]) -> dict:
         meta["arms"][arm] = {"n_train": int(len(sets[arm])), "M0_top5": top,
                              "target_power_share": float(pw[[k - 1 for k in F]].sum() / pw.sum()),
                              "top5_power_share": float(np.sort(pw)[-M:].sum() / pw.sum()),
-                             "count_cv": {n: float(c.std() / c.mean()) for n, c in cnt.items()}}
+                             "count_cv": {n: float(c.std() / c.mean()) for n, c in cnt.items()},
+                             "count_min": {n: int(c.min()) for n, c in cnt.items()},
+                             "swap_in_train": swap_share(sets[arm], sets[arm]),
+                             "test_swap_in_train": swap_share(sets["test"], sets[arm])}
     return meta
 
 
@@ -99,7 +125,8 @@ def main() -> None:
             np.save(out / f"seed{s}_{'test' if name == 'test' else 'train_' + name}.npy", idx)
         meta = describe(s, sets)
         (out / f"seed{s}.json").write_text(json.dumps(meta, indent=1), encoding="utf-8")
-        print(json.dumps({"seed": s, **{k: (v["target_power_share"], v["top5_power_share"], v["count_cv"]["c"])
+        print(json.dumps({"seed": s, **{k: [round(x, 3) for x in (v["top5_power_share"], v["count_cv"]["a"],
+                                        v["count_cv"]["c"], v["swap_in_train"], v["test_swap_in_train"])]
                                         for k, v in meta["arms"].items()}}))
 
 

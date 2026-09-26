@@ -1,0 +1,56 @@
+{
+ "rows": [
+  {
+   "seed": 20,
+   "valid": false,
+   "reason": "missing arm E"
+  },
+  {
+   "seed": 21,
+   "valid": false,
+   "reason": "missing arm E"
+  },
+  {
+   "seed": 22,
+   "valid": false,
+   "reason": "missing arm E"
+  },
+  {
+   "seed": 23,
+   "valid": false,
+   "reason": "missing arm E"
+  },
+  {
+   "seed": 24,
+   "valid": false,
+   "reason": "missing arm E"
+  },
+  {
+   "seed": 25,
+   "valid": false,
+   "reason": "missing arm E"
+  },
+  {
+   "seed": 26,
+   "valid": false,
+   "reason": "missing arm E"
+  },
+  {
+   "seed": 27,
+   "valid": false,
+   "reason": "missing arm E"
+  },
+  {
+   "seed": 28,
+   "valid": false,
+   "reason": "missing arm E"
+  },
+  {
+   "seed": 29,
+   "valid": false,
+   "reason": "missing arm E"
+  }
+ ],
+ "n_valid": 0,
+ "verdict": "nicht auswertbar"
+}

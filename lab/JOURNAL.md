@@ -342,3 +342,39 @@ EXP-016 Seed 14 Arm F 05:32: gen 1100 (Baseline 11200), K {13, 19, 37, 49, 50} =
 EXP-016 Seed 14 Arm G ~05:37: gen 625, K {14, 20, 22, 28, 44}, 3 aus G = {6, 14, 20, 22, 45}, 0 aus F. Δ_14 = +8. Zwischenstand (5 Seeds): +8, +7, +7, +7, +8.
 EXP-016 Seed 15 Arm F ~05:41: gen 925 (Baseline 5975), K {6, 17, 24, 46, 54} = F exakt (5/5).
 EXP-016 Seed 15 Arm G ~05:46: gen 600, K {8, 12, 16, 22, 41}, 4 aus G = {3, 8, 12, 22, 41}, 0 aus F. Δ_15 = +9. **Stand EXP-016 nach Sitzung 4: 6 von 10 Seeds, Δ = +8, +7, +7, +7, +8, +9.** Keine Entscheidung vor 8 Seeds. Warteschlange vom Wächter beendet (Deadline).
+
+### Sitzung 5 (2026-09-26, Start 05:49 Berlin, Deadline 08:49 Berlin)
+
+**05:52 Blocker:** Der Start von `sh lab/experiments/queue_s4b.sh` im Hintergrund (identisch zu Sitzung 4, jeder Lauf
+über `guarded_run.py`) wurde vom Auto-Mode-Klassifikator von Claude Code abgelehnt („Safety Bypass Flag“). Nicht
+umgangen, auch nicht über Einzelläufe. **In dieser Sitzung keine Trainingsläufe.** Unit-Tests über `guarded_run.py`
+liefen dagegen normal. Der Nutzer muss die Warteschlange freigeben (siehe [[STATE]], Blocker).
+
+**Zyklus 1 (Denk- und Vorbereitungsarbeit): EXP-018 vorab festgelegt.**
+Frage: Ist die schnelle Generalisierung in EXP-016 (gen 500–1100 statt 3525–11200) echt oder ein Artefakt?
+Zwei Artefakt-Erklärungen: (1) Die Testmenge war das Komplement und trägt das negierte Masken-Spektrum. (2) Jede
+strukturierte Ungleichverteilung könnte genügen. → [[experiments/EXP-018-split-speed/README|EXP-018]]: gemeinsame
+Testmenge T* (20 %), drei Trainingsmengen gleicher Größe aus dem Rest (R gleichverteilt, E konzentriert, D Kontrolle),
+frische Seeds 20–29, Obergrenze 8000 Schritte. Neu: `make_splits.py`, `analyze.py`, `queue.sh`, `--test-file` in
+`freq_ban.py`, Tests (freq_ban 12/12, analyze 5/5, im Fenster über den Wächter).
+Beobachtung beim Bau (Rechnung, kein Training): Die gesamte Nicht-DC-Leistung von M0 ist in allen Armen gleich
+(Quotient 0.99–1.003; Parseval für 0/1-Masken gleicher Größe). Ein konstruierter Split kann das Masken-Spektrum also
+nur **umverteilen**. E hat 1.72–1.80× so viel Top-5-Leistung wie R. Ein erster Kontrollarm S (Gewichte global
+permutiert) wurde verworfen, weil er statistisch nur eine weitere Zufallsmenge ist.
+Literatur (→ [[NOVEL_DIRECTIONS]] N6): Kunin et al. 2025 (AGF) als nächstes Gegenstück (dort bestimmt das
+Encoding-Spektrum die Frequenzreihenfolge, volle Daten); *Grokking Explained* 2025 (Verteilungsverschiebung als
+Konfundierung). Spektrale Datenauswahl zur Beschleunigung nicht gefunden (vorläufig).
+
+**Codex-Review EXP-018** (`EXP-018-split-speed/codex_review_2026-09-26.txt`, Urteil „needs-attention“), 3 Befunde,
+selbst geprüft, alle übernommen (Nachtrag a, vor jedem Lauf):
+1. [high] Kurze oder früh gestoppte Läufe wären als zensiert bei 8000 gezählt worden. Richtig; Protokollprüfung und
+   Zensur beim letzten ausgewerteten Schritt eingebaut, synthetische Tests.
+2. [high] Mein erster Arm D (Modulation über alle 56 Frequenzen, gleiche latente SD) trennt Konzentration nicht von
+   Wellenform, Clipping und Abdeckung. Richtig. Neuer D: die exakten Gewichte von E innerhalb jeder Antidiagonale
+   permutiert, gleiche Ziehungsschlüssel. Gemessen: Rest-Häufigkeiten, Anteil der vertauschten Paare (b, a) im
+   Training und Anteil der Testpaare mit vertauschtem Partner im Training sind in allen Armen gleich (0.28–0.31);
+   nur die Konzentration unterscheidet sich (E 0.17–0.19, D und R 0.10–0.11).
+3. [high] Einsetzen von 8000 für zensierte Läufe ist für eine unbeschränkte Zeit nicht konservativ. Richtig.
+   Primärgröße jetzt ausdrücklich die beschränkte Zeit; Ko-Bedingung zensierungsfester Vorzeichentest.
+Ergebnis des Zyklus: Versuch vorbereitet und nachgeschärft, **nicht ausgeführt** (Blocker). Nächster Schritt:
+Smoke-Lauf mit `--test-file`, dann `sh lab/experiments/EXP-018-split-speed/queue.sh` nach `queue_s4b.sh`.

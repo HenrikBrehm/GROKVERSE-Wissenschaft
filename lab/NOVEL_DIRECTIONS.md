@@ -144,3 +144,32 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
 - **Stand 2026-09-26 04:53:** EXP-015 an frischen Seeds 10–17 **bestätigt** (Assoziation: r̄ 0.277, fremde Masken 0.499, exaktes p 2.5e-5; gegen funktionale Schlüsselfrequenzen p 3.6e-6); EXP-012 bestätigt (erster Gradient > Init). Achtung: Split und Init desselben Seeds sind gleich geseedet, also ist das noch kein Kausalnachweis. Kausale Tests EXP-016 (läuft) und EXP-014 stehen aus.
 - **Idee (N3b):** In RFM gibt es keine zufällige Init; eine Frequenzauswahl dort müsste vollständig aus dem Split kommen.
   M0 sollte sie dann vorhersagen. Billiger Zusatztest außerhalb der Netze.
+
+## N6: Spektral konzentrierte Trainingsmengen beschleunigen das Grokking? #neu/kandidat
+
+- **Frage:** Generalisiert ein Transformer für modulare Addition auf einer festen, gleichverteilten Testmenge früher,
+  wenn die Trainingspaare so gewählt sind, dass ihr Masken-Spektrum auf wenige Frequenzen konzentriert ist (bei
+  gleicher Größe, gleicher Gewichtsverteilung und gleicher Abdeckung pro Antidiagonale)?
+- **Versuch:** [[experiments/EXP-018-split-speed/README|EXP-018]] (vorbereitet). Anlass: EXP-016, gen 500–1100 statt
+  3525–11200, aber mit Komplement-Testmenge und ohne passende Kontrolle.
+- **Suche 2026-09-26 (Sitzung 5).** Suchbegriffe: „grokking modular addition training data selection accelerates
+  generalization Fourier structured training set“, „grokking data pruning curriculum which training examples speed up
+  grokking modular arithmetic arXiv“, „"grokking" non-uniform training distribution pairs importance sampling modular
+  addition faster generalization 2025 2026“, „data selection controls learned features modular arithmetic training set
+  composition determines Fourier frequencies“.
+- **Nächstverwandt:**
+  - **Kunin et al. 2025, Alternating Gradient Flows** (https://arxiv.org/abs/2506.06489), per WebFetch geprüft: Bei
+    quadratischen 2-Schicht-Netzen auf modularer Addition werden Fourier-Merkmale „in decreasing order of |x̂[ξ]|“
+    gelernt, x̂ = DFT des **Eingabe-Encodings**, trainiert auf **allen** p² Paaren. Das ist das nächste Gegenstück:
+    Dort wählt das Encoding-Spektrum die Frequenzreihenfolge, bei uns (EXP-015/016) das Spektrum der **Trainingsmaske**.
+    Ein Split-Einfluss wird dort nicht betrachtet. Theorie-Anschluss: Die AGF-Nutzenfunktion mit maskiertem Verlust
+    sollte M0 enthalten (noch nicht hergeleitet).
+  - *Grokking Explained: A Statistical Phenomenon* (https://arxiv.org/abs/2502.01774), per WebFetch: Grokking durch
+    Verteilungsverschiebung zwischen Training und Test, erzeugt über unausgewogenes Sampling von Unterkategorien.
+    Relevant als Konfundierung (deshalb EXP-018 mit fester Testmenge und gleichen Gewichten in D), aber keine
+    spektrale Datenauswahl.
+  - *Let Me Grok for You* (https://arxiv.org/pdf/2504.13292): Beschleunigung über Embedding-Transfer, nicht über
+    Datenauswahl. Grokfast / Spektral-Ausgleich: Eingriff in Gradienten, nicht in Daten.
+- **Einordnung:** Beschleunigung des Grokkings durch eine **spektral gewählte Trainingsmenge** bei festgehaltener
+  Größe und Gewichtsverteilung wurde nach dieser Suche **nicht gefunden**. Vorläufig, keine Garantie; Google Scholar
+  und OpenReview noch nicht gezielt durchsucht.

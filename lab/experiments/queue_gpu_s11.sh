@@ -1,4 +1,6 @@
 #!/bin/sh
+# SUPERSEDED (session 13, Astra review point 11): use `python lab/tools/night_program.py` instead. Kept as history.
+echo "[gpu11] superseded by lab/tools/night_program.py (Astra 11), not run"; exit 1
 # Session-11 GPU master queue (UNTESTED): GPU-001 -> EXP-043 -> EXP-046 -> EXP-047 -> EXP-048 -> EXP-049 -> EXP-044 (conditional on EXP-043) -> EXP-045.
 # Runs in parallel to the CPU queue (queue_s10.sh); all GPU runs carry --device cuda. Every run through guarded_run.py.
 # Resume = rerun (completed runs skip; GPU-001 reruns its checks, ~15 min, unless all three verdicts passed).

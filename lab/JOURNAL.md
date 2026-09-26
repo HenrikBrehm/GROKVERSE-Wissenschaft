@@ -1088,3 +1088,15 @@ und `EXP-020-data-switch/analyze.py`; lineare Moden: `EXP-033-optimizer-lockin/l
 (Fenster heute bis 18:00, ab dem 27.09. wieder 00:00–13:00).
 **Nachtrag 14:44:** Nach dem Anhalten der Queue noch drei Einzelläufe mit den Queue-Argumenten (Seed 32, t = 50, 25, 10), alle
 fertig (rc 0). EXP-020 Seed 32 fehlen noch t = 400 und 1000. Keine Python-Prozesse mehr. Sitzung beendet.
+
+## Sitzung 9 (2026-09-26, Start 14:49 Berlin, Deadline 17:49)
+
+**14:50:** Wächter ok (Fenster heute bis 18:00), keine Prozesse; `sh lab/experiments/queue_s8.sh` gestartet (Log
+`lab/runner/logs/queue_s8.log`): EXP-020 Seed 32 (t = 400, 1000), dann Seeds 33, 34, danach EXP-035, EXP-034.
+
+**Zyklus 1 (14:52): Fremde Frequenzen in Mischzuständen (EXP-020, ohne Training).** Frage aus Sitzung 8, Zyklus 6: Treten
+Frequenzen außerhalb F ∪ G ∪ 2k auch in anderen Seeds auf? `conflict_freqs.py`: Ja, in allen drei bisherigen Seeds, nur bei
+t ≤ 50, nie bei t ≥ 150 (Seed 32: bisher nur t = 150). Zusätzlich auch außerhalb K_nurF ∪ K_nurG. Ihre Init-Ränge im
+W_E-Spektrum bei Schritt 0: 1, 2, 4, 8, 11, 18, 29 (Median 8 von 56). *Ergebnis:* Muster in 3/3 Seeds (Exploration).
+*Entscheidung:* für die noch nicht gelaufenen Seeds 33/34 vorab festgelegt (Nachtrag d, P-d1/P-d2, commit 7537783).
+Ein kausaler Test wäre ein Initwechsel bei gleichem Split (Idee, nächster Zyklus).

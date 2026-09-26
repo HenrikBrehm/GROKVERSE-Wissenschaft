@@ -5,21 +5,25 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 08:59 Berlin (06:59Z, vom Runner)
 - **Deadline:** 2026-09-26 11:59 Berlin (09:59Z)
-- **Zuletzt aktualisiert:** 09:23 Berlin
+- **Zuletzt aktualisiert:** 09:46 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-**[[experiments/EXP-024-quadratic-agf-mask/README|EXP-024]] läuft weiter** (aus Sitzung 6 übernommen, 7/38 Läufe fertig,
-~83 s/Lauf, Ende ~09:45). Frage: Lernt ein quadratisches Netz die *halben* Zielfrequenzen, ein ReLU-Netz die Ziele?
-EXP-024: quadratischer Arm ausgewertet, ReLU-Arm läuft (Ende ~09:43). Danach startet die Kette EXP-026 → EXP-025 → queue_s5 von selbst.
+**[[experiments/EXP-026-parity-crossover/README|EXP-026]] läuft** (seit 09:44, 30 Läufe à ~88 s, Ende ~10:30).
+Frage: Wenn ein Netz erst mit Aktivierung 3x + x² (zieht zu den Zielen) und ab Schritt t mit x² (zieht zu den halben
+Zielen) trainiert: Ab welchem t bleibt die erste Neigung? Das misst, *wann* sich das Netz festlegt.
 
 ## Als Nächstes
 
-Kette (startet von selbst nach EXP-024): EXP-026 (30 Läufe) → EXP-027 (15) → EXP-025 (20) → `queue_s5.sh`. Codex prüft EXP-027.
+Kette läuft von selbst weiter: EXP-027 (Breite, 20 Läufe) → EXP-025 (20) → `queue_s5.sh`. Auswertungen je danach.
 
 ## Verlauf dieser Sitzung
 
+- 09:44 EXP-026 gestartet. Smoke ok; das Netz mit starkem linearem Anteil memoriert allerdings nur.
+- 09:43 **EXP-024 fertig.** ReLU: Ziele F sofort und fast vollständig (4.8/5, p = 2e-6), wie vorhergesagt, aber ohne Generalisierung. x²: nur schwache Neigung zu den halben Zielen. Richtung beider Arme wie vorhergesagt.
+- 09:31 Beobachtung: Die ReLU-Netze aus EXP-024 memorieren nur (Test 3–9 %). Bei EXP-025 vorab vermerkt.
+- 09:29 Codex zu EXP-027: 4 Einwände übernommen (u. a. faire Statistik für schmale Netze, Güte-Schwelle, Breite 256 dazu).
 - 09:22 **Neu: EXP-027 vorab festgelegt.** Ab 448 Neuronen muss das Netz nicht wählen (Morwani, Thm 7). Muss ein schmales Netz (32–128) wählen, und folgt es dann dem Split?
 - 09:18 **EXP-024 Arm Q: richtungsgleich, n. s.** Das x²-Netz neigt sich wie vorhergesagt zu den halben Zielen (p = 0.002), aber nur schwach (1.1 statt ≥ 2 von 5). Überraschung: Das Netz nutzt fast *alle* Frequenzen gleich stark; der Split kippt nur die Gewichtung.
 - 09:15 Codex hat EXP-026 zerlegt (6 Einwände, alle berechtigt). Umgebaut zu einem Umschaltversuch: bis Schritt t mit Aktivierung 3x + x², danach x². Ab welchem t bleibt die Wahl?

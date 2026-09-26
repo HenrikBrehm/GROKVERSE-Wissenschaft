@@ -821,3 +821,9 @@ ov_H 0.21, Test F > H p = 1.9e-6 → H24-R *bestätigt*. Schon ab Schritt 50 all
 Zufall 0.089). Der Nutzen am Start (4.68) trifft auch die Größe. Einordnung: memorierende Netze; die He-et-al.-Aussage zur
 geraden Endlösung ist damit nicht geprüft, und eine einfachere Erklärung (das Netz passt die Maske an) ist nicht
 ausgeschlossen. Gesamtbild EXP-024 im README; Status abgeschlossen. *Nächster Schritt:* EXP-026 läuft (Smoke gestartet 09:42).
+
+**09:44 EXP-026 Smoke** (α = 3 durchgehend, Split Seed 9, nicht ausgewertet): 88 s, endlich, Train 1.0, **Test 0.148**,
+Top-5 enthält 3 der 5 Ziele. Das Smoke-Kriterium (Laufbarkeit, Endlichkeit, Zeit) ist erfüllt, die Hauptserie startete
+09:44. Beobachtung: Mit starkem linearem Anteil generalisiert das Netz in 5000 Schritten nicht; der Anker „nie“ ist also
+ein memorierendes Netz (wie EXP-024 R). Die Arme t_s ≤ 2500 enden als reine x²-Netze; ob sie generalisieren, wird
+berichtet (gen95, Test-Genauigkeit). Keine Änderung am Design.

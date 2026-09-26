@@ -1376,3 +1376,12 @@ symmetrisches Maß aus beiden reinen Läufen statt zirkulärer R-Referenz, Spekt
 (P41a einseitig, P41b zweiseitig, je 0.025) mit 10 Seeds, Manifest-Lader. *Ergebnis:* vorbereitet, ungetestet, nicht in
 `queue_s10.sh` (Kandidat für die nächste Queue). *Selbstkritik:* Mein erster Entwurf hatte ein zirkuläres Maß; ohne Codex
 wäre die Asymmetrie-Aussage von P41b ein Messartefakt gewesen.
+
+**Zyklus 8 (18:15–18:20, ohne Training): Anwendungsidee und Zuverlässigkeit der Nacht-Queue.** (a) N20: datengepflanzte Frequenzen
+als Prüfstand mit bekannter Wahrheit für Interpretierbarkeitsmethoden. Suche 18:16: InterpBench (https://arxiv.org/abs/2407.14494)
+erzwingt Schaltkreise per Hilfsverlust (SIIT), nicht über die Daten; in dieser Form nicht gefunden (vorläufig). Der kleine nächste
+Schritt (Neuronen-Analyse an EXP-016) geht nicht: EXP-016 hat keine gespeicherten Modelle (negativ, notiert). (b) `queue_s10.sh`
+brach beim ersten Fehler ab; mit vier neuen, erst im Lauf geprüften Codepfaden (EXP-038-, EXP-036-, EXP-039-Smoke, EXP-040-Selbsttest)
+hätte ein einziger Fehler die ganze Nacht blockiert. Änderung: `part()` protokolliert einen Fehlschlag und macht mit dem nächsten
+Versuch weiter; nur eine Ablehnung durch den Wächter (rc 3) stoppt. *Entscheidung:* übernommen (Zuverlässigkeit, keine
+Versuchsänderung).

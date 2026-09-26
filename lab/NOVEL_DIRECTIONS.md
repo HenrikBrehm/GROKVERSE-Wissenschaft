@@ -436,3 +436,22 @@ letzten Schichten); nicht gefunden (vorläufig): Lokalisierung der Frequenzwahl 
 - **Suche 2026-09-26 18:05:** siehe EXP-041-README. Nächstverwandt **LeDoux 2026** (https://arxiv.org/abs/2603.25047):
   Minibatch-Reihenfolge bestimmt die Grundfrequenz (feste Trainingsmenge, kein Wechsel, keine Festlegungszeit). **Nicht gefunden**
   in der hier gestellten Form (vorläufig). LeDoux ist auch für N3/N14/N17 die nächstverwandte Arbeit und dort nachzutragen.
+
+## N20: Datengepflanzte Frequenzen als Prüfstand mit bekannter Wahrheit für Interpretierbarkeitsmethoden #neu/kandidat
+
+- **Idee (Sitzung 10, ungeprüft):** EXP-016 (konstruierter Split gibt die Frequenzen vor, 10/10) und ggf. EXP-041 (Vorlauf prägt
+  sie) erlauben Netze, deren Fourier-Frequenzen **vor dem Training festgelegt** sind, und zwar nur über die Daten, bei sonst
+  gewöhnlichem Training (kein Hilfsverlust, keine kompilierten Gewichte). Das ergäbe einen Prüfstand mit bekannter Wahrheit:
+  Findet eine Methode (automatische Fourier-Suche, SAE-Merkmale, Schaltkreis-Entdeckung) genau die gepflanzten Frequenzen?
+  Fehlerraten lassen sich zählen, weil die Wahrheit bekannt ist.
+- **Suche 2026-09-26 18:16:** „interpretability benchmark models with known ground truth circuits trained naturally InterpBench
+  Tracr planted features“. Nächstverwandt: InterpBench (Gupta et al. 2024, https://arxiv.org/abs/2407.14494): 17 halbsynthetische
+  Transformer, per Strict-IIT an Tracr-Schaltkreise angeglichen (Hilfsverlust); TracrBench (https://arxiv.org/abs/2409.13714).
+  Unterschied: dort wird die Struktur über einen Trainingsverlust erzwungen, hier nur über die Trainingsmenge. **Nicht gefunden**
+  in dieser Form (vorläufig). Grenze: Nur die Frequenz-*Identität* ist gepflanzt, nicht der ganze Schaltkreis; die 2k-Oberwellen
+  (EXP-021/028) sind ein bekannter Störfaktor, den ein solcher Prüfstand mitliefern müsste.
+- **Nächster Schritt (klein):** an vorhandenen EXP-016-Läufen prüfen, ob eine Standard-Fourier-Analyse der Studie (Top-5 von W_E)
+  und eine Neuronen-Analyse (dominante Frequenz je MLP-Neuron) die gepflanzten Frequenzen gleich gut finden. Erst danach entscheiden.
+
+**Nachtrag zu N14/N17 (Sitzung 10):** Nächstverwandte Arbeit ist auch dort LeDoux 2026 (https://arxiv.org/abs/2603.25047,
+Minibatch-Reihenfolge bestimmt die Grundfrequenz; keine Festlegungszeit, kein Wechsel, keine Lernratenabhängigkeit).

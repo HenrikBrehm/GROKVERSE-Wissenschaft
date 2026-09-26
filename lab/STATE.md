@@ -3,12 +3,15 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 18:02 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 18:20 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **SITZUNG 10 (18:20):** `queue_s10.sh` macht jetzt nach einem fehlgeschlagenen Versuch mit dem nächsten weiter (`part()`), nur
+  rc 3 (Wächter) stoppt. Nach dem Nachtlauf deshalb **das Log nach „failed“ durchsuchen** und den betroffenen Versuch reparieren.
+  Neu vorbereitet (nicht in einer Queue): **EXP-041** (Prägung E → R / R → E, 10 Seeds, ≈ 3.1 h, ungetestet). Ideen N19, N20.
 - **SITZUNG 10 (18:02):** Neu **EXP-040** (W_E-Init-Skala, H40 Amplitudenschwelle; Nachtrag a nach Codex), **ungetestet**:
   Selbsttest + Smoke laufen fail-closed am Anfang von `EXP-040/queue.sh`. `freq_ban.py` speichert seit 60d9ab0 bei `--spectra-at`
   zusätzlich W_E-Schnappschüsse (`we_snapshots.npy`); dieser Pfad ist **erst durch den EXP-036-Smoke** geprüft (steht in der Queue

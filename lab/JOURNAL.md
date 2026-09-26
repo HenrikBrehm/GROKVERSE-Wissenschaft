@@ -1515,3 +1515,11 @@ die Überlappung auf ≈ 57 %.
 **Zyklus 21 (18:53, ohne Training): Vorab-Lesart der Ergebniskombinationen** in [[BEFUND-festlegung]] festgelegt (EXP-041 × EXP-039 ×
 EXP-040 × EXP-042), bevor einer dieser Versuche läuft. Zweck: keine nachträgliche Gesamtdeutung. Neue Befundnotiz [[BEFUND-festlegung]]
 fasst die Festlegungs-Linie (Sitzungen 7–10) mit Einschränkungen zusammen.
+
+**Zyklus 22 (18:53, ohne Training, post hoc): Auffälligkeit.** Mittlere Leistung der G-Ziele im Wechsellauf (t = 150) gegen „nur F“,
+Schritte 250–2000 (8 Zeitpunkte × 5 Seeds): **niedriger in 39/40**, höher in 1/40. Training auf G drückt die G-Zielfrequenzen nach
+der Festlegung also *stärker* als Training auf F. Kontraintuitiv, weil G die G-Struktur stärker enthält. Nicht unabhängige
+Zeitpunkte, post hoc, keine Erklärung geprüft. Spekulation: Beim Anpassen der ≈ 27 % neuen G-Paare mit den F-Frequenzen wachsen
+diese schneller (F-Leistung im Wechsellauf früh höher, Zyklus 20), und Weight Decay plus Konkurrenz um Norm drücken ungenutzte
+Frequenzen stärker. *Entscheidung:* als Auffälligkeit notiert (N22); prüfbar in EXP-041/042 mit den vorhandenen Spektren, kein
+eigener Versuch.

@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 17:29 Berlin (15:29Z, vom Runner)
 - **Deadline:** 2026-09-26 20:29 Berlin (18:29Z)
-- **Zuletzt aktualisiert:** 18:51 Berlin
+- **Zuletzt aktualisiert:** 18:53 Berlin
 - **Run-Fenster:** offen bis 18:00 (heutige Ausnahme), danach erst wieder ab 00:00.
 
 ## Gerade
@@ -18,6 +18,7 @@ Ab 00:00 (nächste Sitzung, Start 22:29) läuft `queue_s10.sh`: EXP-035 Rest →
 
 ## Verlauf dieser Sitzung
 
+- 18:53 Neue Übersichtsnotiz [[BEFUND-festlegung]]: alles zur „Festlegung“ an einem Ort, mit Einschränkungen und einer vorab festgelegten Lesart für die kommenden Ergebnisse. Kuriosum: Nach dem Wechsel schrumpfen die Frequenzen des neuen Datensatzes stärker, als wenn man gar nicht wechselt (39 von 40 Messpunkten).
 - 18:51 **Wichtige Einschränkung gefunden:** Die beiden Datensätze F und G im Wechselversuch teilen sich 73 % ihrer Beispiele. Die „Festlegung“ ist also bisher nur gegen einen Teilwechsel gezeigt. EXP-041 wechselt fast alle Beispiele aus und läuft deshalb jetzt früher in der Nacht. Außerdem: Nach der Festlegung schrumpfen die Frequenzen des neuen Datensatzes sogar, obwohl auf ihm trainiert wird (5 von 5 Seeds).
 - 18:48 Codex hat das Trainingsprogramm auf Fehler geprüft (4 Funde, u. a. konnten alte Dateien fälschlich als fertig gelten). 4 Reparaturen eingebaut; getestet wird das in der Nacht automatisch vor den Läufen.
 - 18:38 **EXP-042 vorbereitet:** Lernt das Netz nach dem Datenwechsel eher um, wenn der neue Datensatz stärker in Richtung seiner eigenen Frequenzen zieht? Codex: Das trennt nicht sauber zwischen „stärkerer Zug“ und „weniger gemeinsame Daten“, Aussage deshalb eingeengt. Alle neuen Versuche stehen in der Nacht-Queue.

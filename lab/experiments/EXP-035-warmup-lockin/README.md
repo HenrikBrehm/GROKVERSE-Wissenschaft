@@ -95,3 +95,9 @@ entfernt und bleibt nur als Werkzeug liegen. Die Beobachtung aus Nachtrag c gilt
 (zwei exakte Übereinstimmungen von Mischzuständen über verschiedene Eingriffe), ohne Aussage über Attraktoren oder eine Λ-Uhr.
 Ein sauberer Test bräuchte gleiche Warmup-Läufe gegen die jeweils vorhergesagten Kontrollen (fehlender Kontrollpunkt t = 100
 ohne Warmup), eine vorab festgelegte Effektgröße und eine Zufalls-Null über mehrere frische Seeds. Die Λ-Frage prüft EXP-039.
+
+## Nachtrag e (18:50 Berlin, Sitzung 10): Seed 34 zusätzlich (vom Design erlaubt, Regeln unverändert)
+
+Die Queue läuft jetzt über die Seeds 30, 31, 32, **34** („weitere, falls Budget“ in der Festlegung; 33 ist ohne Warmup nicht monoton
+und deshalb nicht auswertbar). Die Entscheidungsregel bleibt: ≥ 3 auswertbare Seeds, **alle** *verzögert* → Urteil. Ein vierter Seed
+kann das Urteil nur erschweren, nicht erleichtern. Anlass: Robustheit, falls ein Seed an den Gültigkeitsregeln scheitert.

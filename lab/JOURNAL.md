@@ -1494,3 +1494,5 @@ von Suchtreffern immer am Volltext prüfen. N14 unverändert.
 **18:49: Werkzeug `lab/tools/night_report.py`** (nur lesend): fasst ein Queue-Log und die Urteile aller `summary*.json` zusammen, damit
 die Folgesitzungen die Nacht-Ergebnisse in einem Aufruf sehen. Am `queue_s9.log` geprüft (liest korrekt: 29 EXP-020-/3 EXP-018-Läufe,
 eine Wächter-Ablehnung um 17:36).
+
+**18:50: EXP-035 um Seed 34 erweitert** (Nachtrag e; vom Design erlaubt; macht das Urteil strenger, nicht leichter; +≈ 35 min).

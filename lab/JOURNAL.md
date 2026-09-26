@@ -1660,3 +1660,16 @@ Standardpfad berühren), Seeds 70/99 (anderes p bzw. andere Architektur → ande
 *Lehre:* Mein eigenes „|| echo failed; return 0“-Muster, damit ein Fehler nicht die ganze Nacht stoppt, hat die Fehler unsichtbar
 gemacht. Jetzt: weiterlaufen, aber zählen und am Ende mit rc 1 melden. Die Codex-Prüfung aus Sitzung 11 war ohne Ergebnis
 abgebrochen (Sitzungsende); ohne diese Wiederholung wären beide Blocker heute Nacht gelaufen.
+
+**Zyklus 3 (20:02–20:18, ohne Training, reine Rechnung): Alternativerklärung zu K2 — steuern die Token-Häufigkeiten?** Frage (beim
+Selbstprüfen von EXP-046): Heben die konstruierten Splits die Ziele auch im Spektrum der bloßen Token-Häufigkeiten hervor?
+*Ergebnis:* Ja. EXP-016-Splits (Seeds 10–19, F und G): mittlerer Zielrang im DFT-Spektrum der a/b/c-Häufigkeiten 14.5 von 56
+(Zufall 27.5), bei gleicher Gesamtungleichheit wie Zufallssplits (CV 0.14 gegen 0.14); D₅₉-Splits: 7.8 von 29 (Zufall 14). Die
+Alternativerklärung „das Netz folgt den Häufigkeiten“ war für K2 nie ausgeschlossen (EXP-015 prüfte sie nur post hoc an
+Zufallssplits). Gegenprobe offline: b-Werte über die Paare mischen (Duplikate reparieren) hält die a- und b-Häufigkeiten exakt, der
+Häufigkeits-Zielrang bleibt 12.2, aber der M0-Zielrang fällt von 2.0 auf 24.5 (Zufall 27.5), M0-Zielanteil 0.192 → 0.091 (Zufall 0.089);
+die c-Häufigkeiten sind in beiden Armen nicht zielverzerrt (28.1 / 27.4). Saubere Trennung der beiden Erklärungen.
+*Entscheidung:* [[experiments/EXP-047-marginal-control/README|EXP-047]] vorab festgelegt (10 Seeds 150–159 × {eng, shuf} × {F, G},
+GPU, H47a Häufigkeiten / H47b Paarstruktur, Holm über beide), Splits erzeugt, in `queue_gpu_s11.sh` nach EXP-046. Nebenbefund:
+In EXP-016/043 ist der Paar-Zufallsstrom von Seed s derselbe wie der Zielmengen-Strom von Seed s + 1 (seed + Salz + 1); praktisch
+harmlos (verschiedene Verwendung), in EXP-047 mit `SeedSequence` vermieden. Kein Eingriff in laufende/festgelegte Versuche.

@@ -1,0 +1,16 @@
+{
+ "seed": 150,
+ "arm": "G",
+ "kind": "shuf",
+ "targets": [
+  4,
+  10,
+  19,
+  23,
+  46
+ ],
+ "n_train": 3831,
+ "M0_target_rank_mean": 31.6,
+ "M0_target_share": 0.08638319645660011,
+ "count_target_rank_mean": 5.8
+}

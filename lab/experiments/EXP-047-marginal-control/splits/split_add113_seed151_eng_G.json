@@ -1,0 +1,16 @@
+{
+ "seed": 151,
+ "arm": "G",
+ "kind": "eng",
+ "targets": [
+  8,
+  9,
+  20,
+  31,
+  42
+ ],
+ "n_train": 3831,
+ "M0_target_rank_mean": 2.0,
+ "M0_target_share": 0.18982585786740755,
+ "count_target_rank_mean": 14.6
+}

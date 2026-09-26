@@ -332,6 +332,10 @@ def case_rows(name: str, seeds: tuple[int, ...], pred: dict, spec_fn, run_fn, ex
     t_out["rho_M0_matched"] = float(np.trace(Rm) / len(vs))
     t_out["rho_M0_foreign"] = float((Rm.sum() - np.trace(Rm)) / (len(vs) * (len(vs) - 1)))
     t_out["p_primary"] = perm_p(Rm, rng)
+    # Nachtrag d (descriptive, N28): identify each run's split among the case's candidates by the highest rho (chance 1/n)
+    t_out["ident_top1"] = float(np.mean(np.argmax(Rm, axis=1) == np.arange(len(vs))))
+    t_out["ident_rank_mean"] = float(np.mean([1 + int((Rm[i] > Rm[i, i]).sum()) for i in range(len(vs))]))
+    t_out["ident_chance_top1"] = 1.0 / len(vs)
     for k in PREDICTORS + (("E0",) if all("rho_E0" in r for r in valid) else ()):
         t_out[f"rho_{k}_mean"] = float(np.mean([r[f"rho_{k}"] for r in valid]))
         t_out[f"rbar_{k}_mean"] = float(np.mean([r[f"rbar_{k}"] for r in valid]))

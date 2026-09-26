@@ -98,3 +98,10 @@ Training decken sich mit den Fourier-Merkmalen; laut Abstract keine Vorhersage a
 der Teilmenge. He et al. 2026 (https://arxiv.org/abs/2602.16849): Init-Lotterie je Neuron. Eine Vorhersage der gelernten Frequenzen allein
 aus der Zusammensetzung der Trainingsmenge, noch dazu über Gruppen (zyklisch, zusammengesetzt, D₅₉) und eine nicht-modulare Aufgabe,
 haben wir nicht gefunden. Einordnung vorläufig, nur Abstracts/Suchtreffer: „nach unserer Suche vom 2026-09-26 nicht gefunden“.
+
+## Nachtrag d (Sitzung 14, vor jedem Lauf): nur beschreibend, Split-Identifikation aus den Gewichten
+
+Aus derselben Matrix wie der Primärtest (ρ zwischen dem M0 jedes Kandidaten-Splits und dem W_E-Spektrum jedes Laufs): Anteil der Läufe,
+deren eigener Split unter den n Kandidaten des Falls das höchste ρ hat (`ident_top1`, Zufall 1/n), und mittlerer Rang des eigenen Splits.
+Frage dahinter ([[NOVEL_DIRECTIONS]] N28): Lässt sich aus den Gewichten allein, mit einer geschlossenen Formel statt eines gelernten
+Detektors, erkennen, auf welcher Teilmenge ein Netz trainiert wurde? Kein Urteil, keine Änderung an Primär- oder Sekundärtests.

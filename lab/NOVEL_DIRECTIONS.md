@@ -589,3 +589,12 @@ Gruppe (mul 113 = Z₁₁₂), nicht-abelscher Gruppe (D₅₉, Irreps statt Fre
 Sekundär M0c gegen M0 gegen Häufigkeiten gegen Init. Literatur (Suche 2026-09-26): eNTK-Merkmalsidentifikation (arXiv 2510.00468, nur
 nachträglich), He et al. 2026 (arXiv 2602.16849, 2606.02993: Init-Lotterie bei vollständigen Trainingsmengen). Eine Vorhersage aus der
 Zusammensetzung der Trainingsmenge über Aufgabentypen hinweg nicht gefunden; vorläufig, nur Abstracts/Zusammenfassungen.
+
+## N28: Die Trainingsteilmenge aus den Gewichten erkennen, über eine geschlossene Formel (Sitzung 14) #neu/kandidat
+
+Umkehrung von K1: Wenn M0 (nur aus der Trainingsmenge) das W_E-Spektrum vorhersagt, kann man umgekehrt unter Kandidaten-Teilmengen die
+tatsächlich benutzte aus den Gewichten wiedererkennen, ohne Detektor-Training und ohne Zugriff auf Ausgaben. Erster Test ohne eigene Läufe:
+EXP-052 Nachtrag d (Top-1-Identifikation unter 10 Kandidaten je Fall). Suche 2026-09-26 („identify which training subset was used from model
+weights spectral fingerprint dataset inference provenance“): Arbeiten zu Modell-Abstammung über Spektren der Gewichte (z. B.
+https://arxiv.org/abs/2608.07786, https://arxiv.org/abs/2511.06390) erkennen das *Basismodell*, nicht die Trainingsteilmenge; „Dataset
+Inference“ arbeitet über das Verhalten. Vorläufig nicht gefunden; Spielzeug-Rahmen (algorithmische Aufgaben), Übertrag offen.

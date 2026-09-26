@@ -2249,3 +2249,9 @@ die ANOVA-Formeln stimmen, und P1/Holm bleiben unberührt. Kein Befund. *Nebenbe
 CRLF ist byteweise wiederhergestellt, und der Diff enthält nur die inhaltlichen Zeilen. *Ergebnis:* Astra 5 ist im Design vollständig. Das Manifest
 beim Einfrieren muss `cross` enthalten (STATE Schritt 9). *Entscheidung:* EXP-014 (CPU-Nacht) bleibt Exploration und entscheidet über den Kreuzblock
 nicht mehr. Der Block kommt unabhängig davon, weil er billig ist (20 GPU-Läufe) und die Trennung direkt am Bestätigungsmaß Δ_pow zeigt.
+
+**Zyklus 2 (vorausschauende Prüfung, P3-ELR-Arm).** *Frage:* Lässt sich die geplante Trainer-Option für den ELR-Arm (lr × c nach dem Wechsel) später
+einbauen, ohne bestehende Läufe zu stören? *Ergebnis (Code gelesen):* `fingerprint()` hasht alle Felder aus `FINGERPRINT_ARGS` samt Wert. Ein neues
+Argument dort, auch mit Standardwert, ändert also den Fingerprint jedes Laufs. Fertige Läufe mit gleichem Namen führen dann zum Fehler statt zum
+Überspringen, und die Wiederaufnahme der Nachtprogramme bricht ab. *Entscheidung:* heute Nacht nichts am Trainer ändern. Bauregel in BACKLOG und STATE:
+nur bei Abweichung vom Standard aufnehmen, mit einem Selbsttest „Fingerprint eines Standardlaufs unverändert“.

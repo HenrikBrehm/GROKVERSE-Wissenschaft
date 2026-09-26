@@ -66,6 +66,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 - Zeitstempel nur aus `guarded_run.py --check` (`now_berlin`); `--check` liefert Exit 3, wenn nicht erlaubt.
 - Shell-Skripte mit LF; Heredocs mit Backticks nur mit `<<'EOF'`; lange Patches als Datei (Python-Skript im Temp-Ordner) statt Heredoc.
 - `Path.with_suffix` nicht für Namen mit „eps2.0“ benutzen.
+- Neue `freq_ban.py`-Argumente nur **bei Abweichung vom Standard** in den Fingerprint aufnehmen, sonst brechen alle Wiederaufnahmen ab (Sitzung 16, [[BACKLOG]] ELR-Arm).
 - Für den Nutzer (nicht von mir zu ändern): `guarded_run.py` bindet `.venv-gpu`-Prozesse evtl. zu spät ans Job-Objekt;
   `parallel_queue.py` ist unversioniert, `night_program.py` hängt davon ab.
 

@@ -1033,3 +1033,10 @@ im Init-Spektrum nicht unter den Top-8; in den Masken-Spektren M0 von F, G, F∩
 Erklärung „Summen-/Differenzton“ ist wertlos, weil 49 von 56 Frequenzen Summen oder Differenzen aus F∪G sind. *Ergebnis:*
 Ursprung offen. *Frage für später* (nicht festgelegt): Treten in Mischzuständen generell Frequenzen außerhalb F ∪ G ∪ 2k auf
 (Seeds 31–34), und sind es dieselben wie in einem Zufallssplit-Lauf mit derselben Init? → BACKLOG-Idee.
+
+**Zyklus 7 (13:51): Angriff auf die Messgröße von EXP-033 (post hoc, beschreibend).** Statt ds das Top-5-Maß am Ende
+(d₅ = |Top5 ∩ F| − |Top5 ∩ H|, |Top5 ∩ F|): Anker (nur x²) |K∩F| im Mittel **0.4**, AR **4.6**, GD **4.7**, SIGN **4.7**
+(Splits 10–19). d₅ über dem Anker: AR 9/10 (Split 14 gleich, 2 gegen 2), GD 10/10, SIGN 10/10. *Ergebnis:* Der Kernbefund
+(frühe σ_3-Phase → Endnetz nutzt fast genau die Ziele F, egal mit welchem Optimierer) ist unter dem gröberen Maß **stärker**
+sichtbar als unter ds; der kleine GD-Vorsprung (R = 1.26) ist dagegen nur im feinen Anteilsmaß zu sehen und sollte nicht
+überbetont werden. Kein Einfluss auf die vorab festgelegten Urteile.

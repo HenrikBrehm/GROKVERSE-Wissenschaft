@@ -54,7 +54,22 @@ def verdicts(obj, prefix: str = "") -> list[str]:
     return out
 
 
+def program_status() -> None:
+    """Session 13: newest night_program status files (GPU: night_*, CPU: night_cpu_*)."""
+    logs = LAB / "runner" / "logs"
+    for prefix in ("night_2", "night_cpu_"):
+        dirs = sorted(d for d in logs.glob(f"{prefix}*") if (d / "night_status.json").exists())
+        if not dirs:
+            print(f"[program] no {prefix.rstrip('_2') or 'night'} status yet")
+            continue
+        st = json.loads((dirs[-1] / "night_status.json").read_text(encoding="utf-8"))
+        print(f"[program] {dirs[-1].name}: {st.get('result', 'running')} (updated {st.get('updated_utc')})")
+        for name, e in st.get("experiments", {}).items():
+            print(f"  {name}: {e.get('state')}")
+
+
 def main() -> None:
+    program_status()
     log_summary(Path(sys.argv[1]) if len(sys.argv) > 1 else LAB / "runner" / "logs" / "queue_s10.log")
     for e in EXPS:
         d = LAB / "experiments" / e

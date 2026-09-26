@@ -83,3 +83,9 @@ Vorab festgelegt (mit Nachtrag a), Code und Smoke geprüft, nicht ausgeführt. L
 sh lab/experiments/EXP-039-lr-clock/queue.sh
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-039-lr-clock/analyze.py
 ```
+
+## Bereits gesehene Daten (Nachtrag Sitzung 14, vor jedem EXP-039-Lauf; Urteilsregeln unverändert)
+
+Post hoc an EXP-035 (Seeds 30/31, Warmup) gesehen: Ein kontinuierliches Persistenzmaß π ([[experiments/EXP-035-warmup-lockin/README|EXP-035]],
+letzter Abschnitt) folgt früh der aufsummierten Lernrate Λ und nicht der Schrittzahl, hält später aber stärker fest als Λ allein vorhersagt.
+Das beeinflusst keine Festlegung dieses Versuchs. π wird nach den Läufen zusätzlich **nur beschreibend** berechnet (gleiche Spektren).

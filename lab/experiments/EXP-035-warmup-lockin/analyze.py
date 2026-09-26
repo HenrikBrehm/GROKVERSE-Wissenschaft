@@ -1,5 +1,6 @@
-"""EXP-035 analysis (pre-registered, README): EXP-020 protocol with lr warmup 200; compares the warmup commitment interval
-with the no-warmup EXP-020 interval of the same seed. Reuses EXP-020/analyze.py (validity checks, K, d, interval)."""
+"""EXP-035 analysis (pre-registered, README Nachtrag a): EXP-020 protocol with lr warmup (200 steps, F phase only, full lr
+after the switch); compares the warmup commitment interval with the no-warmup EXP-020 interval of the same seed.
+Reuses EXP-020/analyze.py (validity, K, d, interval) with a patched run directory and grid, and adds metadata checks."""
 from __future__ import annotations
 
 import importlib.util
@@ -10,13 +11,13 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 LAB = HERE.parents[0]
 W, LR = 200, 1e-3
-SWITCH_WU = (25, 50, 100, 150, 250)
+SWITCH_WU = (10, 25, 50, 100, 150, 250)
 
 
 def lam(t: float) -> float:
-    """Accumulated learning rate after t steps with linear warmup (lr_t = LR * min(1, t / W), t = 1..)."""
+    """Accumulated learning rate after t warmup steps (lr_s = LR * min(1, s / W), s = 1..t), in units of LR."""
     t = int(t)
-    return LR * (t * (t + 1) / (2 * W) if t <= W else (W + 1) / 2 + (t - W))
+    return t * (t + 1) / (2 * W) if t <= W else (W + 1) / 2 + (t - W)
 
 
 def load_mod(name: str):
@@ -26,38 +27,70 @@ def load_mod(name: str):
     return m
 
 
+def meta_ok(base, wu, s: int) -> str | None:
+    """Fail-closed metadata checks: warmup flags, optimizer config, shared init checksum."""
+    ref = None
+    for mod, is_wu in ((base, False), (wu, True)):
+        for t in mod.GRID:
+            f = mod.run_dir(s, t) / "result.json"
+            if not f.exists():
+                return f"missing {f.parent.name}"
+            r = json.loads(f.read_text(encoding="utf-8"))
+            want_wu = W if (is_wu and t != 0) else 0
+            if (r.get("warmup") or 0) != want_wu:
+                return f"warmup flag {f.parent.name}"
+            c = r["config"]
+            key = (c.get("lr"), c.get("weight_decay"), c.get("beta1"), c.get("beta2"), r["init_checksum_shared"])
+            if ref is None:
+                ref = key
+            elif key != ref:
+                return f"config/init differs {f.parent.name}"
+    return None
+
+
 def main() -> None:
     base = load_mod("exp020_base")
     wu = load_mod("exp020_wu")
     wu.SWITCH = SWITCH_WU
     wu.GRID = (0.0, *map(float, SWITCH_WU), math.inf)
     orig = wu.run_dir
-    wu.run_dir = lambda s, t: HERE / "raw" / (orig(s, t).name + f"_wu{W}")
+    wu.run_dir = lambda s, t: orig(s, t) if t == 0 else HERE / "raw" / (orig(s, t).name + f"_wu{W}")
     rows = []
     for s in wu.SEEDS:
         rb, rw = base.row(s), wu.row(s)
-        r = {"seed": s, "base": {k: rb.get(k) for k in ("valid", "d", "lo", "hi", "monotone", "reason")},
-             "wu": {k: rw.get(k) for k in ("valid", "d", "lo", "hi", "monotone", "reason", "gen_F")}}
-        if rb["valid"] and rw["valid"] and rb["hi"] <= 150:
-            lo_b, hi_b = rb["lo"], rb["hi"]
-            r["delayed"] = rw["hi"] > hi_b
-            # H35 prediction: warmup interval in steps where the accumulated lr equals LR * (lo_b, hi_b]
-            r["pred_first_positive_ge"] = next(t for t in range(1, 10_000) if lam(t) >= LR * hi_b)
-            r["lambda_interval_wu"] = [lam(rw["lo"]) / LR if rw["lo"] != math.inf else None,
-                                       lam(rw["hi"]) / LR if rw["hi"] != math.inf else None]
+        r = {"seed": s, "base": {k: rb.get(k) for k in ("valid", "d", "lo", "hi", "monotone", "gen_F", "reason")},
+             "wu": {k: rw.get(k) for k in ("valid", "d", "lo", "hi", "monotone", "gen_F", "reason")}}
+        why = None
+        if not (rb["valid"] and rw["valid"]):
+            why = "invalid run set"
+        else:
+            why = meta_ok(base, wu, s)
+        if why is None and not (rb["monotone"] and rw["monotone"]):
+            why = "non-monotone d(t)"
+        if why is None and not (rb["gen_F"] and rw["gen_F"] and rb["hi"] < rb["gen_F"] and rw["hi"] < rw["gen_F"]):
+            why = "crossing not before generalization (or gen_F censored)"
+        if why is None and rb["hi"] > 150:
+            why = "baseline interval beyond warmup grid"
+        if why is None:
+            lo_b, hi_b, lo_w, hi_w = rb["lo"], rb["hi"], rw["lo"], rw["hi"]
+            r["class"] = ("delayed" if lo_w >= hi_b else "same" if (lo_w, hi_w) == (lo_b, hi_b) else "unclear")
+            r["lambda_interval_wu"] = [lam(lo_w), lam(hi_w) if hi_w != math.inf else None]
+            r["lambda_interval_base"] = [lo_b, hi_b]
+            r["displacement_at_switch"] = {str(t): json.loads((wu.run_dir(s, t) / "result.json").read_text())
+                                           ["events"].get("displacement_at_switch") for t in SWITCH_WU}
             r["evaluable"] = True
         else:
-            r["evaluable"] = False
+            r["evaluable"], r["why"] = False, why
         rows.append(r)
     ev = [r for r in rows if r["evaluable"]]
     out = {"rows": rows, "n_evaluable": len(ev)}
     if len(ev) < 3:
         out["verdict"] = "nicht auswertbar"
     else:
-        k = sum(r["delayed"] for r in ev)
-        out["n_delayed"] = k
-        out["verdict"] = ("Festlegung folgt der Parameterstrecke (H35 gestützt)" if k == len(ev)
-                          else "Festlegung folgt der Schrittzahl" if k == 0 else "unklar")
+        cls = [r["class"] for r in ev]
+        out["classes"] = cls
+        out["verdict"] = ("Festlegung hängt am Lernratenplan: Warmup verzögert (H35-Richtung)" if all(c == "delayed" for c in cls)
+                          else "Festlegung folgt der Schrittzahl" if all(c == "same" for c in cls) else "unklar")
     (HERE / "summary.json").write_text(json.dumps(out, indent=1, default=str), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
     for r in rows:

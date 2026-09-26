@@ -276,6 +276,8 @@ def run(a: argparse.Namespace) -> dict:
         sys.path.insert(0, str(HERE.parent / "EXP-023-split-value"))
         from split_value import convert
         model = convert(model, a.seed, a.split_value)
+    init_params = [q.detach().clone() for q in model.parameters()] if a.warmup else []   # EXP-035 displacement
+    we_idx = next((i for i, q in enumerate(model.parameters()) if q is model.W_E), None) if a.warmup else None
     opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay,
                             betas=(cfg.beta1, cfg.beta2))
     basis = fourier_basis(p)
@@ -354,10 +356,16 @@ def run(a: argparse.Namespace) -> dict:
         if proj is not None and step > ban_from:   # amendment 2026-09-25: projected gradient
             with torch.no_grad():
                 model.W_E.grad[:p] = proj @ model.W_E.grad[:p]
-        if a.warmup:                                # EXP-035: lr_t = lr * min(1, t / warmup)
+        if a.warmup:    # EXP-035: lr_t = lr * min(1, t / warmup) on the first train set only; full lr after a switch
+            on_first = switch_idx is None or step <= a.switch_step
             for g in opt.param_groups:
-                g["lr"] = cfg.lr * min(1.0, step / a.warmup)
+                g["lr"] = cfg.lr * (min(1.0, step / a.warmup) if on_first else 1.0)
         opt.step()
+        if a.warmup and switch_idx is not None and step == a.switch_step:   # EXP-035 Nachtrag a: displacement at the switch
+            with torch.no_grad():
+                d_all = sum(float(((q - q0) ** 2).sum()) for q, q0 in zip(model.parameters(), init_params)) ** 0.5
+                d_we = float((model.W_E - init_params[we_idx]).norm())
+            events["displacement_at_switch"] = {"all": d_all, "W_E": d_we}
         if a.condition not in ("baseline",) + INIT_CONDITIONS and step == ban_from:
             W_now = model.W_E.detach().numpy().astype(np.float64)[:p]
             if banned is None and a.condition != "shrink_matched":

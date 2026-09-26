@@ -1,0 +1,49 @@
+(node:12524) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0dd84-896b-7c30-afdb-b47dbcc07a91).
+[codex] Turn started (01a0dd84-8b09-7a90-8cd3-22a1d7948725).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’ll inspect the exact diff and the reused EXP-020 an...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git status --short... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The warmup loop itself uses the intended 1-based sche...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -Liter...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -Liter... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "if (Test-Path -Lit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "if (Test-Path -Lit... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'python -c "import ...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'python -c "import ... (exit 1)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"Do not ship the preregistration yet. The protocol doe...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against fbeb061
+Verdict: needs-attention
+
+Do not ship the preregistration yet. The protocol does not isolate pre-switch parameter displacement, and the analyzer can turn ambiguous or invalid interval evidence into a decisive H35 verdict.
+
+Findings:
+- [high] The post-switch G intervention changes with switch time (lab/experiments/EXP-001-freq-ban/freq_ban.py:357-360)
+  Warmup is indexed by global step and continues after the F→G switch. The first G update therefore uses 26/200 of the base LR for t=25, 151/200 for t=150, and the full LR for t=250. Consequently, the supposedly fixed 2,000-step G challenge has different learning-rate budgets and early dynamics in each arm. Because K is measured after that challenge, a crossing can reflect different G unlearning pressure rather than commitment acquired during F.
+  Recommendation: Branch from checkpoints of one warmup-on-F trajectory, then run every branch for 2,000 G steps under the same phase-2 LR schedule, such as constant 1e-3 from the first G update. Preserve optimizer state if desired, but override the external LR identically and record F/G update budgets separately.
+- [high] Accumulated LR is not parameter displacement under AdamW (lab/experiments/EXP-035-warmup-lockin/README.md:19-35)
+  The design substitutes Σlr for parameter path length. AdamW displacement also depends on moment preconditioning, changing gradients, epsilon, and weight decay (configured as 1.0), while warmup changes the trajectory and resulting optimizer state. Neither actual update norms nor distance from initialization are recorded. Therefore, even unanimous delay would establish schedule dependence, not that commitment follows parameter displacement.
+  Recommendation: Record per-step full-model and W_E update norms, cumulative arc length, and distance from initialization. Compare checkpoints matched on measured displacement and add a standardized/reset-moment control; otherwise change the verdict to only claim that commitment is learning-rate-schedule dependent.
+- [high] Non-monotone or post-generalization crossings can vote for H35 (lab/experiments/EXP-035-warmup-lockin/analyze.py:41-48)
+  EXP-020's row.valid only establishes artifact availability and endpoint steering; monotonicity and the pre-generalization condition are separate outputs. This code requires only valid and hi<=150, so a transient first positive crossing that later reverses—or a crossing not established before generalization—can be marked evaluable and counted as delayed. Such a curve does not identify a causal commitment time under the reused EXP-020 rule.
+  Recommendation: Require monotonicity in both paired curves, observed gen_F, and hi < gen_F before allowing a seed to vote. Classify violations as unclear/not evaluable and add synthetic tests for negative-positive-negative sequences and censored generalization.
+- [medium] The mismatched grid can manufacture delay at the 10-step boundary (lab/experiments/EXP-035-warmup-lockin/analyze.py:13)
+  The baseline grid includes t=10, but SWITCH_WU starts at 25. If a baseline interval is (0,10] and the warmup run is first positive at 25, line 43 reports delay because 25>10, although the warmup interval is only (0,25] and overlaps the baseline interval; its true commitment could be earlier or equal. Seeds 31–32 were not yet observed, so this case is not excluded.
+  Recommendation: Add t=10 to the warmup grid and preferably use a common grid. With interval-censored estimates, declare delay only when the bounds establish ordering (for example, lo_w >= hi_base); overlapping intervals must be unclear.
+- [medium] The monkeypatched loader does not certify the intervention or paired initialization (lab/experiments/EXP-035-warmup-lockin/analyze.py:30-40)
+  Changing run_dir makes EXP-020 find the suffixed directories, but its loader never checks result.warmup, the optimizer configuration, or init_checksum_shared across baseline and warmup arms. A stale, copied, or version-skewed artifact in the expected directory can pass the existing step and split-hash checks and affect the verdict undetected.
+  Recommendation: Wrap or extend loading to require warmup==200 for every EXP-035 artifact, warmup==0 or absent for baselines, the preregistered LR/betas/weight decay and condition, and one identical initialization checksum per paired seed. Fail closed on missing metadata.
+
+Next steps:
+- Standardize the post-switch G schedule before starting any EXP-035 runs.
+- Amend the preregistered estimand and decision rule to use measured displacement and interval-safe classifications.
+- Add analyzer fixtures covering non-monotonic curves, the baseline hi=10 case, censored generalization, and mismatched metadata.

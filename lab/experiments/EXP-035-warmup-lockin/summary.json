@@ -1,0 +1,132 @@
+{
+ "rows": [
+  {
+   "seed": 30,
+   "base": {
+    "valid": true,
+    "d": {
+     "0.0": -3,
+     "10.0": -3,
+     "25.0": -1,
+     "50.0": 1,
+     "150.0": 3,
+     "400.0": 3,
+     "1000.0": 3,
+     "inf": 3
+    },
+    "lo": 25.0,
+    "hi": 50.0,
+    "monotone": true,
+    "gen_F": 950,
+    "reason": null
+   },
+   "wu": {
+    "valid": false,
+    "d": {
+     "0.0": -3
+    },
+    "lo": null,
+    "hi": null,
+    "monotone": null,
+    "gen_F": null,
+    "reason": "t=10.0: missing"
+   },
+   "evaluable": false,
+   "why": "invalid run set"
+  },
+  {
+   "seed": 31,
+   "base": {
+    "valid": false,
+    "d": {},
+    "lo": null,
+    "hi": null,
+    "monotone": null,
+    "gen_F": null,
+    "reason": "t=0.0: status/seed"
+   },
+   "wu": {
+    "valid": false,
+    "d": {},
+    "lo": null,
+    "hi": null,
+    "monotone": null,
+    "gen_F": null,
+    "reason": "t=0.0: status/seed"
+   },
+   "evaluable": false,
+   "why": "invalid run set"
+  },
+  {
+   "seed": 32,
+   "base": {
+    "valid": false,
+    "d": {},
+    "lo": null,
+    "hi": null,
+    "monotone": null,
+    "gen_F": null,
+    "reason": "t=0.0: missing"
+   },
+   "wu": {
+    "valid": false,
+    "d": {},
+    "lo": null,
+    "hi": null,
+    "monotone": null,
+    "gen_F": null,
+    "reason": "t=0.0: missing"
+   },
+   "evaluable": false,
+   "why": "invalid run set"
+  },
+  {
+   "seed": 33,
+   "base": {
+    "valid": false,
+    "d": {},
+    "lo": null,
+    "hi": null,
+    "monotone": null,
+    "gen_F": null,
+    "reason": "t=0.0: missing"
+   },
+   "wu": {
+    "valid": false,
+    "d": {},
+    "lo": null,
+    "hi": null,
+    "monotone": null,
+    "gen_F": null,
+    "reason": "t=0.0: missing"
+   },
+   "evaluable": false,
+   "why": "invalid run set"
+  },
+  {
+   "seed": 34,
+   "base": {
+    "valid": false,
+    "d": {},
+    "lo": null,
+    "hi": null,
+    "monotone": null,
+    "gen_F": null,
+    "reason": "t=0.0: missing"
+   },
+   "wu": {
+    "valid": false,
+    "d": {},
+    "lo": null,
+    "hi": null,
+    "monotone": null,
+    "gen_F": null,
+    "reason": "t=0.0: missing"
+   },
+   "evaluable": false,
+   "why": "invalid run set"
+  }
+ ],
+ "n_evaluable": 0,
+ "verdict": "nicht auswertbar"
+}

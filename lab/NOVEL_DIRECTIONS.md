@@ -260,3 +260,9 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   Architekturabhängigkeit dieser Zuordnung wurden **nicht gefunden** (vorläufig; Google Scholar/OpenReview nicht gezielt).
 - **Bezug:** Die in EXP-016 beobachteten Fehlgriffe des Transformers sind 2k der Ziele (Oberwellen), also die
   *entgegengesetzte* Richtung. Ob beides eine gemeinsame Ursache hat (Quadrat-artige Terme im Transformer), ist offen.
+- **Nachsuche 08:57 (Sitzung 6):** „openreview modular arithmetic partial training data which Fourier frequencies
+  activation function quadratic vs ReLU different frequencies learned“. Laut Suchzusammenfassung (nicht per WebFetch
+  geprüft, Quelle wohl https://arxiv.org/abs/2602.16849 oder https://arxiv.org/abs/2505.18266): Eine mit ReLU trainierte
+  Lösung stützt sich auf die **geraden** Anteile der Aktivierung (|x|, x² austauschbar). Das spräche dafür, dass auch das
+  ReLU-Netz am Ende H statt F wählt, entgegen der ReLU-Nutzenrechnung am Start (F über den linearen Anteil).
+  EXP-024 Arm R trennt beide Bilder. Ein Split-Einfluss wird dort nicht betrachtet; Einordnung N11 unverändert vorläufig.

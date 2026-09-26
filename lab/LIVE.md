@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 08:29 Berlin (06:29Z, vom Runner)
 - **Deadline:** 2026-09-26 11:29 Berlin (09:29Z)
-- **Zuletzt aktualisiert:** 08:54 Berlin
+- **Zuletzt aktualisiert:** 08:56 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin), Wächter ok.
 
 ## Gerade
@@ -20,6 +20,9 @@ EXP-024 auswerten (vorab festgelegt), danach `queue_s5.sh` fortsetzen (Smokes EX
 
 ## Verlauf dieser Sitzung
 
+- 08:55 [[experiments/EXP-025-utility-random-split/README|EXP-025]] vorab festgelegt (derselbe Nutzen unter Zufallssplits), läuft nach EXP-024.
+- 08:53 **Vorhersage für ReLU-Arm:** Nutzen mit ReLU bevorzugt die Ziele selbst (4.7/5). Theorie sagt also eine Umkehr voraus: x² → halbe Ziele, ReLU → Ziele.
+- 08:55 EXP-015/012 mit allen 10 frischen Seeds nachgerechnet: beide unverändert bestätigt.
 - 08:52 EXP-024-Hauptserie gestartet. Smoke ok (80 s/Lauf, generalisiert).
 - 08:50 Codex-Review von EXP-024: 11 Punkte, 6 übernommen (u. a. Herleitung war unvollständig, Biases raus, invariante Messgröße).
 - 08:49 Baseline 19 fertig → alle 10 frischen Baselines da.

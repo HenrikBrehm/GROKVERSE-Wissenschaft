@@ -29,7 +29,7 @@ Höchstens zwei Pakete aktiv (derzeit A und B). Andere Linien nur, wenn sie zwis
 - **P1 (A):** Konstruierte Splits erhöhen die Leistung der Zielfrequenzen in W_E: Δ_pow > 0 auf frischen Seeds und Splits
   (Transformer, add 113), praktischer Mindesteffekt Δ_pow ≥ 1.
 - **P2 (A, funktional):** Das Entfernen der Zielfrequenzen senkt die Testgenauigkeit stärker als das Entfernen energiegleicher anderer Frequenzen.
-- **P3 (B):** Nach einem Wechsel bei t = 150 überwiegen die Frequenzen des ersten Splits nach 2000 Schritten auf dem zweiten, in beiden Richtungen.
+- **P3 (B):** Nach einem Wechsel bei t = 150 überwiegen die Frequenzen des ersten Splits nach 2000 Schritten auf dem zweiten, in beiden Richtungen. *Vor dem Einfrieren prüfen (Sitzung 14):* bei t = 150 liegt die Persistenz π an EXP-020 schon an der Decke (1.00 ± 0.04); empfindlicher ist t = 25 ([[BACKLOG]] „Wechselzeitpunkt für P3“).
 - **Eine Bestätigungsfamilie P1–P3, Holm.** Effektgrößen mit 95-%-Konfidenzintervall (Bootstrap über Seeds) primär berichten.
 - **Stichprobengröße:** Pilot EXP-016: Δ_pow 8.41 ± 1.20 (n = 10; ohne den doppelten Seed 19: 8.27 ± 1.19). Für P1 reicht damit
   der kontinuierliche Vorzeichen-Permutationstest mit wenigen Seeds; für neue Aufgaben ist die Streuung unbekannt → n aus der Pilotnacht.

@@ -2369,3 +2369,13 @@ switch_step+1 … +500 korrekt, die Ausschlüsse greifen. Drei Hinweise, alle se
 (2) mittel: Kein Test erreicht das Schrittfenster → Multiplikator als reine Funktion `lr_mult_after_switch` herausgezogen, Test bei S, S+1, S+500, S+501 und Zählung = 500.
 (3) niedrig: Der Stabilitätstest verglich nur neue mit neuer Rechnung → jetzt gegen den nachgebauten Fingerprint-Algorithmus vor Sitzung 18 verankert (einen festen Hashwert
 kann ich vor 03:00 nicht erzeugen, ohne Python auszuführen).
+
+**Zyklus 4 (Codex-Prüfung des Nachtprogramms vor dem ersten Lauf, bis ≈ 01:08).** *Frage:* Findet eine andere Modellfamilie im nie gelaufenen Nachtcode (`night_program.py`,
+`parallel_queue.py`, `result_loader.py`, Trainer) etwas, das die beiden Claude-Prüfungen aus Sitzung 17 übersehen haben? *Ergebnis:* **Codex-Aufruf abgebrochen**
+(„stream disconnected before completion“, 10 Reconnect-Versuche). Laut Regel 12 dokumentiert, ohne Wiederholung. Vor dem Abbruch kamen zwei Teilaussagen: „The generated flags match
+the declared trainer interfaces so far“ und ein Verdacht auf ein Wiederaufnahme-Risiko in den Trainern außer `freq_ban` (`group_train.py`, `intadd_train.py`, `width_train.py`).
+*Selbst geprüft:* Diese drei Trainer überspringen einen Lauf allein nach `status == "completed"` (bei EXP-046 ohne Schrittprüfung), ohne Fingerprint. Ein fertiger Lauf mit
+anderer Konfiguration unter derselben Run-ID würde also still übersprungen. Heute Nacht ist das ohne Wirkung: In EXP-043–051 gibt es **kein einziges** `result.json`
+(gezählt), das Nachtprogramm ruft jede Run-ID immer mit denselben Argumenten auf, `result.json` wird atomar geschrieben, und `result_loader.py` prüft vor jeder Auswertung
+Schrittbudget und Konfiguration. *Entscheidung:* Heute keine Änderung an diesen Trainern (ungetestet, kein akuter Schaden). Offener Punkt: Fingerprint wie in `freq_ban.py`
+nachziehen, bevor eine ihrer Run-IDs mit anderen Argumenten wiederverwendet wird (z. B. im P1-Bestätigungsblock).

@@ -570,3 +570,7 @@ geprüft (Zusammenfassung des Abrufwerkzeugs, nicht selbst vollständig gelesen)
 also **nur vollständige Trainingsmengen**; welche Irreps gelernt werden, bestimmt dort die zufällige Init (abelsch: gleichverteilt über die
 nicht-trivialen Irreps, §5.1). Eine Steuerung über unvollständige oder verzerrte Trainingsmengen behandelt die Arbeit nicht. Einordnung von
 K2/N24 unverändert: nach unserer Suche nicht gefunden (vorläufig).
+
+## N26: Phasen-Dissoziation M0 gegen M0c (Sitzung 13, 20:27) #neu/kandidat
+
+Frage: Wählt der Transformer seine Frequenzen nach dem kohärenten Masken-Spektrum M0c (Theorie erster Ordnung, gemeinsamer Pfad beider Positionen) oder nach M0? Splits mit gegenphasigem Kreuzterm heben die Ziele in M0 (Rang 2) und lassen sie in M0c auf Zufallsniveau (Rang 25 von 56) – bei gleichen Token-Häufigkeiten. Vorhersage: Der Transformer folgt anti-Splits nicht, ein MLP mit getrennten W_in-Hälften schon (doppelte Dissoziation). Test: [[experiments/EXP-050-phase-dissociation/README|EXP-050]] (Transformer-Teil). Suche und Einordnung: siehe EXP-050-README (nach unserer Suche vom 2026-09-26 nicht gefunden, vorläufig).

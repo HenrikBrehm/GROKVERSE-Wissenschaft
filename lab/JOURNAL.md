@@ -656,3 +656,36 @@ EXP-016 Seed 19 ~08:04: F K {5, 7, 9, 10, 53} (3/5; 7 = fold(2·53), 10 = 2·5),
 Passend 3.9/5, gekreuzt 0.05, Baseline 0.44. Sekundär: alle 20 Nicht-Ziel-Frequenzen sind 2k-Harmonische (Seeds 16–19:
 8/8, Vorhersage „> 50 %“ erfüllt); F-G-Asymmetrie nicht wiederholt (1:1) → Zufall. Details im EXP-016-README.
 Baseline 18 läuft seit 08:05 (höchstens 15000 Schritte ≈ 33 min, endet vor der Deadline).
+
+### Sitzung 5, Abschlussbericht (Entwurf 08:08 Berlin; Baseline 18 läuft noch)
+
+**Wichtigste Befunde:**
+1. **EXP-016 abgeschlossen, vorab festgelegt: *steuerbar*.** Konstruierte Trainingssplits geben einem Transformer die
+   gelernten Fourier-Frequenzen vor: 10/10 Seeds, Δ̄ = +7.7 von 10, p ≈ 0.001; passende Überlappung 3.9/5, gekreuzte 0.05.
+   Alle 20 Abweichungen sind 2k-Harmonische der Zielfrequenzen (an Seeds 16–19 vorab vorhergesagt).
+2. **Mechanismus (post hoc/in silico, explorativ):** Im ersten W_E-Gradienten interferieren die beiden Eingabepositionen
+   frequenzweise nach dem Kreuzterm der Maske (18/18 Seeds); Ursache ist der geteilte Wertepfad der Attention (eigene
+   Wertematrix für Position 1 → Interferenz weg); in der MLP fehlt sie (Vorhersage vorher notiert, für den ersten Gradienten
+   bestätigt). Geschlossene Form von M0c; M0c − M0 ist ein Kommutations-Symmetrie-Term.
+3. **2k-Komponenten:** in Studienmodellen nachrangig (Ablation), aber nicht null; Phasenkopplung nur teilweise.
+4. **Negativ:** natürliche Masken-Konzentration sagt die Grokking-Zeit nicht belastbar voraus; Oberwellen-Bereinigung und
+   kombinierte Prädiktoren bringen keinen belastbaren Gewinn.
+5. **Vorbereitet (Codex-geprüft, nicht ausgeführt):** EXP-018 (beschleunigt Konzentration das Grokking?), EXP-019 (M0c vs.
+   M0), EXP-020 (kausale Festlegungszeit per Datenwechsel), EXP-021 (Harmonische, Bestätigung), EXP-022 (Ein-Frequenz-
+   Lösung), EXP-023 (getrennte Wertepfade im Training); EXP-014 um eine M0c-Sekundärgröße ergänzt.
+6. **Technik:** `result.json` jetzt atomar; Skip endet mit Exit 0; Warteschlangen stoppen bei jedem Fehler; CRLF-Falle
+   behoben; Tests 16/16 und 5/5.
+
+**Offene Grenzen:** Nur p = 113, 30 %-Split, Transformer (Mechanismus zusätzlich MLP), eine Plattform. Mechanismus-Befunde
+nur für den ersten Gradienten; die finale Wahl testet EXP-023. Beschleunigung des Grokkings unter konstruierten Splits ist
+ungeprüft (Komplement-Testmenge), dafür EXP-018. EXP-014 (Split × Init) und EXP-010 stehen aus.
+
+**Reproduktion:** `python lab/tools/guarded_run.py -- python lab/experiments/EXP-016-engineered-split/analyze.py`;
+Post-hoc-Skripte unter `lab/experiments/EXP-015-mask-spectrum/posthoc/` und `lab/experiments/EXP-016-engineered-split/posthoc_*.py`
+(je über den Wächter, nur Init/Inferenz).
+
+**Nächste Aktion (im Fenster):** `python lab/tools/guarded_run.py --check`, dann `sh lab/experiments/queue_s5.sh` im
+Hintergrund (setzt bei Baseline 19 bzw. 18 fort). **Codex:** 7 Reviews in dieser Sitzung (EXP-018, 020, 022, 023,
+Schlussfolgerungen, Warteschlange, Befundnotiz), alle Befunde selbst geprüft; einer davon deckte einen eigenen Rechenfehler auf.
+**Scheduler:** Aufgabe `GROKVERSE-Lab-Runner` aktiv; nächster Start laut `runner-state.json` 08:49Z = **10:49 Berlin**
+(im Run-Fenster).

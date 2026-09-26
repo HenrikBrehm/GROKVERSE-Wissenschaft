@@ -5,7 +5,10 @@ tags: [lab/state]
 
 _Zuletzt aktualisiert: 2026-09-26, ~02:57 Berlin (Sitzung 4, vom Runner gestartet 00:49Z, Deadline 03:49Z)._
 
-> **LÄUFT (Sitzung 4, ab 03:12):** `sh lab/experiments/queue_s4.sh` (Log `lab/runner/logs/queue_s4.log`): Baselines 11–19,
+> **LÄUFT (Sitzung 4, ab 03:28): `sh lab/experiments/queue_s4b.sh`** (Log `lab/runner/logs/queue_s4b.log`): Baselines 12–17,
+> dann EXP-016 (Smoke, dann Arme F/G je Seed, 2000 Schritte), dann Baselines 18/19, EXP-014-Kreuzpaare, EXP-010-Tausch 11–19,
+> EXP-013 am Ende. **Wiederaufnahme: `sh lab/experiments/queue_s4b.sh` erneut starten** (fertige Läufe werden übersprungen).
+> Ältere Warteschlange (ersetzt, 03:28): `sh lab/experiments/queue_s4.sh` (Log `lab/runner/logs/queue_s4.log`): Baselines 11–19,
 > dann EXP-014-Kreuzläufe, dann EXP-010-Tausch 11–19, am Ende EXP-013. **Wiederaufnahme: dasselbe Skript erneut starten.**
 > Vorher (bis 03:12): `sh lab/experiments/EXP-010-init-swap/run_pairs.sh` im Hintergrund, Log
 > `lab/runner/logs/pairs_s4.log`. Abwechselnd EXP-003d-Baseline (`raw_d`) und EXP-010 `init_swap`

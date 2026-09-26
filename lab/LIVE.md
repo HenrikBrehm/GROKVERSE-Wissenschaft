@@ -5,20 +5,24 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 02:49 Berlin (00:49Z, vom Runner)
 - **Deadline:** 2026-09-26 05:49 Berlin (03:49Z)
-- **Zuletzt aktualisiert:** 03:17 Berlin
+- **Zuletzt aktualisiert:** 03:28 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin). Erste Sitzung mit Läufen.
 
 ## Gerade
 
-**Lauf:** EXP-003d-Baseline Seed 11 (seit 03:14). Warteschlange `queue_s4.sh`: Baselines 11–19, danach Kreuzläufe/Tausch.
-**Neuer Befund (explorativ):** Die Frequenzwahl hängt stark am **Trainingssplit**. Das Masken-Spektrum allein sagt die Frequenzen so gut voraus wie der erste Gradient (r̄ 0.307). Siehe [[NOVEL_DIRECTIONS]] N3.
+**Lauf:** Baseline Seed 12 (seit 03:27). Warteschlange `queue_s4b.sh`: Baselines 12–17 → [[experiments/EXP-016-engineered-split/README|EXP-016]] (je Seed 2 konstruierte Splits, 2000 Schritte) → Rest.
+Codex-Review der Split-Linie ist eingearbeitet (Nachträge vor jedem Lauf).
 
 ## Als Nächstes
 
-Nach den Baselines: Smoke-Test und Läufe für [[experiments/EXP-016-engineered-split/README|EXP-016]] (konstruierter Split soll Frequenzen vorgeben). Dann Bestätigung EXP-012/015 Phase 2 an Seeds 10–19.
+Sobald 8 Baselines fertig sind (10–17): Bestätigung EXP-015 und EXP-012 Phase 2 an frischen Seeds.
 
 ## Verlauf dieser Sitzung
 
+- 03:28 Warteschlange umgestellt: Baselines 12–17, dann EXP-016 (nur Reihenfolge).
+- 03:27 Baseline Seed 11 fertig: gen 5975.
+- 03:26 Codex-Review Split-Linie: 4 Befunde übernommen. Test „fremde Masken“ an den Explorationsdaten: passend 0.31, fremd 0.51, p ≤ 5.5e-4. Der Effekt ist split-spezifisch.
+- 03:19 Post hoc: Das Masken-Spektrum sagt die Frequenzen in allen 4 Architekturen voraus, auch bei der Two-hot-MLP, wo die Init nichts vorhersagt.
 - 03:16 [[experiments/EXP-016-engineered-split/README|EXP-016]] vorab festgelegt: Splits konstruiert, die Zielfrequenzen im Masken-Spektrum hervorheben (offline 10/10 erfolgreich).
 - 03:15 Post hoc: Token-Häufigkeiten erklären nichts (r̄ 0.50). Es zählt die Paarstruktur.
 - 03:14 [[experiments/EXP-015-mask-spectrum/README|EXP-015]] Phase 1: Masken-Spektrum sagt K voraus (r̄ 0.307, p < 1e-5). Mechanismus-Check: M0 ~ echter Gradient (ρ 0.57).

@@ -3,14 +3,15 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 06:51 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 07:31 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
-- **Sitzung 5 lief ohne Training:** Der Start der Warteschlange wurde vom Auto-Mode-Klassifikator abgelehnt
-  (siehe Blocker). Vorher prüfen, ob der Nutzer eine Freigabe erteilt hat.
+- **Sitzung 5, 07:31:** Der Nutzer hat um 06:58 die Freigabe erteilt (`.claude/settings.local.json`: `sh lab/experiments/*queue*`,
+  `python lab/tools/guarded_run.py *`). `queue_s5.sh` läuft seit 07:31 im Hintergrund (Log `lab/runner/logs/queue_s5.log`)
+  und wird am Sitzungsende vom Wächter gestoppt. **Nächste Sitzung: denselben Befehl erneut starten** (setzt fort).
 - **Neue Warteschlange:** `sh lab/experiments/queue_s5.sh` (ersetzt `queue_s4b.sh`, dieselben Läufe plus EXP-018/020,
   neue Reihenfolge). Log z. B. nach `lab/runner/logs/queue_s5.log`. Reihenfolge: EXP-016 Seeds 16–19 (je 2 × 4.5 min,
   danach Entscheidung) → EXP-003d-Baselines 18, 19 → Smoke EXP-018 und EXP-020 (+ `check_smoke.py`) → EXP-018 Seeds
@@ -86,6 +87,8 @@ festem Split variiert K trotzdem über Inits (GitHub-Nachbau) → Split ist nich
    EXP-020 als eigenen Nachtrag erwägen, Google Scholar gezielt zu N6.
 
 ## Blocker
+
+- **Aufgehoben 07:31:** Der Nutzer hat um 06:58 die Bash-Freigabe erteilt; die Warteschlange läuft. Der Eintrag darunter ist historisch.
 
 - **Sitzung 5 (2026-09-26 05:52 Berlin):** Der Start von `sh lab/experiments/queue_s4b.sh` im Hintergrund wurde vom
   Auto-Mode-Klassifikator von Claude Code abgelehnt („Safety Bypass Flag“), obwohl jeder Lauf über `guarded_run.py`

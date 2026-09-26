@@ -5,19 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 05:49 Berlin (03:49Z, vom Runner)
 - **Deadline:** 2026-09-26 08:49 Berlin (06:49Z)
-- **Zuletzt aktualisiert:** 07:10 Berlin
+- **Zuletzt aktualisiert:** 07:31 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin), Wächter `--check` ok.
 
 ## Gerade
 
-Keine Trainingsläufe (Queue-Start abgelehnt, siehe [[STATE]]). Codex prüft die ganze Warteschlange `queue_s5.sh` auf
-Betriebsfehler, bevor sie unbeaufsichtigt läuft.
+**Warteschlange `queue_s5.sh` läuft** (Freigabe des Nutzers um 06:58). Zuerst EXP-016 Seeds 16–19 (8 Läufe à ~4.5 min),
+danach Baselines 18/19, soweit die Zeit bis zur Deadline reicht.
 
 ## Als Nächstes
 
-Befunde der Prüfung einarbeiten; ab ~08:35 Abschlussbericht.
+Läufe beobachten (alle ~5–10 min), EXP-016 auswerten, sobald 8 Seeds da sind; ab ~08:35 Abschlussbericht.
 
 ## Verlauf dieser Sitzung
+
+- 07:31 Freigabe des Nutzers gefunden (06:58), Warteschlange gestartet.
+- 07:28 Befundnotiz nach Codex-Konsistenzprüfung korrigiert (u. a. Rechenfehler: M0c − M0 ist ein Symmetrie-, kein Asymmetrie-Term).
 
 - 07:09 [[experiments/EXP-023-split-value/README|EXP-023]] vorbereitet (eigene Wertematrix für Position 1 im Training), Codex-Review: 5 Befunde übernommen. Warteschlange: EXP-023 und EXP-022 direkt nach EXP-020.
 - 06:58 **Eingriff in silico:** Eigene Wertematrix für Position 1 → die Interferenz im ersten Gradienten verschwindet (0.47 → −0.03). MLP-Kontrast bestätigt die Vorhersage. Befundnotiz [[BEFUND-split-mechanismus]].

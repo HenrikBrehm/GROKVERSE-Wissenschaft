@@ -45,7 +45,7 @@ for S in 30 31 32 33 34; do
     --test-file $S20/seed${S}_test.npy --out-root $R/EXP-020-data-switch/raw
   run 7 --seed $S --condition baseline --steps 2000 --stop-after-gen 8000 --split-file $S20/seed${S}_train_G.npy \
     --test-file $S20/seed${S}_test.npy --out-root $R/EXP-020-data-switch/raw
-  for T in 150 50 400 1000; do
+  for T in 150 50 25 10 400 1000; do   # 10, 25: EXP-020 Nachtrag b
     run 9 --seed $S --condition baseline --steps $((T + 2000)) --stop-after-gen 8000 \
       --split-file $S20/seed${S}_train_F.npy --test-file $S20/seed${S}_test.npy \
       --switch-split-file $S20/seed${S}_train_G.npy --switch-step $T --out-root $R/EXP-020-data-switch/raw

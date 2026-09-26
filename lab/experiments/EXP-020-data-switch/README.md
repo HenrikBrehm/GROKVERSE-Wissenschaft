@@ -81,3 +81,11 @@ Entscheidung unverändert: 5/5 auswertbare Seeds stützen → *bestätigt*; 4/4 
 mindestens ein *gegen* → *nicht bestätigt*; < 4 auswertbar → *nicht auswertbar*.
 Budget neu: pro Seed ≈ 2000–8000 (nur F) + 2000 (nur G) + 9600 (Wechsel) Schritte à 0.13 s ≈ 30–45 min; 5 Seeds ≈ 2.5–3.5 h.
 Vorgeschaltet: Die Reverse-Kontrolle (G → F) ist sinnvoll, aber nicht vorab festgelegt; sie wäre ein eigener Nachtrag.
+
+## Nachtrag b (2026-09-26 06:53 Berlin, **vor jedem Lauf**): feineres Gitter am Anfang
+
+Anlass (vorhandene Daten, keine EXP-020-Läufe): In EXP-016 ist die W_E-Top-5 schon bei Schritt 50 (Smoke) bzw. 250
+(alle 12 Läufe der Seeds 10–15) genau die Zielmenge (Überlappung 5/5); danach sinkt die Überlappung bis Schritt 2000 auf
+3–5, weil 2k-Harmonische einzelne Ziele verdrängen. Die Festlegung kann also vor Schritt 50 liegen; mit dem bisherigen
+Gitter wäre dann nur „(0, 50]“ messbar. → Wechselzeiten jetzt **t ∈ {0, 10, 25, 50, 150, 400, 1000, ∞}**
+(`analyze.py`, `queue.sh`, `queue_s5.sh`). Auswerteregeln unverändert. Budget + 10 Läufe (≈ 45 min).

@@ -23,7 +23,7 @@ sys.path.insert(0, str(LAB.parent / "training"))
 from grokverse.data import split_hash  # noqa: E402
 
 SEEDS = range(30, 35)
-SWITCH = (50, 150, 400, 1000)
+SWITCH = (10, 25, 50, 150, 400, 1000)   # 10 and 25 added in Nachtrag b (before any run)
 GRID = (0.0, *map(float, SWITCH), math.inf)
 M, G_BUDGET, F_CAP, K_STEP_F, GEN_THR, MIN_VALID = 5, 2000, 8000, 2000, 0.95, 4
 

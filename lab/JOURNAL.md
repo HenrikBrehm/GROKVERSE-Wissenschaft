@@ -551,3 +551,9 @@ Top-1-Anteil 0.02 statt 0.14); feste 6000 Schritte für alle Arme; gemeinsames E
 Prüfung der Messwerkzeuge am Studienmodell Seed 0: `nanda` reproduziert die gespeicherte Schlüsselmenge exakt; nur die
 Schlüsselfrequenzen in W_E behalten → Test-Acc 0.995, nur eine (15) behalten → 0.054. Ein normal trainiertes Netz braucht
 also tatsächlich mehrere Frequenzen; das ist der Vergleichspunkt für S1.
+
+**Zyklus 14 (06:52, Designprüfung an vorhandenen Daten):** EXP-016-Spektren: Überlappung der W_E-Top-5 mit der Zielmenge
+bei Schritt 0/250/500/1000/2000 in allen 12 Läufen (Seeds 10–15): 0–2 / **5** / 4–5 / 3–5 / 3–5; im Smoke schon bei
+Schritt 50 5/5. Die Daten prägen die Frequenzen also sofort auf; später ersetzen 2k-Harmonische einzelne Ziele (passt zu
+Zyklus 7–8). Folge: EXP-020-Gitter vor jedem Lauf um t = 10 und 25 ergänzt (Nachtrag b). Die Überlappung bei 250 ist eine
+vorab festgelegte Sekundärgröße von EXP-016; hier nur als Zwischenblick, keine Entscheidung.

@@ -18,7 +18,7 @@ von der anderen Seite an: Wenn **widersprüchliche Datensignale** die Wahl an di
 **anhaltender** Konflikt über die ganze kritische Periode (F und G wechseln sich in kurzen Blöcken ab) die fremden,
 init-starken Frequenzen noch zuverlässiger hervorbringen als ein einzelner Wechsel.
 
-## Versuch (vorab festgelegt 2026-09-26 15:07 Berlin, vor jedem EXP-037-Lauf)
+## Versuch (vorab festgelegt 2026-09-26 15:06 Berlin (commit 3325b72), vor jedem EXP-037-Lauf)
 
 | Punkt | Festlegung |
 |---|---|

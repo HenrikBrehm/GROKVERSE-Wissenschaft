@@ -570,3 +570,7 @@ nach M0 Rang 4–5 in 10/14 (Mittel 3.86; binomial p ≈ 0.02); nach Init-Leistu
 **Befund (explorativ):** Verdrängt werden die früh schwächsten Ziele; deren Schwäche geht teils auf die Maske, teils auf
 die Init zurück. Zusammen mit Zyklus 7/8: Die Daten legen die Frequenzmenge sofort fest; in der späteren Dynamik ersetzen
 2k-Harmonische stärkerer Ziele die schwächsten Ziele. Läufe nicht streng unabhängig (F und G teilen die Init).
+
+**Zyklus 16 (06:55, post hoc): Kombinierter Prädiktor log E0 + log M0c.** `posthoc/combined_predictor.py`. Seeds 0–9:
+r̄ 0.252 gegen 0.280 (M0c allein), p 0.098; Seeds 10–17: 0.212 gegen 0.222, p 0.375; E0 allein 0.37. **Befund: schwach
+richtungsgleich.** Als Sekundärgröße in EXP-019 aufgenommen (Nachtrag b), bevor die frischen Läufe existieren.

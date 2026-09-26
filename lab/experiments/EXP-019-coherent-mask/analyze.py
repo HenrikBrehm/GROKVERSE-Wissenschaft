@@ -31,6 +31,12 @@ def run_k(d: Path) -> list[int] | None:
     return res.get("final_top_m_freqs") if res["status"] == "completed" else None
 
 
+def combined(s: int, M: np.ndarray, K: list[int]) -> dict:
+    """Secondary (Nachtrag b): log E0 (init power of seed s) + log M0c."""
+    E0 = p12.init_predictors(s)[0]["E0"]
+    return {"rbar_E0": p12.rbar(E0, K), "rbar_sum": p12.rbar(np.log(E0) + np.log(m0c(M)), K)}
+
+
 def rows_for(arm: str) -> list[dict]:
     rows = []
     for s in range(20, 30):
@@ -38,14 +44,14 @@ def rows_for(arm: str) -> list[dict]:
         if K is not None:
             M = mask_from_idx(np.load(E18 / f"splits/seed{s}_train_{arm}.npy"))
             rows.append({"seed": s, "src": f"EXP-018/{arm}", "K": K})
-            rows[-1].update(rbar_M0=p12.rbar(ms.m0(M), K), rbar_M0c=p12.rbar(m0c(M), K))
+            rows[-1].update(rbar_M0=p12.rbar(ms.m0(M), K), rbar_M0c=p12.rbar(m0c(M), K), **combined(s, M, K))
     if arm == "R":
         for s in (18, 19):
             K = run_k(Path(str(p12.BASE_D).format(s=s)))
             if K is not None:
                 M = ms.mask_matrix(s)
                 rows.append({"seed": s, "src": "EXP-003d", "K": K,
-                             "rbar_M0": p12.rbar(ms.m0(M), K), "rbar_M0c": p12.rbar(m0c(M), K)})
+                             "rbar_M0": p12.rbar(ms.m0(M), K), "rbar_M0c": p12.rbar(m0c(M), K), **combined(s, M, K)})
     return rows
 
 
@@ -58,7 +64,11 @@ def summary(rows: list[dict]) -> dict:
     return {"n": len(rows), "rbar_M0": float(np.mean([r["rbar_M0"] for r in rows])), "rbar_M0c": rc,
             "d_mean": float(d.mean()), "p_one_sided": p, "p_M0c_vs_null": p12.mc_null_p(rc, len(rows)),
             "verdict": "widerspricht" if d.mean() <= 0 else ("M0c besser" if p < p12.ALPHA
-                                                             else "richtungsgleich, nicht signifikant")}
+                                                             else "richtungsgleich, nicht signifikant"),
+            "secondary_sum_vs_M0c": {"rbar_sum": float(np.mean([r["rbar_sum"] for r in rows])),
+                                     "rbar_E0": float(np.mean([r["rbar_E0"] for r in rows])),
+                                     "p_sum_better": p12.sign_flip_p(np.array([r["rbar_M0c"] - r["rbar_sum"]
+                                                                                for r in rows]))}}
 
 
 def main() -> None:

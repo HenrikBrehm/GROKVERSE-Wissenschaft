@@ -59,3 +59,10 @@ M0c gewichtet also jede Antidiagonale danach, wie **spiegelsymmetrisch** ihr Paa
 **Kommutationssymmetrie** des Splits ((a, b) und (b, a) beide im Training). Für eine kommutationssymmetrische Maske ist
 M0c = 2·M0 exakt (gleiche Rangfolge). Der ganze Unterschied zwischen M0c und M0 stammt aus der Asymmetrie des Splits.
 Numerisch geprüft: Formel gegen `m0c` relative Abweichung ≤ 5e-15; symmetrische Masken M0c/(2·M0) = 1.000.
+
+## Nachtrag b (2026-09-26 06:56, vor jedem der Läufe, keine Änderung der Primärgröße)
+
+Zusätzliche Sekundärgröße: r̄(log E0 + log M0c) gegen r̄(M0c), einseitiger Vorzeichen-Permutationstest (E0 = Init-Leistung
+von W_E des jeweiligen Init-Seeds). Post hoc an Seeds 0–9: 0.252 gegen 0.280 (p 0.098), an 10–17: 0.212 gegen 0.222 (p 0.375)
+(`EXP-015-mask-spectrum/posthoc/combined_predictor.py`). Anlass: Verdrängte Ziele in EXP-016 sind früh schwach, und
+die frühe Schwäche geht teils auf die Maske, teils auf die Init zurück (JOURNAL Zyklus 15).

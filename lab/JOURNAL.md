@@ -1744,3 +1744,16 @@ K2 bei d_model 512 vs. 128 (Seeds 170–179, gleiche Splits, 40 GPU-Läufe, Prim
 (importlib, Namenskonflikt `make_split` umgangen; Seed 150 reproduziert die EXP-047-Datei exakt), Ziele = M0-Top-5 in 20/20. In
 `queue_gpu_s11.sh` nach EXP-048; unabhängige Prüfung läuft. **Lehre:** Heredocs mit Backticks immer mit <<'EOF' (ein ungeschütztes
 Heredoc hat zwei Dateinamen im README gelöscht; repariert).
+
+**Rückblick nach fünf Zyklen (20:18, Auftrag §4).**
+*Gelernt:* (1) Theorie erster Ordnung: Der Häufigkeitsanteil fällt aus dem ersten W_E-Gradienten exakt heraus, für jede Gruppe und auch
+für nicht-modulare Addition; damit hat EXP-047 eine vorab notierte, falsifizierbare Erwartung. (2) Die Verallgemeinerung von K2 ist jetzt
+über vier Achsen vorbereitet: Modulus/zusammengesetzter Modulus (EXP-043), nicht-abelsche Gruppe (EXP-046), nicht-modulare Aufgabe
+(EXP-048), Modellbreite (EXP-049), dazu Architektur (EXP-045). Alle mit ≥ 10 Seeds (Regel 15b). (3) Prozess: In dieser Sitzung haben
+unabhängige Prüfung und numpy-Nachrechnung **vor** dem ersten Lauf drei Fehler gefunden, die die Nacht gekostet hätten (Split-Dateien
+überschrieben, entarteter Selbsttest, Scheineffekt der Zahlengeraden). *Wiederholen wir uns?* Die Gefahr ist jetzt eine andere: Es liegen
+sechs ungetestete GPU-Versuche in einer Queue. Kein weiterer neuer Versuch heute; die nächste Sitzung soll erst Ergebnisse auswerten.
+*Messungen geeignet?* Top-5-Überlappung ist bei nicht-zyklischen Aufgaben oder mit starkem Nicht-Fourier-Anteil zu grob; Δ_pow
+(kontinuierlich, an EXP-016 kalibriert) ist für neue Aufgaben die bessere Primärgröße und wird in EXP-046 beschreibend mitberichtet.
+*Nächste Annahme, die angegriffen wird:* dass die Steuerung über die Paarstruktur läuft (EXP-047) und dass sie mehr ist als eine
+Eigenheit zyklischer Gruppen (EXP-046/048).

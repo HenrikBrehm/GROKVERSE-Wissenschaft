@@ -1145,3 +1145,12 @@ von der Split-Seite liefern. An den Einzelwechsel-Läufen (Seeds 30–32, Explor
 gemittelten Maske 19, 18, 40, 19, 13, 9, 45 (Median 19), Init-Ränge 11, 29, 1, 2, 8, 4, 18 (Median 8). *Ergebnis:* Die Init
 beschreibt sie besser als die Mischmaske; beides nur Assoziation an 7 Frequenzen. Für EXP-037 wird der Mischmasken-Rang
 zusätzlich berichtet.
+
+**Zyklus 6 (15:13): Codex-Angriff auf EXP-037 (ohne Training).** Codex (Ausgabe ):
+needs-attention; Blockplan, Parität und unveränderte Lauf-IDs bestätigt. Drei Einwände, alle **übernommen** (Nachtrag a):
+(1) Urteile nicht exklusiv → *mehrdeutig*, wenn H37 und eine Alternative zugleich gelten; (2) fehlende Kontrollen → C_F100
+(gleiche Exposition ohne Wechselspiel) und Mischmasken-Top-5 in A; (3) Smoke nur Metadaten, evtl. veraltet → frischer
+Smoke mit Hash-Spur je Blockwechsel (, ). Nicht umgesetzt: echtes gewichtetes
+Mischtraining (Begründung im README). **Warteschlange umgestellt:**  angehalten (nur der sh-Prozess; der laufende
+EXP-020-Lauf Seed 33 „nur G“ läuft zu Ende),  gestartet (Log ): EXP-020 Rest →
+Auswertungen → EXP-037 → EXP-035 → EXP-036 → EXP-034 → queue_s5.

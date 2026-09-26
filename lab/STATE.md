@@ -3,13 +3,14 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 15:04 Berlin (Sitzung 9 läuft, Deadline 17:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 15:13 Berlin (Sitzung 9 läuft, Deadline 17:49 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
-- **SITZUNG 9 (15:04, neuester Stand):** `queue_s8.sh` läuft seit 14:50 (Log `lab/runner/logs/queue_s8.log`, EXP-020 Seed 32
+- **SITZUNG 9 (15:13):** `queue_s8.sh` angehalten, **`queue_s9.sh` läuft** (Log `lab/runner/logs/queue_s9.log`; Reihenfolge EXP-020 Rest → Auswertungen → **EXP-037** → EXP-035 → EXP-036 → EXP-034 → queue_s5). Wiederaufnahme = `sh lab/experiments/queue_s9.sh`.
+- **SITZUNG 9 (15:04):** `queue_s8.sh` lief seit 14:50 (Log `lab/runner/logs/queue_s8.log`, EXP-020 Seed 32
   t = 1000, dann Seeds 33, 34, dann EXP-035). **Ab jetzt `sh lab/experiments/queue_s9.sh` statt `queue_s8.sh`** (gleiche
   Reihenfolge, zusätzlich Nachtrag-d-Auswertung und **EXP-036** nach EXP-035; überspringt Fertiges). Nie zwei Queues
   gleichzeitig: vorher `ps -ef | grep -E "queue|guarded_run"`.

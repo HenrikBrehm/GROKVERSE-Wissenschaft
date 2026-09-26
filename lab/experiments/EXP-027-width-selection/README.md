@@ -2,7 +2,7 @@
 id: EXP-027
 status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/abgeschlossen, neu/kandidat, befund/unklar]
+tags: [exp/abgeschlossen, neu/kandidat, befund/negativ]
 ---
 # EXP-027: Wird die Split-Neigung zur Auswahl, wenn das Netz zu schmal für alle Frequenzen ist?
 
@@ -79,6 +79,20 @@ Beschreibend (Mittel je Breite, nicht bewertet):
 Kein erkennbarer Trend der H-Bevorzugung mit der Breite; auch bei 512 ist q_H auf diesen 5 Splits nur 0.58. Die Netze werden
 mit sinkender Breite konzentrierter, nutzen aber selbst mit 32 Neuronen noch ≈ 30 Frequenzen effektiv; eine Auswahl
 weniger Frequenzen wie beim Transformer entsteht nicht. EXP-027b (Nachtrag b) läuft wie festgelegt.
+
+## Ergebnis EXP-027b (Sitzung 7, 11:24 Berlin)
+
+20/20 gültig, Güte-Schwelle überall erfüllt (Breite 64: Test 0.994). Spearman(Rang −w, u) = −0.16, Permutations-p = 0.74.
+**Urteil: *widerspricht*.** Schmalere Netze bevorzugen die halben Ziele nicht stärker.
+
+| Breite | 512 | 256 | 128 | 64 |
+|---|---|---|---|---|
+| u = q_H − q_F | +0.23 | +0.36 | +0.10 | +0.16 |
+| q_H | 0.75 | 0.58 | 0.69 | 0.66 |
+| n_eff | 52.2 | 50.1 | 45.1 | 40.1 |
+
+Beschreibend: Auf diesen frischen Splits ist die H-Neigung in allen Breiten vorhanden (u > 0 in allen vier Breiten;
+passt zu EXP-024 Arm Q), hängt aber nicht von der Breite ab. Die Idee „Kapazitätsgrenze → Auswahl“ ist **verworfen**.
 
 ## Befehle
 

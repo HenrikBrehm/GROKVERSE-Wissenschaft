@@ -893,3 +893,6 @@ Nach 5 Schritten ist r erst 0.0118 (Init 0.0094), die Neigung am Umschaltschritt
 verstärkt. Generalisierung verzögert sich monoton (1390 → 2730). *Einordnung:* Das ist der bisher schärfste Befund dieser
 Sitzung: Die Frequenzneigung eines x²-Netzes wird in den ersten ~5–10 von 5000 Schritten durch einen kurzzeitig
 vorhandenen ungeraden Aktivierungsanteil festgelegt. Offen: Rolle von AdamW (Idee EXP-033 im BACKLOG).
+
+**Zyklus 12 (11:24): EXP-027b ausgewertet (vorab festgelegt).** 20/20 gültig. ρ(−w, u) = −0.16, p = 0.74 → ***widerspricht***.
+H-Neigung in allen Breiten (u +0.10…+0.36), aber nicht breitenabhängig. Idee „Kapazitätsgrenze erzwingt Auswahl“ verworfen.

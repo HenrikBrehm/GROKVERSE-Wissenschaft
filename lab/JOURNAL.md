@@ -827,3 +827,12 @@ Top-5 enthält 3 der 5 Ziele. Das Smoke-Kriterium (Laufbarkeit, Endlichkeit, Zei
 09:44. Beobachtung: Mit starkem linearem Anteil generalisiert das Netz in 5000 Schritten nicht; der Anker „nie“ ist also
 ein memorierendes Netz (wie EXP-024 R). Die Arme t_s ≤ 2500 enden als reine x²-Netze; ob sie generalisieren, wird
 berichtet (gen95, Test-Genauigkeit). Keine Änderung am Design.
+
+**Zyklus 5 (09:48–09:47): Ist die Frequenzwahl des Transformers ein Abdruck der Memorisierungsphase?** Anlass: memorierende
+ReLU-Netze zeigen F ab Schritt 50. Post hoc an den 20 EXP-016-Läufen (`posthoc_memo_imprint.py`, ohne Training): Schritt 250
+liegt in allen Läufen zwischen Memorisierung (120–130) und Generalisierung (450–1100); dort sind die W_E-Top-5 in **20/20**
+Läufen genau die Ziele F (Anteil 0.27–0.40, Zufall 0.089). Am Ende nur noch 3.9/5; der Abfall liegt grob um die
+Generalisierung, teils ein Gitterpunkt davor. *Einordnung:* explorativ, an denselben Daten gefunden. → [[experiments/EXP-028-memo-imprint/README|EXP-028]]
+vorab festgelegt (Bestätigung an den noch nicht gelaufenen EXP-020-Läufen „nur F“/„nur G“, Seeds 30–34, keine eigenen
+Läufe). N13 angelegt, Suche: nicht gefunden (vorläufig). Der Auswerter ist nur auf Feldnamen geprüft (an EXP-016-Daten),
+nicht an synthetischen Fällen.

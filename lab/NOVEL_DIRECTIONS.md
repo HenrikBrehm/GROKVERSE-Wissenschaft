@@ -296,3 +296,18 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   2024 (https://arxiv.org/abs/2411.05353, Nichtlinearität steuert Grokking, ohne Frequenzwahl oder Split); Kunin et al.
   2025 (AGF). Paritätszerlegung als Brücke Split-Spektrum (k vs 2k) ↔ gelernte Frequenz und der Umschlagpunkt als
   Zeitmesser: **nicht gefunden** (vorläufig; Google Scholar/OpenReview nicht gezielt).
+
+## N13: Memorisierung prägt das Masken-Spektrum ein, Generalisierung verdrängt Teile durch 2k-Oberwellen #neu/kandidat
+
+- **Beobachtung (Sitzung 7, post hoc, EXP-016):** Bei Schritt 250 (Memorisierungsphase) sind die W_E-Top-5 in 20/20
+  Transformerläufen genau die Ziele des konstruierten Splits; bis zum Ende fällt die Überlappung auf 3.9, ersetzt durch
+  2k-Oberwellen. Parallel: memorierende ReLU-Zwei-Hot-Netze (EXP-024 R) zeigen F ab Schritt 50. Deutung (Spekulation):
+  Die frühe Wahl ist ein Abdruck der Trainingsmenge (ungerader/linearer Anteil), die Generalisierung bringt über gerade
+  Anteile 2k-Komponenten. Bestätigung vorab festgelegt: [[experiments/EXP-028-memo-imprint/README|EXP-028]].
+- **Suche 09:47:** „grokking modular addition embedding Fourier frequencies already present during memorization phase before
+  generalization which frequencies training set“. Nächstverwandt: Nanda et al. 2023 (Schaltkreis entsteht nach der
+  Memorisierung, vor dem Test-Sprung; https://www.alignmentforum.org/posts/N6WM6hs7RQMKDhYjB/), He et al. 2026
+  (Frequenzwahl je Neuron nach Init, https://arxiv.org/abs/2602.16849), https://arxiv.org/pdf/2607.05104 (kleine Modelle,
+  Einbettungs-Konzentration sagt Generalisierung nicht voraus; nicht im Detail gelesen). Dass die Memorisierungsphase das
+  Spektrum der *Trainingsmaske* vollständig einprägt und die Generalisierung Teile davon durch 2k-Oberwellen ersetzt:
+  **nicht gefunden** (vorläufig).

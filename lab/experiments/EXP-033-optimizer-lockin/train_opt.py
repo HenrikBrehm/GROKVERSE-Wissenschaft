@@ -52,6 +52,8 @@ def main() -> None:
     ap.add_argument("--phase1-only", action="store_true")
     ap.add_argument("--tag", default="")
     ap.add_argument("--init-seed", type=int, default=None, help="pilot only; default --seed")
+    ap.add_argument("--backtrack", action="store_true",
+                    help="Nachtrag c: gd/sign only; a step that would overshoot switch-r by > 0.5 %% is halved until it does not")
     ap.add_argument("--out", default=str(HERE / "raw"))
     a = ap.parse_args()
     if (a.opt1 == "adamw") != (a.switch_step is not None) or (a.opt1 != "adamw") != (a.switch_r is not None):
@@ -81,7 +83,7 @@ def main() -> None:
                     (fwd(te_a, te_b).argmax(1) == te_y).float().mean().item())
 
     lvl = (f"t{a.switch_step}" if a.opt1 == "adamw" else f"r{a.switch_r:g}" + (f"_lr{a.gd_lr:g}" if a.opt1 == "gd" else ""))
-    run_id = f"EXP-033_{a.opt1}_{lvl}_seed{a.seed}" + (f"_{a.tag}" if a.tag else "") + ("" if a.init_seed is None else f"_init{a.init_seed}") + ("_p1" if a.phase1_only else "")
+    run_id = f"EXP-033_{a.opt1}_{lvl}_seed{a.seed}" + (f"_{a.tag}" if a.tag else "") + ("" if a.init_seed is None else f"_init{a.init_seed}") + ("_bt" if a.backtrack else "") + ("_p1" if a.phase1_only else "")
     out_dir = Path(a.out) / run_id
     out_dir.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
@@ -91,7 +93,7 @@ def main() -> None:
     # phase 1
     opt1 = (torch.optim.AdamW(params, lr=1e-3, weight_decay=1.0, betas=(0.9, 0.98)) if a.opt1 == "adamw"
             else torch.optim.SGD(params, lr=a.gd_lr, momentum=0.0, weight_decay=0.0) if a.opt1 == "gd" else None)
-    n1, reached = 0, False
+    n1, reached, n_bt = 0, False, []
     while n1 < a.max_phase1:
         if a.opt1 == "adamw" and n1 == a.switch_step:
             reached = True
@@ -108,12 +110,23 @@ def main() -> None:
         for q in params:
             q.grad = None
         loss.backward()
-        if opt1 is not None:
+        if a.opt1 == "adamw":
             opt1.step()
         else:
+            base = a.gd_lr if a.opt1 == "gd" else 1e-3
             with torch.no_grad():
-                for q in params:
-                    q -= 1e-3 * torch.sign(q.grad)
+                upd = [q.grad if a.opt1 == "gd" else torch.sign(q.grad) for q in params]
+                scale = 1.0
+                for _ in range(30):   # Nachtrag c: halve the step while it would overshoot the target by > 0.5 %
+                    trial = W_in - scale * base * upd[0]
+                    r_new = float(torch.quantile(torch.sqrt((trial[:P] ** 2 + trial[P:] ** 2).mean(0)), 0.5))
+                    if not a.backtrack or r_new <= a.switch_r * 1.005:
+                        break
+                    scale /= 2
+                for q, g in zip(params, upd):
+                    q -= scale * base * g
+                if scale < 1:
+                    n_bt.append([n1, scale])
         n1 += 1
         if not (torch.isfinite(W_in).all() and torch.isfinite(W_out).all()):
             finite = False
@@ -151,7 +164,7 @@ def main() -> None:
     complete = reached and finite and (a.phase1_only or (n2 == a.after_steps and f"p2_{a.after_steps}" in snaps))
     res = {"run_id": run_id, "args": vars(a), "targets": None if a.phase1_only else meta["targets"], "n_train": int(len(idx)),
            "phase1_steps": n1, "reached": reached, "finite": finite, "complete": complete,
-           "r_switch": r_switch, "r_quantiles_switch": r_q_switch, "acc_trace": acc_trace, "wout_norm_switch": wout_norm_switch,
+           "r_switch": r_switch, "r_quantiles_switch": r_q_switch, "acc_trace": acc_trace, "backtrack_scales": n_bt, "wout_norm_switch": wout_norm_switch,
            "acc_switch": acc_switch, "r_trace": r_trace, "gen_step_test95": gen,
            "final_test_acc": curve[-1][2] if curve else None, "final_train_acc": curve[-1][1] if curve else None,
            "curve": curve, "spectra": snaps, "elapsed_s": time.time() - t0, "torch": torch.__version__}

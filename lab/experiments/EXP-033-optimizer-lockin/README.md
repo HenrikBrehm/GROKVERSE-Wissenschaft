@@ -79,6 +79,16 @@ ist deshalb mäßig. **Vorhersage (sekundär, vorab):** ds am Umschaltschritt GD
 F-lastigen Top-Moden, Vorzeichen-Schritte bewegen alle Koordinaten gleich weit). Geringe Zuversicht; beeinflusst die
 Primärentscheidung nicht.
 
+## Nachtrag c (2026-09-26 12:26 Berlin, nach den ersten 3 Hauptläufen, **ohne Ansicht eines ds-Werts**): genaues Matching
+
+Beim ersten Split überschießt der Vorzeichen-Arm das Ziel-r um 4.7 % (Schritt 1e-3 ist grob), GD um 1.5 % (Pilot 0.4 %). Mit
+der Toleranz 2 % wäre SIGN meist ungültig und GD knapp; ein einziger GD-Ausreißer machte den ganzen Versuch *nicht auswertbar*.
+Änderung (`--backtrack`): In GD und SIGN wird ein Schritt, der r über 1.005 · Ziel heben würde, so lange halbiert, bis er das
+nicht tut (nur der letzte Anflug ist betroffen; die Halbierungen werden gespeichert). Lauf-IDs enden auf `_bt`; nur diese
+werden ausgewertet. Die beiden alten Läufe von Split 10 (`EXP-033_gd_r0.0167032_lr3_seed10`, `EXP-033_sign_r0.0167032_seed10`)
+bleiben liegen, werden nicht ausgewertet, ihre ds wurden nicht angesehen. Alle übrigen Festlegungen (Toleranz 2 %, Tor,
+Entscheidung) unverändert. AdamW-Läufe sind nicht betroffen.
+
 ## Befehle
 
     sh lab/experiments/EXP-033-optimizer-lockin/queue.sh      # Pilot + lr.json + alle Läufe, überspringt Fertiges

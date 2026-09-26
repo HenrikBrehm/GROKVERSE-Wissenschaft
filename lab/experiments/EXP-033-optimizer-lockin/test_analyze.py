@@ -59,8 +59,8 @@ def build(tmp: Path, ds_ar: float, ds_gd: float, overshoot: float = 0.0, drop_gd
             write(lab / "EXP-027-width-selection" / "raw_b" / f"EXP-026_a0_seed{s}_F", sigma_run(s, -1, 0.0, 0.0))
         write(here / "raw" / f"EXP-033_adamw_t10_seed{s}", opt_run(ds_ar, rt))
         if drop_gd != s:
-            write(here / "raw" / f"EXP-033_gd_r{rt:g}_lr{LR:g}_seed{s}", opt_run(ds_gd, rt * (1 + overshoot)))
-        write(here / "raw" / f"EXP-033_sign_r{rt:g}_seed{s}", opt_run(ds_ar, rt))
+            write(here / "raw" / f"EXP-033_gd_r{rt:g}_lr{LR:g}_seed{s}_bt", opt_run(ds_gd, rt * (1 + overshoot)))
+        write(here / "raw" / f"EXP-033_sign_r{rt:g}_seed{s}_bt", opt_run(ds_ar, rt))
     A.HERE, A.LAB = here, lab
 
 

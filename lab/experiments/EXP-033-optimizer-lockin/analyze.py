@@ -79,7 +79,7 @@ def main() -> None:
         rt = ar["r_switch"]
         u.update(ds0=ds(a0, "5000"), ds_ar=ds(ar, "p2_5000"), dsw_ar=ds(ar, "switch"), wout_ar=ar["wout_norm_switch"],
                  rq_ar=ar["r_quantiles_switch"], gen_ar=ar["gen_step_test95"], r_target=rt)
-        for opt, rid in (("gd", f"EXP-033_gd_r{rt:g}_lr{lr:g}_seed{s}"), ("sign", f"EXP-033_sign_r{rt:g}_seed{s}")):
+        for opt, rid in (("gd", f"EXP-033_gd_r{rt:g}_lr{lr:g}_seed{s}_bt"), ("sign", f"EXP-033_sign_r{rt:g}_seed{s}_bt")):
             r = load(HERE / "raw" / rid / "result.json")
             ok = bool(r and r["complete"] and r["final_test_acc"] >= 0.9 and abs(r["r_switch"] / rt - 1) <= TOL)
             u[opt] = {"ok": ok, "reached": r and r["reached"]}

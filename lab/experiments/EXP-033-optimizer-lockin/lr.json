@@ -1,0 +1,41 @@
+{
+ "rule": "Rule: largest lr in LRS whose pilot reached r >= TARGET within the cap, stayed finite, and overshot by <= 2 %.",
+ "pilot": [
+  {
+   "lr": 0.3,
+   "ok": true,
+   "steps": 750,
+   "overshoot": 0.0004990962808004706,
+   "finite": true
+  },
+  {
+   "lr": 1.0,
+   "ok": true,
+   "steps": 226,
+   "overshoot": 0.0025957431978809176,
+   "finite": true
+  },
+  {
+   "lr": 3.0,
+   "ok": true,
+   "steps": 76,
+   "overshoot": 0.004428496796214043,
+   "finite": true
+  },
+  {
+   "lr": 10.0,
+   "ok": false,
+   "steps": 24,
+   "overshoot": 0.035831801727146395,
+   "finite": true
+  },
+  {
+   "lr": 30.0,
+   "ok": false,
+   "steps": 9,
+   "overshoot": 0.10657316838909758,
+   "finite": true
+  }
+ ],
+ "lr": 3.0
+}

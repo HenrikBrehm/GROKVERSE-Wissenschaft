@@ -1,5 +1,5 @@
 #!/bin/sh
-# EXP-033 queue (Nachtrag a). One job at a time via guarded_run.py; completed runs are skipped.
+# EXP-033 queue (Nachtrag a; Nachtrag c: GD/sign runs with --backtrack, run ids end in _bt). One job at a time via guarded_run.py; completed runs are skipped.
 # 1) GD lr pilot (split 10, init 99, phase 1 only) + select_lr.py -> lr.json
 # 2) per split 10-19 at level t_s = 10: AdamW-reset (target r := its own r at the switch), GD, sign; retained AdamW
 #    (EXP-032 protocol, train_sigma.py) for 15-19. rc 4 (target not reached / NaN) is data only if result.json says so.
@@ -21,9 +21,9 @@ LR=$(python -c "import json;print(json.load(open('$E/lr.json'))['lr'])")
 [ "$LR" != "None" ] || stop "lr.json has no lr"
 gdrun() {  # $1 opt, $2 seed, $3 target r, rest extra args
   opt=$1; S=$2; R=$3; shift 3
-  RID=$(python -c "print('EXP-033_$opt' + f'_r{$R:g}' + ('_lr' + f'{$LR:g}' if '$opt' == 'gd' else '') + '_seed$S')")
+  RID=$(python -c "print('EXP-033_$opt' + f'_r{$R:g}' + ('_lr' + f'{$LR:g}' if '$opt' == 'gd' else '') + '_seed${S}_bt')")
   done_ "$O/$RID" && return 0
-  $G --min-minutes 6 -- python $T --seed $S --opt1 $opt --switch-r $R "$@" --out $O
+  $G --min-minutes 6 -- python $T --seed $S --opt1 $opt --switch-r $R --backtrack "$@" --out $O
   rc=$?
   [ $rc -eq 0 ] && return 0
   [ $rc -eq 4 ] && python -c "import json,sys;r=json.load(open('$O/$RID/result.json'));sys.exit(0 if (not r['reached'] or not r['finite']) else 1)" \

@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 05:49 Berlin (03:49Z, vom Runner)
 - **Deadline:** 2026-09-26 08:49 Berlin (06:49Z)
-- **Zuletzt aktualisiert:** 07:48 Berlin
+- **Zuletzt aktualisiert:** 08:09 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin), Wächter `--check` ok.
 
 ## Gerade
 
-**Warteschlange `queue_s5.sh` läuft** (Freigabe des Nutzers um 06:58). Zuerst EXP-016 Seeds 16–19 (8 Läufe à ~4.5 min),
-danach Baselines 18/19, soweit die Zeit bis zur Deadline reicht.
+Baseline Seed 18 (EXP-003d) läuft seit 08:05 (höchstens ~33 min). Danach lehnt der Wächter weitere lange Läufe ab
+(Deadline), die Warteschlange hält an.
 
 ## Als Nächstes
 
-Läufe beobachten (alle ~5–10 min), EXP-016 auswerten, sobald 8 Seeds da sind; ab ~08:35 Abschlussbericht.
+Lauf beobachten; ab ~08:35 Abschlussbericht. Nächste Sitzung: `queue_s5.sh` erneut starten (setzt fort).
 
 ## Verlauf dieser Sitzung
+
+- 08:06 **[[experiments/EXP-016-engineered-split/README|EXP-016]] abgeschlossen: steuerbar.** 10/10 Seeds, Δ̄ = +7.7 von 10, p ≈ 0.001. Die Datenauswahl gibt die gelernten Frequenzen vor.
 
 - 07:48 **EXP-016 Zwischenstand (8 Seeds):** Δ̄ = +7.6 von 10, 8/8 positiv, p = 0.004. Die konstruierten Splits geben die Frequenzen vor. Entscheidung bei 10 Seeds (laufen).
 - 07:43 EXP-016 Seed 17: F 4/5, G 4/5; alle Abweichungen sind 2k-Harmonische.

@@ -3,14 +3,14 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 07:31 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 08:09 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
 - **Sitzung 5, 07:31:** Der Nutzer hat um 06:58 die Freigabe erteilt (`.claude/settings.local.json`: `sh lab/experiments/*queue*`,
-  `python lab/tools/guarded_run.py *`). `queue_s5.sh` läuft seit 07:31 im Hintergrund (Log `lab/runner/logs/queue_s5.log`)
+  `python lab/tools/guarded_run.py *`). `queue_s5.sh` lief ab 07:30 im Hintergrund (Log `lab/runner/logs/queue_s5.log`)
   und wird am Sitzungsende vom Wächter gestoppt. **Nächste Sitzung: denselben Befehl erneut starten** (setzt fort).
 - **Neue Warteschlange:** `sh lab/experiments/queue_s5.sh` (ersetzt `queue_s4b.sh`, dieselben Läufe plus EXP-018/020,
   neue Reihenfolge). Log z. B. nach `lab/runner/logs/queue_s5.log`. Reihenfolge: EXP-016 Seeds 16–19 (je 2 × 4.5 min,
@@ -45,7 +45,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
   Rangfolge der gelernten Frequenzen voraus (r̄ 0.277, fremde Masken 0.499, p 2.5e-5). **Nur Assoziation.**
 - [[experiments/EXP-012-init-gradient/README|EXP-012]]: Erster Gradient an W_E > Init-Spektrum (p 0.031).
 
-**Läuft:** [[experiments/EXP-016-engineered-split/README|EXP-016]] 6/10 Seeds, Δ = +8, +7, +7, +7, +8, +9. Entscheidung ab 8.
+**Abgeschlossen (Sitzung 5, 08:06):** [[experiments/EXP-016-engineered-split/README|EXP-016]] *steuerbar*: 10/10 Seeds, Δ̄ = +7.7 von 10,
+p ≈ 0.001. Konstruierte Splits geben die gelernten Frequenzen vor; alle Abweichungen sind 2k-Harmonische der Ziele.
 
 **Neu vorbereitet in Sitzung 5 (alle nicht ausgeführt, Codex-Reviews eingearbeitet):**
 - [[experiments/EXP-018-split-speed/README|EXP-018]]: Beschleunigt ein spektral konzentrierter Split das Grokking?
@@ -79,7 +80,7 @@ festem Split variiert K trotzdem über Inits (GitHub-Nachbau) → Split ist nich
 ## Nächste konkrete Aktionen (nur im Fenster 00:00–13:00 Berlin)
 
 1. `python lab/tools/guarded_run.py --check`, dann `sh lab/experiments/queue_s5.sh` im Hintergrund, beobachten.
-2. EXP-016 auswerten, sobald 8 Seeds da sind; EXP-015/012 Phase 2 mit n = 10 nur berichten.
+2. EXP-016 ist fertig. Nach den Baselines 18/19: EXP-015/012 Phase 2 mit n = 10 nur berichten.
 3. Nach den Smokes: `check_smoke.py` (EXP-020) und `result.json` des EXP-018-Smokes prüfen (`test_hash`, 2554 Testpaare).
 4. Auswertungen: `EXP-021-harmonic-misses/analyze.py`, `EXP-022-single-frequency/analyze.py`, `EXP-018-split-speed/analyze.py`, `EXP-019-coherent-mask/analyze.py`, `EXP-014-split-vs-init/analyze.py`,
    `EXP-020-data-switch/analyze.py`, `EXP-010-init-swap/analyze.py` (je über den Wächter, wo `make_dataset` benutzt wird).

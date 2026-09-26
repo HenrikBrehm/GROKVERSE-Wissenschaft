@@ -627,3 +627,10 @@ bei Auswahl 0.166, bei Gewichten auf zufälligem Split 0.173, bei Gewichten auf 
 Ausgabeklassen bleiben fast gleich (CV 0.004). Die Vollvariante trennt also Paarstruktur und Häufigkeiten nicht. Für einen Mechanismus-Test
 braucht N29 dieselbe Kontrolle wie [[experiments/EXP-047-marginal-control/README|EXP-047]] (Gewichte so umverteilen, dass die gewichteten
 a/b-Häufigkeiten gleich bleiben, die Paarstruktur aber zerstört ist). Erst nach dem EXP-047-Ergebnis festlegen.
+*Literatur zu N27 (Sitzung 14):* Suche „first gradient step predicts learned features alignment early training data-dependent feature
+selection theory“. Allgemeine Theorie, dass schon ein Gradientenschritt die erste Schicht auf das Signal der Daten ausrichtet: Ba et al. 2022,
+*High-dimensional Asymptotics of Feature Learning: How One Gradient Step Improves the Representation* (https://arxiv.org/abs/2205.01445;
+Lehrer-Schüler, Gauß-Eingaben, Rang-1-Spitze); Zwei-Schritt-Erweiterung (https://pith.science/paper/2605.17767). **Einordnung:** Die Idee
+„erster Schritt bestimmt Merkmale“ ist bekannt (#neu/bekannt für den allgemeinen Satz). Nicht gefunden (vorläufig): eine geschlossene Formel
+für Einbettungstabellen, die aus der *Zusammensetzung einer diskreten Trainingsmenge* die Frequenz-/Irrep-Rangfolge vorhersagt und über
+Gruppen und eine nicht-modulare Aufgabe geprüft wird. Das bleibt der Kandidat von N27.

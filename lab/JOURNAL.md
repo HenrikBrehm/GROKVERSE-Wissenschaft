@@ -1609,3 +1609,18 @@ Fehler wie in Sitzung 10. Ab jetzt gilt: vor jedem Zeitstempel die Uhr messen.
 F und G werden **unabhängig** gezogen (Überlappung gemessen 37–39 % statt 73 % in EXP-020), Wechsel bei t ∈ {25, 50, 150}, gleiches
 G-Budget, 10 Seeds (80–89) je Aufgabe, primär d(150) mit Vorzeichentest. Die Queue startet nur Aufgaben, die in EXP-043 *steuerbar*
 sind. Splits erzeugt (Zielmenge = M0-Top-5 in 40/40). `freq_ban.py`: Wechselläufe der neuen Aufgaben heißen EXP-044.
+
+**Zyklus 5 (19:25, ohne Training): Ist Multiplikation hier überhaupt eine andere Aufgabe?** Frage: Was genau prüft der mul-Arm von
+EXP-043? Überlegung: W_E und W_U sind Nachschlagetabellen mit iid-Init, deren Verteilung unter Umbenennung der Token invariant ist;
+mit a ↦ log_g a (Eingabe und Ausgabe) wird mul mod 113 auf den 112² Paaren ohne Null exakt zu add mod 112. *Ergebnis:* Der mul-Arm
+prüft einen zusammengesetzten Modulus (112, nicht treue Frequenzen) plus 225 Null-Paare, keine andere Rechenart. Vor jedem Lauf im
+EXP-043-README und in [[FINDINGS]] vermerkt; Urteilsregeln unverändert. Folgerung für Regel 15c: Aufgaben, die nach Umbenennung
+der Token eine zyklische Gruppe sind (Subtraktion, Multiplikation, x + y + const.), sind für dieses Modell *kein* neuer Test; eine echte
+Aufgaben-Verallgemeinerung braucht eine nicht zyklische Struktur (nicht-abelsche Gruppe) oder eine nicht-modulare Aufgabe.
+(Methodische Einsicht; die Universalitätsarbeit von Chughtai et al. 2023 nutzt dieselbe Darstellungstheorie, also vermutlich bekannt.)
+
+**Zyklus 6 (19:26): Architektur-Verallgemeinerung vorab festgelegt.** [[experiments/EXP-045-mlp-steering/README|EXP-045]]: EXP-016-
+Design im Studien-MLP mit gemeinsamem Embedding (kein Attention-Wertepfad), add 113, Seeds 90–99, 10 000 Schritte (Studien-MLP
+generalisiert im Median bei 9 250), K bei 10 000 primär, bei 2000 sekundär. `freq_ban.py --arch mlp` (nur mit `--split-file`,
+`baseline`). Splits erzeugt (M0-Top-5 = Ziele in 20/20). GPU-Sammelqueue `queue_gpu_s11.sh` (GPU-001 → 043 → 044 → 045) geschrieben;
+J wird aus dem Durchsatztest gewählt.

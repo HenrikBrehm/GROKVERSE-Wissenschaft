@@ -16,7 +16,7 @@ EXP-033 zeigte: Eine σ_3-Phase mit reinem GD bis zur Amplitude von 10 AdamW-Sch
 könnte an AdamW hängen; (2) geprüft war nur die Stufe t_s = 10, nicht die 5-Schritte-Stufe; (3) Nachtrag c war eine
 ergebnisblinde Protokolländerung, das endgültige Protokoll gehört an frischen Splits bestätigt.
 
-## Versuch (vorab festgelegt 2026-09-26 13:25 Berlin, vor jedem EXP-034-Lauf)
+## Versuch (vorab festgelegt 2026-09-26 13:24 Berlin, commit a5c543c, vor jedem EXP-034-Lauf)
 
 | Punkt | Festlegung |
 |---|---|

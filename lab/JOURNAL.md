@@ -320,3 +320,21 @@ EXP-016 Seed 11 Arm G ~05:11: gen 975, K {19, 20, 29, 38, 55}, 3 aus G = {19, 20
 EXP-016 Seed 12 Arm F 05:15: gen 625 (Baseline 3525), K {6, 12, 22, 23, 48}, 4 aus F = {6, 22, 23, 47, 48}.
 EXP-016 Seed 12 Arm G ~05:19: gen 500, K {5, 7, 10, 11, 53}, 3 aus G = {5, 9, 11, 50, 53}, 0 aus F. Δ_12 = +7. Zwischenstand Δ: +8, +7, +7 (3 Seeds, keine Entscheidung vor 8).
 EXP-016 Seed 13 Arm F 05:24: gen 1050 (Baseline 5275), K {6, 11, 29, 42, 46}, 4 aus F = {6, 11, 38, 42, 46}.
+EXP-016 Seed 13 Arm G ~05:28: gen 525, K {7, 9, 18, 21, 53}, 3 aus G = {9, 21, 24, 35, 53}, 0 aus F. Δ_13 = +7.
+Zwischenstand EXP-016 (4 Seeds): Δ = +8, +7, +7, +7. Keine Entscheidung vor 8 Seeds (vorab festgelegt).
+
+### Sitzung 4, Abschluss (~05:30 Berlin)
+
+**Wichtigste Befunde:**
+1. **EXP-015 bestätigt (Assoziation):** Das Masken-Spektrum M0 des zufälligen Trainingssplits, ohne Gewichte berechnet,
+   sagt an frischen Seeds 10–17 die Rangfolge der gelernten Frequenzen voraus (r̄ 0.277; fremde Masken 0.499; exaktes
+   p 2.5e-5); gegen die funktionalen Schlüsselfrequenzen der Studie ebenso (p 3.6e-6). Post hoc in allen 4 Architekturen.
+2. **EXP-012 bestätigt:** Der erste Gradient an W_E sagt K besser voraus als das Init-Spektrum (p 0.031); EXP-009
+   repliziert. Mechanismus: erster Gradient ≈ M0 (Spearman 0.57).
+3. **EXP-016 (kausal, läuft):** Konstruierte Splits drücken dem Netz ihre Zielfrequenzen auf: in 4 von 4 Seeds
+   Δ = +7 bis +8 (von max. 10); bei jedem Arm 3–4 von 5 Frequenzen aus der eigenen Zielmenge, keine aus der anderen.
+   Nebenbei (nicht vorab festgelegt): Grokking 5–8× früher (EXP-018 als Idee).
+4. Negativ: Token-Häufigkeiten erklären nichts; W_U-Init sagt wenig voraus.
+**Offene Grenzen:** EXP-016 erst 4/10 Seeds; EXP-014 (Kreuzdesign) nicht gelaufen; nur p = 113, 30 %-Split,
+eine Plattform; „Split bestimmt“ ist erst nach EXP-016/014 zulässig. EXP-010: 1/10 Paare.
+**Codex:** 3 Reviews (EXP-010/011, Split-Linie, Schlussfolgerung EXP-015), alle Befunde geprüft, die meisten übernommen.

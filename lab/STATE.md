@@ -39,8 +39,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
   Init-Spektrum (0.254 vs. 0.369, p 0.031). EXP-009 an frischen Seeds repliziert (E0 p 0.0015).
 
 **Läuft:** [[experiments/EXP-016-engineered-split/README|EXP-016]] (kausal: konstruierter Split soll Frequenzen vorgeben).
-Seed 10: Arm F 4/5 aus F, Arm G 4/5 aus G, Δ = +8 von 10; beide generalisieren früh (525/975 vs. 3925). Entscheidung
-erst ab 8 Seeds.
+Seeds 10–13: Δ = +8, +7, +7, +7 (von max. 10); jeder Arm 3–4/5 aus der eigenen Zielmenge, 0 aus der anderen.
+Grokking früh (500–1050 vs. 3525–5975, nicht vorab festgelegt). Entscheidung erst ab 8 Seeds.
 
 **Vorbereitet, nicht ausgeführt:** EXP-014 (Split × Init gekreuzt, Nachtrag a), EXP-017 (RFM, keine Zufalls-Init),
 EXP-013 (Lock-in-Kurve), EXP-011 (Normtausch), EXP-001/002 (Frequenzverbote).

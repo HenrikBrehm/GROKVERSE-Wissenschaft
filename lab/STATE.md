@@ -14,8 +14,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 - **Neue Warteschlange:** `sh lab/experiments/queue_s5.sh` (ersetzt `queue_s4b.sh`, dieselben Läufe plus EXP-018/020,
   neue Reihenfolge). Log z. B. nach `lab/runner/logs/queue_s5.log`. Reihenfolge: EXP-016 Seeds 16–19 (je 2 × 4.5 min,
   danach Entscheidung) → EXP-003d-Baselines 18, 19 → Smoke EXP-018 und EXP-020 (+ `check_smoke.py`) → EXP-018 Seeds
-  20–24 → EXP-014 Kreuzpaare → EXP-020 → EXP-018 Seeds 25–29 → EXP-010-Tausch 11–19. Danach `sh lab/experiments/EXP-022-single-frequency/queue.sh` und `sh lab/experiments/EXP-023-split-value/queue.sh`
-  (15 Läufe à 13 min, Modelle gespeichert). Sie stoppt bei **jedem** Exit ≠ 0;
+  20–24 → EXP-014 Kreuzpaare → EXP-020 → EXP-023 → EXP-022 (über deren eigene `queue.sh`) → EXP-018 Seeds 25–29 →
+  EXP-010-Tausch 11–19. Sie stoppt bei **jedem** Exit ≠ 0;
   fertige Läufe werden übersprungen (`freq_ban.py` endet dann seit Sitzung 5 mit 0). Neu starten = fortsetzen.
 - **Abgebrochene Läufe** stehen mit `status: running` in `result.json` und werden neu gestartet (kein Resume).
 - Vor jedem Start: `python lab/tools/guarded_run.py --check`.

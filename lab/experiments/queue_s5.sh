@@ -3,7 +3,8 @@
 # One job at a time; every run through guarded_run.py; completed runs are skipped (freq_ban.py exits 0), so the
 # queue stops on EVERY nonzero exit (guard refusal 3, timeout 124, or a real error). Resume: start this script again.
 # Order (priority): EXP-016 seeds 16-19 (decision) -> EXP-003d baselines 18, 19 (EXP-015/019) -> smokes EXP-018/020
-# -> EXP-018 seeds 20-24 -> EXP-014 crosses -> EXP-020 -> EXP-018 seeds 25-29 -> EXP-010 swaps 11-19.
+# -> EXP-018 seeds 20-24 -> EXP-014 crosses -> EXP-020 -> EXP-023 -> EXP-022 (their own queue scripts)
+# -> EXP-018 seeds 25-29 -> EXP-010 swaps 11-19.
 F=lab/experiments/EXP-001-freq-ban/freq_ban.py
 R=lab/experiments
 S16=$R/EXP-016-engineered-split/splits
@@ -51,6 +52,8 @@ for S in 30 31 32 33 34; do
       --switch-split-file $S20/seed${S}_train_G.npy --switch-step $T --out-root $R/EXP-020-data-switch/raw
   done
 done
+sh lab/experiments/EXP-023-split-value/queue.sh || { rc=$?; echo "[queue5] EXP-023 stop, rc=$rc"; exit $rc; }
+sh lab/experiments/EXP-022-single-frequency/queue.sh || { rc=$?; echo "[queue5] EXP-022 stop, rc=$rc"; exit $rc; }
 exp018 25 26 27 28 29
 for S in 11 12 13 14 15 16 17 18 19; do
   run 33 --seed $S --condition init_swap --stop-after-gen 25 --out-root $R/EXP-010-init-swap/raw

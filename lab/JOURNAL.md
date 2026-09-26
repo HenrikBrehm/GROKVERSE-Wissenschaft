@@ -254,3 +254,12 @@ Suchen): keine Arbeit gefunden, die die Frequenzwahl dem Split zuordnet (vorläu
 Entscheidung: bestätigen an Seeds 10–19 (Phase 2, sobald ≥ 8 Baselines) und kausal über EXP-014 (Kreuzläufe).
 Vorsicht: Seeds 0–9 sind Exploration, K dort bei 25k.
 Mechanismus-Prüfung: M0 gegen tatsächlichen ersten Gradienten, Spearman 0.57 (fremder Split −0.07), `EXP-015-mask-spectrum/m0_vs_g0.py`.
+
+**Post hoc (explorativ, nicht vorab festgelegt):** Ist M0 nur das Spektrum der Token-Häufigkeiten im Training?
+`EXP-015-mask-spectrum/count_spectrum_posthoc.py`: Spearman(Häufigkeitsspektrum, M0) ≈ 0.00, r̄ des
+Häufigkeitsspektrums 0.497 (kein Signal). → Nein: M0 trägt Information über die **Paarstruktur** des Splits, nicht
+über Token-Häufigkeiten. Negativ, grenzt den Mechanismus ein.
+
+**EXP-010 Seed 10 (Tausch) fertig 03:14:** gen 5175 (Baseline 3925), K_swap {14, 20, 39, 41, 43} gegen K_base
+{7, 14, 19, 35, 39}; T = {25, 30, 31, 50, 56}, S = {2, 9, 11, 20, 53} → gain_S = 1 (20), loss_T = 0, d = +1.
+Einzelwert, keine Auswertung vor ≥ 8 Paaren.

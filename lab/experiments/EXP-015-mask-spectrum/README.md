@@ -51,3 +51,6 @@ ist also so informativ wie der tatsächliche erste Gradient. Explorativ; Bestät
 **Mechanismus-Prüfung** (`m0_vs_g0.py`, 12 s): Spearman zwischen M0 eines Splits und dem tatsächlichen Spektrum des
 ersten Gradienten (Mittel über 3 Inits) = **0.57** (Spanne 0.41–0.78, Seeds 0–9); Kontrolle mit fremdem Split −0.07.
 Die Formel erfasst also den Hauptteil der Gradienten-Frequenzvorliebe.
+
+**Post hoc (nicht vorab festgelegt):** Das Spektrum der Token-Häufigkeiten erklärt M0 nicht (Spearman ≈ 0) und sagt K
+nicht voraus (r̄ 0.497). M0 spiegelt die Paarstruktur des Splits (`count_spectrum_posthoc.py`).

@@ -845,3 +845,5 @@ den Baselines 10–19 ausgewertet: **P29a bestätigt** (10/10, ρ_memo 0.42 gege
 (8/10, 0.42 gegen 0.38) → *teilweise*. *Deutung (vorläufig):* Die bekannte schwache M0-Vorhersage von K (EXP-015, r̄ 0.28)
 ist vermutlich der Rest eines viel stärkeren Abdrucks aus der Memorisierungsphase. *Grenze:* Das Verblassen nach dem Grokking
 ist nur explorativ belegt (Seeds 0–9); die Bestätigung bräuchte Läufe, die länger über das Grokking hinaus laufen.
+**09:51 Kontrolle fremde Masken (post hoc, selbst, bevor Codex antwortete):** ρ mit fremdem M0 im selben Fenster 0.02
+(Baselines) bzw. −0.02 (Studie), eigene 0.42 / 0.47, 10/10 in beiden Sätzen. Der Abdruck ist maskenspezifisch.

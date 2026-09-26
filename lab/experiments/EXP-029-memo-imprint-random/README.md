@@ -50,6 +50,18 @@ dem Grokking zeigt (0.19 im Mittel über die ganze Zeit danach), liegt jenseits 
 geprüft. Innerhalb des Fensters fällt ρ leicht (erste Hälfte im Mittel über der zweiten in 7/10 Seeds; nur berichtet).
 Hinweis zur Regel: Der Code verlangt bei weniger als 10 gültigen Seeds alle; das trat nicht ein.
 
+### Kontrolle fremde Masken (post hoc, 09:51, `posthoc_foreign_mask.py`)
+
+Gleiches Fenster, ρ mit dem M0 der neun anderen Seeds statt der eigenen Maske:
+
+| Datensatz | ρ eigene Maske | ρ fremde Masken | eigene > fremde |
+|---|---|---|---|
+| Baselines 10–19 | 0.42 | **0.02** | 10/10 |
+| Studie 0–9 | 0.47 | **−0.02** | 10/10 |
+
+Der Abdruck ist spezifisch für die eigene Trainingsmaske; ein generisches Artefakt (Normwachstum, gemeinsame Spektralform
+von M0 und trainierten Einbettungen) würde fremde Masken ähnlich hoch korrelieren lassen.
+
 ## Befehle
 
     python lab/tools/guarded_run.py -- python lab/experiments/EXP-029-memo-imprint-random/analyze.py

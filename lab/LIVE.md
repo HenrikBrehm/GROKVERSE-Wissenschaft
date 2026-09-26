@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 08:59 Berlin (06:59Z, vom Runner)
 - **Deadline:** 2026-09-26 11:59 Berlin (09:59Z)
-- **Zuletzt aktualisiert:** 09:48 Berlin
+- **Zuletzt aktualisiert:** 09:50 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-**[[experiments/EXP-026-parity-crossover/README|EXP-026]] läuft** (seit 09:44, 30 Läufe à ~88 s, Ende ~10:30).
+**[[experiments/EXP-026-parity-crossover/README|EXP-026]] läuft** (seit 09:44, 30 Läufe à ~88 s, 4 fertig, Ende ~10:30).
 Frage: Wenn ein Netz erst mit Aktivierung 3x + x² (zieht zu den Zielen) und ab Schritt t mit x² (zieht zu den halben
 Zielen) trainiert: Ab welchem t bleibt die erste Neigung? Das misst, *wann* sich das Netz festlegt.
 
@@ -20,6 +20,7 @@ Kette läuft von selbst weiter: EXP-027 (Breite, 20 Läufe) → EXP-025 (20) →
 
 ## Verlauf dieser Sitzung
 
+- 09:50 **EXP-029 teilweise bestätigt:** Auch bei normalen Zufallssplits prägt das Auswendiglernen das Muster der Trainingsdaten in die Einbettung ein (10/10 frische Seeds). Codex greift die Deutung gerade an.
 - 09:47 **Neu: EXP-028 vorab festgelegt.** In allen 20 alten Transformer-Läufen stehen während des Auswendiglernens genau die Split-Frequenzen oben; erst beim Generalisieren kommen Oberwellen dazu. Bestätigung an frischen Läufen folgt.
 - 09:44 EXP-026 gestartet. Smoke ok; das Netz mit starkem linearem Anteil memoriert allerdings nur.
 - 09:43 **EXP-024 fertig.** ReLU: Ziele F sofort und fast vollständig (4.8/5, p = 2e-6), wie vorhergesagt, aber ohne Generalisierung. x²: nur schwache Neigung zu den halben Zielen. Richtung beider Arme wie vorhergesagt.

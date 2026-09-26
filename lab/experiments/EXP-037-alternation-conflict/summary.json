@@ -1,0 +1,151 @@
+{
+ "C_F100": {
+  "rows": [
+   {
+    "seed": 30,
+    "K": [
+     6,
+     12,
+     29,
+     42,
+     55
+    ],
+    "d": 3,
+    "foreign": [],
+    "init_ranks": {},
+    "meanmask_ranks": {},
+    "test_acc": 1.0
+   },
+   {
+    "seed": 31,
+    "K": [
+     23,
+     29,
+     41,
+     45,
+     55
+    ],
+    "d": 3,
+    "foreign": [],
+    "init_ranks": {},
+    "meanmask_ranks": {},
+    "test_acc": 1.0
+   },
+   {
+    "seed": 32,
+    "K": [
+     5,
+     11,
+     20,
+     22,
+     48
+    ],
+    "d": 3,
+    "foreign": [],
+    "init_ranks": {},
+    "meanmask_ranks": {},
+    "test_acc": 1.0
+   }
+  ],
+  "h37": false
+ },
+ "A5": {
+  "rows": [
+   {
+    "seed": 30,
+    "K": [
+     6,
+     29,
+     34,
+     45,
+     47
+    ],
+    "d": 1,
+    "foreign": [
+     34,
+     45
+    ],
+    "init_ranks": {
+     "34": 11,
+     "45": 26
+    },
+    "meanmask_ranks": {
+     "34": 19,
+     "45": 40
+    },
+    "test_acc": 1.0
+   },
+   {
+    "seed": 31,
+    "K": [
+     8,
+     22,
+     29,
+     41,
+     44
+    ],
+    "d": 1,
+    "foreign": [
+     22,
+     44
+    ],
+    "init_ranks": {
+     "22": 8,
+     "44": 26
+    },
+    "meanmask_ranks": {
+     "22": 13,
+     "44": 20
+    },
+    "test_acc": 1.0
+   },
+   {
+    "seed": 32,
+    "K": [
+     8,
+     11,
+     13,
+     35,
+     50
+    ],
+    "d": 0,
+    "foreign": [
+     8,
+     13,
+     50
+    ],
+    "init_ranks": {
+     "8": 4,
+     "13": 18,
+     "50": 9
+    },
+    "meanmask_ranks": {
+     "8": 9,
+     "13": 45,
+     "50": 54
+    },
+    "test_acc": 0.47768205404281616
+   }
+  ],
+  "verdict": "gestuetzt",
+  "role": "primary"
+ },
+ "A25": {
+  "rows": [
+   {
+    "seed": 30,
+    "error": "EXP-020_baseline_seed30_thr4_seed30_train_F_to_seed30_train_G_at200_alt25: unreadable (FileNotFoundError)"
+   },
+   {
+    "seed": 31,
+    "error": "EXP-020_baseline_seed31_thr4_seed31_train_F_to_seed31_train_G_at200_alt25: unreadable (FileNotFoundError)"
+   },
+   {
+    "seed": 32,
+    "error": "EXP-020_baseline_seed32_thr4_seed32_train_F_to_seed32_train_G_at200_alt25: unreadable (FileNotFoundError)"
+   }
+  ],
+  "verdict": "nicht auswertbar",
+  "role": "secondary"
+ }
+}

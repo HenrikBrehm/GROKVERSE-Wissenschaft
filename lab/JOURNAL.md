@@ -1203,3 +1203,18 @@ Alle drei übernommen (Nachtrag a): d_h < 0 / > 0 getrennt, Test-Acc-Schwelle 0.
 statt Speicherort, Selbstprüfung des Rücksetzens im Trainer. Nicht übernommen: norm-angepasste Kontrollen (Folgeversuch).
 Nebenbeobachtung EXP-037 (Läufe bisher 2/9): Das Wechselspiel erzeugt in Seed 30 wieder 34, in Seed 31 wieder 22, dieselben
 fremden Frequenzen wie der Einzelwechsel desselben Seeds. Fremde Frequenzen wirken je Seed reproduzierbar (beschreibend).
+
+**16:50 [[experiments/EXP-037-alternation-conflict/README|EXP-037]] Primärarm (A = 5) und Kontrolle fertig, ausgewertet.**
+C_F100 (F 100, dann G 2100): K = K_nurF in 3/3, keine fremde Frequenz. A = 5: K = [6, 29, 34, 45, 47], [8, 22, 29, 41, 44],
+[8, 11, 13, 35, 50]; d = +1, +1, 0; fremd 34, 45 | 22, 44 | 8, 13, 50; Init-Ränge 11, 26 | 8, 26 | 4, 18, 9 (Median 11);
+Mischmasken-Ränge 19, 40 | 13, 20 | 9, 45, 54; Test-Acc 1.0, 1.0, 0.48.
+**Vorab festgelegtes Urteil (A = 5): *gestützt*.** Einschränkungen, ehrlich: (a) Der Median ≤ 14 wird von den schon aus der
+Exploration bekannten Frequenzen getragen (34, 22, 8, 13); die neuen (45, 44, 50) haben Init-Ränge 26, 26, 9. (b) **45 =
+fold(2 · 34) und 44 = fold(2 · 22)**: Die „neuen“ fremden Frequenzen sind Oberwellen der wiederkehrenden. (c) Nachtrag d
+(frische Seeds) hatte die Init-Deutung nicht bestätigt.
+**Ablation (Nachtrag b, beschreibend):** Die wiederkehrenden fremden Frequenzen sind **funktional** (Δloss beim Entfernen:
+34 → 1.38, 22 → 1.57, 8 → 3.28, 13 → 4.19; Ziele 0.3–3.2; Zufallsfrequenzen ≈ 0). Die Oberwellen 45, 44 nur schwach
+(Δloss 0.011, 0.005, „dazwischen“). 50 in Seed 32 funktional (Netz dort nur 0.48 Test-Acc).
+*Deutung (vorläufig):* Je Seed gibt es eine reproduzierbare, im Schaltkreis genutzte „Konfliktfrequenz“, die bei anhaltendem
+oder frühem F/G-Konflikt auftaucht, bei gleicher Exposition ohne Konflikt (C_F100) nicht. Ob die Init sie bestimmt, bleibt
+offen (gemischte Evidenz); EXP-036 (Init-Wechsel) ist der direkte Test und gewinnt damit wieder an Wert.

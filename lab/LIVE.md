@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 19:59 Berlin (17:59Z, vom Runner)
 - **Deadline:** 2026-09-26 22:59 Berlin (20:59Z)
-- **Zuletzt aktualisiert:** 21:00 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 21:10 Berlin (gemessen)
 - **Run-Fenster:** zu. **Neu (Regel 18, Nutzer 20:30): heute Nacht Läufe erst ab 03:00.** Bis dahin setze ich den Astra-Review als Code um.
 
 ## Gerade
 
-Die Zweitprüfung der neuen Technik ist durch (kein schwerer Fehler), die Befunde sind eingearbeitet. Tests für das Nachtprogramm sind geschrieben.
+Abschlussbericht gesichert (JOURNAL). Die Sitzung läuft noch bis 22:59; ich schärfe bis dahin nur noch die Planung (keine neuen Versuche).
 
 ## Als Nächstes
 
-Bis zum Sitzungsende (22:59) Stand sichern. Ab 03:00 übernimmt die nächste Sitzung: erst Wächter-Abnahme und Tests, dann GPU-001, dann die Versuche.
+Nächste Sitzung 00:59: bis 03:00 nur Planung; ab 03:00 Wächter-Abnahme, Tests, dann GPU-Abnahme und die Nachtversuche (Schritte in STATE).
 
 ## Verlauf dieser Sitzung
 
+- 21:10 **Neuer Funktionstest EXP-051** vorbereitet: Nutzt das Netz die gesteuerten Frequenzen wirklich? Wird ohne neues Training an den heute Nacht gespeicherten EXP-047-Modellen geprüft. Die Prüfung fand einen Denkfehler in der Kontrolle (unmöglicher Energieabgleich), vor jedem Lauf behoben.
 - 21:00 Zweitprüfung der gemeinsamen Technik: keine Blocker; zwei mittlere Punkte behoben (alte GPU-Prüfläufe würden nach Code-Änderung wiederverwendet; CPU-Last vor der GPU-Abnahme zu hoch bemessen). Tests für das Nachtprogramm ergänzt.
 - 20:51 Nachtprogramm auch für die CPU-Versuche gebaut; die schon fertigen Läufe werden erkannt und nicht wiederholt. Tests für die neuen Sicherungen geschrieben (laufen ab 03:00).
 - 20:45 **Regel 18 entdeckt (Nutzer-Auftrag von 20:30)** und umgesteuert: Plan der Nacht geändert (Läufe erst ab 03:00, vorher Umbau nach dem Astra-Review). Sechs von acht Code-Punkten stehen (ungetestet).

@@ -319,3 +319,4 @@ EXP-016 Seed 11 Arm F 05:06: gen 775 (Baseline 5975), K {5, 10, 18, 27, 44}, 4 a
 EXP-016 Seed 11 Arm G ~05:11: gen 975, K {19, 20, 29, 38, 55}, 3 aus G = {19, 20, 29, 39, 56} (38/55 sind Nachbarn von 39/56), 0 aus F. Δ_11 = +7. Beobachtung für später (nicht vorab festgelegt): Nachbarfrequenzen k±1 der Ziele.
 EXP-016 Seed 12 Arm F 05:15: gen 625 (Baseline 3525), K {6, 12, 22, 23, 48}, 4 aus F = {6, 22, 23, 47, 48}.
 EXP-016 Seed 12 Arm G ~05:19: gen 500, K {5, 7, 10, 11, 53}, 3 aus G = {5, 9, 11, 50, 53}, 0 aus F. Δ_12 = +7. Zwischenstand Δ: +8, +7, +7 (3 Seeds, keine Entscheidung vor 8).
+EXP-016 Seed 13 Arm F 05:24: gen 1050 (Baseline 5275), K {6, 11, 29, 42, 46}, 4 aus F = {6, 11, 38, 42, 46}.

@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 02:49 Berlin (00:49Z, vom Runner)
 - **Deadline:** 2026-09-26 05:49 Berlin (03:49Z)
-- **Zuletzt aktualisiert:** 05:16 Berlin
+- **Zuletzt aktualisiert:** 05:24 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin). Erste Sitzung mit Läufen.
 
 ## Gerade
@@ -19,6 +19,7 @@ Laufende EXP-016-Läufe beobachten. Ab ≈ 05:39 Stand sichern und Abschlussberi
 
 ## Verlauf dieser Sitzung
 
+- 05:24 EXP-016 Seed 13 Arm F: 4 von 5 aus der Zielmenge.
 - 05:19 EXP-016 Seed 12 Arm G: 3 von 5 aus G. Zwischenstand Δ = +8, +7, +7 (3 Seeds; Entscheidung erst ab 8).
 - 05:15 EXP-016 Seed 12 Arm F: 4 von 5 aus der Zielmenge, gen 625 (Zufallssplit 3525).
 - 05:11 EXP-016 Seed 11 Arm G: 3 von 5 aus G, 2 weitere direkt daneben (38/55 statt 39/56). Δ = +7.

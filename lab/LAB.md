@@ -32,4 +32,6 @@ nutzt ([[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]).
 | [[experiments/EXP-011-init-magswap/README\|EXP-011]] Betrag oder Richtung? (nur Normen tauschen) | vorbereitet | noch kein Lauf |
 | [[experiments/EXP-012-init-gradient/README\|EXP-012]] Init-Gradient als Frequenz-Prädiktor | Phase 1 fertig | Erster Gradient an W_E sagt K besser voraus als das Init-Spektrum (r̄ 0.30 vs. 0.375, explorativ); Bestätigung offen |
 | [[experiments/EXP-013-lockin-curve/README\|EXP-013]] Lock-in-Kurve Schritt 0–300 | vorbereitet | noch kein Lauf |
-| [[experiments/EXP-014-split-vs-init/README\|EXP-014]] Split oder Init? | vorbereitet | noch kein Lauf |
+| [[experiments/EXP-014-split-vs-init/README\|EXP-014]] Split oder Init? | vorbereitet (Nachtrag a: disjunkte Paare) | Gradient-Vorschau: erster Gradient folgt dem Split (ρ 0.34 vs. −0.01); Kreuzläufe offen |
+| [[experiments/EXP-015-mask-spectrum/README\|EXP-015]] Masken-Spektrum des Splits als Prädiktor | Phase 1 fertig | Nur aus dem Split: r̄ 0.307 (p < 1e-5), split-spezifisch (fremde Masken 0.51), auch in allen MLPs (post hoc). Bestätigung offen |
+| [[experiments/EXP-016-engineered-split/README\|EXP-016]] Frequenzen per Datenauswahl steuern | vorbereitet (Nachtrag a: zwei Arme, fester Schritt) | noch kein Lauf |

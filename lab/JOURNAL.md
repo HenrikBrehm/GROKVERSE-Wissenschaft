@@ -1356,3 +1356,10 @@ Queue-Anfang. Codex (`EXP-040-we-init-scale/codex_review_2026-09-26.txt`, needs-
 (übernommen: nur Nicht-Gleichanteil der Zahlenzeilen skaliert, Urteil nur „Assoziation“), Überschlag unvergleichbar (übernommen:
 nur Motivation; W_E-Schnappschüsse für zielgenaue Strecke), fehlende Paarprüfung der Skalen (übernommen). *Ergebnis:* vorbereitet,
 ungetestet. *Entscheidung:* in `queue_s10.sh` nach EXP-039.
+
+**Zyklus 6 (18:01–18:04, ohne Training): Lässt sich H40 an vorhandenen Daten prüfen?** Frage: Gibt es frühe W_E-Checkpoints (vor
+Schritt 50)? Die Studie speichert in `training/external/conv100k` Checkpoints bei 0, 140, 500, …, also erst nach der Festlegung;
+die EXP-020/035-Läufe nur Spektren alle 250 Schritte. *Ergebnis:* an vorhandenen Daten nicht prüfbar (negativ). *Entscheidung:*
+beschreibender Invarianztest vorab festgelegt (EXP-040 Nachtrag b): Ist beim Festlegen über c und s hinweg Λ(hi) oder das
+Verhältnis R(hi) (zielgenaue Strecke / Init-Amplitude) weniger variabel? Die nötigen W_E-Schnappschüsse liefern die EXP-039/040-
+Läufe (jetzt mit `--spectra-at`). Für EXP-038 macht H40 keine saubere eigene Vorhersage, dort nichts nachgetragen.

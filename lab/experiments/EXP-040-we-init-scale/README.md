@@ -59,6 +59,16 @@ Codex: needs-attention, drei hohe Einwände, alle berechtigt.
    wenn Init-Prüfsumme, Optimierer-Konfiguration, d_model und Split-/Test-Hashes in beiden Skalen gleich sind.
 Code nach dem Nachtrag **ungetestet** (Fenster geschlossen); Selbsttest und Smoke stehen fail-closed am Anfang der Queue.
 
+## Nachtrag b (2026-09-26 18:04 Berlin, Sitzung 10, vor jedem EXP-039- und EXP-040-Lauf): beschreibender Invarianztest
+
+Welche Größe ist beim Festlegen über die Eingriffe hinweg konstant? Für jede vollständige, monotone Zelle von EXP-039 (c) und
+EXP-040 (s) mit endlichem Intervall: Λ(hi) = c · hi bzw. hi, und R(hi) = mittlere zielgenaue Strecke der F-Ziele
+|c_k(hi) − c_k(0)| geteilt durch die Median-Init-Amplitude |c_j(0)| (bei EXP-040 der skalierten Init), gemessen im Lauf „nur F“
+derselben Zelle (bis zum Wechsel identisch mit den Wechselläufen). **Erwartung unter H40:** Variationskoeffizient von R(hi)
+kleiner als der von Λ(hi). Unter einer reinen Λ-Uhr umgekehrt (Λ konstant, R ∝ 1/s). Nur beschreibend, kein Urteil; mindestens
+4 Zellen. Grenze: hi ist ein Gitterpunkt (obere Intervallgrenze), nicht der wahre Zeitpunkt; beide Größen werden an derselben
+Stelle gemessen. Code: `invariance()` in `analyze.py` (Selbsttest-Fall ergänzt, ungetestet bis zum nächsten Fenster).
+
 ## Status
 
 Vorab festgelegt, Code geschrieben, **ungetestet** (Fenster geschlossen): Selbsttest und Smoke laufen als erste Schritte der

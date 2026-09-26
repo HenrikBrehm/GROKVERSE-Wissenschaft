@@ -74,6 +74,47 @@ def target_displacement(m, s: int) -> dict | None:
                                           for k in tg])) / ref, 3) for i, st in enumerate(steps)}
 
 
+def invariance(cells: list[dict]) -> dict | None:
+    """Nachtrag b (descriptive, fixed before any run): over all complete, monotone cells of EXP-039 and EXP-040 with a
+    finite interval, compare the spread of Lambda(hi) with the spread of R(hi) (target displacement / median init
+    amplitude in the only-F run at step hi). H40 expects R(hi) to vary less than Lambda(hi) (coefficient of variation)."""
+    lam, rr = [], []
+    for c in cells:
+        if c.get("lambda_hi") is None or c.get("R_hi") is None:
+            continue
+        lam.append(c["lambda_hi"])
+        rr.append(c["R_hi"])
+    if len(lam) < 4:
+        return None
+    cv = lambda x: float(np.std(x) / np.mean(x))  # noqa: E731
+    return {"n": len(lam), "cv_lambda_hi": round(cv(lam), 3), "cv_R_hi": round(cv(rr), 3),
+            "R_less_variable": cv(rr) < cv(lam), "lambda_hi": lam, "R_hi": rr}
+
+
+def invariance_cells() -> list[dict]:
+    """Collect (Lambda(hi), R(hi)) for EXP-039 (c) and EXP-040 (s) cells; relative amplitude uses the scaled init."""
+    sys.path.insert(0, str(LAB / "EXP-039-lr-clock"))
+    import analyze as a39  # EXP-039 module (same file name; path inserted first)
+    out = []
+    for kind, grids, mod in (("c", a39.GRIDS, a39.load_mod), ("s", GRIDS, load_mod)):
+        for x in grids:
+            m = mod(x)
+            for s in SEEDS:
+                try:
+                    r = m.row(s)
+                    if not (r["valid"] and r["monotone"] and r["hi"] != math.inf):
+                        continue
+                    td = target_displacement(m, s)
+                    if td is None or str(int(r["hi"])) not in td:
+                        continue
+                    lam_hi = r["hi"] * (x if kind == "c" else 1.0)
+                    out.append({"kind": kind, "x": x, "seed": s, "hi": r["hi"], "lambda_hi": lam_hi,
+                                "R_hi": td[str(int(r["hi"]))]})
+                except (OSError, KeyError, ValueError):
+                    continue
+    return out
+
+
 def meta_ok(m, s_: float, s: int) -> str | None:
     ref = None
     for t in m.GRID:
@@ -131,6 +172,10 @@ def main() -> None:
         for s_ in GRIDS:
             by[(s, s_)]["target_displacement_rel"] = target_displacement(mods[s_], s)
     out = {"rows": rows, "seed_classes": seeds, "n_seeds": len(seeds), "verdict": verdict(list(seeds.values()))}
+    try:
+        out["invariance_descriptive"] = invariance(invariance_cells())
+    except Exception as e:  # descriptive only; must not block the verdict
+        out["invariance_descriptive"] = f"failed: {type(e).__name__}: {e}"
     (HERE / "summary.json").write_text(json.dumps(out, indent=1, default=str), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
     for r in rows:
@@ -148,6 +193,8 @@ def selftest() -> None:
     assert m.GRID == (0.0, 10.0, 12.0, 25.0, 50.0, math.inf)
     assert m.run_dir(30, 0).name == "EXP-018_baseline_seed30_thr4_seed30_train_G_wes0.5"
     assert m.run_dir(30, 25).name.endswith("_at25_wes0.5") and m.run_dir(30, math.inf).name.endswith("train_F_wes0.5")
+    inv = invariance([{"lambda_hi": v, "R_hi": 1.0 + 0.01 * i} for i, v in enumerate((25, 50, 12.5, 100))])
+    assert inv["R_less_variable"] and inv["n"] == 4 and invariance([{"lambda_hi": 1, "R_hi": 1}]) is None
     print("selftest ok")
 
 

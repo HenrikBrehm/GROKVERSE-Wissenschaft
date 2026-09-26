@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-26, 21:02 Berlin (Sitzung 13). Nächster Runner-Start laut runner-state.json: 00:59 Berlin._
+_Zuletzt aktualisiert: 2026-09-26, 21:40 Berlin (Sitzung 14, läuft bis 00:19). Nächster Runner-Start laut runner-state.json: 00:54 Berlin._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]]
 
@@ -31,6 +31,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
    039 → 040 → 042). Nicht portiert, gesichtet ([[BACKLOG]] „Sichtung nach Regel 18c“): 034 nach P3-Design; 018/022/023/010 zurückgestellt.
 6. Beobachten (Regel 14). GPU-001-Verdikte ins JOURNAL (Gleichwertigkeit, s/Schritt, J). Punkt 9: GPU bleibt experimentell.
 7. Auswerten: `python lab/tools/night_report.py`; **vor jeder Deutung** [[LESART-nacht-2026-09-27]] lesen.
+8. **EXP-052** (eingefrorene Vorhersage, Sitzung 14): Selbsttest `guarded_run.py -- python lab/experiments/EXP-052-oos-mask-prediction/exp052.py --selftest`
+   (ab 03:00, vor den Läufen); Auswertung von Hand, sobald EXP-043 „random“ (und ggf. EXP-046 „random“) erfolgreich: `guarded_run.py -- python .../exp052.py`.
 
 ## Aktive Queue / laufende Jobs
 

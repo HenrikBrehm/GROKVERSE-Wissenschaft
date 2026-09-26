@@ -50,3 +50,21 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-052-oos-mask-predi
 
 Nicht in `night_program.py` eingetragen (gemeinsamer Orchestrator bleibt unverändert); die Auswertung wird von Hand gestartet,
 sobald `night_status.json` für EXP-043 den Schritt „random“ als erfolgreich zeigt.
+
+## Nachtrag a (Sitzung 14, 2026-09-26 ~21:55 Berlin, **vor jedem Lauf**): dritter Fall D₅₉, Prüfung eingearbeitet
+
+**Dritter Fall, nicht abelsch:** die 10 Zufallssplits (Arm R, ε = 0, Seeds 140–149) von
+[[experiments/EXP-046-dihedral-steering/README|EXP-046]] (D₅₉, 29 zweidimensionale Irreps). M0 = nicht-abelsches Masken-Spektrum aus
+`dihedral.mask_power` (EXP-046), M0c = dieselbe Rechnung mit N_L + N_R vor der Norm, CNT = Irrep-Leistung der Token-Zählvektoren.
+Eingefroren in `predictions_d59.json` (`--predict-d59`; M0-Top-5 = die von `make_split.py` notierten in 10/10). W_E-Spektrum = die
+von `group_train.py` protokollierte Irrep-Leistung (`spectra.npy`) bei 2000, E0 bei 0; Verlauf bei 250/500/1000. `predictions.json`
+(add 97, mul 113) ist unverändert. **Die Primärfamilie hat damit drei Glieder, Holm über drei** (vorher zwei). Gesehen nach dem
+Einfrieren: ρ(M0, M0c) 0.77, ρ(M0, CNT) 0.03, fremde Splits untereinander ρ(M0) 0.00.
+
+**Unabhängige Prüfung (Claude-Subagent, nur lesend; Codex ohne Guthaben):** kein Blocker. „Hoch“ 1/2 (nicht committet, README fehlt)
+waren zum Prüfzeitpunkt richtig, sind mit Commit 7c6492a erledigt. Übernommen: Glob endet jetzt auf `_{task}{p}_devcuda` (ein CPU-Lauf
+desselben Splits machte die Suche sonst mehrdeutig → „fehlt“). Vermerkt: (i) Fällt ein Fall als *nicht auswertbar* aus, läuft Holm
+über die übrigen; (ii) die Primärgröße trennt M0 nicht von einem Häufigkeitsmechanismus, das tut S3 (ρ(M0, CNT) klein, also trennscharf);
+(iii) Spearman mit Ordinalrängen: in keinem eingefrorenen Vektor gibt es Bindungen. Bestätigt: gleiche Koordinaten/Basis wie EXP-043
+(Zeile i = W_E[g^i] = Log-Koordinate i), Schnappschuss bei 0 vorhanden, Statistik korrekt, fremde M0 untereinander unkorreliert
+(−0.015 / −0.012), kein Pfad, auf dem ein Fehler ein falsch-positives Urteil erzeugt.

@@ -20,7 +20,7 @@ Das passt zu gleichförmigen Vorzeichen-Schritten. „5 Schritte“ ist also kei
 Schrittgröße. Offen ist, ob die **Festlegung selbst** (ein kleiner früher Vorsprung wird bis zum Ende verstärkt und
 beibehalten) an der Adam-Geometrie hängt oder ob jeder Weg zum gleichen Zustand dasselbe Ergebnis gibt.
 
-## Versuch (vorab festgelegt 2026-09-26 12:07 Berlin, commit 6bb4557, vor jedem EXP-033-Lauf; **ersetzt durch Nachtrag a**)
+## Versuch (vorab festgelegt 2026-09-26 12:05 Berlin, commit 6bb4557, vor jedem EXP-033-Lauf; **ersetzt durch Nachtrag a**)
 
 | Punkt | Festlegung |
 |---|---|
@@ -40,7 +40,7 @@ beibehalten) an der Adam-Geometrie hängt oder ob jeder Weg zum gleichen Zustand
 | **Grenzen** | Ziel-r ist ein Median über Neuronen, nicht die ganze Verteilung; W_out wächst unter GD anders (berichtet: ‖W_out‖ am Umschaltschritt). Eine Architektur, 5 Splits |
 | **Budget** | Smoke 5 × ≤ 1 min; 15 AR-Läufe ≈ 90 s, 15 GD-Läufe ≈ 2–4 min → ≈ 1–1.5 h |
 
-## Nachtrag a (2026-09-26 12:25 Berlin, nach Codex-Review, vor jedem EXP-033-Lauf): neues Design, gilt allein
+## Nachtrag a (2026-09-26 12:14 Berlin, commit 840e890, nach Codex-Review, vor jedem EXP-033-Lauf): neues Design, gilt allein
 
 Codex (`codex_review_2026-09-26.txt`, „needs-attention“, 6 × high, 1 × medium). Selbst geprüft; übernommen:
 (1) 15 Einheiten aus 5 Splits sind Pseudoreplikation → **Split ist die Einheit**, 10 Splits (10–19), eine Stufe;

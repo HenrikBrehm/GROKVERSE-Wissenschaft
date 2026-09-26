@@ -1,6 +1,6 @@
 """EXP-020 Nachtrag d (session 9): "foreign" frequencies in mixed states. Descriptive, secondary; no training.
 
-Definition (fixed 2026-09-26 ~15:00 Berlin, after seeing seeds 30-32, BEFORE any run of seeds 33/34):
+Definition (fixed 2026-09-26 14:52 Berlin (commit 7537783), after seeing seeds 30-32, BEFORE any run of seeds 33/34):
   A_s = F u G u {fold(2k) : k in F u G} u K_onlyF u K_onlyG   (K_only* = top-5 of the pure runs at step 2000)
   foreign(t) = top-5 of the switched run at step t + 2000 minus A_s
   early = t in {10, 25, 50}, late = t in {150, 400, 1000}

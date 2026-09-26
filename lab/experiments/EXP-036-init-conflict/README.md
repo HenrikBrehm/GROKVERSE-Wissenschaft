@@ -17,7 +17,7 @@ enthält das Endnetz Frequenzen, die weder zu F, G, deren 2k-Oberwellen noch zu 
 Deutung (Spekulation): Im noch nicht festgelegten Netz heben sich die Datensignale von F und G teilweise auf, und das
 Init-Spektrum setzt sich durch. Rangvergleich allein ist nur eine Assoziation; die Init ist hier der Eingriff.
 
-## Versuch (vorab festgelegt 2026-09-26 ~15:00 Berlin, vor jedem EXP-036-Lauf)
+## Versuch (vorab festgelegt 2026-09-26 14:53 Berlin (commit 5730b38), vor jedem EXP-036-Lauf)
 
 | Punkt | Festlegung |
 |---|---|

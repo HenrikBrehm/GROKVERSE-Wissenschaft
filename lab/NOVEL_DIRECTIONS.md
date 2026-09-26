@@ -362,3 +362,19 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   Datenwechsel-Eingriff, der die *Identität* der gelernten Fourier-Frequenzen als Marker einer kritischen Periode benutzt, und
   dessen Verschiebung durch Warmup: **nicht gefunden** (vorläufig; Google Scholar/OpenReview nicht gezielt).
 
+
+## N15: Widersprüchliche frühe Daten geben die Frequenzwahl an die Initialisierung zurück #neu/kandidat
+
+Beobachtung (EXP-020 Nachtrag d, Seeds 30–32, Exploration): Wechselt der Split vor der Festlegung (t ≤ 50), enthält das Endnetz
+Frequenzen außerhalb F ∪ G ∪ 2k ∪ K_nurF ∪ K_nurG, mit kleinen Init-Rängen (Median 8 von 56). Kausaltest:
+[[experiments/EXP-036-init-conflict/README|EXP-036]] (neue Init, gleicher Split), Vorhersage an frischen Seeds: EXP-020 Nachtrag d.
+**Literatur (Suche 2026-09-26 ~15:00 Berlin, WebSearch „modular addition grokking data distribution shift early training
+initialization frequencies conflicting training sets“, „critical learning period data switch … grokking plasticity primacy“):**
+- He, Wang, Chen, Yang 2026, https://arxiv.org/abs/2602.16849: Zweischicht-Netz, Frequenzen konkurrieren je Neuron, Gewinner
+  durch Init-Betrag und Phasenausrichtung („Lottery Ticket“). → Dass die Init Frequenzen auswählt, ist **bekannt**.
+- Lyle, Sokar, Pascanu, György 2025, https://arxiv.org/abs/2507.20057: Primacy Bias bei nichtstationären Daten, Verbindung zu
+  Grokking, Abhilfe durch höhere effektive Lernrate; laut Abstract keine Frequenzmessung nach Datenwechsel. Relevant auch für
+  EXP-020/N14 (kritische Periode).
+- https://arxiv.org/abs/2510.09687 (kritische Lernperioden, nur Titel gesehen, nicht gelesen).
+Nicht gefunden (vorläufig, nur Abstracts): dass **widersprüchliche Splits vor der Festlegung** die Wahl zur Init zurückgeben,
+also ein Zusammenspiel Split-Signal ↔ Init-Lotterie, messbar über den Wechselzeitpunkt. Einordnung: Kandidat, Teil bekannt.

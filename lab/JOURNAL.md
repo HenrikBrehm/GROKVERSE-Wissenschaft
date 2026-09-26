@@ -1643,3 +1643,20 @@ schlankes Trainingsskript `group_train.py` (gleiches Modell/Preset, keine weiter
 Code); Zielmenge = M0-Top-5 in **20/20** Splits, Zielanteil 0.246–0.280 (gleichverteilt 0.172). Training, Selbsttest und Smoke
 **ungetestet** (Fenster). Literatur: N24 (nicht gefunden, vorläufig; nächstverwandt Marchetti et al. 2026, He et al. 2026, Chughtai 2023).
 *Entscheidung:* nach der Codex-Prüfung in die GPU-Queue nach EXP-043 einhängen.
+
+**Zyklus 2 (19:45–19:58): Codex prüft den Nachtcode (GPU-001, EXP-043/044/045, Hauptqueue).** Frage: Kann der ungetestete
+Nachtlauf still falsche Ergebnisse liefern oder Prüfungen umgehen? *Codex* (`codex_review_s12_2026-09-26.txt`): **2 Blocker** –
+(1) die Queues scheitern „offen“: `job()` wandelt jeden Fehler (auch Wächter-Ablehnung rc 3) in Erfolg, die Hauptqueue reagiert
+nur auf rc 3 von ganzen Teilqueues, Auswertungsfehler sind nur ein `echo`; (2) GPU-001 umgehbar: Durchsatz gilt schon mit einem
+fertigen Lauf, die Hauptqueue prüft beim Wiederanlauf nur die Existenz von `verdict_throughput.json`, und `--force` ließ einen alten
+`result.json` stehen. **Hoch:** EXP-044 rechnete Holm nur über auswertbare Aufgaben, vorab festgelegt war „alle gelaufenen“.
+**Mittel:** Auswertungen stürzen bei Läufen ohne `result.json` ab; EXP-044 prüft den gemeinsamen Test-Hash nicht. **Niedrig:**
+GPU-001-Diagnose nennt Indizes statt Schritte; `config.device` bleibt „cpu“; Seeds 70/99 schon früher benutzt. Geprüft und
+**für gut befunden**: kein stiller CPU-Rückfall, Log-Koordinaten für mul, Fourier-Normierung/Parseval, Split-Größen, Wechsel-Timing,
+Δ-Test, alle Läufe über `guarded_run.py`, CPU-Standardpfad numerisch unverändert.
+*Selbst geprüft und übernommen:* alle Blocker/Hoch/Mittel und die Diagnose (commit 2b19820, Nachträge in den vier READMEs).
+*Abgelehnt mit Grund:* `config.device` (alle Auswertungen lesen das Feld `device` oben; eine Änderung von `Config` würde den
+Standardpfad berühren), Seeds 70/99 (anderes p bzw. andere Architektur → andere Init; als Einschränkung notiert).
+*Lehre:* Mein eigenes „|| echo failed; return 0“-Muster, damit ein Fehler nicht die ganze Nacht stoppt, hat die Fehler unsichtbar
+gemacht. Jetzt: weiterlaufen, aber zählen und am Ende mit rc 1 melden. Die Codex-Prüfung aus Sitzung 11 war ohne Ergebnis
+abgebrochen (Sitzungsende); ohne diese Wiederholung wären beide Blocker heute Nacht gelaufen.

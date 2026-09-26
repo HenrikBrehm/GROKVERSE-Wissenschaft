@@ -3,12 +3,22 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 10:32 Berlin (Sitzung 7, vom Runner gestartet 06:59Z, Deadline 09:59Z = 11:59 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 11:24 Berlin (Sitzung 7, Start 08:59, Deadline 11:59 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **ENDE SITZUNG 7 (11:24) → nächste Sitzung beginnt hier.** Kette `queue_s7.sh` wird vor Sitzungsende kontrolliert
+  gestoppt (EXP-025 teilweise gelaufen; fertige Läufe werden übersprungen). **Nächste Schritte im Fenster:**
+  1. `python lab/tools/guarded_run.py --check`
+  2. `sh lab/experiments/EXP-025-utility-random-split/queue.sh` (überspringt EXP-032/027b und fertige EXP-025-Läufe), dann
+     `python lab/tools/guarded_run.py -- python lab/experiments/EXP-025-utility-random-split/analyze.py`
+  3. `sh lab/experiments/queue_s5.sh` (EXP-018/020-Smokes, dann **EXP-020 zuerst** (liefert auch EXP-028), EXP-018, EXP-014, …),
+     danach `python lab/tools/guarded_run.py -- python lab/experiments/EXP-028-memo-imprint/analyze.py`
+  **Neue Befunde Sitzung 7:** EXP-032 *Festlegung in ≤ 20 Schritten* (t½ = 5), EXP-030 *Rest gestützt*, EXP-029 *teilweise*,
+  EXP-024 Q *richtungsgleich n. s.* / R *bestätigt* (memorierend), EXP-026 *Anker ok, Trend n. s.*, EXP-027 *nicht auswertbar*,
+  EXP-027b *widerspricht*. EXP-031 zurückgestellt (Umbau nötig). Ideen: EXP-033 (AdamW-Rolle), EXP-031 neu (gekreuzte Spender).
 - **Sitzung 7, 10:32:** EXP-026 fertig (*Anker ok, Trend n. s.*; beschreibend Festlegung in ≤ 50 Schritten). Kette läuft:
   EXP-027 → EXP-032 → EXP-027b (beide in `EXP-025/queue.sh` vorangestellt) → EXP-025 → queue_s5. Wiederaufnahme:
   `sh lab/experiments/queue_s7.sh` (überspringt Fertiges). Auswertungen: EXP-027 `analyze.py` (erwartet *nicht auswertbar*,

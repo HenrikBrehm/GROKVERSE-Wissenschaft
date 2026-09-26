@@ -896,3 +896,33 @@ vorhandenen ungeraden Aktivierungsanteil festgelegt. Offen: Rolle von AdamW (Ide
 
 **Zyklus 12 (11:24): EXP-027b ausgewertet (vorab festgelegt).** 20/20 gültig. ρ(−w, u) = −0.16, p = 0.74 → ***widerspricht***.
 H-Neigung in allen Breiten (u +0.10…+0.36), aber nicht breitenabhängig. Idee „Kapazitätsgrenze erzwingt Auswahl“ verworfen.
+
+### Abschlussbericht Sitzung 7 (2026-09-26, 08:59–~11:55 Berlin)
+
+**Wichtigste Befunde (alle vorab festgelegt, sofern nicht als post hoc markiert):**
+1. **[[experiments/EXP-032-early-lockin/README|EXP-032]] *Festlegung in ≤ 20 Schritten*:** Trainiert ein Zwei-Hot-Netz t Schritte mit
+   3x + x² und danach nur mit x², so ist seine Frequenzneigung zu den Split-Zielen F nach **5 Schritten** zur Hälfte festgelegt
+   (ρ 0.91, p = 1e-4); die frühe Neigung wird bis zum Ende etwa verdreifacht. Jeder frühe Schritt verzögert die Generalisierung.
+2. **[[experiments/EXP-030-imprint-residue/README|EXP-030]] *Rest gestützt*:** Die bekannte M0 → K-Assoziation des Transformers
+   (EXP-015) läuft fast vollständig über den W_E-Zustand bei Schritt 250 (ρ 0.24 → partiell 0.04, 10/10, p = 0.001).
+3. **[[experiments/EXP-029-memo-imprint-random/README|EXP-029]] *teilweise*:** Während der Memorisierung ist W_E spezifisch mit der
+   eigenen Trainingsmaske ausgerichtet (ρ 0.42 gegen Init −0.04 und fremde Masken 0.02; 10/10). Dass die Generalisierung
+   diese Ausrichtung abbaut, ist nicht bestätigt (8/10).
+4. **[[experiments/EXP-024-quadratic-agf-mask/README|EXP-024]]:** Gleiche Splits, andere Aktivierung → vorhergesagte Richtung in
+   beiden Armen (x² → halbe Ziele, *richtungsgleich, n. s.*: Spektrum fast flach; ReLU → Ziele, *bestätigt*, aber memorierend).
+5. Negativ bzw. offen: [[experiments/EXP-026-parity-crossover/README|EXP-026]] *Anker ok, Trend n. s.* (Test passte nicht zur
+   Stufenform → EXP-032); [[experiments/EXP-027-width-selection/README|EXP-027]] *nicht auswertbar*, EXP-027b *widerspricht*
+   (Breite erzwingt keine Auswahl). Post hoc: bei Schritt 250 sind die W_E-Top-5 in 20/20 EXP-016-Läufen genau die Ziele
+   (Bestätigung EXP-028 vorbereitet).
+
+**Offene Grenzen:** Zwei-Hot-Befunde an einer Architektur, AdamW, 5 Splits; ReLU-/σ₃-Netze memorieren in 5000 Schritten nur.
+Der Abdruck-Befund ist korrelativ (Mediation); der Eingriff EXP-031 ist nach Codex zurückgestellt (Spender trägt Init und
+Split zugleich). EXP-025 bei Sitzungsende unvollständig.
+**Codex:** fünf Reviews (EXP-026, EXP-027, N13-Schluss, EXP-031, dazu Designfragen); jedes Mal Einwände übernommen, zweimal
+wurde ein Design vor dem ersten Lauf umgebaut, einmal (EXP-031) ein Versuch gestoppt.
+**Eigene Fehler:** ein synthetischer Test ohne Wächter gestartet; ein `git commit -a` mit Nutzerdateien (sofort rückgängig);
+mehrfach geschätzte statt gemessene Uhrzeiten eingetragen (korrigiert).
+**Reproduktion:** je Versuch unter „Befehle“ im README; alle Läufe über `python lab/tools/guarded_run.py -- …`,
+Warteschlangen `sh lab/experiments/queue_s7.sh` bzw. die Einzel-`queue.sh`.
+**Nächste Aktion:** siehe STATE.md (EXP-025 fertigstellen und auswerten, dann `queue_s5.sh` mit EXP-020 zuerst → EXP-028).
+**Scheduler:** Aufgabe `GROKVERSE-Lab-Runner` aktiv; nächster Start laut `runner-state.json` 11:59:45Z = **13:59 Berlin**.

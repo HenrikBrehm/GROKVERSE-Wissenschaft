@@ -105,3 +105,11 @@ Aus derselben Matrix wie der Primärtest (ρ zwischen dem M0 jedes Kandidaten-Sp
 deren eigener Split unter den n Kandidaten des Falls das höchste ρ hat (`ident_top1`, Zufall 1/n), und mittlerer Rang des eigenen Splits.
 Frage dahinter ([[NOVEL_DIRECTIONS]] N28): Lässt sich aus den Gewichten allein, mit einer geschlossenen Formel statt eines gelernten
 Detektors, erkennen, auf welcher Teilmenge ein Netz trainiert wurde? Kein Urteil, keine Änderung an Primär- oder Sekundärtests.
+
+## Nachtrag e (Sitzung 14, vor jedem Lauf): Korrektur zur Trennschärfe von S1
+
+Meine Aussage oben („M0 und M0c korrelieren (ρ 0.69), S1 hat deshalb begrenzte Trennschärfe“) war ungeprüft und ist **falsch**. Simulation
+auf den 40 eingefrorenen Vorhersagen (reine numpy-Rechnung): Ist M0c der wahre Treiber und ρ(M0c, W_E) ≈ 0.53, liegt die erwartete Differenz
+ρ(M0c) − ρ(M0) bei +0.16 (bei ρ ≈ 0.78: +0.24), Power von S1 (einseitig, 40 Läufe) ≈ 1.0; ist M0 der Treiber, liegt sie bei −0.17 bis −0.22.
+S1 trennt also scharf, *falls* einer der beiden Treiber ist. Ein S1 nahe 0 heißt dann: Mischung oder ein dritter Treiber, nicht „zu wenig Daten“.
+Tests und Urteilsregeln unverändert.

@@ -221,6 +221,8 @@ def run(a: argparse.Namespace) -> dict:
                       f"_to_{Path(a.switch_split_file).stem}_at{a.switch_step}")
     elif a.test_file is not None or a.switch_split_file is not None:
         raise SystemExit("--test-file / --switch-split-file need --split-file")
+    if a.warmup:                     # EXP-035: linear learning-rate warmup (default 0 = unchanged behaviour)
+        run_id += f"_wu{a.warmup}"
     if a.split_value:                # EXP-023: position 1 gets its own attention value matrix
         exp_id = "EXP-023"
         run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_sv{a.split_value}"
@@ -307,7 +309,7 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value,
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup,
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "test_hash": split_hash(data["test_idx"]),
@@ -352,6 +354,9 @@ def run(a: argparse.Namespace) -> dict:
         if proj is not None and step > ban_from:   # amendment 2026-09-25: projected gradient
             with torch.no_grad():
                 model.W_E.grad[:p] = proj @ model.W_E.grad[:p]
+        if a.warmup:                                # EXP-035: lr_t = lr * min(1, t / warmup)
+            for g in opt.param_groups:
+                g["lr"] = cfg.lr * min(1.0, step / a.warmup)
         opt.step()
         if a.condition not in ("baseline",) + INIT_CONDITIONS and step == ban_from:
             W_now = model.W_E.detach().numpy().astype(np.float64)[:p]
@@ -439,6 +444,7 @@ def main() -> None:
     ap.add_argument("--split-value", choices=("rand", "copy"), default=None,
                     help="EXP-023: position 1 gets its own attention value matrix W_V1 (rand: separate generator, "
                          "copy: copy of W_V, untied afterwards)")
+    ap.add_argument("--warmup", type=int, default=0, help="EXP-035: linear lr warmup over this many steps (0 = off)")
     ap.add_argument("--save-model", action="store_true")
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args()

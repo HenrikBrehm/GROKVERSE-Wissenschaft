@@ -68,7 +68,7 @@ als Tor verwendet: Die Frage ist gerade, ob der Weg zählt.
 | **Sekundär** | Δ_SIGN (liegt SIGN bei AR → Vorzeichen-Mechanismus); ds am Umschaltschritt je Arm; GD-Schritte; ‖W_out‖ und r-Quantile am Umschaltschritt; RET − AR (Wirkung des Optimierer-Resets) |
 | **Budget** | Pilot ≤ 5 × 2 min; 10 AR + 10 GD + 10 SIGN + 5 RET ≈ 35 Läufe ≈ 60–80 min |
 
-## Nachtrag b (2026-09-26 12:18 Berlin, vor jedem EXP-033-Lauf): Vorhersage aus der linearen Theorie (sekundär)
+## Nachtrag b (2026-09-26 12:17 Berlin, vor jedem EXP-033-Lauf): Vorhersage aus der linearen Theorie (sekundär)
 
 `linear_modes.py` → `linear_modes.json` (ohne Training). In der σ_3-Phase ist das Netz nahe der Init praktisch linear;
 unter GD wächst es entlang der Singulärvektoren der Residuen-Korrelation J = Xᵀ(Y − 1/P), jede Mode mit einer Rate ∝ ihrem

@@ -613,3 +613,12 @@ dieselben Aufrufe. Kein Betriebsfehler hier, aber eine Abhängigkeit → in STAT
 (2) [medium] `result.json` wurde nicht atomar geschrieben; ein Abbruch durch den Wächter mitten im Schreiben hätte jeden
 Neustart blockiert. **Übernommen:** Schreiben über Temp-Datei + `os.replace`, unlesbare Metadaten gelten als
 unfertiger Lauf (`previous_status`), Test mit abgeschnittener Datei; 16/16.
+
+**Zyklus 21 (07:19, post hoc): Ist M0c konzentrierter als M0?** Anlass: Die Studie findet im Transformer ~4–5, in der MLP
+~11 Schlüsselfrequenzen und lässt offen, warum (RESULTS §16.4/16.5). Wenn M0c die Statistik des Transformers und M0 die der
+MLP ist (Zyklus 18), könnte eine stärkere Konzentration von M0c beitragen. `posthoc/concentration_m0_vs_m0c.py`,
+Splits der Seeds 0–17: M0c ist in **18/18** konzentrierter (CV 0.132 gegen 0.093; Top-5-Anteil 0.112 gegen 0.105;
+n_eff 55.0 gegen 55.5). **Einordnung: fast trivial und klein.** M0c = M0 + Kreuzterm mit Mittel ≈ 0 über k, der Streuung
+hinzufügt; die Richtung ist damit nahezu durch Konstruktion gegeben, und beide Spektren sind fast flach. Kein Beleg für eine
+Erklärung des Frequenzzahl-Unterschieds; eine Prüfung bräuchte Training (z. B. Frequenzzahl im EXP-023-Arm rand gegen
+Baseline nach dem Grokking). Nicht vorbereitet.

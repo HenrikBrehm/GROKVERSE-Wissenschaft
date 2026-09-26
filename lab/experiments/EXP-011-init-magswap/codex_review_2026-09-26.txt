@@ -1,0 +1,62 @@
+(node:3332) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0db37-6065-7043-b524-d279fe157451).
+[codex] Turn started (01a0db37-6270-72e2-8a6c-9c51fcb70665).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’m inspecting the exact diff and tracing the experim...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The implementation’s numerical swap mechanics are str...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg --files lab/exp...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg --files lab/exp... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import numpy as...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import numpy as... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import numpy as...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import numpy as... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -For...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -For... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"No-ship: the swap mechanics appear internally consist...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against 119c372
+Verdict: needs-attention
+
+No-ship: the swap mechanics appear internally consistent, but the preregistered analyses can label disruption as steering, compare outcome-dependent endpoints, and accept mismatched runs. The distribution-preservation and “directional share” claims are also stronger than the design supports.
+
+Findings:
+- [high] d can declare steering without any gain of S frequencies (lab/experiments/EXP-010-init-swap/analyze.py:49-56)
+  T is selected as the baseline init top-5, so the motivating premise already makes the baseline contrast |K_base∩S|-|K_base∩T| negative. If the intervention merely destroys that association and K_swap contains neither S nor T, the swap contrast is zero and d is positive; likewise, a large T loss can outweigh an S loss. The verdict still calls this “steuerbar”; reporting gain_S and loss_T secondarily does not constrain the primary decision. This does not establish that final frequencies followed the coefficients moved to S.
+  Recommendation: Make S gain and T loss separate co-primary requirements, or use direct post-swap S enrichment against a rank-selection-aware null. Do not label the current aggregate contrast as steering.
+- [high] Valid-pair checks accept unmatched runs and unverified interventions (lab/experiments/EXP-010-init-swap/analyze.py:37-46)
+  Validity checks only completion status, split_hash, and the initial power vector. A completed artifact with a different seed metadata, condition, configuration, max_steps, stop-after-generalization value, library/platform, or training code can pass; stop-after-generalization is not encoded in the run directory. The check also ignores power_after and does not prove that the recorded swap occurred. EXP-011 separately accepts full and magnitude runs without confirming identical pair lists or post-swap spectra, so its direction contrast can subtract different interventions.
+  Recommendation: Fail closed on seed, condition, m, all relevant config fields, max_steps, stop_after_generalization, versions/provenance, expected pair construction, and expected power_after. Store and compare a hash of the complete pre-intervention model state, and require EXP-010/011 pair lists and post-swap spectra to match exactly.
+- [high] K_end is measured at a treatment-dependent stopping time (lab/experiments/EXP-001-freq-ban/freq_ban.py:309-320)
+  Each arm stops at its own generalization crossing plus 25 steps, or at 15,000 if it never crosses. Because the intervention can change or prevent crossing, paired K_end values may come from widely different training steps; capped non-generalizers are still marked completed and included. Any time-dependent decay or consolidation of init-frequency membership can therefore enter d as an apparent swap effect.
+  Recommendation: Use a fixed, common training-step endpoint for the primary comparison. Treat crossing-aligned measurements as secondary, require both arms to cross for them, and report trajectory/common-landmark sensitivity analyses.
+- [high] The claimed exact sign-flip test lacks a valid sign-randomization null (lab/experiments/EXP-010-init-swap/analyze.py:62-65)
+  The test flips observed d values as though their signs were exchangeable. There is no randomized assignment of baseline versus intervention labels, and the stated null concerns the mean rather than symmetry of the full d distribution. Because d is bounded, discrete, and constructed from asymmetrically selected top-versus-weak sets, symmetry is not guaranteed. The resulting p-value is therefore not an exact test of the preregistered null and can be anti-conservative.
+  Recommendation: Base inference on an actual randomized component of the design, such as replicated randomized S/matching assignments with an explicit randomization null, or preregister a justified sampling model and confidence interval. Do not describe the current sign-flip p-value as exact.
+- [medium] The ordered rank swap is not iid-distribution preserving (lab/experiments/EXP-001-freq-ban/freq_ban.py:108-122)
+  The code orders T by descending power, sorts S by ascending frequency number, then zips them. Consequently, within selected S, the lowest k deterministically receives the largest top-order statistic, the next-lowest receives the second largest, and so on. Under iid-normal initialization those assignments would not be deterministic. Norm/direction independence only preserves normalized directions; it does not make this rank- and label-dependent norm reassignment jointly iid. Both swap conditions therefore introduce a systematic frequency-index/power relationship despite the README’s distribution-preservation claim.
+  Recommendation: Randomize the T-to-S matching independently and establish exchangeability of the resulting transformation, or narrow the claim to preservation of the norm multiset/Frobenius norm and treat the intervention as rank-conditioned rather than iid-distribution preserving.
+- [medium] d_swap minus d_mag is not an additive directional share (lab/experiments/EXP-011-init-magswap/analyze.py:42-45)
+  The subtraction is a conditional contrast between full and norm-only interventions at the swapped norm spectrum. In nonlinear training it can include norm-direction interactions and cannot be interpreted as a share of the total effect without a direction-only arm. A near-zero mean can also result from opposing per-seed effects, and a nonsignificant two-sided test does not establish the README’s claimed approximate equality or magnitude-only explanation.
+  Recommendation: Call this an incremental direction contrast, report its interval and heterogeneity, and preregister an equivalence margin if near-equality is the claim. Add a direction-only arm to form a 2×2 norm/direction design if main effects and interactions are to be separated.
+
+Next steps:
+- Revise the primary estimand and inference before interpreting any completed pairs.
+- Harden artifact validation and rerun mismatched or outcome-dependent-endpoint pairs at a common fixed horizon.
+- Correct the distribution and directional-share claims or add the randomization/factorial controls needed to support them.

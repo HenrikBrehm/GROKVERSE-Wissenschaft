@@ -53,3 +53,27 @@ python lab/experiments/EXP-010-init-swap/analyze.py
 `EXP-009/summary.json`): Die Top-5 am ersten Grid-Checkpoint ≥ Crossing überlappen im Mittel mit
 4,3 von 5 Frequenzen mit den Top-5 bei 25k, die Spanne liegt bei 3–5. K_end bei Crossing + 25 ist
 also eine brauchbare Näherung an die finale Wahl. Das ist Kontext, keine Kriterienänderung.
+
+## Nachtrag a (2026-09-26, ~03:10 Berlin, Sitzung 4): nach Codex-Review, **vor jedem Swap-Ergebnis**
+
+Beim Nachtrag war nur die Baseline von Seed 10 fertig, kein `init_swap`-Lauf. Review:
+`lab/experiments/EXP-011-init-magswap/codex_review_2026-09-26.txt`.
+
+1. **Ko-primär: Gewinn von S.** d allein kann positiv werden, wenn der Tausch nur den Vorteil von T zerstört,
+   ohne dass S gewinnt. *steuerbar* verlangt jetzt zusätzlich gain_S̄ = mean(|K_swap∩S| − |K_base∩S|) > 0 mit
+   p < 0.05 im gleichen Vorzeichentest. Ist nur d signifikant, lautet das Urteil *Störung ohne nachweisbare Umlenkung*.
+2. **Fail-closed-Gültigkeit:** Seed, Bedingung, m, `max_steps`, `stop_after_generalization`, `config`, `versions`
+   und `split_hash` müssen übereinstimmen. Die Paare müssen der vorab festgelegten Konstruktion entsprechen, und
+   `power_after` muss exakt das getauschte Spektrum sein. **Beide Arme müssen das Kriterium überschreiten**, sonst
+   ist das Paar ungültig (gekappte Läufe hatten sonst einen anderen Messzeitpunkt).
+3. **Gemeinsamer Messzeitpunkt (sekundär):** d_common aus den Top-5 beider Arme beim letzten gespeicherten
+   Spektrum ≤ min(gen_base, gen_swap). Das prüft, ob unterschiedliche Endzeitpunkte d erzeugen.
+4. **Test-Wortlaut:** Der Vorzeichen-Permutationstest ist **nicht exakt** im Randomisierungssinn. Er setzt
+   Austauschbarkeit von Baseline und Tausch unter der Nullhypothese voraus. Das Wort „exakt“ oben gilt nur für die
+   vollständige Aufzählung der 2¹⁰ Vorzeichen, nicht für die Gültigkeit des Nullmodells.
+5. **Verteilungsaussage eingeschränkt:** T wird absteigend nach Leistung, S aufsteigend nach k zugeordnet. Der
+   Tausch erhält die Multimenge der Blocknormen und die Frobeniusnorm, ist aber ein **rangbedingter** Eingriff,
+   nicht streng iid-verteilungserhaltend. Die Zuordnung bleibt unverändert, weil der Lauf für Seed 10 schon lief.
+
+Nicht übernommen: fester gemeinsamer Endschritt als Primärgröße (würde alle Läufe neu erfordern; die Spektren
+alle 250 Schritte erlauben die Sensitivitätsprüfung 3). Randomisierte Mehrfachzuordnung von S (Budget).

@@ -51,3 +51,16 @@ der Normtausch zwischen zwei Blöcken erhält die gemeinsame Verteilung.
 python lab/tools/guarded_run.py --min-minutes 33 -- python lab/experiments/EXP-001-freq-ban/freq_ban.py --seed S --condition init_magswap --stop-after-gen 25 --out-root lab/experiments/EXP-011-init-magswap/raw
 python lab/experiments/EXP-011-init-magswap/analyze.py
 ```
+
+## Nachtrag a (2026-09-26, ~03:10 Berlin, Sitzung 4): nach Codex-Review, vor jedem Lauf
+
+Es gelten die Punkte 1–5 aus dem Nachtrag a zu [[experiments/EXP-010-init-swap/README|EXP-010]] sinngemäß
+(ko-primärer Gewinn von S, fail-closed-Gültigkeit, beide Arme müssen kreuzen, kein Exaktheitsanspruch,
+rangbedingter Eingriff). Zusätzlich:
+- Der Kontrast d_swap − d_mag heißt jetzt **inkrementeller Richtungskontrast**, nicht „Anteil“. Er ist ein
+  bedingter Kontrast beim getauschten Normspektrum und kann Wechselwirkungen enthalten. Eine Aussage
+  „Betrag trägt allein“ ist ohne vorab festgelegte Äquivalenzgrenze nicht zulässig; berichtet werden Mittel,
+  Streuung pro Seed und der zweiseitige Test. Ein reiner Richtungsarm (2×2-Design) bleibt eine Option (EXP-011b).
+- Für den Kontrast müssen die Paare (T, S) in beiden Armen identisch sein.
+- Die Aussage „der Normtausch erhält die gemeinsame Verteilung“ oben ist zu stark: Er erhält die Multimenge der
+  Normen und die Richtungen, ist aber rangbedingt.

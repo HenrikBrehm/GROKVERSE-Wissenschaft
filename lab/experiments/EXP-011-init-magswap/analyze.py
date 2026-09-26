@@ -33,15 +33,22 @@ def main() -> None:
         out["verdict_mag"] = "nicht auswertbar"
     else:
         d = np.array([mag[s]["d"] for s in valid], dtype=float)
-        p = a10.sign_flip_p(d)
+        g = np.array([mag[s]["gain_S"] for s in valid], dtype=float)
+        p, p_gain = a10.sign_flip_p(d), a10.sign_flip_p(g)
         out.update({"d_mag_mean": float(d.mean()), "p_mag": p,
+                    "gain_S_mean": float(g.mean()), "p_gain_S": p_gain,
+                    # Nachtrag a (2026-09-26, before results): co-primary gain of S, as in EXP-010
                     "verdict_mag": "widerspricht" if d.mean() <= 0 else
-                    ("steuerbar" if p < a10.ALPHA else "richtungsgleich, nicht signifikant")})
-    both = [s for s in valid if full[s]["valid"]]
+                    ("steuerbar" if p < a10.ALPHA and g.mean() > 0 and p_gain < a10.ALPHA else
+                     ("Störung ohne nachweisbare Umlenkung" if p < a10.ALPHA else
+                      "richtungsgleich, nicht signifikant"))})
+    # same intervention spectrum in both arms (pairs identical) is required for the contrast
+    both = [s for s in valid if full[s]["valid"] and full[s]["T"] == mag[s]["T"]
+            and full[s]["S"] == mag[s]["S"]]
     out["n_both"] = len(both)
-    if len(both) >= a10.MIN_VALID:            # secondary: direction share = d_swap - d_mag
+    if len(both) >= a10.MIN_VALID:   # secondary: incremental direction contrast d_swap - d_mag
         dd = np.array([full[s]["d"] - mag[s]["d"] for s in both], dtype=float)
-        out["direction_share"] = {"mean": float(dd.mean()), "p_two_sided": two_sided_sign_flip_p(dd),
+        out["direction_contrast"] = {"mean": float(dd.mean()), "p_two_sided": two_sided_sign_flip_p(dd),
                                   "per_seed": dd.tolist()}
     (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows_mag"}, indent=1))

@@ -198,3 +198,27 @@ Ich committe sie nicht mit.
 
 **Gestartet 02:54:** `run_pairs.sh` (Paare Baseline/Tausch, Seeds 10→19), Log `lab/runner/logs/pairs_s4.log`.
 In dieser Sitzung sind ≈ 4–5 Paare zu erwarten. Der Rest folgt in der nächsten Sitzung im Fenster.
+
+**Zyklus 1 (neu): EXP-011 vorab festgelegt** (Betrag vs. Richtung: nur die Blocknormen tauschen, `init_magswap`).
+Code und Unit-Test im Fenster, 9/9. Literatur nachgesucht (siehe [[NOVEL_DIRECTIONS]] N2): He et al. 2026 ist nur
+beobachtend und nur MLP pro Neuron; einen kausalen Init-Tausch im Transformer-Embedding fand ich nicht (vorläufig).
+
+**Beobachtung (Baseline Seed 10, fertig 03:02, gen 3925, 8.5 min):** Die finalen Top-5 {7, 14, 19, 35, 39} hatten
+Init-Ränge 26, 6, 15, 43, 21. Schon bei Schritt 250 sind 4 davon die Top-4 und bleiben es. Die Wahl fällt also sehr
+früh, aber kaum nach der Init-Leistung von W_E. → **EXP-012** vorab festgelegt (Init-Gradient, W_U-Spektrum als
+Prädiktoren; Exploration Seeds 0–9, Bestätigung 10–19).
+
+**Codex-Review EXP-010/011** (`adversarial-review --wait --base 119c372`, Ausgabe
+`EXP-011-init-magswap/codex_review_2026-09-26.txt`), Urteil „needs-attention“, 6 Befunde, selbst geprüft:
+1. [high] d ohne Gewinn von S kann „steuerbar“ ergeben: **übernommen** (ko-primär gain_S). Hatte ich selbst als
+   Sekundärgröße ergänzt, Codex hat recht, dass es die Entscheidung tragen muss.
+2. [high] Gültigkeitsprüfung zu schwach: **übernommen** (Metadaten, Paarkonstruktion, `power_after`, beide kreuzen).
+3. [high] Endzeitpunkt behandlungsabhängig: **teilweise** (sekundär d_common am gemeinsamen Spektrumschritt;
+   Primärgröße bleibt, weil ein fester Endschritt neue Läufe verlangt). Gekappte Läufe sind jetzt ungültig.
+4. [high] Vorzeichentest nicht exakt: **teilweise**. Unter der Null „Tausch ändert die Verteilung von K nicht“ sind
+   die Arme austauschbar, soweit der Tausch die Init-Verteilung erhält. Das ist wegen Punkt 5 nur näherungsweise
+   so. Wortlaut korrigiert, Test beibehalten.
+5. [medium] Rangbedingte Zuordnung ist nicht iid-erhaltend: **Aussage eingeschränkt**, Code nicht geändert (Seed 10
+   lief schon mit dieser Zuordnung).
+6. [medium] d_swap − d_mag ist kein additiver Anteil: **übernommen** (Umbenennung, keine Äquivalenzaussage).
+Alles als Nachtrag a in beiden READMEs, **bevor** ein Swap-Lauf fertig war.

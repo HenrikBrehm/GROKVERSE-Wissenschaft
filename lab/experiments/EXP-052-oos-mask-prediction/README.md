@@ -118,3 +118,11 @@ Tests und Urteilsregeln unverändert.
 
 Dritte Prüfung (Claude-Subagent): Bindungen und NaN hätten die Identifikation (Nachtrag d) geschönt. Jetzt zählen Gleichstände und nicht-endliche
 Werte gegen den eigenen Split; zusätzlich wird der Zufalls-Mittelrang (n + 1)/2 berichtet. Nur beschreibend, Tests unverändert.
+
+## Nachtrag g (Sitzung 14, vor jedem Lauf): nur beschreibend, treue gegen nicht-treue Frequenzen bei mul 113
+
+In Z₁₁₂ haben 31 der 55 Frequenzen k einen gemeinsamen Teiler mit 112 (nicht-treue Charaktere; allein unterscheiden sie nicht alle
+Restklassen). Vorab notiert: Anteil 0.564 unter allen k; die eingefrorenen M0-Top-5 der 10 R-Splits enthalten 0.56 nicht-treue, und
+auf sie fallen 0.564 der M0-Leistung. **Die Rechnung erster Ordnung sagt also keine Vorliebe voraus.** Berichtet werden der Anteil
+nicht-treuer k in K und an der W_E-Leistung bei Schritt 2000. Liegt er deutlich unter 0.56, bevorzugt das Netz schon vor dem Grokking
+treue Frequenzen, und zwar über einen Weg, den M0 nicht enthält (Hinweis auf eine Grenze der Theorie erster Ordnung). Kein Test, kein Urteil.

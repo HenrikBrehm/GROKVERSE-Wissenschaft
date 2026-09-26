@@ -343,6 +343,13 @@ def case_rows(name: str, seeds: tuple[int, ...], pred: dict, spec_fn, run_fn, ex
         t_out[f"rho_{k}_mean"] = float(np.mean([r[f"rho_{k}"] for r in valid]))
         t_out[f"rbar_{k}_mean"] = float(np.mean([r[f"rbar_{k}"] for r in valid]))
     t_out["rho_M0_at_mean"] = {t: float(np.mean([r["rho_M0_at"][t] for r in valid])) for t in extra}
+    if name == "mul113":                                  # Nachtrag g (descriptive): non-faithful characters of Z_112
+        import math
+        nf = {k for k in range(1, 56) if math.gcd(k, 112) > 1}
+        t_out["nonfaithful_share_K"] = float(np.mean([len(set(r["K"]) & nf) / M for r in valid]))
+        t_out["nonfaithful_share_power"] = float(np.mean([W[r["seed"]][[k - 1 for k in sorted(nf)]].sum() / W[r["seed"]].sum()
+                                                          for r in valid]))
+        t_out["nonfaithful_chance"] = len(nf) / 55
     return t_out, valid
 
 

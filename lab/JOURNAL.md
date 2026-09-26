@@ -2162,3 +2162,8 @@ Befund stützt die BACKLOG-Entscheidung π/t = 25. Nachtrainingsbudget B: π(250
 training data early steps frequency selection persists“). Nächstverwandt: „The Order Is The Message“ (https://arxiv.org/abs/2603.25047,
 Datenreihenfolge prägt die Fourier-Darstellung; kein Wechsel, kein Fenstermodell), Critical Learning Periods (https://arxiv.org/abs/1711.08856).
 Integrationsfenster für die Frequenzwahl: nicht gefunden (vorläufig), als N30 notiert.
+
+**Zyklus 2 (22:50–22:52 gemessen, Paket B): Lesarten für EXP-041 vor der Nacht geschärft.** *Frage:* Trifft der Stärke-Confound aus Zyklus 1
+auch EXP-041 (schwacher Zufallssplit R gegen starken Split E)? *Ergebnis:* Nur bei t = 150, und dort trennt P41b sogar drei Modelle:
+Schrittfenster (N30) → *geprägt*, Amplitudenschwelle (H40) → *gemischt*, H42 → *überschrieben*. Als Nachtrag b vor jedem Lauf eingetragen,
+beschreibend. Außerdem BACKLOG P3: π bleibt Primärgröße, π nach 250 G-Schritten als billiger Zweitpunkt.

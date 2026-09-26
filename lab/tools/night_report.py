@@ -14,7 +14,12 @@ from pathlib import Path
 
 LAB = Path(__file__).resolve().parents[1]
 EXPS = ("EXP-035-warmup-lockin", "EXP-038-where-lockin", "EXP-036-init-conflict", "EXP-039-lr-clock",
-        "EXP-040-we-init-scale", "EXP-034-phase2-optimizer", "EXP-042-bias-strength", "EXP-041-imprint")
+        "EXP-040-we-init-scale", "EXP-034-phase2-optimizer", "EXP-042-bias-strength", "EXP-041-imprint",
+        # session 13: GPU queue (queue_gpu_s11.sh); GPU-001 writes verdict_*.json instead of summary.json
+        "GPU-001-equivalence", "EXP-043-generalize-steering", "EXP-046-dihedral-steering", "EXP-047-marginal-control",
+        "EXP-048-intadd-steering", "EXP-049-width-steering", "EXP-044-generalize-lockin", "EXP-045-mlp-steering")
+# run-completion lines: freq_ban.py "[exp]", group_train.py "[g]", intadd_train.py "[i]", width_train.py "[w]"
+DONE = re.compile(r"\[(?:exp|g|i|w)\] (\S+) completed:")
 PROBLEM = re.compile(r"REFUSED|failed|stop|Traceback|Error|nan", re.I)
 
 
@@ -25,9 +30,9 @@ def log_summary(path: Path) -> None:
     lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
     done = Counter()
     for ln in lines:
-        m = re.match(r"\[exp\] (\S+) completed:", ln)
+        m = DONE.match(ln)
         if m:
-            done[m.group(1).split("_baseline")[0]] += 1
+            done[re.split(r"_baseline|_seed|_d\d", m.group(1))[0]] += 1
     print(f"[log] {path.name}: {len(lines)} lines; completed runs by exp_id prefix: {dict(done)}")
     for ln in lines:
         if PROBLEM.search(ln) and "completed (exit 0)" not in ln:
@@ -42,7 +47,7 @@ def verdicts(obj, prefix: str = "") -> list[str]:
         for k, v in obj.items():
             if k == "rows":
                 continue
-            if any(w in k.lower() for w in ("verdict", "class", "p36b", "n_", "successes")) and not isinstance(v, (dict, list)):
+            if any(w in k.lower() for w in ("verdict", "class", "p36b", "n_", "successes", "pass")) and not isinstance(v, (dict, list)):
                 out.append(f"{prefix}{k} = {v}")
             elif isinstance(v, (dict, list)) and k not in ("rows",):
                 out += verdicts(v, f"{prefix}{k}.")
@@ -53,13 +58,14 @@ def main() -> None:
     log_summary(Path(sys.argv[1]) if len(sys.argv) > 1 else LAB / "runner" / "logs" / "queue_s10.log")
     for e in EXPS:
         d = LAB / "experiments" / e
-        for f in sorted(d.glob("summary*.json")):
+        files = sorted(d.glob("summary*.json")) + sorted(d.glob("verdict*.json"))
+        for f in files:
             try:
                 v = verdicts(json.loads(f.read_text(encoding="utf-8")))
             except (OSError, ValueError) as ex:
                 v = [f"unreadable: {type(ex).__name__}"]
             print(f"[{e}/{f.name}] " + ("; ".join(v[:12]) if v else "(no verdict fields)"))
-        if not any(d.glob("summary*.json")):
+        if not files:
             print(f"[{e}] no summary yet")
 
 

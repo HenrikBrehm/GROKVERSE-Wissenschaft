@@ -3,11 +3,21 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 16:22 Berlin (Sitzung 9 läuft, Deadline 17:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 17:06 Berlin (Sitzung 9 endet 17:49; nächster Start 19:49 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
+
+- **ENDE SITZUNG 9 (17:06) → nächste Sitzung beginnt hier.** Nächster Start 19:49 Berlin = **außerhalb des Fensters** (heute bis
+  18:00, ab 27.09. 00:00–13:00): bis 00:00 nur Denk-/Sucharbeit. **Im Fenster ein Befehl:** `python lab/tools/guarded_run.py --check`,
+  prüfen, dass keine Queue läuft (`ps -ef | grep -E "queue|guarded_run"`), dann **`sh lab/experiments/queue_s10.sh`** im
+  Hintergrund (Log z. B. `lab/runner/logs/queue_s10.log`): EXP-035 (Rest; überspringt Fertiges) → **EXP-038** → **EXP-036** →
+  EXP-034 → queue_s5. Nach jeder Auswertung Ergebnis ins README/JOURNAL/LAB (die Queue schreibt nur `summary.json`).
+  Abgeschlossen in Sitzung 9: EXP-020 (*nicht bestätigt*; beschreibend (25, 50] in 5/5), EXP-028 (*teilweise*), EXP-037
+  (*gestützt* mit Einschränkung: reproduzierbare, funktionale Konfliktfrequenzen). Befunde: JOURNAL „Abschlussbericht Sitzung 9“.
+  Denkarbeit-Ideen: warum 25–50 Schritte (Verbindung zur linearen Modentheorie aus EXP-033), Konfliktfrequenzen theoretisch
+  (gemeinsame Unterstützung, P36b), EXP-038-Folgeversuch mit norm-angepasstem Rücksetzen.
 
 - **SITZUNG 9 (16:22):** EXP-020 **abgeschlossen** (*nicht bestätigt* 4/5; beschreibend (25, 50] in 5/5), EXP-028 *teilweise*,
   EXP-020 Nachtrag d an frischen Seeds **nicht bestätigt**. `queue_s9.sh` läuft EXP-037 (Smoke ok; 9 Läufe bis ~17:05), dann

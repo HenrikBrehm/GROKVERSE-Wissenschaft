@@ -1230,3 +1230,42 @@ Kern-Konfliktfrequenzen im W_E-Spektrum der reinen Läufe: schon bei Schritt 250
 Seed 32: 30, 13, 50). *Ergebnis:* starke Assoziation in der Exploration (7/7 auf Platz ≤ 7). *Entscheidung:* als P36b für die
 frischen Inits von EXP-036 vorab festgelegt (Nachtrag b). Das ist eine Konkurrenz zur Init-Deutung: nicht die Init allein,
 sondern die gemeinsame frühe Unterstützung durch beide Datensätze.
+
+### Abschlussbericht Sitzung 9 (2026-09-26, 14:49–~17:45 Berlin; geschrieben 17:06)
+
+**Wichtigste Befunde:**
+1. **[[experiments/EXP-020-data-switch/README|EXP-020]] abgeschlossen (5 Seeds).** Vorab festgelegtes Urteil *nicht bestätigt*
+   (4/5 stützen H20, p = 0.19); einzige Gegenstimme Seed 33, nur weil d(t) wegen einer 2k-Oberwelle nicht monoton ist.
+   Beschreibend: Die Frequenzwahl legt sich in **5/5 Seeds zwischen Schritt 25 und 50** fest, vor der Memorisierung
+   (Train-Acc ≈ 0.1, Nachtrag c *bestätigt* 4/4), weit vor dem Grokking (gen_F 625–1325); ab t = 150 bleibt K exakt wie „nur F“,
+   und in der G-Phase vertieft sich die Festlegung. Mit dem Oberwellen-erweiterten Maß d_h ist d in allen Seeds monoton.
+2. **[[experiments/EXP-028-memo-imprint/README|EXP-028]]:** P28a *teilweise* (6/10 Läufe 5/5); P28b: Ziele gehen um die
+   Generalisierung verloren, alle 8 Ersetzungen sind 2k-Oberwellen.
+3. **Negativer Befund (Vorab-Vorhersage):** Die in der Exploration auffällige Init-Herkunft „fremder“ Frequenzen hielt an frischen
+   Seeds nicht (EXP-020 Nachtrag d: P-d1 1/2, P-d2 verfehlt).
+4. **[[experiments/EXP-037-alternation-conflict/README|EXP-037]] (neu, vorab festgelegt, nach Codex umgebaut):** *gestützt*
+   (A = 5 und A = 25), mit Einschränkung. Belastbar: Anhaltender F/G-Konflikt in der kritischen Periode erzeugt je Seed
+   **reproduzierbar dieselben „Konfliktfrequenzen“**, die das Netz **funktional nutzt** (Ablation Δloss 1.4–5.3), gleiche
+   Exposition ohne Konflikt (C_F100) in 0/3. Ihre Init-Herkunft ist offen.
+5. **Neue Hypothese (post hoc, vorab für EXP-036 festgelegt, P36b):** Konfliktfrequenzen sind die Frequenzen, die **beide**
+   Datensätze früh als Zweitbeste stützen (7/7 auf Kandidatenplatz ≤ 7 von ≈ 37).
+
+**Vorbereitet, nicht ausgeführt:** [[experiments/EXP-036-init-conflict/README|EXP-036]] (neue Inits, 7 Paare, Paar-Test; Nachträge a, b),
+[[experiments/EXP-038-where-lockin/README|EXP-038]] (Teil-Rücksetzen nach der Festlegung; Nachtrag a), beide nach Codex umgebaut,
+Analysen mit Selbsttests; `--reset-at-switch` im echten Lauf ungetestet (Smoke vorgeschaltet). EXP-034 unverändert vorbereitet.
+EXP-035 lief ab 17:03 an (Smoke ok, Seed 30 „nur F“ mit Warmup); Rest in `queue_s10.sh`.
+
+**Offene Grenzen:** Alle Transformer-Befunde an einer Architektur und Splits aus einem Generator; EXP-037 an denselben Seeds wie
+die Exploration; Top-5-Maß anfällig für Oberwellen; Konfliktfrequenzen nur an 5 Seeds beschrieben.
+**Codex:** drei Reviews (EXP-036, EXP-037, EXP-038; alle needs-attention), alle Einwände geprüft, fast alle übernommen (nicht:
+Init-Label-Permutation für EXP-036, gewichtetes Mischtraining für EXP-037, norm-angepasste Kontrollen für EXP-038; Gründe in den READMEs).
+**Eigene Fehler:** mehrfach geschätzte statt gemessene Uhrzeiten (korrigiert); zweimal Backticks in ungeschützten Heredocs
+(Journaltext repariert, keine Wirkung); versehentlich `git commit -a` mit den uncommitteten Runner-Dateien des Nutzers
+(sofort per `git reset --soft` rückgängig, Dateien unverändert, wieder uncommittet); zwei falsche Selbsttest-Erwartungen (Tests
+korrigiert, nicht die Regeln).
+**Reproduktion:** EXP-020: `sh lab/experiments/queue_s9.sh` (EXP-020-Teil) + `EXP-020-data-switch/analyze.py`, Nachtrag d:
+`EXP-020-data-switch/conflict_freqs.py`; EXP-037: `sh lab/experiments/EXP-037-alternation-conflict/queue.sh`, dann `analyze.py`
+und `ablate_foreign.py` (je über `python lab/tools/guarded_run.py -- python …`).
+**Nächste Aktion:** Im Fenster (ab 00:00): `sh lab/experiments/queue_s10.sh` (EXP-035 → EXP-038 → EXP-036 → EXP-034 → queue_s5).
+**Scheduler:** Aufgabe `GROKVERSE-Lab-Runner` aktiv; nächster Start laut `runner-state.json` 2026-09-26T17:49:44Z = **19:49 Berlin**
+(außerhalb des Fensters: dann nur Denkarbeit; Läufe ab 00:00).

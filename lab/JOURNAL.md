@@ -2451,3 +2451,7 @@ auch in Läufen mit Zufallssplit nach dem Grokking? *Vorgehen:* `posthoc_postgen
 viel früher (450–1100 gegen 5600–8400 Schritte, Anteil noch im Aufbau) und „+1500“ wird bei Schritt 2000 abgeschnitten. **Belastbar bleibt nur:** kein Abklingen der gepflanzten Wahl
 bis Schritt 2000, also der Unterschied zu Zhou et al. Eine Verstärkung durch den Split ist **nicht gezeigt**. *Entscheidung:* Die Randnotiz in [[NOVEL_DIRECTIONS]] entsprechend
 eingeschränkt. Kein neuer Versuch.
+
+*Nachtrag Zyklus 1:* Zhou et al. 2024 ist in [[NOVEL_DIRECTIONS]] N6 schon seit Sitzung 5 ausführlich eingeordnet (dort: #neu/bekannt (teilweise) für die Grundidee von N3).
+Die Literaturprüfung von heute ist daher nur eine Bestätigung. Neu ist allein die Nachrechnung „kein Abklingen nach dem Grokking“. Zyklen 1+2 sind damit abgeschlossen. Bis 03:00 bleibt
+nichts Pflichtiges offen, als Nächstes kommt der Ablauf 18b aus [[STATE]].

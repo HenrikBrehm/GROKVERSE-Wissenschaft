@@ -2379,3 +2379,18 @@ anderer Konfiguration unter derselben Run-ID würde also still übersprungen. He
 (gezählt), das Nachtprogramm ruft jede Run-ID immer mit denselben Argumenten auf, `result.json` wird atomar geschrieben, und `result_loader.py` prüft vor jeder Auswertung
 Schrittbudget und Konfiguration. *Entscheidung:* Heute keine Änderung an diesen Trainern (ungetestet, kein akuter Schaden). Offener Punkt: Fingerprint wie in `freq_ban.py`
 nachziehen, bevor eine ihrer Run-IDs mit anderen Argumenten wiederverwendet wird (z. B. im P1-Bestätigungsblock).
+
+## Sitzung 19 (2026-09-27, Start 01:09 Berlin, Deadline 04:09; Fenster ab 03:00)
+
+Start: `--check` Exit 3 (außerhalb, Regel 18: Läufe erst ab 03:00), kein STOP, keine Python-Prozesse, Arbeitsbaum wie Sitzung 18 hinterlassen.
+
+**Zyklus 1 (Fingerprint für die drei kleinen Trainer, 01:12–01:25).** *Frage:* Sitzung 18 (Codex-Teilhinweis, selbst bestätigt) fand, dass
+`group_train.py`, `intadd_train.py` und `width_train.py` einen Lauf allein nach `status == "completed"` überspringen. Ist jetzt der richtige Zeitpunkt, das zu schließen?
+*Argument:* Ja. In EXP-046/048/049 existiert noch kein `result.json`; nach der Nacht gäbe es Läufe ohne Fingerprint, die man dann als Altlast gesondert behandeln müsste
+(wie in `freq_ban.py` mit `legacy_mismatch`). Das GPU-001-Siegel umfasst diese Trainer nicht, die Abnahme wird also nicht entwertet.
+*Änderung (ungetestet):* `lab/tools/trainer_guard.py` (Fingerprint über alle wirksamen Argumente + SHA-256 des Split-Inhalts; Pfad, `out_root`, `force` nicht darin,
+damit derselbe Split unter anderem Pfad nicht als andere Konfiguration gilt). Entscheidung: überspringen nur bei gleichem Fingerprint, `completed` und vollem Budget;
+unlesbares `result.json` oder unfertiger Lauf mit gleichem Fingerprint → neu trainieren; abweichender oder fehlender Fingerprint → Abbruch mit Exit 2 (fail closed, `--force` hebt auf).
+`result.json` trägt `config_fingerprint` und `fingerprint_fields`. Keine Sperrdatei (YAGNI: das Nachtprogramm startet jede Run-ID einmal; Smokes laufen in `raw_smoke`).
+*Prüfung:* Selbsttest ab 03:00 (`python lab/tools/trainer_guard.py --selftest`); die Smokes des Nachtprogramms (je 50 Schritte, `raw_smoke`) prüfen den Import und den Schreibpfad.
+*Entscheidung:* übernommen; offener Punkt aus Sitzung 18 damit geschlossen, sobald der Selbsttest besteht.

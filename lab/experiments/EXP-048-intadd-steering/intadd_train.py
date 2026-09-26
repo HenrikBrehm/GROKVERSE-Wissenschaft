@@ -28,6 +28,7 @@ import torch.nn.functional as F
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 sys.path.insert(0, str(ROOT / "training"))
+sys.path.insert(0, str(ROOT / "lab" / "tools"))
 
 from grokverse.config import THRESHOLD_SETS, get_config  # noqa: E402
 from grokverse.data import split_hash  # noqa: E402
@@ -35,6 +36,7 @@ from grokverse.models import build_model  # noqa: E402
 from grokverse.seed import set_seed  # noqa: E402
 from grokverse.train import all_transitions, evaluate  # noqa: E402
 from grokverse.utils import git_commit, lib_versions  # noqa: E402
+from trainer_guard import config_fingerprint, should_skip  # noqa: E402
 
 P = 113
 NC = 2 * P - 1
@@ -74,11 +76,9 @@ def run(a: argparse.Namespace) -> dict:
     run_id = f"EXP-048_seed{a.seed}_{Path(a.split_file).stem}_dev{a.device.replace(':', '')}"
     out_dir = Path(a.out_root) / run_id
     rj = out_dir / "result.json"
-    if not a.force and rj.exists():
-        old = json.loads(rj.read_text())
-        if old.get("status") == "completed" and old.get("steps_completed") == a.steps:
-            print(f"[i] {run_id} already completed; use --force to overwrite", flush=True)
-            raise SystemExit(0)
+    fingerprint, fp_fields = config_fingerprint(a)     # session 19: resume guard, lab/tools/trainer_guard.py
+    if should_skip(rj, fingerprint, a.steps, a.force, "i", run_id):
+        raise SystemExit(0)
     out_dir.mkdir(parents=True, exist_ok=True)
     for f in ("result.json", "spectra.npy", "spectra_steps.npy", "we_final.npy"):
         (out_dir / f).unlink(missing_ok=True)
@@ -104,7 +104,8 @@ def run(a: argparse.Namespace) -> dict:
     dense = {"train_steps": [], "train_acc": [], "train_loss": [], "test_steps": [], "test_acc": [], "test_loss": [],
              "eval_every_train": cfg.eval_every_train, "eval_every_test": cfg.eval_every_test}
     spectra, spectra_steps, lin = [], [], []
-    res = {"exp_id": "EXP-048", "run_id": run_id, "status": "running", "seed": a.seed, "task": "intadd", "n_in": P,
+    res = {"exp_id": "EXP-048", "run_id": run_id, "status": "running", "config_fingerprint": fingerprint,
+           "fingerprint_fields": fp_fields, "seed": a.seed, "task": "intadd", "n_in": P,
            "n_out": NC, "split_file": a.split_file, "split_hash": split_hash(torch.from_numpy(tr)),
            "device": a.device,
            "device_name": torch.cuda.get_device_name(dev) if dev.type == "cuda" else platform.processor(),

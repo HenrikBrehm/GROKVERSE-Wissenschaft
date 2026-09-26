@@ -22,7 +22,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 3. Tests, je `python lab/tools/guarded_run.py [--min-minutes 5] -- python <datei> [arg]`: `lab/experiments/EXP-001-freq-ban/test_freq_ban.py` (Sitzung 18 ergänzt); `lab/tools/result_loader.py`;
    `lab/tests/test_freq_ban_fingerprint.py` (--min-minutes 5; kleine CPU-Läufe im Temp-Ordner); `lab/tests/test_night_program.py`;
    **neu (Sitzung 14):** `lab/experiments/EXP-052-oos-mask-prediction/exp052.py --selftest`, `lab/tools/pilot_power.py --selftest`,
-   `lab/tools/confirm_splits.py --selftest`, `lab/tools/confirm_p1.py --selftest`. Scheitert etwas: beheben, bevor Queues starten
+   `lab/tools/confirm_splits.py --selftest`, `lab/tools/confirm_p1.py --selftest`, **neu (Sitzung 19):** `lab/tools/trainer_guard.py --selftest`. Scheitert etwas: beheben, bevor Queues starten
    (die vier neuen blockieren die Nachtqueues nicht, nur ihre eigene spätere Auswertung).
 4. GPU: `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1` im Hintergrund (Plan: `--dry-run`). Beginnt mit GPU-001
    (**Sitzung 18: Stufe 0 `components`, Astra 9** → Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 (+ EXP-051) → 048 → 049 → 044 → 045.

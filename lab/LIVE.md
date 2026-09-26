@@ -10,15 +10,16 @@ tags: [lab/live]
 
 ## Gerade
 
-**Lauf:** [[experiments/EXP-016-engineered-split/README|EXP-016]] (konstruierte Splits, je ≈ 4.5 min), Seed 10 Arm F seit 04:53. Diese Sitzung schafft voraussichtlich Seeds 10–14 (beide Arme); der Rest folgt in der nächsten Sitzung.
-**Wichtigster Befund heute:** Das Masken-Spektrum des **Trainingssplits** sagt voraus, welche Frequenzen das Netz lernt (an frischen Seeds bestätigt, EXP-015). Ob der Split sie auch *verursacht*, prüft EXP-016 gerade; Seed 10 spricht dafür.
+**Sitzung endet** (Deadline 05:49). Letzter Lauf: EXP-016 Seed 15 Arm G (05:42–≈05:46), danach verweigert der Wächter weitere Starts.
 
 ## Als Nächstes
 
-Laufende EXP-016-Läufe beobachten. Ab ≈ 05:39 Stand sichern und Abschlussbericht schreiben (Deadline 05:49).
+Nächster geplanter Start: **2026-09-26 07:49 Berlin** (05:49Z, `next_start_utc`), im Run-Fenster.
+Dann: `sh lab/experiments/queue_s4b.sh` fortsetzen (EXP-016 Seeds 16–19, Baselines 18/19, EXP-014, EXP-010), EXP-016 auswerten. Siehe [[STATE]].
 
 ## Verlauf dieser Sitzung
 
+- 05:41 EXP-016 Seed 15 Arm F: Zielmenge exakt (5/5).
 - 05:37 EXP-016 Seed 14 Arm G: 3 von 5 aus G. Zwischenstand Δ (5 Seeds): +8, +7, +7, +7, +8.
 - 05:32 EXP-016 Seed 14 Arm F: gelernte Frequenzen = Zielmenge exakt (5/5); gen 1100 (Zufallssplit 11200).
 - 05:28 EXP-016 Seed 13 Arm G: 3 von 5 aus G. Zwischenstand Δ = +8, +7, +7, +7.

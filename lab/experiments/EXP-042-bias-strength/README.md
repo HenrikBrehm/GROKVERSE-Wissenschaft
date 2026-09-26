@@ -46,7 +46,7 @@ Codex: needs-attention, 2 × hoch, 2 × mittel.
 4. **(mittel) Kein Schutz gegen gleichzeitige Jobs.** **Übernommen:** Die Queue wartet zu Beginn, bis kein `guarded_run.py` mehr läuft.
 Budget neu ≈ 3.1 h. Code nach dem Nachtrag ungetestet (Selbsttest am Queue-Anfang).
 
-## Nachtrag b (Sitzung 15, 2026-09-26 ≈ 23:05 Berlin, vor jedem EXP-042-Lauf; nur beschreibend, das Urteil aus Nachtrag a bleibt)
+## Nachtrag b (Sitzung 15, 2026-09-26 22:45 Berlin (gemessen), vor jedem EXP-042-Lauf; nur beschreibend, das Urteil aus Nachtrag a bleibt)
 
 **Anlass (post hoc an EXP-020/037, [[experiments/EXP-020-data-switch/README|EXP-020]] Nachtrag Sitzung 15):** Ein reiner Takt mit linearer
 Überlagerung in einem frühen Integrationsfenster (jeder der ersten T* ≈ 69 Schritte zählt gleich) gibt die EXP-020-Persistenz wieder und

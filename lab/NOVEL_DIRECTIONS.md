@@ -173,3 +173,27 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
 - **Einordnung:** Beschleunigung des Grokkings durch eine **spektral gewählte Trainingsmenge** bei festgehaltener
   Größe und Gewichtsverteilung wurde nach dieser Suche **nicht gefunden**. Vorläufig, keine Garantie; Google Scholar
   und OpenReview noch nicht gezielt durchsucht.
+- **Nachsuche 2026-09-26 (Sitzung 5, ~06:15) zu N3 und N6.** Suchbegriffe: „openreview grokking modular addition
+  "train/test split" seed determines key frequencies separate data seed model seed“, „"modular addition" learned
+  frequencies depend on training subset "which frequencies" data distribution Fourier neural network 2026“,
+  „designing training set to control which features a network learns algorithmic task frequency steering data
+  curation grokking“. Per WebFetch geprüft:
+  - **Zhou, Zhang, Xu 2024**, *A rationale from frequency perspective for grokking in training neural network*
+    (https://arxiv.org/abs/2405.17479): **nächstverwandt zu N6.** Ungleichmäßig bzw. unzureichend gezogene
+    Trainingsmengen erzeugen „spurious“ Frequenzanteile (NUDFT über den Eingaberaum, Frequency Principle), die das
+    Netz zuerst lernt; sie konstruieren solche Mengen gezielt und **lösen damit Grokking aus**. Aufgaben: 1-D-Regression
+    sin(6x), Parität, MNIST; **keine modulare Addition, keine Z_p-Fourier-Frequenzen im Embedding**. Ihr Bild sagt für
+    EXP-018 das **Gegenteil** voraus: Das Spektrum von E passt nicht zur gleichverteilten Testmenge, also eher
+    Verzögerung. EXP-018 trennt beide Vorhersagen.
+  - **Amarine007/grokking-dynamics** (GitHub-Repo, kein begutachtetes Paper; https://github.com/Amarine007/grokking-dynamics),
+    Nachbau von Nanda et al.: **fester** 30/70-Split, 10 Seeds nur mit verschiedener Init → kein Seed-Paar wählt dieselbe
+    Frequenzmenge; die Init gibt nur einen „small, significant head start (p = 0.016)“; ~3/4 der Frequenzen stehen nach
+    462 Schritten fest. **Folgerung für N3:** Der Split kann nicht die einzige Ursache sein (bei festem Split
+    variiert K trotzdem). Das passt zu EXP-012 (Init trägt bei) und macht EXP-014 (Kreuzdesign) wichtig. Split-Variation
+    wird dort nicht untersucht.
+  - Kunin et al. 2025 (AGF), siehe N6.
+  **Einordnung N3 unverändert vorläufig:** Eine Zuordnung der Frequenzwahl zum Datensplit und eine Steuerung durch
+  konstruierte Splits bei modularer Addition wurden nicht gefunden. Die Idee „die Trainingsstichprobe erzeugt
+  Frequenzen, die zuerst gelernt werden“ ist aber in anderer Form (F-Principle, Eingaberaum) **bekannt** (Zhou et al.
+  2024). Ein Bericht müsste N3 als Übertragung auf Z_p-Fourier-Merkmale und als kausale Steuerung einordnen, nicht als
+  neue Grundidee. #neu/bekannt (teilweise)

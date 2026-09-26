@@ -92,3 +92,12 @@ Codex (`codex_review_2026-09-26.txt`, Urteil „needs-attention“), drei Befund
 
 Sekundär unverändert, jetzt ebenfalls als zensierungsfeste Vorzeichentests (E vs. R, D vs. R, alle drei Schwellen)
 plus beschränkte log-Quotienten R/E und R/D.
+
+## Einordnung (Nachtrag b, 2026-09-26 ~06:17, vor jedem Lauf, keine Kriterienänderung)
+
+Konkurrierende Vorhersagen, damit das Ergebnis nicht nachträglich passend gedeutet wird:
+- **H18 (aus EXP-016):** E generalisiert auf T* früher als D und R.
+- **Frequency-Principle-Sicht** (Zhou, Zhang, Xu 2024, https://arxiv.org/abs/2405.17479): Ein Trainingsspektrum, das
+  nicht zum Testspektrum passt, verzögert die Generalisierung → E **später** als R und D.
+- **Nullsicht:** Die Beschleunigung in EXP-016 lag an der Komplement-Testmenge → E ≈ D ≈ R auf T*.
+Siehe [[NOVEL_DIRECTIONS]] N6.

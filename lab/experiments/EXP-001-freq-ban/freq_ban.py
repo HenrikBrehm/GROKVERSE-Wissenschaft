@@ -224,9 +224,12 @@ def run(a: argparse.Namespace) -> dict:
         raise SystemExit("--test-file / --switch-split-file need --split-file")
     if a.warmup:                     # EXP-035: linear learning-rate warmup (default 0 = unchanged behaviour)
         run_id += f"_wu{a.warmup}"
+    for nm in ("lr_scale", "we_init_scale"):   # Codex s10: reject NaN/inf (they would pass the <= 0 checks)
+        if not np.isfinite(getattr(a, nm)):
+            raise SystemExit(f"--{nm.replace('_', '-')} must be finite")
     if a.lr_scale != 1.0:            # EXP-039: lr * c on the first train set for steps <= LR_SCALE_UNTIL (1.0 = off)
-        if a.lr_scale <= 0 or a.warmup:
-            raise SystemExit("--lr-scale needs c > 0 and no --warmup")
+        if a.lr_scale <= 0 or a.warmup or a.alternate_every:
+            raise SystemExit("--lr-scale needs c > 0, no --warmup and no --alternate-every")
         run_id += f"_lrs{a.lr_scale:g}"
     if a.we_init_scale != 1.0:       # EXP-040: W_E multiplied by s right after the (unchanged) init (1.0 = off)
         if a.we_init_scale <= 0:
@@ -248,14 +251,22 @@ def run(a: argparse.Namespace) -> dict:
         raise SystemExit("--spectra-at needs steps >= 1")
     out_dir = Path(a.out_root) / run_id
     if not a.force and previous_status(out_dir / "result.json") == "completed":
+        prev = json.loads((out_dir / "result.json").read_text())
+        if (float(prev.get("lr_scale", 1.0)) != a.lr_scale              # Codex s10: same intervention as requested
+                or float(prev.get("we_init_scale", 1.0)) != a.we_init_scale):
+            raise SystemExit(f"[exp] {run_id} completed with other scale metadata; rerun with --force")
         if extra_spec:                # Codex 2026-09-26: a skipped run must already hold the requested spectra
-            done = json.loads((out_dir / "result.json").read_text()).get("steps_completed", 0)
+            done = prev.get("steps_completed", 0)
             have = set(np.load(out_dir / "spectra_steps.npy").tolist())
-            if not {x for x in extra_spec if x <= done} <= have:
-                raise SystemExit(f"[exp] {run_id} completed without the --spectra-at steps; rerun with --force")
+            want = {x for x in extra_spec if x <= done}
+            snap = out_dir / "we_snapshot_steps.npy"   # Codex s10: and the W_E snapshots (step 0 + requested)
+            if not want <= have or not snap.exists() or not ({0} | want) <= set(np.load(snap).tolist()):
+                raise SystemExit(f"[exp] {run_id} completed without the --spectra-at steps/snapshots; rerun with --force")
         print(f"[exp] {run_id} already completed; use --force to overwrite", flush=True)
         raise SystemExit(0)           # skip is not an error (EXP-020 queue stops on every other failure)
     out_dir.mkdir(parents=True, exist_ok=True)
+    for stale in ("we_snapshots.npy", "we_snapshot_steps.npy"):   # Codex s10: no stale snapshots from an earlier run
+        (out_dir / stale).unlink(missing_ok=True)
 
     # identical order to grokverse.train.train(): threads, seed, data, model, optimizer
     torch.set_num_threads(cfg.threads)

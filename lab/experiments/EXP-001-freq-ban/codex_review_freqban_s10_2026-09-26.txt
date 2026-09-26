@@ -1,0 +1,71 @@
+(node:10336) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0de97-215a-7b20-943d-354cd06df558).
+[codex] Turn started (01a0de97-22b4-72c0-91e5-6b3295213cd2).
+[codex] Assistant message captured: {"verdict":"approve","summary":"I’m inspecting the exact diff and surrounding trainer control...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --no-ext-...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --no-ext-... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "lr_scale|we...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "lr_scale|we... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content -Liter...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content -Liter... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n -C 5 "we_sna...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n -C 5 "we_sna... (exit 0)
+[codex] Assistant message captured: {"verdict":"approve","summary":"The off-by-default execution path appears trajectory-equivale...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show --no-ext-...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show --no-ext-... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show --no-ext-...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show --no-ext-... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n -C 8 \"W_E|n...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n -C 8 \"W_E|n... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show --stat --...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show --stat --... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content -Liter...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content -Liter... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"freq_ban|N...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"freq_ban|N... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n -C 8 "if not...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n -C 8 "if not... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n -C 8 'if not...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n -C 8 'if not... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n -A 18 'def w...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n -A 18 'def w... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content -Liter...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content -Liter... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n -C 8 'arch25...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n -C 8 'arch25... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files lab/exp...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files lab/exp... (exit 1)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"Do not ship: completed-run reuse and snapshot writes ...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against 9a3fdb3
+Verdict: needs-attention
+
+Do not ship: completed-run reuse and snapshot writes can silently produce missing, stale, or mixed artifacts; scale run IDs can collide; and lr scaling is wrong when combined with alternation.
+
+Findings:
+- [high] The fail-closed skip check does not verify the requested snapshots (lab/experiments/EXP-001-freq-ban/freq_ban.py:250-255)
+  The check only confirms requested indices exist in `spectra_steps.npy`. A pre-snapshot run—or a run without `--spectra-at` that already recorded a regular step such as 250—passes even when `we_snapshots.npy` is absent or stale. It also discards requests above `steps_completed`, so an unmet request can pass vacuously. Because `--spectra-at` leaves `run_id` unchanged, the process exits successfully while required artifacts are unavailable.
+  Recommendation: Before skipping, validate `spectra.npy`, both step arrays, and `we_snapshots.npy`: require matching lengths/shapes, snapshot step 0, and every requested reached step. Treat any requested step beyond the completed trajectory as an explicit failure rather than filtering it out.
+- [high] Forced reruns can leave completed directories containing stale or partial snapshots (lab/experiments/EXP-001-freq-ban/freq_ban.py:377-384)
+  Snapshot arrays are overwritten directly before the atomic JSON replacement. During `--force`, the previous completed `result.json` remains authoritative while these files are truncated and rewritten; interruption, disk-full, or write failure can therefore leave a completed directory pointing to mixed or corrupt artifacts. Even a successful forced rerun without `--spectra-at` leaves old snapshot files because the conditional write never removes them.
+  Recommendation: Atomically mark the directory running before touching prior artifacts, write every array to a temporary generation and rename only after successful completion, delete optional snapshot files when not produced, and publish the completed manifest last with artifact checksums or generation-specific filenames.
+- [high] Scale arguments can collide in run IDs or admit non-finite corrupting values (lab/experiments/EXP-001-freq-ban/freq_ban.py:227-234)
+  The `:g` formatting rounds finite floats, so distinct interventions such as 1.0000001 and 1.0000002 both map to `_lrs1` (and likewise for `_wes1`); the second invocation can silently skip and reuse the first result. Separately, NaN and positive infinity pass the `<= 0` checks and can propagate invalid parameters or learning rates into a run that is still written as completed.
+  Recommendation: Reject non-finite scales with `math.isfinite`, encode finite floats injectively using a canonical exact representation or parameter hash, and verify the requested scale against completed-result metadata before skipping.
+- [medium] LR scaling is applied to G blocks during alternation (lab/experiments/EXP-001-freq-ban/freq_ban.py:402-405)
+  `on_first` means only “before the permanent switch”; it does not reflect the currently active `trx`. With `--alternate-every`, the trainer changes to G after the first block, but every G block before `switch_step` still receives the scaled learning rate while `step <= 250`. This violates the stated first-train-set/F-only intervention and confounds combined runs.
+  Recommendation: Either reject `--lr-scale` together with `--alternate-every`, or track the active split explicitly and apply the scale only while F is active.
+
+Next steps:
+- Make artifact reuse validate the complete snapshot bundle.
+- Make forced writes transactional and remove stale optional artifacts.
+- Harden scale validation and run-ID encoding.
+- Define or reject the lr-scale/alternation combination.

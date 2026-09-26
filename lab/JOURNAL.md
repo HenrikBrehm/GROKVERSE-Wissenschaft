@@ -1473,3 +1473,12 @@ fehlten, sofort repariert). Ab jetzt nur noch geschützte Heredocs (`<<'EOF'`) o
 **Zyklus 16 (18:40, ohne Training): Neuheit des Kernbefunds nachgeprüft.** Zwei gezielte Suchen (arXiv/OpenReview, 2026). Neu gesehen:
 arXiv 2609.17571 (Sept. 2026, wo das Grokking stattfindet), 2606.12966, 2605.18845; laut Abstracts keine Festlegungszeit der
 Frequenzwahl per Datenwechsel. *Ergebnis:* Einordnung „nicht gefunden (vorläufig)“ bleibt (N14-Nachtrag). Grenze: nur Abstracts.
+
+**Zyklus 17 (18:47, ohne Training): Codex prüft `freq_ban.py` (alle neuen Optionen)** (`EXP-001-freq-ban/codex_review_freqban_s10_2026-09-26.txt`,
+needs-attention, 3 × hoch, 1 × mittel). Übernommen: Überspringen verlangt jetzt auch vollständige W_E-Schnappschüsse (Schritt 0 +
+angeforderte) und gleiche Skalen-Metadaten wie angefordert; alte Schnappschuss-Dateien werden bei jedem Laufstart gelöscht;
+NaN/inf-Skalen abgelehnt; `--lr-scale` mit `--alternate-every` abgelehnt (der Skalenfaktor hätte sonst auch G-Blöcke getroffen).
+Nicht übernommen: transaktionale Schreibvorgänge mit Generationen (Aufwand; `--force` wird nur in Smokes nach `rm -rf` benutzt) und
+injektive Kodierung beliebiger Fließkomma-Skalen (die Queues benutzen nur 0.5, 2, 8). Statisch gegengelesen: Für alte Läufe ohne die
+neuen Felder liefert der Überspringen-Zweig wie bisher Exit 0. **Ungetestet** bis zur Nacht (der Überspringen-Zweig läuft zuerst bei
+EXP-035 Seed 30; scheitert er, macht `queue_s10.sh` mit EXP-038 weiter).

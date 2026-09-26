@@ -123,7 +123,7 @@ die 5-Schritte-Stufe (≈ 1.25 × Init). (4) Nachtrag c änderte das Protokoll n
 ergebnisblinde Änderung, kein vollständig vorab festgelegtes Protokoll. **Korrigierte Kurzfassung:** *Die frühe Festlegung
 braucht in Phase 1 kein AdamW (GD: 10/10, etwas stärker); Phase 2 war immer AdamW; eine Stufe.* Folgeversuch mit
 nicht-Adam-Phase 2 und Stufe t_s = 5: [[experiments/EXP-034-phase2-optimizer/README|EXP-034]].
-**Post hoc, anderes Maß (Sitzung 8, 13:53):** Top-5 am Ende: Anker 0.4 von 5 Zielen, AR 4.6, GD 4.7, SIGN 4.7. Der
+**Post hoc, anderes Maß (Sitzung 8, 13:51):** Top-5 am Ende: Anker 0.4 von 5 Zielen, AR 4.6, GD 4.7, SIGN 4.7. Der
 Kerneffekt ist unter dem Top-5-Maß deutlicher; der GD-Vorsprung ist nur im feinen Anteilsmaß ds sichtbar.
 **Grenzen:** Phase 2 immer AdamW; eine Stufe (r ≈ 1.78 × Init); ‖W_out‖ am Umschaltschritt unter GD größer (3.55 gegen 2.60)
 und ist Teil der Behandlung; eine Architektur; Anker 15–19 aus EXP-027b (gleiches Protokoll).

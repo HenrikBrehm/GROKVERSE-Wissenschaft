@@ -2410,7 +2410,7 @@ Verträglichkeit der neuen Felder mit `--check-smoke`, `result_loader.py` und de
 Zwei niedrige Hinweise: (1) `--threads` im Fingerprint → eine Wiederholung mit anderer Threadzahl bricht ab. *Beibehalten, absichtlich:* Threads ändern die Rundung,
 also ist das eine andere Konfiguration. (2) `default=str` nur im Fingerprint, nicht beim Schreiben von `result.json`. *Verworfen für heute:* Alle Argumente sind int/str/bool.
 
-**Zyklus 3 (Codex-Prüfung des Nachtprogramms, zweiter Versuch, bis ≈ 01:25).** *Frage:* wie Sitzung 18 Zyklus 4 (dort Verbindungsabbruch). Neuer Codex-Faden, nur lesend.
+**Zyklus 3 (Codex-Prüfung des Nachtprogramms, zweiter Versuch, bis 01:21 gemessen).** *Frage:* wie Sitzung 18 Zyklus 4 (dort Verbindungsabbruch). Neuer Codex-Faden, nur lesend.
 Codex nennt die Befunde „blockierend“. *Jeden Befund selbst geprüft:*
 (1) „kritisch“: Nach Exit 3 wartet `parallel_queue` auf laufende Jobs. *Verworfen:* Jeder laufende Job steht unter seinem eigenen `guarded_run.py` mit harter Grenze
 (Sitzungsdeadline bzw. 13:00). Das Warten kann das Fenster also nicht verletzen, es verhindert nur verwaiste Prozesse.

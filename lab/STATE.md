@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-27, 00:31 Berlin (Sitzung 17, läuft bis 03:19; macht um 03:00 die Schritte 1–3, das Nachtprogramm startet die Folgesitzung). Nächste Sitzung: direkt nach dem Ende (nächster Tick)._
+_Zuletzt aktualisiert: 2026-09-27, 01:22 Berlin (Sitzung 19, läuft bis 04:09; macht ab 03:00 die Schritte 1–5 und startet das Nachtprogramm; wird um 04:09 vom Wächter angehalten, die Folgesitzung setzt mit demselben Befehl fort)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]]
 
@@ -62,13 +62,12 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 
 ## Blocker / Hinweise
 
-- Codex funktioniert wieder (Sitzung 18, 00:5x, Prüfung des ELR-Arms). Ohne Guthaben: Zweitprüfung durch Claude-Subagenten (frischer Kontext, nur lesend).
+- Codex funktioniert (Sitzung 19: Nachtprogramm geprüft, nichts übernommen, JOURNAL s19 Z3). Ohne Guthaben: Claude-Subagent, nur lesend.
 - **Trainer geändert (Sitzung 18, ungetestet):** `--lr-scale-after-switch` (Standard aus) + `events.switch.param_norm`. Die Regressionsstufe von GPU-001 und `test_freq_ban_fingerprint.py` prüfen den Standardpfad.
 - Uncommittete Nutzeränderungen (`guarded_run.py`, `install_task.ps1`, `tick.ps1`, `runner/README.md`, `SESSION_PREAMBLE.md`,
   `runner-state.json`, `parallel_queue.py`) **nicht committen**; nur gezielt `git add <pfad>`, nie `commit -a`.
 - Zeitstempel nur aus `guarded_run.py --check` (`now_berlin`); `--check` liefert Exit 3, wenn nicht erlaubt.
-- Shell-Skripte mit LF; Heredocs mit Backticks nur mit `<<'EOF'`; lange Patches als Datei (Python-Skript im Temp-Ordner) statt Heredoc.
-- `Path.with_suffix` nicht für Namen mit „eps2.0“ benutzen.
+- Shell-Skripte mit LF; Heredocs mit Backticks nur mit `<<'EOF'`; lange Patches als Python-Datei im Temp-Ordner. Kein `Path.with_suffix` bei „eps2.0“.
 - Neue `freq_ban.py`-Argumente nur **bei Abweichung vom Standard** in den Fingerprint aufnehmen, sonst brechen alle Wiederaufnahmen ab (Sitzung 16, [[BACKLOG]] ELR-Arm).
 - **Sitzungsgrenze (Sitzung 17):** Jeder Job hat als harte Grenze die Sitzungsdeadline. `night_program.py` wertet einen dabei abgebrochenen Job (Exit 124)
   jetzt wie eine Ablehnung (Programm stoppt mit Exit 3, Status „refused by guard“) statt als Fehlschlag; GPU-001 überspringt bestandene Stufen.
@@ -79,6 +78,4 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 
 ## Letzte abgeschlossene Versuche (Details [[LAB]], [[FINDINGS]])
 
-- Letzte Urteile aus Sitzung 9/10 (EXP-020, EXP-028, EXP-037); seither nur vorbereitet. Kernaussagen K1–K6 in [[FINDINGS]].
-- Sitzung 14 (post hoc, gespeicherte Läufe): kontinuierliche Persistenz π an EXP-020 (0.15/0.38/0.72/≈1 bei t = 10/25/50/150); nach
-  Gegenprüfung korrigiert: Warmup verzögert, aber weder Schritt- noch Λ-Uhr passen ([[BEFUND-festlegung]]).
+- Letzte Urteile aus Sitzung 9/10 (EXP-020, 028, 037); seither nur vorbereitet und post hoc (π an EXP-020, [[BEFUND-festlegung]]). K1–K6 in [[FINDINGS]].

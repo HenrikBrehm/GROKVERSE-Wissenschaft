@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 19:59 Berlin (17:59Z, vom Runner)
 - **Deadline:** 2026-09-26 22:59 Berlin (20:59Z)
-- **Zuletzt aktualisiert:** 20:28 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 20:33 Berlin (gemessen)
 - **Run-Fenster:** zu, wieder ab 00:00. Die nächste Sitzung (Start 00:59 Berlin) startet die Nacht-Queues. Diese Sitzung: Prüf-, Code- und Denkarbeit.
 
 ## Gerade
 
-Ein Subagent prüft [[experiments/EXP-050-phase-dissociation/README|EXP-050]]: Folgt der Transformer bei der Frequenzwahl dem „kohärenten“ Maskenspektrum oder dem gewöhnlichen? Dafür gibt es neu gebaute Trainingsmengen, die beide Maße gezielt auseinanderziehen.
+EXP-050 ist nach der Prüfung umgebaut: Die Kontrolle stimmt jetzt in allen einfachen Eigenschaften der Trainingsmenge mit dem Testarm überein und unterscheidet sich nur in der Größe, um die es geht.
 
 ## Als Nächstes
 
-Prüfergebnis einarbeiten; dann entscheiden, ob ein MLP-Gegenarm dazukommt (doppelte Dissoziation). EXP-050 bleibt vorerst außerhalb der Nacht-Queue.
+Prüfen, was bis zum Sitzungsende (22:59) noch sinnvoll ist, ohne weitere ungetestete Versuche aufzuhäufen.
 
 ## Verlauf dieser Sitzung
 
+- 20:33 **EXP-050 verbessert:** Die Prüfung fand eine versteckte Nebenwirkung. Die gleichphasigen Trainingsmengen enthalten viel mehr „Spiegelpaare“ (a+b und b+a), und die lernt ein Netz schneller. Neue Kontrolle „quadlm“ mit gleich vielen Spiegelpaaren gebaut.
 - 20:28 GPU-001 (Eingangsprüfung der Nacht) unabhängig prüfen lassen: kein Blocker, eine Schwachstelle behoben (abgelehnte Durchsatzläufe gingen unter). Neuer Kausaltest [[experiments/EXP-050-phase-dissociation/README|EXP-050]] vorbereitet.
 - 20:23 Theorie: Eine einfache Rechnung zum ersten Lernschritt erklärt, warum im Transformer eine andere Maskengröße (M0c) passt als im MLP (M0). Vorab festgelegt, wie die sechs Nachtergebnisse zusammen zu lesen sind ([[LESART-nacht-2026-09-27]]).
 - 20:21 Alle sieben Auswertungen der Nacht abgesichert: Ein abgestürzter Lauf (NaN) hätte sonst still ein falsches Urteil erzeugt. Gefunden bei der Prüfung von EXP-049. Werkzeug für den Morgenbericht auf die GPU-Versuche erweitert.

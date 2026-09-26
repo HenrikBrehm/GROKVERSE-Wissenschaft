@@ -836,3 +836,12 @@ Generalisierung, teils ein Gitterpunkt davor. *Einordnung:* explorativ, an dense
 vorab festgelegt (Bestätigung an den noch nicht gelaufenen EXP-020-Läufen „nur F“/„nur G“, Seeds 30–34, keine eigenen
 Läufe). N13 angelegt, Suche: nicht gefunden (vorläufig). Der Auswerter ist nur auf Feldnamen geprüft (an EXP-016-Daten),
 nicht an synthetischen Fällen.
+
+**Zyklus 6 (09:47–09:50): Gilt der Abdruck auch bei Zufallssplits?** Explorativ (Studienläufe Seeds 0–9, 150 Einbettungen,
+`EXP-015/posthoc_m0_timecourse.py`): ρ(W_E-Spektrum, M0) Init −0.02, vor der Memorisierung 0.19, Memorisierung 0.48 / 0.44,
+nach dem Grokking 0.19, Ende 0.14; 10/10 Seeds höher in der Memorisierung als danach. Kalibrierung für Stopp bei gen + 25:
+9/10 unter dem Fenstermittel. → [[experiments/EXP-029-memo-imprint-random/README|EXP-029]] vorab festgelegt (commit 4b7b8e3), dann an
+den Baselines 10–19 ausgewertet: **P29a bestätigt** (10/10, ρ_memo 0.42 gegen Init −0.04, p = 0.001), **P29b verfehlt**
+(8/10, 0.42 gegen 0.38) → *teilweise*. *Deutung (vorläufig):* Die bekannte schwache M0-Vorhersage von K (EXP-015, r̄ 0.28)
+ist vermutlich der Rest eines viel stärkeren Abdrucks aus der Memorisierungsphase. *Grenze:* Das Verblassen nach dem Grokking
+ist nur explorativ belegt (Seeds 0–9); die Bestätigung bräuchte Läufe, die länger über das Grokking hinaus laufen.

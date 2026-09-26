@@ -311,3 +311,7 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   Einbettungs-Konzentration sagt Generalisierung nicht voraus; nicht im Detail gelesen). Dass die Memorisierungsphase das
   Spektrum der *Trainingsmaske* vollständig einprägt und die Generalisierung Teile davon durch 2k-Oberwellen ersetzt:
   **nicht gefunden** (vorläufig).
+- **Zufallssplits (Sitzung 7):** explorativ an Seeds 0–9 ρ(W_E, M0) Init −0.02 → Memorisierung 0.46 → nach Grokking 0.19;
+  vorab festgelegte Bestätigung an 10–19 ([[experiments/EXP-029-memo-imprint-random/README|EXP-029]]): Einprägung 10/10
+  (ρ 0.42), Verblassen bis gen + 25 nur 8/10 → *teilweise*. Die frühere EXP-015-Aussage „M0 sagt K voraus“ ist damit
+  wahrscheinlich ein Rest dieser Einprägung, der die Generalisierung teilweise überlebt.

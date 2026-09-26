@@ -41,6 +41,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 9. **Vor dem Einfrieren von P1:** `lab/tools/pilot_power.py` (Δ_pow-Pilotstreuung, n für Power 80 %; vorher prüfen, dass die summary.json von
    EXP-048/049 aus dieser Nacht stammt). Bestätigungsblock dann mit `confirm_splits.py --manifest …` und `confirm_p1.py --jobs/--analyze …`
    (nur mit committetem Manifest; Seeds 1000–1099). P3 vorher schärfen: primär Wechsel bei t = 25 (Decke bei 150), Maß π, Überlappung nach EXP-053.
+   Gekreuzten Split×Init-Block (Astra 5) anhand von EXP-014 (Kreuzdesign, CPU-Nacht) entscheiden: trägt die Init einen großen Varianzanteil, Block kreuzen.
 
 ## Aktive Queue / laufende Jobs
 

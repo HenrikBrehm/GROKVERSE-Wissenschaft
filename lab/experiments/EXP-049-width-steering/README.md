@@ -57,3 +57,8 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-049-width-steering
 Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lauf (NaN in W_E) wäre bisher als gültig gezählt worden und hätte still ein falsches K oder sogar das Urteil *widerspricht* mit p = 0 erzeugt (`one_sided_p` mit NaN gibt 0.0). `analyze.py` wertet einen Lauf mit nicht-endlichem Spektrum bzw. W_E jetzt als **ungültig** (zählt gegen die Mindestzahl gültiger Seeds). Urteilsregeln sonst unverändert.
 
 *Weitere Einschränkung aus derselben Prüfung:* Bei Standard-Init hat W_E je Frequenz etwa gleich viel Init-Leistung, unabhängig von d, während Adam-Schritte je Gewicht breitenunabhängig sind. Die gelernte Leistung wächst also etwa mit d, und das breite Netz ist weniger von Init-Rauschen verdünnt. Das hebt Δ_pow(512) mechanisch an und wirkt gegen die Erwartung „kleiner bei 512“. Ein *größeres* Δ_pow bei 512 widerlegt die Knappheitsidee deshalb nicht. Das Primärurteil (Vorzeichen bei d = 512, Log-Verhältnisse im selben Netz, skaleninvariant) ist davon nicht betroffen. J stammt aus dem Durchsatztest mit d = 128; das betrifft nur die Laufzeit.
+
+## Bereits gesehene Daten und davon beeinflusste Entscheidungen (Regel 18c, Sitzung 13, 20:54 Berlin)
+
+**Art:** Pilot/Exploration für Paket A. Bestätigung nur im reservierten Block (Seeds 1000–1099, [[FINDINGS]] „Programm“) nach eingefrorenem Analysemanifest.
+**Gesehen:** EXP-016-Kalibrierung von Δ_pow gesehen; Splits der Seeds 170–179 offline (Ziele = M0-Top-5). Keine Läufe mit d_model 512 gesehen.

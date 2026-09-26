@@ -94,3 +94,8 @@ result.json-Schlüssel, Vorzeichentest, Shell-Logik bestätigt. Übernommen, **U
 Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lauf (NaN in W_E) wäre bisher als gültig gezählt worden und hätte still ein falsches K oder sogar das Urteil *widerspricht* mit p = 0 erzeugt (`one_sided_p` mit NaN gibt 0.0). `analyze.py` wertet einen Lauf mit nicht-endlichem Spektrum bzw. W_E jetzt als **ungültig** (zählt gegen die Mindestzahl gültiger Seeds). Urteilsregeln sonst unverändert.
 
 *Ergänzung zu Nachtrag b (20:22 Berlin, gemessen; reine numpy-Rechnung auf den 30 Splits, vor jedem Lauf):* Die Identität Σ_c L_k(c) = Σ_t n(t) ρ_k(t) gilt auch in D₅₉ (im Code geprüft); der Häufigkeitsanteil fällt also auch hier aus dem ersten W_E-Gradienten heraus. Er macht 0.9 % der M0-Leistung aus (Arm R 0.8 %). Das zentrierte M0 hält die Ziele auf Rang 2.0 von 29 (roh 2.0; Häufigkeitsspektrum allein 7.3; Zufall 14; Arm R 13.5). **Erwartung erster Ordnung:** Die Steuerung in EXP-046 läuft, falls vorhanden, über die Paarstruktur. Das ist eine Vorhersage, kein Beleg; die empirische Trennung gibt es nur für Z₁₁₃ (EXP-047).
+
+## Bereits gesehene Daten und davon beeinflusste Entscheidungen (Regel 18c, Sitzung 13, 20:54 Berlin)
+
+**Art:** Pilot/Exploration für Paket A (keine Bestätigung). Bestätigung nur im reservierten Block (Seeds 1000–1099, [[FINDINGS]] „Programm“) nach eingefrorenem Analysemanifest.
+**Gesehen:** Ergebnisse von EXP-016 (Steuerung in Z₁₁₃) motivierten Konstruktion und Richtung von H46; die Zielmengen-/M0-Prüfung und das Häufigkeitsspektrum der 30 D₅₉-Splits wurden offline angesehen (führten zu Nachtrag b). Keine D₅₉-Läufe gesehen.

@@ -80,3 +80,8 @@ Unabhängige Prüfung (Claude-Subagent, nur numpy; Codex ohne Guthaben): Herleit
 | sym | 2.0 | 2.0 | 25.4 | 0.190 | 0.270 | 706 | 55 | −0.003 |
 
 **Primärvergleich jetzt quadlm gegen anti** (gleiches M0, gleiche Häufigkeiten, gleiche Spiegelpaarzahl; verschieden nur in M0c; verbleibend: 19 Diagonalpaare mehr in quadlm, leicht verschiedene Reihenfolge-Neigung). sym gegen anti nur noch sekundär. Die sym/anti-Splitdateien sind unverändert (nur die JSON-Metadaten um Spiegelpaare/Diagonale/Reihenfolge ergänzt). 60 statt 40 Läufe.
+
+## Bereits gesehene Daten und davon beeinflusste Entscheidungen (Regel 18c, Sitzung 13, 20:54 Berlin)
+
+**Art:** Paket C (nicht aktiv), Exploration. Bestätigung nur im reservierten Block (Seeds 1000–1099, [[FINDINGS]] „Programm“) nach eingefrorenem Analysemanifest.
+**Gesehen:** Sitzung-5-Messung am ersten Gradienten (M0c beschreibt ihn besser als M0; Transformer 0.77 gegen 0.57, MLP umgekehrt) und EXP-019 (post hoc richtungsgleich) motivierten die Hypothese; die Herleitung erster Ordnung entstand nachträglich zu diesen Messungen. Splits offline (sym/anti/quadlm, Spiegelpaare) angesehen; Nachtrag a folgte daraus. Keine Läufe der Seeds 180–189.

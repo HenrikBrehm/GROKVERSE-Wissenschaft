@@ -77,3 +77,8 @@ Wege, nicht über den ersten Gradienten; das wäre selbst ein Befund.
 Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lauf (NaN in W_E) wäre bisher als gültig gezählt worden und hätte still ein falsches K oder sogar das Urteil *widerspricht* mit p = 0 erzeugt (`one_sided_p` mit NaN gibt 0.0). `analyze.py` wertet einen Lauf mit nicht-endlichem Spektrum bzw. W_E jetzt als **ungültig** (zählt gegen die Mindestzahl gültiger Seeds). Urteilsregeln sonst unverändert.
 
 *Ergänzung (20:33 Berlin, gemessen; reine Rechnung, vor jedem Lauf):* Einfache Split-Statistiken, die sich bei EXP-050 als Confound zeigten, sind hier zwischen eng und shuf ausgeglichen: Spiegelpaare 566 ± 19 gegen 568 ± 19, Diagonalpaare 33.8 gegen 32.4, Reihenfolge-Neigung +0.003 gegen −0.001 (je 20 Splits).
+
+## Bereits gesehene Daten und davon beeinflusste Entscheidungen (Regel 18c, Sitzung 13, 20:54 Berlin)
+
+**Art:** Mechanismus-Kontrolle innerhalb Paket A, Exploration. Bestätigung nur im reservierten Block (Seeds 1000–1099, [[FINDINGS]] „Programm“) nach eingefrorenem Analysemanifest.
+**Gesehen:** Häufigkeits- und M0-Spektren der EXP-016-Splits (Seeds 10–19) und der eigenen 40 Splits offline angesehen; daraus die Frage und die Theorie-Erwartung (Nachtrag a). EXP-015 (post hoc: Häufigkeitsspektrum sagt K unter Zufallssplits nicht voraus) bekannt. Keine Läufe der Seeds 150–159.

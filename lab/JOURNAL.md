@@ -2255,3 +2255,18 @@ einbauen, ohne bestehende Läufe zu stören? *Ergebnis (Code gelesen):* `fingerp
 Argument dort, auch mit Standardwert, ändert also den Fingerprint jedes Laufs. Fertige Läufe mit gleichem Namen führen dann zum Fehler statt zum
 Überspringen, und die Wiederaufnahme der Nachtprogramme bricht ab. *Entscheidung:* heute Nacht nichts am Trainer ändern. Bauregel in BACKLOG und STATE:
 nur bei Abweichung vom Standard aufnehmen, mit einem Selbsttest „Fingerprint eines Standardlaufs unverändert“.
+
+**Entscheidung, die Sitzung vor der Deadline zu beenden (6T23:):** Der letzte offene Designpunkt aus 18a/Astra (5, Kreuzblock) ist erledigt.
+Weitere Arbeit vor 03:00 wäre Nachrechnen an ausgeschöpften Daten oder eine Trainer-Änderung, die die heutige Abnahme gefährdet.
+Der nächste Runner-Start (03:14) hängt nicht davon ab.
+
+### Abschlussbericht Sitzung 16 (Stand 6T23: Berlin; Auftrag §10)
+
+- **Befunde:** keine neuen Messungen (Fenster zu). Design: Der gekreuzte Split×Init-Block für die P1-Bestätigung ist festgelegt und gebaut
+  (sekundär, feste Lesart, 20 Zusatzläufe). Damit ist Astra-Punkt 5 im Design vollständig. Außerdem eine Bauregel für neue Trainer-Argumente
+  (Fingerprint-Stabilität).
+- **Offene Grenzen:**  ist ungetestet (Selbsttest ab 03:00, schon in STATE Schritt 3). Der Kreuzblock trennt Init von
+  Init×Split-Wechselwirkung nicht.
+- **Reproduktion:** [confirm_p1] selftest ok (nur im Fenster, über ).
+- **Nächste Aktion:** STATE „Wiederaufnahme ab 03:00“ unverändert, dazu  ins P1-Manifest beim Einfrieren.
+- **Runner:** nächster Start laut runner-state.json 03:14 Berlin (01:14Z); Läufe ab 03:00.

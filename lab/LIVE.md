@@ -1,22 +1,25 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 16
+# LIVE: Laborsitzung 16 – **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-26 23:39 Berlin (21:39Z, vom Runner)
 - **Deadline:** 2026-09-27 02:39 Berlin (00:39Z)
-- **Zuletzt aktualisiert:** 23:44 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 6T23: Berlin (gemessen). **Status: Sitzung beendet.** Nächster geplanter Start: **03:14 Berlin** (runner-state.json, 01:14Z).
 - **Run-Fenster:** zu. Läufe heute Nacht erst ab 03:00 (Regel 18). Diese ganze Sitzung liegt davor: nur Code und Doku, keine Tests.
 
 ## Gerade
 
-Letzter offener Rest aus dem Astra-Review, Punkt 5: ein kleiner **gekreuzter Split×Init-Block** für die Bestätigung. Dieselben Splits werden mit weiteren Startgewichten trainiert. So lässt sich „der Split steuert“ von „dieses Seed-Paket wirkt“ trennen. Der Code in `confirm_p1.py` steht, eine unabhängige Prüfung läuft.
+Nichts läuft, alles ist committet. Vor 03:00 war nichts Sinnvolles mehr offen.
 
 ## Als Nächstes
 
-Prüfung einarbeiten, dokumentieren, committen. Ab 03:00 (nächste Sitzung, 03:14): Abnahme, Tests, Nachtprogramm laut [[STATE]].
+Sitzung ab 03:14: Abnahme des Wächters, Tests (inkl. neuem Kreuzblock-Selbsttest), GPU-Abnahme, Nachtprogramm laut [[STATE]].
 
 ## Verlauf dieser Sitzung
 
+- 6T23: Abschluss: Bericht im [[JOURNAL]].
+- 23:48 Bauregel festgehalten: Neue Trainer-Optionen dürfen den Fingerprint alter Läufe nicht ändern, sonst bricht jede Wiederaufnahme ab.
+- 23:46 Kreuzblock unabhängig geprüft (kein Fehler) und committet.
 - 23:44 Kreuzblock als Zusatz zu P1 gebaut (sekundär, beschreibend, nicht in der Holm-Familie). Lesart vor jedem Lauf festgelegt.
 - 23:39 Sitzung gestartet: Fenster zu, nichts läuft, kein STOP.

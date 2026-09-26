@@ -11,7 +11,7 @@ tags: [lab/live]
 ## Gerade
 
 **Lauf:** [[experiments/EXP-016-engineered-split/README|EXP-016]] (konstruierte Splits, je ≈ 4.5 min), Seed 10 Arm F seit 04:53. Diese Sitzung schafft voraussichtlich Seeds 10–14 (beide Arme); der Rest folgt in der nächsten Sitzung.
-**Wichtigster Befund heute:** Der **Trainingssplit** bestimmt mit, welche Frequenzen das Netz lernt. Das ist an frischen Seeds bestätigt (EXP-015).
+**Wichtigster Befund heute:** Das Masken-Spektrum des **Trainingssplits** sagt voraus, welche Frequenzen das Netz lernt (an frischen Seeds bestätigt, EXP-015). Ob der Split sie auch *verursacht*, prüft EXP-016 gerade; Seed 10 spricht dafür.
 
 ## Als Nächstes
 
@@ -19,6 +19,7 @@ Laufende EXP-016-Läufe beobachten. Ab ≈ 05:39 Stand sichern und Abschlussberi
 
 ## Verlauf dieser Sitzung
 
+- 05:08 Codex-Angriff auf EXP-015: Wortlaut auf „sagt voraus“ korrigiert; exakter Test p = 2.5e-5; auch gegen die funktionalen Schlüsselfrequenzen der Studie hält der Befund (p = 3.6e-6).
 - 05:02 EXP-016 Seed 10 Arm G: 4 von 5 Frequenzen aus **seiner** Zielmenge G, keine aus F. Δ = +8 von max. 10. Die Frequenzen folgen der Datenauswahl (1 Seed).
 - 04:58 EXP-016 Seed 10 Arm F: generalisiert schon bei Schritt 525 (Zufallssplit: 3925); 4 von 5 Frequenzen aus der Zielmenge. Einzelwert, Kontrolle (Arm G) folgt.
 - 04:53 **Bestätigt an frischen Seeds:** [[experiments/EXP-015-mask-spectrum/README|EXP-015]] (Split-Masken-Spektrum sagt Frequenzen voraus, r̄ 0.277, p < 1e-5; fremde Masken 0.499) und [[experiments/EXP-012-init-gradient/README|EXP-012]] (erster Gradient > Init, p = 0.031).

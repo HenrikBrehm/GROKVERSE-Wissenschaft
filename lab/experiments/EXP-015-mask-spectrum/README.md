@@ -101,3 +101,20 @@ Nicht übernommen: unabhängig gekreuzte Init/Split-Läufe für EXP-015 selbst. 
 Trainingssplits allein, ohne jedes Gewicht, sagt an frischen Seeds voraus, welche Frequenzen der Transformer lernt, und
 zwar split-spezifisch. Einordnung: Das ist eine Vorhersage, noch kein kausaler Nachweis; den liefern EXP-014/016.
 Grenzen: 8 Seeds, eine Architektur in der Bestätigung (die MLP-Befunde sind post hoc), p = 113, 30 %-Split.
+
+## Nachtrag c (2026-09-26 ~05:08 Berlin): Codex-Angriff auf die Schlussfolgerung, Prüfungen, Wortlaut
+
+Review: `codex_conclusion_review_2026-09-26.txt` (needs-attention, 3 Befunde), selbst geprüft:
+1. **Gleicher Seed für Split und Init** (übernommen, schärfer als von Codex formuliert): Der Split-Generator
+   `torch.Generator().manual_seed(s)` und die Init über `torch.manual_seed(s)` ziehen aus **gleich geseedeten**
+   Zufallsströmen. Split und Init desselben Seeds sind also keine unabhängigen Objekte; der Fremdmasken-Test trennt
+   Split-Effekt und Seed-Kopplung nicht. **Zulässiger Wortlaut:** „Das Masken-Spektrum des Trainingssplits sagt die
+   Rangfolge der W_E-Frequenzen (und der funktionalen Schlüsselfrequenzen) voraus / ist mit ihr assoziiert.“
+   **Nicht zulässig** bis EXP-016/014 abgeschlossen sind: „der Split bestimmt/wählt die Frequenzen“.
+2. **K = W_E-Top-5 ist nicht die Algorithmus-Frequenzmenge** (übernommen, geprüft): `exact_and_keyfreq_check.py` mit den
+   funktionalen „nanda“-Schlüsselfrequenzen der Studie bei 25k (Seeds 0–9, 3–8 Frequenzen je Lauf): passend r̄ 0.321,
+   fremd 0.513, **exaktes p = 3.6e-6**. Die Alternative „nur ein Embedding-Artefakt“ trifft auf diese Daten nicht zu.
+3. **Bindungen im Permutationstest** (übernommen): exakt über alle 8! Zuordnungen, Bindungen eingeschlossen:
+   **p = 2.5e-5** (= 1/8!, die wahre Zuordnung ist die einzige beste). Der frühere Wert 5e-5 war die Untergrenze der
+   Monte-Carlo-Schätzung.
+Das Urteil *bestätigt* (Assoziation, vorab festgelegt) bleibt; die Deutung ist auf Assoziation beschränkt.

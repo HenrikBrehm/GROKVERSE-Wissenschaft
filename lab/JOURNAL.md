@@ -309,3 +309,9 @@ EXP-016-Smoke (50 Schritte, Seed 10, Arm F): Top-5 von W_E nach 50 Schritten = e
 Das ist nur ein Funktionstest; die Primärmessung ist Schritt 2000.
 EXP-016 Seed 10 Arm F fertig ~04:58: 2000 Schritte, **gen 525** (Baseline mit Zufallssplit: 3925), Top-5 bei 2000 {16, 20, 32, 47, 49}, davon 4 aus F = {16, 20, 25, 47, 49}. Einzelwert; Primärvergleich erst mit Arm G und ≥ 8 Seeds.
 EXP-016 Seed 10 Arm G fertig 05:02: gen 975, K {1, 11, 26, 48, 51}, 4 aus G = {1, 26, 42, 48, 51}, 0 aus F. Mit Arm F: Δ_10 = 4 + 4 − 0 − 0 = +8 (max. 10). Beide konstruierten Splits generalisieren früh (525/975 vs. 3925); nicht Primärgröße.
+
+**Codex-Angriff auf die EXP-015-Schlussfolgerung** (`codex_conclusion_review_2026-09-26.txt`), selbst geprüft:
+(1) Split und Init desselben Seeds stammen aus gleich geseedeten Strömen → der Befund ist Assoziation, kein Nachweis,
+dass der Split wählt. **Übernommen**, Wortlaut überall korrigiert (auch meine eigene LIVE-Zeile war zu stark).
+(2) K ist nur W_E-Top-5 → geprüft mit den funktionalen Schlüsselfrequenzen der Studie: passend 0.321, fremd 0.513,
+exaktes p 3.6e-6. (3) Bindungen → exakt über 8!: p = 2.5e-5. Kausalität prüft EXP-016 (Seed 10: Δ = +8) und EXP-014.

@@ -578,3 +578,13 @@ richtungsgleich.** Als Sekundärgröße in EXP-019 aufgenommen (Nachtrag b), bev
 **Zyklus 17 (06:56, Vorbereitung): EXP-014 Nachtrag b.** Sekundärgröße mit M0c: sagt die Maske des **benutzten** Splits
 die Frequenzen des Kreuzlaufs besser voraus als die Maske des eigenen Splits der Init? Bausteine an Baseline 10 geprüft
 (eigener Split r̄ 0.175, fremder 0.669, E0 0.404). Primärgröße unverändert.
+
+**Zyklus 18 (06:58, Architektur-Kontrast, Vorhersage vor der Rechnung): Gilt der Positions-Mechanismus auch in der MLP?**
+Vorhersage (vorher notiert): In der MLP mit gemeinsamem Embedding laufen linker und rechter Operand durch **verschiedene**
+Hälften von W_in (unabhängige Zufallsmatrizen) → der Kreuzterm folgt der Maske **nicht**, M0 beschreibt den Gradienten
+mindestens so gut wie M0c. `posthoc/mlp_contrast.py`, Seeds 0–9, Studien-MLPs (arch25k). Ergebnis: Kreuzterm gegen
+Masken-Kreuzterm ρ **0.05** (Transformer 0.50); Gradientenleistung ρ(M0) **0.37** > ρ(M0c) 0.24 (Transformer umgekehrt:
+0.42 < 0.57); auch für die finalen W_E-Frequenzen r̄(M0) 0.323 < r̄(M0c) 0.351 (Transformer umgekehrt).
+**Befund: Vorhersage bestätigt** (an vorhandenen, für diese Frage aber noch nicht betrachteten Daten; eine Konfiguration,
+10 Seeds). Der Mechanismus „geteilter Wertepfad → Interferenz der Positionen“ erklärt, warum M0c im Transformer und M0 in
+der MLP die bessere Statistik ist.

@@ -26,7 +26,11 @@ Vorab festgelegt und bestätigt ist nur, was ausdrücklich so markiert ist.
    (ρ 0.50, 18/18 Seeds positiv, fremde Maske −0.09).
 3. **Geschlossene Form (numerisch exakt geprüft):** M0c(k) = 4 Σ_c |N̂(k, c)|² cos²(arg N̂(k, c) + πkc/p), M0 = 2 Σ_c |N̂|².
    M0c − M0 misst die **Kommutations-Asymmetrie** des Splits; für symmetrische Splits ist M0c = 2·M0.
-4. Ob M0c auch die **finalen** Frequenzen besser vorhersagt, ist offen: post hoc richtungsgleich, nicht signifikant;
+4. **Architektur-Kontrast (Vorhersage vor der Rechnung, bestätigt):** In der MLP mit gemeinsamem Embedding laufen die
+   beiden Operanden durch verschiedene Hälften von W_in; dort folgt der Kreuzterm der Maske nicht (ρ 0.05), und M0 ist
+   die bessere Statistik (Gradient 0.37 gegen 0.24; finale Frequenzen r̄ 0.323 gegen 0.351). Im Transformer (geteilter
+   Wertepfad der Attention) ist es umgekehrt.
+5. Ob M0c auch die **finalen** Frequenzen besser vorhersagt, ist offen: post hoc richtungsgleich, nicht signifikant;
    Bestätigung vorab festgelegt in [[experiments/EXP-019-coherent-mask/README|EXP-019]].
 
 ## Konstruierte Splits: sofortige Prägung, spätere Verdrängung durch 2k (EXP-016, Seeds 10–15)

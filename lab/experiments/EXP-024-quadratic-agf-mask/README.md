@@ -103,8 +103,9 @@ Größe (3.25/5 im Nutzen am Start) erreicht das trainierte Netz bei Weitem nich
 - Zeitverlauf ov_H: 0.53 (Init) → 0.58 (50) → 0.79 (250) → 1.00 (1000) → 1.11 (5000). Keine scharfe Frühwahl, sondern
   eine langsame Drift.
 - **Das gewichtete Spektrum ist fast flach:** Anteil je Frequenz ≈ 5/56 = 0.089; bei Schritt 5000 entfallen auf H 0.102,
-  auf F 0.084, auf 2F 0.095. Das Netz nutzt praktisch alle Frequenzen (passt zu den Max-Margin-Lösungen quadratischer
-  Netze, die alle Frequenzen verwenden; Morwani et al. 2023). Der Effekt ist eine **Neigung um etwa +15 % (H) bzw. −6 % (F)**
+  auf F 0.084, auf 2F 0.095. Das Netz nutzt praktisch alle Frequenzen (passt zu Morwani et al. 2023, https://arxiv.org/html/2311.07568,
+  Theorem 7, am Volltext geprüft: In Max-Margin-Lösungen quadratischer Ein-Schicht-Netze für Addition mod p nutzt jede
+  Frequenz 1…(p−1)/2 mindestens ein Neuron, ab Breite 4(p−1) = 448; hier 512). Der Effekt ist eine **Neigung um etwa +15 % (H) bzw. −6 % (F)**
   und keine Auswahl weniger Frequenzen. „Welche Frequenzen gelernt werden“ ist für dieses Modell deshalb die falsche Frage;
   gemessen werden kann nur, wohin sich die Leistung neigt.
 - Folge: EXP-026 (Nachtrag b) und EXP-025 (Nachtrag a) bekommen vor ihren Läufen eine kontinuierliche Messgröße.

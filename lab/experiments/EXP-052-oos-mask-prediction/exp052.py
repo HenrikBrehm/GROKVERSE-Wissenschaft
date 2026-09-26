@@ -28,6 +28,7 @@ sys.path.append(str(E46))                  # appended: EXP-046 also has a make_s
 sys.path.insert(0, str(LAB / "tools"))
 from make_split import group_coords, mask_power, n_freq  # noqa: E402
 from result_loader import Expect, find_run, load_run  # noqa: E402
+from paket_a_device import DEV, FB_SUFFIX, TR_SUFFIX  # noqa: E402  (session 15: CPU fallback for programme A)
 import dihedral as dh  # noqa: E402  (EXP-046: D_n, irreps, non-abelian M0)
 
 TASKS = (("add", 97), ("mul", 113))
@@ -266,8 +267,8 @@ def holm(ps: dict[str, float]) -> dict[str, float]:
 
 def run_powers_043(task: str, p: int, s: int, f: Path) -> tuple[str | None, dict[int, np.ndarray]]:
     """W_E power in the EXP-043 group basis at 0, the extra steps and 2000 (None = valid)."""
-    L = load_run(find_run(E43 / "raw", f"EXP-043_baseline_seed{s}_thr*_{stem(task, p, s)}_{task}{p}_devcuda"),
-                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=f, config={"p": p, "task": task},
+    L = load_run(find_run(E43 / "raw", f"EXP-043_baseline_seed{s}_thr*_{stem(task, p, s)}_{task}{p}{FB_SUFFIX}"),
+                 Expect(seed=s, device=DEV, max_steps=STEP, split_file=f, config={"p": p, "task": task},
                         snapshots_at=(0, STEP) + EXTRA_STEPS))
     if L.status != "ok":
         return f"{L.status}: {L.reason}", {}
@@ -276,8 +277,8 @@ def run_powers_043(task: str, p: int, s: int, f: Path) -> tuple[str | None, dict
 
 def run_powers_d59(s: int, f: Path) -> tuple[str | None, dict[int, np.ndarray]]:
     """Irrep power of W_E as logged by EXP-046 group_train.py (spectra.npy) at 0, 250, 500, 1000, 2000."""
-    L = load_run(find_run(E46 / "raw", f"EXP-046_seed{s}_split_D{N59}_seed{s}_eps0.0_R_devcuda"),
-                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=f, config={"p": 2 * N59, "group": f"D{N59}"},
+    L = load_run(find_run(E46 / "raw", f"EXP-046_seed{s}_split_D{N59}_seed{s}_eps0.0_R{TR_SUFFIX}"),
+                 Expect(seed=s, device=DEV, max_steps=STEP, split_file=f, config={"p": 2 * N59, "group": f"D{N59}"},
                         at=(0, STEP) + EXTRA_D59))
     if L.status != "ok":
         return f"{L.status}: {L.reason}", {}
@@ -286,8 +287,8 @@ def run_powers_d59(s: int, f: Path) -> tuple[str | None, dict[int, np.ndarray]]:
 
 def run_powers_intadd(s: int, f: Path) -> tuple[str | None, dict[int, np.ndarray]]:
     """Detrended final W_E (we_final.npy, step 2000) of the EXP-048 R run; no step-0 W_E is stored -> no E0 here."""
-    L = load_run(find_run(E48 / "raw", f"EXP-048_seed{s}_split_intadd113_seed{s}_eps0.0_R_devcuda"),
-                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=f, config={"p": 225}, at=(STEP,),
+    L = load_run(find_run(E48 / "raw", f"EXP-048_seed{s}_split_intadd113_seed{s}_eps0.0_R{TR_SUFFIX}"),
+                 Expect(seed=s, device=DEV, max_steps=STEP, split_file=f, config={"p": 225}, at=(STEP,),
                         files=("we_final.npy",)))
     if L.status != "ok":
         return f"{L.status}: {L.reason}", {}

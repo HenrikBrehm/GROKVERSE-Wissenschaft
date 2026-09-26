@@ -22,6 +22,7 @@ sys.path.insert(0, str(HERE))
 from grokverse.data import split_hash  # noqa: E402
 sys.path.insert(0, str(HERE.parents[1] / "tools"))
 from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
+from paket_a_device import DEV, FB_SUFFIX, TR_SUFFIX  # noqa: E402  (session 15: CPU fallback for programme A)
 
 from dihedral import irrep_basis, irrep_power, n_irrep2, rho  # noqa: E402
 
@@ -32,7 +33,7 @@ SHARE_MIN, MIN_STRUCTURED = 2 * (M * 4) / (2 * N - 1), 8
 
 
 def run_dir(s: int, arm: str, eps: str = "2.0") -> Path | None:
-    hits = sorted((HERE / "raw").glob(f"EXP-046_seed{s}_split_D{N}_seed{s}_eps{eps}_{arm}_devcuda"))
+    hits = sorted((HERE / "raw").glob(f"EXP-046_seed{s}_split_D{N}_seed{s}_eps{eps}_{arm}{TR_SUFFIX}"))
     return hits[0] if len(hits) == 1 else None
 
 
@@ -41,7 +42,7 @@ def top(pw: np.ndarray) -> set[int]:
 
 
 def load(d: Path | None, s: int, stem: str) -> tuple[dict, np.ndarray] | str:
-    r = load_run(d, Expect(seed=s, device="cuda", max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
+    r = load_run(d, Expect(seed=s, device=DEV, max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
                            config={"p": 2 * N}, at=(STEP,)))
     return (r.res, r.spectrum(STEP)) if r.status == "ok" else f"{r.status}: {r.reason}"
 

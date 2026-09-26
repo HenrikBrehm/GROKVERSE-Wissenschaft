@@ -18,6 +18,11 @@ Usage (project root):
     python lab/tools/night_program.py [--experiments GPU-001,EXP-043,...] [--log-dir DIR]
     python lab/tools/night_program.py --cpu [--experiments EXP-035,...] [--cpu-workers N]
     python lab/tools/night_program.py --check-smoke EXP-043      # internal: smoke-record checks (run as a guarded job)
+    python lab/tools/night_program.py --paket-a-cpu --experiments EXP-043,... [--cpu-workers N]   # fallback if GPU-001 fails
+
+--paket-a-cpu (session 15, UNTESTED): programme-A experiments on the CPU with the global python (--device cpu, --threads 1, J = --cpu-workers,
+default 3), no GPU-001 gate; sets LAB_PAKET_A_DEVICE=cpu so that the analyses (lab/tools/paket_a_device.py) read only the CPU runs.
+Rule 16d: never mix devices inside one experiment. Keep the CPU thread sum <= 12 (rule 17) if the --cpu program runs at the same time.
 """
 from __future__ import annotations
 
@@ -38,6 +43,7 @@ import parallel_queue as pq  # noqa: E402
 R = "lab/experiments"
 GPY = ".venv-gpu/Scripts/python.exe"
 PY = "python"
+DEVA, PYA = "cuda", GPY       # programme-A device/interpreter; main() switches to ("cpu", PY) with --paket-a-cpu
 FB = f"{R}/EXP-001-freq-ban/freq_ban.py"
 G1 = f"{R}/GPU-001-equivalence"
 S16 = f"{R}/EXP-016-engineered-split/splits"
@@ -177,14 +183,14 @@ class Night:
     def exp043(self) -> None:
         e = f"{R}/{EXP_DIR['EXP-043']}"
         self.must("EXP-043_selftest", [PY, f"{e}/analyze.py", "--selftest"])
-        self.smoke("EXP-043", [[GPY, FB, "--seed", "70", "--condition", "baseline", "--steps", "50", "--threads", "1",
-                                "--device", "cuda", "--p", "113", "--task", "mul",
+        self.smoke("EXP-043", [[PYA, FB, "--seed", "70", "--condition", "baseline", "--steps", "50", "--threads", "1",
+                                "--device", DEVA, "--p", "113", "--task", "mul",
                                 "--split-file", f"{e}/splits/split_mul113_seed70_eps2.0_F.npy", "--spectra-at", "50",
                                 "--out-root", f"{e}/raw_smoke", "--force"]])
 
         def job(task: str, p: int, s: int, eps: str, arm: str) -> list[str]:
-            return [GPY, FB, "--seed", str(s), "--condition", "baseline", "--steps", "2000", "--threads", "1",
-                    "--device", "cuda", "--p", str(p), "--task", task,
+            return [PYA, FB, "--seed", str(s), "--condition", "baseline", "--steps", "2000", "--threads", "1",
+                    "--device", DEVA, "--p", str(p), "--task", task,
                     "--split-file", f"{e}/splits/split_{task}{p}_seed{s}_eps{eps}_{arm}.npy",
                     "--spectra-at", "50,250,500,1000,2000", "--out-root", f"{e}/raw"]
         main = [job(t, p, s, "2.0", a) for s in range(70, 80) for a in "FG" for t, p in (("mul", 113), ("add", 97))]
@@ -204,8 +210,8 @@ class Night:
         if not run:
             self.status["experiments"]["EXP-044"] = {"state": "not run by design (no task steuerbar in EXP-043)"}
             return
-        self.smoke("EXP-044", [[GPY, FB, "--seed", "80", "--condition", "baseline", "--steps", "60", "--threads", "1",
-                                "--device", "cuda", "--p", "113", "--task", "mul",
+        self.smoke("EXP-044", [[PYA, FB, "--seed", "80", "--condition", "baseline", "--steps", "60", "--threads", "1",
+                                "--device", DEVA, "--p", "113", "--task", "mul",
                                 "--split-file", f"{S}/mul113_seed80_train_F.npy", "--test-file", f"{S}/mul113_seed80_test.npy",
                                 "--switch-split-file", f"{S}/mul113_seed80_train_G.npy", "--switch-step", "30",
                                 "--spectra-at", "30,60", "--out-root", f"{e}/raw_smoke", "--force"]])
@@ -216,7 +222,7 @@ class Night:
             for s in range(80, 90):
                 st = f"{S}/{tp}_seed{s}"
                 for k in ("F", "G", "25", "50", "150"):
-                    base = [GPY, FB, "--seed", str(s), "--condition", "baseline", "--threads", "1", "--device", "cuda",
+                    base = [PYA, FB, "--seed", str(s), "--condition", "baseline", "--threads", "1", "--device", DEVA,
                             "--p", p, "--task", t, "--test-file", f"{st}_test.npy", "--out-root", f"{e}/raw"]
                     if k in ("F", "G"):
                         cmds.append(base + ["--steps", "2000", "--split-file", f"{st}_train_{k}.npy",
@@ -230,11 +236,11 @@ class Night:
 
     def exp045(self) -> None:
         e = f"{R}/{EXP_DIR['EXP-045']}"
-        self.smoke("EXP-045", [[GPY, FB, "--seed", "90", "--condition", "baseline", "--steps", "50", "--threads", "1",
-                                "--device", "cuda", "--arch", "mlp", "--split-file", f"{e}/splits/split_add113_seed90_eps2.0_F.npy",
+        self.smoke("EXP-045", [[PYA, FB, "--seed", "90", "--condition", "baseline", "--steps", "50", "--threads", "1",
+                                "--device", DEVA, "--arch", "mlp", "--split-file", f"{e}/splits/split_add113_seed90_eps2.0_F.npy",
                                 "--spectra-at", "50", "--out-root", f"{e}/raw_smoke", "--force"]])
-        cmds = [[GPY, FB, "--seed", str(s), "--condition", "baseline", "--steps", "10000", "--stop-after-gen", "100000",
-                 "--threads", "1", "--device", "cuda", "--arch", "mlp",
+        cmds = [[PYA, FB, "--seed", str(s), "--condition", "baseline", "--steps", "10000", "--stop-after-gen", "100000",
+                 "--threads", "1", "--device", DEVA, "--arch", "mlp",
                  "--split-file", f"{e}/splits/split_add113_seed{s}_eps2.0_{a}.npy",
                  "--spectra-at", "250,2000,5000,10000", "--out-root", f"{e}/raw"] for s in range(90, 100) for a in "FG"]
         self.runs_then_analysis("EXP-045", "main", cmds, 10)
@@ -242,18 +248,18 @@ class Night:
     def exp046(self) -> None:
         e = f"{R}/{EXP_DIR['EXP-046']}"
         self.must("EXP-046_selftest", [PY, f"{e}/analyze.py", "--selftest"])
-        self.smoke("EXP-046", [[GPY, f"{e}/group_train.py", "--seed", "140", "--steps", "50", "--device", "cuda",
+        self.smoke("EXP-046", [[PYA, f"{e}/group_train.py", "--seed", "140", "--steps", "50", "--device", DEVA,
                                 "--split-file", f"{e}/splits/split_D59_seed140_eps2.0_F.npy", "--out-root", f"{e}/raw_smoke",
                                 "--force"]])
 
         def job(s: int, eps: str, arm: str) -> list[str]:
-            return [GPY, f"{e}/group_train.py", "--seed", str(s), "--steps", "2000", "--device", "cuda",
+            return [PYA, f"{e}/group_train.py", "--seed", str(s), "--steps", "2000", "--device", DEVA,
                     "--split-file", f"{e}/splits/split_D59_seed{s}_eps{eps}_{arm}.npy", "--out-root", f"{e}/raw"]
         self.runs_then_analysis("EXP-046", "main", [job(s, "2.0", a) for s in range(140, 150) for a in "FG"], 5)
         self.runs_then_analysis("EXP-046", "random", [job(s, "0.0", "R") for s in range(140, 150)], 5)
 
     def freq_ban_2000(self, e: str, s: int, stem: str, *extra: str) -> list[str]:
-        return [GPY, FB, "--seed", str(s), "--condition", "baseline", "--steps", "2000", "--threads", "1", "--device", "cuda",
+        return [PYA, FB, "--seed", str(s), "--condition", "baseline", "--steps", "2000", "--threads", "1", "--device", DEVA,
                 "--split-file", f"{e}/splits/{stem}.npy", "--out-root", f"{e}/raw", *extra]
 
     def exp047(self) -> None:
@@ -274,12 +280,12 @@ class Night:
     def exp048(self) -> None:
         e = f"{R}/{EXP_DIR['EXP-048']}"
         self.must("EXP-048_selftest", [PY, f"{e}/analyze.py", "--selftest"])
-        self.smoke("EXP-048", [[GPY, f"{e}/intadd_train.py", "--seed", "160", "--steps", "50", "--device", "cuda",
+        self.smoke("EXP-048", [[PYA, f"{e}/intadd_train.py", "--seed", "160", "--steps", "50", "--device", DEVA,
                                 "--split-file", f"{e}/splits/split_intadd113_seed160_eps2.0_F.npy",
                                 "--out-root", f"{e}/raw_smoke", "--force"]])
 
         def job(s: int, eps: str, arm: str) -> list[str]:
-            return [GPY, f"{e}/intadd_train.py", "--seed", str(s), "--steps", "2000", "--device", "cuda",
+            return [PYA, f"{e}/intadd_train.py", "--seed", str(s), "--steps", "2000", "--device", DEVA,
                     "--split-file", f"{e}/splits/split_intadd113_seed{s}_eps{eps}_{arm}.npy", "--out-root", f"{e}/raw"]
         self.runs_then_analysis("EXP-048", "main", [job(s, "2.0", a) for s in range(160, 170) for a in "FG"], 5)
         self.runs_then_analysis("EXP-048", "random", [job(s, "0.0", "R") for s in range(160, 170)], 5)
@@ -287,10 +293,10 @@ class Night:
     def exp049(self) -> None:
         e = f"{R}/{EXP_DIR['EXP-049']}"
         self.must("EXP-049_selftest", [PY, f"{e}/analyze.py", "--selftest"])
-        self.smoke("EXP-049", [[GPY, f"{e}/width_train.py", "--seed", "170", "--d-model", str(d), "--steps", "50",
-                                "--device", "cuda", "--split-file", f"{e}/splits/split_add113_seed170_eps2.0_F.npy",
+        self.smoke("EXP-049", [[PYA, f"{e}/width_train.py", "--seed", "170", "--d-model", str(d), "--steps", "50",
+                                "--device", DEVA, "--split-file", f"{e}/splits/split_add113_seed170_eps2.0_F.npy",
                                 "--out-root", f"{e}/raw_smoke", "--force"] for d in (128, 512)])
-        cmds = [[GPY, f"{e}/width_train.py", "--seed", str(s), "--d-model", str(d), "--steps", "2000", "--device", "cuda",
+        cmds = [[PYA, f"{e}/width_train.py", "--seed", str(s), "--d-model", str(d), "--steps", "2000", "--device", DEVA,
                  "--split-file", f"{e}/splits/split_add113_seed{s}_eps2.0_{a}.npy", "--out-root", f"{e}/raw"]
                 for s in range(170, 180) for d in (128, 512) for a in "FG"]
         self.runs_then_analysis("EXP-049", "main", cmds, 5)
@@ -499,11 +505,12 @@ def check_smoke(name: str) -> None:
         if name in CPU_EXPS:
             assert r["status"] == "completed" and r.get("device", "cpu") == "cpu", r.get("run_id")
         else:
-            assert r["status"] == "completed" and r["device"] == "cuda" and r["run_id"].endswith("_devcuda"), r.get("run_id")
+            assert r["status"] == "completed" and r["device"] == DEVA, r.get("run_id")
+            assert r["run_id"].endswith("_devcuda") if DEVA == "cuda" else "_devcuda" not in r["run_id"], r.get("run_id")
     r = recs[0]
     if name == "EXP-043":
         assert r["config"]["task"] == "mul" and r["config"]["p"] == 113 and r["run_id"].startswith("EXP-043_"), r["run_id"]
-        assert r["run_id"].endswith("_mul113_devcuda"), r["run_id"]
+        assert r["run_id"].endswith("_mul113" + ("_devcuda" if DEVA == "cuda" else "")), r["run_id"]
     elif name == "EXP-044":
         sw = r["events"]["switch"]
         assert sw["step"] == 30 and r["run_id"].startswith("EXP-044_") and sw["n_G_minus_F"] > 2000, sw
@@ -568,8 +575,18 @@ def main() -> int:
     ap.add_argument("--check-smoke", default=None, help=argparse.SUPPRESS)
     ap.add_argument("--dry-run", action="store_true", help="walk the program and print the jobs; run nothing")
     ap.add_argument("--cpu", action="store_true", help="CPU night queue (EXP-035..042 without 034), own lock")
-    ap.add_argument("--cpu-workers", type=int, default=None, help="default max(1, (12 - J_gpu) // 4)")
+    ap.add_argument("--cpu-workers", type=int, default=None, help="default max(1, (12 - J_gpu) // 4); with --paket-a-cpu: 3")
+    ap.add_argument("--paket-a-cpu", action="store_true", help="programme A on the CPU (fallback if GPU-001 fails), no GPU-001 gate")
     a = ap.parse_args()
+    global DEVA, PYA
+    if a.paket_a_cpu and a.cpu:
+        ap.error("--paket-a-cpu and --cpu exclude each other")
+    if a.paket_a_cpu:
+        os.environ["LAB_PAKET_A_DEVICE"] = "cpu"          # inherited by every guarded job (analyses, --check-smoke)
+    DEVA = os.environ.get("LAB_PAKET_A_DEVICE", "cuda")
+    if DEVA not in ("cuda", "cpu"):
+        ap.error(f"LAB_PAKET_A_DEVICE must be cuda or cpu, not {DEVA!r}")
+    PYA = GPY if DEVA == "cuda" else PY
     if a.check_smoke:
         check_smoke(a.check_smoke)
         return 0
@@ -593,14 +610,22 @@ def main() -> int:
     unknown = [x for x in order if x != "GPU-001" and (x not in EXP_DIR or x in CPU_EXPS)]
     if unknown:
         ap.error(f"unknown or CPU experiments {unknown} (use --cpu)")
-    if "GPU-001" not in order[:1]:
+    if DEVA == "cpu":
+        order = [x for x in order if x != "GPU-001"]                 # CPU fallback: no GPU gate
+    elif "GPU-001" not in order[:1]:
         order = ["GPU-001"] + [x for x in order if x != "GPU-001"]   # the gate always runs first (skips if passed)
     if a.dry_run:
-        return Night(Path("."), dry=True).run(order)
+        night = Night(Path("."), dry=True)
+        if DEVA == "cpu":
+            night.J = a.cpu_workers or 3
+        return night.run(order)
     take_lock(LOCK)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ")
-    log_dir = a.log_dir or ROOT / "lab" / "runner" / "logs" / f"night_{stamp}"
-    return Night(log_dir).run(order)
+    log_dir = a.log_dir or ROOT / "lab" / "runner" / "logs" / (f"night_{stamp}" if DEVA == "cuda" else f"night_pakA_cpu_{stamp}")
+    night = Night(log_dir)
+    if DEVA == "cpu":
+        night.J = a.cpu_workers or 3
+    return night.run(order)
 
 
 if __name__ == "__main__":

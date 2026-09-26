@@ -19,6 +19,7 @@ sys.path.insert(0, str(LAB.parent / "training"))
 from grokverse.data import split_hash  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
+from paket_a_device import DEV, FB_SUFFIX, TR_SUFFIX  # noqa: E402  (session 15: CPU fallback for programme A)
 
 _spec = importlib.util.spec_from_file_location("exp043_analyze", LAB / "experiments/EXP-043-generalize-steering/analyze.py")
 _a43 = importlib.util.module_from_spec(_spec)
@@ -44,8 +45,8 @@ def row(s: int) -> dict:
     for arm in "FG":
         stem = f"split_add113_seed{s}_eps2.0_{arm}"
         T[arm] = set(json.loads((HERE / f"splits/{stem}.json").read_text(encoding="utf-8"))["targets"])
-        L = load_run(find_run(HERE / "raw", f"EXP-045_baseline_seed{s}_thr*_{stem}_mlp_*"),
-                     Expect(seed=s, device="cuda", max_steps=PRIMARY, split_file=HERE / f"splits/{stem}.npy",
+        L = load_run(find_run(HERE / "raw", f"EXP-045_baseline_seed{s}_thr*_{stem}_mlp{FB_SUFFIX}"),
+                     Expect(seed=s, device=DEV, max_steps=PRIMARY, split_file=HERE / f"splits/{stem}.npy",
                             config={"p": 113, "task": "add", "arch": "mlp"}, snapshots_at=(PRIMARY,)))
         if L.status != "ok":
             r["reason"] = f"arm {arm}: {L.status}: {L.reason}"

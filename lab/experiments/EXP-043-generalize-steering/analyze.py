@@ -23,6 +23,7 @@ sys.path.insert(0, str(HERE))
 from grokverse.data import split_hash  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
+from paket_a_device import DEV, FB_SUFFIX, TR_SUFFIX  # noqa: E402  (session 15: CPU fallback for programme A)
 from make_split import group  # noqa: E402
 
 TASKS = (("add", 97), ("mul", 113))
@@ -53,7 +54,7 @@ def fold(x: int, n: int) -> int:
 
 
 def run_dir(task: str, p: int, s: int, arm: str, eps: str = "2.0") -> Path | None:
-    hits = sorted((HERE / "raw").glob(f"EXP-043_baseline_seed{s}_thr*_split_{task}{p}_seed{s}_eps{eps}_{arm}_*"))
+    hits = sorted((HERE / "raw").glob(f"EXP-043_baseline_seed{s}_thr*_split_{task}{p}_seed{s}_eps{eps}_{arm}_{task}{p}{FB_SUFFIX}"))
     if len(hits) != 1 or not (hits[0] / "result.json").exists():        # Codex s12: died before first write -> missing
         return None
     res = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))
@@ -75,8 +76,8 @@ def row(task: str, p: int, s: int) -> dict:
     for arm in "FG":
         stem = f"split_{task}{p}_seed{s}_eps2.0_{arm}"
         T[arm] = set(json.loads((HERE / f"splits/{stem}.json").read_text(encoding="utf-8"))["targets"])
-        L = load_run(find_run(HERE / "raw", f"EXP-043_baseline_seed{s}_thr*_{stem}_*"),
-                     Expect(seed=s, device="cuda", max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
+        L = load_run(find_run(HERE / "raw", f"EXP-043_baseline_seed{s}_thr*_{stem}_{task}{p}{FB_SUFFIX}"),
+                     Expect(seed=s, device=DEV, max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
                             config={"p": p, "task": task}, snapshots_at=(STEP,)))
         if L.status != "ok":
             r["reason"] = f"arm {arm}: {L.status}: {L.reason}"
@@ -97,8 +98,8 @@ def row(task: str, p: int, s: int) -> dict:
               "n_nontarget_harmonic": sum(any(fold(2 * t, n) == k for t in T[arm]) for arm, k in nontarget),
               "arms": extra})
     stem_r = f"split_{task}{p}_seed{s}_eps0.0_R"         # secondary: random split (eps 0), same checks as F/G (Astra 16)
-    L = load_run(find_run(HERE / "raw", f"EXP-043_baseline_seed{s}_thr*_{stem_r}_*"),
-                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=HERE / f"splits/{stem_r}.npy",
+    L = load_run(find_run(HERE / "raw", f"EXP-043_baseline_seed{s}_thr*_{stem_r}_{task}{p}{FB_SUFFIX}"),
+                 Expect(seed=s, device=DEV, max_steps=STEP, split_file=HERE / f"splits/{stem_r}.npy",
                         config={"p": p, "task": task}, snapshots_at=(STEP,)))
     if L.status == "ok":
         kr = top(group_power(L.snapshot(STEP), task, p)[0])

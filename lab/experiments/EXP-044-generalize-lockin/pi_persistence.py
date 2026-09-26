@@ -24,7 +24,7 @@ def final_power(task: str, p: int, s: int, kind: str) -> np.ndarray | None:
     switch = kind not in ("F", "G")
     budget = int(kind) + 2000 if switch else 2000
     L = A.load_run(A.find(task, p, s, kind),
-                   A.Expect(seed=s, device="cuda", max_steps=budget, split_file=f"{st}_train_{'G' if kind == 'G' else 'F'}.npy",
+                   A.Expect(seed=s, device=A.DEV, max_steps=budget, split_file=f"{st}_train_{'G' if kind == 'G' else 'F'}.npy",
                             test_file=f"{st}_test.npy", switch_file=f"{st}_train_G.npy" if switch else None,
                             config={"p": p, "task": task}, snapshots_at=(budget,)))
     return A.group_power(L.snapshot(budget), task, p)[0] if L.status == "ok" else None

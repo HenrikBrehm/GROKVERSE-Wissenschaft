@@ -23,6 +23,7 @@ sys.path.insert(0, str(HERE))
 from grokverse.data import split_hash  # noqa: E402
 sys.path.insert(0, str(HERE.parents[1] / "tools"))
 from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
+from paket_a_device import DEV, FB_SUFFIX, TR_SUFFIX  # noqa: E402  (session 15: CPU fallback for programme A)
 
 SEEDS = range(160, 170)
 M, STEP, ALPHA, MIN_VALID, P = 5, 2000, 0.05, 8, 113
@@ -30,7 +31,7 @@ M, STEP, ALPHA, MIN_VALID, P = 5, 2000, 0.05, 8, 113
 
 def run_dir(s: int, arm: str) -> Path | None:
     eps = "0.0" if arm == "R" else "2.0"
-    hits = sorted((HERE / "raw").glob(f"EXP-048_seed{s}_split_intadd113_seed{s}_eps{eps}_{arm}_devcuda"))
+    hits = sorted((HERE / "raw").glob(f"EXP-048_seed{s}_split_intadd113_seed{s}_eps{eps}_{arm}{TR_SUFFIX}"))
     return hits[0] if len(hits) == 1 and (hits[0] / "result.json").exists() else None
 
 
@@ -45,8 +46,8 @@ def spow(pw: np.ndarray, S) -> float:
 def load(s: int, arm: str) -> tuple[dict, np.ndarray, np.ndarray] | str:
     eps = "0.0" if arm == "R" else "2.0"
     stem = f"split_intadd113_seed{s}_eps{eps}_{arm}"
-    r = load_run(find_run(HERE / "raw", f"EXP-048_seed{s}_{stem}_devcuda"),
-                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
+    r = load_run(find_run(HERE / "raw", f"EXP-048_seed{s}_{stem}{TR_SUFFIX}"),
+                 Expect(seed=s, device=DEV, max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
                         config={"p": 225}, at=(STEP,), files=("we_final.npy",)))
     if r.status != "ok":
         return f"{r.status}: {r.reason}"

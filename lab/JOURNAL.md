@@ -2183,3 +2183,23 @@ Ausnahme t = 10: dort wirkt G noch nach Schritt 250 (passt zu einem Fenster, das
 und speichert dichte Spektren 5 … 200. *Änderung:* eigener, reiner Auswerteversuch EXP-054 (statt sechstem EXP-036-Nachtrag, Regel 15b):
 A = Fenster übertragbar (π_Ende bei t = 10/25/50 höchstens 0.12 neben 0.145/0.362/0.725, T* nicht neu angepasst), B = Setzschritt (Median ≤ 150
 „früh gesetzt“, > 200 „später gesetzt“). `n30_window.py` ungetestet, Speicherplan geprüft (SPECTRUM_EVERY = 250 plus `--spectra-at`, Endspektrum).
+
+**Zyklus 5 (22:56–22:59 gemessen, Technik mit Forschungszweck): CPU-Ersatzweg für Paket A, falls GPU-001 scheitert.**
+*Frage:* Verliert Paket A (Regel 15c, Verallgemeinerung) eine ganze Nacht, wenn die GPU-Abnahme scheitert (AMD: natives Windows „No ML training
+support“)? Bisher ja: 13 Programmstellen und 11 Auswertungen setzten `cuda` fest. *Zunächst* (22:56) verworfen, weil die CPU heute Nacht ohnehin
+mit Paket B belegt ist. *Dann doch gebaut*, weil es ohne Risiko für die Nacht geht und spätere Nächte sonst Fensterzeit dafür verlieren:
+`lab/tools/paket_a_device.py` (LAB_PAKET_A_DEVICE, Standard `cuda`), Auswertungen EXP-043–052 lesen nur Läufe des gewählten Geräts (Regel 16d),
+`night_program.py --paket-a-cpu` (globales Python, `--device cpu --threads 1`, J = `--cpu-workers`, Standard 3, ohne GPU-001-Tor).
+*Prüfung:* `--dry-run` vor/nach der Änderung für GPU- und CPU-Programm bis auf Zeitstempel identisch; neuer Plan sieht richtig aus.
+Unabhängige Codeprüfung (Claude-Subagent) läuft. *Nebenbei gefunden und behoben:* Python-`write_text` und Git-Bash-`sed -i` hatten in dieser
+Sitzung Zeilenenden verändert (JOURNAL ganz auf LF, neue Dateien CRLF); alles auf den Stand vor der Sitzung zurückgesetzt (Commit „restore
+pre-session line endings“). *Lehre:* Dateien byteweise schreiben oder Zeilenende vorher prüfen; kein `sed -i` auf CRLF-Dateien.
+*Dauerabschätzung:* Paket A auf der CPU ≈ 300 Läufe, bei J = 3 und einem Thread je Lauf grob 10+ h → nur über mehrere Fenster (Wiederaufnahme per Fingerprint).
+*Codeprüfung zu Zyklus 5 (Claude-Subagent, 23:02):* **ein Blocker, gefunden vor jedem Lauf:** Meine neuen EXP-043-Muster ließen den Aufgabenzusatz
+`_{task}{p}` weg, den `freq_ban.py` vor den Gerätezusatz setzt: Die EXP-043-Auswertung hätte **auch im heutigen GPU-Standardlauf** jede Zeile als „fehlt“
+gewertet (der Selbsttest prüft keine Verzeichnisnamen, hätte es also nicht gemerkt). Behoben (`…_{stem}_{task}{p}{FB_SUFFIX}`) und mit fnmatch
+für beide Geräte geprüft: jedes Muster trifft sein Gerät und nie das andere. Übernommen außerdem: tote `run_dir`-Funktion in EXP-043 gerätesicher,
+`--paket-a-cpu` zusammen mit `--cpu` abgelehnt. Geprüft ohne Befund: EXP-044/045/046–052-Muster, `Expect.device`, Umgebungsvariable erreicht
+alle Kindjobs (kein `env=` in parallel_queue/guarded_run), Pläne GPU/CPU unverändert. Hinweis: `--paket-a-cpu` nimmt die GPU-Sperre und darf
+neben `--cpu` laufen; dann Threadsumme ≤ 12 beachten (3 × 1 + Worker × 4). *Lehre:* Bei jeder Änderung an Lauf-Mustern den tatsächlichen
+Namen aus dem Trainer nachbauen und per fnmatch prüfen, bevor ein Plan-Diff als Beleg gilt; der Plan-Diff sieht Auswertungen nicht.

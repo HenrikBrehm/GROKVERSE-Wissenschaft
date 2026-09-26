@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 22:39 Berlin (20:39Z, vom Runner)
 - **Deadline:** 2026-09-27 01:39 Berlin (23:39Z)
-- **Zuletzt aktualisiert:** 22:56 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 23:00 Berlin (gemessen)
 - **Run-Fenster:** zu. Heute Nacht Läufe erst ab 03:00 (Regel 18). Diese Sitzung: nur Rechnen auf gespeicherten Daten, Code, Literatur.
 
 ## Gerade
 
-Ich prüfe, ob sich das neue Fensterbild mit den eingefrorenen Vorhersagen der Nachtversuche verträgt und wo noch ein Messfehler lauern könnte.
+Ein Ersatzweg für den Fall, dass die Grafikkarte heute Nacht die Abnahme nicht besteht: Paket A kann dann auf dem Prozessor laufen. Eine unabhängige Prüfung des Codes läuft.
 
 ## Als Nächstes
 
-Zwischenbilanz nach drei Zyklen (Regel 4). Danach entscheiden, ob es vor 03:00 noch eine echte offene Frage gibt.
+Prüfbefunde einarbeiten, committen, STATE ergänzen.
 
 ## Verlauf dieser Sitzung
 
+- 22:59 **CPU-Ersatzweg für Paket A gebaut** (`night_program.py --paket-a-cpu`). Der Plan für heute Nacht bleibt Zeichen für Zeichen gleich (geprüft).
+- 22:57 Zwischenbilanz: gelernt, nicht wiederholt. Ein Messproblem (Top-5 gegen π) wurde vor zwei Nachtversuchen korrigiert.
 - 22:53 **Neuer Versuch [[experiments/EXP-054-window-oos/README|EXP-054]] vor den Läufen festgelegt:** Die EXP-036-Läufe heute Nacht haben neue Startgewichte. Sie prüfen, ob das Fensterbild auch dort gilt. Eigene Läufe braucht es nicht.
 - 22:52 Nicht nur die eine Messzahl ist stabil: Die ganze Form des Frequenzspektrums bewegt sich nach Schritt 250 nicht mehr Richtung G.
 - 22:51 EXP-041: drei konkurrierende Erklärungen vor dem Lauf festgehalten (Fenster → „geprägt“, Schwelle → „gemischt“, H42 → „überschrieben“).

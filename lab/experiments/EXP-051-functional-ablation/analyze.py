@@ -28,6 +28,7 @@ E47 = ROOT / "lab/experiments/EXP-047-marginal-control"
 sys.path.insert(0, str(ROOT / "training"))
 sys.path.insert(0, str(ROOT / "lab/tools"))
 from result_loader import Expect, find_run, load_run  # noqa: E402
+from paket_a_device import DEV, FB_SUFFIX, TR_SUFFIX  # noqa: E402  (session 15: CPU fallback for programme A)
 
 P, K, SEEDS, STEP, ACC_MIN, ALPHA, MIN_VALID = 113, 56, range(150, 160), 2000, 0.9, 0.05, 8
 
@@ -110,8 +111,8 @@ def seed_row(s: int, kind: str, B: np.ndarray) -> dict:
     arms = {}
     for arm, other in (("F", "G"), ("G", "F")):
         stem = f"split_add113_seed{s}_{kind}_{arm}"
-        L = load_run(find_run(E47 / "raw", f"*_seed{s}_thr*_{stem}_devcuda"),
-                     Expect(seed=s, device="cuda", max_steps=STEP, split_file=E47 / f"splits/{stem}.npy",
+        L = load_run(find_run(E47 / "raw", f"*_seed{s}_thr*_{stem}{FB_SUFFIX}"),
+                     Expect(seed=s, device=DEV, max_steps=STEP, split_file=E47 / f"splits/{stem}.npy",
                             config={"p": P, "task": "add"}, files=("model_final.pt",)))
         if L.status != "ok":
             r["reason"] = f"{arm}: {L.status}: {L.reason}"

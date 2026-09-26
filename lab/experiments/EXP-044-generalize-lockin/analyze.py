@@ -22,6 +22,7 @@ sys.path.insert(0, str(LAB.parent / "training"))
 from grokverse.data import split_hash  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
+from paket_a_device import DEV, FB_SUFFIX, TR_SUFFIX  # noqa: E402  (session 15: CPU fallback for programme A)
 
 _spec = importlib.util.spec_from_file_location("exp043_analyze", LAB / "experiments/EXP-043-generalize-steering/analyze.py")
 _a43 = importlib.util.module_from_spec(_spec)
@@ -36,9 +37,9 @@ PRIMARY_T, ALPHA, MIN_VALID = 150, 0.05, 8
 
 def find(task: str, p: int, s: int, kind: str) -> Path | None:
     stem = f"{task}{p}_seed{s}"
-    pat = {"F": f"EXP-043_baseline_seed{s}_thr*_{stem}_train_F_{task}{p}_*",
-           "G": f"EXP-043_baseline_seed{s}_thr*_{stem}_train_G_{task}{p}_*"}.get(
-        kind, f"EXP-044_baseline_seed{s}_thr*_{stem}_train_F_to_{stem}_train_G_at{kind}_{task}{p}_*")
+    pat = {"F": f"EXP-043_baseline_seed{s}_thr*_{stem}_train_F_{task}{p}{FB_SUFFIX}",
+           "G": f"EXP-043_baseline_seed{s}_thr*_{stem}_train_G_{task}{p}{FB_SUFFIX}"}.get(
+        kind, f"EXP-044_baseline_seed{s}_thr*_{stem}_train_F_to_{stem}_train_G_at{kind}_{task}{p}{FB_SUFFIX}")
     hits = sorted((HERE / "raw").glob(pat))
     return hits[0] if len(hits) == 1 else None
 
@@ -50,7 +51,7 @@ def final_K(d: Path | None, task: str, p: int, s: int, kind: str) -> tuple[set[i
     switch = kind not in ("F", "G")
     budget = int(kind) + 2000 if switch else 2000
     first = "G" if kind == "G" else "F"
-    L = load_run(d, Expect(seed=s, device="cuda", max_steps=budget, split_file=f"{st}_train_{first}.npy",
+    L = load_run(d, Expect(seed=s, device=DEV, max_steps=budget, split_file=f"{st}_train_{first}.npy",
                            test_file=f"{st}_test.npy", switch_file=f"{st}_train_G.npy" if switch else None,
                            config={"p": p, "task": task}, snapshots_at=(budget,)))
     if L.status != "ok":

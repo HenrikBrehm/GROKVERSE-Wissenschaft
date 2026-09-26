@@ -20,6 +20,7 @@ sys.path.insert(0, str(HERE.parents[2] / "training"))
 from grokverse.data import split_hash  # noqa: E402
 sys.path.insert(0, str(HERE.parents[1] / "tools"))
 from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
+from paket_a_device import DEV, FB_SUFFIX, TR_SUFFIX  # noqa: E402  (session 15: CPU fallback for programme A)
 
 SEEDS = range(170, 180)
 WIDTHS = (128, 512)
@@ -45,8 +46,8 @@ def n_eff(pw: np.ndarray) -> float:
 
 def load(s: int, d: int, arm: str) -> tuple[dict, np.ndarray] | str:
     stem = f"split_add113_seed{s}_eps2.0_{arm}"
-    r = load_run(find_run(HERE / "raw", f"EXP-049_d{d}_seed{s}_{stem}_devcuda"),
-                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
+    r = load_run(find_run(HERE / "raw", f"EXP-049_d{d}_seed{s}_{stem}{TR_SUFFIX}"),
+                 Expect(seed=s, device=DEV, max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
                         config={"p": 113, "d_model": d}, at=(STEP,)))
     return (r.res, r.spectrum(STEP)) if r.status == "ok" else f"{r.status}: {r.reason}"
 

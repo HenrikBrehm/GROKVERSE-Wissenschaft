@@ -23,6 +23,7 @@ sys.path.insert(0, str(HERE.parents[2] / "training"))
 from grokverse.data import split_hash  # noqa: E402
 sys.path.insert(0, str(HERE.parents[1] / "tools"))
 from result_loader import Expect, find_run, load_run  # noqa: E402  (Astra 16: shared loader)
+from paket_a_device import DEV, FB_SUFFIX, TR_SUFFIX  # noqa: E402  (session 15: CPU fallback for programme A)
 
 SEEDS = range(180, 190)
 STEP, ALPHA, MIN_VALID = 2000, 0.05, 8
@@ -54,8 +55,8 @@ def holm(ps: dict[str, float]) -> dict[str, bool]:
 
 def spectrum(s: int, mode: str, arm: str) -> tuple[np.ndarray | None, str, dict]:
     stem = f"split_add113_seed{s}_{mode}_{arm}"
-    r = load_run(find_run(HERE / "raw", f"*_seed{s}_thr*_{stem}_devcuda"),
-                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
+    r = load_run(find_run(HERE / "raw", f"*_seed{s}_thr*_{stem}{FB_SUFFIX}"),
+                 Expect(seed=s, device=DEV, max_steps=STEP, split_file=HERE / f"splits/{stem}.npy",
                         config={"p": 113, "task": "add", "arch": "transformer"}, at=(STEP,)))
     if r.status != "ok":
         return None, f"{r.status}: {r.reason}", {}

@@ -462,3 +462,7 @@ Minibatch-Reihenfolge bestimmt die Grundfrequenz; keine Festlegungszeit, kein We
   Warmup, Wechselspiel) enden je Seed in wenigen, teils exakt gleichen Top-5-Mengen; exakte Übereinstimmung auch zwischen Eingriffen
   bei ähnlichem Λ. Frage: Ist die Menge der erreichbaren Endzustände je (Init, Splitpaar) klein und durch Λ beim Wechsel
   parametrisiert? Erster Test: EXP-035 Nachtrag c (P35d, Seed 32). Literatur: noch nicht gezielt gesucht.
+- **Suche 2026-09-26 18:21:** „modular addition transformer learned frequency set discrete solutions basin of attraction training
+  perturbation same seed converges same Fourier frequencies“. Gefunden: Frequenzen variieren über Seeds und Optimierer (z. B.
+  https://arxiv.org/abs/2606.17399, Discrete-Log Clock; He et al. 2026). Eine Untersuchung, ob **bei fester Init und festen Daten**
+  verschiedene Trainingseingriffe in wenige, exakt wiederkehrende Frequenzmengen münden: **nicht gefunden** (vorläufig).

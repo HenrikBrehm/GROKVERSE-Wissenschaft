@@ -3,12 +3,14 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 18:16 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 18:21 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **SITZUNG 10 (18:21):** Neu vorab festgelegt: EXP-035 Nachtrag c (P35d, Zustandsvergleich Λ- gegen schrittgleich, nur Seed 32;
+  `state_match.py` in der Queue), EXP-040 Nachtrag c (R(hi) ∈ [0.5, 2]), EXP-039 Nachtrag b (Vorbehalt Strecke). N21 (Attraktoren).
 - **SITZUNG 10 (18:16):** `queue_s10.sh` macht jetzt nach einem fehlgeschlagenen Versuch mit dem nächsten weiter (`part()`), nur
   rc 3 (Wächter) stoppt. Nach dem Nachtlauf deshalb **das Log nach „failed“ durchsuchen** und den betroffenen Versuch reparieren.
   Neu vorbereitet (nicht in einer Queue): **EXP-041** (Prägung E → R / R → E, 10 Seeds, ≈ 3.1 h, ungetestet). Ideen N19, N20.

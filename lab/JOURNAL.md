@@ -1456,8 +1456,7 @@ faktorielles Design (erst bei *später*).
 **Vorbereitet, nicht ausgeführt (alle mit Codex-Review, Nachträge vor jedem Lauf):** EXP-036 Nachträge d/e (kalibriertes P36b mit
 frühen Spektren, Smoke im Fenster ok), [[experiments/EXP-039-lr-clock/README|EXP-039]] (Lernraten-Uhr, Smoke ok),
 [[experiments/EXP-040-we-init-scale/README|EXP-040]] (Init-Skala, H40, ungetestet), [[experiments/EXP-041-imprint/README|EXP-041]]
-(Prägung E ↔ R, ungetestet), [[experiments/EXP-042-bias-strength/README|EXP-042]] (Split-Neigung, H42, ungetestet). Neue
--Optionen:  (mit W_E-Schnappschüssen), ,  (Standard jeweils unverändert).
+(Prägung E ↔ R, ungetestet), [[experiments/EXP-042-bias-strength/README|EXP-042]] (Split-Neigung, H42, ungetestet). Neue `freq_ban.py`-Optionen: `--spectra-at` (mit W_E-Schnappschüssen), `--lr-scale`, `--we-init-scale` (Standard jeweils unverändert).
 
 **Offene Grenzen:** Die Sitzung hat viel vorbereitet und wenig gemessen (Fenster nur 30 min). Alle Transformer-Befunde an einer
 Architektur. Vier neue Codepfade werden erst in der Nacht durch Smokes/Selbsttests geprüft.
@@ -1468,3 +1467,5 @@ Backticks in ungeschütztem Heredoc (repariert); Betragsstriche in Obsidian-Tabe
 (von Codex zerlegt, zurückgestuft).
 **Nächste Aktion:** Im Fenster ab 00:00: `python lab/tools/guarded_run.py --check`, keine Queue aktiv, dann
 `sh lab/experiments/queue_s10.sh` im Hintergrund (Log z. B. `lab/runner/logs/queue_s10.log`); danach Log nach „failed“ durchsuchen.
+*Nachtrag zum Bericht:* Beim Schreiben dieses Berichts ist derselbe Heredoc-Fehler ein drittes Mal passiert (vier Optionsnamen
+fehlten, sofort repariert). Ab jetzt nur noch geschützte Heredocs (`<<'EOF'`) oder Python für Texte mit Backticks.

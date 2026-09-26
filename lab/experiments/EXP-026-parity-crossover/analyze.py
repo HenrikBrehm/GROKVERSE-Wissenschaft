@@ -1,16 +1,38 @@
-"""EXP-026 analysis (pre-registered in README.md): parity crossover alpha* and its position relative to r(0), r(5000)."""
+"""EXP-026 analysis (Nachtrag a, pre-registered in README.md before any run): commitment clock by alpha switch.
+
+Arms: alpha = 3 until switch step t_s, then 0 (pure x^2); t_s in {0, 50, 250, 1000, 2500, never}. Units: EXP-016
+splits seeds 10-14, arm F. Endpoint d = ov(Top-5, F) - ov(Top-5, H) of the h = 2 weighted spectrum at step 5000.
+Fails closed unless the full 6 x 5 grid is complete.
+"""
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
 import numpy as np
-from scipy.stats import spearmanr
 
 HERE = Path(__file__).resolve().parent
 P = 113
-ALPHAS = (0.0, 0.003, 0.03, 0.3, 3.0)
+TS = (0, 50, 250, 1000, 2500, -1)          # -1 = never (rank last)
 SEEDS = (10, 11, 12, 13, 14)
+
+
+def _rank(x: np.ndarray) -> np.ndarray:
+    """Average ranks with ties."""
+    order = np.argsort(x, kind="stable")
+    r = np.empty(len(x))
+    r[order] = np.arange(len(x), dtype=float)
+    for v in np.unique(x):
+        m = x == v
+        r[m] = r[m].mean()
+    return r
+
+
+def spearman(x: np.ndarray, y: np.ndarray) -> float:
+    rx, ry = _rank(x), _rank(y)
+    if rx.std() == 0 or ry.std() == 0:
+        return float("nan")
+    return float(np.corrcoef(rx, ry)[0, 1])
 
 
 def fold(k: int) -> int:
@@ -18,31 +40,53 @@ def fold(k: int) -> int:
     return min(k, P - k)
 
 
-def main() -> None:
+def run_id(ts: int, s: int) -> str:
+    return f"EXP-026_a3_seed{s}_F" if ts < 0 else f"EXP-026_a3_sw{ts}to0_seed{s}_F"
+
+
+def top5(sp: list[float]) -> set[int]:
+    return set(int(k) for k in np.argsort(-np.array(sp))[:5] + 1)
+
+
+def load() -> list[dict]:
     rows = []
-    for al in ALPHAS:
+    for ts in TS:
         for s in SEEDS:
-            f = HERE / "raw" / f"EXP-026_a{al:g}_seed{s}_F" / "result.json"
+            f = HERE / "raw" / run_id(ts, s) / "result.json"
             if not f.exists():
                 continue
             r = json.loads(f.read_text())
-            if not r.get("complete") or r["args"]["steps"] != 5000:
+            a = r["args"]
+            ok = (r.get("complete") and a["steps"] == 5000 and a["alpha"] == 3.0 and a["switch_step"] == ts
+                  and a["alpha_after"] == 0.0 and a["arm"] == "F" and a["init_seed"] is None)
+            if not ok:
                 continue
             T = set(r["targets"]); H = {fold(57 * t) for t in T}
-            top = set(r["final_top5"])
-            amps = {int(k): v["amp"]["median"] for k, v in r["spectra"].items()}
-            rows.append({"alpha": al, "seed": s, "ov_F": len(top & T), "ov_H": len(top & H),
-                         "d": len(top & T) - len(top & H), "test_acc": r["final_test_acc"],
-                         "gen95": r["gen_step_test95"], "r": amps})
-    n = len(rows)
-    out = {"n_valid": n, "rows": rows}
-    if n < 20:
-        out["verdict"] = "nicht auswertbar"
+            last = r["spectra"]["5000"]
+            tq, tl = top5(last["weighted"]), top5(last["weighted_lin"])
+            rows.append({"ts": ts, "seed": s, "ov_F": len(tq & T), "ov_H": len(tq & H), "d": len(tq & T) - len(tq & H),
+                         "d_lin": len(tl & T) - len(tl & H), "test_acc": r["final_test_acc"],
+                         "gen95": r["gen_step_test95"]})
+    return rows
+
+
+def main() -> None:
+    rows = load()
+    out = {"n_valid": len(rows), "rows": rows}
+    if len(rows) != len(TS) * len(SEEDS):
+        out["verdict"] = "nicht auswertbar (Raster unvollständig)"
     else:
-        rank = np.array([ALPHAS.index(x["alpha"]) for x in rows], float)
+        md = {ts: float(np.mean([x["d"] for x in rows if x["ts"] == ts])) for ts in TS}
+        md_lin_never = float(np.mean([x["d_lin"] for x in rows if x["ts"] == -1]))
+        out["mean_d"] = {str(k): v for k, v in md.items()}
+        out["mean_d_lin_never"] = md_lin_never
+        out["gen95_mean"] = {str(ts): float(np.mean([x["gen95"] if x["gen95"] is not None else np.nan
+                                                     for x in rows if x["ts"] == ts])) for ts in TS}
+        anchors = md[0] < 0 and md[-1] > 0 and md_lin_never > 0
+        rank = np.array([TS.index(x["ts"]) for x in rows], float)
         d = np.array([x["d"] for x in rows], float)
         seed = np.array([x["seed"] for x in rows])
-        rho = spearmanr(rank, d).statistic
+        rho = spearman(rank, d)
         rng = np.random.default_rng(0)
         cnt = 0
         for _ in range(10_000):
@@ -50,35 +94,21 @@ def main() -> None:
             for s in SEEDS:
                 m = seed == s
                 pr[m] = rng.permutation(pr[m])
-            rp = spearmanr(pr, d).statistic
-            cnt += (np.nan_to_num(rp, nan=-1) >= rho)
+            cnt += np.nan_to_num(spearman(pr, d), nan=-1.0) >= rho
         p = (cnt + 1) / 10_001
-        out.update(rho=float(rho), p_perm=float(p), verdict="Umschlag bestätigt" if p < 0.05 and rho > 0
-                   else "kein Umschlag nachgewiesen")
-        md = {al: float(np.mean([x["d"] for x in rows if x["alpha"] == al])) for al in ALPHAS
-              if any(x["alpha"] == al for x in rows)}
-        out["mean_d"] = {f"{k:g}": v for k, v in md.items()}
-        neg = [al for al, v in md.items() if v < 0]
-        pos = [al for al, v in md.items() if v > 0]
-        r0 = float(np.median([x["r"][0] for x in rows]))
-        out["r0_median"] = r0
-        out["r_median_by_step"] = {int(t): float(np.median([x["r"][t] for x in rows if t in x["r"]]))
-                                   for t in sorted(rows[0]["r"])}
-        if neg and pos and max(neg) < min(pos):
-            lo, hi = max(max(neg), 0.001), min(pos)
-            a_star = float(np.sqrt(lo * hi))
-            near = [al for al in ALPHAS if al in (max(neg), min(pos))]
-            r_end = float(np.median([x["r"][5000] for x in rows if x["alpha"] in near]))
-            A, B = a_star <= 3 * r0, a_star >= r_end / 3
-            out.update(alpha_star=a_star, r_end_near=r_end, A_start=bool(A), B_end=bool(B),
-                       when="nicht unterscheidbar" if A and B else "A (Start)" if A else "B (Ende)" if B
-                       else "Zwischenlage")
-            if not A and not B:
-                steps = sorted(out["r_median_by_step"])
-                out["t_star"] = next((t for t in steps if out["r_median_by_step"][t] >= a_star), None)
+        out.update(anchors_ok=bool(anchors), rho=rho, p_perm=float(p))
+        if not anchors:
+            out["verdict"] = "Uhr nicht ablesbar (kein Vorzeichenwechsel zwischen t_s = 0 und nie)"
+        elif p < 0.05 and rho > 0:
+            out["verdict"] = "Uhr ablesbar"
+            finite = [ts for ts in TS if ts >= 0]
+            hi = next(ts for ts in finite + [-1] if all(md[t] > 0 for t in (finite + [-1])[(finite + [-1]).index(ts):]))
+            lo = None if hi == finite[0] else (finite + [-1])[(finite + [-1]).index(hi) - 1]
+            out["commit_interval"] = [lo, hi]           # t* in (lo, hi]; hi = -1: after 2500 or never
+            out["when"] = ("A (früh, t_hi <= 250)" if 0 <= hi <= 250 else
+                           "B (spät, t_hi >= 2500 oder nie)" if hi < 0 or hi >= 2500 else "Zwischenlage (t_hi = 1000)")
         else:
-            out["alpha_star"] = None
-            out["when"] = "kein eindeutiger Vorzeichenwechsel der mittleren d"
+            out["verdict"] = "Anker ok, Trend n. s."
     (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
 

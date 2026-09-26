@@ -1,7 +1,8 @@
 """EXP-026 (copy of EXP-024/train_twohot.py): two-hot MLP with sigma_alpha(x) = alpha*x + x^2 on an EXP-016 split.
 
-Differences to EXP-024: activation family sigma_alpha (--alpha), per-snapshot feature amplitudes (amp), run id.
-The weighted spectrum keeps h = 2. Original EXP-024 docstring follows.
+Differences to EXP-024: activation family sigma_alpha (--alpha), optional switch to --alpha-after at --switch-step
+(Nachtrag a, Codex review), per-snapshot amplitudes (amp), a linear-path weighted spectrum (h = 1, 'weighted_lin'),
+run id, nonzero exit if the run is incomplete. 'weighted' keeps h = 2 (correct for the pure x^2 net after a switch to 0). Original EXP-024 docstring follows.
 
 EXP-024: train a two-hot MLP (quadratic or ReLU activation) on an EXP-016 engineered split.
 
@@ -14,6 +15,7 @@ Definition and pre-registered prediction: README.md. Run only through guarded_ru
 from __future__ import annotations
 
 import argparse
+import sys
 import json
 import time
 from pathlib import Path
@@ -46,8 +48,9 @@ def spectra(W: torch.Tensor, Wo: torch.Tensor, act: str) -> dict:
     r = np.sqrt(2 * (u ** 2 + v ** 2).mean(axis=0) / 2)
     wn = np.linalg.norm(Wo.detach().numpy(), axis=1)
     amp = {"median": float(np.median(r)), "wmean": float((r * wn * r ** 2).sum() / max((wn * r ** 2).sum(), 1e-30))}
+    scale_lin = wn * (tot / P) ** 0.5
     return {"weighted": _fold((frac * scale).sum(axis=1)).tolist(), "raw": _fold(per.sum(axis=1)).tolist(),
-            "out": _fold(out_pw).tolist(), "amp": amp}
+            "out": _fold(out_pw).tolist(), "amp": amp, "weighted_lin": _fold((frac * scale_lin).sum(axis=1)).tolist()}
 
 
 def main() -> None:
@@ -56,6 +59,8 @@ def main() -> None:
     ap.add_argument("--arm", choices=("F", "G"), default="F")
     ap.add_argument("--act", choices=("sig",), default="sig")
     ap.add_argument("--alpha", type=float, required=True)
+    ap.add_argument("--switch-step", type=int, default=-1, help="-1 = never; else alpha -> --alpha-after from this step on")
+    ap.add_argument("--alpha-after", type=float, default=0.0)
     ap.add_argument("--steps", type=int, default=5000)
     ap.add_argument("--init-scale", type=float, default=0.1)
     ap.add_argument("--lr", type=float, default=1e-3)
@@ -88,16 +93,20 @@ def main() -> None:
     W_out = torch.nn.Parameter(torch.randn(D, P) * a.init_scale / np.sqrt(D))
     params = [W_in, W_out]
     opt = torch.optim.AdamW(params, lr=a.lr, weight_decay=a.wd, betas=(0.9, 0.98))
-    act = lambda x: a.alpha * x + x * x
+    cur = {"alpha": a.alpha}
+    act = lambda x: cur["alpha"] * x + x * x
 
     def fwd(xa, xb):
         return act(W_in[xa] + W_in[P + xb]) @ W_out
 
-    run_id = (f"EXP-026_a{a.alpha:g}_seed{a.seed}_random" if a.random_split else f"EXP-026_a{a.alpha:g}_seed{a.seed}_{a.arm}") + ("" if a.init_seed is None else f"_init{a.init_seed}")
+    sw = "" if a.switch_step < 0 else f"_sw{a.switch_step}to{a.alpha_after:g}"
+    run_id = (f"EXP-026_a{a.alpha:g}{sw}_seed{a.seed}_random" if a.random_split else f"EXP-026_a{a.alpha:g}{sw}_seed{a.seed}_{a.arm}") + ("" if a.init_seed is None else f"_init{a.init_seed}")
     out_dir = Path(a.out) / run_id
     out_dir.mkdir(parents=True, exist_ok=True)
     snaps, curve, t0, gen, steps_done, finite = {}, [], time.time(), None, 0, True
     for step in range(a.steps + 1):
+        if step == a.switch_step:
+            cur["alpha"] = a.alpha_after
         if step in SNAP:
             snaps[step] = spectra(W_in, W_out, a.act)
         if step % 50 == 0:
@@ -131,6 +140,8 @@ def main() -> None:
     print(json.dumps({k: res[k] for k in ("run_id", "gen_step_test95", "final_train_acc", "final_test_acc",
                                            "final_top5", "final_top5_raw", "final_top5_out", "targets",
                                            "complete", "elapsed_s")}))
+    if not complete:
+        sys.exit(4)     # Nachtrag a: incomplete runs stop the queue
 
 
 if __name__ == "__main__":

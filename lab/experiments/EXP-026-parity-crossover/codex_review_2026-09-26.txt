@@ -1,0 +1,52 @@
+(node:19312) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0dc89-8699-7b50-abf3-a4fbc34281c0).
+[codex] Turn started (01a0dc89-88c8-79f3-b226-6623768a382e).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’m inspecting the exact diff and tracing the experim...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The main threat is now clear: α is used as a training...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -For...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -For... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=1; Get-Content ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=1; Get-Content ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n '\"sig(0.0|0...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n '\"sig(0.0|0... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "quad|quadr|...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "quad|quadr|... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"No-ship: the experiment cannot support its advertised...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against 01da0bd~1
+Verdict: needs-attention
+
+No-ship: the experiment cannot support its advertised commitment-time inference, and the analyzer can declare a crossover when no sign crossover occurred. The spectrum weighting, amplitude statistic, coarse estimator, and incomplete-grid handling add independent paths to a misleading result.
+
+Findings:
+- [high] Separately trained α arms cannot function as a commitment clock (lab/experiments/EXP-026-parity-crossover/README.md:24-43)
+  α is not a passive probe: it changes the initial logit scale, the derivative from 2x to α+2x, and the entire AdamW trajectory. Comparing final representations from five separately optimized models therefore locates a boundary between different training dynamics, not the time at which any one model selected its frequencies. The recorded accuracy and generalization time are not used to match optimization progress, and the within-split permutation test cannot distinguish the proposed parity mechanism from any other α-dependent training effect.
+  Recommendation: Test timing through an intervention on a common trajectory, such as switching α at preregistered steps, or evaluate frozen snapshots with a separately validated probe. Add activation-scale and optimization-progress controls before interpreting α* as a time.
+- [high] The primary spectrum weights a mixed activation as if it were purely quadratic (lab/experiments/EXP-026-parity-crossover/train_sigma.py:34-50)
+  For σ(x)=αx+x², a neuron's linear and quadratic functional contributions scale as approximately α||w||r and ||w||r². The implementation hard-codes only the quadratic ||w||r² weight for every α. At large α this can suppress frequencies carried by linearly active, small-r neurons and favor high-r quadratic features even when the logits are dominated by the linear path. Because final_top5 and d are derived from this spectrum, an apparent F/H transition can be created or shifted by the measurement itself.
+  Recommendation: Measure the linear and quadratic contributions separately, using weights proportional to α||w||r and ||w||r², and validate them against a direct Fourier or ablation analysis of the logits. Do not use the pure-quadratic h=2 spectrum as the sole primary endpoint.
+- [high] The primary decision rule can confirm a crossover without any crossover (lab/experiments/EXP-026-parity-crossover/analyze.py:45-81)
+  The verdict depends only on positive Spearman correlation and its permutation p-value. Sequences that remain entirely H-favoring, such as d=-5,-4,-3,-2,-1, or entirely F-favoring, such as d=1,2,3,4,5, can therefore produce "Umschlag bestätigt" despite never crossing zero. The later code may simultaneously set alpha_star=null, yielding a directly contradictory result. It also computes timing classifications even when the primary trend is nonsignificant.
+  Recommendation: Require a preregistered negative-to-positive sign crossing as part of the primary verdict and gate α* and A/B reporting on that verdict. Otherwise label the Spearman result only as an α trend, not a crossover.
+- [high] The A/B comparison uses an amplitude unrelated to the neurons driving the endpoint (lab/experiments/EXP-026-parity-crossover/analyze.py:33-72)
+  The analyzer extracts the unweighted median r over all 512 neurons. Unused or weak-output neurons can move this median without affecting either the logits or the weighted Top-5, while the relevant F- and H-carrying neurons may have very different amplitudes. Moreover, the unit-amplitude utility calibration applies to uniformly scaled single-frequency features; learned neurons can contain unequal u/v scales and multiple frequencies. Thus α/r≈1 for the global median is not an invariant of the mechanism being measured, and A versus B can be determined by irrelevant neurons.
+  Recommendation: Estimate effective amplitude separately for the linear and quadratic paths and condition it on neurons contributing to the relevant F/H frequencies. Report the weighted distribution and sensitivity to alternative weighting rather than comparing α* to an unweighted global median.
+- [medium] The α* point estimate is more precise than the grid and fabricates a lower bound at α=0 (lab/experiments/EXP-026-parity-crossover/analyze.py:67-75)
+  Adjacent nonzero levels differ by a factor of ten, so their geometric midpoint has uncertainty up to sqrt(10), which already exceeds the factor-3 A/B decision bands. The code nevertheless emits a categorical timing result. When the lower observation is α=0, replacing it with 0.001 invents a finite lower bound even though the data provide only an upper-censored crossing. The same observed grid can therefore support different A/B answers depending on where the unobserved crossing lies.
+  Recommendation: Treat α* as a bracket or censored interval, add adaptive preregistered levels around the crossing, and classify A/B only when the entire supported interval satisfies the corresponding criterion. Never replace α=0 with an arbitrary positive value.
+- [medium] The preregistered 25-cell design is silently analyzed with only 20 arbitrary cells (lab/experiments/EXP-026-parity-crossover/analyze.py:23-41)
+  The analyzer proceeds whenever any 20 results are valid rather than requiring one result for every seed-by-α cell. Missingness is plausibly α-dependent because divergence or incomplete training depends on activation scale; unequal cells then change the pooled Spearman test, level means, and α* bracket. This is reachable because queue.sh skips any existing result.json, including an incomplete result, while train_sigma.py exits successfully after writing complete=false.
+  Recommendation: Fail closed unless the exact 5×5 Cartesian grid is present and each result's arguments and snapshots match the registration. Make incomplete training exit nonzero, and have queue.sh skip only validated complete results.
+
+Next steps:
+- Redesign the timing inference around switch-time or frozen-snapshot interventions with optimization-matched controls.
+- Replace the h=2-only spectrum and global median amplitude with component-specific, functionally weighted measurements.
+- Make the analyzer require an actual sign crossing and the complete 25-cell grid, then add synthetic tests for all-positive, all-negative, missing-cell, and α=0 cases.

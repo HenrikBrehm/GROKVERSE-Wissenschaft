@@ -43,6 +43,32 @@ Fällt sie am Start (AGF-Bild), liegt α* nahe r_init; entscheidet die Endlösun
 | **Grenzen** | 5 Stufen im Faktor-10-Raster: α̂* nur auf ~1 Dekade genau. Die AGF-Rechnung nimmt Merkmale einer Frequenz und kleine Init an; AdamW normiert Schritte, was r(t) anders wachsen lässt als Gradientenfluss. Der Umschlag in α könnte auch aus anderen Effekten des linearen Terms entstehen (z. B. leichteres Anpassen) |
 | **Budget** | 25 Läufe × ~83 s ≈ 35 min. Smoke: α = 3 und α = 0.003 am EXP-024-Smoke-Split Seed 9 (nur Laufbarkeit, Endlichkeit, Zeit). Bei Divergenz dürfen lr/Init **vor** der Hauptserie geändert werden (hier nachtragen) |
 
+## Nachtrag a (2026-09-26 09:25 Berlin, nach Codex-Review, vor jedem EXP-026-Lauf): Umbau zum Umschaltversuch
+
+Codex-Review (`codex_review_2026-09-26.txt`, „needs-attention“, 4 × high, 2 × medium), selbst geprüft, **alle
+übernommen**: (1) Getrennt trainierte α-Stufen sind keine Uhr, denn α verändert die gesamte Optimierung; ein
+Umschlag in α zeigte eine Grenze zwischen Trainingsdynamiken, nicht den Zeitpunkt der Wahl. (2) Das h = 2-Spektrum
+gewichtet ein gemischtes Netz falsch. (3) Das Spearman-Kriterium hätte ohne echten Vorzeichenwechsel „bestätigt“
+geliefert. (4) Der Median von r über alle Neuronen hängt an irrelevanten Neuronen. (5) α* war genauer angegeben, als das
+Raster erlaubt, und α = 0 bekam eine erfundene Untergrenze. (6) Das Raster wurde nicht vollständig verlangt.
+**Die Tabelle oben ist damit ersetzt.** Gültig ist:
+
+| Punkt | Festlegung |
+|---|---|
+| **Frage** | Ab welcher Umschaltzeit t_s bleibt die Wahl der Ziele F erhalten, wenn ein Netz bis t_s mit σ_3 = 3x + x² (Nutzen am Start → F) und danach mit reinem x² (Nutzen → H) trainiert? Das ist die kausale Festlegungszeit auf **einer** Trajektorie (Aufbau wie EXP-020, hier für die Aktivierung statt die Daten) |
+| **Arme** | t_s ∈ {0, 50, 250, 1000, 2500, nie}; t_s = 0 ist das reine x²-Netz, „nie“ ist σ_3 durchgehend. `--alpha 3 --switch-step t_s --alpha-after 0`; AdamW-Zustand bleibt beim Umschalten erhalten |
+| **Einheiten** | EXP-016-Splits Seeds 10–14, Arm F, Init-Seed = Split-Seed → 30 Läufe; nur das vollständige 6 × 5-Raster wird ausgewertet, sonst *nicht auswertbar*. Unvollständige Läufe beenden die Warteschlange (Exit 4) |
+| **Messgröße** | d = ov(Top-5, F) − ov(Top-5, H) des h = 2-Spektrums bei Schritt 5000 (für alle t_s < 5000 ist das Endnetz rein quadratisch, dort ist h = 2 richtig). Für „nie“ zusätzlich d_lin (h = 1, linearer Pfad) |
+| **Anker (Vorzeichenwechsel, Pflicht)** | mittleres d(t_s = 0) < 0 **und** mittleres d(nie) > 0 **und** mittleres d_lin(nie) > 0. Sonst: *Uhr nicht ablesbar* |
+| **Primär** | Spearman(Rang t_s, d) > 0 über 30 Läufe, Permutation von t_s innerhalb jedes Splits (10 000×), p < 0.05 → *Uhr ablesbar*; mit Ankern, aber p ≥ 0.05 → *Anker ok, Trend n. s.* |
+| **Festlegungsintervall** | nur bei *Uhr ablesbar*: t* ∈ (t_lo, t_hi], t_hi = kleinstes t_s, ab dem alle mittleren d > 0 sind. Kein Punktschätzer. **A (früh):** t_hi ≤ 250 (vor dem sichtbaren Generalisieren, ~1300–1500 im x²-Netz). **B (spät):** t_hi ≥ 2500 oder nie. Sonst Zwischenlage (t_hi = 1000) |
+| **Erwartung (AGF: Wahl am Start)** | A |
+| **Was dagegen spräche** | B: Die Endaktivierung bestimmt die Wahl, der Nutzen am Start ist nicht bindend. Keine Anker: Der lineare Anteil lenkt trainierte Netze nicht auf F (dann trägt die Paritätsrechnung nicht) |
+| **Nebenmessungen (nur berichtet)** | Generalisierungszeit je Arm (Optimierungsfortschritt), Amplitude r(t) (Median, ausgabegewichtet), Test-Genauigkeit |
+| **Grenzen** | Das Umschalten ist selbst ein Eingriff (Funktionssprung, AdamW-Momente passen danach nicht). Später Wechsel in F nach Umschalten wäre ebenfalls möglich; das Intervall ist nur so fein wie das Raster. Die α-Stufen-Idee (Umschlagpunkt als Amplitudenmaß) ist verworfen, nicht getestet |
+| **Budget** | 30 × ~83 s ≈ 42 min, Reihenfolge der Warteschlange: Anker zuerst (0, nie), dann 250, 1000, 50, 2500 |
+| **Auswerter** | an synthetischen Fällen geprüft (früh → A (50, 250], spät → B, alles H oder alles F → nicht ablesbar, fehlende Zelle → nicht auswertbar) |
+
 ## Befehle
 
     sh lab/experiments/EXP-026-parity-crossover/queue.sh           (jeder Lauf über guarded_run.py)

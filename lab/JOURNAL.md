@@ -1109,3 +1109,15 @@ Bias mit Grokking (relevant für EXP-020/N14). Nicht gefunden: Rückgabe der Wah
 0.95/1.00 (fremd 34, 39), Seed 31 t = 25/50: 0.99/1.00 (fremd 22 bzw. 42), Seed 32: 0.90/0.16/0.90, Seed 31 t = 10: 0.50.
 *Ergebnis:* Fremde Frequenzen stehen auch in voll generalisierenden Netzen → nicht nur Rest. Für EXP-036 als beschreibende
 Zusatzangabe übernehmen (Test-Acc je Lauf mit fremder Frequenz).
+
+**Zyklus 3 (14:57–15:02): Codex-Angriff auf EXP-036 und Nachtrag d (ohne Training).** Codex (`adversarial-review --wait
+--base bc66a11`, Ausgabe `EXP-036-init-conflict/codex_review_2026-09-26.txt`): needs-attention, vier Befunde. (1, hoch) Frequenzen
+wurden als unabhängige Versuche gezählt; ein Paar mit 5 gleichgerichteten Frequenzen hätte p = 1/32 ergeben. **Übernommen:**
+Einheit = Paar, 7 Paare statt 3. (2, hoch) Die alte fremde Menge ging nicht ins Urteil ein. **Übernommen:** Jaccard-Bedingung;
+symmetrische Statistik nur beschreibend für Splits 33/34 (30–32 sind gesehen). Codex' Vorschlag „Init-Label-Permutation“
+**nicht übernommen**: Die naheliegende symmetrische Statistik ist unter Vertauschen der Labels invariant, also kein Test.
+Vorschlag „nur W_E verpflanzen“ als Folgeversuch notiert. (3, 4, mittel) Keine `result.json`-Prüfung. **Übernommen:** ein
+gemeinsamer strenger Lader (`load_run`) für Nachtrag d und EXP-036; Seeds 30/31 geben damit dieselben fremden Mengen,
+Seed 32 wird korrekt abgelehnt, solange t = 1000 läuft. *Eigener Fehler:* Im Selbsttest 6/7 als signifikant angenommen
+(p = 0.0625); korrigiert, nicht die Regel. Und zweimal geschätzte Uhrzeiten in Nachträge geschrieben (korrigiert auf gemessene).
+Commit 6bf7775; `queue_s9.sh` = queue_s8 mit EXP-036 nach EXP-035.

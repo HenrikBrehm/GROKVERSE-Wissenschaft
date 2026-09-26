@@ -36,11 +36,7 @@ run 3 --seed 30 --condition baseline --steps 60 --stop-after-gen 8000 --split-fi
   --test-file $S20/seed30_test.npy --switch-split-file $S20/seed30_train_G.npy --switch-step 30 \
   --out-root $R/EXP-020-data-switch/raw_smoke
 python $R/EXP-020-data-switch/check_smoke.py || { echo "[queue5] EXP-020 smoke check failed"; exit 1; }
-exp018 20 21 22 23 24
-for P in "10 11" "11 10" "12 13" "13 12" "14 15" "15 14" "16 17" "17 16" "18 19" "19 18"; do
-  set -- $P
-  run 33 --seed $1 --split-seed $2 --condition baseline --stop-after-gen 25 --out-root $R/EXP-014-split-vs-init/raw
-done
+# Session 7 (2026-09-26): EXP-020 moved before EXP-018/EXP-014; its no-switch arms also confirm EXP-028.
 for S in 30 31 32 33 34; do
   run 19 --seed $S --condition baseline --steps 8000 --stop-after-gen 2000 --split-file $S20/seed${S}_train_F.npy \
     --test-file $S20/seed${S}_test.npy --out-root $R/EXP-020-data-switch/raw
@@ -51,6 +47,11 @@ for S in 30 31 32 33 34; do
       --split-file $S20/seed${S}_train_F.npy --test-file $S20/seed${S}_test.npy \
       --switch-split-file $S20/seed${S}_train_G.npy --switch-step $T --out-root $R/EXP-020-data-switch/raw
   done
+done
+exp018 20 21 22 23 24
+for P in "10 11" "11 10" "12 13" "13 12" "14 15" "15 14" "16 17" "17 16" "18 19" "19 18"; do
+  set -- $P
+  run 33 --seed $1 --split-seed $2 --condition baseline --stop-after-gen 25 --out-root $R/EXP-014-split-vs-init/raw
 done
 sh lab/experiments/EXP-023-split-value/queue.sh || { rc=$?; echo "[queue5] EXP-023 stop, rc=$rc"; exit $rc; }
 sh lab/experiments/EXP-022-single-frequency/queue.sh || { rc=$?; echo "[queue5] EXP-022 stop, rc=$rc"; exit $rc; }

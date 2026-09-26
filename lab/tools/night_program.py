@@ -141,7 +141,7 @@ class Night:
         return int(best[0][1:])
 
     def gpu001(self) -> None:
-        if not self.dry and all(self.passed(m) for m in ("regression", "equivalence", "throughput")):
+        if not self.dry and all(self.passed(m) for m in ("components", "regression", "equivalence", "throughput")):
             self.J = self.best_J()
             return
         self.must("gpu001_env", [GPY, "-c", "import torch; print('[gpu001] torch', torch.__version__, 'hip', "
@@ -149,6 +149,8 @@ class Night:
                                  "if torch.cuda.is_available() else '-')"])
         # session 17: each stage is skipped if its own verdict already PASSes with the current seal, so a session that
         # ends in the middle of GPU-001 does not force the next one to redo the finished stages
+        if self.dry or not self.passed("components"):   # session 18, Astra 9: forward/backward/AdamW/repeat first (cheap)
+            self.gpu001_components()
         if self.dry or not self.passed("regression"):
             self.gpu001_regression()
         if self.dry or not self.passed("equivalence"):
@@ -156,6 +158,9 @@ class Night:
         if self.dry or not self.passed("throughput"):
             self.gpu001_throughput()
         self.J = 4 if self.dry else self.best_J()
+
+    def gpu001_components(self) -> None:
+        self.must("gpu001_components", [GPY, f"{G1}/components.py"], 3)
 
     def gpu001_regression(self) -> None:
         self.must("gpu001_regression_run", [PY, FB, "--seed", "10", "--condition", "baseline", "--steps", "50",

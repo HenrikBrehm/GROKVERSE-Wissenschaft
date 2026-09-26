@@ -2324,7 +2324,7 @@ Start 00:39 (gemessen, `--check`): kein STOP, Fenster zu (Exit 3), keine Python-
 Sitzung 17 endete schon um 00:38 (18 min). Diese Sitzung hat also 03:00–03:39 im Fenster: Abnahme und Tests (STATE Schritte 1–3), danach
 das Nachtprogramm bis zur Deadline. Ein dort angehaltener Job gilt seit Sitzung 17 als Ablehnung, nicht als Fehlschlag, und wird mit demselben Befehl fortgesetzt.
 
-**Zyklus 1 (Wird ein GPU-Lauf aus `.venv-gpu` vom Wächter sicher mitbeendet?, bis 00:50).** *Frage:* STATE nennt als offenen Verdacht, dass `guarded_run.py`
+**Zyklus 1 (Wird ein GPU-Lauf aus `.venv-gpu` vom Wächter sicher mitbeendet?, fertig vor 00:45).** *Frage:* STATE nennt als offenen Verdacht, dass `guarded_run.py`
 venv-Prozesse zu spät an das Job-Objekt bindet. `.venv-gpu/Scripts/python.exe` ist unter Windows nur ein Starter, der das echte Python
 (`Python312/python.exe`) als Kindprozess startet. Der Wächter bindet erst nach `Popen` (Zeilen 183–184). Hat der Starter sein Kind schon erzeugt,
 landet das Kind nicht im Job-Objekt des Wächters. Stirbt dann der Wächter selbst, könnte das Training ohne Zeitgrenze weiterlaufen (Gefahr für 13:00).
@@ -2336,3 +2336,14 @@ abgerufen 2026-09-27, Auszug per WebFetch). Tötet das Job-Objekt des Wächters 
 *Ergebnis:* Der Verdacht ist nach dem Quelltext weitgehend entkräftet. Die Kette „Wächter-Job → Starter → Starter-Job → Kind“ hält. **Nicht gemessen.**
 *Entscheidung:* Die Abnahme um 03:00 bekommt eine Zusatzprobe mit dem venv-Python: Den Wächter allein (ohne `/T`) hart beenden und prüfen, ob das echte Python,
 das seine eigene PID in eine Datei schreibt, mit beendet wird. Den Nutzer-Wächter ändere ich nicht.
+
+**Zyklus 2 (Deckt GPU-001 Astra-Punkt 9 ab?, 00:45).** *Frage:* Regel 18b2 lässt die GPU erst zu, wenn „Forward, Backward, AdamW, Wiederholung und ein langer
+Lauf“ mit der CPU übereinstimmen. Prüft GPU-001 das? *Befund (Lesen von `compare.py`, `night_program.py`, Astra-Tabelle):* Nein. GPU-001 vergleicht
+nur ganze 2000-Schritt-Läufe (A1–A3), also den langen Lauf. Einzelkomponenten und Wiederholbarkeit fehlen, und Punkt 9 fehlte in der Umsetzungstabelle.
+Ein Fehler im Forward oder Backward könnte in A1–A3 untergehen (Top-5-Überlappung ≥ 4/5 ist grob), und Nichtdeterminismus bliebe unbemerkt.
+*Änderung (ungetestet):* `lab/experiments/GPU-001-equivalence/components.py` als Stufe 0 mit vorab festgelegten Kriterien C1–C5 (README-Nachtrag
+Sitzung 18). Ein Prozess, eine Torch-Version (GPU-venv), nur das Gerät verschieden. C3 vergleicht den Optimierer isoliert (gleiche Gradienten auf beiden Geräten).
+C4 misst gegen das Eigenrauschen der CPU (1 gegen 4 Threads), damit eine unvermeidliche Rundungsabweichung nicht als GPU-Fehler zählt. `night_program.py`: Stufe `components` vor der
+Regression, Teil des Tors und des Stufen-Überspringens; Siegel (`compare.SEAL_FILES`) umfasst `components.py`. Test `test_gpu001_stage_skip` angepasst.
+Eine Zweitprüfung durch einen Claude-Subagenten (nur lesend, ausdrücklich kein `python -c`) läuft.
+*Entscheidung:* Ab 03:00 läuft die Stufe im Nachtprogramm als Erstes (< 1 min geschätzt). Die Umsetzungstabelle hat eine Zeile für Punkt 9.

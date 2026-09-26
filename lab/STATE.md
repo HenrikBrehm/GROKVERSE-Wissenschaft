@@ -19,13 +19,13 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 1. `python lab/tools/guarded_run.py --check` → `allowed: true`. Keine andere Queue aktiv (`ps -ef | grep -E "night_program|queue|guarded_run" | grep -v grep`).
 2. Wächter-Abnahme **(Sitzung 18: als Skript)**: `powershell -ExecutionPolicy Bypass -File lab/tools/accept_guard.ps1` (≈ 1 min; Proben A STOP, B/C Wächter hart beendet mit System- bzw. venv-Python; Ergebnis `lab/runner/logs/accept_guard.json`; löscht STOP selbst). Von Hand wie bisher: `python lab/tools/guarded_run.py -- python -c "import time; time.sleep(60)"` im Hintergrund, währenddessen
    `lab/STOP` anlegen → Exit 3 und Kind beendet? **STOP sofort wieder löschen**, im JOURNAL vermerken. Scheitert es: Blocker in LIVE.
-3. Tests, je `python lab/tools/guarded_run.py [--min-minutes 5] -- python <datei> [arg]`: `lab/tools/result_loader.py`;
+3. Tests, je `python lab/tools/guarded_run.py [--min-minutes 5] -- python <datei> [arg]`: `lab/experiments/EXP-001-freq-ban/test_freq_ban.py` (Sitzung 18 ergänzt); `lab/tools/result_loader.py`;
    `lab/tests/test_freq_ban_fingerprint.py` (--min-minutes 5; kleine CPU-Läufe im Temp-Ordner); `lab/tests/test_night_program.py`;
    **neu (Sitzung 14):** `lab/experiments/EXP-052-oos-mask-prediction/exp052.py --selftest`, `lab/tools/pilot_power.py --selftest`,
    `lab/tools/confirm_splits.py --selftest`, `lab/tools/confirm_p1.py --selftest`. Scheitert etwas: beheben, bevor Queues starten
    (die vier neuen blockieren die Nachtqueues nicht, nur ihre eigene spätere Auswertung).
 4. GPU: `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1` im Hintergrund (Plan: `--dry-run`). Beginnt mit GPU-001
-   (Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 (+ EXP-051) → 048 → 049 → 044 → 045.
+   (**Sitzung 18: Stufe 0 `components`, Astra 9** → Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 (+ EXP-051) → 048 → 049 → 044 → 045.
    Wiederaufnahme = derselbe Befehl (Fertiges wird per Fingerprint übersprungen). Status: `lab/runner/logs/night_*/night_status.json`.
    Ist das GPU-Programm vor ≈ 11:00 fertig (GPU-001 bestanden): EXP-050 nachschieben (`--experiments GPU-001,EXP-050`, Paket C, 60 Läufe).
 5. CPU **erst nach GPU-001**: `python lab/tools/night_program.py --cpu > lab/runner/logs/night_cpu.log 2>&1` (EXP-014 → 035 → 038 → 041 → 036 →

@@ -96,9 +96,10 @@ def test_gpu001_stage_skip(log: Path) -> None:
     """Session 17: a resumed GPU-001 redoes only the stages without a sealed PASS."""
     night = npg.Night(log / "f")
     ran: list[str] = []
-    passed = {"regression": True, "equivalence": False, "throughput": False}
+    passed = {"components": True, "regression": True, "equivalence": False, "throughput": False}
     night.passed = lambda mode: passed[mode]
     night.jobs = lambda tag, cmds, w, mm: ran.append(tag) or 0
+    night.gpu001_components = lambda: ran.append("components")
     night.gpu001_regression = lambda: ran.append("regression")
     night.gpu001_equivalence = lambda: ran.append("equivalence")
     night.gpu001_throughput = lambda: ran.append("throughput")

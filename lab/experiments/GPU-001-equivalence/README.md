@@ -64,3 +64,23 @@ Unabhängige Prüfung (Claude-Subagent, nur lesend; Codex ohne Guthaben) der Än
 ## Nachtrag (Sitzung 13, 20:53 Berlin, vor jedem Lauf): Astra-Review Punkt 10
 
 Kriterien unverändert. (1) Durchsatz = J·500 Schritte / Wandzeit der ganzen Stufe (inkl. Prozess- und ROCm-Start), J nur bei vollständiger Stufe. (2) Jedes Verdikt trägt ein **Siegel** (SHA-256 über `freq_ban.py`, `compare.py`, `torch/version.py` der GPU-venv); ändert sich eines davon, gilt GPU-001 als nicht bestanden und läuft neu. (3) **Diagnose, kein Kriterium:** Seed 10 zusätzlich auf der CPU mit der Torch-Version der GPU-venv (2.9.1) → `version_diagnostic` trennt Versions- von Geräteeffekten (gleiche Init? Top-5-Überlappung bei 2000? gen-Schritt?). Ausführung jetzt über `lab/tools/night_program.py` (die `queue.sh` hier ist Historie).
+
+## Nachtrag (Sitzung 18, 2026-09-27 00:45 Berlin, gemessen; vor jedem GPU-Lauf): Stufe 0 „components“ (Astra-Punkt 9)
+
+Astra 9 / Regel 18b2 verlangen, dass Forward, Backward, AdamW, Wiederholung **und** ein langer Lauf mit der CPU übereinstimmen. Die Stufe
+„Gleichwertigkeit“ oben prüft nur den langen Lauf (3 × 2000 Schritte). Neu: `components.py`, **ein** Prozess mit **einer** Torch-Version
+(GPU-venv), sodass nur das Gerät verschieden ist (arch25k, Seed 10, EXP-016-Split seed10 eps2.0, fp32). Kriterien, vorab festgelegt:
+
+- **C1 Forward:** Logits des ganzen Trainingsbatchs, max |CPU − GPU| / max |CPU| ≤ 1e-4; relative Loss-Abweichung ≤ 1e-4.
+- **C2 Backward:** je Parameter ‖g_CPU − g_GPU‖ / ‖g_CPU‖ ≤ 1e-3.
+- **C3 AdamW:** ein Schritt aus gleichen Gewichten **und gleichen Gradienten** (CPU-Gradienten auf die GPU kopiert, also nur der Optimierer
+  verglichen): je Parameter relative Abweichung der Änderung ≤ 1e-3.
+- **C4 kurzer Lauf:** 50 Trainingsschritte je Gerät, max. relative Loss-Abweichung ≤ max(1e-2, 10 × dieselbe Abweichung zwischen CPU mit
+  1 und 4 Threads). Die Referenz ist das eigene Rundungsrauschen der CPU aus anderer Summationsreihenfolge.
+- **C5 Wiederholung:** dieselben 200 GPU-Schritte zweimal: relative Loss-Abweichung bei Schritt 200 ≤ 1e-3 und max |Δθ| / max |θ| ≤ 1e-3.
+  Bitgleichheit wird berichtet, aber nicht verlangt (der Embedding-Backward unter ROCm kann atomare Additionen nutzen).
+
+Scheitert eine Stufe, gilt GPU-001 als nicht bestanden (Tor in `night_program.py`, Stufe läuft vor der Regression; Siegel umfasst jetzt
+auch `components.py`). Laufzeit geschätzt < 1 min. Befehl: `python lab/tools/guarded_run.py -- .venv-gpu/Scripts/python.exe lab/experiments/GPU-001-equivalence/components.py`.
+Die Schwellen sind Ingenieurgrenzen für fp32, nicht aus Daten abgeleitet. Ein Fehlschlag knapp über einer Schwelle wird im JOURNAL mit
+den Zahlen gezeigt und nicht nachträglich umgedeutet.

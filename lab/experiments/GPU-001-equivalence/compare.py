@@ -18,7 +18,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 SEAL_FILES = ("lab/experiments/EXP-001-freq-ban/freq_ban.py", "lab/experiments/GPU-001-equivalence/compare.py",
-              ".venv-gpu/Lib/site-packages/torch/version.py")
+              "lab/experiments/GPU-001-equivalence/components.py", ".venv-gpu/Lib/site-packages/torch/version.py")
 
 
 def seal() -> str:

@@ -1012,3 +1012,16 @@ EXP-020-Warteschlange nutzt die Datei, deshalb atomar geschrieben, CRLF erhalten
 Lernratenplan“, Monotonie/gen_F-Pflicht, intervallsichere Einordnung, Metadatenprüfung, Smoke am Anfang der Queue.
 *Eigene Fehler:* zweimal Zeilenenden bzw. f-String-Klammern falsch (sofort bemerkt und korrigiert, vor jedem Lauf).
 Status: vorbereitet, nicht ausgeführt.
+
+**Zyklus 5 (13:49): Literatur N14 und Verstärkungszeitpunkt (ohne Training).** (a) Suche zur kritischen Periode der Frequenzwahl
+(N14): nichts Gleiches gefunden (vorläufig); Kosson et al. 2024 erklären Warmup über zu große frühe AdamW-Updates, passt zu
+EXP-035. *Eigener Fehler:* einem Paper eine ungeprüfte Autorenschaft zugeschrieben, sofort entfernt.
+(b) **Post hoc aus EXP-033:** Die frühe Neigung bleibt während der Memorisierung fast gleich (AR 0.066 → 0.076 bis Phase-2-Schritt
+1000) und wächst um die Generalisierung (→ 0.117 bei 3000); GD und SIGN ebenso; der Anker bleibt bei ≈ 0. Deutung
+(Spekulation): Der generalisierende Schaltkreis wird bevorzugt aus den bereits leicht stärkeren Frequenzen gebaut. Als P34d
+für EXP-034 vorab festgelegt (Nachtrag c, f660a4b); Tests 5/5.
+**Zwischenbilanz nach 5 Zyklen (§4):** Gelernt: Die frühe Festlegung im Zwei-Hot-Netz braucht in Phase 1 kein AdamW (EXP-033),
+und der Transformer zeigt in einem Seed eine scharfe kritische Periode (EXP-020). Wiederholen wir uns? Das Thema „frühe
+Festlegung“ zieht sich seit Sitzung 7; die Eingriffe wechseln aber (Aktivierung, Optimierer, Daten, Lernratenplan), und jede
+Stufe beseitigt einen konkreten Einwand. Nächste Annahme zum Angreifen: dass ds (Anteil F − Anteil H) die richtige Messgröße
+ist. Das K-basierte d aus EXP-020 und ds sollten an denselben Läufen verglichen werden (Idee, nicht festgelegt).

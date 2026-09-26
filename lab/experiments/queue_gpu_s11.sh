@@ -1,5 +1,5 @@
 #!/bin/sh
-# Session-11 GPU master queue (UNTESTED): GPU-001 -> EXP-043 -> EXP-046 -> EXP-047 -> EXP-048 -> EXP-044 (conditional on EXP-043) -> EXP-045.
+# Session-11 GPU master queue (UNTESTED): GPU-001 -> EXP-043 -> EXP-046 -> EXP-047 -> EXP-048 -> EXP-049 -> EXP-044 (conditional on EXP-043) -> EXP-045.
 # Runs in parallel to the CPU queue (queue_s10.sh); all GPU runs carry --device cuda. Every run through guarded_run.py.
 # Resume = rerun (completed runs skip; GPU-001 reruns its checks, ~15 min, unless all three verdicts passed).
 # Codex s12: fail closed. rc 3 (guard refused) anywhere stops everything; any other failure is logged, the next
@@ -31,6 +31,7 @@ part EXP-043 sh $R/EXP-043-generalize-steering/queue.sh $J
 part EXP-046 sh $R/EXP-046-dihedral-steering/queue.sh $J
 part EXP-047 sh $R/EXP-047-marginal-control/queue.sh $J
 part EXP-048 sh $R/EXP-048-intadd-steering/queue.sh $J
+part EXP-049 sh $R/EXP-049-width-steering/queue.sh $J
 part EXP-044 sh $R/EXP-044-generalize-lockin/queue.sh $J
 part EXP-045 sh $R/EXP-045-mlp-steering/queue.sh $J
 [ $FAIL -ne 0 ] && { echo "[gpu11] done WITH FAILURES"; exit 1; }

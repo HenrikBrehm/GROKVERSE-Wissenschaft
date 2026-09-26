@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 19:59 Berlin (17:59Z, vom Runner)
 - **Deadline:** 2026-09-26 22:59 Berlin (20:59Z)
-- **Zuletzt aktualisiert:** 20:13 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 20:17 Berlin (gemessen)
 - **Run-Fenster:** zu, wieder ab 00:00. Die nächste Sitzung (Start 00:59 Berlin) startet die Nacht-Queues. Diese Sitzung: Prüf-, Code- und Denkarbeit.
 
 ## Gerade
 
-Ein Subagent prüft den neuen EXP-048-Code. Parallel bereite ich EXP-049 vor: Hält die Datensteuerung auch in einem 4× breiteren Transformer? Die Splits sind fertig.
+Ein Subagent prüft EXP-049 (4× breiterer Transformer). EXP-049 steht schon in der Nacht-Queue; bei einem Blocker nehme ich es wieder heraus.
 
 ## Als Nächstes
 
-Review-Ergebnis einarbeiten, dann Trainer und Vorab-Festlegung für EXP-049.
+Review einarbeiten; danach STATE für die Nacht abschließen und die Laufzeit der Nacht-Queue abschätzen.
 
 ## Verlauf dieser Sitzung
 
+- 20:17 EXP-048 nach Review verbessert: Die Hauptmessgröße entfernt jetzt vorab den Zahlengeraden-Anteil (der sonst Scheineffekte erzeugt). Dabei einen eigenen fehlerhaften Selbsttest gefunden, der die Nacht-Queue gestoppt hätte. [[experiments/EXP-049-width-steering/README|EXP-049]] (Modellbreite) vorab festgelegt und eingereiht.
 - 20:13 Idee „frühe Festlegung aus Init-Skala und Lernrate vorhersagen“ verworfen: Sie steht schon als Vorhersage in EXP-040 (Nachtrag c). Stattdessen EXP-049 (Modellbreite) begonnen.
 - 20:11 **Neuer Versuch [[experiments/EXP-048-intadd-steering/README|EXP-048]]:** Klappt die Steuerung über die Daten auch bei gewöhnlicher Addition *ohne* Modulo? Dort lernen Netze normalerweise eine Zahlengerade statt einer Uhr. Das ist die erste nicht-modulare Aufgabe. Beim Bau einen Fehler gefunden und behoben (Split-Dateien überschrieben sich). Außerdem fünf Queue-Skripte auf LF-Zeilenenden gebracht.
 - 20:07 **Unabhängige Prüfung von EXP-046/047** (Claude-Subagent statt Codex): kein Blocker. Einschränkung für EXP-046 notiert: Das Ergebnis heißt nur „der Split steuert“, noch nicht „über die Paarstruktur“.

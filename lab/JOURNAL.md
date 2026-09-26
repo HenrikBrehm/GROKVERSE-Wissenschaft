@@ -1733,3 +1733,14 @@ behoben, neu erzeugt, geprüft. `theory_counts.py` ist nicht betroffen (Namen oh
 *Nebenfund:* `queue_gpu_s11.sh` und die Queues von GPU-001, EXP-043/044/045/046 hatten CRLF-Zeilenenden (von Python ohne `newline`
 geschrieben). Probe mit einem Wegwerf-Skript: Git-Bash-`sh` entfernt CR beim Lesen (Variable ohne `\r`), also vermutlich harmlos;
 trotzdem auf LF normalisiert (Laborkonvention), `git diff --ignore-cr-at-eol` zeigt keine inhaltliche Änderung, `sh -n` ok.
+
+**Zyklus 5 (20:12–20:17): Review EXP-048 und Größen-Verallgemeinerung.** (a) Idee „Festlegungszeit ≈ σ_init·√(2m/p)/lr ≈ 26 Schritte“
+(Überschlag: Adam-Schritte wachsen linear, Schwelle = Init-Rauschen je Frequenz) **verworfen als neu**: steht als quantitative H40 schon in
+EXP-040 Nachtrag c. (b) Subagent-Review EXP-048: kein Blocker; *Mittel 1:* Häufigkeiten tragen die Ziele (1.8×), Lesart eingeschränkt;
+*Mittel 2:* Zahlengerade leckt in k ≥ 6 → Primärgröße **vor jedem Lauf** auf trendbereinigtes End-W_E umgestellt (Nachtrag a; numpy:
+Schein-Δ roh 0.75, trendbereinigt 0.00). Dabei meinen eigenen neuen Selbsttest als entartet erkannt (Δ ≡ 0) und ersetzt; ohne numpy-
+Nachrechnung hätte er die EXP-048-Queue nachts gestoppt. (c) [[experiments/EXP-049-width-steering/README|EXP-049]] vorab festgelegt:
+K2 bei d_model 512 vs. 128 (Seeds 170–179, gleiche Splits, 40 GPU-Läufe, Primärgröße Δ_pow bei d = 512). Splits über EXP-047-Funktionen
+(importlib, Namenskonflikt `make_split` umgangen; Seed 150 reproduziert die EXP-047-Datei exakt), Ziele = M0-Top-5 in 20/20. In
+`queue_gpu_s11.sh` nach EXP-048; unabhängige Prüfung läuft. **Lehre:** Heredocs mit Backticks immer mit <<'EOF' (ein ungeschütztes
+Heredoc hat zwei Dateinamen im README gelöscht; repariert).

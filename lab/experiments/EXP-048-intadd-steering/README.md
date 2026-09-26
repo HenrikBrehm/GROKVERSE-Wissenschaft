@@ -36,7 +36,7 @@ Struktur gebunden. Wenn nicht, ist das eine klare Grenze von K2.
 | **Fragestellung** | Gibt ein konstruierter Split auch bei nicht-modularer Addition vor, welche Frequenzen in W_E entstehen? |
 | **H48** | Δ̄_pow > 0 |
 | **Bedingungen** | je Init-Seed i ∈ 160–169 zwei Läufe: Split F_i und G_i, 2000 Schritte, **alle auf der GPU** |
-| **Primärgröße** | Δ_pow,i = log[P_F(F)/P_F(G)] + log[P_G(G)/P_G(F)], P_arm(S) = W_E-Leistung des Laufs „arm“ bei 2000, summiert über S |
+| **Primärgröße** | Δ_pow,i = log[P_F(F)/P_F(G)] + log[P_G(G)/P_G(F)], P_arm(S) = W_E-Leistung des Laufs „arm“ bei 2000, summiert über S. **Vor jedem Lauf ersetzt: auf dem trendbereinigten W_E, siehe Nachtrag a** |
 | **Warum nicht Top-5 (wie EXP-016)** | Bei einer Zahlengeraden besetzen k = 1..5 die Top-5 in beiden Armen; Top-5-Überlappung wäre dann 0, ohne dass die Steuerung fehlt. Δ_pow ist davon unberührt (gemeinsame Anteile heben sich auf). Kalibrierung an den gespeicherten EXP-016-Läufen (Seeds 10–19, CPU, reine Nachrechnung 20:06): **Δ_pow = 8.4 im Mittel, 10/10 positiv** |
 | **Test** | einseitiger Vorzeichen-Permutationstest über die gültigen Seeds (exakt, 2^n) |
 | **Gültig** | beide Läufe `completed`, 2000 Schritte, Gerät cuda, Split-Hash = Inhalt der .npy; < 8 gültige Seeds: *nicht auswertbar* |
@@ -82,8 +82,8 @@ Unabhängige Prüfung (Claude-Subagent, nur lesend/numpy; Codex ohne Guthaben): 
    k = 56). Bei ungleicher Rampenamplitude zwischen F- und G-Lauf erzeugt das ein Schein-Δ ohne Steuerung (nachgerechnet, numpy: Rampe 3:1,
    Ziele 6–10 vs. 40–44: rohes Δ_pow 0.75 ± 0.17; trendbereinigt −0.00 ± 0.31). Wegen der Vertauschbarkeit von F und G kein Bias des Tests,
    aber Rauschen. **Neue Primärgröße (vor jedem Lauf, Kriterien sonst unverändert):** Δ_pow auf dem **trendbereinigten End-W_E**
-   ( bei Schritt 2000; je Spalte die Kleinste-Quadrate-Gerade in a entfernt). Das rohe Δ_pow (bisherige Primärgröße) wird
-   als  berichtet. Arm R ebenfalls trendbereinigt. Die EXP-016-Kalibrierung (8.4) stammt aus modularen Läufen ohne Rampe
+   (`we_final.npy` bei Schritt 2000; je Spalte die Kleinste-Quadrate-Gerade in a entfernt). Das rohe Δ_pow (bisherige Primärgröße) wird
+   als `Delta_pow_raw` berichtet. Arm R ebenfalls trendbereinigt. Die EXP-016-Kalibrierung (8.4) stammt aus modularen Läufen ohne Rampe
    und ist hier nur ein Anhaltspunkt.
 2. **Häufigkeiten tragen die Ziele hier stärker** (a/b-Häufigkeitsspektrum: Ziele 1.8× der übrigen Leistung, Arm R 1.06×; in die
    Δ-Formel eingesetzt ≈ 1.0 gegenüber M0 1.28). Ein Urteil *steuerbar* heißt deshalb nur „**der Split steuert** (über Paarstruktur oder

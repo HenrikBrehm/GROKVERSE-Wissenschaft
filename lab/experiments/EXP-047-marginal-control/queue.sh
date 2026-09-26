@@ -1,4 +1,6 @@
 #!/bin/sh
+# SUPERSEDED (session 13, Astra 11): run via `python lab/tools/night_program.py` (fingerprints/flags may differ here). History only.
+echo "superseded by lab/tools/night_program.py, not run"; exit 1
 # EXP-047 (session 12, UNTESTED): token-count vs pair-structure control for split steering, add mod 113, seeds 150-159,
 # arms eng_F, eng_G, shuf_F, shuf_G, 2000 steps, GPU only (rule 16d). Needs GPU-001 PASS. Usage: sh queue.sh [J].
 # Every run through guarded_run.py; completed runs skip (freq_ban.py exit 0). Fail closed: rc 3 stops (exit 3),

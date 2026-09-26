@@ -1,4 +1,6 @@
 #!/bin/sh
+# SUPERSEDED (session 13, Astra 11): run via `python lab/tools/night_program.py` (fingerprints/flags may differ here). History only.
+echo "superseded by lab/tools/night_program.py, not run"; exit 1
 # EXP-045 (session 11, UNTESTED): split steering in the shared-embedding MLP, add mod 113, seeds 90-99, arms F/G, 10 000 steps, GPU.
 # Usage: sh queue.sh [J]. Needs GPU-001 PASS. Every run through guarded_run.py; completed runs skip.
 J=${1:-4}

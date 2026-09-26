@@ -1,4 +1,6 @@
 #!/bin/sh
+# SUPERSEDED (session 13, Astra 11): run via `python lab/tools/night_program.py` (fingerprints/flags may differ here). History only.
+echo "superseded by lab/tools/night_program.py, not run"; exit 1
 # GPU-001 (rule 16b/c, written 2026-09-26 session 11, UNTESTED): CPU regression of the --device edit, CPU-vs-GPU
 # equivalence on stored EXP-016 runs, GPU speed and parallel throughput. Every run through guarded_run.py.
 # GPU runs carry "--device cuda" so the CPU queues (queue_s10 etc.) do not wait for them.

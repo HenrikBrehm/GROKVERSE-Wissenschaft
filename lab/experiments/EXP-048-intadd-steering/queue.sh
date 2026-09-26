@@ -1,4 +1,6 @@
 #!/bin/sh
+# SUPERSEDED (session 13, Astra 11): run via `python lab/tools/night_program.py` (fingerprints/flags may differ here). History only.
+echo "superseded by lab/tools/night_program.py, not run"; exit 1
 # EXP-048 (session 13, UNTESTED): split steering on NON-modular integer addition, seeds 160-169, arms F/G (+ secondary R).
 # GPU only (rule 16d). Needs GPU-001 PASS first. Usage: sh queue.sh [J]. Every run through guarded_run.py.
 # Completed runs are skipped by intadd_train.py (exit 0). Resume = rerun. Exit 3 = guard refused (propagated),

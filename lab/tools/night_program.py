@@ -41,7 +41,7 @@ PY = "python"
 FB = f"{R}/EXP-001-freq-ban/freq_ban.py"
 G1 = f"{R}/GPU-001-equivalence"
 S16 = f"{R}/EXP-016-engineered-split/splits"
-DEFAULT_ORDER = ("GPU-001", "EXP-043", "EXP-046", "EXP-047", "EXP-048", "EXP-049", "EXP-044", "EXP-045")
+DEFAULT_ORDER = ("GPU-001", "EXP-043", "EXP-046", "EXP-047", "EXP-051", "EXP-048", "EXP-049", "EXP-044", "EXP-045")
 # EXP-014 first (programme A, Astra 5: crossed split x init; triage s13), then the queue_s10 order; EXP-034 not ported
 CPU_ORDER = ("EXP-014", "EXP-035", "EXP-038", "EXP-041", "EXP-036", "EXP-039", "EXP-040", "EXP-042")
 S20 = f"{R}/EXP-020-data-switch/splits"
@@ -49,6 +49,7 @@ EXP_DIR = {"EXP-043": "EXP-043-generalize-steering", "EXP-044": "EXP-044-general
            "EXP-045": "EXP-045-mlp-steering", "EXP-046": "EXP-046-dihedral-steering",
            "EXP-047": "EXP-047-marginal-control", "EXP-048": "EXP-048-intadd-steering",
            "EXP-049": "EXP-049-width-steering", "EXP-050": "EXP-050-phase-dissociation",
+           "EXP-051": "EXP-051-functional-ablation",
            "EXP-035": "EXP-035-warmup-lockin", "EXP-036": "EXP-036-init-conflict", "EXP-038": "EXP-038-where-lockin",
            "EXP-039": "EXP-039-lr-clock", "EXP-040": "EXP-040-we-init-scale", "EXP-041": "EXP-041-imprint",
            "EXP-042": "EXP-042-bias-strength", "EXP-014": "EXP-014-split-vs-init"}
@@ -261,7 +262,12 @@ class Night:
         cmds = [self.freq_ban_2000(e, s, f"split_add113_seed{s}_{k}_{a}", "--save-model")   # models for EXP-051 (P2)
                 for s in range(150, 160) for k in ("eng", "shuf") for a in "FG"]
         self.runs_then_analysis("EXP-047", "main", cmds, 5)
-        e51 = f"{R}/EXP-051-functional-ablation"          # P2: ablation on the saved EXP-047 models, no training
+
+    def exp051(self) -> None:
+        """P2: ablation on the saved EXP-047 models, no training (own step, so a failure here does not mark EXP-047)."""
+        e51 = f"{R}/EXP-051-functional-ablation"
+        if not self.dry and self.status["experiments"].get("EXP-047", {}).get("state") != "ok":
+            raise Failed("EXP-047 did not finish ok in this program run")
         self.must("EXP-051_selftest", [PY, f"{e51}/analyze.py", "--selftest"])
         self.must("EXP-051_analysis", [PY, f"{e51}/analyze.py"], 5)
 
@@ -443,7 +449,7 @@ class Night:
         self.log.mkdir(parents=True, exist_ok=True)
         steps = {"GPU-001": self.gpu001, "EXP-043": self.exp043, "EXP-044": self.exp044, "EXP-045": self.exp045,
                  "EXP-046": self.exp046, "EXP-047": self.exp047, "EXP-048": self.exp048, "EXP-049": self.exp049,
-                 "EXP-050": self.exp050, "EXP-035": self.exp035, "EXP-036": self.exp036, "EXP-038": self.exp038,
+                 "EXP-050": self.exp050, "EXP-051": self.exp051, "EXP-035": self.exp035, "EXP-036": self.exp036, "EXP-038": self.exp038,
                  "EXP-039": self.exp039, "EXP-040": self.exp040, "EXP-041": self.exp041, "EXP-042": self.exp042,
                  "EXP-014": self.exp014}
         failed = False

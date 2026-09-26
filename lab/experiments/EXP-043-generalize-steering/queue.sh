@@ -1,4 +1,6 @@
 #!/bin/sh
+# SUPERSEDED (session 13, Astra 11): run via `python lab/tools/night_program.py` (fingerprints/flags may differ here). History only.
+echo "superseded by lab/tools/night_program.py, not run"; exit 1
 # EXP-043 (session 11, UNTESTED): split steering on add mod 97 and mul mod 113, seeds 70-79, arms F/G (+ secondary R).
 # GPU only (rule 16d: every arm and seed on the same device). Needs GPU-001 PASS first. Usage: sh queue.sh [J]
 # J = parallel GPU processes (from GPU-001 verdict_throughput.json; default 4). Every run through guarded_run.py.

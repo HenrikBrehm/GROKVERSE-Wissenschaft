@@ -2,12 +2,15 @@
 
 No training: loads the saved EXP-047 models (freq_ban.py --save-model, add mod 113, transformer, 2000 steps, seeds 150-159,
 kinds eng/shuf, arms F/G) and ablates frequencies in the input embedding W_E[:113] at evaluation time.
-Per model: base accuracy on the COMMON test set (pairs in neither the F nor the G train split of that seed/kind), then
-  own   : remove the model's own 5 target frequencies (project W_E onto the complement of their cos/sin columns)
-  other : remove the other arm's 5 targets
-  energy: remove the same W_E energy as 'own', taken proportionally from all non-target frequencies (scale factor c)
-drop_x = base_acc - acc_after_x.  Primary (eng): D_i = mean over the seed's two models of [drop_own - drop_energy] > 0.
-Validity: both eng models of a seed load, their base common-test accuracy >= 0.9, the energy match is complete.
+Per model: base accuracy on the COMMON test set (pairs in neither the F nor the G train split of that seed/kind), then two
+ablations that remove the SAME, always feasible W_E energy X = 0.5 * min(E_own, E_ctrl) (Nachtrag a, review s13: the 5 targets
+hold 76-89 % of the W_E energy in EXP-016, so 'remove as much elsewhere as the targets hold' is impossible):
+  own : scale the own 5 target frequencies by c_own so that X is removed
+  ctrl: scale the control frequencies by c_ctrl so that X is removed; control = all k except own targets, the other arm's
+        targets and the harmonics fold(2t) of the own targets (the model uses them because of the targets)
+Secondary: full removal of the own / the other arm's targets (drop_own_full, drop_other_full).
+drop_x = base_acc - acc_after_x.  Primary (eng): D_i = mean over the seed's two models of [drop_own - drop_ctrl] > 0.
+Validity: both eng models of a seed load and their base common-test accuracy >= 0.9.
 Definition and reading: README.md.
 """
 from __future__ import annotations
@@ -53,19 +56,29 @@ def remove(W: np.ndarray, B: np.ndarray, freqs) -> np.ndarray:
     return B @ C
 
 
-def remove_energy_elsewhere(W: np.ndarray, B: np.ndarray, targets, amount: float) -> tuple[np.ndarray, bool]:
-    """Scale all non-target frequencies by c so that exactly `amount` energy is removed; (W', complete)."""
-    rest = [k for k in range(1, K + 1) if k not in set(targets)]
+def remove_energy(W: np.ndarray, B: np.ndarray, freqs, amount: float) -> np.ndarray:
+    """Scale the given frequencies by one factor c so that exactly `amount` energy is removed (amount <= their energy)."""
     C = B.T @ W
-    e_rest = float((C[cols(rest)] ** 2).sum())
-    complete = amount <= e_rest
-    c = np.sqrt(max(0.0, 1.0 - amount / e_rest)) if e_rest > 0 else 0.0
-    C[cols(rest)] *= c
-    return B @ C, complete
+    e = float((C[cols(freqs)] ** 2).sum())
+    if amount > e + 1e-12:
+        raise ValueError("amount exceeds the available energy")
+    C[cols(freqs)] *= np.sqrt(max(0.0, 1.0 - amount / e)) if e > 0 else 0.0
+    return B @ C
+
+
+def fold(x: int) -> int:
+    x %= P
+    return min(x, P - x)
+
+
+def control_set(own, other) -> list[int]:
+    excl = set(own) | set(other) | {fold(2 * t) for t in own}
+    return [k for k in range(1, K + 1) if k not in excl]
 
 
 def load_model(d: Path):
     import torch
+    torch.set_num_threads(4)                   # rule 17 thread budget (review s13)
     from grokverse.config import get_config
     from grokverse.models import build_model
     cfg = get_config("arch25k", seed=0, steps=STEP, threads=1)
@@ -106,21 +119,23 @@ def seed_row(s: int, kind: str, B: np.ndarray) -> dict:
         m = load_model(L.path)
         W = m.W_E.detach().numpy().astype(np.float64)[:P]
         base = accuracy(m, None, common)
-        e_own = energy(W, B, T[arm])
-        W_en, complete = remove_energy_elsewhere(W, B, T[arm], e_own)
-        arms[arm] = {"base_acc": base, "energy_own": e_own, "energy_total": float(((W - W.mean(0)) ** 2).sum()),
-                     "drop_own": base - accuracy(m, remove(W, B, T[arm]), common),
-                     "drop_other": base - accuracy(m, remove(W, B, T[other]), common),
-                     "drop_energy": base - accuracy(m, W_en, common), "energy_match_complete": complete}
+        ctrl = control_set(T[arm], T[other])
+        e_own, e_ctrl = energy(W, B, T[arm]), energy(W, B, ctrl)
+        X = 0.5 * min(e_own, e_ctrl)
+        arms[arm] = {"base_acc": base, "energy_own": e_own, "energy_ctrl": e_ctrl, "X": X,
+                     "energy_harmonics": energy(W, B, sorted({fold(2 * t) for t in T[arm]} - set(T[arm]))),
+                     "drop_own": base - accuracy(m, remove_energy(W, B, T[arm], X), common),
+                     "drop_ctrl": base - accuracy(m, remove_energy(W, B, ctrl, X), common),
+                     "drop_own_full": base - accuracy(m, remove(W, B, T[arm]), common),
+                     "drop_other_full": base - accuracy(m, remove(W, B, T[other]), common)}
     r["arms"] = arms
     r["n_common_test"] = int(len(common))
-    ok = all(v["base_acc"] >= ACC_MIN and v["energy_match_complete"] for v in arms.values())
-    if not ok:
-        r["reason"] = "base accuracy < 0.9 or incomplete energy match"
+    if not all(v["base_acc"] >= ACC_MIN for v in arms.values()):
+        r["reason"] = "base accuracy < 0.9"
         return r
     r["valid"] = True
-    r["D"] = float(np.mean([v["drop_own"] - v["drop_energy"] for v in arms.values()]))
-    r["D_cross"] = float(np.mean([v["drop_own"] - v["drop_other"] for v in arms.values()]))
+    r["D"] = float(np.mean([v["drop_own"] - v["drop_ctrl"] for v in arms.values()]))
+    r["D_cross"] = float(np.mean([v["drop_own_full"] - v["drop_other_full"] for v in arms.values()]))
     return r
 
 
@@ -137,11 +152,19 @@ def selftest() -> None:
     T = [3, 17, 40]
     Wr = remove(W, B, T)
     assert energy(Wr, B, T) < 1e-20 and abs(energy(Wr, B, [5]) - energy(W, B, [5])) < 1e-9, "remove() is not a clean projection"
-    amount = 0.3 * energy(W, B, [k for k in range(1, K + 1) if k not in T])
-    We, complete = remove_energy_elsewhere(W, B, T, amount)
-    removed = ((B.T @ W) ** 2).sum() - ((B.T @ We) ** 2).sum()
-    assert complete and abs(removed - amount) < 1e-8 * amount and abs(energy(We, B, T) - energy(W, B, T)) < 1e-9
-    assert not remove_energy_elsewhere(W, B, T, 1e9)[1]
+    ctrl = control_set(T, [8, 9])
+    assert not ({fold(2 * t) for t in T} | set(T) | {8, 9}) & set(ctrl) and len(ctrl) > 40
+    amount = 0.5 * min(energy(W, B, T), energy(W, B, ctrl))
+    for S in (T, ctrl):
+        We = remove_energy(W, B, S, amount)
+        removed = ((B.T @ W) ** 2).sum() - ((B.T @ We) ** 2).sum()
+        others = [k for k in range(1, K + 1) if k not in S]
+        assert abs(removed - amount) < 1e-8 * amount and abs(energy(We, B, others) - energy(W, B, others)) < 1e-9
+    try:
+        remove_energy(W, B, T, 1e9)
+        raise AssertionError("infeasible amount accepted")
+    except ValueError:
+        pass
     assert one_sided_p(np.ones(10)) == 1 / 1024
     print("[exp051] selftest ok", flush=True)
 
@@ -167,6 +190,7 @@ def main() -> None:
     else:
         out["verdict"] = ("funktional genutzt" if e["D_mean"] > 0 and e["p"] < ALPHA else
                           "richtungsgleich, n. s." if e["D_mean"] > 0 else "nicht mehr genutzt als gleiche Energie anderswo")
+    out["design"] = "Nachtrag a: equal feasible energy X = 0.5*min(E_own, E_ctrl); control excludes both target sets and fold(2t)"
     (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: (v if not isinstance(v, dict) else {kk: vv for kk, vv in v.items() if kk != "rows"})
                       for k, v in out.items()}, indent=1))

@@ -1,4 +1,6 @@
 #!/bin/sh
+# SUPERSEDED (session 13, Astra 11): run via `python lab/tools/night_program.py` (fingerprints/flags may differ here). History only.
+echo "superseded by lab/tools/night_program.py, not run"; exit 1
 # EXP-044 (session 11, UNTESTED): early lock-in (K4) on the EXP-043 tasks that were judged "steuerbar". GPU only.
 # Usage: sh queue.sh [J]. Needs GPU-001 PASS and EXP-043 summary.json. Every run through guarded_run.py; completed runs skip.
 J=${1:-4}

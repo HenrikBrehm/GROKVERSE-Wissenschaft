@@ -1,4 +1,6 @@
 #!/bin/sh
+# SUPERSEDED (session 13, Astra 11): run via `python lab/tools/night_program.py` (fingerprints/flags may differ here). History only.
+echo "superseded by lab/tools/night_program.py, not run"; exit 1
 # EXP-049 (session 13, UNTESTED): split steering at d_model 128 vs 512, add mod 113, seeds 170-179, arms F/G, 2000 steps.
 # GPU only (rule 16d). Needs GPU-001 PASS first. Usage: sh queue.sh [J]. Every run through guarded_run.py.
 # Completed runs are skipped by width_train.py (exit 0). Resume = rerun. Exit 3 = guard refused (propagated),

@@ -23,7 +23,7 @@ Aussage über *Repräsentationsenergie* in W_E (Astra-Review Punkt 8: Energie, N
 - **Gemeinsame Testmenge je Seed und Art:** alle Paare, die weder im F- noch im G-Split liegen (für beide Modelle dieselbe).
 - **Eingriffe am unveränderten Modell (nur Auswertung, kein Nachtraining), nur in der Eingabeeinbettung W_E[0..112]:**
   *own* = eigene 5 Zielfrequenzen entfernen (cos/sin-Spalten der orthonormalen DFT-Basis auf null); *other* = die 5 Ziele des anderen Arms
-  entfernen; *energy* = **gleich viel W_E-Energie** wie *own*, gleichmäßig aus allen Nicht-Ziel-Frequenzen genommen (Skalierung mit einem Faktor c).
+  entfernen; *energy* = gleich viel W_E-Energie wie *own* aus allen Nicht-Ziel-Frequenzen (**ersetzt durch Nachtrag a**).
 - **Messgröße:** Abfall der Test-Genauigkeit gegenüber dem ungestörten Modell (drop).
 
 | | |
@@ -46,3 +46,8 @@ Aussage über *Repräsentationsenergie* in W_E (Astra-Review Punkt 8: Energie, N
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-051-functional-ablation/analyze.py --selftest
 python lab/tools/guarded_run.py --min-minutes 5 -- python lab/experiments/EXP-051-functional-ablation/analyze.py
 ```
+
+## Nachtrag a (Sitzung 13, 21:09 Berlin, **vor jedem Lauf**): Energieabgleich war unmöglich, neu festgelegt
+
+Unabhängige Prüfung (Claude-Subagent, numpy auf gespeicherten EXP-016-Spektren; selbst nachgerechnet): In gesteuerten Modellen tragen die 5 Ziele **76–89 %** der W_E-Energie (20/20 EXP-016-Läufe bei Schritt 2000). „So viel Energie anderswo entfernen wie die Ziele tragen“ war deshalb unmöglich; das Urteil wäre vor jedem Datum *nicht auswertbar* gewesen (**Blocker**). Außerdem hätte die Kontrolle die Oberwellen fold(2t) getroffen, die das Netz wegen der Ziele nutzt (**Hoch**). **Neu (Urteilsregeln sonst gleich):** Beide Eingriffe entfernen dieselbe, immer erreichbare Energie X = 0.5 · min(E_own, E_ctrl), durch gleichmäßiges Herunterskalieren der jeweiligen Frequenzen; Kontrollmenge = alle k außer den eigenen Zielen, den Zielen des anderen Arms und fold(2t) der eigenen Ziele. D_i = Mittel über beide Modelle von [drop_own − drop_ctrl]. Das vollständige Entfernen eigener/fremder Ziele bleibt sekundär (D_cross). Gültigkeit: Basis-Test-Genauigkeit ≥ 0.9. EXP-051 ist ein eigener Schritt im Nachtprogramm (ein Fehler hier markiert EXP-047 nicht mehr als gescheitert) und läuft nur, wenn EXP-047 im selben Programmlauf ok war.
+

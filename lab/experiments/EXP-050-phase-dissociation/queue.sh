@@ -1,4 +1,6 @@
 #!/bin/sh
+# SUPERSEDED (session 13, Astra 11): run via `python lab/tools/night_program.py` (fingerprints/flags may differ here). History only.
+echo "superseded by lab/tools/night_program.py, not run"; exit 1
 # EXP-050 (session 13, UNTESTED, NOT in queue_gpu_s11.sh): M0c vs M0 dissociation, add mod 113, seeds 180-189,
 # modes quadlm/anti/sym x arms F/G, 2000 steps, transformer, GPU only (rule 16d). Needs GPU-001 PASS. Usage: sh queue.sh [J].
 # Every run through guarded_run.py; completed runs skip (freq_ban.py exit 0). rc 3 stops (exit 3), other failures are

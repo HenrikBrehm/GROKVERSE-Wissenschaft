@@ -113,3 +113,9 @@ Bei Seed 12/G und 19/F sind Zielmenge ({5, 9, 11, 50, 53}) und Split **identisch
 **Nebenbefund (post hoc):** Gleicher Split, verschiedene Init: Seed 12/G lernte {5, 7, 10, 11, 53}, Seed 19/F
 {5, 7, 9, 10, 53}, 4 von 5 gleich (unter Zufallssplits teilen verschiedene Seeds im Mittel 0.44). Das passt zu „Split
 dominiert“, ist aber ein Einzelpaar. Für künftige Arme mit getrennten Strömen einen zweiten Salt-Abstand > Seedspanne nehmen.
+
+## Hinweis (Sitzung 7, 2026-09-26)
+
+Post hoc (`posthoc_memo_imprint.py`): Bei Schritt 250 (Memorisierungsphase) sind die W_E-Top-5 in 20/20 Läufen genau die
+Ziele; am Ende 3.9/5. Bestätigung an frischen Läufen vorab festgelegt: [[experiments/EXP-028-memo-imprint/README|EXP-028]].
+Gleiche Splits, andere Aktivierung: [[experiments/EXP-024-quadratic-agf-mask/README|EXP-024]].

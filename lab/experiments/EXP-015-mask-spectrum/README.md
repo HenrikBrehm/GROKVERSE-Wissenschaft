@@ -125,3 +125,9 @@ Die Entscheidung fiel bei n = 8 (oben). Mit Baselines 18/19 (`mask_spectrum.py -
 `summary_phase2_n10.json`): r̄(M0) = **0.279** (p < 1e-5), fremde Masken 0.492 (Permutation p = 5e-5), mittlere
 Top-5-Überlappung 1.0. Sekundär: M0 besser als E0 (0.381, p = 0.022); gegen G0 (0.239) nicht besser (p = 0.86);
 log E0 + log M0 0.261 (p = 0.15). Ergebnis unverändert *bestätigt*; nur Assoziation.
+
+## Hinweis (Sitzung 7, 2026-09-26)
+
+Folgebefunde: [[experiments/EXP-029-memo-imprint-random/README|EXP-029]] (W_E ist während der Memorisierung spezifisch mit der
+eigenen Maske ausgerichtet, ρ 0.42 gegen fremde Masken 0.02) und [[experiments/EXP-030-imprint-residue/README|EXP-030]]
+(die hier gefundene M0 → K-Assoziation läuft fast vollständig über den W_E-Zustand bei Schritt 250; *Rest gestützt*).

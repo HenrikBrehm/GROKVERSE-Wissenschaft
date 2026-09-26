@@ -357,7 +357,7 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   switch training set“, „learning rate warmup delays critical period feature commitment early training“. Nächstverwandt:
   Achille et al. 2019 (https://arxiv.org/abs/1711.08856) und Kleinman et al. 2023 (https://arxiv.org/abs/2308.12221), kritische
   Perioden allgemein; Kosson, Messmer & Jaggi 2024 (https://arxiv.org/abs/2410.23922): Warmup wirkt, weil es die anfangs zu großen
-  (winkelmäßigen) Updates von AdamW begrenzt, passt zur Vermutung hinter EXP-035; Kalai-artige Embedding-Arbeit
+  (winkelmäßigen) Updates von AdamW begrenzt, passt zur Vermutung hinter EXP-035; „Mechanistic Insights into Grokking from the Embedding Layer“ (Autoren nicht geprüft)
   https://arxiv.org/abs/2505.15624 (Embedding-Dynamik beim Grokking, keine Frequenzwahl, kein Datenwechsel). Ein
   Datenwechsel-Eingriff, der die *Identität* der gelernten Fourier-Frequenzen als Marker einer kritischen Periode benutzt, und
   dessen Verschiebung durch Warmup: **nicht gefunden** (vorläufig; Google Scholar/OpenReview nicht gezielt).

@@ -1166,3 +1166,10 @@ Nachtrag c: Train-Acc „nur F“ bei Schritt 50 = 0.089 ≤ 0.5 → erfüllt (3
 **Nachtrag d, Seed 33:** fremd nur 38 (t = 50), keine bei t ≥ 150 → **P-d1 erfüllt**. Aber Init-Rang von 38 = **34** (von 56),
 also eher Zufall als Init-Spitze; spricht für P-d2 in die Gegenrichtung (Entscheid erst mit Seed 34). Der t = 50-Lauf
 generalisierte nach 2000 G-Schritten nicht (gen None).
+
+**Zyklus 7 (15:43): Robustheit der Messgröße d (post hoc, beschreibend, ohne Training).** Anlass: Seed 33 verletzt die Monotonie nur
+wegen einer Oberwelle. Alternative Messgröße d_h: F- bzw. G-Seite einschließlich fold(2k) ihrer Ziele, Frequenzen auf beiden
+Seiten ausgenommen. *Ergebnis:* d_h ist in allen 4 Seeds (30–33) monoton, erstes positives d_h immer bei t = 50, d_h(25) ≤ 0
+→ Intervall (25, 50] in 4/4. Seed 33: −4, −4, −4, +2, +4, … *Einordnung:* Nachträglich gewählte Messgröße, ändert das vorab
+festgelegte Urteil nicht (Seed 33 bleibt *gegen H20*); zeigt aber, dass die Gegenstimme eine Messartefakt-Frage ist, kein
+anderes Festlegungsverhalten. Für künftige Versuche d_h vorab festlegen.

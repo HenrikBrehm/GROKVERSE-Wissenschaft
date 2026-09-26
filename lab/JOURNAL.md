@@ -1146,11 +1146,14 @@ gemittelten Maske 19, 18, 40, 19, 13, 9, 45 (Median 19), Init-Ränge 11, 29, 1, 
 beschreibt sie besser als die Mischmaske; beides nur Assoziation an 7 Frequenzen. Für EXP-037 wird der Mischmasken-Rang
 zusätzlich berichtet.
 
-**Zyklus 6 (15:13): Codex-Angriff auf EXP-037 (ohne Training).** Codex (Ausgabe ):
+**Zyklus 6 (15:13): Codex-Angriff auf EXP-037 (ohne Training).** Codex (Ausgabe `EXP-037-alternation-conflict/codex_review_2026-09-26.txt`):
 needs-attention; Blockplan, Parität und unveränderte Lauf-IDs bestätigt. Drei Einwände, alle **übernommen** (Nachtrag a):
 (1) Urteile nicht exklusiv → *mehrdeutig*, wenn H37 und eine Alternative zugleich gelten; (2) fehlende Kontrollen → C_F100
 (gleiche Exposition ohne Wechselspiel) und Mischmasken-Top-5 in A; (3) Smoke nur Metadaten, evtl. veraltet → frischer
-Smoke mit Hash-Spur je Blockwechsel (, ). Nicht umgesetzt: echtes gewichtetes
-Mischtraining (Begründung im README). **Warteschlange umgestellt:**  angehalten (nur der sh-Prozess; der laufende
-EXP-020-Lauf Seed 33 „nur G“ läuft zu Ende),  gestartet (Log ): EXP-020 Rest →
+Smoke mit Hash-Spur je Blockwechsel (`alternation_trace`, `check_smoke.py`). Nicht umgesetzt: echtes gewichtetes
+Mischtraining (Begründung im README). **Warteschlange umgestellt:** `queue_s8.sh` angehalten (nur der sh-Prozess; der laufende
+EXP-020-Lauf Seed 33 „nur G“ läuft zu Ende), `queue_s9.sh` gestartet (Log `lab/runner/logs/queue_s9.log`): EXP-020 Rest →
 Auswertungen → EXP-037 → EXP-035 → EXP-036 → EXP-034 → queue_s5.
+*Eigener Fehler (zweimal in dieser Sitzung):* Backticks in einem ungeschützten Heredoc wurden von der Shell ausgeführt
+(einmal wurde dabei die Logdatei als Skript gestartet und brach sofort mit Syntaxfehler ab, keine Wirkung); Text repariert.
+Ab jetzt Journaltext nur noch über Python oder `<<'EOF'` schreiben.

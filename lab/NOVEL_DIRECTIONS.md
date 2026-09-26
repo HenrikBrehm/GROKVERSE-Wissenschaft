@@ -483,4 +483,8 @@ Minibatch-Reihenfolge bestimmt die Grundfrequenz; keine Festlegungszeit, kein We
   *überschrieben* oder *gemischt* als *geprägt*; (c) verträglich mit H40 (Vorsprung wird relativ zur Init-Amplitude gemessen).
 - **Skizze eines Tests (nicht festgelegt):** EXP-020-Protokoll mit G-Splits eps ∈ {1, 2, 4} bei festem F (eps 2), Gitter wie EXP-020,
   Seeds 30–32; Vorhersage H42: hi(eps = 4) > hi(eps = 2) > hi(eps = 1). Konkurrenz (reine Λ-Uhr): gleiches Intervall.
-- **Literatur:** noch nicht gesucht („rich get richer feature competition head start“, AGF von Kunin et al. ist nächstverwandt).
+- **Literatur (Suche 2026-09-26 18:26):** Kunin et al. 2025, Alternating Gradient Flows (https://arxiv.org/abs/2506.06489, NeurIPS 2025):
+  Bei kleiner Init lernen (quadratische) Zweischichtnetze Fourier-Merkmale nacheinander in absteigender Koeffizientengröße, ein
+  aktiviertes Merkmal bleibt. Einordnung (Spekulation): Nach dem Wechsel erklären die schon aktiven F-Merkmale den G-Rest weitgehend
+  (gleiche Aufgabe), sodass kein G-spezifisches Merkmal mehr genug Nutzen hat, um zu aktivieren; das wäre H42 in AGF-Sprache.
+  Datenwechsel und Split-Neigung behandelt AGF laut Abstract nicht. H42 in dieser Form: nicht gefunden (vorläufig).

@@ -554,3 +554,13 @@ von https://arxiv.org/abs/2606.02993 (He et al. 2026: Auswahl durch Init, keine 
 https://arxiv.org/abs/2602.03655 (Marchetti et al. 2026: Reihenfolge nach Fourier-Statistik der *Eingabekodierung*). Chughtai et al.
 2023 (https://arxiv.org/abs/2302.03025): welche Irreps gelernt werden, variiert, Ursache offen. *Einordnung:* nach unserer Suche nicht
 gefunden (vorläufig; nur Abstracts geprüft). Folgekandidat bei positivem Ergebnis: S₅ (Irreps sehr verschiedener Dimension 1–6).
+
+## N25: Datensteuerung der Frequenzen bei nicht-modularer Addition #neu/kandidat
+
+*Sitzung 13, 2026-09-26.* Frage: Erzeugt ein konstruierter Split auch bei gewöhnlicher Addition a + b (keine Gruppe auf den Token,
+bekannte Lösung: Zahlengerade, Liu et al. 2022, https://arxiv.org/abs/2205.10343) die vorgegebenen Fourier-Frequenzen in W_E?
+Test: [[experiments/EXP-048-intadd-steering/README|EXP-048]] (Log-Leistungskontrast Δ_pow, an EXP-016 kalibriert: 8.4, 10/10).
+Zusatzidee: Wenn ja, konkurrieren Zahlengerade und aufgezwungene Uhr; das R²-Maß zeigt, ob der Split die Gerade verdrängt.
+**Suche (2026-09-26, 20:04–20:06 Berlin):** siehe EXP-048-README (drei Suchanfragen; Liu et al. 2022, Zhou et al. 2024
+https://arxiv.org/abs/2406.03445, Chen et al. 2026 https://arxiv.org/abs/2607.07066). *Einordnung:* nach unserer Suche nicht gefunden
+(vorläufig; nur Abstracts/Suchtreffer).

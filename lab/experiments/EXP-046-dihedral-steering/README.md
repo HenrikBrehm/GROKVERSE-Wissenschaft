@@ -74,3 +74,17 @@ biases which representation is learned“.
   folgt den „Fourier-Statistiken der Kodierung“ (Eingabekodierung, nicht Trainingsauswahl). Nächstverwandt.
 - Keine Arbeit gefunden, die über die **Auswahl der Trainingspaare** steuert, welche Irreps einer nicht-abelschen Gruppe
   gelernt werden. Einordnung: #neu/kandidat, vorläufig („nach unserer Suche vom 2026-09-26 nicht gefunden“).
+
+## Nachtrag b (Sitzung 13, 2026-09-26 20:07 Berlin, gemessen; vor jedem Lauf): unabhängige Prüfung, Einschränkung der Lesart
+
+Codex war nicht verfügbar („out of credits“, `codex_review_s13_2026-09-26.txt`). Ein unabhängiger Claude-Subagent (frischer Kontext,
+nur lesend, nur numpy) hat Code, Splits und Queue geprüft: **kein Blocker**; Gruppengesetz, Irrep-Basis, nicht-abelsches M0, Run-ID-Globs,
+result.json-Schlüssel, Vorzeichentest, Shell-Logik bestätigt. Übernommen, **Urteilsregeln unverändert**:
+- **(Hoch) Häufigkeits-Confound ohne eigene Kontrolle:** Auch hier liegen die a/b-Häufigkeiten in den Ziel-Irreps (Zielrang ≈ 8–10 von 29,
+  Zufall 14; Ausgaben c ≈ 13). Ein Urteil *steuerbar* heißt deshalb nur „**der Split steuert**“; ob über die Paarstruktur oder die
+  Häufigkeiten, entscheidet erst [[experiments/EXP-047-marginal-control/README|EXP-047]] (für Z₁₁₃) bzw. ein späterer D₅₉-Mischarm.
+  Die Rechnung erster Ordnung (EXP-047 Nachtrag a) gilt für jede Gruppe und sagt: Häufigkeiten wirken im ersten Gradienten nicht.
+- **(Mittel) Top-5 aus 29 ist grob** (Zufallsüberlappung 0.86 je Zelle): Zusätzlich wird Δ mit Top-3 und der Log-Leistungskontrast
+  Δ_pow (wie [[experiments/EXP-048-intadd-steering/README|EXP-048]]) berichtet, **ausdrücklich nicht vorab festgelegt, nur beschreibend**.
+- (Niedrig) Die Zufallsströme benachbarter Seeds überschneiden sich wie in EXP-016/043 (praktisch harmlos, formal nicht unabhängig);
+  `--force` löscht alte Ergebnisse nicht vorab, und fertige Läufe werden ohne Schrittprüfung übersprungen (betrifft nur Handläufe).

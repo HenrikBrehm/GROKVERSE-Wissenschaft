@@ -1710,3 +1710,26 @@ Ausgabe und gemeinsamer Jacobi-Matrix fällt der Häufigkeitsanteil aus dem erst
 zentriertes M0 unter shuf: Zielrang 26.0 (Zufall 27.5). *Ergebnis:* Vorhersage erster Ordnung Δ̄_shuf ≈ 0, D̄ > 0; als
 [[experiments/EXP-047-marginal-control/README|EXP-047]] Nachtrag a **vor jedem Lauf** notiert (Kriterien unverändert). Bedeutung:
 Ein positives Δ̄_shuf wäre damit nicht bloß „Häufigkeiten wirken“, sondern ein Hinweis auf einen Weg jenseits des ersten Gradienten.
+
+**Zyklus 3 (20:05–20:07): Unabhängige Prüfung von EXP-046/047 statt Codex.** Claude-Subagent (frischer Kontext, nur lesend, nur numpy):
+**kein Blocker**, Gruppengesetz/Irrep-Basis/nicht-abelsches M0/Globs/Schlüssel/Tests/Shell bestätigt. *Hoch:* EXP-046 hat den
+Häufigkeits-Confound ohne eigene Kontrolle (a/b-Zielrang ≈ 8–10 von 29, Zufall 14). *Mittel:* Top-5 aus 29 grob; fertige Läufe werden
+ohne Schrittprüfung übersprungen (nur Handläufe). *Niedrig:* überlappende Zufallsströme in EXP-046, `--force` löscht nicht vorab,
+Zeitüberschreitung (rc 124) zählt als Fehler. *Übernommen:* Lesart von EXP-046 auf „der Split steuert“ eingeschränkt, Top-3-Δ und Δ_pow
+als nicht vorab festgelegte Beschreibung (EXP-046 Nachtrag b, vor jedem Lauf). *Nicht geändert:* Code von EXP-046 (geprüft, Risiko
+einer Änderung kurz vor dem ersten Lauf größer als der Nutzen); Subagent-L3 (Rest-Zielsignal im shuf-M0, Rang 24.4) ist durch
+EXP-047 Nachtrag a erklärt (zentriertes M0 26.0 ≈ Zufall).
+
+**Zyklus 4 (20:04–20:11): Nicht-modulare Aufgabe vorab festgelegt (Regel 15c).** Frage: Steuert der Split die Frequenzen auch bei
+gewöhnlicher Addition a + b (Ausgabe 0..224), deren bekannte Lösung eine Zahlengerade ist (Liu et al. 2022)?
+[[experiments/EXP-048-intadd-steering/README|EXP-048]]: EXP-016-Konstruktion mit Ganzzahlsumme, Ziele aus k = 6..56 (k ≤ 5 gehört der
+Rampe), Seeds 160–169, Arme F/G (+ R), 2000 Schritte, GPU. **Primärgröße neu: Log-Leistungskontrast Δ_pow** statt Top-5-Überlappung,
+weil eine Zahlengerade die Top-5 in beiden Armen besetzen würde; vorab an den gespeicherten EXP-016-Läufen kalibriert: Δ_pow 8.4 im
+Mittel, 10/10 positiv (reine Nachrechnung). Eigenes Skript `intadd_train.py` (Muster `group_train.py`, `freq_ban.py` unberührt; speichert
+Spektren, End-W_E und ein Zahlengeraden-R²). M0 (Ganzzahlversion): Ziele Rang 4.0 von 56 (k = 1, 2 immer oben), Anteil 0.140 vs. 0.079.
+Literatur: N25 (nicht gefunden, vorläufig). In `queue_gpu_s11.sh` nach EXP-047 eingehängt. **Ungetestet** (Fenster).
+*Fehler beim Bau gefunden:* `Path.with_suffix` hielt „.0_F“ für die Endung, F/G/R-Splits überschrieben sich (40 statt 60 Dateien);
+behoben, neu erzeugt, geprüft. `theory_counts.py` ist nicht betroffen (Namen ohne Punkt).
+*Nebenfund:* `queue_gpu_s11.sh` und die Queues von GPU-001, EXP-043/044/045/046 hatten CRLF-Zeilenenden (von Python ohne `newline`
+geschrieben). Probe mit einem Wegwerf-Skript: Git-Bash-`sh` entfernt CR beim Lesen (Variable ohne `\r`), also vermutlich harmlos;
+trotzdem auf LF normalisiert (Laborkonvention), `git diff --ignore-cr-at-eol` zeigt keine inhaltliche Änderung, `sh -n` ok.

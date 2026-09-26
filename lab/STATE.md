@@ -3,11 +3,17 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 13:47 Berlin (Sitzung 8, Start 11:59, Deadline 14:59 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 13:51 Berlin (Sitzung 8, Start 11:59, Deadline 14:59 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
+
+- **NÄCHSTE SITZUNG, ein Befehl (Sitzung 8, 13:51):** `python lab/tools/guarded_run.py --check`, dann prüfen, dass keine Queue läuft
+  (`ps -ef | grep -E "queue|guarded_run"`), dann **`sh lab/experiments/queue_s8.sh`** im Hintergrund (Log z. B.
+  `lab/runner/logs/queue_s8.log`). Reihenfolge darin: Rest von EXP-020 (Seeds 31–34) → Auswertung EXP-020 und EXP-028 →
+  EXP-035 (Smoke, Seeds 30–32) → Auswertung → EXP-034 → Auswertung → Rest von `queue_s5.sh`. Alles überspringt Fertiges.
+  Nach jeder Auswertung: Ergebnis ins README/JOURNAL/LAB (die Queue schreibt nur `summary.json`).
 
 - **Sitzung 8, 13:47 (neuester Stand):** Reihenfolge für die nächsten Fenster: (1) `queue_s5.sh` weiter (EXP-020 Seeds 31–34; danach
   EXP-020- und EXP-028-Auswertung), (2) `sh lab/experiments/EXP-035-warmup-lockin/queue.sh 30 31 32` (braucht die EXP-020-

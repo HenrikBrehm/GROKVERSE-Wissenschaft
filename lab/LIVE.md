@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 19:59 Berlin (17:59Z, vom Runner)
 - **Deadline:** 2026-09-26 22:59 Berlin (20:59Z)
-- **Zuletzt aktualisiert:** 20:23 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 20:28 Berlin (gemessen)
 - **Run-Fenster:** zu, wieder ab 00:00. Die nächste Sitzung (Start 00:59 Berlin) startet die Nacht-Queues. Diese Sitzung: Prüf-, Code- und Denkarbeit.
 
 ## Gerade
 
-Ein Subagent prüft GPU-001, die Eingangsprüfung, die alle GPU-Versuche der Nacht freigibt oder sperrt. Deren Korrekturen aus Sitzung 12 hat nie jemand geprüft.
+Ein Subagent prüft [[experiments/EXP-050-phase-dissociation/README|EXP-050]]: Folgt der Transformer bei der Frequenzwahl dem „kohärenten“ Maskenspektrum oder dem gewöhnlichen? Dafür gibt es neu gebaute Trainingsmengen, die beide Maße gezielt auseinanderziehen.
 
 ## Als Nächstes
 
-Befunde der Prüfung einarbeiten. Danach keine neuen Versuche mehr heute: Die Nacht hat schon sechs neue GPU-Versuche.
+Prüfergebnis einarbeiten; dann entscheiden, ob ein MLP-Gegenarm dazukommt (doppelte Dissoziation). EXP-050 bleibt vorerst außerhalb der Nacht-Queue.
 
 ## Verlauf dieser Sitzung
 
+- 20:28 GPU-001 (Eingangsprüfung der Nacht) unabhängig prüfen lassen: kein Blocker, eine Schwachstelle behoben (abgelehnte Durchsatzläufe gingen unter). Neuer Kausaltest [[experiments/EXP-050-phase-dissociation/README|EXP-050]] vorbereitet.
 - 20:23 Theorie: Eine einfache Rechnung zum ersten Lernschritt erklärt, warum im Transformer eine andere Maskengröße (M0c) passt als im MLP (M0). Vorab festgelegt, wie die sechs Nachtergebnisse zusammen zu lesen sind ([[LESART-nacht-2026-09-27]]).
 - 20:21 Alle sieben Auswertungen der Nacht abgesichert: Ein abgestürzter Lauf (NaN) hätte sonst still ein falsches Urteil erzeugt. Gefunden bei der Prüfung von EXP-049. Werkzeug für den Morgenbericht auf die GPU-Versuche erweitert.
 - 20:17 EXP-048 nach Review verbessert: Die Hauptmessgröße entfernt jetzt vorab den Zahlengeraden-Anteil (der sonst Scheineffekte erzeugt). Dabei einen eigenen fehlerhaften Selbsttest gefunden, der die Nacht-Queue gestoppt hätte. [[experiments/EXP-049-width-steering/README|EXP-049]] (Modellbreite) vorab festgelegt und eingereiht.

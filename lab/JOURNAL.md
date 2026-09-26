@@ -1768,3 +1768,5 @@ ungültiger Lauf; in allen sieben READMEs als Nachtrag vor jedem Lauf vermerkt. 
 Init-Verdünnung hebt Δ_pow(512) mechanisch an (Einschränkung in EXP-049 ergänzt, Primärurteil unberührt).
 (c) Gestartet: unabhängige Prüfung von GPU-001 und der fail-closed-Änderungen aus 2b19820 (nie geprüft, nie ausgeführt, sperren aber
 die ganze GPU-Nacht).
+
+*Vorfall (20:21):* Ein `git commit -a` hat die uncommitteten Nutzeränderungen (`guarded_run.py`, `install_task.ps1`, `runner-state.json`) mitcommittet. Sofort mit `git reset --soft HEAD~1` und `git restore --staged` rückgängig gemacht; Arbeitsverzeichnis unverändert, der neue Commit df994f2 enthält nur das JOURNAL. Ab jetzt nur gezielt `git add <pfad>`.

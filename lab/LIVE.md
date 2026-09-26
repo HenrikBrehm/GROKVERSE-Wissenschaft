@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 19:59 Berlin (17:59Z, vom Runner)
 - **Deadline:** 2026-09-26 22:59 Berlin (20:59Z)
-- **Zuletzt aktualisiert:** 20:17 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 20:21 Berlin (gemessen)
 - **Run-Fenster:** zu, wieder ab 00:00. Die nächste Sitzung (Start 00:59 Berlin) startet die Nacht-Queues. Diese Sitzung: Prüf-, Code- und Denkarbeit.
 
 ## Gerade
 
-Ein Subagent prüft EXP-049 (4× breiterer Transformer). EXP-049 steht schon in der Nacht-Queue; bei einem Blocker nehme ich es wieder heraus.
+Ein Subagent prüft GPU-001, die Eingangsprüfung, die alle GPU-Versuche der Nacht freigibt oder sperrt. Deren Korrekturen aus Sitzung 12 hat nie jemand geprüft.
 
 ## Als Nächstes
 
-Review einarbeiten; danach STATE für die Nacht abschließen und die Laufzeit der Nacht-Queue abschätzen.
+Befunde der Prüfung einarbeiten. Danach keine neuen Versuche mehr heute: Die Nacht hat schon sechs neue GPU-Versuche.
 
 ## Verlauf dieser Sitzung
 
+- 20:21 Alle sieben Auswertungen der Nacht abgesichert: Ein abgestürzter Lauf (NaN) hätte sonst still ein falsches Urteil erzeugt. Gefunden bei der Prüfung von EXP-049. Werkzeug für den Morgenbericht auf die GPU-Versuche erweitert.
 - 20:17 EXP-048 nach Review verbessert: Die Hauptmessgröße entfernt jetzt vorab den Zahlengeraden-Anteil (der sonst Scheineffekte erzeugt). Dabei einen eigenen fehlerhaften Selbsttest gefunden, der die Nacht-Queue gestoppt hätte. [[experiments/EXP-049-width-steering/README|EXP-049]] (Modellbreite) vorab festgelegt und eingereiht.
 - 20:13 Idee „frühe Festlegung aus Init-Skala und Lernrate vorhersagen“ verworfen: Sie steht schon als Vorhersage in EXP-040 (Nachtrag c). Stattdessen EXP-049 (Modellbreite) begonnen.
 - 20:11 **Neuer Versuch [[experiments/EXP-048-intadd-steering/README|EXP-048]]:** Klappt die Steuerung über die Daten auch bei gewöhnlicher Addition *ohne* Modulo? Dort lernen Netze normalerweise eine Zahlengerade statt einer Uhr. Das ist die erste nicht-modulare Aufgabe. Beim Bau einen Fehler gefunden und behoben (Split-Dateien überschrieben sich). Außerdem fünf Queue-Skripte auf LF-Zeilenenden gebracht.

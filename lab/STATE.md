@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 20:12 Berlin (Sitzung 13; nächster Runner-Start 2026-09-27 00:59 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 20:21 Berlin (Sitzung 13; nächster Runner-Start 2026-09-27 00:59 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
@@ -12,7 +12,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 - **SITZUNG 13 (20:12) → NÄCHSTE SITZUNG (Start 00:59, im Fenster), gilt vor den Blöcken darunter:** Ablauf wie Sitzung 11/12
   (GPU-Queue `sh lab/experiments/queue_gpu_s11.sh > lab/runner/logs/gpu_s11.log 2>&1` und CPU-Queue `queue_s10.sh`, beide im
   Hintergrund, vorher `--check` und `ps -ef | grep -E "queue|guarded_run"`). GPU-Reihenfolge jetzt: GPU-001 → EXP-043 → EXP-046 →
-  EXP-047 → **EXP-048** (neu: nicht-modulare Addition, Primärgröße Δ_pow) → EXP-044 → EXP-045. Neu in Sitzung 13: EXP-046 Nachtrag b
+  EXP-047 → **EXP-048** (neu: nicht-modulare Addition, Primärgröße Δ_pow trendbereinigt) → **EXP-049** (neu: 4× Breite) → EXP-044 → EXP-045.
+  Alle Nachtauswertungen werten nicht-endliche Läufe (NaN) als ungültig (s13). Morgens: `python lab/tools/night_report.py lab/runner/logs/gpu_s11.log`
+  (kennt jetzt GPU-001-Verdikte und EXP-043–049). Neu in Sitzung 13: EXP-046 Nachtrag b
   (Lesart eingeschränkt nach unabhängiger Prüfung), EXP-047 Nachtrag a (Theorie: Häufigkeiten wirken im ersten Gradienten nicht,
   Erwartung Δ̄_shuf ≈ 0). **Codex ist ohne Guthaben** („out of credits“); bis zur Nachfüllung Claude-Subagenten als Zweitprüfung.
   Zeitstempel nur aus `guarded_run.py --check` (Git-Bash-`date` kennt Europe/Berlin nicht).

@@ -10,6 +10,9 @@ Unit of inference = pair. Pair evaluable if all runs valid and F_new non-empty.
 Verdict: m evaluable pairs < 5 -> nicht auswertbar; one-sided sign test over pairs p < 0.05 AND mean J < 0.5 ->
 init-getrieben; share of successes <= 0.5 -> nicht init-getrieben; else unklar.
 Descriptive only: frequency-level pooled counts, symmetric statistic on the fresh-old pairs (33, 34), test accuracies.
+Nachtrag b (secondary prediction P36b, fixed before any EXP-036 run): pooled over all evaluable pairs, >= 75 % of the
+distinct new foreign frequencies have shared-support rank <= 5 (rank among candidates outside A by F@250 + G@250 of the
+pure runs of the SAME new init) -> erfuellt; chance ~ 5/37.
 Usage: python analyze.py [--selftest]
 """
 from __future__ import annotations
@@ -24,7 +27,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 E20 = HERE.parent / "EXP-020-data-switch"
 sys.path.insert(0, str(E20))
-from conflict_freqs import EARLY, fold, foreign_sets, ranks  # noqa: E402
+from conflict_freqs import EARLY, fold, foreign_sets, load_run, ranks, top  # noqa: E402
 
 PAIRS = ((30, 130), (31, 131), (32, 132), (33, 133), (34, 134), (30, 230), (31, 231))
 MIN_PAIRS, J_MAX, ALPHA = 5, 0.5, 0.05
@@ -51,6 +54,19 @@ def pair_stats(f_new: set[int], f_old: set[int], r_new: dict[int, int], r_old: d
             "per_freq": {k: {"rank_new": r_new[k], "rank_old": r_old[k]} for k in sorted(f_new)}}
 
 
+def shared_support_ranks(root: Path, init: int, s: int, fg: set[int]) -> dict[int, int] | None:
+    """Nachtrag b (secondary): candidates = frequencies outside A (A as in foreign_sets); score = rank in the pure-F W_E
+    spectrum at step 250 + rank in the pure-G spectrum at step 250 (same init); returns candidate -> position (1 = best)."""
+    pf, e1 = load_run(root, init, s, "F", None, 2000 if root == HERE / "raw" else 8000, (250, 2000))
+    pg, e2 = load_run(root, init, s, "G", None, 2000, (250, 2000))
+    if e1 or e2:
+        return None
+    allowed = fg | {fold(2 * k) for k in fg} | top(pf["spec"][2000]) | top(pg["spec"][2000])
+    rf, rg = ranks(pf["spec"][250]), ranks(pg["spec"][250])
+    cand = sorted((k for k in range(1, 57) if k not in allowed), key=lambda k: (rf[k] + rg[k], k))
+    return {k: i + 1 for i, k in enumerate(cand)}
+
+
 def main() -> None:
     rows, succ, jac, freq_level = [], [], [], []
     for s, i in PAIRS:
@@ -71,6 +87,10 @@ def main() -> None:
             rows.append(row | {"status": "no foreign frequency (not evaluable)"})
             continue
         st = pair_stats(f_new, f_old, r_new, r_old)
+        sup = shared_support_ranks(HERE / "raw", i, s, set(json.loads((E20 / f"splits/seed{s}.json").read_text(
+            encoding="utf-8"))["targets"]["F"]) | set(json.loads((E20 / f"splits/seed{s}.json").read_text(
+            encoding="utf-8"))["targets"]["G"]))
+        st["shared_support_rank"] = {k: sup.get(k) for k in f_new} if sup else None
         succ.append(st["success"])
         jac.append(st["J"])
         freq_level += [v["rank_new"] < v["rank_old"] for v in st["per_freq"].values()]
@@ -78,7 +98,11 @@ def main() -> None:
             st["symmetric"] = st["d"] + float(np.mean([r_new[k] - r_old[k] for k in f_old]))
         rows.append(row | {"status": "ok"} | st)
     m, k = len(succ), sum(succ)
+    ssr = [v for r in rows if r.get("shared_support_rank") for v in r["shared_support_rank"].values() if v]
+    p36b = (f"{sum(v <= 5 for v in ssr)}/{len(ssr)} with rank <= 5 -> "
+            + ("erfuellt" if ssr and sum(v <= 5 for v in ssr) / len(ssr) >= 0.75 else "nicht erfuellt")) if ssr else None
     summary = {"rows": rows, "pairs_evaluable": m, "successes": k, "p_sign_pairs": sign_p(k, m) if m else None,
+               "P36b_shared_support_secondary": p36b,
                "mean_J": float(np.mean(jac)) if jac else None, "verdict": verdict(succ, jac),
                "freq_level_descriptive": f"{sum(freq_level)}/{len(freq_level)} rank_new < rank_old"}
     for r in rows:

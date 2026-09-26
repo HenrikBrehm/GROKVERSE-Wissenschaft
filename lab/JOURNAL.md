@@ -1222,3 +1222,11 @@ offen (gemischte Evidenz); EXP-036 (Init-Wechsel) ist der direkte Test und gewin
 **17:04 EXP-037 A = 25 (sekundär): *gestützt*.** fremd 34 | 42 | 8, 13, 26, 30; wieder dieselben Kernfrequenzen je Seed wie beim
 Einzelwechsel (Seed 31 hier 42 statt 22; beide traten dort auf), 26 = fold(2 · 13). Ablation: Kernfrequenzen funktional, Oberwellen
 kaum. EXP-037 damit abgeschlossen. Die Queue ist zu EXP-035 übergegangen (Smoke ok).
+
+**Zyklus 9 (17:05): Woher kommen die Konfliktfrequenzen? Neue datenbasierte Hypothese (post hoc, ohne Training).** Ränge der
+Kern-Konfliktfrequenzen im W_E-Spektrum der reinen Läufe: schon bei Schritt 250 meist Rang 6–10, oft in beiden Läufen
+(Seed 30: 34 → 6 in F, 7 in G). Unter den ≈ 37 Kandidaten außerhalb A, geordnet nach Rang(F@250) + Rang(G@250): 34 → 1;
+36 → 3, 22 → 4, 42 → 7; 13 → 2, 8 → 4; 38 → 3. Mehrere der vorhergesagten Top 3 traten tatsächlich als fremd auf (Seed 30: 34, 39;
+Seed 32: 30, 13, 50). *Ergebnis:* starke Assoziation in der Exploration (7/7 auf Platz ≤ 7). *Entscheidung:* als P36b für die
+frischen Inits von EXP-036 vorab festgelegt (Nachtrag b). Das ist eine Konkurrenz zur Init-Deutung: nicht die Init allein,
+sondern die gemeinsame frühe Unterstützung durch beide Datensätze.

@@ -382,6 +382,8 @@ initialization frequencies conflicting training sets“, „critical learning pe
   arXiv 2506.06489), nichts zu Datenwechsel mit Frequenzmessung.
 **Stand 2026-09-26 (EXP-020 Nachtrag d, frische Seeds 33/34):** Init-Deutung **nicht bestätigt** (P-d1 1/2, P-d2 verfehlt, Rang 34).
 Fremde Frequenzen bei frühem Wechsel: 4/5 Seeds, Ursprung offen. Direktere Tests: EXP-036 (Init-Wechsel), EXP-037 (Wechselspiel).
+**Stand nach EXP-037:** Konfliktfrequenzen je Seed reproduzierbar und funktional; neue Konkurrenzhypothese „gemeinsame frühe
+Unterstützung durch beide Datensätze“ (EXP-036 Nachtrag b, P36b).
 Nicht gefunden (vorläufig, nur Abstracts): dass **widersprüchliche Splits vor der Festlegung** die Wahl zur Init zurückgeben,
 also ein Zusammenspiel Split-Signal ↔ Init-Lotterie, messbar über den Wechselzeitpunkt. Einordnung: Kandidat, Teil bekannt.
 

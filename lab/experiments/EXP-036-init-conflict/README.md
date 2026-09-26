@@ -61,6 +61,17 @@ init-bevorzugte Frequenzen enthalten, werden solche aus der fremden Menge entfer
 **Nicht übernommen:** Nur W_E zu verpflanzen (bei sonst gleicher Init) wäre der schärfere Test für „das Init-Spektrum von W_E“;
 hier wird nur „die Init“ als Ganzes geprüft. Das bleibt ein möglicher Folgeversuch.
 
+## Nachtrag b (2026-09-26 17:05 Berlin, **vor jedem EXP-036-Lauf**): zweite, datenbasierte Vorhersage P36b
+
+Aus EXP-037 und EXP-020 (Exploration, post hoc, JOURNAL Sitzung 9): Alle beobachteten „Konfliktfrequenzen“ (34; 22, 42, 36;
+8, 13; 38) liegen unter den Kandidaten außerhalb A auf Platz 1–7 (von ≈ 37), wenn man nach der frühen Unterstützung in
+**beiden** reinen Läufen ordnet (Rang im W_E-Spektrum bei Schritt 250 im Lauf „nur F“ + Rang im Lauf „nur G“).
+Deutung (Spekulation): Im Konflikt gewinnen Frequenzen, die beide Datensätze früh als Zweitbeste stützen; die Init wirkt nur
+darüber mit. **P36b (sekundär, ändert das Urteil zu H36 nicht):** gepoolt über die auswertbaren Paare haben ≥ 75 % der
+verschiedenen neuen fremden Frequenzen einen solchen Unterstützungsrang ≤ 5 (berechnet mit den reinen Läufen **derselben
+neuen Init**) → *erfüllt*; Zufall ≈ 5/37 ≈ 14 %. Code: `shared_support_ranks` in `analyze.py`, geprüft an den
+Explorationsdaten (Seed 30: 34 → 1; Seed 32: 13 → 2, 8 → 4).
+
 ## Reproduktion
 
 ```

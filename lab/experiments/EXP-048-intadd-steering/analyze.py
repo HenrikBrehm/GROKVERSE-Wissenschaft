@@ -1,9 +1,11 @@
 """EXP-048: does data-split steering (EXP-016, K2) carry over to NON-modular integer addition? UNTESTED.
 
 Per init seed i (160-169): arms F and G (disjoint sets of 5 target frequencies from k = 6..56), 2000 steps, GPU.
-Primary (preregistered, README): Delta_pow_i = log[P_F(F)/P_F(G)] + log[P_G(G)/P_G(F)], P_arm(S) = W_E DFT power of
-run 'arm' at step 2000 summed over the frequencies S. One-sided sign-flip test over the valid seeds (exact).
-Secondary (reported): top-5 overlap Delta as in EXP-016, linear R^2 (number line), random arm R, accuracies.
+Primary (preregistered, README Nachtrag a, before any run): Delta_pow_i = log[P_F(F)/P_F(G)] + log[P_G(G)/P_G(F)],
+P_arm(S) = DFT power of the DETRENDED final W_E (step 2000, we_final.npy; per column the least-squares line in a removed)
+summed over the frequencies S. One-sided sign-flip test over the valid seeds (exact).
+Secondary (reported): the same Delta on the raw spectrum at 2000 (original primary), top-5 overlap Delta as in EXP-016,
+linear R^2 (number line), random arm R, accuracies.
 Validity: both runs completed, 2000 steps, cuda, split hash = content of the .npy; < 8 valid seeds -> 'nicht auswertbar'.
 """
 from __future__ import annotations
@@ -38,7 +40,7 @@ def spow(pw: np.ndarray, S) -> float:
     return float(pw[[k - 1 for k in S]].sum())
 
 
-def load(s: int, arm: str) -> tuple[dict, np.ndarray] | str:
+def load(s: int, arm: str) -> tuple[dict, np.ndarray, np.ndarray] | str:
     d = run_dir(s, arm)
     if d is None:
         return "missing run dir / result.json"
@@ -51,7 +53,16 @@ def load(s: int, arm: str) -> tuple[dict, np.ndarray] | str:
     steps = np.load(d / "spectra_steps.npy").tolist()
     if STEP not in steps:
         return f"no spectrum at {STEP}"
-    return res, np.load(d / "spectra.npy")[steps.index(STEP)]
+    if res["steps_completed"] != STEP or not (d / "we_final.npy").exists():
+        return "no final W_E at step 2000"
+    from intadd_train import dft_power
+    return res, np.load(d / "spectra.npy")[steps.index(STEP)], dft_power(detrend(np.load(d / "we_final.npy").astype(float)))
+
+
+def detrend(W: np.ndarray) -> np.ndarray:
+    """Remove, per column, the least-squares line alpha + beta * a (a = 0..112): a number line leaks power into k >= 6."""
+    X = np.stack([np.ones(P), np.arange(P, dtype=float)], 1)
+    return W - X @ np.linalg.lstsq(X, W, rcond=None)[0]
 
 
 def delta_pow(pF: np.ndarray, pG: np.ndarray, F: list[int], G: list[int]) -> float:
@@ -62,13 +73,13 @@ def row(s: int) -> dict:
     r: dict = {"seed": s, "valid": False}
     meta = json.loads((HERE / f"splits/split_intadd113_seed{s}_eps2.0_F.json").read_text(encoding="utf-8"))
     T = {"F": meta["targets_F"], "G": meta["targets_G"]}
-    pw, info = {}, {}
+    pw, pd, info = {}, {}, {}
     for arm in "FG":
         got = load(s, arm)
         if isinstance(got, str):
             r["reason"] = f"arm {arm}: {got}"
             return r
-        res, pw[arm] = got
+        res, pw[arm], pd[arm] = got
         info[arm] = {"gen": res.get("generalization_step"), "test_acc": res["final_acc"]["test"],
                      "train_acc": res["final_acc"]["train"], "top5": sorted(top(pw[arm])),
                      "top5_share": res["final_top_m_share"], "linear_r2_2000": res["linear_r2"][-1]}
@@ -76,11 +87,12 @@ def row(s: int) -> dict:
     ov = {f"{x}{y}": len(K[x] & set(T[y])) for x in "FG" for y in "FG"}
     r.update({"valid": True, "F": T["F"], "G": T["G"], "arms": info, **{f"ov_{k}": v for k, v in ov.items()},
               "Delta_top5": ov["FF"] + ov["GG"] - ov["FG"] - ov["GF"],
-              "Delta_pow": delta_pow(pw["F"], pw["G"], T["F"], T["G"])})
+              "Delta_pow": delta_pow(pd["F"], pd["G"], T["F"], T["G"]),
+              "Delta_pow_raw": delta_pow(pw["F"], pw["G"], T["F"], T["G"])})
     got = load(s, "R")                                   # secondary: unsteered split, both target sets
     if not isinstance(got, str):
-        res, pr = got
-        r["R"] = {"logratio_F_over_G": float(np.log(spow(pr, T["F"]) / spow(pr, T["G"]))), "top5": sorted(top(pr)),
+        res, pr, prd = got
+        r["R"] = {"logratio_F_over_G": float(np.log(spow(prd, T["F"]) / spow(prd, T["G"]))), "top5": sorted(top(pr)),
                   "test_acc": res["final_acc"]["test"], "gen": res.get("generalization_step"),
                   "linear_r2_2000": res["linear_r2"][-1]}
     return r
@@ -106,6 +118,14 @@ def selftest() -> None:
     pG[[20, 21]] = 10.0
     assert delta_pow(pF, pG, [6, 7], [21, 22]) > 0 and delta_pow(pG, pF, [6, 7], [21, 22]) < 0
     assert abs(delta_pow(np.ones(56), np.ones(56), [6, 7], [21, 22])) < 1e-12
+    ramp = np.outer(a, rng.normal(size=8))           # detrending: a ramp vanishes, a target wave survives
+    w9 = np.outer(np.cos(2 * np.pi * 9 * a / P), rng.normal(size=8))
+    w40 = np.outer(np.cos(2 * np.pi * 40 * a / P + 1.0), rng.normal(size=8))
+    base = 0.05 * rng.normal(size=(P, 8))
+    assert np.abs(detrend(3 * ramp)).max() < 1e-9
+    d1 = delta_pow(dft_power(detrend(3 * ramp + w9 + base)), dft_power(detrend(ramp + w40 + base)), [9], [40])
+    d0 = delta_pow(dft_power(detrend(ramp + w9 + base)), dft_power(detrend(ramp + w40 + base)), [9], [40])
+    assert d1 > 1 and abs(d1 - d0) < 1e-6, (d1, d0)
     assert one_sided_p(np.ones(10)) == 1 / 1024
     print("[exp048] selftest ok", flush=True)
 
@@ -123,6 +143,8 @@ def main() -> None:
         D = np.array([r["Delta_pow"] for r in valid])
         p = one_sided_p(D)
         Dt = np.array([r["Delta_top5"] for r in valid], dtype=float)
+        Dr = np.array([r["Delta_pow_raw"] for r in valid])
+        out.update({"Delta_pow_raw_mean": float(Dr.mean()), "p_raw_secondary": one_sided_p(Dr)})
         out.update({"Delta_pow_mean": float(D.mean()), "p": p, "n_positive": int((D > 0).sum()),
                     "Delta_top5_mean": float(Dt.mean()), "p_top5_secondary": one_sided_p(Dt),
                     "linear_r2_mean": float(np.mean([r["arms"][a]["linear_r2_2000"] for r in valid for a in "FG"])),

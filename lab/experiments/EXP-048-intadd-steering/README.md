@@ -74,3 +74,21 @@ one-layer network representations learned“.
   keine Addition, keine Split-Steuerung (Abstract per Abruf geprüft).
 - Keine Arbeit gefunden, die bei nicht-modularer Addition über die Trainingsauswahl steuert, welche Frequenzen entstehen.
   Einordnung: #neu/kandidat, vorläufig („nach unserer Suche vom 2026-09-26 nicht gefunden“; nur Abstracts/Suchtreffer geprüft).
+
+## Nachtrag a (Sitzung 13, 2026-09-26 20:16 Berlin, gemessen; **vor jedem Lauf**): Primärgröße trendbereinigt, Lesart eingeschränkt
+
+Unabhängige Prüfung (Claude-Subagent, nur lesend/numpy; Codex ohne Guthaben): kein Blocker, zwei berechtigte Designpunkte. Übernommen:
+1. **Zahlengerade leckt in die Ziele.** Eine Rampe in W_E hat nur 89 % ihrer DFT-Leistung bei k ≤ 5 (bei k = 6 noch 36× so viel wie bei
+   k = 56). Bei ungleicher Rampenamplitude zwischen F- und G-Lauf erzeugt das ein Schein-Δ ohne Steuerung (nachgerechnet, numpy: Rampe 3:1,
+   Ziele 6–10 vs. 40–44: rohes Δ_pow 0.75 ± 0.17; trendbereinigt −0.00 ± 0.31). Wegen der Vertauschbarkeit von F und G kein Bias des Tests,
+   aber Rauschen. **Neue Primärgröße (vor jedem Lauf, Kriterien sonst unverändert):** Δ_pow auf dem **trendbereinigten End-W_E**
+   ( bei Schritt 2000; je Spalte die Kleinste-Quadrate-Gerade in a entfernt). Das rohe Δ_pow (bisherige Primärgröße) wird
+   als  berichtet. Arm R ebenfalls trendbereinigt. Die EXP-016-Kalibrierung (8.4) stammt aus modularen Läufen ohne Rampe
+   und ist hier nur ein Anhaltspunkt.
+2. **Häufigkeiten tragen die Ziele hier stärker** (a/b-Häufigkeitsspektrum: Ziele 1.8× der übrigen Leistung, Arm R 1.06×; in die
+   Δ-Formel eingesetzt ≈ 1.0 gegenüber M0 1.28). Ein Urteil *steuerbar* heißt deshalb nur „**der Split steuert** (über Paarstruktur oder
+   Häufigkeiten)“. Die Rechnung erster Ordnung ([[experiments/EXP-047-marginal-control/README|EXP-047]] Nachtrag a) gilt auch hier
+   (Σ_c des Zielteils = n_a), sagt also kein Häufigkeitssignal im ersten Gradienten voraus; der Beleg dafür kommt aber nur aus EXP-047.
+Beim Umbau gefunden: Mein erster Selbsttest für die Trendbereinigung war entartet (beide Läufe skalierte Kopien derselben Welle → Δ ≡ 0)
+und hätte die Queue heute Nacht fail-closed gestoppt. Durch numpy-Nachrechnung vor dem Lauf entdeckt und ersetzt (d = 18.3, unabhängig
+von der Rampenamplitude bis 1e-13).

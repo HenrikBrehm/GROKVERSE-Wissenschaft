@@ -64,6 +64,15 @@ Codex: needs-attention, drei hohe Einwände.
 Budget neu: 10 Läufe je Seed (≈ 50 min), 3 Seeds ≈ 2.5 h. Smoke (`--lr-scale 2`, Wechsel bei 30) im Fenster gelaufen
 (17:51, Strecke am Wechsel W_E 4.90, alle 15.39), Selbsttest der Auswertung nach den Änderungen ok (17:52).
 
+## Nachtrag b (2026-09-26 18:17 Berlin, Sitzung 10, vor jedem EXP-039-Lauf): Vorbehalt Strecke gegen Λ (nur Einordnung)
+
+Aus gespeicherten EXP-035-Läufen (Warmup) und dem EXP-039-Smoke: ‖W_E − W_E,0‖ / Λ = 0.119, 0.114, 0.108, 0.112, 0.097 bei
+Λ = 0.3, 1.6, 6.4, 25, 57 (Seed 30; Seed 31 gleich), danach sublinear (0.067 bei Λ = 150); mit c = 2 bei Λ = 60 nur 0.082.
+Das Maximum für vorzeichenkohärente Adam-Schritte ist lr · √(114 · 128) = 0.121: Die frühen Schritte sind zu ≈ 90 % kohärent.
+Folgerung: Im Festlegungsbereich laufen Λ-Uhr und Streckenuhr nahezu gleich, bei c = 2 aber ≈ 16 % Strecke pro Λ weniger.
+Hängt die Festlegung an der Strecke, kann das c = 2-Fenster knapp über t = 25 rutschen und die Zelle wird *unklar*, nicht
+*Schritt*. **Regeln und Urteil bleiben unverändert**; die Strecke am Wechsel wird ohnehin beschreibend berichtet.
+
 ## Status
 
 Vorab festgelegt (mit Nachtrag a), Code und Smoke geprüft, nicht ausgeführt. Läuft in `queue_s10.sh` nach EXP-036.

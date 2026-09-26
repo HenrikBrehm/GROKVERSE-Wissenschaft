@@ -1385,3 +1385,10 @@ brach beim ersten Fehler ab; mit vier neuen, erst im Lauf geprüften Codepfaden 
 hätte ein einziger Fehler die ganze Nacht blockiert. Änderung: `part()` protokolliert einen Fehlschlag und macht mit dem nächsten
 Versuch weiter; nur eine Ablehnung durch den Wächter (rc 3) stoppt. *Entscheidung:* übernommen (Zuverlässigkeit, keine
 Versuchsänderung).
+
+**Zyklus 9 (18:17, ohne Training, beschreibend/post hoc): Wächst die W_E-Strecke unter Adam proportional zu Λ (Prämisse von H40)?**
+Gespeicherte EXP-035-Strecken am Wechsel: ‖ΔW_E‖/Λ = 0.119 → 0.097 für Λ = 0.3 … 57 (Seeds 30, 31 identisch bis auf 1 %),
+0.067 bei Λ = 150; alle Parameter 0.44 → 0.34. Obergrenze kohärenter Adam-Schritte lr · √(114 · 128) = 0.121, also ≈ 90 %
+Kohärenz früh. EXP-039-Smoke (c = 2, Λ = 60): 0.082. *Ergebnis:* Prämisse im Festlegungsbereich gestützt (Strecke ≈ 0.11 · Λ,
+Abweichung ≤ 20 % zwischen Warmup und c = 2). *Entscheidung:* als Vorbehalt in EXP-039 Nachtrag b eingetragen (Regeln unverändert):
+Eine Streckenuhr sähe bei c = 2 leicht verspätet aus und ergäbe *unklar*, nicht *Schritt*.

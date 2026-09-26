@@ -36,7 +36,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
    (ab 03:00, vor den Läufen); Auswertung von Hand, sobald die R-Arme von EXP-043, EXP-046 und EXP-048 („random“) erfolgreich sind (Holm fest über vier Fälle; ein fehlender Fall zählt p = 1): `guarded_run.py -- python .../exp052.py`.
 
 9. **Nach der Nacht, vor dem Einfrieren von P1:** `guarded_run.py -- python lab/tools/pilot_power.py --selftest`, dann ohne Argument: Δ_pow je Pilotfall (EXP-043/046/047 aus den Läufen, 048/049 aus summary.json), SD, KI und nötige Seed-Zahl (Power 80 %, α 0.05/3) → `lab/tools/pilot_power_summary.json` (vorher prüfen, dass die summary.json von EXP-048/049 aus dieser Nacht stammt).
-10. Bestätigungsblock vorbereitet (Sitzung 14, ungetestet): `lab/tools/confirm_splits.py` (SeedSequence([1000001, …]) wie in FINDINGS; schreibt nur mit eingefrorenem Manifest mit Commit-ID). Selbsttest ab 03:00: `guarded_run.py -- python lab/tools/confirm_splits.py --selftest`.
+10. Bestätigungsblock vorbereitet (Sitzung 14, ungetestet): `lab/tools/confirm_splits.py` (SeedSequence([1000001, …]) wie in FINDINGS; schreibt nur mit eingefrorenem Manifest mit Commit-ID). Selbsttest ab 03:00: `guarded_run.py -- python lab/tools/confirm_splits.py --selftest`. Dazu `lab/tools/confirm_p1.py` (Jobliste für `parallel_queue.py` und eingefrorene P1-Auswertung: Δ_pow, exakter Vorzeichentest, Bootstrap-KI, Holm über P1–P3 mit p = 1 für noch fehlende Glieder); Selbsttest `--selftest` ab 03:00.
 ## Aktive Queue / laufende Jobs
 
 - Keine (Stand 21:02). Vorbereitet, ungetestet: GPU-001, EXP-043–049 (in `night_program.py`), EXP-050 (optional:

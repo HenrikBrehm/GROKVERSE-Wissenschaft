@@ -1392,3 +1392,7 @@ Gespeicherte EXP-035-Strecken am Wechsel: ‖ΔW_E‖/Λ = 0.119 → 0.097 für 
 Kohärenz früh. EXP-039-Smoke (c = 2, Λ = 60): 0.082. *Ergebnis:* Prämisse im Festlegungsbereich gestützt (Strecke ≈ 0.11 · Λ,
 Abweichung ≤ 20 % zwischen Warmup und c = 2). *Entscheidung:* als Vorbehalt in EXP-039 Nachtrag b eingetragen (Regeln unverändert):
 Eine Streckenuhr sähe bei c = 2 leicht verspätet aus und ergäbe *unklar*, nicht *Schritt*.
+
+**Zyklus 10 (18:17–18:18, ohne Training): H40 quantitativ.** Mit Strecke ≈ 0.11 · Λ und Init-Amplitude 1.4 fällt die Schwelle bei
+Λ* ≈ 28.5/√f (f = Streckenanteil auf den 5 Zielen). Das Fenster (25, 50] verlangt f ≳ 0.3. *Ergebnis:* Zahl-Vorhersage R(hi) ∈ [0.5, 2]
+beschreibend festgelegt (EXP-040 Nachtrag c), bevor Schnappschuss-Daten existieren; R(hi) < 0.5 widerlegt H40 in dieser Form.

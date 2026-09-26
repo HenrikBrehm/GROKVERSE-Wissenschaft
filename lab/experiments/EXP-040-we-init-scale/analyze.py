@@ -88,6 +88,7 @@ def invariance(cells: list[dict]) -> dict | None:
         return None
     cv = lambda x: float(np.std(x) / np.mean(x))  # noqa: E731
     return {"n": len(lam), "cv_lambda_hi": round(cv(lam), 3), "cv_R_hi": round(cv(rr), 3),
+            "n_R_hi_in_0.5_2": sum(0.5 <= r <= 2.0 for r in rr),      # Nachtrag c: quantitative H40 expects R(hi) ~ 1
             "R_less_variable": cv(rr) < cv(lam), "lambda_hi": lam, "R_hi": rr}
 
 

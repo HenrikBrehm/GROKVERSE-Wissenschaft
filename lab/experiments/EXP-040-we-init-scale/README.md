@@ -69,6 +69,15 @@ kleiner als der von Λ(hi). Unter einer reinen Λ-Uhr umgekehrt (Λ konstant, R 
 4 Zellen. Grenze: hi ist ein Gitterpunkt (obere Intervallgrenze), nicht der wahre Zeitpunkt; beide Größen werden an derselben
 Stelle gemessen. Code: `invariance()` in `analyze.py` (Selbsttest-Fall ergänzt, ungetestet bis zum nächsten Fenster).
 
+## Nachtrag c (2026-09-26 18:18 Berlin, Sitzung 10, vor jedem EXP-039/040-Lauf): quantitative Fassung von H40 (beschreibend)
+
+Mit der gemessenen Strecke ‖ΔW_E‖ ≈ 0.11 · Λ (EXP-039 Nachtrag b) und der Init-Amplitude ≈ 1.4 pro Frequenz: Liegt der Anteil f
+der Streckenenergie auf den 5 Zielfrequenzen, ist die Zielamplitude ≈ 0.11 · Λ · √(f/5), und die Schwelle „Zielamplitude = Init-
+Amplitude“ fällt bei Λ* ≈ 28.5 / √f (f = 1 → 28, 0.5 → 40, 0.3 → 52, 0.1 → 90). Das beobachtete Fenster Λ ∈ (25, 50] passt nur zu
+f ≳ 0.3. **Zahl-Vorhersage (beschreibend, kein Urteil):** In der Mehrheit der Zellen von Nachtrag b liegt R(hi) zwischen 0.5 und 2
+(`n_R_hi_in_0.5_2`). Liegt R(hi) regelmäßig weit darunter (< 0.5), holt das Signal die Init beim Festlegen gar nicht ein, und H40 in
+dieser Form ist falsch, selbst wenn das H40-Muster der Verschiebung auftritt.
+
 ## Status
 
 Vorab festgelegt, Code geschrieben, **ungetestet** (Fenster geschlossen): Selbsttest und Smoke laufen als erste Schritte der

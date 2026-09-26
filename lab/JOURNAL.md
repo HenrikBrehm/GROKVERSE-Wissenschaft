@@ -378,3 +378,13 @@ selbst geprüft, alle übernommen (Nachtrag a, vor jedem Lauf):
    Primärgröße jetzt ausdrücklich die beschränkte Zeit; Ko-Bedingung zensierungsfester Vorzeichentest.
 Ergebnis des Zyklus: Versuch vorbereitet und nachgeschärft, **nicht ausgeführt** (Blocker). Nächster Schritt:
 Smoke-Lauf mit `--test-file`, dann `sh lab/experiments/EXP-018-split-speed/queue.sh` nach `queue_s4b.sh`.
+
+**Zyklus 2 (post hoc, gespeicherte Läufe, kein Training, ~06:10): Sagt die natürliche Konzentration eines
+Zufallssplits die Grokking-Zeit voraus?** Hypothese vor der Rechnung: höherer M0-Top-5-Anteil → früheres gen
+(Spearman < 0). Skript `EXP-018-split-speed/posthoc/natural_concentration.py`, Ausgabe `natural_concentration.json`.
+Ergebnis: Der Anteil schwankt über Zufallssplits kaum (0.1015–0.1088, Seeds 0–17). Studie arch25k, Transformer
+Seeds 0–9: ρ = −0.40 (Permutations-p 0.25); MLP: ρ = +0.15 (p 0.68); m2h nur 3 Läufe im Manifest, nicht ausgewertet;
+Lab-Baselines Seeds 10–17 (4 Threads): ρ = +0.02 (p 0.97). **Befund: unklar/negativ.** Innerhalb der natürlichen
+Schwankung gibt es keinen belastbaren Zusammenhang. Das widerspricht EXP-018 nicht (E ist 1.7–1.8× konzentrierter
+als jeder Zufallssplit), zeigt aber: Wenn die Konzentration wirkt, dann erst bei konstruierter Stärke. Als
+Frühvorhersager der Grokking-Zeit taugt M0 damit nicht (anders als für die Frequenzwahl, EXP-015).

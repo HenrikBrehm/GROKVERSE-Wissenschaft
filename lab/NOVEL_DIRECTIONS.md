@@ -173,7 +173,7 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
 - **Einordnung:** Beschleunigung des Grokkings durch eine **spektral gewählte Trainingsmenge** bei festgehaltener
   Größe und Gewichtsverteilung wurde nach dieser Suche **nicht gefunden**. Vorläufig, keine Garantie; Google Scholar
   und OpenReview noch nicht gezielt durchsucht.
-- **Nachsuche 2026-09-26 (Sitzung 5, ~06:15) zu N3 und N6.** Suchbegriffe: „openreview grokking modular addition
+- **Nachsuche 2026-09-26 (Sitzung 5, ~06:07) zu N3 und N6.** Suchbegriffe: „openreview grokking modular addition
   "train/test split" seed determines key frequencies separate data seed model seed“, „"modular addition" learned
   frequencies depend on training subset "which frequencies" data distribution Fourier neural network 2026“,
   „designing training set to control which features a network learns algorithmic task frequency steering data

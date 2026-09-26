@@ -7,7 +7,7 @@ verwandt: ["[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experim
 ---
 # EXP-018: Beschleunigt ein spektral konzentrierter Split das Grokking?
 
-**Status:** vorbereitet, **nicht ausgeführt**. Definition fixiert 2026-09-26 ~05:58 Berlin (Sitzung 5), bevor ein
+**Status:** vorbereitet, **nicht ausgeführt**. Definition fixiert 2026-09-26 ~05:56 Berlin (Sitzung 5), bevor ein
 Lauf mit diesen Splits existierte. Die verwendeten Seeds 20–29 sind im Labor und in der Studie unberührt.
 Code: `make_splits.py` (Splits, reine Rechnung, erzeugt `splits/`), Option `--test-file` in `freq_ban.py`,
 `analyze.py`. Unit-Test `test_split_speed_sets` im Fenster ok (12/12, 05:54). **`--test-file` ist in einem echten
@@ -65,7 +65,7 @@ python lab/experiments/EXP-018-split-speed/analyze.py
 ```
 Warteschlange: `sh lab/experiments/EXP-018-split-speed/queue.sh` (überspringt fertige Läufe).
 
-## Nachtrag a (2026-09-26 ~06:05 Berlin, nach Codex-Review, **vor jedem Lauf**)
+## Nachtrag a (2026-09-26 ~06:00 Berlin, nach Codex-Review, **vor jedem Lauf**)
 
 Codex (`codex_review_2026-09-26.txt`, Urteil „needs-attention“), drei Befunde, selbst geprüft, alle **übernommen**:
 
@@ -93,7 +93,7 @@ Codex (`codex_review_2026-09-26.txt`, Urteil „needs-attention“), drei Befund
 Sekundär unverändert, jetzt ebenfalls als zensierungsfeste Vorzeichentests (E vs. R, D vs. R, alle drei Schwellen)
 plus beschränkte log-Quotienten R/E und R/D.
 
-## Einordnung (Nachtrag b, 2026-09-26 ~06:17, vor jedem Lauf, keine Kriterienänderung)
+## Einordnung (Nachtrag b, 2026-09-26 ~06:08, vor jedem Lauf, keine Kriterienänderung)
 
 Konkurrierende Vorhersagen, damit das Ergebnis nicht nachträglich passend gedeutet wird:
 - **H18 (aus EXP-016):** E generalisiert auf T* früher als D und R.

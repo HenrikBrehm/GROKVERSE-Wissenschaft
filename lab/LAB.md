@@ -37,3 +37,4 @@ nutzt ([[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]).
 | [[experiments/EXP-016-engineered-split/README\|EXP-016]] Frequenzen per Datenauswahl steuern | **läuft** (6/10 Seeds) | Zwischenstand Δ = +7 bis +9 von 10 in 6/6 Seeds: gelernte Frequenzen folgen der konstruierten Datenauswahl. Entscheidung ab 8 Seeds |
 | [[experiments/EXP-017-rfm-split/README\|EXP-017]] Frequenzwahl ohne Zufalls-Init (RFM) | vorbereitet | noch kein Lauf |
 | [[experiments/EXP-018-split-speed/README\|EXP-018]] Beschleunigt ein spektral konzentrierter Split das Grokking? | vorbereitet | Feste gemeinsame Testmenge, Kontrolle D = gleiche Gewichte ohne Fourier-Anordnung; Seeds 20–29; nach Codex-Review nachgeschärft; noch kein Lauf |
+| [[experiments/EXP-019-coherent-mask/README\|EXP-019]] Kohärentes Masken-Spektrum M0c gegen M0 | vorbereitet | Post hoc richtungsgleich (0.280 vs. 0.307; 0.222 vs. 0.277), n. s.; Bestätigung an 12 frischen Seeds ohne eigene Läufe |

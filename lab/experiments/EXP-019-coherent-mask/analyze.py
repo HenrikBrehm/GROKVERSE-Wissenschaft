@@ -1,0 +1,72 @@
+"""EXP-019: coherent mask spectrum M0c vs M0 on fresh seeds (EXP-018 arm R 20-29, EXP-003d baselines 18, 19).
+Definition: README.md. No training; reads finished runs only. Run through guarded_run.py (make_dataset is used).
+"""
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+
+HERE = Path(__file__).resolve().parent
+LAB = HERE.parents[1]
+sys.path.insert(0, str(LAB / "experiments/EXP-015-mask-spectrum"))
+sys.path.insert(0, str(LAB / "experiments/EXP-015-mask-spectrum/posthoc"))
+sys.path.insert(0, str(LAB / "experiments/EXP-016-engineered-split"))
+import mask_spectrum as ms  # noqa: E402
+from coherent_m0 import m0c  # noqa: E402
+from make_split import mask_from_idx  # noqa: E402
+
+p12 = ms.p12
+E18 = LAB / "experiments/EXP-018-split-speed"
+MIN_VALID = 10
+
+
+def run_k(d: Path) -> list[int] | None:
+    f = d / "result.json"
+    if not f.exists():
+        return None
+    res = json.loads(f.read_text(encoding="utf-8"))
+    return res.get("final_top_m_freqs") if res["status"] == "completed" else None
+
+
+def rows_for(arm: str) -> list[dict]:
+    rows = []
+    for s in range(20, 30):
+        K = run_k(E18 / f"raw/EXP-018_baseline_seed{s}_thr4_seed{s}_train_{arm}")
+        if K is not None:
+            M = mask_from_idx(np.load(E18 / f"splits/seed{s}_train_{arm}.npy"))
+            rows.append({"seed": s, "src": f"EXP-018/{arm}", "K": K})
+            rows[-1].update(rbar_M0=p12.rbar(ms.m0(M), K), rbar_M0c=p12.rbar(m0c(M), K))
+    if arm == "R":
+        for s in (18, 19):
+            K = run_k(Path(str(p12.BASE_D).format(s=s)))
+            if K is not None:
+                M = ms.mask_matrix(s)
+                rows.append({"seed": s, "src": "EXP-003d", "K": K,
+                             "rbar_M0": p12.rbar(ms.m0(M), K), "rbar_M0c": p12.rbar(m0c(M), K)})
+    return rows
+
+
+def summary(rows: list[dict]) -> dict:
+    if len(rows) < MIN_VALID:
+        return {"n": len(rows), "verdict": "nicht auswertbar"}
+    d = np.array([r["rbar_M0"] - r["rbar_M0c"] for r in rows])
+    p = p12.sign_flip_p(d)
+    rc = float(np.mean([r["rbar_M0c"] for r in rows]))
+    return {"n": len(rows), "rbar_M0": float(np.mean([r["rbar_M0"] for r in rows])), "rbar_M0c": rc,
+            "d_mean": float(d.mean()), "p_one_sided": p, "p_M0c_vs_null": p12.mc_null_p(rc, len(rows)),
+            "verdict": "widerspricht" if d.mean() <= 0 else ("M0c besser" if p < p12.ALPHA
+                                                             else "richtungsgleich, nicht signifikant")}
+
+
+def main() -> None:
+    prim, sec = rows_for("R"), rows_for("D")
+    out = {"primary_R_plus_baselines": summary(prim), "secondary_arm_D": summary(sec), "rows": prim + sec}
+    (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
+
+
+if __name__ == "__main__":
+    main()

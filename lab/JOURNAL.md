@@ -379,7 +379,7 @@ selbst geprüft, alle übernommen (Nachtrag a, vor jedem Lauf):
 Ergebnis des Zyklus: Versuch vorbereitet und nachgeschärft, **nicht ausgeführt** (Blocker). Nächster Schritt:
 Smoke-Lauf mit `--test-file`, dann `sh lab/experiments/EXP-018-split-speed/queue.sh` nach `queue_s4b.sh`.
 
-**Zyklus 2 (post hoc, gespeicherte Läufe, kein Training, ~06:10): Sagt die natürliche Konzentration eines
+**Zyklus 2 (post hoc, gespeicherte Läufe, kein Training, ~06:04): Sagt die natürliche Konzentration eines
 Zufallssplits die Grokking-Zeit voraus?** Hypothese vor der Rechnung: höherer M0-Top-5-Anteil → früheres gen
 (Spearman < 0). Skript `EXP-018-split-speed/posthoc/natural_concentration.py`, Ausgabe `natural_concentration.json`.
 Ergebnis: Der Anteil schwankt über Zufallssplits kaum (0.1015–0.1088, Seeds 0–17). Studie arch25k, Transformer
@@ -388,3 +388,26 @@ Lab-Baselines Seeds 10–17 (4 Threads): ρ = +0.02 (p 0.97). **Befund: unklar/n
 Schwankung gibt es keinen belastbaren Zusammenhang. Das widerspricht EXP-018 nicht (E ist 1.7–1.8× konzentrierter
 als jeder Zufallssplit), zeigt aber: Wenn die Konzentration wirkt, dann erst bei konstruierter Stärke. Als
 Frühvorhersager der Grokking-Zeit taugt M0 damit nicht (anders als für die Frequenzwahl, EXP-015).
+
+**Zyklus 3 (~06:07): Literatur-Nachsuche N3/N6** (Details in [[NOVEL_DIRECTIONS]]). Wichtig: (a) Zhou, Zhang, Xu 2024
+(Frequency Principle) konstruieren ungleichmäßige Trainingsmengen, deren „spurious“ Frequenzen zuerst gelernt werden,
+und lösen damit Grokking **aus**. Andere Aufgaben (Regression, Parität, MNIST), anderer Frequenzbegriff. Für EXP-018
+sagt diese Sicht Verzögerung statt Beschleunigung voraus; als konkurrierende Vorhersage in EXP-018 Nachtrag b vermerkt.
+Die Grundidee „die Stichprobe erzeugt Frequenzen, die zuerst gelernt werden“ ist damit in anderer Form **bekannt**;
+N3 ist deshalb als Übertragung auf Z_p-Merkmale plus kausale Steuerung einzuordnen. (b) Ein GitHub-Nachbau von Nanda
+et al. mit **festem** Split und nur variierter Init findet 10 verschiedene Frequenzmengen; die Init gebe nur einen
+kleinen Vorsprung (p = 0.016). → Der Split ist nicht die einzige Ursache. Das stimmt mit EXP-012 überein (Init trägt bei).
+
+**Zwischenbilanz nach 3 Zyklen (§4):** Gelernt: EXP-018 ist jetzt so gebaut, dass es drei konkurrierende
+Vorhersagen trennt; die natürliche Masken-Konzentration sagt gen nicht voraus; die Literatur relativiert die Neuheit
+von N3. Wiederholung: nein. Messungen: r̄ bleibt ein grobes Maß (Rang der 5 K in 56). Anzugreifende Annahme: dass M0
+die richtige Form der Split-Statistik ist → Zyklus 4.
+
+**Zyklus 4 (~06:09, post hoc, kein Training): Kohärentes Masken-Spektrum M0c.** Frage: W_E ist für beide Positionen
+gleich; addieren sich die Gradientenbeiträge von links und rechts kohärent? Hypothese vor der Rechnung: r̄(M0c) <
+r̄(M0) an den Explorationsseeds 0–9. Skript `EXP-015-mask-spectrum/posthoc/coherent_m0.py`.
+Ergebnis: Seeds 0–9 r̄ 0.280 (M0c) vs. 0.307 (M0), einseitig p 0.14; Seeds 10–17 (schon für die M0-Bestätigung
+benutzt, nur Replikation) 0.222 vs. 0.277, p 0.098; M0c gegen Null jeweils p < 1e-5; Rangkorrelation M0/M0c ≈ 0.70.
+**Befund: richtungsgleich, nicht signifikant.** Entscheidung: vorab festgelegte Bestätigung
+[[experiments/EXP-019-coherent-mask/README|EXP-019]] an 12 frischen Seeds (EXP-018 Arm R 20–29, Baselines 18/19),
+ohne eigene Läufe. Auswertungsskript im Fenster trocken getestet.

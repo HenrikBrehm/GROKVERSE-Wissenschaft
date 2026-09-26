@@ -1,0 +1,39 @@
+---
+id: EXP-019
+status: vorbereitet
+datum: 2026-09-26
+tags: [exp/vorbereitet]
+verwandt: ["[[experiments/EXP-015-mask-spectrum/README|EXP-015]]", "[[experiments/EXP-018-split-speed/README|EXP-018]]", "[[experiments/EXP-012-init-gradient/README|EXP-012]]"]
+---
+# EXP-019: Kohärentes Masken-Spektrum M0c gegen M0
+
+**Status:** vorbereitet, **nicht ausgeführt** (braucht keine eigenen Läufe, nutzt EXP-018 Arm R und die
+EXP-003d-Baselines 18/19). Definition fixiert 2026-09-26 06:11 Berlin (Sitzung 5), bevor einer dieser Läufe existierte.
+
+## Idee
+
+[[experiments/EXP-015-mask-spectrum/README|EXP-015]] leitet M0 als erwartete Leistung des ersten Gradienten an W_E her,
+addiert aber die Beiträge von linker Position (t, c−t) und rechter Position (c−t, t) **inkohärent**
+(|N̂_links|² + |N̂_rechts|²). W_E ist für beide Positionen dasselbe, und bei Init mischt die Attention beide Positionen
+ähnlich; die Beiträge sollten sich also **kohärent** addieren:
+
+M0c(k) = Σ_c |Σ_t (N_links(t, c) + N_rechts(t, c)) e^{−2πikt/p}|², k und p−k zusammengefasst.
+
+Post hoc (Sitzung 5, `EXP-015-mask-spectrum/posthoc/coherent_m0.py`): Exploration Seeds 0–9 r̄ 0.280 (M0c) gegen 0.307
+(M0), p 0.14; Seeds 10–17 (schon für die M0-Bestätigung benutzt, daher nur Replikation) 0.222 gegen 0.277, p 0.098.
+Rangkorrelation M0/M0c ≈ 0.70. Richtung gleich, einzeln nicht signifikant.
+
+| | |
+|---|---|
+| **Fragestellung** | Sagt das kohärente Masken-Spektrum die finalen Frequenzen besser voraus als M0? |
+| **H19** | r̄(M0c) < r̄(M0) an frischen Seeds |
+| **Seeds / Läufe** | EXP-018 Arm R, Seeds 20–29 (gleichverteilte Zufallsmenge aus dem Pool, 3831 Paare) und EXP-003d-Baselines 18, 19. Masken aus den Split-Dateien bzw. `make_dataset` |
+| **K** | `final_top_m_freqs` des Laufs (Top-5 von W_E am Laufende; bei EXP-018 gen + 25 oder 8000, falls zensiert) |
+| **Maß** | r̄ wie EXP-009/012/015 |
+| **Test** | d_i = r̄_i(M0) − r̄_i(M0c); Vorzeichen-Permutationstest einseitig (d̄ > 0), n = 12 |
+| **Entscheidung** | *M0c besser*: d̄ > 0, p < 0.05 · *richtungsgleich, n. s.*: d̄ > 0, p ≥ 0.05 · *widerspricht*: d̄ ≤ 0 · < 10 gültige: *nicht auswertbar* |
+| **Sekundär** | r̄(M0c) gegen die MC-Null; dasselbe an Arm D (auch dort ist die Anordnung zufällig); M0c gegen G0 (erster Gradient), falls berechnet |
+| **Was dagegen spräche** | d̄ ≤ 0: Dann ist die Trennung der Positionen im Transformer real (z. B. durch Positions-Embeddings und Attention), und M0 bleibt die bessere Näherung |
+| **Grenzen** | Nur Transformer; die EXP-018-Läufe haben eine andere Testmenge (T*, 20 %) als die Baselines, das betrifft K nur über den Stoppzeitpunkt |
+
+Auswertung: `python lab/experiments/EXP-019-coherent-mask/analyze.py` (nach EXP-018 und den Baselines 18/19).

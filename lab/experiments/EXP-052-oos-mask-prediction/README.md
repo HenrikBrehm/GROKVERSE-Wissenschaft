@@ -12,6 +12,17 @@ irgendein R-Lauf von EXP-043 existierte. Kein eigenes Training: nutzt die 20 Zuf
 [[experiments/EXP-043-generalize-steering/README|EXP-043]] (GPU, 2000 Schritte, Seeds 70–79 je Aufgabe), die das Nachtprogramm ohnehin
 fährt. Zurück zu [[LAB]] · [[FINDINGS]].
 
+## Gültige Fassung (Zusammenfassung aller Nachträge a–i, alle vor jedem Lauf; maßgeblich im Zweifel: `exp052.py`)
+
+- **Fälle (vier, Holm fest über vier; ein nicht auswertbarer Fall zählt p = 1):** add 97 und mul 113 (EXP-043 R, Seeds 70–79), D₅₉ (EXP-046 R,
+  140–149), nicht-modulare Addition (EXP-048 R, 160–169; nur k = 6..56, W_E trendbereinigt). Vorhersagen eingefroren in `predictions.json`,
+  `predictions_d59.json`, `predictions_intadd.json` (Commits 7c6492a, 1d71c5d, 354e3dc).
+- **Primär je Fall:** mittleres Spearman ρ(M0 eigen, W_E-Spektrum bei 2000) > fremd, Permutation der Zuordnung, einseitig; *K1 gilt hier* bei Holm-p < 0.05.
+- **Sekundär (gepoolt, einseitig):** S1 M0c > M0 (trennscharf laut Simulation, Nachtrag e), S2 M0 > Init (ohne intadd), S3 M0 > Häufigkeiten.
+- **Nur beschreibend:** Split-Identifikation aus den Gewichten (konservativ bei Bindungen; Erwartung Nachtrag i), treue gegen nicht-treue
+  Frequenzen bei mul 113 (g), Elastizität β_t (h), r̄/Top-5, ρ im Zeitverlauf.
+- **Keine weiteren Nachträge** zu diesem Versuch; neue Fragen gehören in einen Nachfolger.
+
 ## Bezug zu [[FINDINGS]]
 
 Paket **A**, Verallgemeinerung (Regel 15c): K1 (Masken-Spektrum M0 sagt die gelernten Frequenzen voraus) ist nur für add mod 113

@@ -1439,3 +1439,32 @@ Wirkung); Betragsstriche |K ∩ F| in Tabellenzellen zerlegen Obsidian-Tabellen,
 stärkerer Verdrängung (Überlappung sinkt mit eps) → Urteil auf „Zeitpunkt hängt vom zweiten Split ab“ eingeengt; alte Referenzläufe →
 eigene „nur F“-Läufe; Gleichstand → „keine Verschiebung bei dieser Auflösung“; fehlende Job-Sperre → Warteschleife. Nicht übernommen:
 faktorielles Design (erst bei *später*).
+
+### Abschlussbericht Sitzung 10 (2026-09-26, 17:29–~20:20 Berlin; geschrieben 18:39, wird am Ende ergänzt)
+
+**Wichtigste Befunde (alle ohne neue Trainingsläufe außer EXP-035, beschreibend oder post hoc):**
+1. **[[experiments/EXP-035-warmup-lockin/README|EXP-035]]:** Seed 30 vollständig, Seed 31 teilweise. Mit Warmup legt sich die
+   Frequenzwahl später fest (Seed 30: (100, 150] statt (25, 50]; Seed 31 bei t = 50 noch G-seitig). Für Seed 30 trifft das die
+   vorab genannte Λ-Erwartung. Kein Urteil (Regel: 3 Seeds).
+2. **Adam-Strecke ∝ Λ:** ‖ΔW_E‖ ≈ 0.11 · Λ bis Λ ≈ 60 (≈ 90 % kohärente Schritte), danach sublinear (Zyklus 9).
+3. **Unkalibrierte Beobachtung:** exakt gleiche Mischzustände über verschiedene Eingriffe (Zyklus 12). Nach Codex zurückgestuft:
+   kein Attraktor- oder Λ-Beleg, P35d zurückgezogen.
+4. **Literatur:** nächstverwandt LeDoux 2026 (Datenreihenfolge bestimmt die Frequenz, https://arxiv.org/abs/2603.25047) und He et al.
+   2026 (Frequenz-Lotterie über die Init, https://arxiv.org/abs/2602.16849); beide ohne Datenwechsel, Festlegungszeit oder Lernraten-
+   bzw. Init-Skala. Unsere Fragen N17–N22: nach unserer Suche vom 2026-09-26 nicht gefunden.
+
+**Vorbereitet, nicht ausgeführt (alle mit Codex-Review, Nachträge vor jedem Lauf):** EXP-036 Nachträge d/e (kalibriertes P36b mit
+frühen Spektren, Smoke im Fenster ok), [[experiments/EXP-039-lr-clock/README|EXP-039]] (Lernraten-Uhr, Smoke ok),
+[[experiments/EXP-040-we-init-scale/README|EXP-040]] (Init-Skala, H40, ungetestet), [[experiments/EXP-041-imprint/README|EXP-041]]
+(Prägung E ↔ R, ungetestet), [[experiments/EXP-042-bias-strength/README|EXP-042]] (Split-Neigung, H42, ungetestet). Neue
+-Optionen:  (mit W_E-Schnappschüssen), ,  (Standard jeweils unverändert).
+
+**Offene Grenzen:** Die Sitzung hat viel vorbereitet und wenig gemessen (Fenster nur 30 min). Alle Transformer-Befunde an einer
+Architektur. Vier neue Codepfade werden erst in der Nacht durch Smokes/Selbsttests geprüft.
+**Codex:** fünf Reviews (EXP-036 d, EXP-039, EXP-040, EXP-041, EXP-042) und ein Schlussfolgerungs-Review (Zyklus 12), alle
+needs-attention; fast alle Einwände übernommen, Ausnahmen mit Grund in den READMEs.
+**Eigene Fehler:** geschätzte statt gemessene Uhrzeiten (korrigiert, jetzt immer gemessen); zweimal falsche Selbsttest-Erwartungen;
+Backticks in ungeschütztem Heredoc (repariert); Betragsstriche in Obsidian-Tabellen (maskiert); ein überzogener Post-hoc-Befund
+(von Codex zerlegt, zurückgestuft).
+**Nächste Aktion:** Im Fenster ab 00:00: `python lab/tools/guarded_run.py --check`, keine Queue aktiv, dann
+`sh lab/experiments/queue_s10.sh` im Hintergrund (Log z. B. `lab/runner/logs/queue_s10.log`); danach Log nach „failed“ durchsuchen.

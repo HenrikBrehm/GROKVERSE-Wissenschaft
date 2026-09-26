@@ -51,7 +51,7 @@ kleinste p = 1/32; *Split dominiert* verlangt also D_u > 0 in (fast) allen Paare
 *nicht auswertbar*. Die Zufallsvergleiche ov gegen 0.45 bleiben sekundär.
 Befehl je Richtung: `freq_ban.py --seed a --split-seed b --condition baseline --stop-after-gen 25 --out-root lab/experiments/EXP-014-split-vs-init/raw`.
 
-## Nachtrag b (2026-09-26 06:59 Berlin, Sitzung 5, **vor jedem Kreuzlauf**, Primärgröße unverändert)
+## Nachtrag b (2026-09-26 06:56 Berlin, Sitzung 5, **vor jedem Kreuzlauf**, Primärgröße unverändert)
 
 Neue Sekundärgröße aus den Befunden von Sitzung 5 (kohärentes Masken-Spektrum M0c, EXP-019): Für jeden Kreuzlauf
 (Init i, Split j) r̄ der finalen Menge K_cross unter M0c des **benutzten** Splits j und unter M0c des **eigenen, nicht

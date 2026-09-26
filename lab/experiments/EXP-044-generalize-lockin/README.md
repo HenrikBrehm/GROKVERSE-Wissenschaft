@@ -58,3 +58,14 @@ Urteilsregeln unverändert.
 ## Nachtrag (Sitzung 13, 2026-09-26 20:20 Berlin, gemessen; vor jedem Lauf): nicht-endliche Läufe ungültig
 
 Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lauf (NaN in W_E) wäre bisher als gültig gezählt worden und hätte still ein falsches K oder sogar das Urteil *widerspricht* mit p = 0 erzeugt (`one_sided_p` mit NaN gibt 0.0). `analyze.py` wertet einen Lauf mit nicht-endlichem Spektrum bzw. W_E jetzt als **ungültig** (zählt gegen die Mindestzahl gültiger Seeds). Urteilsregeln sonst unverändert.
+
+## Nachtrag (Sitzung 14, 21:59 Berlin, **vor jedem Lauf**): nur beschreibend, kontinuierliche Persistenz π gegen EXP-020
+
+Zusätzlich zum vorab festgelegten Urteil (unverändert) wird π je Seed und t berechnet: Log-Verhältnis der W_E-Leistung (Gruppenbasis wie
+EXP-043) auf den F- gegen die G-Ziele am Laufende, normiert zwischen „nur G“ (0) und „nur F“ (1) desselben Seeds (Maß wie
+[[experiments/EXP-020-data-switch/README|EXP-020]] „Post hoc (Sitzung 14)“, Variante Log-Verhältnis). Vergleichswerte aus EXP-020 (add 113,
+≈ 73 % geteilte Paare): π(25) 0.41, π(50) 0.74, π(150) ≈ 1.0. Vorab notierte Lesarten:
+(i) **Festlegung im Netz, unabhängig von geteilten Paaren:** π_044(t) ≈ π_020(t), insbesondere π(150) ≥ 0.9;
+(ii) **geteilte Paare halten die Wahl:** π_044(t) deutlich unter π_020(t) bei jedem t (hier nur ≈ 38 % geteilt), insbesondere π(150) < 0.9.
+Confound: andere Aufgabe (add 97 / mul 113) und Gerät (GPU); eine saubere Trennung von (i) und (ii) leistet erst
+[[experiments/EXP-053-p3-overlap-design/README|EXP-053]] (gleiche Aufgabe, gestufte Überlappung). Kein Urteil.

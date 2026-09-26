@@ -375,6 +375,10 @@ initialization frequencies conflicting training sets“, „critical learning pe
 - Lyle, Sokar, Pascanu, György 2025, https://arxiv.org/abs/2507.20057: Primacy Bias bei nichtstationären Daten, Verbindung zu
   Grokking, Abhilfe durch höhere effektive Lernrate; laut Abstract keine Frequenzmessung nach Datenwechsel. Relevant auch für
   EXP-020/N14 (kritische Periode).
-- https://arxiv.org/abs/2510.09687 (kritische Lernperioden, nur Titel gesehen, nicht gelesen).
+- https://arxiv.org/abs/2510.09687 (kritische Lernperioden; laut Abstract: Plastizitätsverlust nach Defizit-Daten, Abhilfe
+  durch zyklischen Lernratenplan; keine modulare Arithmetik, keine Fourier-Merkmale, kein Schritt-Timing).
+- Zusatzsuche (2026-09-26 ~15:16, „grokking modular addition change training set mid-training which Fourier frequencies
+  persist critical period steps“): nur allgemeine Grokking-/Fourier-Arbeiten (Nanda et al. 2023, He et al. 2026, AGF
+  arXiv 2506.06489), nichts zu Datenwechsel mit Frequenzmessung.
 Nicht gefunden (vorläufig, nur Abstracts): dass **widersprüchliche Splits vor der Festlegung** die Wahl zur Init zurückgeben,
 also ein Zusammenspiel Split-Signal ↔ Init-Lotterie, messbar über den Wechselzeitpunkt. Einordnung: Kandidat, Teil bekannt.

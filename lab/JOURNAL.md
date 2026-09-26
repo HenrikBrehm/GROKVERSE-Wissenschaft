@@ -270,3 +270,4 @@ gespeicherten MLP-Läufe haben dieselben Splits (gleicher Seed). r̄(M0): Transf
 aber schon. Zusätzlich: Gleicher Seed → höhere Überlappung der finalen Frequenzen über Architekturen hinweg, in 6/6
 Paaren, einzeln schwach. Einordnung: stützt N3 (Split wählt mit), bleibt aber post hoc. Bestätigung vorab festgelegt
 über EXP-015 Phase 2, EXP-014 und EXP-016.
+Exploration: Kombination log E0 + log M0 r̄ 0.284 (M0 0.307, E0 0.375), als Sekundärgröße für EXP-015 Phase 2 vorab ergänzt.

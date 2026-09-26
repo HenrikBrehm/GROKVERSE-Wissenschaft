@@ -63,3 +63,9 @@ wirkt also auch dort, wo die Init nichts vorhersagt.
 verschiedener Architekturen in allen 6 Paaren stärker als bei fremdem Seed (0.6–1.0 vs. 0.37–0.56 von 5), einzeln
 schwach (Permutations-p 0.015–0.33). Vorsicht: MLP-512/572 teilen wahrscheinlich die W_E-Init (gleiche RNG-Reihenfolge);
 nur die Paare mit Transformer bzw. Two-hot-MLP haben verschiedene Init und gleichen Split.
+
+## Nachtrag a (2026-09-26 03:20 Berlin, vor Phase 2; Baselines 11–19 existierten noch nicht)
+
+Exploration Seeds 0–9 (`combined_explore.py`): r̄ E0 0.375 · M0 0.307 · G0 0.302 · Rangmittel(E0, M0) 0.290 ·
+**log E0 + log M0: 0.284**. Für Phase 2 kommt als **Sekundärgröße** (nur berichtet, keine Entscheidung) hinzu:
+r̄(log E0 + log M0) gegen r̄(M0), einseitiger Vorzeichentest. Die Primärentscheidung (M0 gegen Null) bleibt unverändert.

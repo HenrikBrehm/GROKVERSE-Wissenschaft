@@ -2409,3 +2409,18 @@ Zeile 626). EXP-014 bleibt im Programm, nur am Ende. STATE Schritt 5 angepasst. 
 Verträglichkeit der neuen Felder mit `--check-smoke`, `result_loader.py` und den drei `analyze.py` bestätigt; Smokes umgehen den Wächter per `--force` in `raw_smoke`.
 Zwei niedrige Hinweise: (1) `--threads` im Fingerprint → eine Wiederholung mit anderer Threadzahl bricht ab. *Beibehalten, absichtlich:* Threads ändern die Rundung,
 also ist das eine andere Konfiguration. (2) `default=str` nur im Fingerprint, nicht beim Schreiben von `result.json`. *Verworfen für heute:* Alle Argumente sind int/str/bool.
+
+**Zyklus 3 (Codex-Prüfung des Nachtprogramms, zweiter Versuch, bis ≈ 01:25).** *Frage:* wie Sitzung 18 Zyklus 4 (dort Verbindungsabbruch). Neuer Codex-Faden, nur lesend.
+Codex nennt die Befunde „blockierend“. *Jeden Befund selbst geprüft:*
+(1) „kritisch“: Nach Exit 3 wartet `parallel_queue` auf laufende Jobs. *Verworfen:* Jeder laufende Job steht unter seinem eigenen `guarded_run.py` mit harter Grenze
+(Sitzungsdeadline bzw. 13:00). Das Warten kann das Fenster also nicht verletzen, es verhindert nur verwaiste Prozesse.
+(2) „kritisch“: Exit 124 zählt in `parallel_queue` als gewöhnlicher Fehlschlag, freie Plätze starten neue Jobs. *Verworfen als Fehler:* Alle Jobs haben dieselbe Deadline.
+Ein Start danach wird vom Wächter mangels Restzeit abgelehnt (Exit 3 → Stopp). `night_program.py` wertet 124 seit Sitzung 17 ohnehin als Ablehnung (Zeilen 98–109). Folgen: keine.
+(3) „hoch“: Fehlschläge der Durchsatzstufen J2/J4/J8 werden ignoriert, PASS braucht nur J1. *Stimmt, ist aber so gewollt:* `best_J` (Zeile 137) wählt nur unter **vollständigen**
+Stufen. Ein Absturz bei J8 (z. B. Speicher) senkt also nur J und verfälscht nichts. *Übernommen als Leseregel:* Beim Auswerten von GPU-001 die `summary.json` der Stufen
+`gpu001_tp_J*` prüfen. Ein Absturz dort ist ein Stabilitätshinweis und gehört ins JOURNAL.
+(4) „hoch“: Bei der Wiederaufnahme einer unfertigen GPU-001-Stufe werden deren Teilläufe neu gerechnet. *Stimmt, ist aber Absicht* (Review s13: kein Wiederverwenden von Läufen
+älteren Codes). Bestandene Stufen werden übersprungen (Sitzung 17). Kosten: höchstens eine Stufe, wenige Minuten.
+(5) „mittel“: `--cpu-workers` hat keine Obergrenze gegen die GPU-Threads. *Stimmt:* Der Standard (12 − J)//4 hält die Summe ≤ 12, nur eine ausdrückliche Zahl kann sie überschreiten.
+Keine Codeänderung. STATE nennt die explizite Zahl nur für den Fall ohne GPU.
+*Entscheidung:* keine Änderung am Nachtprogramm. Nichts davon blockiert den Start um 03:00.

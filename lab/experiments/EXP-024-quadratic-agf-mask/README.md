@@ -9,7 +9,7 @@ tags: [exp/vorbereitet, neu/kandidat]
 Zurück: [[LAB]] · [[BACKLOG]] · [[JOURNAL]] · [[NOVEL_DIRECTIONS]] (N11) · baut auf
 [[experiments/EXP-016-engineered-split/README|EXP-016]] und [[BEFUND-split-mechanismus]] auf.
 
-## Anlass (Sitzung 6, 08:40 Berlin, Rechnung ohne Training)
+## Anlass (Sitzung 6, ~08:40 Berlin, Rechnung ohne Training)
 
 Alternating Gradient Flows (Kunin et al. 2025, https://arxiv.org/abs/2506.06489): Bei kleiner Init wächst zuerst das
 Neuron mit dem größten Nutzen. Für das Zwei-Hot-Modell mit quadratischer Aktivation,
@@ -29,7 +29,7 @@ Die Top-5 von U(k) enthalten im Mittel **3.25 von 5 halben Zielen**, aber nur **
 Spearman(U, M0 bei 2k) = +0.30, Spearman(U, M0 bei k) = −0.01. Das ist eine Aussage über den Nutzen am Start,
 nicht über ein trainiertes Netz. Der Transformer lernt auf denselben Splits die Ziele selbst (EXP-016, 3.9/5).
 
-## Versuch (vorab festgelegt, 2026-09-26 ~08:55 Berlin, vor jedem Training dieses Versuchs)
+## Versuch (vorab festgelegt, 2026-09-26 ~08:43 Berlin, vor jedem Training dieses Versuchs)
 
 | Punkt | Festlegung |
 |---|---|
@@ -46,7 +46,7 @@ nicht über ein trainiertes Netz. Der Transformer lernt auf denselben Splits die
 | **Budget** | Schätzung aus Smoke; Abbruch bei NaN. Ein Job gleichzeitig, alles über `guarded_run.py` |
 | **Smoke** | Nur an eigenem Split Seed 9 (neu erzeugt unter `smoke_splits/`, nicht Teil der Auswertung); geprüft werden nur Laufbarkeit, Zeit, Endlichkeit. Falls der Smoke divergiert, dürfen lr/Init-Skala **vor** der Hauptserie geändert werden (dann hier nachgetragen) |
 
-## Nachtrag a (2026-09-26 ~08:50 Berlin, nach Codex-Review, vor jedem Training dieses Versuchs)
+## Nachtrag a (2026-09-26 ~08:48 Berlin, nach Codex-Review, vor jedem Training dieses Versuchs)
 
 Codex-Review (11 Punkte, Protokoll im [[JOURNAL]], Sitzung 6). Übernommen:
 1. **Herleitung unvollständig (übernommen):** Vollständig ist (u_a + v_{c−a})² = 1 + cos(ωkc + α + β) + ½cos(2ωka + 2α)
@@ -71,7 +71,7 @@ mit den tatsächlichen Masken und schließt das also ein; ein H-Befund belegt tr
 die Ursache ist (Alternativen: Landschaft des quadratischen Verlusts, AdamW). Ein positiver Befund heißt nur: Die
 Nutzenrechnung sagt die Wahl des trainierten Netzes voraus.
 
-## Nachtrag b (2026-09-26 ~08:58 Berlin, vor dem ersten ReLU-Lauf; Q-Läufe liefen, noch nicht angesehen)
+## Nachtrag b (2026-09-26 08:53 Berlin, Commit, vor dem ersten ReLU-Lauf; Q-Läufe liefen, noch nicht angesehen)
 
 Dieselbe exakte Nutzenrechnung mit ReLU statt x² (`utility_relu.py`, 19 Einheiten, 16 × 16 Phasen): Top-5 des Nutzens
 enthalten **4.68/5 Ziele F** und 0.37/5 halbe Ziele H. Die Theorie sagt also eine **Umkehr** voraus: quadratisch → H,

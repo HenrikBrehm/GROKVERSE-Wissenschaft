@@ -10,7 +10,7 @@ Zurück: [[LAB]] · [[BACKLOG]] · [[JOURNAL]] · [[NOVEL_DIRECTIONS]] (N11) · 
 [[experiments/EXP-024-quadratic-agf-mask/README|EXP-024]] (konstruierte Splits) · Gegenstück beim Transformer:
 [[experiments/EXP-015-mask-spectrum/README|EXP-015]] (M0 sagt K voraus, r̄ 0.28).
 
-## Versuch (vorab festgelegt 2026-09-26 ~09:05 Berlin, vor jedem EXP-025-Lauf und vor der EXP-024-Auswertung)
+## Versuch (vorab festgelegt 2026-09-26 08:55 Berlin, vor jedem EXP-025-Lauf und vor der EXP-024-Auswertung)
 
 | Punkt | Festlegung |
 |---|---|

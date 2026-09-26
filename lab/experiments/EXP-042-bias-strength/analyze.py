@@ -3,8 +3,9 @@ targets unchanged). H42 (head start vs split bias): a more concentrated G needs 
 Primary eps_G = 8 (grid 25, 50, 100, 150): cell 'later' if lo >= 50, 'same' if (lo, hi) == (25, 50), else 'unclear'.
 Secondary eps_G = 1 (grid 10, 25, 50): 'earlier' if hi <= 25, 'same' if (25, 50], else 'unclear' (descriptive only).
 Completed cells that are non-monotone, cross after gen_F or miss the endpoints d(0) < 0 < d(inf) count as 'unclear'.
-Reference t = inf: the EXP-020 only-F run (same init, bit-identical F); t = 0: own only-G_eps run.
-Verdict (primary): >= 3 complete seeds; all 'later' -> H42 gestuetzt; all 'same' -> Neigung ohne Einfluss; else unklar.
+Reference t = inf: own only-F run in eps8/raw (Nachtrag a; used for both eps); t = 0: own only-G_eps run.
+Verdict (primary, Nachtrag a wording): >= 3 complete seeds; all 'later' -> Zeitpunkt haengt vom zweiten Split ab (H42-Richtung;
+bias and overlap not separated); all 'same' -> keine Verschiebung bei dieser Gitteraufloesung; else unklar.
 Usage: python analyze.py [--selftest]"""
 from __future__ import annotations
 
@@ -33,8 +34,8 @@ def verdict(classes: list[str]) -> str:
     if len(classes) < MIN_SEEDS:
         return "nicht auswertbar"
     if all(c == "later" for c in classes):
-        return "H42 gestuetzt (staerker konzentriertes G verzoegert die Festlegung)"
-    return "Neigung ohne Einfluss auf den Zeitpunkt" if all(c == "same" for c in classes) else "unklar"
+        return "Zeitpunkt haengt vom zweiten Split ab (H42-Richtung; Neigung und Ueberlappung nicht getrennt)"
+    return ("keine Verschiebung bei dieser Gitteraufloesung" if all(c == "same" for c in classes) else "unklar")
 
 
 def load_mod(e: float):
@@ -42,12 +43,12 @@ def load_mod(e: float):
     m = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(m)
     base = HERE / f"eps{e:g}"
-    e20_inf = m.run_dir(30, math.inf).parent                      # EXP-020/raw (before patching HERE)
+    own_inf = HERE / "eps8" / "raw"                                # Nachtrag a: own only-F reference (both eps)
     m.HERE = base                                                  # splits + own runs of this eps
     m.SWITCH = GRIDS[e]
     m.GRID = (0.0, *map(float, GRIDS[e]), math.inf)
     orig = m.run_dir
-    m.run_dir = lambda s, t: e20_inf / orig(s, t).name if t == math.inf else orig(s, t)
+    m.run_dir = lambda s, t: own_inf / orig(s, t).name if t == math.inf else orig(s, t)
     return m
 
 
@@ -93,11 +94,12 @@ def selftest() -> None:
     assert classify(8.0, 25, 50) == "same" and classify(8.0, 0, 25) == "unclear"
     assert classify(1.0, 10, 25) == "earlier" and classify(1.0, 0, 10) == "earlier" and classify(1.0, 25, 50) == "same"
     assert classify(1.0, 50, math.inf) == "unclear"
-    assert verdict(["later"] * 2) == "nicht auswertbar" and verdict(["later"] * 3).startswith("H42")
-    assert verdict(["same"] * 4).startswith("Neigung") and verdict(["later", "later", "unclear"]) == "unklar"
+    assert verdict(["later"] * 2) == "nicht auswertbar" and verdict(["later"] * 3).startswith("Zeitpunkt")
+    assert verdict(["same"] * 4).startswith("keine") and verdict(["later", "later", "unclear"]) == "unklar"
     m = load_mod(8.0)
     assert m.GRID == (0.0, 25.0, 50.0, 100.0, 150.0, math.inf)
-    assert m.run_dir(30, math.inf).parent.parent.name == "EXP-020-data-switch"
+    assert m.run_dir(30, math.inf).parent.parent.name == "eps8" and m.run_dir(30, math.inf).name.endswith("train_F")
+    assert load_mod(1.0).run_dir(30, math.inf).parent.parent.name == "eps8"
     assert m.run_dir(30, 0).parent.parent.name == "eps8" and m.run_dir(30, 50).name.endswith("_at50")
     print("selftest ok")
 

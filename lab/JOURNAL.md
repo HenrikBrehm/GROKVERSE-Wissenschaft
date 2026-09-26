@@ -1434,3 +1434,8 @@ bitgleich geprüft, G bei eps 2 reproduziert exakt). Zielanteil M0(G): 0.115 (ep
 gleich. Vorab festgelegt (EXP-042-README, primär eps 8, Zelle *später* bei lo ≥ 50). *Ergebnis:* vorbereitet, ungetestet, in
 keiner Queue. Eigene Fehler: wieder Backticks in einem ungeschützten Heredoc (ein Wort im README fehlte, repariert, keine
 Wirkung); Betragsstriche |K ∩ F| in Tabellenzellen zerlegen Obsidian-Tabellen, in EXP-036/039/041/042 maskiert.
+
+**Codex zu EXP-042 (18:38, `EXP-042-bias-strength/codex_review_2026-09-26.txt`, needs-attention):** *später* trennt H42 nicht von
+stärkerer Verdrängung (Überlappung sinkt mit eps) → Urteil auf „Zeitpunkt hängt vom zweiten Split ab“ eingeengt; alte Referenzläufe →
+eigene „nur F“-Läufe; Gleichstand → „keine Verschiebung bei dieser Auflösung“; fehlende Job-Sperre → Warteschleife. Nicht übernommen:
+faktorielles Design (erst bei *später*).

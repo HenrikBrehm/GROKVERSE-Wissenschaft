@@ -32,6 +32,20 @@ Uhr (Λ, Strecke oder Schrittzahl) sagt dagegen dasselbe Fenster (25, 50] wie in
 
 **Neuheit:** vorläufig nicht gefunden (Suche 18:26, siehe N22; nächstverwandt AGF, Kunin et al. 2025).
 
+## Nachtrag a (18:38 Berlin, nach Codex-Review `codex_review_2026-09-26.txt`, vor jedem EXP-042-Lauf): gilt allein, wo abweichend
+
+Codex: needs-attention, 2 × hoch, 2 × mittel.
+1. **(hoch) Das Ergebnis *später* trennt H42 nicht von stärkerer Verdrängung** (eps 8 verringert auch die F/G-Überlappung von
+   ≈ 2770 auf ≈ 2200 Paare und verdoppelt die Zielneigung). **Teilweise übernommen:** Der Versuch trennt nur noch „der Zeitpunkt hängt
+   vom zweiten Split ab“ gegen „reiner, vom zweiten Split unabhängiger Takt (Λ, Strecke, Schritte)“. Urteil neu: alle *später* →
+   ***Zeitpunkt hängt vom zweiten Split ab (H42-Richtung; Neigung und Überlappung nicht getrennt)***. Einen Mechanismus (Vorsprung
+   gegen Neigung) belegt das nicht. Nicht übernommen: faktorielles Design Überlappung × Neigung (Folgeversuch, falls *später*).
+2. **(hoch) Referenz „nur F“ aus älteren EXP-020-Läufen** (andere Commits, nicht versioniert). **Übernommen:** eigene Läufe „nur F“ je
+   Seed in `eps8/raw` (für beide eps), zugleich eine beschreibende Reproduzierbarkeitsprüfung gegen EXP-020.
+3. **(mittel) Gleichstand als „kein Einfluss“.** **Übernommen:** alle *gleich* → ***keine Verschiebung bei dieser Gitterauflösung***.
+4. **(mittel) Kein Schutz gegen gleichzeitige Jobs.** **Übernommen:** Die Queue wartet zu Beginn, bis kein `guarded_run.py` mehr läuft.
+Budget neu ≈ 3.1 h. Code nach dem Nachtrag ungetestet (Selbsttest am Queue-Anfang).
+
 ## Status
 
 Vorab festgelegt, Splits erzeugt (reine Rechnung), Code **ungetestet** (Fenster geschlossen). Noch in keiner Queue.

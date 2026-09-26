@@ -1157,3 +1157,12 @@ Auswertungen → EXP-037 → EXP-035 → EXP-036 → EXP-034 → queue_s5.
 *Eigener Fehler (zweimal in dieser Sitzung):* Backticks in einem ungeschützten Heredoc wurden von der Shell ausgeführt
 (einmal wurde dabei die Logdatei als Skript gestartet und brach sofort mit Syntaxfehler ab, keine Wirkung); Text repariert.
 Ab jetzt Journaltext nur noch über Python oder `<<'EOF'` schreiben.
+
+**15:43 EXP-020 Seed 33 (4/5 Seeds; erster frischer Seed für Nachtrag d).** d = −4 (t=0), −5 (10), −5 (25), **+2 (50)**, +3 (150…∞), gen_F = 1325.
+Intervall wieder (25, 50], aber **nicht monoton** (d(10) < d(0)): Der reine G-Lauf hat 6 = 2 · 3 (Oberwelle des G-Ziels 3) statt
+des G-Ziels 34 in K. Nach der vorab festgelegten Regel (Monotonie Pflicht) zählt Seed 33 **gegen H20**; das ist eine Folge der
+strengen Regel, nicht eines anderen Festlegungsintervalls. Wird so berichtet, die Regel wird nicht nachträglich geändert.
+Nachtrag c: Train-Acc „nur F“ bei Schritt 50 = 0.089 ≤ 0.5 → erfüllt (3/3 der Seeds 31–34).
+**Nachtrag d, Seed 33:** fremd nur 38 (t = 50), keine bei t ≥ 150 → **P-d1 erfüllt**. Aber Init-Rang von 38 = **34** (von 56),
+also eher Zufall als Init-Spitze; spricht für P-d2 in die Gegenrichtung (Entscheid erst mit Seed 34). Der t = 50-Lauf
+generalisierte nach 2000 G-Schritten nicht (gen None).

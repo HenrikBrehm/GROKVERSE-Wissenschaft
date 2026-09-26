@@ -5,18 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 14:49 Berlin (12:49Z, vom Runner)
 - **Deadline:** 2026-09-26 17:49 Berlin (15:49Z)
-- **Zuletzt aktualisiert:** 15:06 Berlin
+- **Zuletzt aktualisiert:** 15:33 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-Die Warteschlange queue_s8.sh läuft: EXP-020 Seed 33 (danach 34, bis ~16:25). Codex prüft den Entwurf von EXP-037.
+Neue Warteschlange queue_s9.sh läuft: EXP-020 Seed 33 (danach 34, bis ~16:25), dann **EXP-037** (~42 min), dann EXP-035.
 
 ## Als Nächstes
 
-Codex-Einwände zu EXP-037 einarbeiten; dann die Warteschlange auf queue_s9.sh umstellen (EXP-037 kurz nach EXP-020, ~30 min).
+Seeds 33/34 auswerten (Vorhersage Nachtrag d); EXP-037 auswerten, danach Ablation der fremden Frequenzen (von Hand).
 
 ## Verlauf dieser Sitzung
+
+- 15:33 EXP-020 Seed 33 (vorläufig, ohne t = 400/1000): wieder Festlegung zwischen Schritt 25 und 50, 4. Seed in Folge.
+
+- 15:15 Codex fand 3 Schwächen in EXP-037 (Urteile überlappten, Kontrolle fehlte, Smoke zu schwach). Alles behoben; zusätzlich Kontrolllauf „F 100 Schritte, dann G“. Warteschlange umgestellt, EXP-037 läuft heute noch.
 
 - 15:06 **EXP-037 vorbereitet:** Was passiert, wenn F und G sich in den ersten 200 Schritten ständig abwechseln? Gewinnt dann die Initialisierung? 6 kurze Läufe.
 - 15:04 Dauerhaft oder nur langsam? In der G-Phase wird die F-Festlegung sogar stärker (F-Anteil 0,36 → 0,91). Kein Langlauf nötig.

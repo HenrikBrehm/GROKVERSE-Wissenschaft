@@ -40,6 +40,10 @@ def part(t_ar: int, suffix: str, end: str) -> dict:
         u = {"seed": s, "ok": ok, "tests": [r and r["final_test_acc"] for r in (an, ar, gd)]}
         if ok:
             d0 = ds(an, end)
+            if end == "p2_5000":   # Nachtrag c (P34d): growth of the bias before vs around generalization
+                for nm, r in (("ar", ar), ("gd", gd)):
+                    u[f"early_{nm}"] = ds(r, "p2_1000") - ds(r, "p2_0")
+                    u[f"late_{nm}"] = ds(r, "p2_3000") - ds(r, "p2_1000")
             u.update(ds0=d0, d_ar=ds(ar, end) - d0, d_gd=ds(gd, end) - d0, dsw_ar=ds(ar, "switch"), dsw_gd=ds(gd, "switch"),
                      gen=[an["gen_step_test95"], ar["gen_step_test95"], gd["gen_step_test95"]])
         else:
@@ -51,6 +55,9 @@ def part(t_ar: int, suffix: str, end: str) -> dict:
         out.update(k_ar=int(sum(u["d_ar"] > 0 for u in ok)), k_gd=int(sum(u["d_gd"] > 0 for u in ok)),
                    mean_d_ar=float(np.mean([u["d_ar"] for u in ok])), mean_d_gd=float(np.mean([u["d_gd"] for u in ok])),
                    dsw_gd_gt_ar=int(sum(u["dsw_gd"] > u["dsw_ar"] for u in ok)))
+        if "late_ar" in ok[0]:
+            out["P34d"] = {nm: int(sum(u[f"late_{nm}"] > u[f"early_{nm}"] for u in ok)) for nm in ("ar", "gd")}
+            out["P34d"]["verdict"] = ("bestätigt" if min(out["P34d"]["ar"], out["P34d"]["gd"]) >= 8 else "nicht bestätigt")
     return out
 
 

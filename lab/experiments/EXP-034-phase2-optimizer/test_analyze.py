@@ -29,7 +29,9 @@ def spec(ds: float) -> list[float]:
 
 def run(ds_end, ds_sw, r, end_key, test=1.0):
     return {"complete": True, "targets": T, "final_test_acc": test, "r_switch": r, "gen_step_test95": 2000,
-            "spectra": {end_key: {"weighted": spec(ds_end)}, "switch": {"weighted": spec(ds_sw)}}}
+            "spectra": {end_key: {"weighted": spec(ds_end)}, "switch": {"weighted": spec(ds_sw)},
+                        "p2_0": {"weighted": spec(ds_sw)}, "p2_1000": {"weighted": spec(ds_sw)},
+                        "p2_3000": {"weighted": spec(ds_end)}}}
 
 
 def build(root: Path, d_ar5, d_gd5, d_ar10, d_gd10, d_b, lr2=3.0, drop=None):

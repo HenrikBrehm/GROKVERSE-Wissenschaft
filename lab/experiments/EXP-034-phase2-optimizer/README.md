@@ -63,6 +63,14 @@ Umschaltschritt voraus (Spearman 0.84). Für 60–69 vorab berechnet (`linear_mo
 0 < ρ < 0.5 → *richtungsgleich*; ρ ≤ 0 → *widerspricht*. Zusatz: Split 69 hat die kleinste GD10-Neigung am Umschaltschritt.
 Beschreibend: dasselbe für AR10, GD5, AR5 und für Δ am Ende.
 
+## Nachtrag c (2026-09-26 13:48 Berlin, vor jedem EXP-034-Lauf): Wann wird die frühe Neigung verstärkt?
+
+Post hoc in EXP-033 (Mittel über 10 Splits, ds ohne Ankerabzug): AR 0.066 (Umschalten) → 0.076 (Phase-2-Schritt 1000) → 0.117
+(3000); GD 0.105 → 0.102 → 0.155; SIGN 0.071 → 0.082 → 0.130; Anker (nur x²) bleibt bei ≈ 0. Die Neigung bleibt in der
+Memorisierungsphase fast gleich und wächst um die Generalisierung (≈ Schritt 2000). **P34d (sekundär, vorab):** In Teil A
+(AdamW-Phase 2, beide Stufen getrennt ausgewertet in `A5`/`A10`) ist der Zuwachs von ds zwischen Phase-2-Schritt 1000 und 3000
+größer als zwischen 0 und 1000, in ≥ 8/10 Splits für AR **und** GD → *bestätigt*, sonst *nicht bestätigt*.
+
 ## Befehle
 
     sh lab/experiments/EXP-034-phase2-optimizer/make_splits.sh        # erledigt 13:23 (über den Wächter)

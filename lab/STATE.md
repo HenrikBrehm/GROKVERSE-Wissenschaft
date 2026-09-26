@@ -21,7 +21,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
   6. Auswerten: `python lab/tools/night_report.py lab/runner/logs/gpu_s11.log` (liest GPU-001-Verdikte und alle summary.json).
      **Vor jeder Deutung** [[LESART-nacht-2026-09-27]] lesen (vorab festgelegte Kombinationsregeln), dann READMEs/LAB/FINDINGS eintragen.
   7. Falls die GPU-Queue deutlich vor 13:00 fertig ist: [[experiments/EXP-050-phase-dissociation/README|EXP-050]] (M0c gegen M0,
-     vorbereitet, unabhängig geprüft (s. JOURNAL s13)) mit `sh lab/experiments/EXP-050-phase-dissociation/queue.sh J` starten (J aus
+     vorbereitet, unabhängig geprüft, nach Prüfung um Kontrollmodus quadlm erweitert; 60 Läufe) mit `sh lab/experiments/EXP-050-phase-dissociation/queue.sh J` starten (J aus
      `verdict_throughput.json`).
   Neu in Sitzung 13: EXP-048 (nicht-modulare Addition, Primärgröße trendbereinigtes Δ_pow), EXP-049 (4× Breite), EXP-050 (nicht
   eingereiht); Nachträge vor jedem Lauf in EXP-046 (Lesart), EXP-047 (Theorie: Häufigkeiten wirken im ersten Gradienten nicht), GPU-001

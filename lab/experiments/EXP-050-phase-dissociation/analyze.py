@@ -1,10 +1,12 @@
 """EXP-050: does the transformer select frequencies by the coherent mask spectrum M0c or by M0? UNTESTED.
 
-Per init seed i (180-189), four GPU runs of 2000 steps (add mod 113, transformer, freq_ban.py --split-file): sym_F, sym_G,
-anti_F, anti_G. Delta_pow_mode = log[P_F(F)/P_F(G)] + log[P_G(G)/P_G(F)] from the W_E spectrum at step 2000 (spectra.npy).
-H50a (M0c selects):      D = Delta_pow_sym - Delta_pow_anti > 0, one-sided sign-flip test.
-H50b (M0 still steers):  Delta_pow_anti > 0, one-sided sign-flip test.     Holm over {a, b}.
-Validity: all four runs of a seed completed, 2000 steps, cuda, p 113 / add, split hash = content of the .npy, finite spectra;
+Per init seed i (180-189), six GPU runs of 2000 steps (add mod 113, transformer, freq_ban.py --split-file): modes
+quadlm, anti, sym x arms F, G. Delta_pow_mode = log[P_F(F)/P_F(G)] + log[P_G(G)/P_G(F)] from the W_E spectrum at step 2000.
+H50a (M0c selects):      D = Delta_pow_quadlm - Delta_pow_anti > 0 (same M0, counts, mirror pairs; M0c top vs chance).
+H50b (M0 still steers):  Delta_pow_anti > 0.     One-sided sign-flip tests, Holm over {a, b}.
+Secondary (reported): D_sym = Delta_pow_sym - Delta_pow_anti (confounded by the mirror-pair count), manipulation check
+Delta_pow_quadlm > 0, accuracies/gen per mode (mirror pairs may change memorization speed, He et al. 2026).
+Validity: all six runs of a seed completed, 2000 steps, cuda, p 113 / add, split hash = content of the .npy, finite spectra;
 < 8 valid seeds -> 'nicht auswertbar'. Definition: README.md.
 """
 from __future__ import annotations
@@ -76,7 +78,7 @@ def row(s: int) -> dict:
     meta = json.loads((HERE / f"splits/split_add113_seed{s}_sym_F.json").read_text(encoding="utf-8"))
     F, G = meta["targets_F"], meta["targets_G"]
     r.update({"F": F, "G": G})
-    for mode in ("sym", "anti"):
+    for mode in ("quadlm", "anti", "sym"):
         pw = {}
         for arm in "FG":
             pw[arm], why, info = spectrum(s, mode, arm)
@@ -86,7 +88,8 @@ def row(s: int) -> dict:
             r[f"{mode}_{arm}"] = info
         r[f"Delta_pow_{mode}"] = delta_pow(pw["F"], pw["G"], F, G)
     r["valid"] = True
-    r["D"] = r["Delta_pow_sym"] - r["Delta_pow_anti"]
+    r["D"] = r["Delta_pow_quadlm"] - r["Delta_pow_anti"]
+    r["D_sym"] = r["Delta_pow_sym"] - r["Delta_pow_anti"]
     return r
 
 
@@ -115,13 +118,17 @@ def main() -> None:
         D = np.array([r["D"] for r in valid])
         A = np.array([r["Delta_pow_anti"] for r in valid])
         S = np.array([r["Delta_pow_sym"] for r in valid])
+        Q = np.array([r["Delta_pow_quadlm"] for r in valid])
+        DS = np.array([r["D_sym"] for r in valid])
         ps = {"a": one_sided_p(D), "b": one_sided_p(A)}
         sig = holm(ps)
         out.update({"D_mean": float(D.mean()), "Delta_pow_anti_mean": float(A.mean()), "Delta_pow_sym_mean": float(S.mean()),
-                    "p_a": ps["a"], "p_b": ps["b"], "holm": sig, "p_sym_manipulation": one_sided_p(S),
+                    "Delta_pow_quadlm_mean": float(Q.mean()), "D_sym_mean_secondary": float(DS.mean()),
+                    "p_D_sym_secondary": one_sided_p(DS),
+                    "p_a": ps["a"], "p_b": ps["b"], "holm": sig, "p_quadlm_manipulation": one_sided_p(Q),
                     "n_D_positive": int((D > 0).sum()), "n_anti_positive": int((A > 0).sum())})
-        out["verdict_a"] = ("M0c selektiert (sym > anti)" if D.mean() > 0 and sig["a"] else
-                            "richtungsgleich, n. s." if D.mean() > 0 else "widerspricht (anti >= sym)")
+        out["verdict_a"] = ("M0c selektiert (quadlm > anti)" if D.mean() > 0 and sig["a"] else
+                            "richtungsgleich, n. s." if D.mean() > 0 else "widerspricht (anti >= quadlm)")
         out["verdict_b"] = ("anti steuert trotzdem (M0-Anteil)" if A.mean() > 0 and sig["b"] else
                             "richtungsgleich, n. s." if A.mean() > 0 else "anti steuert nicht")
     (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")

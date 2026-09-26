@@ -30,6 +30,9 @@
  "rank_counts": 20.2,
  "share_M0": 0.18451257061442009,
  "share_M0c": 0.09375536669187783,
+ "mirror_pairs": 432,
+ "diag_pairs": 43,
+ "order_bias": -0.11694074654137301,
  "M0c_top5": [
   7,
   44,

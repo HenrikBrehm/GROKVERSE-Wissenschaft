@@ -34,18 +34,18 @@ beide nie zu trennen. Dieser Versuch trennt sie kausal.
 | | |
 |---|---|
 | **Fragestellung** | Folgt die Frequenzwahl des Transformers dem kohärenten Spektrum M0c oder dem Spektrum M0? |
-| **H50a (M0c selektiert)** | D_i = Δ_pow,sym − Δ_pow,anti > 0 |
+| **H50a (M0c selektiert)** | D_i = Δ_pow,quadlm − Δ_pow,anti > 0 (**geändert vor jedem Lauf, Nachtrag a**; vorher sym − anti) |
 | **H50b (M0 steuert trotzdem)** | Δ_pow,anti > 0 |
 | **Primärgröße** | Δ_pow = log[P_F(F)/P_F(G)] + log[P_G(G)/P_G(F)] je Modus (wie EXP-048/049; an EXP-016 kalibriert: 8.4) |
 | **Test** | je einseitiger Vorzeichen-Permutationstest über die gültigen Seeds; **Holm über {a, b}** |
-| **Gültig** | alle vier Läufe eines Seeds `completed`, 2000 Schritte, cuda, p 113/add, Split-Hash = .npy, Spektren endlich; < 8 gültige Seeds: *nicht auswertbar* |
+| **Gültig** | alle sechs Läufe eines Seeds `completed`, 2000 Schritte, cuda, p 113/add, Split-Hash = .npy, Spektren endlich; < 8 gültige Seeds: *nicht auswertbar* |
 | **Urteil a** | *M0c selektiert*: D̄ > 0 und Holm-signifikant · *richtungsgleich, n. s.* · *widerspricht*: D̄ ≤ 0 |
 | **Urteil b** | *anti steuert trotzdem (M0-Anteil)*: Δ̄_anti > 0 und Holm-signifikant · *richtungsgleich, n. s.* · *anti steuert nicht*: Δ̄_anti ≤ 0 |
-| **Manipulationsprüfung (berichtet)** | Δ̄_pow,sym > 0 (sym muss steuern, sonst ist a nicht deutbar) |
+| **Manipulationsprüfung (berichtet)** | Δ̄_pow,quadlm > 0 (quadlm muss steuern, sonst ist a nicht deutbar); sekundär D_sym = Δ_pow,sym − Δ_pow,anti (durch die Spiegelpaarzahl konfundiert), gen und Train-/Test-Genauigkeit je Modus |
 | **Vorhersage erster Ordnung** | a ja, b nein (anti ≈ 0) |
 | **Gegenhypothese** | Die Wahl folgt M0 (z. B. weil spätere Schritte mit nicht gleichverteilter Ausgabe oder die MLP-Nichtlinearität J_L ≠ J_R machen): D̄ ≈ 0, b ja |
 | **Was die Deutung begrenzt** | Zwischenergebnis „a ja und b ja“: Kreuzterm verstärkt, M0 trägt auch. Nur Transformer; der Gegenversuch im MLP mit getrennten W_in-Hälften (Vorhersage dort umgekehrt: anti steuert, sym nicht stärker) ist ein Folgeversuch. sym hat auf den Zielen mehr M0c-Leistung als EXP-016 (0.270 vs. ≈ 0.19): Δ_pow,sym ist deshalb nicht direkt mit EXP-016 vergleichbar |
-| **Budget** | 40 Läufe à 2000 Schritte auf der GPU (wie EXP-047), J parallel |
+| **Budget** | 60 Läufe à 2000 Schritte auf der GPU (3 Modi × F/G × 10 Seeds), J parallel |
 
 ## Befehle
 
@@ -66,3 +66,17 @@ Konstruktion des Splits über die Phase des Kreuzterms (laut Suchtreffer-Zusamme
 („nach unserer Suche vom 2026-09-26 nicht gefunden“; nur Zusammenfassungen geprüft).
 
 *Entscheidung (20:28):* Der MLP-Gegenarm (Vorhersage: MLP mit getrennten W_in-Hälften folgt M0, also steuert anti dort) wird erst nach [[experiments/EXP-045-mlp-steering/README|EXP-045]] festgelegt: Erst dessen K bei 2000 und 10 000 Schritten zeigt, ob das MLP nach 2000 Schritten schon eine Auswahl getroffen hat. `freq_ban.py --arch mlp` kann die EXP-050-Splits unverändert trainieren (Run-IDs enden auf `_mlp_devcuda`, kollidieren nicht mit dem Transformer-Glob).
+
+## Nachtrag a (Sitzung 13, 2026-09-26 20:32 Berlin, gemessen; **vor jedem Lauf**): Spiegelpaar-Confound, Kontrollmodus quadlm
+
+Unabhängige Prüfung (Claude-Subagent, nur numpy; Codex ohne Guthaben): Herleitung, M0/M0c gegen die Referenzimplementierungen (Abweichung 0), alle README-Zahlen, Globs, Holm, Vorzeichentest und Shell bestätigt. **Hoch, übernommen:** Über alle k summiert ist der Kreuzterm durch die Zahl der **Spiegelpaare** festgelegt ((a, b) und (b, a) beide im Training; Kreuzterm-Summe = 2p·(2·Spiegelpaare + Diagonale)). sym hat 706, anti 420, Zufall 571 Spiegelpaare. Symmetrische Paare werden früher memoriert (He et al. 2026, https://arxiv.org/abs/2602.16849); sym gegen anti hätte also auch Lerntempo/Verstärkung verglichen, nicht nur die frequenzspezifische M0c-Auswahl. **Mittel, vermerkt:** anti neigt die Reihenfolge der Operanden (Anteil a > b minus a < b: −0.041 ± 0.049, bis −0.165).
+
+**Neuer Kontrollmodus quadlm** (make_split.py): Viertelphase φ = π/4 − πkc/p (Kreuzterm auf den Zielen genau null → M0c = M0 dort; deterministische Phase → Token-Häufigkeiten auf Zufallsniveau wie bei sym/anti; Zufallsphasen wie in EXP-016 hätten Häufigkeitsrang 12.9 ergeben und wurden deshalb verworfen), danach Spiegelpaare durch Tausch (ein Glied eines Spiegelpaares raus, ein q-gewichtetes Paar ohne neuen Spiegel rein) **exakt** auf die Zahl des anti-Splits desselben Seeds und Arms gesenkt. Offline (20 Splits je Modus):
+
+| Modus | Zielrang M0 | Zielrang M0c | Häufigkeitsrang | Anteil M0 | Anteil M0c | Spiegelpaare | Diagonale | Reihenfolge |
+|---|---|---|---|---|---|---|---|---|
+| quadlm | 2.0 | 2.0 | 25.7 | 0.192 | 0.195 | 420 | 53 | −0.028 |
+| anti | 2.0 | 25.3 | 24.9 | 0.193 | 0.091 | 420 | 34 | −0.041 |
+| sym | 2.0 | 2.0 | 25.4 | 0.190 | 0.270 | 706 | 55 | −0.003 |
+
+**Primärvergleich jetzt quadlm gegen anti** (gleiches M0, gleiche Häufigkeiten, gleiche Spiegelpaarzahl; verschieden nur in M0c; verbleibend: 19 Diagonalpaare mehr in quadlm, leicht verschiedene Reihenfolge-Neigung). sym gegen anti nur noch sekundär. Die sym/anti-Splitdateien sind unverändert (nur die JSON-Metadaten um Spiegelpaare/Diagonale/Reihenfolge ergänzt). 60 statt 40 Läufe.

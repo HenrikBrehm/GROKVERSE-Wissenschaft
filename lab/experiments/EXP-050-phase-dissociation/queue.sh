@@ -1,6 +1,6 @@
 #!/bin/sh
 # EXP-050 (session 13, UNTESTED, NOT in queue_gpu_s11.sh): M0c vs M0 dissociation, add mod 113, seeds 180-189,
-# modes sym/anti x arms F/G, 2000 steps, transformer, GPU only (rule 16d). Needs GPU-001 PASS. Usage: sh queue.sh [J].
+# modes quadlm/anti/sym x arms F/G, 2000 steps, transformer, GPU only (rule 16d). Needs GPU-001 PASS. Usage: sh queue.sh [J].
 # Every run through guarded_run.py; completed runs skip (freq_ban.py exit 0). rc 3 stops (exit 3), other failures are
 # counted and the queue exits 1 at the end.
 J=${1:-4}
@@ -22,7 +22,7 @@ job() {  # $1 seed $2 mode $3 arm
   return 0
 }
 n=0
-for s in 180 181 182 183 184 185 186 187 188 189; do for m in sym anti; do for a in F G; do
+for s in 180 181 182 183 184 185 186 187 188 189; do for m in quadlm anti sym; do for a in F G; do
   job $s $m $a & n=$((n+1)); [ $n -ge $J ] && { wait; n=0; }
 done; done; done
 wait

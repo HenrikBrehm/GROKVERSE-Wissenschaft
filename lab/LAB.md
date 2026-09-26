@@ -57,3 +57,4 @@ nutzt ([[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]).
 | [[experiments/EXP-033-optimizer-lockin/README\|EXP-033]] Ist die 5-Schritte-Festlegung ein AdamW-Artefakt? Frühe Phase mit GD/signGD bis zur gleichen Amplitude | abgeschlossen (Sitzung 8) | *zustandsbestimmt* (vorab), nach Codex eingeschränkt: AdamW in Phase 1 **nicht nötig** (GD 10/10, sogar stärker), Phase 2 war AdamW |
 | [[experiments/EXP-034-phase2-optimizer/README\|EXP-034]] Hält die Festlegung auch mit GD in Phase 2? 5-Schritte-Stufe ohne AdamW? Frische Splits 60–69 | vorbereitet (Sitzung 8) | — |
 | [[experiments/EXP-035-warmup-lockin/README\|EXP-035]] Verschiebt ein Lernraten-Warmup die Festlegung des Transformers (EXP-020-Protokoll)? | vorbereitet (Sitzung 8) | — |
+| [[experiments/EXP-036-init-conflict/README\|EXP-036]] Kommen die „fremden“ Frequenzen früher Datenwechsel aus der Init? Neue Init, gleiche Splits ([[NOVEL_DIRECTIONS]] N15) | vorbereitet (Sitzung 9) | — |

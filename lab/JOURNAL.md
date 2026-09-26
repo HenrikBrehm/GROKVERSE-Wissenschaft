@@ -1100,3 +1100,12 @@ t ≤ 50, nie bei t ≥ 150 (Seed 32: bisher nur t = 150). Zusätzlich auch auß
 W_E-Spektrum bei Schritt 0: 1, 2, 4, 8, 11, 18, 29 (Median 8 von 56). *Ergebnis:* Muster in 3/3 Seeds (Exploration).
 *Entscheidung:* für die noch nicht gelaufenen Seeds 33/34 vorab festgelegt (Nachtrag d, P-d1/P-d2, commit 7537783).
 Ein kausaler Test wäre ein Initwechsel bei gleichem Split (Idee, nächster Zyklus).
+
+**Zyklus 2 (14:55–15:00): Literatur N15 und Angriff „nur Init-Rest“ (ohne Training).** (a) Suche (Suchbegriffe in
+[[NOVEL_DIRECTIONS]] N15): He et al. 2026 (arXiv 2602.16849) zeigen für Zweischicht-Netze, dass Init-Betrag und Phase die Frequenz
+je Neuron auswählen („Lottery Ticket“) → Init-Auswahl an sich **bekannt**; Lyle et al. 2025 (arXiv 2507.20057) verbinden Primacy
+Bias mit Grokking (relevant für EXP-020/N14). Nicht gefunden: Rückgabe der Wahl an die Init durch widersprüchliche frühe Splits.
+(b) Einwand: Sind fremde Frequenzen nur Init-Reste in nicht fertig trainierten Netzen? Test-Acc der Mischläufe: Seed 30 t = 25/50:
+0.95/1.00 (fremd 34, 39), Seed 31 t = 25/50: 0.99/1.00 (fremd 22 bzw. 42), Seed 32: 0.90/0.16/0.90, Seed 31 t = 10: 0.50.
+*Ergebnis:* Fremde Frequenzen stehen auch in voll generalisierenden Netzen → nicht nur Rest. Für EXP-036 als beschreibende
+Zusatzangabe übernehmen (Test-Acc je Lauf mit fremder Frequenz).

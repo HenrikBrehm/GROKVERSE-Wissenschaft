@@ -1,0 +1,55 @@
+(node:12532) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0ddc7-d57b-7ef1-96fb-c52f80db98c8).
+[codex] Turn started (01a0ddc7-d7bc-7c72-a18e-7d527e3f5912).
+[codex] Assistant message captured: {"verdict":"approve","summary":"I’m inspecting the exact two-commit diff and tracing the expe...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Assistant message captured: {"verdict":"approve","summary":"The main causal claim turns on two invariants I’m now checkin...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git show HEAD:lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git show HEAD:lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git show HEAD:lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git show HEAD:lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git ls-tree -r --n...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git ls-tree -r --n... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show HEAD:trai...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show HEAD:trai... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show HEAD:lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show HEAD:lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git ls-tree -r --n...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git ls-tree -r --n... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show HEAD:lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show HEAD:lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git grep -n \"isna...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git grep -n \"isna... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The proposed EXP-036 verdict is not statistically def...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"No-ship: EXP-036 can report statistically significant...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against bc66a11
+Verdict: needs-attention
+
+No-ship: EXP-036 can report statistically significant init causality from only one independent initialization pair, and neither analysis reliably verifies its input runs.
+
+Findings:
+- [high] The sign test treats correlated frequencies as independent experiments (lab/experiments/EXP-036-init-conflict/analyze.py:77-85)
+  `n` counts foreign frequencies, but the intervention is applied only three times—once per initialization/split pair. Frequencies from one pair share the same five trajectories, compete for the same Top-5 slots, and share rank permutations, so they are not independent Bernoulli trials. One pair yielding five concordant frequencies can produce 5/5 and p=1/32 even though only one independent intervention supports the direction. At the pair level, even 3/3 has a minimum one-sided sign-test p-value of 1/8. The reported p-value and `init-getrieben` verdict therefore overstate the evidence.
+  Recommendation: Use the initialization/split pair as the inferential unit and add enough independent pairs for the desired test, or use a pre-registered cluster-level randomization test that preserves all within-pair frequency dependence.
+- [high] The primary statistic does not test whether changing initialization changes the selected frequencies (lab/experiments/EXP-036-init-conflict/analyze.py:68-85)
+  The tested frequencies are selected from the new-init post-training outcome, after applying a filter also derived from new-init pure runs; only then are their new and old ranks compared. The old-init foreign outcome is computed but cannot affect the verdict. Consequently, identical old/new foreign sets—explicitly listed in the README as evidence against H36—can still receive an `init-getrieben` verdict. This is an outcome-conditioned rank association, not a causal comparison showing that the intervention changed frequency choice; the asserted 50% null additionally requires the selected set to be independent of both rank vectors, which is not established by this design.
+  Recommendation: Define a symmetric paired outcome using both old and new foreign sets, and recompute the full selection statistic under within-pair init-label permutations. If the intended claim is specifically about the initial W_E spectrum, transplant or permute W_E while holding all other initialized weights fixed.
+- [medium] EXP-020 marks seeds complete using spectra alone (lab/experiments/EXP-020-data-switch/conflict_freqs.py:47-64)
+  `complete` only means that expected spectrum entries were found. The pure and switched runs are never checked for completed status, expected seed, step count, split/test/switch hashes, configuration, or finite values. The runner writes spectrum files before atomically publishing the completed result, so an interrupted run can leave exactly the files this code accepts. Stale or non-finite artifacts can therefore satisfy P-d1/P-d2 while violating the pre-registered all-runs-valid requirement.
+  Recommendation: Load and validate `result.json` for all eight runs, require `completed`, expected steps and arguments, matching data hashes/configuration/init checksum, and finite spectra before setting `complete=True`.
+- [medium] EXP-036 also accepts unverified pure and mismatched switched runs (lab/experiments/EXP-036-init-conflict/analyze.py:43-60)
+  The pure runs are accepted solely from three `.npy` entries, without even checking `result.json`. Switched runs check only `status == completed`; they do not verify seed, expected total steps, switch step, split/test/switch hashes, configuration, init consistency across runs, or spectrum finiteness. A partial pure run or a stale completed directory with matching filename stems can therefore enter the causal verdict undetected.
+  Recommendation: Use one fail-closed run loader for pure and switched arms that validates completion, provenance, exact steps and hashes, consistent initial checksums/configuration, and finite arrays before returning data.
+
+Next steps:
+- Redesign the inferential unit and primary symmetric statistic before running EXP-036.
+- Add shared fail-closed result validation to both analyses.
+- Extend self-tests with clustered-frequency, identical-old/new-set, partial-run, wrong-hash, and NaN cases.

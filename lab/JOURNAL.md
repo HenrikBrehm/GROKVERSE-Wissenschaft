@@ -918,7 +918,7 @@ H-Neigung in allen Breiten (u +0.10…+0.36), aber nicht breitenabhängig. Idee 
 **Offene Grenzen:** Zwei-Hot-Befunde an einer Architektur, AdamW, 5 Splits; ReLU-/σ₃-Netze memorieren in 5000 Schritten nur.
 Der Abdruck-Befund ist korrelativ (Mediation); der Eingriff EXP-031 ist nach Codex zurückgestellt (Spender trägt Init und
 Split zugleich). EXP-025 bei Sitzungsende unvollständig.
-**Codex:** fünf Reviews (EXP-026, EXP-027, N13-Schluss, EXP-031, dazu Designfragen); jedes Mal Einwände übernommen, zweimal
+**Codex:** vier Reviews (EXP-026, EXP-027, N13-Schluss, EXP-031); jedes Mal Einwände übernommen, zweimal
 wurde ein Design vor dem ersten Lauf umgebaut, einmal (EXP-031) ein Versuch gestoppt.
 **Eigene Fehler:** ein synthetischer Test ohne Wächter gestartet; ein `git commit -a` mit Nutzerdateien (sofort rückgängig);
 mehrfach geschätzte statt gemessene Uhrzeiten eingetragen (korrigiert).

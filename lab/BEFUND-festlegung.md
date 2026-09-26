@@ -38,11 +38,11 @@ Spekulation sind getrennt markiert. „Neu“ heißt immer: nach unserer Suche v
 
 | Hypothese | Aussage | Test |
 |---|---|---|
-| **Λ-Uhr** (N17) | Die Wahl fällt bei fester aufsummierter Lernrate Λ ∈ (25, 50] | [[experiments/EXP-039-lr-clock/README|EXP-039]] (lr × 2 / × 0.5) |
-| **H40, Amplitudenschwelle** (N18) | Die Wahl fällt, wenn das Datensignal in W_E die Init-Amplitude einholt; unter Adam ∝ Λ, deshalb sieht es wie eine Λ-Uhr aus | [[experiments/EXP-040-we-init-scale/README|EXP-040]] (W_E-Init × 0.5 / × 2), Zahl-Vorhersage R ≈ 1 |
-| **H42, Vorsprung gegen Neigung** (N22) | Jede Frequenzmenge löst die Aufgabe; der Split neigt nur. Festgelegt, sobald der Vorsprung die Neigung des neuen Splits überwiegt | [[experiments/EXP-042-bias-strength/README|EXP-042]] (stärker konzentriertes G) |
-| **Prägung** (N19) | Ein kurzer Vorlauf legt die Frequenzen auch gegen einen Zufallssplit fest; ob ein schwacher Split genauso prägt, ist offen | [[experiments/EXP-041-imprint/README|EXP-041]] |
-| **Init bei Konflikt** (N15) | Heben sich F und G auf, entscheidet die Init | [[experiments/EXP-036-init-conflict/README|EXP-036]] |
+| **Λ-Uhr** (N17) | Die Wahl fällt bei fester aufsummierter Lernrate Λ ∈ (25, 50] | [[experiments/EXP-039-lr-clock/README\|EXP-039]] (lr × 2 / × 0.5) |
+| **H40, Amplitudenschwelle** (N18) | Die Wahl fällt, wenn das Datensignal in W_E die Init-Amplitude einholt; unter Adam ∝ Λ, deshalb sieht es wie eine Λ-Uhr aus | [[experiments/EXP-040-we-init-scale/README\|EXP-040]] (W_E-Init × 0.5 / × 2), Zahl-Vorhersage R ≈ 1 |
+| **H42, Vorsprung gegen Neigung** (N22) | Jede Frequenzmenge löst die Aufgabe; der Split neigt nur. Festgelegt, sobald der Vorsprung die Neigung des neuen Splits überwiegt | [[experiments/EXP-042-bias-strength/README\|EXP-042]] (stärker konzentriertes G) |
+| **Prägung** (N19) | Ein kurzer Vorlauf legt die Frequenzen auch gegen einen Zufallssplit fest; ob ein schwacher Split genauso prägt, ist offen | [[experiments/EXP-041-imprint/README\|EXP-041]] |
+| **Init bei Konflikt** (N15) | Heben sich F und G auf, entscheidet die Init | [[experiments/EXP-036-init-conflict/README\|EXP-036]] |
 
 ## Nächstverwandte Literatur
 

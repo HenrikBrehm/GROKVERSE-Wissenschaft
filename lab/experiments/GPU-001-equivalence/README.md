@@ -56,3 +56,7 @@ Auswertungen werten fehlende/abgebrochene Läufe als ungültig statt abzustürze
 Nicht geändert: `config.device` bleibt „cpu“ (maßgeblich ist das Feld `device` oben im result.json; alle Auswertungen nutzen es);
 Seed 70/99 wurden früher schon benutzt, aber bei anderem p bzw. anderer Architektur, also andere Init (Einschränkung notiert).
 Urteilsregeln unverändert.
+
+## Nachtrag (Sitzung 13, 2026-09-26 20:25 Berlin, gemessen; vor jedem Lauf): Ablehnungen im Durchsatztest
+
+Unabhängige Prüfung (Claude-Subagent, nur lesend; Codex ohne Guthaben) der Änderungen aus 2b19820: **kein Blocker**; Regression, Kriterien A1–A3, Format von `verdict_throughput.json` und die Übergabe an `queue_gpu_s11.sh` passen. **Hoch, behoben:** Durchsatzläufe liefen im Hintergrund, eine Ablehnung des Wächters ging im `wait` unter; alte `raw_par`-Ergebnisse konnten sich mit neuen mischen, und ein Verdikt mit fehlenden Stufen hätte J dauerhaft gedeckelt. Jetzt: `raw_par` wird vor dem Test gelöscht; rc 3 oder 124 eines Durchsatzlaufs → Ende mit rc 3 **ohne** Verdikt (nächster Start wiederholt den Test). Im Master zählt rc 124 von GPU-001 als Ablehnung. Logik an Stub-Befehlen geprüft (kein Training). *Nicht geändert:* Auswertungs-Ablehnungen am Queue-Ende zählen als Fehler (rc 1) – harmlos, weil die Wiederaufnahme ohnehin dieselbe Queue neu startet und Fertiges überspringt. *Offen (niedrig):* Ob torch 2.9.1 (GPU-venv) dieselbe CPU-Init erzeugt wie torch 2.13, prüft GPU-001 nicht direkt; A1–A3 würden eine Abweichung schlucken. Diagnose-Indizes 1/10/50 sind Schritte 10/100/500.

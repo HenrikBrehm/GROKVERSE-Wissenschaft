@@ -21,14 +21,20 @@ for s in 10 11 12; do
 done
 python $G --min-minutes 2 -- python $OUT/compare.py equivalence
 # 3. throughput: J parallel GPU processes, 500 steps each (seed 10, arm F); separate out-roots per level
+# s13 review: stale raw_par results from an earlier (refused) attempt must not mix into this measurement, and a refusal (rc 3)
+# or guard timeout (rc 124) of any throughput run must not produce a verdict (else J could be capped for good): exit 3.
 set +e
+rm -rf $OUT/raw_par $OUT/.tp_rc
+mkdir -p $OUT/.tp_rc
 for J in 1 2 4 8; do
   i=1
   while [ $i -le $J ]; do
-    python $G --min-minutes 5 -- $GPY $FB --seed 10 --condition baseline --steps 500 --threads 1 --device cuda --split-file $S16/split_seed10_eps2.0.npy --out-root $OUT/raw_par/J${J}_$i --force &
+    ( python $G --min-minutes 5 -- $GPY $FB --seed 10 --condition baseline --steps 500 --threads 1 --device cuda --split-file $S16/split_seed10_eps2.0.npy --out-root $OUT/raw_par/J${J}_$i --force
+      rc=$?; [ $rc -ne 0 ] && echo $rc > $OUT/.tp_rc/J${J}_$i ) &
     i=$((i+1))
   done
   wait
 done
+if grep -qxE '3|124' $OUT/.tp_rc/* 2>/dev/null; then echo "[gpu001] throughput run refused/timed out, no verdict, stop (rc 3)"; exit 3; fi
 python $G --min-minutes 2 -- python $OUT/compare.py throughput || { rc=$?; echo "[gpu001] throughput FAIL/refused rc $rc"; exit $rc; }
 echo "[gpu001] done"

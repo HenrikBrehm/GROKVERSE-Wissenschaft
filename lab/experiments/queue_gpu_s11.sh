@@ -10,6 +10,7 @@ if passed regression && passed equivalence && passed throughput; then
   echo "[gpu11] GPU-001 already passed (regression, equivalence, throughput), skipping it"
 else
   sh $R/GPU-001-equivalence/queue.sh; rc=$?
+  [ $rc -eq 124 ] && rc=3   # s13: a guard timeout at the session deadline is a refusal, not a failure
   [ $rc -ne 0 ] && { echo "[gpu11] GPU-001 failed or refused (rc $rc), stop: no GPU runs"; exit $rc; }
   { passed regression && passed equivalence && passed throughput; } || { echo "[gpu11] GPU-001 verdicts incomplete, stop"; exit 1; }
 fi

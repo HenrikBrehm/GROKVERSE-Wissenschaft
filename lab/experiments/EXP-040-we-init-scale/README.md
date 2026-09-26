@@ -42,6 +42,23 @@ und He et al. 2026 (Frequenz-Lotterie über den Init-Betrag) zusammenbringen.
 
 **Neuheit:** vorläufig nicht gefunden (Suche 17:44, siehe EXP-039; gezielte Suche zu Init-Skala und Festlegungszeit nachholen).
 
+## Nachtrag a (2026-09-26, Sitzung 10, nach Codex-Review `codex_review_2026-09-26.txt`, vor jedem EXP-040-Lauf)
+
+Codex: needs-attention, drei hohe Einwände, alle berechtigt.
+1. **Der Eingriff isoliert die Frequenz-Amplitude nicht** (W_E × s skaliert auch die „=“-Zeile und den Gleichanteil und ändert
+   ohne LayerNorm Aufmerksamkeit, Aktivierungen und Gradienten). **Übernommen:** Skaliert wird nur noch der Nicht-Gleichanteil
+   der Zahlenzeilen, W_E[:p] = Mittel + s · (W_E[:p] − Mittel); „=“-Zeile und Mittel bleiben. Der Rest des Einwands bleibt:
+   Das Urteil heißt nur noch ***H40-Muster gestützt (Assoziation mit der W_E-Init-Skala)***, kein Mechanismus. Nicht übernommen:
+   Kontrollen mit gleicher Norm/gemischtem Spektrum (das Init-Spektrum ist ohnehin flach, max/Median = 1.1).
+2. **Die Überschlagsrechnung im Anlass vergleicht Unvergleichbares** (Frobenius-Strecke des ganzen W_E gegen
+   Pro-Frequenz-Amplitude, Annahme „verteilt auf 5 Ziele“ ungeprüft). **Übernommen:** Der Anlass ist nur Motivation; die
+   Vorhersage hängt nicht an der Kalibrierung, nur an der Proportionalität (Fenster in Λ × s). Neu: `freq_ban.py` speichert bei
+   `--spectra-at` die W_E[:p]-Schnappschüsse (Schritt 0 und die Zusatzschritte), und `analyze.py` berichtet beschreibend die
+   zielgenaue Strecke |c_k(t) − c_k(0)| der F-Ziele relativ zur Median-Init-Amplitude (gilt automatisch auch für EXP-036/039).
+3. **Die beiden Skalen eines Seeds wurden nicht auf gleiche Init/Konfiguration geprüft.** **Übernommen:** Ein Seed zählt nur,
+   wenn Init-Prüfsumme, Optimierer-Konfiguration, d_model und Split-/Test-Hashes in beiden Skalen gleich sind.
+Code nach dem Nachtrag **ungetestet** (Fenster geschlossen); Selbsttest und Smoke stehen fail-closed am Anfang der Queue.
+
 ## Status
 
 Vorab festgelegt, Code geschrieben, **ungetestet** (Fenster geschlossen): Selbsttest und Smoke laufen als erste Schritte der

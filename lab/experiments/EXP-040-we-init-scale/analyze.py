@@ -13,6 +13,8 @@ import math
 import sys
 from pathlib import Path
 
+import numpy as np
+
 HERE = Path(__file__).resolve().parent
 LAB = HERE.parents[0]
 sys.path.insert(0, str(LAB / "EXP-039-lr-clock"))
@@ -29,7 +31,7 @@ def verdict(classes: list[str]) -> str:
     if len(classes) < MIN_SEEDS:
         return "nicht auswertbar"
     if all(c == "h40" for c in classes):
-        return "H40 gestuetzt (Festlegung haengt an der Init-Amplitude von W_E)"
+        return "H40-Muster gestuetzt (Festlegung verschiebt sich mit der W_E-Init-Skala wie vorhergesagt; Assoziation)"
     return "Init-Skala ohne Einfluss" if all(c == "unchanged" for c in classes) else "unklar"
 
 
@@ -42,6 +44,34 @@ def load_mod(s_: float):
     orig = m.run_dir
     m.run_dir = lambda s, t: HERE / "raw" / (orig(s, t).name + f"_wes{s_:g}")   # own t = 0 run as well
     return m
+
+
+def provenance(m, s: int) -> tuple:
+    """Codex Nachtrag a: plain-init checksum + optimizer config + split/test hashes of the only-F run (shared by both s)."""
+    r = json.loads((m.run_dir(s, math.inf) / "result.json").read_text(encoding="utf-8"))
+    cf = r["config"]
+    return (r["init_checksum_shared"], cf.get("lr"), cf.get("weight_decay"), cf.get("beta1"), cf.get("beta2"),
+            cf.get("d_model"), r["split_hash"], r.get("test_hash"))
+
+
+def target_displacement(m, s: int) -> dict | None:
+    """Descriptive (Nachtrag a): per F target k, |coef_k(t) - coef_k(0)| / median_j |coef_j(0)| in the only-F run,
+    from the stored W_E[:p] snapshots (coef = Fourier coefficients, [cos_k; sin_k] x d_model)."""
+    d = m.run_dir(s, math.inf)
+    try:
+        snaps, steps = np.load(d / "we_snapshots.npy"), np.load(d / "we_snapshot_steps.npy").tolist()
+    except OSError:
+        return None
+    sys.path.insert(0, str(LAB / "EXP-001-freq-ban"))
+    from freq_ban import fourier_basis
+    p = snaps.shape[1]
+    B = fourier_basis(p)
+    tg = json.loads((LAB / "EXP-020-data-switch" / f"splits/seed{s}.json").read_text(encoding="utf-8"))["targets"]["F"]
+    c = [B.T @ w.astype(np.float64) for w in snaps]
+    amp0 = [np.linalg.norm(c[0][2 * k - 1:2 * k + 1]) for k in range(1, (p - 1) // 2 + 1)]
+    ref = float(np.median(amp0))
+    return {str(st): round(float(np.mean([np.linalg.norm(c[i][2 * k - 1:2 * k + 1] - c[0][2 * k - 1:2 * k + 1])
+                                          for k in tg])) / ref, 3) for i, st in enumerate(steps)}
 
 
 def meta_ok(m, s_: float, s: int) -> str | None:
@@ -89,8 +119,17 @@ def main() -> None:
             except (OSError, KeyError, ValueError) as e:
                 rows.append({"seed": s, "s": s_, "complete": False, "why": f"{type(e).__name__}: {e}"})
     by = {(r["seed"], r["s"]): r for r in rows}
-    seeds = {s: seed_class(by[(s, 0.5)]["class"], by[(s, 2.0)]["class"]) for s in SEEDS
-             if by[(s, 0.5)]["complete"] and by[(s, 2.0)]["complete"]}
+    mods = {s_: load_mod(s_) for s_ in GRIDS}
+    seeds = {}
+    for s in SEEDS:
+        if not (by[(s, 0.5)]["complete"] and by[(s, 2.0)]["complete"]):
+            continue
+        if provenance(mods[0.5], s) != provenance(mods[2.0], s):     # both scales must share init/config/split
+            by[(s, 0.5)]["why_seed"] = "provenance differs between scales (seed not evaluable)"
+            continue
+        seeds[s] = seed_class(by[(s, 0.5)]["class"], by[(s, 2.0)]["class"])
+        for s_ in GRIDS:
+            by[(s, s_)]["target_displacement_rel"] = target_displacement(mods[s_], s)
     out = {"rows": rows, "seed_classes": seeds, "n_seeds": len(seeds), "verdict": verdict(list(seeds.values()))}
     (HERE / "summary.json").write_text(json.dumps(out, indent=1, default=str), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))

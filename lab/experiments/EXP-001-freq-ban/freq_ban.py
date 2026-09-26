@@ -301,9 +301,11 @@ def run(a: argparse.Namespace) -> dict:
         sys.path.insert(0, str(HERE.parent / "EXP-023-split-value"))
         from split_value import convert
         model = convert(model, a.seed, a.split_value)
-    if a.we_init_scale != 1.0:       # EXP-040: after the plain-init checksum, before the optimizer and keep_init
-        with torch.no_grad():
-            model.W_E.mul_(a.we_init_scale)
+    if a.we_init_scale != 1.0:       # EXP-040 (Nachtrag a): only the non-DC part of the number rows W_E[:p] is scaled;
+        with torch.no_grad():          # the '=' row and the per-dimension mean over numbers stay unchanged
+            num = model.W_E[:p]
+            mean = num.mean(dim=0, keepdim=True)
+            model.W_E[:p] = mean + a.we_init_scale * (num - mean)
     keep_init = bool(a.warmup or a.reset_at_switch or a.lr_scale != 1.0 or a.we_init_scale != 1.0)
     init_params = [q.detach().clone() for q in model.parameters()] if keep_init else []   # EXP-035/038
     we_idx = next((i for i, q in enumerate(model.parameters()) if q is model.W_E), None) if keep_init else None
@@ -357,9 +359,14 @@ def run(a: argparse.Namespace) -> dict:
             loss, acc = evaluate(model, tex, tey, p)
             dense["test_steps"].append(step); dense["test_acc"].append(acc); dense["test_loss"].append(loss)
 
+    we_snaps, we_snap_steps = [], []   # EXP-040 Nachtrag a: W_E[:p] at step 0 and the --spectra-at steps (float32)
+
     def spectrum(step: int) -> None:
         spectra_steps.append(step)
         spectra.append(freq_power(model.W_E.detach().numpy().astype(np.float64)[:p], basis))
+        if extra_spec and (step == 0 or step in extra_spec):
+            we_snap_steps.append(step)
+            we_snaps.append(model.W_E.detach().numpy()[:p].astype(np.float32).copy())
 
     def write(status: str) -> None:
         res.update({"status": status, "steps_completed": step, "banned_freqs": banned,
@@ -369,6 +376,9 @@ def run(a: argparse.Namespace) -> dict:
                     "sec_per_step": round((time.perf_counter() - t_start) / max(step, 1), 5)})
         np.save(out_dir / "spectra.npy", np.asarray(spectra))
         np.save(out_dir / "spectra_steps.npy", np.asarray(spectra_steps))
+        if we_snaps:
+            np.save(out_dir / "we_snapshots.npy", np.asarray(we_snaps))
+            np.save(out_dir / "we_snapshot_steps.npy", np.asarray(we_snap_steps))
         tmp = out_dir / "result.json.tmp"             # atomic: a kill during the write cannot truncate result.json
         tmp.write_text(json.dumps(res, indent=1))
         os.replace(tmp, out_dir / "result.json")
@@ -519,7 +529,7 @@ def main() -> None:
     ap.add_argument("--lr-scale", type=float, default=1.0,
                     help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
     ap.add_argument("--we-init-scale", type=float, default=1.0,
-                    help="EXP-040: multiply W_E by s right after init (checksum = plain init; 1.0 = off)")
+                    help="EXP-040: scale the non-DC part of W_E[:p] by s right after init (checksum = plain init; 1.0 = off)")
     ap.add_argument("--spectra-at", default="",
                     help="EXP-036 Nachtrag d: extra comma-separated steps with stored W_E spectra (logging only)")
     ap.add_argument("--save-model", action="store_true")

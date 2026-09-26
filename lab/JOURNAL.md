@@ -1344,3 +1344,15 @@ verschiebt sie in 2/2 Seeds bisher). Wiederholen wir uns? Nein, EXP-039 ist ein 
 anders). Messung geeignet? Das Top-5-Maß ist oberwellenanfällig; bisher haben alle Auswertungen die Oberwellen gesondert
 behandelt. Nächste anzugreifende Annahme: dass „Festlegung“ ein Ereignis im W_E-Spektrum ist. EXP-038 (Teil-Rücksetzen) prüft,
 wo sie sitzt.
+
+**Zyklus 5 (17:53–18:05, ohne Training): Warum Λ ≈ 25–50? Neue Hypothese H40 und EXP-040.** Aus gespeicherten EXP-035-Läufen:
+‖W_E − W_E,0‖ am Wechsel 2.84 (Seed 30, t = 100, noch offen) bzw. 5.50 (t = 150, festgelegt), Init-Norm 10.5, Init-Amplitude pro
+Frequenz im Median 1.40. Grobe Überschlagsrechnung (Codex: unvergleichbare Größen, nur Motivation): das Datensignal erreicht beim
+Festlegen etwa die Init-Amplitude. **H40:** Die Wahl fällt, wenn das Datensignal die Init-Amplitude der Konkurrenz einholt. Unter
+Adam wächst die Strecke ∝ Λ, deshalb sähe das wie eine Λ-Uhr aus. Test: W_E-Init × s (s = 0.5 → (12, 25], s = 2 → (50, 100]).
+Mit EXP-039 zusammen trennt das Optimierer-Uhr, Amplitudenschwelle und Schrittuhr. Code `--we-init-scale` (commit 4ea594f).
+Selbsttest/Smoke im Fenster vom Wächter um 17:56 abgelehnt (unter 1 min Rest), nicht umgangen: ungetestet, fail-closed am
+Queue-Anfang. Codex (`EXP-040-we-init-scale/codex_review_2026-09-26.txt`, needs-attention, 3 × hoch): Eingriff nicht isoliert
+(übernommen: nur Nicht-Gleichanteil der Zahlenzeilen skaliert, Urteil nur „Assoziation“), Überschlag unvergleichbar (übernommen:
+nur Motivation; W_E-Schnappschüsse für zielgenaue Strecke), fehlende Paarprüfung der Skalen (übernommen). *Ergebnis:* vorbereitet,
+ungetestet. *Entscheidung:* in `queue_s10.sh` nach EXP-039.

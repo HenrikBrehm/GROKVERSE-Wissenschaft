@@ -859,3 +859,8 @@ Abdruck selbst enthält daneben viel Init-Information.
 **Zyklus 8 (09:59, explorativ, negativ): Sagt die Stärke des Abdrucks die Grokking-Zeit voraus?** Seeds 0–9: Spearman(ρ_memo,
 Generalisierungsschritt) = 0.20 (n = 10), kein Hinweis. Nicht weiter verfolgt, keine Bestätigung angesetzt (passt zum
 Befund aus Sitzung 5, dass die M0-Konzentration die Grokking-Zeit nicht vorhersagt).
+
+**Zyklus 9 (09:59–10:02): Eingriff zur Mediation.** [[experiments/EXP-031-we-transplant/README|EXP-031]] vorab festgelegt und Code
+geschrieben (`transplant.py`, eigenständig, baut das Modell wie `freq_ban.py`, lädt Studien-Checkpoints bei 500, frisches
+AdamW in beiden Armen). 5 Paare (B = 0, 2, 4, 6, 8; A = B + 1) × {transplant, control}, bis Schritt 3000, ~55 min.
+Ungetestet; Smoke (20 Schritte) steht am Anfang der Warteschlange. Codex-Review läuft.

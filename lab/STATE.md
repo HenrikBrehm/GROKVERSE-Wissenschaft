@@ -28,7 +28,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
    (**Sitzung 18: Stufe 0 `components`, Astra 9** → Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 (+ EXP-051) → 048 → 049 → 044 → 045.
    Wiederaufnahme = derselbe Befehl (Fertiges wird per Fingerprint übersprungen). Status: `lab/runner/logs/night_*/night_status.json`.
    Ist das GPU-Programm vor ≈ 11:00 fertig (GPU-001 bestanden): EXP-050 nachschieben (`--experiments GPU-001,EXP-050`, Paket C, 60 Läufe).
-5. CPU **erst nach GPU-001**: `python lab/tools/night_program.py --cpu > lab/runner/logs/night_cpu.log 2>&1` (EXP-014 → 035 → 038 → 041 → 036 →
+5. CPU **erst nach GPU-001**, **Sitzung 19: EXP-014 ans Ende** (Exploration, ≈ 5,5 Worker-Stunden, blockierte sonst die Paket-B-Piloten für P3):
+   `python lab/tools/night_program.py --cpu --experiments EXP-035,EXP-038,EXP-041,EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1` (alte Standardfolge: EXP-014 → 035 → 038 → 041 → 036 →
    039 → 040 → 042). Nicht portiert: 034 (nach P3-Design); 018/022/023/010 zurückgestellt ([[BACKLOG]] „Sichtung nach Regel 18c“).
    **Wenn GPU-001 scheitert:** kein GPU-Lauf; sofort `--cpu --cpu-workers 3` (Zahl **explizit** angeben: ohne Throughput-PASS nimmt der Code sonst 1 Worker, Sitzung 17). Paket A danach auf der CPU (Sitzung 15, geprüft, ungetestet):
    `python lab/tools/night_program.py --paket-a-cpu --experiments EXP-043,... [--cpu-workers N]` (≈ 300 Läufe, mehrere Fenster;

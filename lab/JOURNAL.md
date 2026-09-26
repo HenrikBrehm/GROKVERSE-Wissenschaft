@@ -2394,3 +2394,14 @@ unlesbares `result.json` oder unfertiger Lauf mit gleichem Fingerprint → neu t
 `result.json` trägt `config_fingerprint` und `fingerprint_fields`. Keine Sperrdatei (YAGNI: das Nachtprogramm startet jede Run-ID einmal; Smokes laufen in `raw_smoke`).
 *Prüfung:* Selbsttest ab 03:00 (`python lab/tools/trainer_guard.py --selftest`); die Smokes des Nachtprogramms (je 50 Schritte, `raw_smoke`) prüfen den Import und den Schreibpfad.
 *Entscheidung:* übernommen; offener Punkt aus Sitzung 18 damit geschlossen, sobald der Selbsttest besteht.
+
+**Zyklus 2 (Passt die Nacht ins Fenster? Reihenfolge der CPU-Queue, 01:28–01:40).** *Frage:* Was wird bis 13:00 realistisch fertig, und stimmt die Reihenfolge mit den
+Prioritäten aus Regel 18c überein? *Vorgehen:* `night_program.py --dry-run` und `--cpu --dry-run` (führen nichts aus, schreiben nichts; geprüft mit `git status`), Laufzahlen gezählt,
+Dauer aus gespeicherten `sec_per_step` (EXP-016/020, CPU 4 Threads: 0.124–0.131 s/Schritt → ≈ 4,3 min je 2000 Schritte).
+*Ergebnis:* GPU-Programm ≈ 300 Läufe à 2000 Schritte (043: 60, 046: 30, 047: 40, 048: 30, 049: 40, 044: 100) plus EXP-045 (20 Läufe bis 10 000 Schritte). Die GPU-Geschwindigkeit ist
+**noch nie gemessen** (GPU-001 hat keine Rohdaten); je nach s/Schritt passt das Programm in 1–4 Fensterstunden. Das CPU-Programm umfasst ≈ 300 Läufe (2000–8000 Schritte) plus
+EXP-014 (10 Läufe bis Generalisierung + 25, je ≥ 33 min Mindestbudget). Bei 2 CPU-Arbeitern sind das grob 15 h, also **mehrere Nächte**. Die Reihenfolge entscheidet deshalb, was heute fertig wird.
+Die Standardfolge beginnt mit EXP-014. Das ist eine Exploration aus queue_s5 (Split gegen Init), die ≈ 5,5 Worker-Stunden kostet und vor den Paket-B-Piloten (EXP-035–042) liegt.
+Diese Piloten braucht das Einfrieren von P3.
+*Entscheidung:* CPU-Start mit `--experiments EXP-035,EXP-038,EXP-041,EXP-036,EXP-039,EXP-040,EXP-042,EXP-014` (keine Codeänderung; `--experiments` legt bei `--cpu` die Reihenfolge fest,
+Zeile 626). EXP-014 bleibt im Programm, nur am Ende. STATE Schritt 5 angepasst. GPU-Reihenfolge unverändert (A zuerst: 043, 046, 047/051, 048, 049; dann B: 044; dann 045).

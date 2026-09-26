@@ -1,6 +1,6 @@
 #!/bin/sh
 # Session-9 master queue (2026-09-26): queue_s8 order with EXP-036 inserted after EXP-035:
-# EXP-020 remainder -> analyses (EXP-020, EXP-028, Nachtrag d) -> EXP-035 -> EXP-036 -> EXP-034 -> rest of queue_s5.
+# EXP-020 remainder -> analyses (EXP-020, EXP-028, Nachtrag d) -> EXP-037 -> EXP-035 -> EXP-036 -> EXP-034 -> rest of queue_s5.
 # One job at a time; every run through guarded_run.py; each part skips completed runs and stops on failure. Resume = rerun.
 R=lab/experiments
 while ps -ef | grep -v grep | grep -q "guarded_run.py"; do sleep 10; done
@@ -22,6 +22,8 @@ done
 python lab/tools/guarded_run.py -- python $R/EXP-020-data-switch/analyze.py || echo "[queue9] EXP-020 analysis failed (continuing)"
 python lab/tools/guarded_run.py -- python $R/EXP-028-memo-imprint/analyze.py || echo "[queue9] EXP-028 analysis failed (continuing)"
 python lab/tools/guarded_run.py -- python $R/EXP-020-data-switch/conflict_freqs.py || echo "[queue9] Nachtrag d failed (continuing)"
+sh $R/EXP-037-alternation-conflict/queue.sh || { echo "[queue9] EXP-037 stop"; exit 1; }
+python lab/tools/guarded_run.py -- python $R/EXP-037-alternation-conflict/analyze.py || echo "[queue9] EXP-037 analysis failed (continuing)"
 sh $R/EXP-035-warmup-lockin/queue.sh 30 31 32 || { echo "[queue9] EXP-035 stop"; exit 1; }
 python lab/tools/guarded_run.py -- python $R/EXP-035-warmup-lockin/analyze.py || echo "[queue9] EXP-035 analysis failed (continuing)"
 sh $R/EXP-036-init-conflict/queue.sh || { echo "[queue9] EXP-036 stop"; exit 1; }

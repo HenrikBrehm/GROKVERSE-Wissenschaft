@@ -40,6 +40,23 @@ wie der Zufall (Median ≈ 28).
 Seeds sind bekannt). Ein *gestützt* zeigt eine Assoziation mit dem Init-Spektrum, keine Kausalität; die kausale Seite prüft
 EXP-036. Die Bedingung „Median ≤ 14“ ist grob (Zufall ≈ 28).
 
+## Nachtrag a (15:12 Berlin, nach Codex-Review, **vor jedem EXP-037-Lauf**)
+
+Codex (`codex_review_2026-09-26.txt`, needs-attention; Blockplan und alte Lauf-IDs als korrekt bestätigt) fand drei Schwächen,
+alle übernommen:
+1. **Urteile nicht exklusiv:** Eine fremde Frequenz plus vier G-Frequenzen hätte H37 *und* Rezenz erfüllt, gemeldet als
+   *gestützt*. Neu: H37 und eine Alternative zugleich → *mehrdeutig*.
+2. **Fehlende Kontrollen:** Neu **C_F100** (F 100 Schritte, dann G 2100; gleiche Exposition, kein Wechselspiel; Seeds 30–32).
+   Zeigt auch C_F100 das H37-Muster → *nicht spezifisch*. Außerdem gehört die Top-5 des Masken-Spektrums M0 der gemittelten
+   Maske (F + G)/2 jetzt zu A (Mischmasken-Frequenzen zählen nicht als fremd); ihre Ränge werden berichtet.
+   Nicht umgesetzt: ein echtes gewichtetes Mischtraining (Codebaustelle); A = 5 kommt ihm unter AdamW (β1 = 0.9) schon nahe.
+3. **Smoke prüfte nur Metadaten und konnte veraltet sein:** Neu läuft der Smoke immer frisch (`--force`), `freq_ban.py`
+   protokolliert je Blockwechsel den Hash des gewählten Trainingssets (`alternation_trace`), `check_smoke.py` verlangt
+   G, F, G nach den Schritten 5, 10, 15 und den Wechsel auf G bei 20.
+**Urteil (ersetzt die Zeile oben):** ungültig/fehlend (Arm oder Kontrolle) → *nicht auswertbar*; H37 ∧ (F-Akkumulation ∨
+Rezenz) → *mehrdeutig*; H37 ∧ H37(C_F100) → *nicht spezifisch*; nur H37 → *gestützt*; sonst *F-Akkumulation* / *G (Rezenz)* /
+*unklar*. Budget jetzt 9 Läufe + Smoke ≈ 42 min.
+
 ## Reproduktion
 
 ```

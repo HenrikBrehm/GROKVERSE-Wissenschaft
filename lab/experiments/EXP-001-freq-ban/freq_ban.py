@@ -411,6 +411,7 @@ def run(a: argparse.Namespace) -> dict:
             nxt = switch_idx if (step // a.alternate_every) % 2 == 1 else data["train_idx"]
             trx, try_ = data["all_x"][nxt], data["all_y"][nxt]
             events["alternations"] = events.get("alternations", 0) + 1
+            events.setdefault("alternation_trace", []).append([step, split_hash(nxt)])   # Codex: behavioural check
         dense_eval(step)
         if step % SPECTRUM_EVERY == 0:
             spectrum(step)

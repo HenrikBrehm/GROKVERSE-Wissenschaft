@@ -1,0 +1,50 @@
+(node:18992) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0ddd3-33b2-79c2-bd23-a42434ba8046).
+[codex] Turn started (01a0ddd3-3535-7ce2-93b0-ab6a8484441e).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’ll inspect only the committed target diff and trace...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --ignore-...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --ignore-... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The core parity schedule appears internally consisten...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git show HEAD:lab/...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git show HEAD:lab/... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -For...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -For... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git show --stat --...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git show --stat --... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The implementation’s step parity matches the README, ...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n --hidden --g...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n --hidden --g... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"Do not ship yet. The F/G step schedule and legacy run...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against 6bf7775
+Verdict: needs-attention
+
+Do not ship yet. The F/G step schedule and legacy run IDs are correct, but the verdict cannot distinguish competing explanations, the experiment lacks the controls needed for its causal claim, and the smoke check does not verify the actual schedule.
+
+Findings:
+- [high] The verdict reports H37 when recency or F-accumulation also wins (lab/experiments/EXP-037-alternation-conflict/analyze.py:30-37)
+  The H37 predicate is evaluated first and returned immediately. A top-5 can contain one low-init-rank foreign frequency plus four G frequencies, so two seeds can simultaneously satisfy H37 and d <= -2; the symmetric case applies to F-accumulation. The implementation would label either outcome "gestuetzt", making the advertised alternatives non-exclusive and potentially misattributing an ordinary recency/accumulation result to H37.
+  Recommendation: Make the predicates mutually exclusive or report overlapping outcomes as ambiguous. Require H37 to falsify both d-based alternatives, and add self-tests where H37 and each alternative simultaneously pass.
+- [high] The analysis does not compare the controls needed to identify sustained conflict (lab/experiments/EXP-037-alternation-conflict/analyze.py:44-58)
+  Only the pure-F and pure-G runs are loaded; none of the advertised single-switch controls participates in the verdict. The treatment receives 100 F updates and 2100 G updates, while the pure-G reference spectrum is taken after 2000 updates. It also lacks a control for the effective F/G mixture: because the splits overlap heavily, alternation can behave like optimization on a differently weighted larger split with its own mask spectrum. Such exposure- or mixture-induced frequencies are outside `allowed`, so they can be called "foreign" and produce an H37 verdict without sustained temporal conflict being the cause. This is an inference, but the current design provides no contrast capable of rejecting it.
+  Recommendation: Add exposure-matched controls, including F for 100 steps followed by G for 2100 steps and an averaged/interleaved F/G-mixture control followed by G. Compare foreign-frequency incidence and init ranks against those controls, and account for the mixture mask spectrum in the null/allowed set.
+- [medium] The smoke check can pass without testing parity or current code (lab/experiments/EXP-037-alternation-conflict/queue.sh:11-15)
+  The smoke reuses a fixed output directory without `--force`; a completed result is therefore skipped by the trainer and can validate a later code revision. Its assertions inspect only a self-reported alternation counter and switch metadata. Reversing F/G parity or selecting the wrong training tensors would leave all checked values unchanged. The queue can consequently launch all six runs after a stale or behaviorally meaningless smoke pass.
+  Recommendation: Run the smoke in a fresh or commit-specific directory and assert an explicit per-block split-hash trace or unit-test a factored schedule function for every step, including the optimizer-side dataset and the step-200 transition.
+
+Next steps:
+- Make H37 and the two alternative verdicts non-overlapping.
+- Add exposure- and mixture-matched controls and use them in classification.
+- Replace the metadata-only reusable smoke with a fresh behavioral schedule test.

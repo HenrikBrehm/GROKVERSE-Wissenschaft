@@ -1135,3 +1135,13 @@ Seed 31: 0.40 → 0.82; Seed 32: 0.30 → 0.76), der G-Anteil fällt (0.068 → 
 Deutung: Sobald das Netz mit F-Frequenzen generalisiert, löst es auch alle G-Paare; es gibt keinen Gradienten zu G mehr,
 die Festlegung vertieft sich. *Entscheidung:* kein Langlauf-Versuch (erwarteter Erkenntnisgewinn gering), Einwand als
 beschreibend beantwortet notiert. Grenze: 3 Seeds, je 2000 G-Schritte, keine Aussage über viel längere Zeiträume.
+
+**Zyklus 5 (15:07): EXP-037 vorbereitet (neue Intervention: blockweiser F/G-Wechsel in der kritischen Periode) und eine
+Konkurrenzerklärung geprüft (ohne Training).** Frage: Gibt anhaltender Datenkonflikt die Wahl an die Init zurück (N15)?
+freq_ban.py: neue Option --alternate-every (Standard 0 = unverändert, compile-geprüft während die Queue lief). Vorab
+festgelegt in [[experiments/EXP-037-alternation-conflict/README|EXP-037]] (commit 3325b72). Eigene Einwandprüfung: Ein
+schneller Wechsel wirkt etwa wie Training auf der gemittelten Maske (F + G)/2; deren Masken-Spektrum könnte „fremde“ Frequenzen
+von der Split-Seite liefern. An den Einzelwechsel-Läufen (Seeds 30–32, Exploration): M0-Ränge der fremden Frequenzen unter der
+gemittelten Maske 19, 18, 40, 19, 13, 9, 45 (Median 19), Init-Ränge 11, 29, 1, 2, 8, 4, 18 (Median 8). *Ergebnis:* Die Init
+beschreibt sie besser als die Mischmaske; beides nur Assoziation an 7 Frequenzen. Für EXP-037 wird der Mischmasken-Rang
+zusätzlich berichtet.

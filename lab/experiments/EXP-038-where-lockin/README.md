@@ -34,6 +34,23 @@ Festlegung, und der Rest folgt?
 **Grenzen:** Rücksetzen auf die Init ist ein grober Eingriff (Größenordnung der Gewichte ändert sich). *downstream* hieße nicht,
 welcher Teil (Attention, MLP, W_U); das wäre ein Folgeversuch. Nur ein Wechselzeitpunkt (t = 150).
 
+## Nachtrag a (16:31 Berlin, nach Codex-Review, **vor jedem EXP-038-Lauf**)
+
+Codex (`codex_review_2026-09-26.txt`, needs-attention) bestätigt die Umsetzung (genau W_E bzw. der Rest, AdamW-Zustand sicher
+entfernt, Rücksetzen nach dem Optimiererschritt von Schritt 150, alte Lauf-IDs unverändert) und fand drei Schwächen, übernommen:
+1. **d_h ≤ 0 als „umgeschlagen“ war zu grob.** Neu: gehalten = d_h > 0, umgeschlagen = d_h < 0; d_h = 0 oder Test-Acc < 0.9 in
+   einem Arm → Seed nicht auswertbar.
+2. **Ort der Speicherung ist mit der Eingriffsgröße vermengt** (RW setzt 14 592 Parameter zurück, RR 211 584 ≈ 93.5 %).
+   Neu: Die Muster heißen jetzt *W_E notwendig+hinreichend* (RW um, RR hält), *Rest trägt* (RW hält, RR um), *redundant*
+   (beide halten), *nur zusammen* (beide um), und werden als Aussage über **Notwendigkeit/Hinlänglichkeit des behaltenen
+   Teils unter Rücksetzen und Neulernen** gelesen, nicht als Speicherort. Bezug für ein volles Rücksetzen ist der reine
+   G-Lauf (t = 0, d_h < 0 in 5/5). Zusätzlich wird die Verschiebung ‖θ − θ₀‖ von W_E und Rest vor dem Rücksetzen protokolliert
+   (Größe des Sprungs). Norm-angepasste Rücksetz-Kontrollen und reine Optimiererzustands-Kontrollen: **nicht** umgesetzt
+   (Folgeversuch, falls das Ergebnis es verlangt).
+3. **Smoke prüfte nur Zählwerte.** Neu prüft `freq_ban.py` bei jedem Rücksetzen selbst: zurückgesetzte Tensoren = Init und ohne
+   AdamW-Zustand, alle anderen unverändert und mit Zustand; sonst Abbruch. `check_smoke.py` verlangt `check = true`.
+Urteil sonst wie oben (≥ 4 auswertbare Seeds mit gleichem Muster).
+
 ## Reproduktion
 
 ```

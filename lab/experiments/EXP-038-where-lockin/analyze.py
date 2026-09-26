@@ -4,9 +4,12 @@ EXP-020 protocol at t = 150 (seeds 30-34): F for 150 steps, then G for 2000. At 
 resets all other parameters (each with its AdamW state). Reference: the EXP-020 run at t = 150 (no reset).
 Measure (fixed in advance, lesson from EXP-020 seed 33): d_h = |K n Fx| - |K n Gx| with Fx = F u fold(2F),
 Gx = G u fold(2G), frequencies on both sides removed; K = top-5 of W_E at step 2150.
-Per seed: flipped(arm) = d_h(arm) <= 0. Seed valid if both arms and the reference are valid and d_h(reference) > 0.
-Pattern per seed: "W_E" (RW flipped, RR not), "downstream" (RR flipped, RW not), "redundant" (neither), "both" (both).
-Verdict: < 4 valid seeds -> nicht auswertbar; >= 4 valid seeds share one pattern -> that pattern; else gemischt.
+Nachtrag a (Codex): kept = d_h > 0, flipped = d_h < 0; d_h == 0 or final test acc < 0.9 in an arm -> seed not evaluable.
+The arms are read as necessity / sufficiency of the retained W_E under reset + relearning (RR resets ~93 % of the weights),
+not as a storage location. Seed evaluable if reference and both arms valid, d_h(reference) > 0 and both arms decided.
+Pattern: "W_E notwendig+hinreichend" (RW flipped, RR kept), "Rest traegt" (RW kept, RR flipped),
+"redundant" (both kept), "nur zusammen" (both flipped).
+Verdict: < 4 evaluable seeds -> nicht auswertbar; >= 4 evaluable seeds share one pattern -> that pattern; else gemischt.
 Usage: python analyze.py [--selftest]
 """
 from __future__ import annotations
@@ -21,7 +24,7 @@ E20 = HERE.parent / "EXP-020-data-switch"
 sys.path.insert(0, str(E20))
 from conflict_freqs import fold, load_run, top  # noqa: E402
 
-SEEDS, T, TOTAL = (30, 31, 32, 33, 34), 150, 2150
+SEEDS, T, TOTAL, MIN_ACC = (30, 31, 32, 33, 34), 150, 2150, 0.9
 
 
 def d_h(K: set[int], f: set[int], g: set[int]) -> int:
@@ -31,8 +34,8 @@ def d_h(K: set[int], f: set[int], g: set[int]) -> int:
 
 
 def pattern(rw_flipped: bool, rr_flipped: bool) -> str:
-    return {(True, False): "W_E", (False, True): "downstream", (False, False): "redundant",
-            (True, True): "both"}[(rw_flipped, rr_flipped)]
+    return {(True, False): "W_E notwendig+hinreichend", (False, True): "Rest traegt", (False, False): "redundant",
+            (True, True): "nur zusammen"}[(rw_flipped, rr_flipped)]
 
 
 def verdict(patterns: list[str]) -> str:
@@ -54,16 +57,21 @@ def seed_row(s: int) -> dict:
         if e:
             return {"seed": s, "error": e}
         ev = r["result"]["events"].get("reset_at_switch", {})
-        if r["result"].get("reset_at_switch") != which or ev.get("which") != which or not ev.get("n_params"):
+        if (r["result"].get("reset_at_switch") != which or ev.get("which") != which or not ev.get("n_params")
+                or ev.get("check") is not True):
             return {"seed": s, "error": f"{arm}: reset not as specified"}
         if r["init_checksum"] != ref["init_checksum"]:
             return {"seed": s, "error": f"{arm}: init differs from EXP-020"}
         K = top(r["spec"][TOTAL])
         out[arm] = {"K": sorted(K), "d_h": d_h(K, f, g), "test_acc": r["test_acc"],
-                    "train_acc_after_reset": ev.get("train_acc_after")}
+                    "train_acc_after_reset": ev.get("train_acc_after"),
+                    "displacement_before": ev.get("displacement_before")}
     if out["d_h_ref"] <= 0:
         return out | {"error": "reference not committed to F (d_h_ref <= 0)"}
-    return out | {"pattern": pattern(out["RW"]["d_h"] <= 0, out["RR"]["d_h"] <= 0)}
+    for arm in ("RW", "RR"):
+        if out[arm]["d_h"] == 0 or (out[arm]["test_acc"] or 0) < MIN_ACC:
+            return out | {"error": f"{arm} undecided (d_h == 0) or test acc < {MIN_ACC}"}
+    return out | {"pattern": pattern(out["RW"]["d_h"] < 0, out["RR"]["d_h"] < 0)}
 
 
 def main() -> None:
@@ -80,9 +88,9 @@ def selftest() -> None:
     assert d_h({1, 2, 3}, {1, 2}, {3}) == 1
     assert d_h({2, 4}, {1}, {2}) == -1           # 2 = 2*1 is on both sides -> ignored; 4 = 2*2 counts for G
     assert d_h({4}, {1}, {2}) == -1
-    assert pattern(True, False) == "W_E" and pattern(False, True) == "downstream"
-    assert verdict(["W_E"] * 4 + ["both"]) == "W_E"
-    assert verdict(["W_E"] * 3 + ["both"] * 2) == "gemischt"
+    assert pattern(True, False) == "W_E notwendig+hinreichend" and pattern(False, True) == "Rest traegt"
+    assert verdict(["redundant"] * 4 + ["nur zusammen"]) == "redundant"
+    assert verdict(["redundant"] * 3 + ["nur zusammen"] * 2) == "gemischt"
     assert verdict(["redundant"] * 3) == "nicht auswertbar"
     print("selftest ok")
 

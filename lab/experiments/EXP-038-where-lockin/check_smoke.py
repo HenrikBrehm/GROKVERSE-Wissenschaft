@@ -1,5 +1,6 @@
 """EXP-038 smoke check: both smoke runs completed (40 steps, switch at 30); the reset touched exactly W_E ("we") resp.
-all other parameters ("rest"), i.e. n_we = numel(W_E) and n_we + n_rest = all parameters of the arch25k model."""
+all other parameters ("rest"), i.e. n_we = numel(W_E) and n_we + n_rest = all parameters of the arch25k model, and the
+in-code check (values = init resp. unchanged, AdamW state removed resp. kept; Codex review) passed."""
 from __future__ import annotations
 
 import json
@@ -24,7 +25,8 @@ def main() -> int:
         r = json.loads(runs[0].read_text(encoding="utf-8"))
         ev = r["events"].get("reset_at_switch", {})
         if not (r["status"] == "completed" and r["steps_completed"] == 40 and r.get("reset_at_switch") == which
-                and ev.get("which") == which and r["events"].get("switch", {}).get("step") == 30):
+                and ev.get("which") == which and r["events"].get("switch", {}).get("step") == 30
+                and ev.get("check") is True):
             print(f"[smoke] {which}: status/steps/flags wrong: {ev}")
             return 1
         got[which] = ev["n_params"]

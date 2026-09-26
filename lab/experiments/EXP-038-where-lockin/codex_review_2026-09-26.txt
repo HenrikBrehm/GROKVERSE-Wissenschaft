@@ -1,0 +1,50 @@
+(node:6444) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0de1b-adab-7260-b137-b244b63fd836).
+[codex] Turn started (01a0de1b-af5d-7500-abc9-ce84897cacbd).
+[codex] Assistant message captured: {"verdict":"approve","summary":"I’m inspecting the exact committed diff and the relevant base...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'trai...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'trai... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -For...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -For... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -For...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -For... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'trai...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'trai... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"freq_ban\\...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"freq_ban\\... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Write-Output $env:...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Write-Output $env:... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"Do not ship EXP-038 as a location verdict yet. The im...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against bfed7e4
+Verdict: needs-attention
+
+Do not ship EXP-038 as a location verdict yet. The implementation does select exactly W_E versus every other parameter, clears the selected parameters’ AdamW state safely via pop, and resets after F’s step-150 optimizer update as documented. Omitting the option preserves training behavior and existing run IDs. However, the analysis can convert neutral or failed runs into categorical conclusions, and the asymmetric interventions do not isolate storage location.
+
+Findings:
+- [high] Neutral or nonfunctional runs are classified as causal flips (lab/experiments/EXP-038-where-lockin/analyze.py:61-69)
+  The analyzer defines every d_h <= 0 result as flipped. A top-5 consisting entirely of foreign or excluded-overlap frequencies has d_h == 0 and is therefore called a flip despite showing no preference for G. Moreover, final test accuracy is merely reported, not used as a validity gate, so a reset that destroys learning but leaves a finite arbitrary spectrum can still produce a W_E, downstream, or both verdict.
+  Recommendation: Require adequate final task performance, classify d_h < 0 as G-dominant, d_h > 0 as F-dominant, and treat d_h == 0 or insufficient Fx/Gx coverage as ambiguous and invalid for the categorical verdict.
+- [high] The four labels confound storage location with perturbation size and relearning dynamics (lab/experiments/EXP-038-where-lockin/README.md:24-34)
+  RW reinitializes 14,592 parameters, while RR reinitializes 211,584 parameters—about 93.5% of arch25k. Each arm also restores a different fraction of the network to its pre-weight-decay scale, resets different AdamW bias-correction clocks, and then allows 2,000 G updates. RR can therefore flip because a nearly fresh downstream network relearns G, while RW can retain or reconstruct F because it is a much smaller perturbation. Because weights and optimizer moments are reset together, the experiment cannot specifically localize memory to parameter values either. The README acknowledges a norm discontinuity but still authorizes categorical location verdicts.
+  Recommendation: Add norm-matched reset controls, optimizer-state-only controls, and matched fresh/hybrid G-learning controls; record early post-switch trajectories. Until those distinguish retained information from recovery speed, describe results as reset/recovery behavior rather than W_E-versus-downstream storage.
+- [medium] The mandatory smoke test does not verify the claimed reset invariant (lab/experiments/EXP-038-where-lockin/check_smoke.py:15-33)
+  The smoke test trusts n_params reported by the same reset loop and compares only counts. It never checks that selected tensors equal their saved initial values, unselected tensors remain unchanged, selected AdamW entries are absent, or unselected state survives. A wrong-value reset or failure to clear optimizer state could therefore pass the advertised exact-reset check.
+  Recommendation: Add a direct unit/smoke test that takes pre-switch snapshots, executes both reset modes, asserts tensor equality and complement preservation parameter by parameter, and inspects optimizer state membership before and after the reset.
+
+Next steps:
+- Make neutral/foreign and low-accuracy outcomes non-evaluable.
+- Add controls that separate storage from reset magnitude and relearning.
+- Verify parameter values and optimizer state directly before launching the ten full runs.

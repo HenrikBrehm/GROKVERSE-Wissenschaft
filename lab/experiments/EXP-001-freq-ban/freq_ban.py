@@ -412,15 +412,25 @@ def run(a: argparse.Namespace) -> dict:
                                 **{f"n_{k}": int(len(v)) for k, v in sub.items()}}
             trx, try_ = data["all_x"][switch_idx], data["all_y"][switch_idx]
             if a.reset_at_switch:    # EXP-038: selected parameters back to their init, their AdamW state cleared
-                n_reset = 0
+                params = list(model.parameters())
+                sel = [(i == we_idx) == (a.reset_at_switch == "we") for i in range(len(params))]
+                snap = [q.detach().clone() for q in params]
+                disp = {"W_E": float((params[we_idx] - init_params[we_idx]).norm()),
+                        "rest": sum(float(((q - q0) ** 2).sum()) for i, (q, q0) in enumerate(zip(params, init_params))
+                                    if i != we_idx) ** 0.5}
                 with torch.no_grad():
-                    for i, q in enumerate(model.parameters()):
-                        if (i == we_idx) == (a.reset_at_switch == "we"):
+                    for i, q in enumerate(params):
+                        if sel[i]:
                             q.copy_(init_params[i])
                             opt.state.pop(q, None)
-                            n_reset += q.numel()
-                events["reset_at_switch"] = {"which": a.reset_at_switch, "n_params": n_reset,
+                check = all((torch.equal(q, init_params[i]) and q not in opt.state) if sel[i]
+                            else (torch.equal(q, snap[i]) and q in opt.state) for i, q in enumerate(params))
+                events["reset_at_switch"] = {"which": a.reset_at_switch,
+                                             "n_params": sum(q.numel() for i, q in enumerate(params) if sel[i]),
+                                             "displacement_before": disp, "check": check,
                                              "train_acc_after": evaluate(model, trx, try_, p)[1]}
+                if not check:
+                    raise SystemExit("[exp] EXP-038 reset check failed")
         elif a.alternate_every and step < a.switch_step and step % a.alternate_every == 0:
             # EXP-037: block k = steps (k-1)A+1 .. kA trains on F for odd k, on G for even k
             nxt = switch_idx if (step // a.alternate_every) % 2 == 1 else data["train_idx"]

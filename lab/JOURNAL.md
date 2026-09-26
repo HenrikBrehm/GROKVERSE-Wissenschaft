@@ -1194,3 +1194,12 @@ funktional sind, ist ungeklärt (Ablation vorbereitet). *Nächste Annahme zum An
 dasselbe ist wie Festlegung des Schaltkreises: Ein Eingriff, der nach t = 50 nur W_E zurücksetzt (Rest behalten), würde
 zeigen, ob die Festlegung in W_E oder in den übrigen Gewichten sitzt (Idee, nicht festgelegt). *Priorität geändert:*
 `queue_s10.sh` stellt EXP-034 vor EXP-036.
+
+**Zyklus 8 (16:31): EXP-038 vorbereitet (neue Intervention: Teil-Rücksetzen nach der Festlegung) und von Codex angegriffen.**
+Frage aus der Zwischenbilanz: Wo sitzt die Festlegung? `freq_ban.py --reset-at-switch we|rest` (neu). Literatur (N16): nichts
+Gleiches gefunden (vorläufig). Codex (needs-attention): Umsetzung korrekt; aber (1) d_h ≤ 0 zählte Unentschieden als Umschlag,
+(2) RR setzt 93.5 % der Gewichte zurück, der Vergleich misst Eingriffsgröße und Neulernen mit, (3) Smoke prüfte nur Zählwerte.
+Alle drei übernommen (Nachtrag a): d_h < 0 / > 0 getrennt, Test-Acc-Schwelle 0.9, Deutung als Notwendigkeit/Hinlänglichkeit
+statt Speicherort, Selbstprüfung des Rücksetzens im Trainer. Nicht übernommen: norm-angepasste Kontrollen (Folgeversuch).
+Nebenbeobachtung EXP-037 (Läufe bisher 2/9): Das Wechselspiel erzeugt in Seed 30 wieder 34, in Seed 31 wieder 22, dieselben
+fremden Frequenzen wie der Einzelwechsel desselben Seeds. Fremde Frequenzen wirken je Seed reproduzierbar (beschreibend).

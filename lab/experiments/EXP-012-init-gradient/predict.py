@@ -116,6 +116,7 @@ def sign_flip_p(d: np.ndarray) -> float:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", type=int, choices=(1, 2), required=True)
+    ap.add_argument("--suffix", default="", help="output-name suffix, e.g. _n10 (keeps the original decision file)")
     ap.add_argument("--predictor", choices=CANDIDATES, help="phase 2: the predictor chosen in phase 1")
     a = ap.parse_args()
     k009 = {}
@@ -146,7 +147,7 @@ def main() -> None:
                 out["rbar_E250_mean"] = float(np.mean([r["rbar_E250"] for r in valid]))
     else:
         out["verdict"] = "nicht auswertbar"
-    (HERE / f"summary_phase{a.phase}.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    (HERE / f"summary_phase{a.phase}{a.suffix}.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
     for r in rows:
         print({k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items()})

@@ -1,36 +1,29 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 5
+# LIVE: Laborsitzung 6
 
-- **Sitzungsstart:** 2026-09-26 05:49 Berlin (03:49Z, vom Runner)
-- **Deadline:** 2026-09-26 08:49 Berlin (06:49Z)
-- **Zuletzt aktualisiert:** 08:25 Berlin
-- **Run-Fenster:** offen (00:00–13:00 Berlin), Wächter `--check` ok.
+- **Sitzungsstart:** 2026-09-26 08:29 Berlin (06:29Z, vom Runner)
+- **Deadline:** 2026-09-26 11:29 Berlin (09:29Z)
+- **Zuletzt aktualisiert:** 08:54 Berlin
+- **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin), Wächter ok.
 
 ## Gerade
 
-**Sitzung beendet** (08:25 Berlin). Kein Lauf aktiv.
+**[[experiments/EXP-024-quadratic-agf-mask/README|EXP-024]] läuft** (seit 08:52, 38 Läufe à ~80 s, fertig ~09:45).
+Frage: Lernt ein Netz mit quadratischer Aktivation auf den EXP-016-Splits die *halben* Zielfrequenzen statt der Ziele?
+Das sagt die Theorie (AGF) voraus; der Transformer lernt die Ziele selbst.
 
 ## Als Nächstes
 
-Nächster geplanter Start: **2026-09-26 10:49 Berlin** (08:49Z, `next_start_utc`), im Run-Fenster. Dann
-`sh lab/experiments/queue_s5.sh` fortsetzen (Baseline 19 → Smokes EXP-018/020 → EXP-018 → EXP-014 → EXP-020 → EXP-023 → EXP-022).
+EXP-024 auswerten (vorab festgelegt), danach `queue_s5.sh` fortsetzen (Smokes EXP-018/020 → EXP-018).
 
 ## Verlauf dieser Sitzung
 
-- 08:24 Baseline 18 fertig (gen 8775). Wächter lehnt Baseline 19 ab (Deadline), Warteschlange sauber beendet.
-- 08:11 Baseline 18: Schritt 3000, Train 1.0, Test 0.01 (Auswendiglernen, Grokking steht aus).
-- 08:06 **[[experiments/EXP-016-engineered-split/README|EXP-016]] abgeschlossen: steuerbar.** 10/10 Seeds, Δ̄ = +7.7 von 10, p ≈ 0.001. Die Datenauswahl gibt die gelernten Frequenzen vor.
-- 07:48 **EXP-016 Zwischenstand (8 Seeds):** Δ̄ = +7.6 von 10, 8/8 positiv, p = 0.004. Die konstruierten Splits geben die Frequenzen vor. Entscheidung bei 10 Seeds (laufen).
-- 07:43 EXP-016 Seed 17: F 4/5, G 4/5; alle Abweichungen sind 2k-Harmonische.
-- 07:39 EXP-016 Seed 16 Arm G: 3/5 aus G, die zwei anderen sind 2k-Harmonische von G-Zielen. Δ₁₆ = +8.
-- 07:34 EXP-016 Seed 16 Arm F: Zielmenge exakt gelernt (5/5), gen 675.
-- 07:31 Freigabe des Nutzers gefunden (06:58), Warteschlange gestartet.
-- 07:28 Befundnotiz nach Codex-Konsistenzprüfung korrigiert (u. a. Rechenfehler: M0c − M0 ist ein Symmetrie-, kein Asymmetrie-Term).
-- 07:09 [[experiments/EXP-023-split-value/README|EXP-023]] vorbereitet (eigene Wertematrix für Position 1 im Training), Codex-Review: 5 Befunde übernommen. Warteschlange: EXP-023 und EXP-022 direkt nach EXP-020.
-- 06:58 **Eingriff in silico:** Eigene Wertematrix für Position 1 → die Interferenz im ersten Gradienten verschwindet (0.47 → −0.03). MLP-Kontrast bestätigt die Vorhersage. Befundnotiz [[BEFUND-split-mechanismus]].
-- 06:54 Verdrängt werden die früh schwächsten Zielfrequenzen (14/14).
-- 06:51 [[experiments/EXP-022-single-frequency/README|EXP-022]] vorbereitet: Erzwingt ein Ein-Frequenz-Split eine Ein-Frequenz-Lösung? Codex-Review: 5 Befunde übernommen.
-- 06:40 [[experiments/EXP-021-harmonic-misses/README|EXP-021]] vorab festgelegt (Bestätigung der 2k-Fehlgriffe an frischen Läufen). M0c geschlossen hergeleitet: misst die Kommutations-Asymmetrie des Splits.
-- … ältere Einträge dieser Sitzung im [[JOURNAL]] (Sitzung 5).
+- 08:52 EXP-024-Hauptserie gestartet. Smoke ok (80 s/Lauf, generalisiert).
+- 08:50 Codex-Review von EXP-024: 11 Punkte, 6 übernommen (u. a. Herleitung war unvollständig, Biases raus, invariante Messgröße).
+- 08:49 Baseline 19 fertig → alle 10 frischen Baselines da.
+- 08:45 **Nebenbefund:** In EXP-016 sind zwei Splits identisch (Seed 12/G = 19/F). Ohne Duplikat bleibt das Ergebnis *steuerbar* (9/9, p ≈ 0.002).
+- 08:40 **Neue Idee N11:** Rechnung + Numerik: Ein quadratisches Netz sollte auf denselben Splits die halben Zielfrequenzen bevorzugen (3.3 von 5 statt 0.2). Literatur: nicht gefunden (vorläufig).
+- 08:31 Warteschlange gestartet, Baseline 19 lief.
+- 08:29 Stand gelesen: kein STOP, keine Python-Prozesse, Branch lab/research.

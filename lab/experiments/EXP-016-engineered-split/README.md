@@ -101,3 +101,15 @@ Zwischenstand bei n = 8 (07:48): Δ̄ 7.6, p 0.004; die Entscheidung wurde wie a
 **Grenzen:** eine Konstruktion (ε = 2), nur Transformer, p = 113, 30 %-Split, eine Plattform; K ist die W_E-Top-5 bei
 Schritt 2000. „Steuerbar“ heißt: Die Datenauswahl gibt die Frequenzmenge weitgehend vor; die Init entscheidet nur mit,
 welche Ziele später durch Harmonische ersetzt werden (explorativ, [[BEFUND-split-mechanismus]]).
+
+## Nachtrag c (2026-09-26, Sitzung 6): Doppelter Split Seed 12/G = Seed 19/F
+
+Beim Vorbereiten von [[experiments/EXP-024-quadratic-agf-mask/README|EXP-024]] fiel auf: `make_split.py` zieht Arm G mit
+dem RNG-Strom `seed + SALT + 7`, Arm F mit `seed + SALT`. Damit teilen sich Seed s/G und Seed s+7/F denselben Strom.
+Bei Seed 12/G und 19/F sind Zielmenge ({5, 9, 11, 50, 53}) und Split **identisch** (geprüft: gleiche Indizes). Bei
+10/G ↔ 17/F und 11/G ↔ 18/F sind die Zielmengen verschieden, Phasen und Zufallsschlüssel aber gleich (korrelierte Splits).
+**Folge für die Entscheidung:** Ohne Seed 19 (oder 12) bleibt n = 9, alle Δ positiv, p = 1/512 ≈ 0.002 → weiterhin
+*steuerbar*. Die berichteten Zahlen oben bleiben unverändert; die Unabhängigkeit war etwas geringer als angenommen.
+**Nebenbefund (post hoc):** Gleicher Split, verschiedene Init: Seed 12/G lernte {5, 7, 10, 11, 53}, Seed 19/F
+{5, 7, 9, 10, 53}, 4 von 5 gleich (unter Zufallssplits teilen verschiedene Seeds im Mittel 0.44). Das passt zu „Split
+dominiert“, ist aber ein Einzelpaar. Für künftige Arme mit getrennten Strömen einen zweiten Salt-Abstand > Seedspanne nehmen.

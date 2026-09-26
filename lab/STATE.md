@@ -3,11 +3,16 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 08:25 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 08:53 Berlin (Sitzung 6, vom Runner gestartet 06:29Z, Deadline 09:29Z = 11:29 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
+
+- **Sitzung 6, 08:53:** Baseline 19 fertig (EXP-003d 10/10). Läuft: **EXP-024** (`sh lab/experiments/EXP-024-quadratic-agf-mask/queue.sh`,
+  Log `lab/runner/logs/queue_exp024.log`, überspringt fertige Läufe). `queue_s5.sh` ist **angehalten**; danach neu starten
+  (setzt bei den Smokes EXP-018/020 fort). Nach EXP-024: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-024-quadratic-agf-mask/analyze.py`.
+- EXP-015/012 Phase 2 mit n = 10 nur berichten: `mask_spectrum.py --phase 2 --suffix _n10`, `predict.py --phase 2 --predictor G0 --suffix _n10`.
 
 - **Sitzung 5, 07:31:** Der Nutzer hat um 06:58 die Freigabe erteilt (`.claude/settings.local.json`: `sh lab/experiments/*queue*`,
   `python lab/tools/guarded_run.py *`). `queue_s5.sh` lief 07:30–08:24: EXP-016 Seeds 16–19 und Baseline 18 fertig; Baseline 19

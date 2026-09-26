@@ -48,6 +48,7 @@ def m0(M: np.ndarray) -> np.ndarray:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", type=int, choices=(1, 2), required=True)
+    ap.add_argument("--suffix", default="", help="output-name suffix, e.g. _n10 (keeps the original decision file)")
     a = ap.parse_args()
     k009 = {}
     for r in json.loads(p12.EXP009.read_text(encoding="utf-8"))["runs"]:
@@ -102,7 +103,7 @@ def main() -> None:
                                         "p_better_than_M0": p12.sign_flip_p(diff)}
     else:
         out["verdict"] = "nicht auswertbar"
-    (HERE / f"summary_phase{a.phase}.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    (HERE / f"summary_phase{a.phase}{a.suffix}.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
     for r in rows:
         print({k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items()})

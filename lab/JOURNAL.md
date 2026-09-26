@@ -693,3 +693,36 @@ Baseline Seed 18 (EXP-003d) 08:24: gen 8775, K {7, 17, 31, 53, 54} (9 von 10 Bas
 ab (25.7 min Restbudget < 33), Warteschlange mit rc 3 sauber beendet, keine Python-Prozesse mehr.
 **Abschlussbericht gilt damit als final (08:25).** Nächste Sitzung: `sh lab/experiments/queue_s5.sh` setzt bei Baseline 19 fort
 (EXP-016 und Baseline 18 werden übersprungen).
+
+## Sitzung 6 (2026-09-26, Start 08:29 Berlin / 06:29Z, Deadline 11:29 Berlin)
+
+**08:30 Wiederaufnahme.** Kein STOP, keine Python-Prozesse, Wächter ok (heute Fenster bis 18:00). `queue_s5.sh` neu
+gestartet; EXP-016 und Baseline 18 übersprungen, Baseline 19 lief. Nebenbei `--suffix` in `EXP-015/mask_spectrum.py` und
+`EXP-012/predict.py` ergänzt, damit die Phase-2-Neuberechnung mit n = 10 die Entscheidungsdatei (n = 8) nicht überschreibt.
+
+**Zyklus 1 (08:32–08:50, Theorie + neue Richtung N11): Was sagt AGF für ein quadratisches Netz mit maskiertem Verlust?**
+Rechnung: Nutzen U = ‖P g‖, g_c = Σ_a M(a, c−a)(u_a + v_{c−a})². Das Quadrat erzeugt 2k-Oszillationen entlang der
+Antidiagonalen, also sollte ein auf F konstruierter Split beim quadratischen Netz die **halben Ziele** H(F) = fold(57·F)
+begünstigen, beim Transformer (EXP-016) dagegen F selbst. Numerisch (`EXP-024/utility_scan.py`, exakter Nutzen,
+16 × 16 Phasen, 20 Splits): Top-5 des Nutzens enthalten **3.25/5 H**, **0.2/5 F** (Zufall 0.45); Spearman(U, M0(2k))
++0.30, (U, M0(k)) −0.01. Nachprüfung 32 × 32 Phasen ohne Duplikat: 3.26 / 0.21. Literatur (3 Suchen, N11): nicht gefunden
+(vorläufig). → [[experiments/EXP-024-quadratic-agf-mask/README|EXP-024]] vorab festgelegt: trainierte Zwei-Hot-Netze
+(quadratisch = primär, ReLU = explorativ) auf den EXP-016-Splits; H24: ov(Top-5, H) > ov(Top-5, F), Vorzeichentest.
+
+**Nebenbefund: RNG-Kollision in EXP-016.** Split Seed 12/G ist identisch mit Seed 19/F (Strom `seed + SALT + 7`).
+Ohne Duplikat n = 9, 9/9 positiv, p ≈ 0.002 → Entscheidung *steuerbar* bleibt. Gleicher Split, andere Init: K 4/5 gleich.
+Nachtrag c im EXP-016-README. EXP-018/020/022 benutzen einen Salt ohne Armversatz (dort nicht betroffen, geprüft per grep).
+
+**Codex-Review EXP-024 (08:40–08:50, 11 Punkte).** Übernommen: (1) Herleitung unvollständig: es gibt einen Term
+cos(ωkc + α + β) mit Gewicht n_c und Beiträge erster Ordnung in der Maske; „M0 bei 2k“ ist nur eine Näherung,
+maßgeblich ist die exakte Nutzenrechnung. (2) Biases entfernt (Bias koppelt an k). (3) Messgröße jetzt
+reskalierungsinvariant und mit W_out gewichtet. (4) Gültigkeitsprüfung (`complete`, vorgesehene Einheiten).
+(5) Kontrolle mit fold(m·F) für alle anderen m. (9) Phasenraster geprüft (s. o.). Nicht übernommen, als Grenzen
+notiert: F/G-Abhängigkeit im Vorzeichentest; ein H-Befund belegt nicht den AGF-Anfangsmechanismus als Ursache.
+Codex bestätigte Indizierung, 57 = 2⁻¹ mod 113, Faltung und Komplement-Testmenge.
+
+**08:49 Baseline 19 fertig** (gen ≈ 7225, K {16, 41, 44, 47, 51}); EXP-003d-Baselines damit 10/10.
+**08:51 EXP-024-Smoke** (eigener Split Seed 9, nicht ausgewertet): 80 s, endlich, Test 1.0 ab Schritt 1300.
+**08:52 EXP-024-Hauptserie gestartet** (`sh lab/experiments/EXP-024-quadratic-agf-mask/queue.sh`, Log
+`lab/runner/logs/queue_exp024.log`), 38 Läufe × ~80 s ≈ 50 min. `queue_s5.sh` ist angehalten (Shell um ~08:33 beendet,
+damit kein zweiter Job startet) und wird danach neu gestartet (setzt bei den Smokes EXP-018/020 fort).

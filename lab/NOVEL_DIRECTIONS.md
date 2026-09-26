@@ -240,3 +240,23 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
 - **Stand 2026-09-26 08:06 (Sitzung 5):** EXP-016 abgeschlossen, *steuerbar* (10/10 Seeds, Δ̄ +7.7, p ≈ 0.001). Kausaler
   Beleg, dass die Datenauswahl die Frequenzwahl eines Transformers für modulare Addition vorgibt; Einordnung siehe oben
   (Grundidee in anderer Form bekannt, Zhou et al. 2024; Z_p-Umsetzung und Steuerung nicht gefunden, vorläufig).
+
+## N11: Architektur bestimmt, *welche* Harmonische des Split-Spektrums gelernt wird (k gegen k/2) #neu/kandidat
+
+- **Rechnung (Sitzung 6, 2026-09-26):** AGF-Nutzen (Kunin et al. 2025) des Zwei-Hot-Netzes mit quadratischer Aktivation
+  unter **maskiertem** Verlust: U = ‖P g‖, g_c = Σ_a M(a, c−a)(u_a + v_{c−a})². Das Quadrat erzeugt 2k-Oszillationen entlang
+  der Antidiagonalen, also greift der Nutzen einer Frequenz k das Masken-Spektrum bei **2k** ab. Numerisch an 20 EXP-016-
+  Splits: Top-5 des Nutzens enthalten 3.25/5 halbe Ziele fold(57·f), 0.2/5 Ziele (Zufall 0.45). Der Transformer lernt
+  dagegen die Ziele selbst (EXP-016). Vorhersage: gleiche Daten, andere Architektur → andere, aber *vorhersagbare*
+  Frequenzen (F/2 statt F). Test: [[experiments/EXP-024-quadratic-agf-mask/README|EXP-024]].
+- **Suche 2026-09-26 (Sitzung 6):** „quadratic activation network modular addition learns half frequency training subset
+  mask Fourier 2k alternating gradient flows“, „"modular addition" architecture dependence which frequencies learned
+  transformer vs quadratic MLP same training data frequency doubling“, „grokking modular addition "training set"
+  subsample Fourier spectrum of training mask predicts learned frequencies two-layer network theory“.
+  Nächstverwandt: Kunin et al. 2025 (https://arxiv.org/abs/2506.06489, volle Daten, Reihenfolge nach |x̂|);
+  He et al. 2026 (https://arxiv.org/abs/2602.16849, Wettbewerb der Frequenzen je Neuron nach Init-Betrag und Phase, volle
+  Daten); *Modular addition without black-boxes* (https://arxiv.org/abs/2412.03773, Frequenzverdopplung in der MLP als
+  numerische Integration, anderer Zusammenhang). Ein Zusammenhang Split-Spektrum bei 2k ↔ Frequenz k und die
+  Architekturabhängigkeit dieser Zuordnung wurden **nicht gefunden** (vorläufig; Google Scholar/OpenReview nicht gezielt).
+- **Bezug:** Die in EXP-016 beobachteten Fehlgriffe des Transformers sind 2k der Ziele (Oberwellen), also die
+  *entgegengesetzte* Richtung. Ob beides eine gemeinsame Ursache hat (Quadrat-artige Terme im Transformer), ist offen.

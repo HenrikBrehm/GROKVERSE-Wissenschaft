@@ -37,3 +37,10 @@ Rangkorrelation M0/M0c ≈ 0.70. Richtung gleich, einzeln nicht signifikant.
 | **Grenzen** | Nur Transformer; die EXP-018-Läufe haben eine andere Testmenge (T*, 20 %) als die Baselines, das betrifft K nur über den Stoppzeitpunkt |
 
 Auswertung: `python lab/experiments/EXP-019-coherent-mask/analyze.py` (nach EXP-018 und den Baselines 18/19).
+
+## Nachtrag (2026-09-26 06:22, Mechanismus, keine Kriterienänderung)
+
+Der tatsächliche erste Gradient an W_E folgt M0c deutlich besser als M0: gemittelt über 3 Inits (Seeds 0–9)
+ρ 0.773 gegen 0.571, 10/10; eine Init pro Seed (Seeds 0–17) 0.572 gegen 0.422, 17/18, p 1.1e-5. Fremde Maske ≈ 0.
+Skripte `EXP-015-mask-spectrum/posthoc/coherent_vs_*.py`. Das stützt die Herleitung, sagt aber noch nichts darüber,
+ob M0c die **finalen** Frequenzen besser vorhersagt (das bleibt H19).

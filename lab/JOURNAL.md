@@ -424,3 +424,16 @@ wegen gemeinsamer Ziehungsschlüssel), `analyze.py`, `queue.sh`, `check_smoke.py
 → G\F, F\G, F∩G getrennt; (4) Warteschlange ignorierte normale Fehler → Stopp bei jedem Exit ≠ 0, „already completed“
 endet jetzt mit 0 (betrifft auch `queue_s4b.sh`: dort ändert sich nichts, weil sie nur 3/124 auswertet). Eigene
 Ergänzung: gen_F nicht mehr bei 2000 gedeckelt. Ergebnis des Zyklus: Versuch vorbereitet, **nicht ausgeführt**.
+
+**Zyklus 6 (06:21, Mechanismus-Prüfung, kein Training): Folgt der tatsächliche erste Gradient dem kohärenten
+Masken-Spektrum?** Hypothese vor der Rechnung: Spearman(G0, M0c) > Spearman(G0, M0) in den meisten Seeds.
+(a) G0 aus einer Init pro Seed, Seeds 0–17 (`posthoc/coherent_vs_gradient.py`): ρ(M0) 0.422, ρ(M0c) 0.572, M0c höher
+in 17/18, Vorzeichen-Permutation p 1.1e-5; fremde Maske −0.02.
+(b) Fairer Vergleich mit der früheren Messung (G0 über 3 Inits gemittelt, Seeds 0–9, `posthoc/coherent_vs_g0_avg.py`):
+ρ(M0) 0.571 (reproduziert den Wert aus Sitzung 4 exakt), **ρ(M0c) 0.773, höher in 10/10**; fremde Maske −0.08.
+**Befund: positiv (Mechanismus).** Der erste Gradient an W_E addiert die Beiträge der beiden Eingabepositionen
+kohärent; M0c ist die bessere Beschreibung des Gradienten. Das ist keine Aussage über K: Ob M0c auch K besser
+vorhersagt, prüft EXP-019 (post hoc nur richtungsgleich). Für EXP-016/018/020 ändert sich nichts: Die konstruierten
+Splits wurden über M0 gebaut; M0c-Top-5 der Konstruktionen wird bei der Auswertung sekundär berichtet.
+Einschränkung: Die Seeds 0–9 wurden schon für die Hypothesenbildung von M0c benutzt; (a) enthält 10–17, die für
+M0c neu sind, aber nicht vorab festgelegt waren.

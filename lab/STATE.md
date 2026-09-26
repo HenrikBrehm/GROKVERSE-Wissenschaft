@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 06:24 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 06:21 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
@@ -69,5 +69,5 @@ festem Split variiert K trotzdem über Inits (GitHub-Nachbau) → Split ist nich
 - **Sitzung 5 (2026-09-26 05:52 Berlin):** Der Start von `sh lab/experiments/queue_s4b.sh` im Hintergrund wurde vom
   Auto-Mode-Klassifikator von Claude Code abgelehnt („Safety Bypass Flag“), obwohl jeder Lauf über `guarded_run.py`
   geht. Nach den Regeln der Ablehnung **nicht umgangen** (auch nicht über Einzelaufrufe). Die Warteschlange muss der
-  Nutzer freigeben: entweder eine Bash-Berechtigungsregel für `sh lab/experiments/queue_s4b.sh` bzw.
+  Nutzer freigeben: entweder eine Bash-Berechtigungsregel für `sh lab/experiments/queue_s5.sh` (Nachfolger von `queue_s4b.sh`) bzw.
   `python lab/tools/guarded_run.py` hinzufügen oder die Warteschlange selbst starten. Bis dahin nur Denk- und Sucharbeit.

@@ -72,6 +72,15 @@ Tritt *geprägt* ein, spricht das gegen H42 in dieser Form.
 Zufallsniveau), F und G in EXP-020 dagegen ≈ 73 %. P41a prüft die Festlegung also gegen einen fast vollständigen Datenwechsel
 (≈ 63 % neue Paare) und ist damit ein deutlich härterer Test als EXP-020.
 
+## Nachtrag b (Sitzung 15, 2026-09-26 22:55 Berlin, vor jedem EXP-041-Lauf; nur beschreibend, ändert keine Regel)
+
+Drei Lesarten für **P41b** (R → E bei t = 150), jetzt ausdrücklich nebeneinander:
+- **Schrittfenster (N30, post hoc an EXP-020/037):** Das Integrationsfenster (≈ 50–100 Schritte) ist nach 150 Schritten zu, unabhängig von der
+  Stärke des Vorlauf-Splits → P41a **und** P41b *geprägt*.
+- **Amplitudenschwelle (H40/N18):** Der schwache R-Zug baut langsamer Amplitude auf, das Fenster schließt später → P41b eher *gemischt*.
+- **H42 (N22):** E gleicht den kleinen R-Vorsprung aus → P41b *überschrieben*.
+Einschränkung: K_R ist zum Teil von der Init bestimmt (EXP-014/036), das Fenstermodell beschreibt nur den Datenzug. Gesehene Daten: EXP-020 (30–34), EXP-037 (30–32); EXP-041-Seeds 20–29 ungesehen.
+
 ## Status
 
 Vorab festgelegt, Code geschrieben, **ungetestet** (Fenster geschlossen; Selbsttest am Queue-Anfang, fail-closed).

@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-26, 21:40 Berlin (Sitzung 14, läuft bis 00:19). Nächster Runner-Start laut runner-state.json: 00:54 Berlin._
+_Zuletzt aktualisiert: 2026-09-26, 21:27 Berlin (Sitzung 14, läuft bis 00:19). Nächster Runner-Start laut runner-state.json: 00:54 Berlin._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]]
 

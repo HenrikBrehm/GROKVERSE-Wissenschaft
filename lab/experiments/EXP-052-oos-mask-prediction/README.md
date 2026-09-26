@@ -7,7 +7,7 @@ verwandt: ["[[FINDINGS]]", "[[experiments/EXP-015-mask-spectrum/README|EXP-015]]
 ---
 # EXP-052: Sagt der Split allein das W_E-Spektrum auch bei add mod 97 und mul mod 113 voraus? (eingefrorene Vorhersage)
 
-**Status:** vorbereitet. **Vorhersagen eingefroren** in `predictions.json` (Sitzung 14, 2026-09-26 ~21:30 Berlin), **bevor**
+**Status:** vorbereitet. **Vorhersagen eingefroren** in `predictions.json` (Sitzung 14, 2026-09-26, vor 21:27 Berlin gemessen), **bevor**
 irgendein R-Lauf von EXP-043 existierte. Kein eigenes Training: nutzt die 20 Zufallssplit-Läufe (Arm R, ε = 0) von
 [[experiments/EXP-043-generalize-steering/README|EXP-043]] (GPU, 2000 Schritte, Seeds 70–79 je Aufgabe), die das Nachtprogramm ohnehin
 fährt. Zurück zu [[LAB]] · [[FINDINGS]].
@@ -51,7 +51,7 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-052-oos-mask-predi
 Nicht in `night_program.py` eingetragen (gemeinsamer Orchestrator bleibt unverändert); die Auswertung wird von Hand gestartet,
 sobald `night_status.json` für EXP-043 den Schritt „random“ als erfolgreich zeigt.
 
-## Nachtrag a (Sitzung 14, 2026-09-26 ~21:55 Berlin, **vor jedem Lauf**): dritter Fall D₅₉, Prüfung eingearbeitet
+## Nachtrag a (Sitzung 14, 2026-09-26 21:27 Berlin gemessen, **vor jedem Lauf**): dritter Fall D₅₉, Prüfung eingearbeitet
 
 **Dritter Fall, nicht abelsch:** die 10 Zufallssplits (Arm R, ε = 0, Seeds 140–149) von
 [[experiments/EXP-046-dihedral-steering/README|EXP-046]] (D₅₉, 29 zweidimensionale Irreps). M0 = nicht-abelsches Masken-Spektrum aus

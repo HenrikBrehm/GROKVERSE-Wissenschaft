@@ -5,17 +5,19 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 21:19 Berlin (19:19Z, vom Runner)
 - **Deadline:** 2026-09-27 00:19 Berlin (22:19Z)
-- **Zuletzt aktualisiert:** 21:22 Berlin (gemessen).
+- **Zuletzt aktualisiert:** 21:28 Berlin (gemessen).
 - **Run-Fenster:** zu. Heute Nacht Läufe erst ab 03:00 (Regel 18). Diese Sitzung: nur Code, Rechnung auf Dateien, Literatur.
 
 ## Gerade
 
-Ich lege eine **vorab eingefrorene Vorhersage** an: Für die 20 noch nicht gelaufenen Zufallssplit-Läufe von EXP-043 (Addition mod 97, Multiplikation mod 113) sage ich die gelernten Frequenzen nur aus dem Split voraus (M0, M0c, Häufigkeiten). Die Vorhersage wird vor den Läufen committet. So wird K1 an unberührten Fällen geprüft, ohne zusätzliches Training.
+Nächste Denkarbeit wählen: Paket B (Persistenz) literarisch und rechnerisch schärfen, solange keine Läufe möglich sind.
 
 ## Als Nächstes
 
-Vorhersagedatei erzeugen und committen, Auswertung schreiben, unabhängig prüfen lassen.
+Ab 03:00 (nächste Sitzung): Wächter-Abnahme, Tests (jetzt auch EXP-052-Selbsttest), Nachtprogramm.
 
 ## Verlauf dieser Sitzung
+
+- 21:27 **Neuer Test [[experiments/EXP-052-oos-mask-prediction/README|EXP-052]]:** Vorhersagen für 30 noch nicht gelaufene Zufallssplit-Läufe (add 97, mul 113, nicht-abelsche Gruppe D₅₉) aus den Splits berechnet und per Commit eingefroren. Unabhängige Prüfung: kein Blocker.
 
 - 21:20 Stand gelesen: kein STOP, kein Prozess aktiv, Fenster zu (Wächter Exit 3). Nichts Pflichtiges offen.

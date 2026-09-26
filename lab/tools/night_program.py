@@ -10,8 +10,13 @@ selftests, analyses - goes through lab/tools/parallel_queue.py and therefore thr
 Completed runs are skipped by the trainers (fingerprint check in freq_ban.py), so resume = rerun the same command.
 Status after every experiment: <log-dir>/night_status.json. One instance at a time (lock file with PID).
 
+CPU mode (--cpu): the CPU night queue (queue_s10.sh minus EXP-034 and queue_s5) as the same kind of program, own lock, so it
+can run next to the GPU program. CPU runs keep --threads 4 (run ids and finished runs depend on it); workers default to
+max(1, (12 - J_gpu) // 4) so that all CPU threads stay <= 12 (rule 17). EXP-034 (dependent job chain) is not ported yet.
+
 Usage (project root):
     python lab/tools/night_program.py [--experiments GPU-001,EXP-043,...] [--log-dir DIR]
+    python lab/tools/night_program.py --cpu [--experiments EXP-035,...] [--cpu-workers N]
     python lab/tools/night_program.py --check-smoke EXP-043      # internal: smoke-record checks (run as a guarded job)
 """
 from __future__ import annotations
@@ -37,11 +42,18 @@ FB = f"{R}/EXP-001-freq-ban/freq_ban.py"
 G1 = f"{R}/GPU-001-equivalence"
 S16 = f"{R}/EXP-016-engineered-split/splits"
 DEFAULT_ORDER = ("GPU-001", "EXP-043", "EXP-046", "EXP-047", "EXP-048", "EXP-049", "EXP-044", "EXP-045")
+CPU_ORDER = ("EXP-035", "EXP-038", "EXP-041", "EXP-036", "EXP-039", "EXP-040", "EXP-042")   # queue_s10 order, EXP-034 not ported
+S20 = f"{R}/EXP-020-data-switch/splits"
 EXP_DIR = {"EXP-043": "EXP-043-generalize-steering", "EXP-044": "EXP-044-generalize-lockin",
            "EXP-045": "EXP-045-mlp-steering", "EXP-046": "EXP-046-dihedral-steering",
            "EXP-047": "EXP-047-marginal-control", "EXP-048": "EXP-048-intadd-steering",
-           "EXP-049": "EXP-049-width-steering", "EXP-050": "EXP-050-phase-dissociation"}
+           "EXP-049": "EXP-049-width-steering", "EXP-050": "EXP-050-phase-dissociation",
+           "EXP-035": "EXP-035-warmup-lockin", "EXP-036": "EXP-036-init-conflict", "EXP-038": "EXP-038-where-lockin",
+           "EXP-039": "EXP-039-lr-clock", "EXP-040": "EXP-040-we-init-scale", "EXP-041": "EXP-041-imprint",
+           "EXP-042": "EXP-042-bias-strength"}
+CPU_EXPS = set(CPU_ORDER)
 LOCK = ROOT / "lab" / "runner" / "night_program.lock"
+LOCK_CPU = ROOT / "lab" / "runner" / "night_program_cpu.lock"
 
 
 class Refused(Exception):
@@ -269,12 +281,147 @@ class Night:
                 for s in range(180, 190) for m in ("quadlm", "anti", "sym") for a in "FG"]
         self.runs_then_analysis("EXP-050", "main", cmds, 5)
 
+    # -- CPU experiments (queue_s10 minus EXP-034; freq_ban default --threads 4, global python) -----------------------
+    def fb(self, *args: str) -> list[str]:
+        return [PY, FB, "--condition", "baseline", *args]
+
+    def exp035(self) -> None:
+        o = f"{R}/{EXP_DIR['EXP-035']}"
+        self.smoke("EXP-035", [self.fb("--seed", "30", "--steps", "60", "--stop-after-gen", "8000",
+                                       "--split-file", f"{S20}/seed30_train_F.npy", "--test-file", f"{S20}/seed30_test.npy",
+                                       "--switch-split-file", f"{S20}/seed30_train_G.npy", "--switch-step", "30",
+                                       "--warmup", "200", "--out-root", f"{o}/raw_smoke")], 2)
+        only_f, switch = [], []
+        for sd in (30, 31, 32, 34):
+            base = ["--seed", str(sd), "--test-file", f"{S20}/seed{sd}_test.npy", "--warmup", "200", "--out-root", f"{o}/raw"]
+            only_f.append(self.fb(*base, "--steps", "8000", "--stop-after-gen", "2000", "--split-file", f"{S20}/seed{sd}_train_F.npy"))
+            for t in (50, 150, 100, 25, 10, 250):
+                switch.append(self.fb(*base, "--steps", str(t + 2000), "--stop-after-gen", "8000",
+                                      "--split-file", f"{S20}/seed{sd}_train_F.npy",
+                                      "--switch-split-file", f"{S20}/seed{sd}_train_G.npy", "--switch-step", str(t)))
+        if self.jobs("EXP-035_onlyF", only_f, self.J, 19) != 0:
+            raise Failed("EXP-035 only-F runs failed, analysis not run")
+        self.runs_then_analysis("EXP-035", "switch", switch, 9)
+
+    def exp038(self) -> None:
+        o = f"{R}/{EXP_DIR['EXP-038']}"
+        if not self.dry:
+            shutil.rmtree(ROOT / o / "raw_smoke", ignore_errors=True)
+        sm = [self.fb("--seed", "30", "--steps", "40", "--stop-after-gen", "8000", "--split-file", f"{S20}/seed30_train_F.npy",
+                      "--test-file", f"{S20}/seed30_test.npy", "--switch-split-file", f"{S20}/seed30_train_G.npy",
+                      "--switch-step", "30", "--reset-at-switch", rs, "--force", "--out-root", f"{o}/raw_smoke") for rs in ("we", "rest")]
+        if self.jobs("EXP-038_smoke", sm, 1, 2) != 0:
+            raise Failed("EXP-038 smoke failed")
+        self.must("EXP-038_smoke_check", [PY, f"{o}/check_smoke.py"])
+        cmds = [self.fb("--seed", str(sd), "--steps", "2150", "--stop-after-gen", "8000", "--split-file", f"{S20}/seed{sd}_train_F.npy",
+                        "--test-file", f"{S20}/seed{sd}_test.npy", "--switch-split-file", f"{S20}/seed{sd}_train_G.npy",
+                        "--switch-step", "150", "--reset-at-switch", rs, "--save-model", "--out-root", f"{o}/raw")
+                for rs in ("we", "rest") for sd in range(30, 35)]
+        self.runs_then_analysis("EXP-038", "main", cmds, 7)
+
+    def exp041(self) -> None:
+        o = f"{R}/{EXP_DIR['EXP-041']}"
+        sp = f"{R}/EXP-018-split-speed/splits"
+        self.must("EXP-041_selftest", [PY, f"{o}/analyze.py", "--selftest"], 1)
+        cmds = []
+        for sd in range(20, 30):
+            for a in "RE":
+                cmds.append(self.fb("--seed", str(sd), "--steps", "2150", "--stop-after-gen", "8000",
+                                    "--split-file", f"{sp}/seed{sd}_train_{a}.npy", "--test-file", f"{sp}/seed{sd}_test.npy",
+                                    "--spectra-at", "50,150", "--out-root", f"{o}/raw"))
+            for a, b in (("E", "R"), ("R", "E")):
+                cmds.append(self.fb("--seed", str(sd), "--steps", "2150", "--stop-after-gen", "8000",
+                                    "--split-file", f"{sp}/seed{sd}_train_{a}.npy", "--test-file", f"{sp}/seed{sd}_test.npy",
+                                    "--switch-split-file", f"{sp}/seed{sd}_train_{b}.npy", "--switch-step", "150",
+                                    "--out-root", f"{o}/raw"))
+        self.runs_then_analysis("EXP-041", "main", cmds, 7)
+
+    def exp036(self) -> None:
+        o = f"{R}/{EXP_DIR['EXP-036']}"
+        sa = "5,10,15,20,25,30,40,50,75,100,150,200"
+        self.smoke("EXP-036", [self.fb("--seed", "130", "--steps", "30", "--stop-after-gen", "8000",
+                                       "--split-file", f"{S20}/seed30_train_F.npy", "--test-file", f"{S20}/seed30_test.npy",
+                                       "--spectra-at", "5,10,20", "--force", "--out-root", f"{o}/raw_smoke")], 2)
+        cmds = []
+        for sd, init in ((30, 130), (31, 131), (32, 132), (33, 133), (34, 134), (30, 230), (31, 231)):
+            base = ["--seed", str(init), "--stop-after-gen", "8000", "--test-file", f"{S20}/seed{sd}_test.npy",
+                    "--spectra-at", sa, "--out-root", f"{o}/raw"]
+            for arm in "FG":
+                cmds.append(self.fb(*base, "--steps", "2000", "--split-file", f"{S20}/seed{sd}_train_{arm}.npy"))
+            for t in (25, 50, 10):
+                cmds.append(self.fb(*base, "--steps", str(t + 2000), "--split-file", f"{S20}/seed{sd}_train_F.npy",
+                                    "--switch-split-file", f"{S20}/seed{sd}_train_G.npy", "--switch-step", str(t)))
+        self.runs_then_analysis("EXP-036", "main", cmds, 7)
+        self.must("EXP-036_p36b", [PY, f"{o}/analyze_p36b.py"])
+
+    def clock_like(self, name: str, flag: str, levels: tuple[str, str], ts: dict, seeds: tuple[int, ...], g_only: bool) -> None:
+        o = f"{R}/{EXP_DIR[name]}"
+        sa = "5,10,12,15,20,25,30,40,50,75,100,150,200"
+        g_runs, f_runs, s_runs = [], [], []      # the shell queues gave them 7 / 19 / 9 minimum minutes
+        for sd in seeds:
+            for c in levels:
+                base = ["--seed", str(sd), "--test-file", f"{S20}/seed{sd}_test.npy", flag, c, "--spectra-at", sa,
+                        "--out-root", f"{o}/raw"]
+                if g_only:
+                    g_runs.append(self.fb(*base, "--steps", "2000", "--stop-after-gen", "8000",
+                                          "--split-file", f"{S20}/seed{sd}_train_G.npy"))
+                f_runs.append(self.fb(*base, "--steps", "8000", "--stop-after-gen", "2000", "--split-file", f"{S20}/seed{sd}_train_F.npy"))
+                for t in ts[c]:
+                    s_runs.append(self.fb(*base, "--steps", str(t + 2000), "--stop-after-gen", "8000",
+                                          "--split-file", f"{S20}/seed{sd}_train_F.npy",
+                                          "--switch-split-file", f"{S20}/seed{sd}_train_G.npy", "--switch-step", str(t)))
+        for tag, runs, mm in (("onlyG", g_runs, 7), ("onlyF", f_runs, 19)):
+            if runs and self.jobs(f"{name}_{tag}", runs, self.J, mm) != 0:
+                raise Failed(f"{name} {tag} runs failed, analysis not run")
+        self.runs_then_analysis(name, "switch", s_runs, 9)
+
+    def exp039(self) -> None:
+        o = f"{R}/{EXP_DIR['EXP-039']}"
+        self.smoke("EXP-039", [self.fb("--seed", "30", "--steps", "60", "--stop-after-gen", "8000",
+                                       "--split-file", f"{S20}/seed30_train_F.npy", "--test-file", f"{S20}/seed30_test.npy",
+                                       "--switch-split-file", f"{S20}/seed30_train_G.npy", "--switch-step", "30",
+                                       "--lr-scale", "2", "--out-root", f"{o}/raw_smoke")], 2)
+        self.clock_like("EXP-039", "--lr-scale", ("2", "0.5"), {"2": (25, 12, 10, 50), "0.5": (50, 25, 100, 150)},
+                        (30, 32, 34, 31), g_only=False)
+
+    def exp040(self) -> None:
+        o = f"{R}/{EXP_DIR['EXP-040']}"
+        self.must("EXP-040_selftest", [PY, f"{o}/analyze.py", "--selftest"], 1)
+        self.smoke("EXP-040", [self.fb("--seed", "30", "--steps", "60", "--stop-after-gen", "8000",
+                                       "--split-file", f"{S20}/seed30_train_F.npy", "--test-file", f"{S20}/seed30_test.npy",
+                                       "--switch-split-file", f"{S20}/seed30_train_G.npy", "--switch-step", "30",
+                                       "--we-init-scale", "0.5", "--out-root", f"{o}/raw_smoke")], 2)
+        self.clock_like("EXP-040", "--we-init-scale", ("0.5", "2"), {"0.5": (25, 12, 10, 50), "2": (50, 25, 100, 150)},
+                        (30, 32, 34, 31), g_only=True)
+
+    def exp042(self) -> None:
+        x = f"{R}/{EXP_DIR['EXP-042']}"
+        self.must("EXP-042_selftest", [PY, f"{x}/analyze.py", "--selftest"], 1)
+        seeds = (30, 31, 32, 34)
+        first = [self.fb("--seed", str(sd), "--steps", "8000", "--stop-after-gen", "2000",
+                         "--split-file", f"{x}/eps8/splits/seed{sd}_train_F.npy", "--test-file", f"{x}/eps8/splits/seed{sd}_test.npy",
+                         "--out-root", f"{x}/eps8/raw") for sd in seeds]
+        if self.jobs("EXP-042_onlyF", first, self.J, 19) != 0:
+            raise Failed("EXP-042 only-F runs failed, analysis not run")
+        cmds = []
+        for e, ts in (("8", (50, 100, 25, 150)), ("1", (25, 10, 50))):
+            sp, o = f"{x}/eps{e}/splits", f"{x}/eps{e}/raw"
+            for sd in seeds:
+                cmds.append(self.fb("--seed", str(sd), "--steps", "2000", "--stop-after-gen", "8000",
+                                    "--split-file", f"{sp}/seed{sd}_train_G.npy", "--test-file", f"{sp}/seed{sd}_test.npy", "--out-root", o))
+                for t in ts:
+                    cmds.append(self.fb("--seed", str(sd), "--steps", str(t + 2000), "--stop-after-gen", "8000",
+                                        "--split-file", f"{sp}/seed{sd}_train_F.npy", "--test-file", f"{sp}/seed{sd}_test.npy",
+                                        "--switch-split-file", f"{sp}/seed{sd}_train_G.npy", "--switch-step", str(t), "--out-root", o))
+        self.runs_then_analysis("EXP-042", "main", cmds, 7)
+
     # -- driver ------------------------------------------------------------------------------------------------
     def run(self, order: list[str]) -> int:
         self.log.mkdir(parents=True, exist_ok=True)
         steps = {"GPU-001": self.gpu001, "EXP-043": self.exp043, "EXP-044": self.exp044, "EXP-045": self.exp045,
                  "EXP-046": self.exp046, "EXP-047": self.exp047, "EXP-048": self.exp048, "EXP-049": self.exp049,
-                 "EXP-050": self.exp050}
+                 "EXP-050": self.exp050, "EXP-035": self.exp035, "EXP-036": self.exp036, "EXP-038": self.exp038,
+                 "EXP-039": self.exp039, "EXP-040": self.exp040, "EXP-041": self.exp041, "EXP-042": self.exp042}
         failed = False
         for name in order:
             print(f"[night] {now()} {name} start (J={self.J})", flush=True)
@@ -314,7 +461,10 @@ def check_smoke(name: str) -> None:
     recs = [json.loads(Path(f).read_text(encoding="utf-8")) for f in sorted(glob.glob(str(e / "raw_smoke" / "*" / "result.json")))]
     assert recs, "no smoke record"
     for r in recs:
-        assert r["status"] == "completed" and r["device"] == "cuda" and r["run_id"].endswith("_devcuda"), r.get("run_id")
+        if name in CPU_EXPS:
+            assert r["status"] == "completed" and r.get("device", "cpu") == "cpu", r.get("run_id")
+        else:
+            assert r["status"] == "completed" and r["device"] == "cuda" and r["run_id"].endswith("_devcuda"), r.get("run_id")
     r = recs[0]
     if name == "EXP-043":
         assert r["config"]["task"] == "mul" and r["config"]["p"] == 113 and r["run_id"].startswith("EXP-043_"), r["run_id"]
@@ -332,13 +482,32 @@ def check_smoke(name: str) -> None:
     elif name == "EXP-049":
         assert sorted(x["d_model"] for x in recs) == [128, 512], [x["d_model"] for x in recs]
         assert all(x["steps_completed"] == 50 and x["config"]["d_model"] == x["d_model"] for x in recs)
+    elif name == "EXP-035":
+        e_ = r["events"]
+        assert r["warmup"] == 200 and e_.get("switch", {}).get("step") == 30 and e_.get("displacement_at_switch", {}).get("W_E", 0) > 0
+    elif name == "EXP-036":
+        import numpy as np
+        d = e / "raw_smoke" / "EXP-018_baseline_seed130_thr4_seed30_train_F"
+        assert r["spectra_at"] == [5, 10, 20] and r["steps_completed"] == 30, r["run_id"]
+        assert np.load(d / "spectra_steps.npy").tolist() == [0, 5, 10, 20, 30]
+    elif name == "EXP-039":
+        e_ = r["events"]
+        assert r["lr_scale"] == 2.0 and r["lr_scale_until"] == 250 and e_.get("switch", {}).get("step") == 30
+        assert e_.get("displacement_at_switch", {}).get("W_E", 0) > 0
+    elif name == "EXP-040":
+        import numpy as np
+        d = e / "raw_smoke" / "EXP-020_baseline_seed30_thr4_seed30_train_F_to_seed30_train_G_at30_wes0.5"
+        ref = ROOT / R / "EXP-035-warmup-lockin/raw/EXP-018_baseline_seed30_thr4_seed30_train_F_wu200"
+        a_, b_ = np.load(d / "spectra.npy")[0], np.load(ref / "spectra.npy")[0]
+        assert r["we_init_scale"] == 0.5 and r["events"].get("switch", {}).get("step") == 30 and np.allclose(a_, 0.25 * b_, rtol=1e-5)
     for x in recs:
         print(f"[{name}] smoke ok {x['run_id']} {x.get('sec_per_step')} s/step {x.get('cuda_max_mem_mb')} MB", flush=True)
 
 
-def take_lock() -> None:
-    """One night program at a time; a lock whose PID no longer runs is taken over (tasklist, no os.kill on Windows)."""
+def take_lock(lock: Path) -> None:
+    """One program per mode at a time; a lock whose PID no longer runs is taken over (tasklist, no os.kill on Windows)."""
     import subprocess
+    LOCK = lock  # noqa: N806
     try:
         fd = os.open(LOCK, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     except FileExistsError:
@@ -363,19 +532,37 @@ def main() -> int:
     ap.add_argument("--log-dir", type=Path, default=None)
     ap.add_argument("--check-smoke", default=None, help=argparse.SUPPRESS)
     ap.add_argument("--dry-run", action="store_true", help="walk the program and print the jobs; run nothing")
+    ap.add_argument("--cpu", action="store_true", help="CPU night queue (EXP-035..042 without 034), own lock")
+    ap.add_argument("--cpu-workers", type=int, default=None, help="default max(1, (12 - J_gpu) // 4)")
     a = ap.parse_args()
     if a.check_smoke:
         check_smoke(a.check_smoke)
         return 0
+    if a.cpu:
+        order = [x.strip() for x in a.experiments.split(",") if x.strip()] if a.experiments != ",".join(DEFAULT_ORDER) \
+            else list(CPU_ORDER)
+        bad = [x for x in order if x not in CPU_EXPS]
+        if bad:
+            ap.error(f"not CPU experiments: {bad}")
+        workers = a.cpu_workers
+        if workers is None:
+            j = Night.best_J() if Night.passed("throughput") else 4
+            workers = max(1, (12 - j) // 4)
+        night = Night(Path(".") if a.dry_run else (a.log_dir or ROOT / "lab" / "runner" / "logs" /
+                      f"night_cpu_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S_%fZ')}"), dry=a.dry_run)
+        night.J = workers
+        if not a.dry_run:
+            take_lock(LOCK_CPU)
+        return night.run(order)
     order = [x.strip() for x in a.experiments.split(",") if x.strip()]
-    unknown = [x for x in order if x != "GPU-001" and x not in EXP_DIR]
+    unknown = [x for x in order if x != "GPU-001" and (x not in EXP_DIR or x in CPU_EXPS)]
     if unknown:
-        ap.error(f"unknown experiments {unknown}")
+        ap.error(f"unknown or CPU experiments {unknown} (use --cpu)")
     if "GPU-001" not in order[:1]:
         order = ["GPU-001"] + [x for x in order if x != "GPU-001"]   # the gate always runs first (skips if passed)
     if a.dry_run:
         return Night(Path("."), dry=True).run(order)
-    take_lock()
+    take_lock(LOCK)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ")
     log_dir = a.log_dir or ROOT / "lab" / "runner" / "logs" / f"night_{stamp}"
     return Night(log_dir).run(order)

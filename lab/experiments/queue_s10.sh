@@ -1,4 +1,7 @@
 #!/bin/sh
+# SUPERSEDED (session 13, Astra 11): use `python lab/tools/night_program.py --cpu` (EXP-035, 038, 041, 036, 039, 040, 042).
+# EXP-034 (dependent job chain) and the queue_s5 remainder are NOT in the program yet: port/triage per rule 18c first.
+echo "[queue10] superseded by lab/tools/night_program.py --cpu (Astra 11), not run"; exit 1
 # Session-10 master queue (written 2026-09-26, session 9; EXP-039/040/041/042 added in session 10): EXP-035 -> EXP-038 -> EXP-041 -> EXP-036 -> EXP-039 -> EXP-040 -> EXP-034 -> EXP-042 -> rest of queue_s5.
 # EXP-037 is done (session 9). EXP-036 before EXP-034: EXP-037 left the origin of the reproducible "conflict frequencies"
 # (init or not) as the main open question. One job at a time; every run through guarded_run.py; each part skips completed

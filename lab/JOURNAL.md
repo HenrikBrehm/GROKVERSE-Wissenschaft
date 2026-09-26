@@ -307,3 +307,4 @@ Deutung (Interpretation, nicht Beleg): Der Datensplit legt über den ersten Grad
 die Init-Leistung trägt zusätzlich etwas bei. Kausal offen: EXP-016 (läuft), EXP-014 (nächste Sitzung).
 EXP-016-Smoke (50 Schritte, Seed 10, Arm F): Top-5 von W_E nach 50 Schritten = exakt die Zielmenge {16, 20, 25, 47, 49}.
 Das ist nur ein Funktionstest; die Primärmessung ist Schritt 2000.
+EXP-016 Seed 10 Arm F fertig ~04:58: 2000 Schritte, **gen 525** (Baseline mit Zufallssplit: 3925), Top-5 bei 2000 {16, 20, 32, 47, 49}, davon 4 aus F = {16, 20, 25, 47, 49}. Einzelwert; Primärvergleich erst mit Arm G und ≥ 8 Seeds.

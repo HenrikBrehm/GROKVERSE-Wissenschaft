@@ -25,8 +25,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 4. GPU: `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1` im Hintergrund (Plan: `--dry-run`). Beginnt mit GPU-001
    (Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 → 048 → 049 → 044 → 045.
    Wiederaufnahme = derselbe Befehl (Fertiges wird per Fingerprint übersprungen). Status: `lab/runner/logs/night_*/night_status.json`.
-5. CPU parallel: `python lab/tools/night_program.py --cpu > lab/runner/logs/night_cpu.log 2>&1` (EXP-035 → 038 → 041 → 036 → 039 →
-   040 → 042). Nicht portiert, gesichtet ([[BACKLOG]] „Sichtung nach Regel 18c“): EXP-014 als Nächstes portieren; 034 nach P3-Design; 018/022/023/010 zurückgestellt.
+5. CPU parallel: `python lab/tools/night_program.py --cpu > lab/runner/logs/night_cpu.log 2>&1` (**EXP-014** → 035 → 038 → 041 → 036 →
+   039 → 040 → 042). Nicht portiert, gesichtet ([[BACKLOG]] „Sichtung nach Regel 18c“): 034 nach P3-Design; 018/022/023/010 zurückgestellt.
 6. Beobachten (Regel 14). GPU-001-Verdikte ins JOURNAL (Gleichwertigkeit, s/Schritt, J). Punkt 9: GPU bleibt experimentell.
 7. Auswerten: `python lab/tools/night_report.py`; **vor jeder Deutung** [[LESART-nacht-2026-09-27]] lesen.
 

@@ -3,12 +3,17 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 08:53 Berlin (Sitzung 6, vom Runner gestartet 06:29Z, Deadline 09:29Z = 11:29 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 09:10 Berlin (Sitzung 7, vom Runner gestartet 06:59Z, Deadline 09:59Z = 11:59 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **Sitzung 7, 09:10 (Start 08:59, Deadline 11:59 Berlin):** EXP-024-Warteschlange läuft weiter (aus Sitzung 6; setzt bei
+  Neustart fort). Neu vorab festgelegt: [[experiments/EXP-026-parity-crossover/README|EXP-026]] (Paritäts-Umschlagpunkt,
+  commit 01da0bd), Codex-Review läuft/liegt in `EXP-026-parity-crossover/codex_review_2026-09-26.txt`.
+  Reihenfolge danach: EXP-024 auswerten → `sh lab/experiments/EXP-026-parity-crossover/queue.sh` (25 × ~83 s) →
+  `sh lab/experiments/EXP-025-utility-random-split/queue.sh` → `sh lab/experiments/queue_s5.sh`. Alle überspringen Fertiges.
 - **Sitzung 6, 08:53:** Baseline 19 fertig (EXP-003d 10/10). Läuft: **EXP-024** (`sh lab/experiments/EXP-024-quadratic-agf-mask/queue.sh`,
   Log `lab/runner/logs/queue_exp024.log`, überspringt fertige Läufe). `queue_s5.sh` ist **angehalten**; danach neu starten
   (setzt bei den Smokes EXP-018/020 fort). Nach EXP-024: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-024-quadratic-agf-mask/analyze.py`.

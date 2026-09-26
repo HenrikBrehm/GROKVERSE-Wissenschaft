@@ -752,3 +752,16 @@ Noch nicht vorbereitet.
 **09:02 Wiederaufnahme.** Kein STOP. Sitzung 6 endete bereits 08:57 (27 min, `completed`), ohne Abschlussbericht; die
 EXP-024-Warteschlange (gestartet 08:52) lief weiter und ist ein einzelner Job (7/38 fertig, Q-Arm). Ihr Wächter rechnet
 noch mit der alten Deadline 11:29 Berlin; reicht für die restlichen ~31 Läufe (~45 min). Ich übernehme die Beobachtung.
+
+**Zyklus 1 (09:01–09:08): Welcher Anteil der Aktivierung trägt die F- bzw. H-Wahl des Nutzens?**
+*Literatur zuerst:* Die in Sitzung 6 nur aus einer Suchzusammenfassung übernommene Aussage ist jetzt am Volltext geprüft:
+He et al. 2026 (https://arxiv.org/html/2602.16849): ReLU-Lösungen stützen sich auf die geraden Anteile (½|x|), Tausch
+ReLU → |x|/x² zur Inferenzzeit ohne Verlust; volle Daten, x²-Theorie, keine Split-Frage. Damit sagen für EXP-024 Arm R
+zwei Bilder Gegensätzliches: Nutzen am Start → F, Endlösung gerade → H.
+*Rechnung* (`utility_parity.py`, 19 Einheiten, 8 × 8 Phasen, 49 s über den Wächter): ungerader Anteil x → ov_F 5.00 /
+ov_H 0.21; gerader |x| → 0.21 / 2.21; ReLU 4.58 / 0.37 (16 × 16 Phasen in Sitzung 6: 4.68 / 0.37, also konsistent);
+σ_α = αx + x²: α = 0 → 0.26 / 3.05, α = 0.5 → 0.95 / 2.95, α = 1 → 2.53 / 1.63, α = 2 → 4.79 / 0.32. Umschlag bei
+α/r ≈ 1. *Entscheidung:* daraus ein neues Messinstrument gemacht: [[experiments/EXP-026-parity-crossover/README|EXP-026]]
+(vorab festgelegt und committet 01da0bd, vor jedem Lauf und vor Ansicht der EXP-024-Ergebnisse): der Umschlagpunkt α*
+trainierter σ_α-Netze zeigt, bei welcher Merkmalsamplitude die Wahl fällt (Start r ≈ 0.0094 gegen Ende). Suche (N12):
+nicht gefunden, vorläufig. Codex-Review des Designs läuft.

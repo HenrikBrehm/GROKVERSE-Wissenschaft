@@ -1377,7 +1377,7 @@ symmetrisches Maß aus beiden reinen Läufen statt zirkulärer R-Referenz, Spekt
 `queue_s10.sh` (Kandidat für die nächste Queue). *Selbstkritik:* Mein erster Entwurf hatte ein zirkuläres Maß; ohne Codex
 wäre die Asymmetrie-Aussage von P41b ein Messartefakt gewesen.
 
-**Zyklus 8 (18:15–18:20, ohne Training): Anwendungsidee und Zuverlässigkeit der Nacht-Queue.** (a) N20: datengepflanzte Frequenzen
+**Zyklus 8 (18:14–18:16, ohne Training): Anwendungsidee und Zuverlässigkeit der Nacht-Queue.** (a) N20: datengepflanzte Frequenzen
 als Prüfstand mit bekannter Wahrheit für Interpretierbarkeitsmethoden. Suche 18:16: InterpBench (https://arxiv.org/abs/2407.14494)
 erzwingt Schaltkreise per Hilfsverlust (SIIT), nicht über die Daten; in dieser Form nicht gefunden (vorläufig). Der kleine nächste
 Schritt (Neuronen-Analyse an EXP-016) geht nicht: EXP-016 hat keine gespeicherten Modelle (negativ, notiert). (b) `queue_s10.sh`

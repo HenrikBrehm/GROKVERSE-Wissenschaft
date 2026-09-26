@@ -6,12 +6,16 @@ import sys
 from math import comb
 from pathlib import Path
 
+import importlib.util
+
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
 LAB = HERE.parents[0]
-sys.path.insert(0, str(LAB / "EXP-026-parity-crossover"))
-from analyze import fold, share_diff  # noqa: E402
+_spec = importlib.util.spec_from_file_location("exp026_analyze", LAB / "EXP-026-parity-crossover" / "analyze.py")
+_a26 = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_a26)
+fold, share_diff = _a26.fold, _a26.share_diff
 
 SEEDS = tuple(range(10, 20))
 TOL = 0.02

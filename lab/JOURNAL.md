@@ -253,3 +253,4 @@ Split, Formel in EXP-015) vorab festgelegt und berechnet: **r̄ 0.307** (p < 1e-
 Suchen): keine Arbeit gefunden, die die Frequenzwahl dem Split zuordnet (vorläufig, [[NOVEL_DIRECTIONS]] N3).
 Entscheidung: bestätigen an Seeds 10–19 (Phase 2, sobald ≥ 8 Baselines) und kausal über EXP-014 (Kreuzläufe).
 Vorsicht: Seeds 0–9 sind Exploration, K dort bei 25k.
+Mechanismus-Prüfung: M0 gegen tatsächlichen ersten Gradienten, Spearman 0.57 (fremder Split −0.07), `EXP-015-mask-spectrum/m0_vs_g0.py`.

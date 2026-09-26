@@ -47,3 +47,7 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-015-mask-spectrum/
 `summary_phase1.json`: **r̄(M0) = 0.307** (Null 0.5, MC p < 1e-5), im Mittel 1.3 von 5 Frequenzen in den M0-Top-5
 (Zufall 0.45). Zum Vergleich [[experiments/EXP-012-init-gradient/README|EXP-012]]: E0 0.375, G0 0.302. Die Maske allein
 ist also so informativ wie der tatsächliche erste Gradient. Explorativ; Bestätigung an Seeds 10–19 (Phase 2) offen.
+
+**Mechanismus-Prüfung** (`m0_vs_g0.py`, 12 s): Spearman zwischen M0 eines Splits und dem tatsächlichen Spektrum des
+ersten Gradienten (Mittel über 3 Inits) = **0.57** (Spanne 0.41–0.78, Seeds 0–9); Kontrolle mit fremdem Split −0.07.
+Die Formel erfasst also den Hauptteil der Gradienten-Frequenzvorliebe.

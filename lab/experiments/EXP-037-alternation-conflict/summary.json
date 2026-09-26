@@ -134,18 +134,78 @@
   "rows": [
    {
     "seed": 30,
-    "error": "EXP-020_baseline_seed30_thr4_seed30_train_F_to_seed30_train_G_at200_alt25: unreadable (FileNotFoundError)"
+    "K": [
+     6,
+     19,
+     29,
+     34,
+     47
+    ],
+    "d": 1,
+    "foreign": [
+     34
+    ],
+    "init_ranks": {
+     "34": 11
+    },
+    "meanmask_ranks": {
+     "34": 19
+    },
+    "test_acc": 1.0
    },
    {
     "seed": 31,
-    "error": "EXP-020_baseline_seed31_thr4_seed31_train_F_to_seed31_train_G_at200_alt25: unreadable (FileNotFoundError)"
+    "K": [
+     8,
+     16,
+     29,
+     41,
+     42
+    ],
+    "d": 1,
+    "foreign": [
+     42
+    ],
+    "init_ranks": {
+     "42": 2
+    },
+    "meanmask_ranks": {
+     "42": 19
+    },
+    "test_acc": 1.0
    },
    {
     "seed": 32,
-    "error": "EXP-020_baseline_seed32_thr4_seed32_train_F_to_seed32_train_G_at200_alt25: unreadable (FileNotFoundError)"
+    "K": [
+     8,
+     11,
+     13,
+     26,
+     30
+    ],
+    "d": 1,
+    "foreign": [
+     8,
+     13,
+     26,
+     30
+    ],
+    "init_ranks": {
+     "8": 4,
+     "13": 18,
+     "26": 25,
+     "30": 8
+    },
+    "meanmask_ranks": {
+     "8": 9,
+     "13": 45,
+     "26": 11,
+     "30": 27
+    },
+    "test_acc": 1.0
    }
   ],
-  "verdict": "nicht auswertbar",
+  "verdict": "gestuetzt",
   "role": "secondary"
  }
 }

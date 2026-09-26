@@ -88,4 +88,7 @@ sind Oberwellen der wiederkehrenden. An frischen Seeds (EXP-020 Nachtrag d) hiel
 nicht.** Ob sie aus der Init stammen, bleibt offen → [[experiments/EXP-036-init-conflict/README|EXP-036]].
 **Ablation (Nachtrag b, beschreibend, `ablate_foreign.json`):** Wiederkehrende fremde Frequenzen sind funktional (Δloss 34: 1.38,
 22: 1.57, 8: 3.28, 13: 4.19; Zufallsfrequenzen ≈ 0), die Oberwellen 45, 44 kaum (0.011, 0.005).
-A = 25 (sekundär): siehe unten.
+**A = 25 (sekundär, 17:04): ebenfalls *gestützt*.** K = [6, 19, 29, 34, 47], [8, 16, 29, 41, 42], [8, 11, 13, 26, 30];
+d = +1, +1, +1; fremd 34 | 42 | 8, 13, 26, 30 (Init-Ränge 11 | 2 | 4, 18, 25, 8); alle Test-Acc 1.0. Wieder dieselben
+Kernfrequenzen je Seed (in Seed 31 diesmal 42, die fremde Frequenz des Einzelwechsels bei t = 10/50), 26 = fold(2 · 13) ist
+Oberwelle. Ablation: 34, 8, 13 funktional (Δloss 1.7–5.3), 42 dazwischen (0.38), 26 und 30 kaum (0.057, 0.002).

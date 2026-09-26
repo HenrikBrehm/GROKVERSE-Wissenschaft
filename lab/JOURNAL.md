@@ -1218,3 +1218,7 @@ fold(2 · 34) und 44 = fold(2 · 22)**: Die „neuen“ fremden Frequenzen sind 
 *Deutung (vorläufig):* Je Seed gibt es eine reproduzierbare, im Schaltkreis genutzte „Konfliktfrequenz“, die bei anhaltendem
 oder frühem F/G-Konflikt auftaucht, bei gleicher Exposition ohne Konflikt (C_F100) nicht. Ob die Init sie bestimmt, bleibt
 offen (gemischte Evidenz); EXP-036 (Init-Wechsel) ist der direkte Test und gewinnt damit wieder an Wert.
+
+**17:04 EXP-037 A = 25 (sekundär): *gestützt*.** fremd 34 | 42 | 8, 13, 26, 30; wieder dieselben Kernfrequenzen je Seed wie beim
+Einzelwechsel (Seed 31 hier 42 statt 22; beide traten dort auf), 26 = fold(2 · 13). Ablation: Kernfrequenzen funktional, Oberwellen
+kaum. EXP-037 damit abgeschlossen. Die Queue ist zu EXP-035 übergegangen (Smoke ok).

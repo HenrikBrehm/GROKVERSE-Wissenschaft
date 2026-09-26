@@ -89,3 +89,11 @@ Anlass (vorhandene Daten, keine EXP-020-Läufe): In EXP-016 ist die W_E-Top-5 sc
 3–5, weil 2k-Harmonische einzelne Ziele verdrängen. Die Festlegung kann also vor Schritt 50 liegen; mit dem bisherigen
 Gitter wäre dann nur „(0, 50]“ messbar. → Wechselzeiten jetzt **t ∈ {0, 10, 25, 50, 150, 400, 1000, ∞}**
 (`analyze.py`, `queue.sh`, `queue_s5.sh`). Auswerteregeln unverändert. Budget + 10 Läufe (≈ 45 min).
+
+## Nachtrag c (2026-09-26 13:52 Berlin, nach Ansicht von Seed 30, **vor** Ansicht der Seeds 31–34): Festlegung vor der Memorisierung?
+
+Seed 30 (beschreibend): Festlegung in (25, 50], Trainingsgenauigkeit des Laufs „nur F“ bei Schritt 50 erst 0.10, Train ≥ 0.97
+erst bei 120–130. **Sekundär, vorab für die Seeds 31–34:** In jedem gültigen Seed ist die Trainingsgenauigkeit des Laufs
+„nur F“ an der oberen Intervallgrenze hi (nächster aufgezeichneter Schritt, alle 10 Schritte) ≤ 0.5 → *Festlegung vor der
+Memorisierung bestätigt*; sonst *nicht bestätigt*. Seed 30 zählt nicht mit (daran gefunden). Auswertung von Hand aus
+`dense.train_acc`; ändert H20 und seine Entscheidung nicht.

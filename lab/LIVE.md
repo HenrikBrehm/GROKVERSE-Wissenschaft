@@ -1,26 +1,25 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 16 – **Sitzung beendet**
+# LIVE: Laborsitzung 17
 
-- **Sitzungsstart:** 2026-09-26 23:39 Berlin (21:39Z, vom Runner)
-- **Deadline:** 2026-09-27 02:39 Berlin (00:39Z)
-- **Zuletzt aktualisiert:** 23:47 Berlin (gemessen). **Status: Sitzung beendet.** Nächster geplanter Start: **03:14 Berlin** (runner-state.json, 01:14Z).
-- **Run-Fenster:** zu. Läufe heute Nacht erst ab 03:00 (Regel 18). Diese ganze Sitzung liegt davor: nur Code und Doku, keine Tests.
+- **Sitzungsstart:** 2026-09-27 00:19 Berlin (22:19Z, vom Runner)
+- **Deadline:** 2026-09-27 03:19 Berlin (01:19Z)
+- **Zuletzt aktualisiert:** 00:24 Berlin (gemessen)
+- **Run-Fenster:** zu. Läufe erst ab 03:00 (Regel 18). Diese Sitzung hat also nur ~10 min Fenster am Ende.
 
 ## Gerade
 
-Nichts läuft, alles ist committet. Vor 03:00 war nichts Sinnvolles mehr offen.
+Vorab-Prüfung der Nacht: Ich lasse den Code, der ab 03:00 laufen soll (Nachtprogramm, Tests, GPU-Abnahme), nur lesend auf Fehler durchsehen,
+damit das Fenster nicht an einem Absturz verloren geht. Parallel: Literatur-Nachsuche zu den Kernaussagen K2/K4.
 
 ## Als Nächstes
 
-Sitzung ab 03:14: Abnahme des Wächters, Tests (inkl. neuem Kreuzblock-Selbsttest), GPU-Abnahme, Nachtprogramm laut [[STATE]].
+03:00–03:09: Wächter-Abnahme (harmloser 60-s-Job + STOP) und die Tests über den Wächter. Das Nachtprogramm selbst startet die nächste Sitzung
+(Start laut runner-state.json 03:54), weil ein Start um 03:05 an der Deadline 03:19 abgebrochen würde.
 
 ## Verlauf dieser Sitzung
 
-- 23:47 Abschluss: Bericht im [[JOURNAL]].
-- 23:47 **Panne:** Ein Schreibbefehl hat versehentlich einen kurzen Selbsttest ausgeführt, vor 03:00. Reine Rechnung, keine Dateien, kein Training. Zählt nicht als Abnahme, im JOURNAL als Regelverstoß vermerkt.
-- 23:48 Bauregel festgehalten: Neue Trainer-Optionen dürfen den Fingerprint alter Läufe nicht ändern, sonst bricht jede Wiederaufnahme ab.
-- 23:46 Kreuzblock unabhängig geprüft (kein Fehler) und committet.
-- 23:44 Kreuzblock als Zusatz zu P1 gebaut (sekundär, beschreibend, nicht in der Holm-Familie). Lesart vor jedem Lauf festgelegt.
-- 23:39 Sitzung gestartet: Fenster zu, nichts läuft, kein STOP.
+- 00:24 Literatur-Nachsuche fertig: nichts gefunden, das unsere Kernfragen schon beantwortet. Neue Idee N31 (Reihenfolge der Daten gegen ihre Zusammensetzung) notiert, nicht geplant.
+- 00:22 Geprüft: Die kurze STOP-Probe um 03:00 kann den Runner nicht abschalten (während einer Sitzung feuert kein Tick).
+- 00:19 Sitzung gestartet: Fenster zu, nichts läuft, kein STOP.

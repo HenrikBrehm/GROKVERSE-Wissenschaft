@@ -2272,3 +2272,27 @@ Der nächste Runner-Start (03:14) hängt nicht davon ab.
 - **Runner:** nächster Start laut runner-state.json 03:14 Berlin (01:14Z); Läufe ab 03:00.
 
 **Vorfall (23:47, Regelverstoß, unbeabsichtigt):** Beim Schreiben dieses Abschlussberichts habe ich ein Bash-Heredoc ohne Anführungszeichen benutzt. Die Shell hat den Backtick-Ausdruck `python lab/tools/confirm_p1.py --selftest` aus dem Berichtstext **ausgeführt**: außerhalb des Fensters (vor 03:00, Regel 18) und ohne `guarded_run.py`. Der Selbsttest ist reine Rechnung. Er hat „selftest ok“ ausgegeben, keine Datei geschrieben (`git status` unverändert, kein `lab/confirm/`) und keinen Prozess hinterlassen. Dieses Ergebnis zählt **nicht** als Abnahme. Der Selbsttest läuft ab 03:00 regulär über den Wächter. Die übrigen Backtick-Stücke waren keine gültigen Befehle und haben nichts ausgeführt. Die Berichtstexte sind oben korrigiert. *Ursache:* die bekannte Falle aus STATE („Heredocs mit Backticks nur mit <<'EOF'“), die ich hier missachtet habe. *Lehre:* Notiztexte nie über ein Heredoc mit Variablen-Ersetzung schreiben, sondern als Datei (Write-Werkzeug) und dann byteweise anhängen.
+
+## Sitzung 17 (2026-09-27 00:19 Berlin bis 03:19, Fenster erst ab 03:00)
+
+Start 00:19 (gemessen, `--check`): kein STOP, Fenster zu (Exit 3), keine Python-/Trainingsprozesse, Branch lab/research sauber bis auf die Nutzerdateien.
+Die Sitzung hat nur 03:00–03:19 im Fenster. Plan: bis 03:00 Vorab-Prüfung des Nachtcodes (nur lesend) und Literatur-Nachsuche;
+03:00–03:09 Wächter-Abnahme und Tests über den Wächter (STATE Schritte 1–3). Das Nachtprogramm startet erst die nächste Sitzung:
+Jeder Job erhält als harte Grenze die Restzeit bis zur Sitzungsdeadline (`guarded_run.py`), ein Start um 03:05 würde also an der Deadline 03:19 abgebrochen.
+
+**Zyklus 1 (Betriebssicherheit der STOP-Abnahme).** *Frage:* Kann die Wächter-Abnahme mit angelegter `lab/STOP` den Runner abschalten?
+`tick.ps1` setzt bei vorhandener STOP-Datei `status = stopped` und deaktiviert die geplante Aufgabe (Zeilen 162–168). Eine gestoppte Automatisierung
+dürfte ich nicht selbst wieder einschalten (Auftrag §9), das wäre das Ende des Dauerbetriebs. *Prüfung:* Die Aufgabe „GROKVERSE-Lab-Runner“ hat
+`MultipleInstances = IgnoreNew` (Takt 10 min, Ausführungsgrenze 4 h). Die Tick-Instanz, die diese Sitzung gestartet hat, läuft, solange `claude` läuft
+(Status „Running“). Während der Sitzung feuert also kein weiterer Tick. *Ergebnis:* Die STOP-Abnahme ist innerhalb der Sitzung sicher, **wenn** STOP
+vor dem Sitzungsende wieder gelöscht ist. Das Löschen folgt sofort nach Exit 3 (Poll-Intervall des Wächters 5 s), und ich prüfe danach, dass die Datei weg ist.
+*Entscheidung:* Abnahme wie geplant, spätestens 03:08 beginnen; nach 03:10 keine STOP-Abnahme mehr, damit ein Fehler nicht ins Sitzungsende fällt.
+
+**Zyklus 2 (Literatur-Nachsuche zu K2/K4/N29/N30, bis 00:24).** *Frage:* Ist seit der Suche vom 26.09. etwas erschienen oder übersehen worden, das K2 (Split steuert
+die Frequenzen), K4 (frühe Festlegung), N29 (Loss-Gewichte) oder N30 (Integrationsfenster) schon beantwortet? *Vorgehen:* Claude-Subagent, 16 Suchanfragen, meist Abstracts;
+drei Abstracts und den LeDoux-Volltext habe ich selbst abgerufen. *Ergebnis:* nichts gefunden, das eine der Fragen beantwortet (vorläufig, Suche vom 2026-09-27).
+Wichtig für die Einordnung: He et al. 2026 (2602.16849) erklären die Frequenzwahl allein über die Init („initial spectral magnitude and phase alignment“), den Split behandeln
+sie nicht; K2 ist dazu die Gegenposition. LeDoux 2026 schreibt im Abstract „regardless of … training set composition“, variiert die Zusammensetzung laut Volltext aber
+gar nicht (gleiche Mengen, Mini-Batch, p = 9973). Das ist also kein Gegenbeleg zu K2, eröffnet aber eine offene Konfliktfrage → neuer Kandidat N31 (Reihenfolge gegen
+Zusammensetzung) in [[NOVEL_DIRECTIONS]], nicht geplant, erst nach der Pilotnacht gegen FINDINGS priorisieren. Nicht selbst geprüfte Angaben des Subagenten sind dort
+als solche markiert. *Entscheidung:* FINDINGS unverändert (K2-Literaturspalte nennt He et al. schon); keine neuen Versuche vor der Pilotnacht.

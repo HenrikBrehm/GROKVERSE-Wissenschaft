@@ -649,3 +649,43 @@ Gruppen und eine nicht-modulare Aufgabe geprüft wird. Das bleibt der Kandidat v
   laut Abstract): Nach der Memorisierung treibt Weight Decay einen Übergang von lazy zu rich; Fourier-Struktur im NTK wächst weiter, Zeitskala
   lr · wd. Passt zur späten gemeinsamen Verstärkung (π bleibt, Kontrast wächst), sagt aber nichts über Frequenzwahl oder Datenzusammensetzung.
 
+
+## Nachsuche 2026-09-27 (Sitzung 17, bis 00:24 Berlin, gemessen) zu K2, K4, N29, N30
+
+- **Wie:** Claude-Subagent, 16 WebSearch-Anfragen (u. a. „training data subset determines learned Fourier frequencies modular addition grokking“,
+  „critical period early training feature selection grokking“, „data reweighting steers learned features modular addition“,
+  „modular addition per-example loss weights induce chosen frequencies“, „openreview 2026 modular arithmetic training set composition controls
+  learned frequencies“). Meist nur Abstracts. Ein OpenReview-Treffer (Gf7nZAfiaB) war hinter einer Browserprüfung, nicht geprüft.
+  Drei Abstracts habe ich selbst nachgelesen (He et al. 2602.16849, LeDoux 2603.25047, Pracher et al. 2609.26679); die übrigen Angaben stammen vom Subagenten.
+- **Ergebnis:** Keine der gesehenen Arbeiten beantwortet K2, K4, N29 oder N30. Einordnung bleibt „nach unserer Suche vom 2026-09-27 nicht gefunden, vorläufig“.
+- **Nächstverwandte, mit Abgrenzung:**
+  - He, Wang, Chen, Yang 2026, https://arxiv.org/abs/2602.16849 (selbst gelesen): Gewinnerfrequenz je Neuron durch „initial spectral magnitude and
+    phase alignment“ bestimmt; Trainingssplit laut Abstract nicht behandelt. **K2 ist die Gegenposition zur reinen Init-Lotterie** und sollte in FINDINGS
+    so benannt werden (EXP-012: erster Gradient schlägt Init; EXP-016: Split gibt die Frequenzen vor).
+  - LeDoux 2026, https://arxiv.org/abs/2603.25047 (selbst gelesen): Die Grundfrequenz ist das „Fourier dual of the ordering structure“, gleich
+    „regardless of initialization or training set composition“. Das ist **kein Widerspruch zu K2** (unsere Läufe sind Full-Batch, ohne Reihenfolge),
+    aber eine Grenze: Unter einer strukturierten Reihenfolge könnte die Reihenfolge die Zusammensetzung überstimmen. → Kandidat N31.
+  - Pracher et al. 2026, https://arxiv.org/abs/2609.26679 (selbst gelesen, schon unter N30 notiert).
+  - He, Wang, Zhang, Chen, Yang 2026, https://arxiv.org/abs/2606.02993 (Gruppenkomposition, Init verteilt Neuronen auf Irreps; laut Subagent, nur verwandt, relevant für EXP-046).
+  - Zhou, Zhang, Xu, CiCP 2026, https://www.global-sci.com/cicp/article/view/24634 (Journalfassung; ungleichmäßige Stichprobe erzeugt zuerst „unechte“ Frequenzen; laut Subagent).
+  - Sivasankar 2026, https://arxiv.org/abs/2606.12966 (Frequenz-Synchronisation 500–3000 Schritte vor der Generalisierung; nichts zur Wahl; laut Subagent).
+  - Ootani 2026, https://arxiv.org/abs/2607.05104 („Grokking Is Conditional and Fragile“: Abdeckung der Trainingsmenge entscheidet, *ob* gegrokt wird; laut Subagent).
+  - Zu N29: nur allgemeine Importance-Weighting-Literatur (Übersicht https://arxiv.org/abs/2403.10175: Gewichtung wirkt früh, verblasst später; laut Subagent).
+    Das wäre für N29 eine Vorhersage: Loss-Gewichte steuern nur, wenn sie in das frühe Fenster fallen (passt zu K4/N30).
+
+## N31: Reihenfolge gegen Zusammensetzung: Wer bestimmt die Frequenzen, wenn beide etwas anderes vorgeben? (Sitzung 17, 00:24) #neu/kandidat
+
+- **Frage:** LeDoux 2026 findet unter einer strukturierten Datenreihenfolge (Mini-Batches) eine Grundfrequenz, die unabhängig von der Zusammensetzung der
+  Trainingsmenge ist. Wir finden unter Full-Batch, dass die Zusammensetzung die Frequenzen vorgibt (K2). Was passiert, wenn eine konstruierte
+  Zusammensetzung (Ziele F) mit einer Reihenfolge kombiniert wird, deren Fourier-Dual eine andere Frequenz g ∉ F ist?
+- **Konkurrenzmodelle:** (a) Reihenfolge dominiert (LeDoux), (b) Zusammensetzung dominiert (K2), (c) beide erscheinen (Mischung), (d) die Reihenfolge wirkt
+  nur über ihre frühen Schritte (Fenster wie N30).
+- **Stand:** Nur Idee. Braucht Mini-Batch-Training im Trainer (neue Option, Bauregel „Fingerprint nur bei Abweichung“). Gehört zu Paket A (Grenzen von K2),
+  wird erst nach der Pilotnacht gegen die offene Frage in [[FINDINGS]] priorisiert. Vorher LeDoux im Volltext lesen (Reihenfolgekonstruktion, Batchgröße).
+- **Volltext LeDoux gelesen (00:24, HTML-Fassung, per Zusammenfassung des Abrufwerkzeugs):** p = 9973, 2-Schicht-Transformer (d 256), AdamW wd 0.1, Batch 256,
+  5000 Epochen, 300 000 Trainingspaare (0.3 %). Die Reihenfolge „Stride“ sortiert nach (a mod s, a) mit s = ⌊√p⌋ = 99; Grundfrequenz F = round(p/s) = 101.
+  **Die Zusammensetzung wird dort nicht variiert** (alle Strategien mit denselben Trainings- und Testmengen), Full-Batch und ein Konflikt Reihenfolge ↔
+  Zusammensetzung werden nicht getestet. Die Abstract-Formel „regardless of … training set composition“ ist also kein Befund gegen K2.
+  N31 bleibt offen und wird dadurch schärfer: In unserem Aufbau (p = 113, Full-Batch-fähig) wäre der Stride s = 10 → Frequenz round(113/10) = 11;
+  ein Konfliktarm nähme Ziele F ohne 11 und die Stride-Reihenfolge, Kontrollen Stride allein (Zufallssplit) und F allein (Zufallsreihenfolge, gleiche Batchgröße).
+  Unterschiede zu LeDoux (Modulus, Datenanteil, Tiefe, Epochenzahl) vor jeder Deutung beachten.

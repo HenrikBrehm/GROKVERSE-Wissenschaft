@@ -3,17 +3,19 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 09:10 Berlin (Sitzung 7, vom Runner gestartet 06:59Z, Deadline 09:59Z = 11:59 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 09:17 Berlin (Sitzung 7, vom Runner gestartet 06:59Z, Deadline 09:59Z = 11:59 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
-- **Sitzung 7, 09:10 (Start 08:59, Deadline 11:59 Berlin):** EXP-024-Warteschlange läuft weiter (aus Sitzung 6; setzt bei
-  Neustart fort). Neu vorab festgelegt: [[experiments/EXP-026-parity-crossover/README|EXP-026]] (Paritäts-Umschlagpunkt,
-  commit 01da0bd), Codex-Review läuft/liegt in `EXP-026-parity-crossover/codex_review_2026-09-26.txt`.
-  Reihenfolge danach: EXP-024 auswerten → `sh lab/experiments/EXP-026-parity-crossover/queue.sh` (25 × ~83 s) →
-  `sh lab/experiments/EXP-025-utility-random-split/queue.sh` → `sh lab/experiments/queue_s5.sh`. Alle überspringen Fertiges.
+- **Sitzung 7, 09:17 (Start 08:59, Deadline 11:59 Berlin):** Läuft: EXP-024-Warteschlange (aus Sitzung 6) und dahinter
+  wartend `sh lab/experiments/queue_s7.sh` (Log `lab/runner/logs/queue_s7.log`): EXP-026-Smoke → EXP-026 (30 Läufe,
+  **Umschaltdesign nach Codex, Nachtrag a**, commit 53450e1) → EXP-025 → `queue_s5.sh`. Alles überspringt Fertiges;
+  Wiederaufnahme = `sh lab/experiments/queue_s7.sh` erneut starten (die Warteschleife endet sofort, weil das EXP-024-Log
+  schon eine `[exp024]`-Zeile hat; fehlt sie, zuerst `sh lab/experiments/EXP-024-quadratic-agf-mask/queue.sh`).
+  Auswertungen danach: EXP-024 `analyze.py`, EXP-026 `analyze.py`, EXP-025 `analyze.py` (je über den Wächter).
+
 - **Sitzung 6, 08:53:** Baseline 19 fertig (EXP-003d 10/10). Läuft: **EXP-024** (`sh lab/experiments/EXP-024-quadratic-agf-mask/queue.sh`,
   Log `lab/runner/logs/queue_exp024.log`, überspringt fertige Läufe). `queue_s5.sh` ist **angehalten**; danach neu starten
   (setzt bei den Smokes EXP-018/020 fort). Nach EXP-024: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-024-quadratic-agf-mask/analyze.py`.

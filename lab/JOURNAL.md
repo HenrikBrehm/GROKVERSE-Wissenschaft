@@ -806,3 +806,12 @@ Güte-Schwelle (Train ≥ 0.99, Test ≥ 0.90), kalibrierte Statistik u = q_H �
 desselben Spektrums, weil schmale Netze konzentriertere Spektren haben), breitenunabhängige W_out-Init, zusätzliche
 Breite 256, Herkunftsprüfung. Nicht übernommen (Budget, als Grenze notiert): Init-Wiederholungen, Training bis zur
 Konvergenz. Auswerter synthetisch geprüft (4/4, über den Wächter). EXP-027 Nachtrag a committet vor jedem Lauf.
+
+**Zwischenbilanz nach drei Zyklen (Sitzung 7, 09:34, §4).** *Gelernt:* Die AGF-Nutzenrechnung trifft beim x²-Netz die
+Richtung (H angereichert, F unterdrückt, p = 0.002), überschätzt aber die Größe stark, weil breite x²-Netze fast alle
+Frequenzen nutzen. Die Paritätszerlegung (ungerade → k, gerade → 2k) erklärt, warum x² und ReLU verschieden reagieren
+sollten. *Wiederholen wir uns?* Nein, aber zwei Messprobleme haben sich gezeigt: Top-5 ist für dichte Spektren ungeeignet,
+und die ReLU-Zwei-Hot-Netze generalisieren in 5000 Schritten nicht. *Messungen geeignet?* Jetzt kalibrierte Anteils- und
+Perzentilmaße (EXP-026 b, EXP-027 a). *Nächste Annahme, die angegriffen werden sollte:* dass eine „Wahl“ bei dichten
+Lösungen überhaupt stattfindet. EXP-027 (Breite) greift genau das an; EXP-026 fragt, wann eine Neigung festgelegt wird.
+Codex hat in dieser Sitzung zweimal ein Design vor dem ersten Lauf gekippt bzw. gehärtet; beides war berechtigt.

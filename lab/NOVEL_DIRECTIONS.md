@@ -622,3 +622,8 @@ zufälligen Split steuern etwa so stark wie die Auswahl (Δ_pow ähnlich EXP-016
 und gehört zu Paket A (Mechanismus von P1). Suche 2026-09-26 („per-example loss weighting controls which Fourier features learned modular
 addition grokking sample weights“): nur Arbeiten zu Init-Lotterie und Weight Decay (He et al. 2026, https://arxiv.org/abs/2602.16849);
 Gewichtssteuerung der Frequenzen nicht gefunden (vorläufig).
+*Selbstprüfung N29 (Sitzung 14, reine Rechnung):* Auch die gewichteten Token-Häufigkeiten tragen die Ziele: Zielanteil im Häufigkeitsspektrum
+bei Auswahl 0.166, bei Gewichten auf zufälligem Split 0.173, bei Gewichten auf allen Paaren **0.987** (gleichverteilt 0.089); die Gewichte der
+Ausgabeklassen bleiben fast gleich (CV 0.004). Die Vollvariante trennt also Paarstruktur und Häufigkeiten nicht. Für einen Mechanismus-Test
+braucht N29 dieselbe Kontrolle wie [[experiments/EXP-047-marginal-control/README|EXP-047]] (Gewichte so umverteilen, dass die gewichteten
+a/b-Häufigkeiten gleich bleiben, die Paarstruktur aber zerstört ist). Erst nach dem EXP-047-Ergebnis festlegen.

@@ -1363,3 +1363,16 @@ die EXP-020/035-Läufe nur Spektren alle 250 Schritte. *Ergebnis:* an vorhandene
 beschreibender Invarianztest vorab festgelegt (EXP-040 Nachtrag b): Ist beim Festlegen über c und s hinweg Λ(hi) oder das
 Verhältnis R(hi) (zielgenaue Strecke / Init-Amplitude) weniger variabel? Die nötigen W_E-Schnappschüsse liefern die EXP-039/040-
 Läufe (jetzt mit `--spectra-at`). Für EXP-038 macht H40 keine saubere eigene Vorhersage, dort nichts nachgetragen.
+
+**Zyklus 7 (18:04–18:14, ohne Training): Prägung durch einen kurzen Vorlauf, auch gegen einen Zufallssplit? EXP-041.** Frage:
+EXP-020 prüfte nur konstruiert → konstruiert. Hält eine 150-Schritte-Prägung durch einen konstruierten Split E, wenn danach normal
+auf einem Zufallssplit R trainiert wird (P41a), und prägt ein spektral schwacher Split R genauso fest (R → E, P41b, offen)?
+Literatur (18:05): **LeDoux 2026, „The Order Is The Message“ (https://arxiv.org/abs/2603.25047)**: Die *Reihenfolge* der
+Minibatches über einer festen Trainingsmenge bestimmt die gelernte Grundfrequenz. Das ist die bisher nächstverwandte Arbeit
+zu EXP-016/020/041. Laut HTML-Volltext kein Wechsel mitten im Training, keine Festlegungszeit, keine Lernraten-/Init-Abhängigkeit,
+keine Rolle der Mengenzusammensetzung. Unsere Linie bleibt „nicht gefunden (vorläufig)“, muss diese Arbeit aber zitieren.
+Codex (`EXP-041-imprint/codex_review_2026-09-26.txt`, needs-attention, 3 × hoch, 1 × mittel), alles übernommen (Nachtrag a):
+symmetrisches Maß aus beiden reinen Läufen statt zirkulärer R-Referenz, Spektren am Wechsel und uhrgleiche Kontrolle, Bonferroni
+(P41a einseitig, P41b zweiseitig, je 0.025) mit 10 Seeds, Manifest-Lader. *Ergebnis:* vorbereitet, ungetestet, nicht in
+`queue_s10.sh` (Kandidat für die nächste Queue). *Selbstkritik:* Mein erster Entwurf hatte ein zirkuläres Maß; ohne Codex
+wäre die Asymmetrie-Aussage von P41b ein Messartefakt gewesen.

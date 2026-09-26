@@ -427,3 +427,12 @@ letzten Schichten); nicht gefunden (vorläufig): Lokalisierung der Frequenzwahl 
   **nicht gefunden** (vorläufig). Weiter nachholen: „initialization scale feature selection
   timing“, „signal-to-init ratio critical period“, „lazy to rich transition init scale grokking“ (Kumar et al. 2023,
   https://arxiv.org/abs/2310.06110, verbindet Init-Skala mit dem Grokking-Zeitpunkt, nicht mit der Frequenzwahl).
+
+## N19: Frequenzen „programmieren“ durch einen kurzen Vorlauf auf einer anderen Trainingsmenge #neu/kandidat
+
+- **Idee (Sitzung 10):** Wenn die Wahl nach Λ ≈ 50 festliegt (EXP-020), sollte ein 150-Schritte-Vorlauf auf einem konstruierten
+  Split die Frequenzen eines danach normal (Zufallssplit) trainierten Netzes festlegen; offen ist, ob ein spektral schwacher Split
+  genauso fest prägt. Test: [[experiments/EXP-041-imprint/README|EXP-041]].
+- **Suche 2026-09-26 18:05:** siehe EXP-041-README. Nächstverwandt **LeDoux 2026** (https://arxiv.org/abs/2603.25047):
+  Minibatch-Reihenfolge bestimmt die Grundfrequenz (feste Trainingsmenge, kein Wechsel, keine Festlegungszeit). **Nicht gefunden**
+  in der hier gestellten Form (vorläufig). LeDoux ist auch für N3/N14/N17 die nächstverwandte Arbeit und dort nachzutragen.

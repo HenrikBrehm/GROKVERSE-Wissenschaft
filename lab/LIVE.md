@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 17:29 Berlin (15:29Z, vom Runner)
 - **Deadline:** 2026-09-26 20:29 Berlin (18:29Z)
-- **Zuletzt aktualisiert:** 18:03 Berlin
+- **Zuletzt aktualisiert:** 18:14 Berlin
 - **Run-Fenster:** offen bis 18:00 (heutige Ausnahme), danach erst wieder ab 00:00.
 
 ## Gerade
@@ -18,6 +18,7 @@ Ab 00:00 (nächste Sitzung, Start 22:29) läuft `queue_s10.sh`: EXP-035 Rest →
 
 ## Verlauf dieser Sitzung
 
+- 18:14 **Neuer Versuch EXP-041 vorbereitet:** Kann man mit 150 Schritten auf besonderen Daten festlegen, welche Frequenzen ein danach ganz normal trainiertes Netz benutzt? Und klappt das auch umgekehrt? Literatur: Eine Arbeit von 2026 zeigt, dass schon die *Reihenfolge* der Daten die Frequenz bestimmt, aber ohne Datenwechsel. Codex fand im ersten Entwurf ein zirkuläres Maß, repariert.
 - 18:01 **Neue Idee EXP-040:** Vielleicht fällt die Wahl, sobald das Lernsignal so groß ist wie die zufälligen Startwerte. Test: Startwerte halb so groß → Festlegung früher, doppelt so groß → später. Codex fand 3 Schwächen, eingebaut. Literatur: nächstverwandte Arbeit (He et al. 2026, „Frequenz-Lotterie“) sagt nichts über den Zeitpunkt.
 - 17:53 **Neuer Versuch EXP-039 „Lernraten-Uhr“ vorbereitet:** Wenn die Festlegung an der aufsummierten Lernrate hängt, muss doppelte Lernrate sie auf 12–25 Schritte vorziehen und halbe auf 50–100 verschieben. Codex fand 3 Schwächen im Design, eingebaut. Testlauf ok. Läuft in der Nacht nach EXP-036.
 - 17:51 EXP-035 Seed 31: Auch hier legt sich das Netz mit Warmup später fest (bei t = 50 noch auf der G-Seite, ohne Warmup schon F).

@@ -1,0 +1,62 @@
+(node:15444) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0de78-e243-7d80-b841-cb2d5af8c90d).
+[codex] Turn started (01a0de78-e393-7ee2-a980-5072e3434a37).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’ll inspect the exact diff and relevant neighboring ...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The diff exposes two likely blocking classes: the com...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "out-root|ru...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "out-root|ru... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab/ex...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab/ex... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -Lit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -Lit... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "seed 20|See...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "seed 20|See... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "EXP-018.*Se...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "EXP-018.*Se... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$ErrorActionPrefer...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$ErrorActionPrefer... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"Run-directory construction matches the trainer’s curr...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Command py,pyt...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Command py,pyt... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"EXP-018|ge...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"EXP-018|ge... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '20..25 | ForEach-O...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '20..25 | ForEach-O... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '20..25 | ForEach-O...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '20..25 | ForEach-O... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'if (Test-Path -Lit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'if (Test-Path -Lit... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"No-ship: run-directory names currently match, but the...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against ec11a14
+Verdict: needs-attention
+
+No-ship: run-directory names currently match, but the primary measure is asymmetric and outcome-conditioned, endpoint timing does not establish prefix retention, the verdict rule exceeds its stated error rate, and the loader is not fail-closed.
+
+Findings:
+- [high] The R reference and validity gate are circular and asymmetric (lab/experiments/EXP-041-imprint/analyze.py:93-101)
+  `ex` is defined from pre-existing E targets, while `rx` is personalized from the observed pure-R endpoint. Because K_R is a subset of `rx`, `d(R) = -|K_R \ Ex| <= 0` after shared frequencies are removed; half of the validity rule is therefore guaranteed by construction, whereas E must empirically realize its targets. Filtering on `d(E) > 0 > d(R)` consequently selects E-successful seeds while almost automatically retaining R. Harmonic folding can also produce unequal set sizes—seed 22's Ex has nine unique frequencies—yet raw hit counts are not normalized. Negative and positive d therefore do not represent symmetric evidence, so an apparent E-to-R versus R-to-E asymmetry could be created by the measure itself.
+  Recommendation: Define both references identically: either use split-derived sets for both arms or derive both from K_E and K_R using independent/cross-fitted controls. Equalize or normalize reference-set cardinality, and do not exclude seeds using asymmetric outcome-based validity criteria.
+- [high] The analysis never verifies that the claimed prefix frequencies existed at the switch (lab/experiments/EXP-041-imprint/queue.sh:11-17)
+  Pure controls are observed after 2000 total updates, while switched endpoints occur after 2050 or 2150 updates, and Rx labels a 50/150-step R prefix using the pure-R outcome at step 2000. No exact switch-time spectrum or endpoint-stability check is requested. A switched endpoint can therefore be called "R held" even if the prefix had not selected K_R at the switch, or if agreement arose from shared initialization or later spectral evolution. Equal post-switch exposure does not control total AdamW age, and E/R learning-speed differences can masquerade as directional imprint strength.
+  Recommendation: Record spectra exactly at steps 50 and 150, report whether the prefix produced the claimed direction, and require or report endpoint stability. Add clock-matched pure controls at 2050/2150 alongside the exposure-matched 2000-step controls, or narrow the claim to the explicitly chosen estimand.
+- [high] Two opposite one-sided tests do not control the advertised 0.05 error rate (lab/experiments/EXP-041-imprint/analyze.py:75-81)
+  With five valid seeds, unanimity in either direction is declared significant because each one-sided tail is 1/32 = 0.03125. Since the code publishes either `gepraegt` or `ueberschrieben`, the per-endpoint probability of some decisive verdict under fair signs is 2/32 = 0.0625, already above 0.05. The same procedure is then applied to two primary endpoints without multiplicity correction. With six seeds it also has useful power only for 6/6; 5/6 is forced to `gemischt`.
+  Recommendation: Choose one confirmatory direction and treat the opposite descriptively, or use an exact two-sided test with family-wise correction across P41a/P41b. Increase the seed count and derive MIN_SEEDS from the corrected decision threshold.
+- [medium] The loader accepts incompatible completed runs despite claiming fail-closed behavior (lab/experiments/EXP-041-imprint/analyze.py:49-67)
+  The loader checks status, seed, observed steps, and hashes, but not `max_steps`, `m`, condition/experiment identity, optimizer configuration, stop policy, top-level switch metadata, or that `final_top_m_freqs` contains exactly five unique in-range integers. Split-file run IDs omit `m` and step/configuration details, so a completed run produced with `--m 10` can occupy the same directory, be skipped by the queue, and then be accepted here; its ten frequencies silently change d. Configuration or schema drift can similarly mix incompatible runs.
+  Recommendation: Validate a complete expected run manifest, including run_id, exp_id, condition, m=5, max_steps, stop policy, configuration/hyperparameters, switch_step and both switch hashes. Validate the exact frequency-list schema, and include a configuration hash in run IDs and skip decisions.
+
+Next steps:
+- Redesign and preregister a symmetric estimand before any EXP-041 run.
+- Add switch-time/stability measurements and matched controls.
+- Correct the inferential decision rule and seed budget.
+- Harden loader and queue reuse checks around a complete run manifest.

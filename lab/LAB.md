@@ -62,3 +62,4 @@ nutzt ([[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]).
 | [[experiments/EXP-038-where-lockin/README\|EXP-038]] Teil-Rücksetzen nach der Festlegung: trägt W_E oder der Rest die Frequenzwahl? ([[NOVEL_DIRECTIONS]] N16) | vorbereitet (Sitzung 9) | — |
 | [[experiments/EXP-039-lr-clock/README\|EXP-039]] Lernraten-Uhr: fällt die Festlegung bei fester aufsummierter Lernrate? ([[NOVEL_DIRECTIONS]] N17) | vorbereitet (Sitzung 10), Smoke ok | — |
 | [[experiments/EXP-040-we-init-scale/README\|EXP-040]] Amplitudenschwelle: verschiebt die W_E-Init-Skala die Festlegung? ([[NOVEL_DIRECTIONS]] N18) | vorbereitet (Sitzung 10), ungetestet | — |
+| [[experiments/EXP-041-imprint/README\|EXP-041]] Prägung durch einen kurzen Vorlauf, E → R und R → E ([[NOVEL_DIRECTIONS]] N19) | vorbereitet (Sitzung 10), ungetestet | — |

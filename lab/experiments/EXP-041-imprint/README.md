@@ -43,6 +43,27 @@ wann die Wahl unumkehrbar wird, keine Lernraten-/Init-Abhängigkeit, keine Rolle
 hier gestellte Frage (Prägung durch einen Vorlauf auf einer anderen Trainingsmenge, in beide Richtungen): **nicht gefunden**
 (vorläufig).
 
+## Nachtrag a (2026-09-26, Sitzung 10, nach Codex-Review `codex_review_2026-09-26.txt`, vor jedem EXP-041-Lauf): gilt allein, wo abweichend
+
+Codex: needs-attention, 3 × hoch, 1 × mittel, alle übernommen.
+1. **Maß und Gültigkeit waren zirkulär und asymmetrisch** (Ex aus den Split-Zielen, Rx aus dem Ergebnis „nur R“; d(nur R) ≤ 0
+   galt per Konstruktion). **Neu, symmetrisch:** Ex = K_E ∪ fold(2 K_E), Rx = K_R ∪ fold(2 K_R), beide aus den reinen Läufen
+   derselben Init (Top-5 bei Schritt 2000), gemeinsame ausgenommen. Gültig: alle Läufe bestehen den Lader, gleiche Init/Konfig,
+   und beide Referenzen behalten ≥ 3 exklusive Frequenzen (kein richtungsabhängiges Ergebnis-Gate).
+2. **Richtung des Vorlaufs am Wechsel nicht geprüft, Uhr nicht angeglichen.** **Neu:** Die reinen Läufe laufen 2150 Schritte,
+   mit Spektren auch bei 50 und 150: K bei 2000 (gleiche Datenmenge nach dem Wechsel) für das Maß, K bei 2150 (gleiche
+   Gesamtschrittzahl) und die Richtung des Vorlaufs bei Schritt 150 beschreibend. Die Aussage gilt für die gewählte Schätzgröße
+   (2000 Schritte nach dem Wechsel gegen 2000 Schritte rein).
+3. **Zwei entgegengesetzte einseitige Tests hielten α = 0.05 nicht.** **Neu:** P41a konfirmatorisch einseitig („gehalten“),
+   P41b zweiseitig; je α = 0.025 (Bonferroni über beide). **10 Seeds (20–29)**, mindestens 8 gültige; bei m = 10 braucht P41a
+   9/10 (p = 0.011), P41b 9/10 in eine Richtung. P41a sonst *nicht gezeigt*; P41b sonst *gemischt*. R → E bei t = 50 entfällt
+   (Budget).
+4. **Lader nicht fail-closed genug.** **Neu:** prüft run_id, Bedingung, m = 5, max_steps, Schritte, Stop-Regel, alle
+   Eingriffs-Flags (Warmup, lr-Skala, Init-Skala, Wechselspiel, Rücksetzen), Frequenzliste (5 verschiedene ganze Zahlen in 1..56),
+   Split-/Test-/Wechsel-Hashes, Konfiguration und Init über alle Läufe eines Seeds.
+Budget neu: 4 Läufe × ≈ 4.6 min ≈ 19 min je Seed, 10 Seeds ≈ 3.1 h. Code nach dem Nachtrag **ungetestet** (Selbsttest am
+Queue-Anfang, fail-closed).
+
 ## Status
 
 Vorab festgelegt, Code geschrieben, **ungetestet** (Fenster geschlossen; Selbsttest am Queue-Anfang, fail-closed).

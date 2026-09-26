@@ -11,15 +11,15 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 
 - **SITZUNG 11 (19:24) → NÄCHSTE SITZUNG (ab 00:00, im Fenster) in dieser Reihenfolge:**
   1. `python lab/tools/guarded_run.py --check`; keine Queue aktiv (`ps -ef | grep -E "queue|guarded_run"`).
-  2. `sh lab/experiments/GPU-001-equivalence/queue.sh > lab/runner/logs/gpu001.log 2>&1` im Hintergrund. **Warten, bis im Log
-     `regression: PASS` steht (≈ 1 min).** Das ist der Regressionstest für die `--device`-Änderung an `freq_ban.py` (c2c0b91).
-     Bei `regression: FAIL`: `git checkout a91ef0d -- lab/experiments/EXP-001-freq-ban/freq_ban.py`, dann erst weiter (GPU entfällt).
+  2. `sh lab/experiments/queue_gpu_s11.sh > lab/runner/logs/gpu_s11.log 2>&1` im Hintergrund (GPU-001 → EXP-043 → EXP-044 →
+     EXP-045, J aus dem Durchsatztest). **Warten, bis im Log `regression: PASS` steht (≈ 1 min).** Das ist der Regressionstest
+     für die `--device`/`--p`/`--task`/`--arch`-Änderungen an `freq_ban.py`. Bei `regression: FAIL` stoppt die GPU-Queue selbst;
+     dann `git checkout a91ef0d -- lab/experiments/EXP-001-freq-ban/freq_ban.py`, erst danach Schritt 3 (GPU entfällt vorerst).
   3. Dann `sh lab/experiments/queue_s10.sh > lab/runner/logs/queue_s10.log 2>&1` im Hintergrund (CPU, wie geplant). Die
-     Warteschleifen darin ignorieren jetzt GPU-Läufe (`--device cuda`).
-  4. Wenn GPU-001 `equivalence: PASS` und `throughput` geschrieben hat (`verdict_*.json`): J = bestes J aus
-     `verdict_throughput.json`, dann `sh lab/experiments/EXP-043-generalize-steering/queue.sh J > lab/runner/logs/exp043.log 2>&1`
-     im Hintergrund (GPU, parallel zur CPU-Queue erlaubt, Regel 16c). Ergebnis: `summary.json`, Lesart vorab im README.
-  5. `equivalence: FAIL` → GPU nicht benutzen, Blocker hier eintragen, EXP-043 bleibt liegen (auf CPU wären es ≈ 3 h; erst nach queue_s10).
+     Warteschleifen darin ignorieren GPU-Läufe (`--device cuda`).
+  4. Beide Logs beobachten. `equivalence: FAIL` → GPU-Queue stoppt, Blocker hier eintragen; EXP-043/045 dann erst nach queue_s10
+     auf der CPU erwägen (neuer Nachtrag nötig, Geräte nie mischen).
+  5. Ergebnisse: `summary.json` von EXP-043/044/045 gegen die vorab festgelegte Lesart in den READMEs; [[FINDINGS]] aktualisieren.
 - **Sitzung 11 neu:** [[FINDINGS]] (Synthese, Regel 15a); `freq_ban.py` `--device`/`--p`/`--task` (ungetestet);
   [[experiments/GPU-001-equivalence/README|GPU-001]] (Kriterien vorab); [[experiments/EXP-043-generalize-steering/README|EXP-043]]
   (Verallgemeinerung von K2 auf add 97 / mul 113, 10 Seeds, vorab festgelegt, Splits erzeugt).

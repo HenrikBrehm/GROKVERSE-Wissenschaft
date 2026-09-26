@@ -1184,3 +1184,13 @@ ist an frischen Seeds nicht bestätigt* (negativer Befund). N15 abgeschwächt; E
 sinnvoll, die Erwartung für H36/H37 sinkt.
 **EXP-028: P28a *teilweise*** (6/10 Läufe mit 5/5 im Fenster, gefordert 8; Mittel 4.5); P28b: 5/6 verlieren Ziele, alle 8
 Ersetzungen sind 2k-Oberwellen.
+
+**Zwischenbilanz Sitzung 9 (16:23, §4):** *Gelernt:* Die kritische Periode der Frequenzwahl ist über 5 Seeds bemerkenswert
+gleichförmig (25–50 Schritte) und vertieft sich nach der Festlegung; die in der Exploration auffällige Init-Herkunft „fremder“
+Frequenzen hielt an frischen Seeds nicht (Vorab-Festlegung hat hier eine Überdeutung verhindert). *Wiederholen wir uns?*
+Nein in den Eingriffen (Init-Wechsel, Wechselspiel, neue Messgröße), aber das Thema ist seit drei Sitzungen dasselbe.
+*Messungen geeignet?* Das Top-5-Maß ist anfällig für 2k-Oberwellen (Seed 33); d_h künftig vorab. Ob fremde Frequenzen
+funktional sind, ist ungeklärt (Ablation vorbereitet). *Nächste Annahme zum Angreifen:* dass „Festlegung“ im W_E-Spektrum
+dasselbe ist wie Festlegung des Schaltkreises: Ein Eingriff, der nach t = 50 nur W_E zurücksetzt (Rest behalten), würde
+zeigen, ob die Festlegung in W_E oder in den übrigen Gewichten sitzt (Idee, nicht festgelegt). *Priorität geändert:*
+`queue_s10.sh` stellt EXP-034 vor EXP-036.

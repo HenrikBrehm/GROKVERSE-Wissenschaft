@@ -1396,3 +1396,10 @@ Eine Streckenuhr sähe bei c = 2 leicht verspätet aus und ergäbe *unklar*, nic
 **Zyklus 10 (18:17–18:18, ohne Training): H40 quantitativ.** Mit Strecke ≈ 0.11 · Λ und Init-Amplitude 1.4 fällt die Schwelle bei
 Λ* ≈ 28.5/√f (f = Streckenanteil auf den 5 Zielen). Das Fenster (25, 50] verlangt f ≳ 0.3. *Ergebnis:* Zahl-Vorhersage R(hi) ∈ [0.5, 2]
 beschreibend festgelegt (EXP-040 Nachtrag c), bevor Schnappschuss-Daten existieren; R(hi) < 0.5 widerlegt H40 in dieser Form.
+
+**Zyklus 11 (18:18, ohne Training, post hoc, Konsistenzprüfung):** Ist f ≳ 0.3 plausibel? Aus den EXP-020-Läufen „nur F“ (Seeds 30–34)
+mit der Näherung |Δc_k|² ≈ P_k(t) − P_k(0) (Bewegung ≈ senkrecht zur Init in hoher Dimension): bei Schritt 250 f = 0.51, 0.66, 0.34,
+0.40, 0.51 und R ≈ 2.4–2.7; bei Schritt 500 f = 0.43–1.0, R ≈ 2.5–2.9. *Ergebnis:* f ≳ 0.3 in 5/5 plausibel; die Zielamplitude sättigt
+ab Schritt ≈ 250 bei etwa dem 2.5-Fachen der Init-Amplitude. H40 sagt beim Festlegen R ≈ 1, also ~40 % dieser Sättigung. Nur
+Konsistenz (Schritt 250 liegt nach der Festlegung, Näherung statt Schnappschüssen), kein Test. *Entscheidung:* keine Änderung an
+den Vorhersagen; die echten Schnappschüsse kommen mit EXP-036/039/040.

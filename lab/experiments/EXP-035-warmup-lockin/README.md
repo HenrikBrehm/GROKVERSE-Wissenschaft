@@ -71,3 +71,14 @@ Code-Commit des Nachtrags: b231fc6.
 EXP-020 Seed 33 war nur wegen einer 2k-Oberwelle nicht monoton (JOURNAL Sitzung 9, Zyklus 7). `analyze.py` berichtet
 zusätzlich d_h (F-/G-Seite einschließlich fold(2k), gemeinsame ausgenommen) für Basis und Warmup. **Urteil und
 Auswertbarkeit bleiben unverändert** (weiter mit d und Monotonie-Pflicht).
+
+## Nachtrag c (2026-09-26 18:20 Berlin, Sitzung 10, vor jedem Seed-32-Lauf von EXP-035): Zustandsvergleich, Λ- gegen schrittgleich (beschreibend)
+
+**Beobachtung (post hoc, Seeds 30, 31):** Endzustände (Top-5 von W_E) von Mischläufen stimmen über verschiedene Eingriffe hinweg
+teils **exakt** überein: Seed 30 (6, 19, 29, 34, 47) mit Warmup und Wechsel bei t = 100 **und** in EXP-037 (Wechselspiel, A = 25);
+Seed 31 (4, 8, 36, 42, 46) ohne Warmup bei t = 10 (Λ = 10) **und** mit Warmup bei t = 50 (Λ = 6.4). Seed 30: Λ-gleiche Paare
+überlappen im Mittel 3.0 von 5, schrittgleiche 2.3.
+**P35d (nur Seed 32, dessen Warmup-Läufe noch nicht existieren):** Λ-gleiche Paare (Warmup t' ↔ ohne Warmup t: (50, 10), (100, 25),
+(150, 50)) überlappen im Mittel stärker als schrittgleiche ((10, 10), (25, 25), (50, 50)) → *erfüllt*, sonst *nicht erfüllt*.
+Seeds 30, 31 nur als Exploration. Ein Seed ist nur ein Hinweis, kein Urteil. Code `state_match.py` (in `queue_s10.sh` nach
+`analyze.py`). Grenze: Die Λ-Paare sind nur angenähert gleich (6.4/10, 25.2/25, 56.6/50).

@@ -1403,3 +1403,12 @@ mit der Näherung |Δc_k|² ≈ P_k(t) − P_k(0) (Bewegung ≈ senkrecht zur In
 ab Schritt ≈ 250 bei etwa dem 2.5-Fachen der Init-Amplitude. H40 sagt beim Festlegen R ≈ 1, also ~40 % dieser Sättigung. Nur
 Konsistenz (Schritt 250 liegt nach der Festlegung, Näherung statt Schnappschüssen), kein Test. *Entscheidung:* keine Änderung an
 den Vorhersagen; die echten Schnappschüsse kommen mit EXP-036/039/040.
+
+**Zyklus 12 (18:18–18:20, ohne Training, post hoc): Endzustände als diskrete Attraktoren?** Katalog aller Endzustände (Top-5 W_E)
+je Seed über EXP-020, EXP-035 und EXP-037 (Seeds 30–34, 58 Läufe): Seed 30: 18 Läufe, 9 verschiedene Zustände; Seed 31: 13 → 7;
+Seed 32: 11 → 7; Seed 33: 8 → 4; Seed 34: 8 → 5. Neben „nur F“ (festgelegt) und „nur G“ wiederholen sich **Mischzustände exakt über
+verschiedene Eingriffe**: Seed 30 (6, 19, 29, 34, 47) = Warmup t = 100 = EXP-037 A = 25; Seed 31 (4, 8, 36, 42, 46) = ohne Warmup
+t = 10 = Warmup t = 50 (Λ 10 bzw. 6.4). Seed 30: Λ-gleiche Paare überlappen im Mittel 3.0/5, schrittgleiche 2.3/5.
+*Deutung (Spekulation):* Je Seed gibt es wenige diskrete Endzustände, und welcher erreicht wird, hängt eher an Λ beim Wechsel als an
+der Schrittzahl. *Entscheidung:* P35d für Seed 32 (noch ohne Warmup-Läufe) vorab festgelegt (EXP-035 Nachtrag c, `state_match.py`,
+in der Queue). Idee für später: Attraktor-Katalog als eigene Messgröße (N21).

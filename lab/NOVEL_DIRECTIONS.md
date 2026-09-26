@@ -455,3 +455,10 @@ letzten Schichten); nicht gefunden (vorläufig): Lokalisierung der Frequenzwahl 
 
 **Nachtrag zu N14/N17 (Sitzung 10):** Nächstverwandte Arbeit ist auch dort LeDoux 2026 (https://arxiv.org/abs/2603.25047,
 Minibatch-Reihenfolge bestimmt die Grundfrequenz; keine Festlegungszeit, kein Wechsel, keine Lernratenabhängigkeit).
+
+## N21: Diskrete Endzustände der Frequenzwahl je Seed (Attraktor-Katalog) #neu/kandidat
+
+- **Beobachtung (Sitzung 10, post hoc, 58 Läufe, Seeds 30–34):** Verschiedene Eingriffe (Datenwechsel zu verschiedenen Zeiten,
+  Warmup, Wechselspiel) enden je Seed in wenigen, teils exakt gleichen Top-5-Mengen; exakte Übereinstimmung auch zwischen Eingriffen
+  bei ähnlichem Λ. Frage: Ist die Menge der erreichbaren Endzustände je (Init, Splitpaar) klein und durch Λ beim Wechsel
+  parametrisiert? Erster Test: EXP-035 Nachtrag c (P35d, Seed 32). Literatur: noch nicht gezielt gesucht.

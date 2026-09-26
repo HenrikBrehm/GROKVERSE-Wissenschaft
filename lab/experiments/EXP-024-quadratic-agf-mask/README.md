@@ -1,8 +1,8 @@
 ---
 id: EXP-024
-status: vorbereitet
+status: laufend
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/laufend, neu/kandidat, befund/unklar]
 ---
 # EXP-024: Lernt ein quadratisches Netz auf einem konstruierten Split die *halben* Zielfrequenzen?
 
@@ -81,6 +81,35 @@ Regeln wie Arm Q (Schwelle ov_F ≥ 2). Das wird als **sekundäre** Entscheidung
 Wichtige Abweichung: Das trainierte R-Netz hat keinen Bias (Nachtrag a), der Nutzen hier auch nicht.
 
 **Neuheit:** vorläufig, siehe [[NOVEL_DIRECTIONS]] N11 (Suche folgt).
+
+## Ergebnis Arm Q (primär), Sitzung 7, 09:21 Berlin
+
+`analyze.py` über den Wächter, 19/19 Läufe gültig (alle 5000 Schritte, endlich, Test-Genauigkeit 1.0 in allen Läufen).
+
+| Größe | Wert |
+|---|---|
+| ov(Top-5, H), Mittel | **1.11** (Zufall 25/56 = 0.45) |
+| ov(Top-5, F), Mittel | **0.21** |
+| d̄ = ov_H − ov_F | +0.89, 13 informative Einheiten, einseitiger Vorzeichentest **p = 0.0017** |
+| Kontrolle ov(fold(m·F)), m = 3…55 | 0.44 (= Zufall); ov(2F) 0.58 |
+| rohes Spektrum / W_out-Spektrum | ov_H 0.95 / 0.74, ov_F 0.16 / 0.16 |
+
+**Urteil nach der Vorab-Regel: *richtungsgleich, n. s.*** Der Vorzeichentest ist deutlich (p = 0.002), die festgelegte
+Mindestgröße ov_H ≥ 2 wird aber verfehlt (1.11). Die Richtung sagt die Nutzenrechnung richtig voraus: Die halben Ziele sind
+angereichert, die Ziele selbst unterdrückt (0.21 < 0.45), und keine andere feste Abbildung m·F zeigt einen Effekt. Die
+Größe (3.25/5 im Nutzen am Start) erreicht das trainierte Netz bei Weitem nicht.
+
+**Post hoc (nicht vorab festgelegt, `timecourse.py`, `posthoc_share.py`):**
+- Zeitverlauf ov_H: 0.53 (Init) → 0.58 (50) → 0.79 (250) → 1.00 (1000) → 1.11 (5000). Keine scharfe Frühwahl, sondern
+  eine langsame Drift.
+- **Das gewichtete Spektrum ist fast flach:** Anteil je Frequenz ≈ 5/56 = 0.089; bei Schritt 5000 entfallen auf H 0.102,
+  auf F 0.084, auf 2F 0.095. Das Netz nutzt praktisch alle Frequenzen (passt zu den Max-Margin-Lösungen quadratischer
+  Netze, die alle Frequenzen verwenden; Morwani et al. 2023). Der Effekt ist eine **Neigung um etwa +15 % (H) bzw. −6 % (F)**
+  und keine Auswahl weniger Frequenzen. „Welche Frequenzen gelernt werden“ ist für dieses Modell deshalb die falsche Frage;
+  gemessen werden kann nur, wohin sich die Leistung neigt.
+- Folge: EXP-026 (Nachtrag b) und EXP-025 (Nachtrag a) bekommen vor ihren Läufen eine kontinuierliche Messgröße.
+
+Arm R: siehe unten (läuft noch).
 
 ## Befehle
 

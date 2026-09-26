@@ -780,3 +780,15 @@ gestartet (Fenster war offen, ~5 s, nur numpy). Künftig auch solche Tests über
 **Git-Fehler, behoben:** Ein `git commit -a` (09:16) hatte die bewusst uncommitteten Runner- und Wächter-Änderungen des
 Nutzers mitgenommen; sofort mit `git reset --soft HEAD~1` zurückgenommen, nur das README neu committet. Arbeitsbaum
 unverändert, die Nutzerdateien sind wieder uncommittet (`git status` geprüft).
+
+**Zyklus 2 (09:19–09:24): EXP-024 Arm Q ausgewertet (vorab festgelegt).** 19/19 gültig, alle generalisieren (Test 1.0).
+ov_H 1.11, ov_F 0.21 (Zufall 0.45), d̄ +0.89, Vorzeichentest p = 0.0017, Kontrolle m·F 0.44. **Urteil: richtungsgleich,
+n. s.** (Mindestgröße ov_H ≥ 2 verfehlt). Richtung wie von der Nutzenrechnung vorhergesagt, Größe weit darunter (3.25
+im Nutzen). Post hoc: ov_H wächst langsam (0.53 → 1.11), keine scharfe Frühwahl; das gewichtete Spektrum ist **fast flach**
+(Anteil H 0.102, F 0.084, Zufall 0.089): Das x²-Netz nutzt praktisch alle Frequenzen, der Split neigt die Leistung nur.
+*Entscheidung:* Top-5 ist für diese Modelle eine schlechte Messgröße → EXP-026 Nachtrag b (primär jetzt ds =
+Anteil F − Anteil H, commit 9cc206f) und EXP-025 Nachtrag a (kontinuierliche Sekundärgröße, commit b7e8127), beide
+vor jedem ihrer Läufe. Auswerter-Test EXP-026 diesmal über den Wächter (5/5).
+*Kritik an mir selbst:* Die Schwelle ov_H ≥ 2 stammt aus dem Nutzen am Start; dass trainierte breite x²-Netze ein flaches
+Spektrum haben, hätte ich vorher aus der Max-Margin-Literatur wissen können. Neue Versuche mit diesem Modell brauchen von
+Anfang an Anteilsmaße.

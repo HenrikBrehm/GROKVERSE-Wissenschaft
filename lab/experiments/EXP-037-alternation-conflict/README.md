@@ -105,3 +105,18 @@ Die vorab festgelegten Urteile bleiben (*gestützt*, A = 5 und A = 25). **Die De
 3. „Funktional“ gilt nur für generalisierende Modelle: 34 (Seed 30), 22 (Seed 31, A = 5), 8 und 13 (Seed 32, A = 25) mit Δloss
    1.4–5.3; 42 (Seed 31, A = 25) nur 0.38; die Schwelle ist eine beschreibende Konvention, die Zufallskontrollen sind nicht nach
    spektraler Stärke angeglichen. Die A = 5-Werte von Seed 32 (Test-Acc 0.48) zählen dafür nicht.
+
+## Post hoc (Sitzung 14, 2026-09-26 21:53 Berlin, explorativ, bereits gesehene Läufe): kontinuierliche Persistenz π
+
+Maß wie [[experiments/EXP-020-data-switch/README|EXP-020]] „Post hoc (Sitzung 14)“ (0 = wie nur G, 1 = wie nur F; Normierung mit den reinen
+EXP-018-Läufen). Alle Arme haben 100 F-Schritte vor der reinen G-Phase:
+
+| Seed | 100 F am Stück, dann G (at100) | 100 F + 100 G in 25er-Blöcken (alt25) | in 5er-Blöcken (alt5) |
+|---|---|---|---|
+| 30 | 1.03 | 0.66 | 0.60 |
+| 31 | 1.01 | 0.75 | 0.52 |
+| 32 | 1.04 | 0.63 | 0.52 |
+
+**Lesart (explorativ, 3 Seeds):** Gleiche Menge F-Training hält vollständig fest, wenn es am Stück kommt, aber nur zu ≈ 0.5–0.75, wenn
+G-Schritte dazwischen liegen; feinere Verschränkung hält weniger. Die Festlegung ist also kein bloßes Aufsummieren von F-Schritten, sondern
+ein Wettlauf, bei dem die konkurrierenden G-Schritte im Fenster zählen (passt zu [[NOVEL_DIRECTIONS]] N22). Nur beschreibend.

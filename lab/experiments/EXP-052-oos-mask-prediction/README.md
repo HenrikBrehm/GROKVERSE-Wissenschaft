@@ -88,3 +88,13 @@ Versatz k = 6..56 bei intadd konsistent, D₅₉-Laufnamen/Spektren passen zu `g
 (ein *nicht auswertbarer* Fall geht mit p = 1 ein, statt die Familie zu verkleinern; ersetzt Nachtrag a (i)); Prüfungen der eingefrorenen
 Werte als `SystemExit` statt `assert`; D₅₉-Läufe müssen `group = D59` tragen. Vermerkt: M0c ist bei D₅₉ ein Analogon erster Ordnung,
 aber die abelsche Identität M0c = 2·M0 für symmetrische Masken gilt dort nicht; S1 mischt also leicht verschiedene Größen.
+
+## Literatur (Suche 2026-09-26, Sitzung 14)
+
+Suchbegriffe: „training set composition determines which Fourier features learned modular arithmetic transformer embedding predicted
+from data mask“, „grokking modular addition which frequencies are learned depends on training set subset random split prediction before
+training“. Nächstverwandt: Feature Identification via the Empirical NTK (https://arxiv.org/abs/2510.00468): eNTK-Eigenräume *nach* dem
+Training decken sich mit den Fourier-Merkmalen; laut Abstract keine Vorhersage aus dem Split vor dem Training und keine Abhängigkeit von
+der Teilmenge. He et al. 2026 (https://arxiv.org/abs/2602.16849): Init-Lotterie je Neuron. Eine Vorhersage der gelernten Frequenzen allein
+aus der Zusammensetzung der Trainingsmenge, noch dazu über Gruppen (zyklisch, zusammengesetzt, D₅₉) und eine nicht-modulare Aufgabe,
+haben wir nicht gefunden. Einordnung vorläufig, nur Abstracts/Suchtreffer: „nach unserer Suche vom 2026-09-26 nicht gefunden“.

@@ -29,6 +29,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
    Wiederaufnahme = derselbe Befehl (Fertiges wird per Fingerprint übersprungen). Status: `lab/runner/logs/night_*/night_status.json`.
 5. CPU **erst nach GPU-001** (sonst verfälscht CPU-Last die J-Messung): `python lab/tools/night_program.py --cpu > lab/runner/logs/night_cpu.log 2>&1` (**EXP-014** → 035 → 038 → 041 → 036 →
    039 → 040 → 042). Nicht portiert, gesichtet ([[BACKLOG]] „Sichtung nach Regel 18c“): 034 nach P3-Design; 018/022/023/010 zurückgestellt.
+   **Wenn GPU-001 scheitert (Punkt 9 macht das plausibel):** kein GPU-Lauf; sofort `night_program.py --cpu` (Paket B) mit voller CPU-Zahl. Paket A ist dann GPU-gebunden (13 Stellen `device="cuda"` in den Auswertungen, Laufnamen `_devcuda`): in der nächsten Sitzung einen Geräteparameter für EXP-043/046/047/048/052 einbauen und prüfen lassen, CPU-Schätzung ≈ 4–5 min je 2000-Schritte-Lauf bei `--threads 4` (EXP-016), 3 parallel → EXP-043 ≈ 1.5 h, EXP-046/047/048 je ≈ 45–60 min.
 6. Beobachten (Regel 14). GPU-001-Verdikte ins JOURNAL (Gleichwertigkeit, s/Schritt, J). Punkt 9: GPU bleibt experimentell.
 7. Auswerten: `python lab/tools/night_report.py`; **vor jeder Deutung** [[LESART-nacht-2026-09-27]] lesen.
 8. **EXP-052** (eingefrorene Vorhersage, Sitzung 14): Selbsttest `guarded_run.py -- python lab/experiments/EXP-052-oos-mask-prediction/exp052.py --selftest`

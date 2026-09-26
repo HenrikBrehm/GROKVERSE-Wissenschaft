@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 02:49 Berlin (00:49Z, vom Runner)
 - **Deadline:** 2026-09-26 05:49 Berlin (03:49Z)
-- **Zuletzt aktualisiert:** 04:54 Berlin
+- **Zuletzt aktualisiert:** 05:07 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin). Erste Sitzung mit Läufen.
 
 ## Gerade
@@ -19,6 +19,7 @@ Laufende EXP-016-Läufe beobachten. Ab ≈ 05:39 Stand sichern und Abschlussberi
 
 ## Verlauf dieser Sitzung
 
+- 05:06 EXP-016 Seed 11 Arm F: wieder 4 von 5 aus der Zielmenge, gen 775 (Zufallssplit 5975).
 - 05:08 Codex-Angriff auf EXP-015: Wortlaut auf „sagt voraus“ korrigiert; exakter Test p = 2.5e-5; auch gegen die funktionalen Schlüsselfrequenzen der Studie hält der Befund (p = 3.6e-6).
 - 05:02 EXP-016 Seed 10 Arm G: 4 von 5 Frequenzen aus **seiner** Zielmenge G, keine aus F. Δ = +8 von max. 10. Die Frequenzen folgen der Datenauswahl (1 Seed).
 - 04:58 EXP-016 Seed 10 Arm F: generalisiert schon bei Schritt 525 (Zufallssplit: 3925); 4 von 5 Frequenzen aus der Zielmenge. Einzelwert, Kontrolle (Arm G) folgt.

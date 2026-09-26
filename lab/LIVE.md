@@ -5,18 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 21:19 Berlin (19:19Z, vom Runner)
 - **Deadline:** 2026-09-27 00:19 Berlin (22:19Z)
-- **Zuletzt aktualisiert:** 21:44 Berlin (gemessen).
+- **Zuletzt aktualisiert:** 21:47 Berlin (gemessen).
 - **Run-Fenster:** zu. Heute Nacht Läufe erst ab 03:00 (Regel 18). Diese Sitzung: nur Code, Rechnung auf Dateien, Literatur.
 
 ## Gerade
 
-Das Werkzeug für die spätere Bestätigung ist gebaut: Die Trainingsmengen für die frischen Seeds entstehen erst, wenn der Auswerteplan eingefroren ist. Als Nächstes lasse ich es prüfen.
+Nächste Frage wählen. Alle Werkzeuge für heute Nacht und für die spätere Bestätigung sind gebaut und geprüft (Ausführung ab 03:00).
 
 ## Als Nächstes
 
 Ab 03:00 (nächste Sitzung): Wächter-Abnahme, Tests (jetzt auch EXP-052-Selbsttest), Nachtprogramm.
 
 ## Verlauf dieser Sitzung
+
+- 21:47 Werkzeug für die Bestätigungs-Trainingsmengen geprüft: baut exakt die Konstruktion der Pilotversuche nach. Das Tor gegen verfrühtes Erzeugen ist jetzt strenger.
 
 - 21:44 Bestätigungsblock technisch vorbereitet (Trainingsmengen nur mit eingefrorenem Plan). Planungswerkzeug nach Prüfung verbessert. Eigene Fehlannahme korrigiert: Der Vergleich M0c gegen M0 ist doch trennscharf (Simulation).
 

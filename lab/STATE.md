@@ -21,8 +21,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 1. `python lab/tools/guarded_run.py --check` → `allowed: true`. Keine andere Queue aktiv (`ps -ef | grep -E "night_program|queue|guarded_run" | grep -v grep`).
 2. Wächter-Abnahme: `python lab/tools/guarded_run.py -- python -c "import time; time.sleep(60)"` im Hintergrund, währenddessen
    `lab/STOP` anlegen → Exit 3 und Kind beendet? **STOP sofort wieder löschen**, im JOURNAL vermerken. Scheitert es: Blocker in LIVE.
-3. Tests: `python lab/tools/guarded_run.py -- python lab/tools/result_loader.py` (Selbsttest); freq_ban-Tests inkl. Fingerprint
-   (Test noch schreiben: gleicher Lauf überspringt, anderes `--steps` → Fehler, Sperre bei Doppelstart, `completed` nur mit Artefakten).
+3. Tests: `python lab/tools/guarded_run.py -- python lab/tools/result_loader.py` (Selbsttest) und
+   `python lab/tools/guarded_run.py --min-minutes 5 -- python lab/tests/test_freq_ban_fingerprint.py` (Fingerprint, Legacy-Prüfung,
+   Sperre, atomare Arrays, Artefaktprüfung; kleine CPU-Läufe im Temp-Ordner). Scheitert etwas: beheben, bevor Queues starten.
 4. GPU: `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1` im Hintergrund (Plan: `--dry-run`). Beginnt mit GPU-001
    (Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 → 048 → 049 → 044 → 045.
    Wiederaufnahme = derselbe Befehl (Fertiges wird per Fingerprint übersprungen). Status: `lab/runner/logs/night_*/night_status.json`.

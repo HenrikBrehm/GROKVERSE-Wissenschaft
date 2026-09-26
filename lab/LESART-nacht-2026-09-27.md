@@ -33,3 +33,4 @@ EXP-043 bis EXP-049 existierte. Die Einzelurteile regeln die READMEs; hier steht
 5. Effektgrößen immer mitberichten (Δ̄, n positiv/n gültig), nicht nur das Urteil. Δ_pow-Werte aus EXP-048/049 sind wegen anderer
    Aufgabe bzw. Breite nicht direkt mit der EXP-016-Kalibrierung (8.4) vergleichbar.
 6. Befunde zu K4 (EXP-044) nur, wenn EXP-043 für die Aufgabe *steuerbar* war (so in der Queue festgelegt).
+7. **Ergänzung (20:54, Regel 18c):** Alle Versuche dieser Nacht sind **Pilot/Exploration** für das Programm A/B/C in [[FINDINGS]]. Ein *steuerbar* hier ist keine Bestätigung von P1–P3; es liefert die Streuung für die Stichprobenplanung und entscheidet, welche Aufgaben in den reservierten Bestätigungsblock (Seeds 1000–1099) kommen. Technische Ausfälle (Lader: „fehlt“/„defekt“) werden getrennt von wissenschaftlich negativen Ergebnissen berichtet.

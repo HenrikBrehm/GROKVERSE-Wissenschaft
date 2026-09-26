@@ -8,6 +8,7 @@ Writes verdict_<mode>.json next to this file; exit 1 if a criterion fails (the q
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -15,6 +16,18 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+SEAL_FILES = ("lab/experiments/EXP-001-freq-ban/freq_ban.py", "lab/experiments/GPU-001-equivalence/compare.py",
+              ".venv-gpu/Lib/site-packages/torch/version.py")
+
+
+def seal() -> str:
+    """Astra 10: bind the verdicts to the trainer code, this checker and the GPU torch build; any change -> new GPU-001."""
+    h = hashlib.sha256()
+    for f in SEAL_FILES:
+        h.update(f.encode())
+        h.update((ROOT / f).read_bytes())
+    return h.hexdigest()[:16]
 E16 = HERE.parent / "EXP-016-engineered-split"
 SEEDS = (10, 11, 12)
 CHECK_STEPS = (250, 500, 1000, 2000)
@@ -72,8 +85,20 @@ def equivalence() -> tuple[dict, bool]:
                      "final_test_acc_cpu": rc["final_acc"]["test"], "final_test_acc_gpu": rg["final_acc"]["test"]})
     a2 = a2_hits >= 8
     ok = bool(a1 and a2 and a3)
+    # Astra 10 diagnostic (not a criterion): CPU run of seed 10 with the GPU venv's torch separates version from device
+    diag = {}
+    dv = HERE / "raw_equiv_cpu_venv" / "EXP-016_baseline_seed10_thr4_split_seed10_eps2.0"
+    dc = E16 / "raw" / "EXP-016_baseline_seed10_thr4_split_seed10_eps2.0"
+    if (dv / "result.json").exists():
+        rv, rc10 = load(dv), load(dc)
+        s0v, s0c = np.load(dv / "spectra.npy")[0], np.load(dc / "spectra.npy")[0]
+        diag = {"same_init_spectrum": bool(np.allclose(s0v, s0c, rtol=1e-6, atol=0)),
+                "init_checksum_equal": rv.get("init_checksum_shared") == rc10.get("init_checksum_shared") if "init_checksum_shared" in rc10 else None,
+                "overlap_top5_2000_venvcpu_vs_cpu": len(top_at(dv, 2000) & top_at(dc, 2000)),
+                "gen_venvcpu": rv["events"].get("generalization_step"), "gen_cpu": rc10["events"].get("generalization_step"),
+                "torch_venv": rv.get("versions", {}).get("torch"), "torch_cpu": rc10.get("versions", {}).get("torch")}
     return {"rows": rows, "A1": bool(a1), "A2_hits": f"{a2_hits}/{a2_n}", "A2": bool(a2), "A3": bool(a3),
-            "pass": ok}, ok
+            "version_diagnostic": diag, "pass": ok}, ok
 
 
 def throughput() -> tuple[dict, bool]:
@@ -106,6 +131,7 @@ def throughput() -> tuple[dict, bool]:
 def main() -> None:
     mode = sys.argv[1]
     res, ok = {"regression": regression, "equivalence": equivalence, "throughput": throughput}[mode]()
+    res["seal"] = seal()
     (HERE / f"verdict_{mode}.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
     print(json.dumps(res, indent=1))
     print(f"[gpu001] {mode}: {'PASS' if ok else 'FAIL'}", flush=True)

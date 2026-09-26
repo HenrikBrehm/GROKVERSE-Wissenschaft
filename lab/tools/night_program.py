@@ -103,11 +103,15 @@ class Night:
     # -- GPU-001 -----------------------------------------------------------------------------------------------
     @staticmethod
     def passed(mode: str) -> bool:
+        """PASS and sealed to the current trainer/checker/GPU torch (Astra 10); a stale verdict does not count."""
         f = ROOT / G1 / f"verdict_{mode}.json"
         try:
-            return json.loads(f.read_text(encoding="utf-8")).get("pass") is True
+            v = json.loads(f.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             return False
+        sys.path.insert(0, str(ROOT / G1))
+        import compare  # noqa: E402  (pure python, no torch)
+        return v.get("pass") is True and v.get("seal") == compare.seal()
 
     @staticmethod
     def best_J() -> int:
@@ -132,6 +136,10 @@ class Night:
                  for s in (10, 11, 12)]
         if self.jobs("gpu001_equiv_runs", equiv, 1, 10) != 0:
             raise Failed("GPU-001 equivalence runs failed")
+        # Astra 10 diagnostic: the same CPU run with the GPU venv's torch (version vs device); failure is reported, not fatal
+        self.jobs("gpu001_venv_cpu_run", [[GPY, FB, "--seed", "10", "--condition", "baseline", "--steps", "2000",
+                                           "--split-file", f"{S16}/split_seed10_eps2.0.npy",
+                                           "--out-root", f"{G1}/raw_equiv_cpu_venv"]], 1, 10)
         self.must("gpu001_equivalence", [PY, f"{G1}/compare.py", "equivalence"])
         if not self.dry:
             shutil.rmtree(ROOT / G1 / "raw_par", ignore_errors=True)   # no stale throughput results

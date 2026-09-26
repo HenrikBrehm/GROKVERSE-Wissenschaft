@@ -11,7 +11,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 
 - **Warteschlange:** `sh lab/experiments/queue_s4b.sh` (Log `lab/runner/logs/queue_s4b.log`). Sie überspringt fertige
   Läufe (`freq_ban.py` endet dann mit „already completed“, das ist gewollt). Reihenfolge: Baselines 12–17 (fertig) →
-  EXP-016 Smoke (fertig) → EXP-016 Arme F/G Seeds 10–19 (2000 Schritte, je ≈ 4.5 min) → Baselines 18/19 → EXP-014
+  EXP-016 Smoke (fertig) → EXP-016 Arme F/G Seeds 10–19 (2000 Schritte, je ≈ 4.5 min; 10–15 fertig) → Baselines 18/19 → EXP-014
   Kreuzpaare (10↔11, 12↔13, 14↔15, 16↔17, 18↔19) → EXP-010-Tausch 11–19 → EXP-013 (Lock-in).
   **Nächste Sitzung im Fenster: dasselbe Skript erneut starten.** Danach EXP-017 (RFM) und EXP-011 (Normtausch).
 - **Abgebrochene Läufe** stehen mit `status: running` in `result.json`. Sie werden **nicht** übersprungen, sondern von
@@ -39,7 +39,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
   Init-Spektrum (0.254 vs. 0.369, p 0.031). EXP-009 an frischen Seeds repliziert (E0 p 0.0015).
 
 **Läuft:** [[experiments/EXP-016-engineered-split/README|EXP-016]] (kausal: konstruierter Split soll Frequenzen vorgeben).
-Seeds 10–14: Δ = +8, +7, +7, +7, +8 (von max. 10); jeder Arm 3–4/5 aus der eigenen Zielmenge, 0 aus der anderen.
+Seeds 10–15: Δ = +8, +7, +7, +7, +8, +9 (von max. 10); jeder Arm 3–4/5 aus der eigenen Zielmenge, 0 aus der anderen.
 Grokking früh (500–1050 vs. 3525–5975, nicht vorab festgelegt). Entscheidung erst ab 8 Seeds.
 
 **Vorbereitet, nicht ausgeführt:** EXP-014 (Split × Init gekreuzt, Nachtrag a), EXP-017 (RFM, keine Zufalls-Init),

@@ -1,8 +1,8 @@
 ---
 id: EXP-016
-status: vorbereitet
+status: laufend
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/laufend, neu/kandidat]
 verwandt: ["[[experiments/EXP-015-mask-spectrum/README|EXP-015]]", "[[experiments/EXP-014-split-vs-init/README|EXP-014]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-016: Frequenzen über die Datenauswahl steuern (konstruierter Split)

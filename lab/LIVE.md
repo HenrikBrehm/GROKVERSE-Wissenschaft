@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 02:49 Berlin (00:49Z, vom Runner)
 - **Deadline:** 2026-09-26 05:49 Berlin (03:49Z)
-- **Zuletzt aktualisiert:** 05:37 Berlin
+- **Zuletzt aktualisiert:** 05:47 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin). Erste Sitzung mit Läufen.
 
 ## Gerade
 
-**Sitzung endet** (Deadline 05:49). Letzter Lauf: EXP-016 Seed 15 Arm G (05:42–≈05:46), danach verweigert der Wächter weitere Starts.
+**Sitzung beendet** (05:47 Berlin). Kein Lauf aktiv.
 
 ## Als Nächstes
 
@@ -19,6 +19,7 @@ Dann: `sh lab/experiments/queue_s4b.sh` fortsetzen (EXP-016 Seeds 16–19, Basel
 
 ## Verlauf dieser Sitzung
 
+- 05:46 EXP-016 Seed 15 Arm G: 4 von 5 aus G. **Stand: 6 von 10 Seeds, Δ = +8, +7, +7, +7, +8, +9.**
 - 05:41 EXP-016 Seed 15 Arm F: Zielmenge exakt (5/5).
 - 05:37 EXP-016 Seed 14 Arm G: 3 von 5 aus G. Zwischenstand Δ (5 Seeds): +8, +7, +7, +7, +8.
 - 05:32 EXP-016 Seed 14 Arm F: gelernte Frequenzen = Zielmenge exakt (5/5); gen 1100 (Zufallssplit 11200).

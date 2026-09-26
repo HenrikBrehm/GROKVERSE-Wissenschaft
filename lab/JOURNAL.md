@@ -341,3 +341,4 @@ eine Plattform; „Split bestimmt“ ist erst nach EXP-016/014 zulässig. EXP-01
 EXP-016 Seed 14 Arm F 05:32: gen 1100 (Baseline 11200), K {13, 19, 37, 49, 50} = F exakt (5/5).
 EXP-016 Seed 14 Arm G ~05:37: gen 625, K {14, 20, 22, 28, 44}, 3 aus G = {6, 14, 20, 22, 45}, 0 aus F. Δ_14 = +8. Zwischenstand (5 Seeds): +8, +7, +7, +7, +8.
 EXP-016 Seed 15 Arm F ~05:41: gen 925 (Baseline 5975), K {6, 17, 24, 46, 54} = F exakt (5/5).
+EXP-016 Seed 15 Arm G ~05:46: gen 600, K {8, 12, 16, 22, 41}, 4 aus G = {3, 8, 12, 22, 41}, 0 aus F. Δ_15 = +9. **Stand EXP-016 nach Sitzung 4: 6 von 10 Seeds, Δ = +8, +7, +7, +7, +8, +9.** Keine Entscheidung vor 8 Seeds. Warteschlange vom Wächter beendet (Deadline).

@@ -2296,3 +2296,24 @@ sie nicht; K2 ist dazu die Gegenposition. LeDoux 2026 schreibt im Abstract „re
 gar nicht (gleiche Mengen, Mini-Batch, p = 9973). Das ist also kein Gegenbeleg zu K2, eröffnet aber eine offene Konfliktfrage → neuer Kandidat N31 (Reihenfolge gegen
 Zusammensetzung) in [[NOVEL_DIRECTIONS]], nicht geplant, erst nach der Pilotnacht gegen FINDINGS priorisieren. Nicht selbst geprüfte Angaben des Subagenten sind dort
 als solche markiert. *Entscheidung:* FINDINGS unverändert (K2-Literaturspalte nennt He et al. schon); keine neuen Versuche vor der Pilotnacht.
+
+**Zyklus 3 (Vorab-Prüfung des 03:00-Codes, nur lesend, bis 00:31).** *Frage:* Gibt es im ungetesteten Nachtcode (Wächter, Tests, `night_program.py`, GPU-001, Analyseskripte)
+Fehler, die das Fenster verschwenden würden? *Vorgehen:* Claude-Subagent, nur lesend (Pfade, CLI-Flags, Run-ID-Muster gegen Analyse-Globs, result.json-Schlüssel,
+Reihenfolge, Wiederaufnahme, Tests von Hand nachvollzogen). *Ergebnis:* Auf dem Hauptpfad nichts, was abstürzt oder Daten verfälscht (≈ 700 Splitdateien vorhanden,
+Flags und Muster passen). Bestätigt und von mir im Code nachgesehen:
+1. Die Sitzungsdeadline ist harte Grenze jedes Jobs (`guarded_run.py` 76–78). Ein dort abgebrochener Job endet mit 124 und galt bisher als *Fehlschlag*. Das Experiment wurde
+   als „failed“ markiert. Bei GPU-001 hieß das „GPU-001 not passed: no GPU runs“, obwohl nur die Zeit fehlte. **Behoben in `night_program.py`** (nicht im Nutzer-Wächter):
+   `Night.jobs` liest die summary.json der Queue, und ein Exit 124 wird zu `Refused` (Programm stoppt mit 3, Wiederaufnahme mit demselben Befehl). Begründung:
+   `parallel_queue.py` übergibt kein `--job-minutes`, 124 kann also nur Deadline oder 13:00 bedeuten.
+2. Eine Wiederaufnahme hat GPU-001 komplett neu gemacht, sobald eine Stufe fehlte. **Behoben:** drei Stufenmethoden; jede wird übersprungen, wenn ihr Urteil mit aktuellem Siegel
+   (`Night.passed`) besteht.
+3. STATE sagte bei GPU-001-Fehlschlag „`--cpu` mit voller CPU-Zahl“, der Code nimmt ohne Throughput-PASS aber 1 Worker. **STATE korrigiert:** `--cpu-workers 3` explizit.
+Nur vermutet, nicht geändert: relativer Pfad `GPY` (funktioniert, weil `parallel_queue` mit `cwd=ROOT` startet); der venv-Starter könnte das Job-Objekt umgehen (bekannt, Nutzerdatei).
+Zwei neue Tests in `lab/tests/test_night_program.py` (124 → Ablehnung, gewöhnlicher Fehlschlag bleibt Fehlschlag; Stufen-Überspringen). **Ungetestet**, Tests laufen ab 03:00 über den Wächter.
+*Regelverstoß des Subagenten (von ihm selbst gemeldet):* In einer Bash-Schleife hat er etwa 9-mal `python -c "import json,sys"` ausgeführt, vor 03:00. Das ist ein reiner Import
+ohne Projektcode, ohne Dateien und ohne Training, zählt aber als Python-Ausführung außerhalb des Fensters. Auch ich habe einmal versehentlich `python -c "import ast,sys"` aufgerufen
+(nur Import, nichts ausgeführt). Hinweis für künftige Prüfaufträge: „kein `python -c`“ ausdrücklich nennen (beim zweiten Prüfauftrag so getan). Die `--check`-Aufrufe des
+Wächters und das Anwenden von Textpatches per Python-Skript zählen nicht als Läufe (bisherige Praxis, STATE).
+*Zweitprüfung (Claude-Subagent, nur lesend, ohne Ausführung):* kein Defekt. Bestätigt: 124 macht `run_queue` immer ≠ 0; die drei GPU-001-Stufen sind in `compare.py` unabhängig
+(keine Stufe liest Artefakte einer anderen), das Siegel entwertet Urteile bei Codeänderung; die Tests sind von Hand nachvollzogen. Hinweis, bewusst hingenommen: Hat eine Queue
+gleichzeitig einen echten Fehlschlag und einen 124-Abbruch, gilt das Ganze als Ablehnung. Bei der Wiederaufnahme tritt der echte Fehler erneut auf und wird dann als Fehlschlag gemeldet.

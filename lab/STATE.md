@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-26, 23:46 Berlin (Sitzung 16, läuft bis 02:39). Nächster Runner-Start laut runner-state.json: 03:14 Berlin._
+_Zuletzt aktualisiert: 2026-09-27, 00:31 Berlin (Sitzung 17, läuft bis 03:19; macht um 03:00 die Schritte 1–3, das Nachtprogramm startet die Folgesitzung). Nächste Sitzung: direkt nach dem Ende (nächster Tick)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]]
 
@@ -30,7 +30,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
    Ist das GPU-Programm vor ≈ 11:00 fertig (GPU-001 bestanden): EXP-050 nachschieben (`--experiments GPU-001,EXP-050`, Paket C, 60 Läufe).
 5. CPU **erst nach GPU-001**: `python lab/tools/night_program.py --cpu > lab/runner/logs/night_cpu.log 2>&1` (EXP-014 → 035 → 038 → 041 → 036 →
    039 → 040 → 042). Nicht portiert: 034 (nach P3-Design); 018/022/023/010 zurückgestellt ([[BACKLOG]] „Sichtung nach Regel 18c“).
-   **Wenn GPU-001 scheitert:** kein GPU-Lauf; sofort `--cpu` mit voller CPU-Zahl. Paket A danach auf der CPU (Sitzung 15, geprüft, ungetestet):
+   **Wenn GPU-001 scheitert:** kein GPU-Lauf; sofort `--cpu --cpu-workers 3` (Zahl **explizit** angeben: ohne Throughput-PASS nimmt der Code sonst 1 Worker, Sitzung 17). Paket A danach auf der CPU (Sitzung 15, geprüft, ungetestet):
    `python lab/tools/night_program.py --paket-a-cpu --experiments EXP-043,... [--cpu-workers N]` (≈ 300 Läufe, mehrere Fenster;
    neben `--cpu` Threadsumme ≤ 12). Auswertungen von Hand dann mit `LAB_PAKET_A_DEVICE=cpu`.
 6. Beobachten (Regel 14). GPU-001-Verdikte ins JOURNAL (Gleichwertigkeit, s/Schritt, J). Punkt 9: GPU bleibt experimentell.
@@ -67,6 +67,10 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 - Shell-Skripte mit LF; Heredocs mit Backticks nur mit `<<'EOF'`; lange Patches als Datei (Python-Skript im Temp-Ordner) statt Heredoc.
 - `Path.with_suffix` nicht für Namen mit „eps2.0“ benutzen.
 - Neue `freq_ban.py`-Argumente nur **bei Abweichung vom Standard** in den Fingerprint aufnehmen, sonst brechen alle Wiederaufnahmen ab (Sitzung 16, [[BACKLOG]] ELR-Arm).
+- **Sitzungsgrenze (Sitzung 17):** Jeder Job hat als harte Grenze die Sitzungsdeadline. `night_program.py` wertet einen dabei abgebrochenen Job (Exit 124)
+  jetzt wie eine Ablehnung (Programm stoppt mit Exit 3, Status „refused by guard“) statt als Fehlschlag; GPU-001 überspringt bestandene Stufen.
+  Also: ein „refused“/Exit 3 am Sitzungsende ist **kein** Fehler, einfach denselben Befehl neu starten. Nachtprogramm früh in einer frischen Sitzung starten.
+  Die STOP-Probe ist während einer Sitzung sicher (Aufgabe `IgnoreNew`, kein Tick), STOP aber vor Sitzungsende löschen.
 - Für den Nutzer (nicht von mir zu ändern): `guarded_run.py` bindet `.venv-gpu`-Prozesse evtl. zu spät ans Job-Objekt;
   `parallel_queue.py` ist unversioniert, `night_program.py` hängt davon ab.
 

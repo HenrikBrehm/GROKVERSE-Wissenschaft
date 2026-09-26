@@ -42,6 +42,7 @@ import parallel_queue as pq  # noqa: E402
 
 R = "lab/experiments"
 GPY = ".venv-gpu/Scripts/python.exe"
+EXIT_TIMEOUT = 124            # guarded_run.py: job killed at its hard time limit
 PY = "python"
 DEVA, PYA = "cuda", GPY       # programme-A device/interpreter; main() switches to ("cpu", PY) with --paket-a-cpu
 FB = f"{R}/EXP-001-freq-ban/freq_ban.py"
@@ -93,7 +94,19 @@ class Night:
         rc = pq.run_queue(cmds, workers, min_minutes, self.log / tag)
         if rc == pq.EXIT_REFUSED:
             raise Refused(tag)
+        if rc != 0 and self.cut_by_time_limit(self.log / tag):
+            raise Refused(f"{tag}: a job was cut at the session deadline or 13:00 (exit {EXIT_TIMEOUT})")
         return rc
+
+    @staticmethod
+    def cut_by_time_limit(log_dir: Path) -> bool:
+        """Session 17: pq passes no --job-minutes, so a guard timeout (124) always means the session deadline or the
+        window end fired. That is 'out of time' (resume next session), not a technical failure of the experiment."""
+        try:
+            s = json.loads((log_dir / "summary.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return False
+        return any(r.get("exit_code") == EXIT_TIMEOUT for r in s.get("results", []))
 
     def must(self, tag: str, cmd: list[str], min_minutes: float = 2) -> None:
         if self.jobs(tag, [cmd], 1, min_minutes) != 0:
@@ -134,10 +147,23 @@ class Night:
         self.must("gpu001_env", [GPY, "-c", "import torch; print('[gpu001] torch', torch.__version__, 'hip', "
                                  "torch.version.hip, 'avail', torch.cuda.is_available(), torch.cuda.get_device_name(0) "
                                  "if torch.cuda.is_available() else '-')"])
+        # session 17: each stage is skipped if its own verdict already PASSes with the current seal, so a session that
+        # ends in the middle of GPU-001 does not force the next one to redo the finished stages
+        if self.dry or not self.passed("regression"):
+            self.gpu001_regression()
+        if self.dry or not self.passed("equivalence"):
+            self.gpu001_equivalence()
+        if self.dry or not self.passed("throughput"):
+            self.gpu001_throughput()
+        self.J = 4 if self.dry else self.best_J()
+
+    def gpu001_regression(self) -> None:
         self.must("gpu001_regression_run", [PY, FB, "--seed", "10", "--condition", "baseline", "--steps", "50",
                                             "--split-file", f"{S16}/split_seed10_eps2.0.npy",
                                             "--out-root", f"{G1}/raw_cpu_regression", "--force"], 3)
         self.must("gpu001_regression", [PY, f"{G1}/compare.py", "regression"])
+
+    def gpu001_equivalence(self) -> None:
         if not self.dry:                  # review s13: a re-gate must not reuse runs made with older code
             for d_ in ("raw_equiv", "raw_equiv_cpu_venv"):
                 shutil.rmtree(ROOT / G1 / d_, ignore_errors=True)
@@ -151,6 +177,8 @@ class Night:
                                            "--split-file", f"{S16}/split_seed10_eps2.0.npy",
                                            "--out-root", f"{G1}/raw_equiv_cpu_venv"]], 1, 10)
         self.must("gpu001_equivalence", [PY, f"{G1}/compare.py", "equivalence"])
+
+    def gpu001_throughput(self) -> None:
         if not self.dry:
             shutil.rmtree(ROOT / G1 / "raw_par", ignore_errors=True)   # no stale throughput results
             (ROOT / G1 / "raw_par").mkdir(parents=True)
@@ -163,7 +191,6 @@ class Night:
             if not self.dry:
                 (ROOT / G1 / "raw_par" / f"wall_J{J}.txt").write_text(f"{t0} {time.time()}")
         self.must("gpu001_throughput", [PY, f"{G1}/compare.py", "throughput"])
-        self.J = 4 if self.dry else self.best_J()
 
     # -- experiments -------------------------------------------------------------------------------------------
     def smoke(self, name: str, cmds: list[list[str]], min_minutes: float = 3) -> None:

@@ -488,3 +488,12 @@ Minibatch-Reihenfolge bestimmt die Grundfrequenz; keine Festlegungszeit, kein We
   aktiviertes Merkmal bleibt. Einordnung (Spekulation): Nach dem Wechsel erklären die schon aktiven F-Merkmale den G-Rest weitgehend
   (gleiche Aufgabe), sodass kein G-spezifisches Merkmal mehr genug Nutzen hat, um zu aktivieren; das wäre H42 in AGF-Sprache.
   Datenwechsel und Split-Neigung behandelt AGF laut Abstract nicht. H42 in dieser Form: nicht gefunden (vorläufig).
+
+**Nachsuche zu N14 (Kernbefund EXP-020, Sitzung 10, 18:40):** „grokking critical period modular arithmetic early training data swap
+which features irreversible first steps transformer 2026“, „openreview grokking representation fixed early training switch dataset
+mid-training Fourier frequencies persist“. Neu gesehen: „Where Grokking Happens: Distributed Utility and Fourier Recoding Without a
+Module Switch“ (https://arxiv.org/abs/2609.17571, Sept. 2026; laut Abstract *wo* im Netz das Grokking stattfindet, kein Datenwechsel,
+keine Festlegungszeit); „Circuit Synchronization Precedes Generalization“ (https://arxiv.org/abs/2606.12966, nicht geprüft);
+„First-Passage Prediction of Grokking Delay under AdamW“ (https://arxiv.org/abs/2605.18845, Grokking-*Zeitpunkt*, nicht die
+Frequenzwahl; nicht geprüft). Ergebnis: Die EXP-020-Frage (kausale Festlegungszeit der Frequenzwahl per Datenwechsel) bleibt
+**nicht gefunden** (vorläufig; Google Scholar weiterhin nicht direkt durchsucht).

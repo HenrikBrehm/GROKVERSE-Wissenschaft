@@ -1469,3 +1469,7 @@ Backticks in ungeschütztem Heredoc (repariert); Betragsstriche in Obsidian-Tabe
 `sh lab/experiments/queue_s10.sh` im Hintergrund (Log z. B. `lab/runner/logs/queue_s10.log`); danach Log nach „failed“ durchsuchen.
 *Nachtrag zum Bericht:* Beim Schreiben dieses Berichts ist derselbe Heredoc-Fehler ein drittes Mal passiert (vier Optionsnamen
 fehlten, sofort repariert). Ab jetzt nur noch geschützte Heredocs (`<<'EOF'`) oder Python für Texte mit Backticks.
+
+**Zyklus 16 (18:40, ohne Training): Neuheit des Kernbefunds nachgeprüft.** Zwei gezielte Suchen (arXiv/OpenReview, 2026). Neu gesehen:
+arXiv 2609.17571 (Sept. 2026, wo das Grokking stattfindet), 2606.12966, 2605.18845; laut Abstracts keine Festlegungszeit der
+Frequenzwahl per Datenwechsel. *Ergebnis:* Einordnung „nicht gefunden (vorläufig)“ bleibt (N14-Nachtrag). Grenze: nur Abstracts.

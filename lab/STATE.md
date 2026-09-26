@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-26, 22:06 Berlin (Sitzung 14, läuft bis 00:19). Nächster Runner-Start laut runner-state.json: 00:54 Berlin._
+_Zuletzt aktualisiert: 2026-09-26, 22:05 Berlin (Sitzung 14, läuft bis 00:19). Nächster Runner-Start laut runner-state.json: 00:54 Berlin._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]]
 
@@ -44,7 +44,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 
 ## Aktive Queue / laufende Jobs
 
-- Keine (Stand 22:06, Sitzung 14). Vorbereitet, ungetestet: GPU-001, EXP-043–049 (in `night_program.py`), EXP-050 (optional), CPU: `night_program.py --cpu`.
+- Keine (Stand 22:05, Sitzung 14). Vorbereitet, ungetestet: GPU-001, EXP-043–049 (in `night_program.py`), EXP-050 (optional), CPU: `night_program.py --cpu`.
 
 ## Drei Prioritäten (Regel 18c: Programm A/B/C)
 

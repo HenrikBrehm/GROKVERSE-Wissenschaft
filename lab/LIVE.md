@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 21:19 Berlin (19:19Z, vom Runner)
 - **Deadline:** 2026-09-27 00:19 Berlin (22:19Z)
-- **Zuletzt aktualisiert:** 21:53 Berlin (gemessen).
+- **Zuletzt aktualisiert:** 21:58 Berlin (gemessen).
 - **Run-Fenster:** zu. Heute Nacht Läufe erst ab 03:00 (Regel 18). Diese Sitzung: nur Code, Rechnung auf Dateien, Literatur.
 
 ## Gerade
 
-Ich werte alte, schon gespeicherte Läufe neu aus (kein Training): Wie lange hält die erste Frequenzwahl nach einem Datenwechsel, gemessen als stetige Größe statt als Ja/Nein?
+Nächste Frage wählen.
 
 ## Als Nächstes
 
@@ -18,7 +18,9 @@ Ab 03:00 (nächste Sitzung): Wächter-Abnahme, Tests (jetzt auch EXP-052-Selbstt
 
 ## Verlauf dieser Sitzung
 
-- 21:53 **Neues Maß für das Festhalten (Paket B):** Aus alten Wechselläufen ergibt sich eine glatte Kurve. Wechselt man nach 10 Schritten, bleiben 15 % der ersten Wahl übrig, nach 50 Schritten 72 %, ab 150 Schritten 100 %. Die Seeds streuen kaum. Mit Lernraten-Warmup verschiebt sich die Kurve so, wie es die aufsummierte Lernrate vorhersagt, und nicht nach der Schrittzahl (explorativ, 1–2 Seeds).
+- 21:58 **Selbstkorrektur nach Gegenprüfung:** Die Kurve für das Festhalten hält. Meine Deutung, Warmup verschiebe sie genau nach der aufsummierten Lernrate, war falsch: Die frühen Punkte konnten das gar nicht unterscheiden. Richtig ist nur: Warmup verzögert, und keine der beiden einfachen „Uhren“ passt.
+
+- 21:53 **Neues Maß für das Festhalten (Paket B):** Aus alten Wechselläufen ergibt sich eine glatte Kurve. Wechselt man nach 10 Schritten, bleiben 15 % der ersten Wahl übrig, nach 50 Schritten 72 %, ab 150 Schritten 100 %. Die Seeds streuen kaum. (Die Aussage zum Warmup habe ich nach Prüfung zurückgenommen, siehe unten.)
 - 21:50 Kleine Unterschiede im Datensatz werden im Training stark verstärkt (explorativ).
 
 - 21:49 Auswertung der späteren Bestätigung als Code fertig (nur mit eingefrorenem Plan startbar). Literatur: eine neue Arbeit zu kritischen Zeitfenstern bei Transformern, aber ohne Frequenzen oder Datenwahl.

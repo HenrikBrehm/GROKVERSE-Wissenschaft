@@ -122,6 +122,7 @@ def main() -> None:
             "n_sign_ok": len(sg), "mean_d_sign": float(np.mean([u["sign"]["ds"] - u["ds0"] for u in sg])) if sg else None,
             "mean_dsw": {m: float(np.mean(v)) for m, v in (("ar", [u["dsw_ar"] for u in ok]), ("gd", [u["gd"]["dsw"] for u in ok]),
                                                           ("sign", [u["sign"]["dsw"] for u in sg]))} if sg else None,
+            "nachtrag_b_dsw_gd_gt_ar": int(sum(u["gd"]["dsw"] > u["dsw_ar"] for u in ok)),
             "gd_steps1_mean": float(np.mean([u["gd"]["steps1"] for u in ok])),
             "wout_switch_mean": {"ar": float(np.mean([u["wout_ar"] for u in ok])), "gd": float(np.mean([u["gd"]["wout"] for u in ok]))},
             "retained_minus_reset_mean": float(np.mean([u["ds_retained"] - u["ds_ar"] for u in ok if u["ds_retained"] is not None])),

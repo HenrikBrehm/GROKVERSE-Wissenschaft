@@ -68,6 +68,17 @@ als Tor verwendet: Die Frage ist gerade, ob der Weg zählt.
 | **Sekundär** | Δ_SIGN (liegt SIGN bei AR → Vorzeichen-Mechanismus); ds am Umschaltschritt je Arm; GD-Schritte; ‖W_out‖ und r-Quantile am Umschaltschritt; RET − AR (Wirkung des Optimierer-Resets) |
 | **Budget** | Pilot ≤ 5 × 2 min; 10 AR + 10 GD + 10 SIGN + 5 RET ≈ 35 Läufe ≈ 60–80 min |
 
+## Nachtrag b (2026-09-26 12:18 Berlin, vor jedem EXP-033-Lauf): Vorhersage aus der linearen Theorie (sekundär)
+
+`linear_modes.py` → `linear_modes.json` (ohne Training). In der σ_3-Phase ist das Netz nahe der Init praktisch linear;
+unter GD wächst es entlang der Singulärvektoren der Residuen-Korrelation J = Xᵀ(Y − 1/P), jede Mode mit einer Rate ∝ ihrem
+Singulärwert. Befund: In allen 10 Splits hat **jede** der 10 obersten Moden ihre stärkste Frequenz in der Zielmenge F;
+ds der obersten 5 Moden (s²-gewichtet) 0.27–0.44 (Mittel 0.38), ds von J selbst und von sign(J) je 0.105. Das Spektrum
+fällt aber **flach** ab (Split 10: s₁ 12.0, s₁₀ 10.2, s₂₀ 9.0, s₅₀ 6.6), die bevorzugte Verstärkung bis zu r = 1.78 × Init
+ist deshalb mäßig. **Vorhersage (sekundär, vorab):** ds am Umschaltschritt GD > AR in ≥ 7/10 Splits (GD verstärkt die
+F-lastigen Top-Moden, Vorzeichen-Schritte bewegen alle Koordinaten gleich weit). Geringe Zuversicht; beeinflusst die
+Primärentscheidung nicht.
+
 ## Befehle
 
     sh lab/experiments/EXP-033-optimizer-lockin/queue.sh      # Pilot + lr.json + alle Läufe, überspringt Fertiges

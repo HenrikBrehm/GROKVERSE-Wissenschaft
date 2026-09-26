@@ -13,6 +13,11 @@ _Zuletzt aktualisiert: 2026-09-26, ~02:57 Berlin (Sitzung 4, vom Runner gestarte
 > Geprüft in Sitzung 4: `test_freq_ban.py` 8/8, Studientests 24/24, Smoke 300 Schritte (Tausch korrekt,
 > gleicher `split_hash`, `power_before` = Baseline-Spektrum bei 0), 0.127 s/Schritt, `guarded_run.py`
 > funktioniert im Fenster.
+> Danach wartet ein Hintergrund-Job auf `[pairs]` im Log und startet EXP-013 (`lockin.py`, Log `lockin_s4.log`).
+> Neu in Sitzung 4: EXP-011 (Normtausch) und EXP-012 (Init-Gradient) vorab festgelegt; EXP-012 Phase 1 fertig
+> (G0 gewählt); EXP-010/011 Nachtrag a nach Codex-Review; EXP-013 vorbereitet.
+> **Offen nach der Sitzung:** restliche Paare (Seeds, die in `raw_d`/`raw` fehlen), dann `EXP-010-init-swap/analyze.py`,
+> `EXP-012 predict.py --phase 2 --predictor G0` (≥ 8 Baselines), `confirm_d.py`, danach EXP-011 (10 Läufe).
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 

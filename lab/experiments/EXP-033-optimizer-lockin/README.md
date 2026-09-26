@@ -112,6 +112,17 @@ allen Armen dieselben.
 **Einordnung:** „Festlegung in 5 Schritten“ (EXP-032) ist in Schritten eine AdamW-Zahl; in Zuständen gemessen fällt die
 Festlegung, bevor die Merkmalsamplitude das ~1.8-Fache der Init erreicht, und zwar unabhängig davon, ob der Weg dorthin
 AdamW, Vorzeichen-GD oder GD ist. Der Optimierer-Reset kostet wenig (RET − AR 0.015).
+**Einschränkung nach Codex-Angriff (13:21, `codex_conclusion_review_2026-09-26.txt`, needs-attention, 3 × high, 1 × medium), übernommen:**
+Das Etikett *zustandsbestimmt* ist die vorab festgelegte Kategorie, **überdehnt aber den Befund**. Belegt ist nur:
+(1) **AdamW ist in Phase 1 nicht nötig**, damit eine bleibende F-Neigung entsteht, *unter der Bedingung einer AdamW-Phase 2*;
+ob AdamW in Phase 2 die Neigung erhält bzw. verstärkt, ist nicht getestet. (2) Die Zustände am Umschaltschritt sind **nicht**
+gleich (ds 0.105 gegen 0.066, ‖W_out‖ 3.55 gegen 2.60); „der Zustand bestimmt das Ergebnis, der Weg nicht“ ist also nicht
+gezeigt, eher: verschiedene Wege zur gleichen Amplitude geben verschiedene, aber gleichgerichtete Neigungen, und die
+lineare Modentheorie sagt die Unterschiede richtig vorher. (3) Geprüft ist nur die Stufe t_s = 10 (r ≈ 1.78 × Init), nicht
+die 5-Schritte-Stufe (≈ 1.25 × Init). (4) Nachtrag c änderte das Protokoll nach 3 Läufen (ohne Ansicht von ds); das ist eine
+ergebnisblinde Änderung, kein vollständig vorab festgelegtes Protokoll. **Korrigierte Kurzfassung:** *Die frühe Festlegung
+braucht in Phase 1 kein AdamW (GD: 10/10, etwas stärker); Phase 2 war immer AdamW; eine Stufe.* Folgeversuch mit
+nicht-Adam-Phase 2 und Stufe t_s = 5: [[experiments/EXP-034-phase2-optimizer/README|EXP-034]].
 **Grenzen:** Phase 2 immer AdamW; eine Stufe (r ≈ 1.78 × Init); ‖W_out‖ am Umschaltschritt unter GD größer (3.55 gegen 2.60)
 und ist Teil der Behandlung; eine Architektur; Anker 15–19 aus EXP-027b (gleiches Protokoll).
 

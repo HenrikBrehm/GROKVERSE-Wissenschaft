@@ -25,7 +25,7 @@ E26 = HERE.parents[0] / "EXP-026-parity-crossover"
 sys.path.insert(0, str(E26))
 from train_sigma import D, P, S16, spectra  # noqa: E402
 
-SNAP2 = (0, 250, 1000, 2000, 3000, 5000)   # phase-2 steps (relative to the switch)
+SNAP2 = (0, 250, 1000, 2000, 3000, 5000, 10000, 20000)   # phase-2 steps (relative to the switch)
 
 
 def amp_median(W_in: torch.Tensor) -> float:
@@ -52,6 +52,9 @@ def main() -> None:
     ap.add_argument("--phase1-only", action="store_true")
     ap.add_argument("--tag", default="")
     ap.add_argument("--init-seed", type=int, default=None, help="pilot only; default --seed")
+    ap.add_argument("--opt2", choices=("adamw", "gd"), default="adamw", help="EXP-034: phase-2 optimizer")
+    ap.add_argument("--gd2-lr", type=float, default=3.0, help="EXP-034: phase-2 GD lr; weight decay = 1e-3 / lr (same shrink per step as AdamW)")
+    ap.add_argument("--split-dir", default=str(S16), help="EXP-034: fresh splits")
     ap.add_argument("--backtrack", action="store_true",
                     help="Nachtrag c: gd/sign only; a step that would overshoot switch-r by > 0.5 %% is halved until it does not")
     ap.add_argument("--out", default=str(HERE / "raw"))
@@ -59,8 +62,9 @@ def main() -> None:
     if (a.opt1 == "adamw") != (a.switch_step is not None) or (a.opt1 != "adamw") != (a.switch_r is not None):
         ap.error("adamw needs --switch-step, gd/sign need --switch-r (and not the other)")
 
-    idx = np.load(S16 / f"split_seed{a.seed}_eps2.0.npy")
-    meta = json.loads((S16 / f"split_seed{a.seed}_eps2.0.json").read_text())
+    sd = Path(a.split_dir)
+    idx = np.load(sd / f"split_seed{a.seed}_eps2.0.npy")
+    meta = json.loads((sd / f"split_seed{a.seed}_eps2.0.json").read_text())
     test = np.setdiff1d(np.arange(P * P), idx)
     tr_a, tr_b = torch.tensor(idx // P), torch.tensor(idx % P)
     te_a, te_b = torch.tensor(test // P), torch.tensor(test % P)
@@ -83,7 +87,7 @@ def main() -> None:
                     (fwd(te_a, te_b).argmax(1) == te_y).float().mean().item())
 
     lvl = (f"t{a.switch_step}" if a.opt1 == "adamw" else f"r{a.switch_r:g}" + (f"_lr{a.gd_lr:g}" if a.opt1 == "gd" else ""))
-    run_id = f"EXP-033_{a.opt1}_{lvl}_seed{a.seed}" + (f"_{a.tag}" if a.tag else "") + ("" if a.init_seed is None else f"_init{a.init_seed}") + ("_bt" if a.backtrack else "") + ("_p1" if a.phase1_only else "")
+    run_id = f"EXP-033_{a.opt1}_{lvl}_seed{a.seed}" + (f"_{a.tag}" if a.tag else "") + ("" if a.init_seed is None else f"_init{a.init_seed}") + ("_bt" if a.backtrack else "") + ("" if a.opt2 == "adamw" else f"_p2gd{a.gd2_lr:g}_n{a.after_steps}") + ("_p1" if a.phase1_only else "")
     out_dir = Path(a.out) / run_id
     out_dir.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
@@ -142,7 +146,8 @@ def main() -> None:
     curve, gen, n2 = [], None, 0
     if reached and finite and not a.phase1_only:
         cur["alpha"] = 0.0
-        opt2 = torch.optim.AdamW(params, lr=1e-3, weight_decay=1.0, betas=(0.9, 0.98))
+        opt2 = (torch.optim.AdamW(params, lr=1e-3, weight_decay=1.0, betas=(0.9, 0.98)) if a.opt2 == "adamw"
+                else torch.optim.SGD(params, lr=a.gd2_lr, momentum=0.0, weight_decay=1e-3 / a.gd2_lr))
         for step in range(a.after_steps + 1):
             if step in SNAP2:
                 snaps[f"p2_{step}"] = spectra(W_in, W_out, "sig")

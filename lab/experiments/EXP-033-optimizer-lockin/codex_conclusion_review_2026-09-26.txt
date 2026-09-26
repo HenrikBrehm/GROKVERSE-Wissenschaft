@@ -1,0 +1,54 @@
+(node:2176) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0dd6f-eac1-7990-966e-8360040409ac).
+[codex] Turn started (01a0dd6f-ec6b-7ab0-b29b-5657604408cc).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’m inspecting the actual diff and experiment artifac...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The recorded data already undercut the headline: only...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import json, im...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import json, im... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command py,pyt...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command py,pyt... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git check-ignore -...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git check-ignore -... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"No-ship: the runs support only the narrower claim tha...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against 7516e85
+Verdict: needs-attention
+
+No-ship: the runs support only the narrower claim that GD in phase 1 can create an F-bias that survives a shared AdamW phase 2 at the 10-step AdamW median amplitude. They do not establish that EXP-032's five-step lock-in is state-determined or broadly independent of AdamW.
+
+Findings:
+- [high] The verdict converts a loose effect-size rule into an unsupported causal claim (lab/experiments/EXP-033-optimizer-lockin/analyze.py:104-111)
+  The analysis labels any bootstrap interval wholly inside the arbitrary [0.5, 2] band as `zustandsbestimmt`. That criterion does not test whether the arms reached the same state or whether optimizer history is irrelevant. The recorded data instead show materially different switch states: GD has switch ds 0.105 versus 0.066 for AR and W_out norm 3.55 versus 2.60; its final ratio CI [1.10, 1.46] also excludes equality. Thus the evidence shows GD can produce at least as much persistent bias, not that median amplitude determines the outcome independently of the path.
+  Recommendation: Replace `zustandsbestimmt` with a descriptive verdict such as `GD phase 1 also yields persistent F-bias under AdamW phase 2`. Reserve a state-determined claim for controls matching justified switch-state variables—including W_out scale, amplitude distribution, loss/logits, and switch ds—and use a scientifically justified equivalence margin.
+- [high] Every persistence endpoint still depends on AdamW (lab/experiments/EXP-033-optimizer-lockin/README.md:59-60)
+  AR, GD, and SIGN all receive 5000 fresh AdamW steps in phase 2. The positive GD switch bias proves AdamW is unnecessary to create the initial bias during phase 1, but the experiment cannot exclude AdamW as the mechanism that preserves or amplifies it into the final persistent endpoint. The headline `not an AdamW artifact` and path-independent wording therefore exceed the intervention.
+  Recommendation: Reword the conclusion to `does not require AdamW in phase 1, conditional on AdamW phase 2`. To claim optimizer-independent persistence, run a phase-1 × phase-2 optimizer factorial or at minimum continue GD checkpoints with non-Adam phase 2 to matched convergence.
+- [high] The experiment does not test the five-step lock-in it claims to explain (lab/experiments/EXP-033-optimizer-lockin/README.md:58-67)
+  The sole primary stage is matched to AdamW at t_s=10, around 1.78× initialization amplitude. EXP-032's headline five-step result occurred around 1.25× initialization amplitude and had a weaker effect. GD could become optimizer-independent only between those states, leaving the actual five-step lock-in AdamW-specific. A single later amplitude cannot justify rewriting the five-step conclusion.
+  Recommendation: Run the same comparison at the t_s=5 target amplitude, preferably across the preregistered 1/5/10/20 ladder on fresh splits. Until then, scope the result explicitly to the t_s=10-equivalent state.
+- [medium] The final treatment was introduced after main runs began (lab/experiments/EXP-033-optimizer-lockin/README.md:82-90)
+  Backtracking changed the GD and SIGN optimization trajectories after three main runs had completed, based on the observed matching behavior, and the first seed was then rerun. Blinding to ds reduces but does not remove this design adaptation: the data-generating protocol behind the final result was not wholly fixed before experimentation, so `Urteil (vorab festgelegt)` overstates its confirmatory status.
+  Recommendation: Describe this as an outcome-blind protocol amendment rather than a fully preregistered result, and confirm the final backtracking protocol on untouched splits or seeds before making the mechanistic claim.
+
+Next steps:
+- Narrow the published conclusion to phase-1 AdamW non-necessity under a shared AdamW continuation.
+- Add a t_s=5 amplitude control and a non-Adam phase-2 continuation.
+- Treat the backtracking dataset as amended evidence and replicate the fixed final protocol on fresh splits.

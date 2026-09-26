@@ -159,3 +159,13 @@ unabhängige Bestätigung. (2) Werte über 1 sind ein Artefakt der späteren End
 bei gleichem Endschritt 0.99/0.99 statt 1.01/1.04). Richtig: **π ≈ 1 (0.94–1.04) ab t = 150.** Bestand hat: der Verlauf 0.15 / 0.38 / 0.72
 bei 10 / 25 / 50, monoton, Halbwert ≈ 34 Schritte (aus drei Punkten interpoliert), und dass π bei t = 25 Seeds trennt, deren Top-5 nur
 grob (0–2 F, 2–5 G) unterscheidbar sind. Reproduktion für EXP-035/037: `posthoc_pi_other.py` / `.json`.
+
+## Post hoc (Sitzung 15, 2026-09-26 22:42–22:50 Berlin, explorativ, bereits ausgewertete Seeds): π über die G-Phase, Fenstermodell
+
+- `posthoc_pi_trajectory.py`: π bei jedem gespeicherten Schritt der G-Phase (Normierung mit den reinen Läufen beim selben Schritt) ist von
+  Schritt 250 bis zum Ende nahezu konstant (Drift je Seed ≤ 0.10), der Kontrast wächst ≈ 2.3-fach. *Einschränkung (Gegenprüfung):* π ist
+  gegen gemeinsame affine Abbildungen des Log-Spektrums invariant; das heißt „gemeinsame Umskalierung“, nicht „eingefroren“.
+- `posthoc_window_model.py`: Fenster T* ≈ 69 Schritte (bzw. exponentiell τ ≈ 45) passt; sagt EXP-037 mit RMSE 0.09 (0.05) voraus, eine
+  Konstante 0.5 aber schon mit 0.14. Nur „verträglich mit einem frühen Fenster von ≈ 50–100 Schritten“.
+- `posthoc_clock_crossover.py`: Top-5-Kreuzung unter reinem Takt aus den Split-Dateien: 32–40 (beobachtet (25, 50] in 5/5). Folge für
+  EXP-042 siehe dort, Nachträge b und c. Einzelheiten und Prüfung: [[JOURNAL]] Sitzung 15, Zyklus 1.

@@ -2139,3 +2139,26 @@ hängt das Urteil davon ab, wie π mit der Dauer s des G-Trainings wandert. *Vor
 AGF/N22: aktive Merkmale bleiben, reich wird reicher) → π(s) steigt mit s; Lesart Z (Zerfall, Prägung wird langsam überschrieben) → π(s) fällt
 mit s, dann hängt P3 empfindlich an B; Lesart K (konstant) → π nach kurzer Übergangszeit flach, B unkritisch. *Messung:* π(t, s) mit den
 Spektren, die alle 250 Schritte gespeichert sind; Normierung je Seed mit den reinen F- und G-Läufen (EXP-018) beim selben globalen Schritt.
+*Ergebnis (22:42, `posthoc_pi_trajectory.py`):* π(t, s) ist von Schritt 250 bis zum Ende praktisch konstant (Mittel über Seeds z. B.
+t = 25: 0.35 → 0.38, t = 50: 0.73 → 0.71; Drift je Seed ≤ 0.10), während der Kontrast D_F − D_G der reinen Läufe ≈ 2.3-fach wächst.
+Lesart K, nicht V oder Z. *Weiter (22:44, `posthoc_window_model.py`):* Ein Einparameter-Fenstermodell (jeder der ersten T* ≈ 69 Schritte
+zählt gleich, π = F-Anteil darin) passt auf die EXP-020-Kurve und sagt die EXP-037-Verschränkungsarme voraus (RMSE 0.09; exponentielle
+Gewichte, τ ≈ 45: 0.05; Null „nur der erste F-Block“: 0.37). *Folgerung (22:45, `posthoc_clock_crossover.py`, aus Split-Dateien):* Unter
+reinem Takt mit linearer Überlagerung verschiebt sich die Top-5-Kreuzung trotzdem mit der Stärke von G (eps 2 → 32–40, beobachtet
+(25, 50] in 5/5; eps 8 → 46–54; eps 1 → 14–24). Die in EXP-042 vorab festgelegte Lesart „reine Uhr → gleiches Fenster“ stimmt für das
+Top-5-Maß also nicht. Normiertes π trennt: EXP-042 Nachtrag b, vor jedem Lauf eingefroren (Commit e9a9c56), `pi_window.py`.
+*Gegenprüfung (Claude-Subagent, Codex ohne Guthaben), übernommen:* (1) β ist linear im Log-Spektrum, π daher exakt invariant gegen jede
+gemeinsame affine Abbildung des Log-Spektrums: „flach ab 250“ heißt „gemeinsame Umskalierung“, nicht „eingefroren“; proportionales
+Verstärken (reich wird reicher) sieht genauso aus. 250 ist nur eine Obergrenze. „Keine Richtung“ zu stark: bei t = 150 fallen 4/5 leicht;
+die Drift bei t = 10 erzeugt einen Großteil der Endstreuung. (2) Fenstermodell schwach belegt: T* aus drei Innenpunkten; alt5 sagt für
+jedes T* 0.50 voraus, prüft also nichts; der Null-Vergleich war ein Strohmann (konstant 0.5: RMSE 0.14 gegen 0.09). Haltbar nur:
+„verträglich mit einem frühen Fenster von ≈ 50–100 Schritten“. (3) π = t/T* gilt nur bei additiver Überlagerung im Log-Spektrum;
+Sättigung kann eine O-Lesart vortäuschen. (4) Zwei Fehler in `pi_window.py` (kein Mindest-Seed-Schutz, TypeError bei fehlendem Schritt)
+behoben, Nachtrag c. Geprüft ohne Befund: `pis` reproduziert `posthoc_beta_persistence.json` exakt (4 Seeds).
+*Entscheidung:* EXP-042 Nachtrag b/c bleiben beschreibend. Die wichtigste haltbare Folge ist methodisch: **Top-5-Kreuzungen hängen an der
+Stärke des zweiten Splits, auch ohne dass sich das Fenster verschiebt.** Deshalb soll P3 mit π statt mit Top-5 formuliert werden; der
+Befund stützt die BACKLOG-Entscheidung π/t = 25. Nachtrainingsbudget B: π(250) ≈ π(Ende) innerhalb ≈ 0.1, also für π kaum kritisch
+(Einschränkung (1)). *Neuheit:* Suche 22:48 („early training data influence integration window superposition …“; „grokking … switching
+training data early steps frequency selection persists“). Nächstverwandt: „The Order Is The Message“ (https://arxiv.org/abs/2603.25047,
+Datenreihenfolge prägt die Fourier-Darstellung; kein Wechsel, kein Fenstermodell), Critical Learning Periods (https://arxiv.org/abs/1711.08856).
+Integrationsfenster für die Frequenzwahl: nicht gefunden (vorläufig), als N30 notiert.

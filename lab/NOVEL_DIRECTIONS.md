@@ -634,3 +634,14 @@ Lehrer-Schüler, Gauß-Eingaben, Rang-1-Spitze); Zwei-Schritt-Erweiterung (https
 „erster Schritt bestimmt Merkmale“ ist bekannt (#neu/bekannt für den allgemeinen Satz). Nicht gefunden (vorläufig): eine geschlossene Formel
 für Einbettungstabellen, die aus der *Zusammensetzung einer diskreten Trainingsmenge* die Frequenz-/Irrep-Rangfolge vorhersagt und über
 Gruppen und eine nicht-modulare Aufgabe geprüft wird. Das bleibt der Kandidat von N27.
+
+## N30: Integrationsfenster der Frequenzwahl: frühe Schritte addieren sich, spätere skalieren nur (Sitzung 15, 22:50) #neu/kandidat
+
+- **Beobachtung (post hoc, EXP-020/037):** Die F/G-Mischung (π) steht ab Schritt ≤ 250 praktisch fest; ein Fenstermodell (jeder der ersten
+  ≈ 50–100 Schritte zählt etwa gleich) gibt Wechsel- und Verschränkungsläufe wieder. Schwach belegt (Gegenprüfung: Konstante 0.5 fast so
+  gut für EXP-037, alt5 ohne Trennschärfe).
+- **Test, der trennen würde (nicht festgelegt):** Verschränkung mit G zuerst (G-Block, dann F) und ungleichen Blocklängen (z. B. 10 F / 30 G),
+  wo Fenster-, Exponential- und Konstantmodell verschiedene π vorhersagen; dichte Spektren (alle 10 Schritte) in den ersten 250 Schritten,
+  um „eingefroren“ von „proportional verstärkt“ zu trennen (Top-k-Identität und die übrigen Richtungen, nicht nur π).
+- **Literatur (Suche 2026-09-26 22:48):** „The Order Is The Message“ (https://arxiv.org/abs/2603.25047), Critical Learning Periods
+  (https://arxiv.org/abs/1711.08856). Ein additives Integrationsfenster für die Frequenzwahl: nicht gefunden (vorläufig).

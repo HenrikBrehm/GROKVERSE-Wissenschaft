@@ -64,6 +64,15 @@ Läufen bei Schritt 2000). Bei linearer Überlagerung gilt π(t) = t/T*, unabhä
 Bereits gesehene Daten, die diese Festlegung beeinflusst haben: EXP-020 (Seeds 30–34, Kurve und T*), EXP-037 (Seeds 30–32). Code ungetestet
 (Selbsttest mit EXP-020-Regression ab 03:00, nach dem EXP-042-Hauptlauf: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-042-bias-strength/pi_window.py`).
 
+## Nachtrag c (Sitzung 15, nach unabhängiger Prüfung durch einen Claude-Subagenten, vor jedem EXP-042-Lauf)
+
+Übernommen: (1) Lesart C/O nur mit ≥ 3 Seeds je Zelle (sonst „nicht auswertbar“); fehlender Spektralschritt markiert den Seed als defekt
+statt das Programm abzubrechen. (2) **Grenzen der Lesart:** π = t/T* unabhängig von G gilt exakt nur bei additiver Überlagerung im
+Log-Spektrum; eine nichtlineare (sättigende) Abbildung kann eine O-Lesart ohne G-abhängiges Fenster erzeugen. Mit 4 Seeds (SD je Seed
+≈ 0.07–0.10) erkennt die Lesart nur große Verschiebungen (≳ 0.15–0.2; Trefferquote bei 0.15 ≈ 50 %); C heißt deshalb nur „keine
+Verschiebung größer ≈ 0.2“. (3) Die Einfrierprüfung π(250) gegen π(Ende) wird nur berichtet; schon an EXP-020 liegt sie an der Grenze.
+Die Schwellen aus Nachtrag b bleiben unverändert.
+
 ## Status
 
 Vorab festgelegt, Splits erzeugt (reine Rechnung), Code **ungetestet** (Fenster geschlossen). Noch in keiner Queue.

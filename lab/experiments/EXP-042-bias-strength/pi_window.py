@@ -24,7 +24,7 @@ LAB = HERE.parents[0]
 sys.path.insert(0, str(LAB / "EXP-043-generalize-steering"))
 from make_split import mask_power  # noqa: E402
 
-T_STAR, TOL_C, DELTA_O = 69.0, 0.12, 0.15
+T_STAR, TOL_C, DELTA_O, MIN_SEEDS = 69.0, 0.12, 0.15, 3   # MIN_SEEDS: Nachtrag c (review s15)
 
 
 def curve(t: float) -> float:
@@ -43,6 +43,13 @@ def spectrum(run: Path, step: int | None) -> np.ndarray | None:
     return pw[st.index(step)] if step in st else None
 
 
+def need(run: Path, step: int | None) -> np.ndarray:
+    pw = spectrum(run, step)
+    if pw is None:                                   # Nachtrag c: a missing step marks the seed broken instead of a TypeError
+        raise ValueError(f"spectrum step {step} missing: {run.name}")
+    return pw
+
+
 def analyze_mod():
     spec = importlib.util.spec_from_file_location("exp042_analyze", HERE / "analyze.py")
     m = importlib.util.module_from_spec(spec)
@@ -57,11 +64,11 @@ def pis(run_dir, split_dir: Path, s: int, grid) -> dict:
         r = json.loads((run_dir(s, t) / "result.json").read_text(encoding="utf-8"))
         if r.get("status") != "completed":
             raise ValueError(f"run not completed: {run_dir(s, t).name}")
-    ref = {k: {st: spectrum(run_dir(s, t), st) for st in (250, 2000)} for k, t in (("F", math.inf), ("G", 0.0))}
+    ref = {k: {250: spectrum(run_dir(s, t), 250), 2000: need(run_dir(s, t), 2000)} for k, t in (("F", math.inf), ("G", 0.0))}
     out = {}
     for t in grid:
         dF, dG = D(ref["F"][2000]), D(ref["G"][2000])
-        row = {"pi_end": (D(spectrum(run_dir(s, t), None)) - dG) / (dF - dG), "curve": curve(t)}
+        row = {"pi_end": (D(need(run_dir(s, t), None)) - dG) / (dF - dG), "curve": curve(t)}
         sw250 = spectrum(run_dir(s, t), 250)
         if t < 250 and sw250 is not None and ref["F"][250] is not None and ref["G"][250] is not None:
             f2, g2 = D(ref["F"][250]), D(ref["G"][250])
@@ -73,7 +80,7 @@ def pis(run_dir, split_dir: Path, s: int, grid) -> dict:
 
 
 def reading(e: float, cells: dict[int, list[float]]) -> str:
-    dev = {t: float(np.mean(v)) - curve(t) for t, v in cells.items() if v}
+    dev = {t: float(np.mean(v)) - curve(t) for t, v in cells.items() if len(v) >= MIN_SEEDS}
     if not dev:
         return "nicht auswertbar"
     if e == 8.0 and any(dev.get(t, 0) <= -DELTA_O for t in (25, 50)):
@@ -106,8 +113,9 @@ def main() -> None:
 
 def selftest() -> None:
     assert curve(25) == 25 / 69 and curve(150) == 1.0
-    assert reading(8.0, {25: [0.1], 50: [0.5]}).startswith("O") and reading(8.0, {25: [0.37], 50: [0.7]}).startswith("C")
-    assert reading(1.0, {10: [0.4], 25: [0.4]}).startswith("O") and reading(8.0, {}) == "nicht auswertbar"
+    assert reading(8.0, {25: [0.1] * 3, 50: [0.5] * 3}).startswith("O") and reading(8.0, {25: [0.37] * 3, 50: [0.7] * 3}).startswith("C")
+    assert reading(1.0, {10: [0.4] * 3, 25: [0.4] * 3}).startswith("O") and reading(8.0, {}) == "nicht auswertbar"
+    assert reading(8.0, {25: [0.1]}) == "nicht auswertbar"
     # EXP-020 regression: the same pi as posthoc_beta_persistence.json (eps 2, stored runs)
     spec = importlib.util.spec_from_file_location("e20", LAB / "EXP-020-data-switch" / "analyze.py")
     e20 = importlib.util.module_from_spec(spec)

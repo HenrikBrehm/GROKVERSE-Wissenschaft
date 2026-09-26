@@ -95,3 +95,11 @@ LeDoux 2026 (https://arxiv.org/abs/2603.25047): Minibatch-Reihenfolge bestimmt d
 Fourier-Merkmale werden nacheinander gelernt und bleiben. Achille et al. 2019: kritische Perioden allgemein. Keine dieser Arbeiten
 misst nach unserer Suche eine kausale Festlegungszeit der Frequenzwahl per Datenwechsel oder deren Abhängigkeit von Lernrate,
 Init-Skala oder Split-Neigung.
+
+## Sitzung 15 (post hoc, explorativ): Verlauf von π in der G-Phase
+
+Nach dem Wechsel ändert sich π zwischen Schritt 250 und 2000 kaum (≤ 0.1 je Seed), obwohl der Kontrast der reinen Läufe ≈ 2.3-fach wächst:
+Spätes Training skaliert das Log-Spektrum gemeinsam um, die F/G-Mischung bleibt. Das ist verträglich mit einem frühen Integrationsfenster
+(≈ 50–100 Schritte), belegt aber kein Einfrieren (π sieht gemeinsame affine Abbildungen nicht). Methodische Folge: Top-5-Kreuzungen
+verschieben sich mit der Stärke des zweiten Splits auch unter einem reinen Takt; für Zeitfragen π verwenden
+([[experiments/EXP-042-bias-strength/README|EXP-042]] Nachtrag b/c).

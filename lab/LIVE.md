@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 14:49 Berlin (12:49Z, vom Runner)
 - **Deadline:** 2026-09-26 17:49 Berlin (15:49Z)
-- **Zuletzt aktualisiert:** 17:06 Berlin
+- **Zuletzt aktualisiert:** 17:15 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
@@ -17,6 +17,9 @@ EXP-035 (Warmup) läuft an: Seed 30 „nur F“ mit Warmup. Abschlussbericht ist
 Nächste Sitzung 19:49 (nur Denkarbeit), Läufe ab 00:00: `queue_s10.sh` (EXP-035 → EXP-038 → EXP-036 → EXP-034).
 
 ## Verlauf dieser Sitzung
+
+- 17:15 Codex hat die EXP-037-Schlüsse angegriffen: zu weit formuliert. Eingeengt: Belegt ist nur, dass *wiederholtes* Wechseln in den 3 bekannten Seeds dieselben fremden Frequenzen bringt; ob es am Konflikt oder an der Init liegt, ist nicht gezeigt. Die neue Vorhersage für EXP-036 gilt nur noch beschreibend, bis sie sauber kalibriert ist.
+- 17:12 EXP-035, erster Wechsellauf: Mit Warmup ist das Netz bei Schritt 50 noch nicht festgelegt (ohne Warmup schon). Ein Lauf, noch kein Urteil.
 
 - 17:06 Abschlussbericht und Wiederaufnahme geschrieben. Reihenfolge für die Nacht festgelegt.
 - 17:05 **Neue Idee aus den Daten:** Die Konfliktfrequenzen sind genau die, die *beide* Datensätze früh als Zweitbeste stützen (7 von 7). Als Vorhersage für EXP-036 festgelegt, bevor es läuft.

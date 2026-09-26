@@ -137,3 +137,17 @@ den frischen Seeds **nicht**. Fremde Frequenzen treten bei frühem Wechsel in 4/
 **Einordnung:** Die Messmethode (Datenwechsel) zeigt eine sehr gleichförmige kritische Periode; das vorab festgelegte Urteil
 fällt wegen einer zu strengen Monotonie-Regel auf *nicht bestätigt*. Das wird nicht nachträglich umgedeutet; ein
 Folgeversuch sollte d_h vorab festlegen.
+
+## Post hoc (Sitzung 14, 2026-09-26 21:52 Berlin, explorativ, bereits ausgewertete Seeds 30–34): kontinuierliches Persistenzmaß
+
+`posthoc_beta_persistence.py` / `.json` (reine Nachrechnung, kein Training): β_X = Steigung von log W_E-Leistung auf log M0 des Splits X
+am Laufende; D = β_F − β_G; π(t) = (D(t) − D_nurG) / (D_nurF − D_nurG) je Seed (0 = wie „nur G“, 1 = wie „nur F“).
+
+| Wechsel bei t | 10 | 25 | 50 | 150 | 400 | 1000 |
+|---|---|---|---|---|---|---|
+| π̄ [min, max] über 5 Seeds | 0.15 [0.09, 0.26] | 0.38 [0.28, 0.48] | 0.72 [0.61, 0.89] | 1.00 [0.96, 1.04] | 1.01 [0.96, 1.06] | 1.04 [0.99, 1.08] |
+
+Glatter Übergang mit Halbwert bei ≈ 30–35 Schritten und sehr kleiner Streuung; passt zum Kippen des Dominanzmaßes in (25, 50] (oben),
+ohne dessen Schwellen. Grenzen: nur 5 Seeds, post hoc; F und G teilen ≈ 73 % der Paare (Persistenz kann an geteilten Paaren hängen; das
+trennt [[experiments/EXP-053-p3-overlap-design/README|EXP-053]]); die Wechselläufe enden bei t + 2000, die reinen bei 2000 (β wächst mit
+der Zeit, daher π > 1 bei t = 1000 möglich).

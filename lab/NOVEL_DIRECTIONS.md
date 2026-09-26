@@ -197,3 +197,16 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   Frequenzen, die zuerst gelernt werden“ ist aber in anderer Form (F-Principle, Eingaberaum) **bekannt** (Zhou et al.
   2024). Ein Bericht müsste N3 als Übertragung auf Z_p-Fourier-Merkmale und als kausale Steuerung einordnen, nicht als
   neue Grundidee. #neu/bekannt (teilweise)
+
+## N8: Kommutationssymmetrie des Splits und Frequenzwahl #neu/kandidat (schwach)
+
+- **Befund (Rechnung, Sitzung 5):** M0c − M0 hängt nur an der Kommutations-Asymmetrie des Splits (Herleitung in
+  [[experiments/EXP-019-coherent-mask/README|EXP-019]]). Die gemessenen Interferenzen im ersten Gradienten folgen diesem
+  Term (18/18 Seeds).
+- **Suche 2026-09-26** („grokking modular addition commutative symmetric training set include both (a,b) and (b,a) effect
+  on generalization transformer“): Bekannt ist der Einfluss der Kommutationssymmetrie auf das Grokking selbst
+  (*Controlling Grokking with Nonlinearity and Data Symmetry*, https://arxiv.org/abs/2411.05353; Datenaugmentierung mit
+  vertauschten Paaren beschleunigt, KAN-Arbeit bei ScienceDirect). Ein Zusammenhang mit der **Frequenzwahl** über den
+  Kreuzterm wurde nicht gefunden (vorläufig).
+- **Einordnung:** Mechanismusdetail, niedrige Priorität. Mögliche billige Prüfung: symmetrisierter Split (gleiche
+  ungeordnete Paare, beide Reihenfolgen) gegen asymmetrischen, Frequenzwahl und gen vergleichen. Nicht vorbereitet.

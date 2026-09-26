@@ -530,3 +530,8 @@ nachweisbar. Die Formulierung „nur Oberwelle“ ist zu ersetzen durch: **„na
 Aufräumen schneller verschwinden; in 3/8 (Seeds 1, 3, 6) war 2k schon ab Init unter den stärksten 5–8.
 **Befund:** Innerhalb derselben Seeds taucht 2k meist spät in der Top-5 auf (Rang), nicht durch relatives Wachstum.
 Die Kohortenaussage aus Zyklus 9 ist damit für den Rang bestätigt, für die Leistung widerlegt.
+
+**Zyklus 12 (06:42, Theorie):** M0c geschlossen hergeleitet: M0c(k) = 4 Σ_c |N̂_L|² cos²(arg N̂_L + πkc/p), M0 = 2 Σ_c |N̂_L|²
+(EXP-019 README). Numerisch exakt bestätigt (≤ 5e-15); bei kommutationssymmetrischen Masken M0c = 2·M0. Der Unterschied
+M0c − M0 misst also nur die Kommutations-Asymmetrie des Splits. Literatur: Symmetrie und Grokking-Tempo bekannt
+(2411.05353), Bezug zur Frequenzwahl nicht gefunden → [[NOVEL_DIRECTIONS]] N8, niedrige Priorität, nicht vorbereitet.

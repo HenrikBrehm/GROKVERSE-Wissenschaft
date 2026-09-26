@@ -47,3 +47,15 @@ ob M0c die **finalen** Frequenzen besser vorhersagt (das bleibt H19).
 Präzisierung (06:37, nach Codex und direkter Messung `posthoc/positional_gradient.py`): Nicht „kohärent addiert“ im Sinn
 gleicher Phase. Über alle Frequenzen heben sich die Kreuzterme zwischen linker und rechter Position auf; frequenzweise
 folgt der gemessene Kreuzterm dem Masken-Kreuzterm M0c − M0 (ρ 0.50, 18/18 Seeds positiv, fremde Maske −0.09).
+
+## Herleitung (2026-09-26 06:44, numerisch geprüft)
+
+Mit N_rechts(t, c) = N_links(c − t, c) (Spiegelung entlang der Antidiagonale) gilt N̂_rechts(k, c) = e^{−ikc}·conj(N̂_links(k, c))
+(ω = 2π/p in den Exponenten mitgedacht). Daraus:
+
+M0c(k) = 4 Σ_c |N̂_links(k, c)|² · cos²(arg N̂_links(k, c) + πkc/p),  M0(k) = 2 Σ_c |N̂_links(k, c)|².
+
+M0c gewichtet also jede Antidiagonale danach, wie **spiegelsymmetrisch** ihr Paarmuster um a = c/2 ist, d. h. nach der
+**Kommutationssymmetrie** des Splits ((a, b) und (b, a) beide im Training). Für eine kommutationssymmetrische Maske ist
+M0c = 2·M0 exakt (gleiche Rangfolge). Der ganze Unterschied zwischen M0c und M0 stammt aus der Asymmetrie des Splits.
+Numerisch geprüft: Formel gegen `m0c` relative Abweichung ≤ 5e-15; symmetrische Masken M0c/(2·M0) = 1.000.

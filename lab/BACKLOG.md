@@ -63,3 +63,13 @@ Priorität: P1 als Nächstes · P2 bald · P3 Idee. Status: offen · vorbereitet
 Hinweise: Seeds 3–9 der Primärsplits bleiben für die Bestätigung von EXP-001 unberührt. Die
 `txf_mul_*`-Läufe und ihre Auswertung (`docs/ADD_VS_MUL_EIGENLEISTUNG.md`) gibt es bereits als
 KI-Dokument. Die Interpretation bleibt den Autoren.
+
+## Sichtung nach Regel 18c (Sitzung 13, 2026-09-26 20:52 Berlin)
+
+Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Programm A/B/C ([[FINDINGS]]) geprüft:
+- **EXP-014** (Kreuzdesign Split × Init) → **A**, entspricht Astra Punkt 5 (gekreuzter Split×Init-Block). *Als Nächstes portieren* (als Exploration; Bestätigung nur im reservierten Block).
+- **EXP-034** (Phase-2-Optimierer) → **B**-Mechanismus mit benannten Konkurrenzmodellen; *erst portieren*, wenn das P3-Design (Persistenz F→G/G→F) steht. Abhängige Jobkette (liest `r_switch`, wählt lr2).
+- **EXP-018** (Beschleunigung) → nur nötig, wenn Beschleunigung beansprucht wird; nicht Teil von P1–P3: *zurückgestellt*.
+- **EXP-023** (eigene Wertematrix, Mechanismus) → **C**, überschneidet sich mit EXP-050; C nicht aktiv: *zurückgestellt*.
+- **EXP-022** (eine Frequenz), **EXP-010** (Init-Tausch) → außerhalb A/B/C: *zurückgestellt*.
+

@@ -466,3 +466,15 @@ Primärgrößen bleiben, aber eine oberwellen-bereinigte K_h wird als Sekundärg
 Seeds 16–19). Literatur-Kurzsuche („grokking key frequencies harmonics 2k“, „frequency pairs k and 2k second harmonic“):
 nichts Direktes gefunden; „The Order Is The Message“ (arXiv 2603.25047) handelt von Harmonischen durch Beispielreihenfolge,
 anderes Setup.
+
+**Zwischenbilanz nach Zyklus 6–8 (§4):** Gelernt: M0c beschreibt den ersten Gradienten; die EXP-016-Fehlgriffe sind
+Oberwellen. Keine Wiederholung. **Messproblem erkannt:** K = W_E-Top-5 enthält Oberwellen. Anzugreifen: Schaden die
+Oberwellen den Vorhersagen?
+
+**Zyklus 9 (06:29, post hoc): Verbessert eine oberwellen-bereinigte K_h die M0/M0c-Vorhersage?** Hypothese vorher:
+r̄(M0c, K_h) < r̄(M0c, K). `EXP-015-mask-spectrum/posthoc/harmonic_corrected_k.py` (Seeds 0–9 aus `model_final.pt` bei 25k,
+reproduziert r̄(M0) 0.307; Seeds 10–17 aus den Baselines). Ergebnis: alle 18 Seeds M0c 0.254 (K) gegen 0.254 (K_h),
+p 0.48; M0 0.294 gegen 0.292. **Befund: negativ**, die Bereinigung ändert die Vorhersagegüte nicht. Nebenbeobachtung:
+K ≠ K_h in 8/10 Läufen bei 25k Schritten, aber nur in 2/8 direkt nach dem Grokking (gen + 25): Die Oberwellen wachsen
+offenbar spät im Training (passt zur Wellenform-Verschiebung der Studie). Keine Folgeaktion außer: bei Vergleichen den
+Messzeitpunkt von K beachten.

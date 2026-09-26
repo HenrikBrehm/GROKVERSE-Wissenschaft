@@ -9,7 +9,7 @@ run() {   # $1 = minimum minutes, rest = freq_ban arguments
   mm=$1; shift
   python lab/tools/guarded_run.py --min-minutes $mm -- python $F "$@"
   rc=$?
-  if [ $rc -eq 3 ] || [ $rc -eq 124 ]; then echo "[queue18] stop, rc=$rc"; exit $rc; fi
+  if [ $rc -ne 0 ]; then echo "[queue18] stop, rc=$rc"; exit $rc; fi   # skip of a completed run exits 0
 }
 while ps -ef | grep -v grep | grep -q "guarded_run.py"; do sleep 10; done
 run 3 --seed 20 --condition baseline --steps 50 --split-file $SP/seed20_train_E.npy \

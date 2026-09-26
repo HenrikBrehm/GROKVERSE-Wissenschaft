@@ -3,20 +3,22 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, ~05:10 Berlin (Sitzung 4, vom Runner gestartet 00:49Z, Deadline 03:49Z = 05:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 06:24 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
-- **Warteschlange:** `sh lab/experiments/queue_s4b.sh` (Log `lab/runner/logs/queue_s4b.log`). Sie überspringt fertige
-  Läufe (`freq_ban.py` endet dann mit „already completed“, das ist gewollt). Reihenfolge: Baselines 12–17 (fertig) →
-  EXP-016 Smoke (fertig) → EXP-016 Arme F/G Seeds 10–19 (2000 Schritte, je ≈ 4.5 min; 10–15 fertig) → Baselines 18/19 → EXP-014
-  Kreuzpaare (10↔11, 12↔13, 14↔15, 16↔17, 18↔19) → EXP-010-Tausch 11–19 → EXP-013 (Lock-in).
-  **Nächste Sitzung im Fenster: dasselbe Skript erneut starten.** Danach EXP-017 (RFM) und EXP-011 (Normtausch).
-- **Abgebrochene Läufe** stehen mit `status: running` in `result.json`. Sie werden **nicht** übersprungen, sondern von
-  `freq_ban.py` automatisch neu gestartet (nur `completed` wird übersprungen). Kein Resume des Adam-Zustands.
-- Vor jedem Start: `python lab/tools/guarded_run.py --check`. Der Wächter ist seit Sitzung 4 im Fenster **getestet**.
+- **Sitzung 5 lief ohne Training:** Der Start der Warteschlange wurde vom Auto-Mode-Klassifikator abgelehnt
+  (siehe Blocker). Vorher prüfen, ob der Nutzer eine Freigabe erteilt hat.
+- **Neue Warteschlange:** `sh lab/experiments/queue_s5.sh` (ersetzt `queue_s4b.sh`, dieselben Läufe plus EXP-018/020,
+  neue Reihenfolge). Log z. B. nach `lab/runner/logs/queue_s5.log`. Reihenfolge: EXP-016 Seeds 16–19 (je 2 × 4.5 min,
+  danach Entscheidung) → EXP-003d-Baselines 18, 19 → Smoke EXP-018 und EXP-020 (+ `check_smoke.py`) → EXP-018 Seeds
+  20–24 → EXP-014 Kreuzpaare → EXP-020 → EXP-018 Seeds 25–29 → EXP-010-Tausch 11–19. Sie stoppt bei **jedem** Exit ≠ 0;
+  fertige Läufe werden übersprungen (`freq_ban.py` endet dann seit Sitzung 5 mit 0). Neu starten = fortsetzen.
+- **Abgebrochene Läufe** stehen mit `status: running` in `result.json` und werden neu gestartet (kein Resume).
+- Vor jedem Start: `python lab/tools/guarded_run.py --check`.
+- Nach EXP-016 Seed 17 (8 Seeds): `python lab/experiments/EXP-016-engineered-split/analyze.py`.
 
 ## Kurzlage
 
@@ -28,33 +30,39 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 - **Studie (historisch, nicht umschreiben):** `RESULTS.md`. Interpretation bei den Autoren.
 - **Runner:** aktiviert (Aufgabe `GROKVERSE-Lab-Runner`), Sitzungsstart und -ende-Klassifikation belegt.
 
-## Stand der Versuche (Sitzung 4)
+## Stand der Versuche (nach Sitzung 5)
 
 **Bestätigt an frischen Seeds 10–17 (vorab festgelegt):**
-- [[experiments/EXP-015-mask-spectrum/README|EXP-015]]: Das **Masken-Spektrum M0 des Trainingssplits** (ohne Gewichte)
-  sagt die Rangfolge der gelernten Frequenzen voraus: r̄ 0.277, fremde Masken 0.499, exaktes p 2.5e-5. Hält auch gegen
-  die funktionalen Schlüsselfrequenzen der Studie (p 3.6e-6). **Nur Assoziation:** Split und Init desselben Seeds sind
-  gleich geseedet. Post hoc auch in MLP-512/572 und Two-hot-MLP.
-- [[experiments/EXP-012-init-gradient/README|EXP-012]]: Der erste Gradient an W_E sagt K besser voraus als das
-  Init-Spektrum (0.254 vs. 0.369, p 0.031). EXP-009 an frischen Seeds repliziert (E0 p 0.0015).
+- [[experiments/EXP-015-mask-spectrum/README|EXP-015]]: Das Masken-Spektrum M0 des Trainingssplits (ohne Gewichte) sagt die
+  Rangfolge der gelernten Frequenzen voraus (r̄ 0.277, fremde Masken 0.499, p 2.5e-5). **Nur Assoziation.**
+- [[experiments/EXP-012-init-gradient/README|EXP-012]]: Erster Gradient an W_E > Init-Spektrum (p 0.031).
 
-**Läuft:** [[experiments/EXP-016-engineered-split/README|EXP-016]] (kausal: konstruierter Split soll Frequenzen vorgeben).
-Seeds 10–15: Δ = +8, +7, +7, +7, +8, +9 (von max. 10); jeder Arm 3–4/5 aus der eigenen Zielmenge, 0 aus der anderen.
-Grokking früh (500–1050 vs. 3525–5975, nicht vorab festgelegt). Entscheidung erst ab 8 Seeds.
+**Läuft:** [[experiments/EXP-016-engineered-split/README|EXP-016]] 6/10 Seeds, Δ = +8, +7, +7, +7, +8, +9. Entscheidung ab 8.
 
-**Vorbereitet, nicht ausgeführt:** EXP-014 (Split × Init gekreuzt, Nachtrag a), EXP-017 (RFM, keine Zufalls-Init),
-EXP-013 (Lock-in-Kurve), EXP-011 (Normtausch), EXP-001/002 (Frequenzverbote).
-**Teilweise:** EXP-010 (Init-Tausch): 1 von 10 Paaren (Seed 10, d = +1). EXP-003d: 8 von 10 Baselines.
+**Neu vorbereitet in Sitzung 5 (alle nicht ausgeführt, Codex-Reviews eingearbeitet):**
+- [[experiments/EXP-018-split-speed/README|EXP-018]]: Beschleunigt ein spektral konzentrierter Split das Grokking?
+  Feste Testmenge, Kontrolle D = Gewichte von E innerhalb der Antidiagonalen permutiert, Seeds 20–29. Drei
+  konkurrierende Vorhersagen (H18 / Frequency Principle nach Zhou et al. 2024 / Komplement-Artefakt).
+- [[experiments/EXP-019-coherent-mask/README|EXP-019]]: kohärentes Masken-Spektrum M0c gegen M0 (post hoc
+  richtungsgleich, n. s.); Bestätigung ohne eigene Läufe aus EXP-018 Arm R + Baselines 18/19.
+- [[experiments/EXP-020-data-switch/README|EXP-020]]: Datenwechsel F → G nach t Schritten, gleiches G-Budget:
+  kausale Festlegungszeit der Frequenzwahl. Seeds 30–34.
+**Post hoc (Sitzung 5):** Die natürliche M0-Konzentration eines Zufallssplits sagt die Grokking-Zeit nicht voraus.
+**Literatur (Sitzung 5):** N3 in anderer Form bekannt (Zhou et al. 2024, Frequency Principle, andere Aufgaben); bei
+festem Split variiert K trotzdem über Inits (GitHub-Nachbau) → Split ist nicht die einzige Ursache.
+
+**Weiter vorbereitet:** EXP-014 (Kreuzdesign), EXP-017 (RFM), EXP-013 (Lock-in-Kurve), EXP-011, EXP-001/002.
+**Teilweise:** EXP-010 (1/10 Paare), EXP-003d (8/10 Baselines).
 
 ## Nächste konkrete Aktionen (nur im Fenster 00:00–13:00 Berlin)
 
-1. `python lab/tools/guarded_run.py --check`, dann `sh lab/experiments/queue_s4b.sh` im Hintergrund, beobachten.
-2. Sobald EXP-016 ≥ 8 Seeds hat: `python lab/experiments/EXP-016-engineered-split/analyze.py`.
-3. Nach Baselines 18/19: EXP-015/012 Phase 2 mit n = 10 nur **berichten** (die Entscheidung fiel vorab bei n = 8).
-4. Nach den Kreuzpaaren: `EXP-014-split-vs-init/analyze.py`. Nach den Tauschläufen: `EXP-010-init-swap/analyze.py`.
-5. EXP-017: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-017-rfm-split/rfm.py --seeds 0-9 --iters 15`.
-6. Außerhalb des Fensters: Literatur zu N3 vertiefen (Google Scholar), EXP-016-Folgefragen (Dosis ε, Beschleunigung
-   des Grokkings durch konstruierte Splits als eigene Frage mit eigener Kontrolle) vorab festlegen.
+1. `python lab/tools/guarded_run.py --check`, dann `sh lab/experiments/queue_s5.sh` im Hintergrund, beobachten.
+2. EXP-016 auswerten, sobald 8 Seeds da sind; EXP-015/012 Phase 2 mit n = 10 nur berichten.
+3. Nach den Smokes: `check_smoke.py` (EXP-020) und `result.json` des EXP-018-Smokes prüfen (`test_hash`, 2554 Testpaare).
+4. Auswertungen: `EXP-018-split-speed/analyze.py`, `EXP-019-coherent-mask/analyze.py`, `EXP-014-split-vs-init/analyze.py`,
+   `EXP-020-data-switch/analyze.py`, `EXP-010-init-swap/analyze.py` (je über den Wächter, wo `make_dataset` benutzt wird).
+5. Außerhalb des Fensters: Theorie (AGF-Nutzen mit maskiertem Verlust ↔ M0c herleiten), Reverse-Kontrolle G → F für
+   EXP-020 als eigenen Nachtrag erwägen, Google Scholar gezielt zu N6.
 
 ## Blocker
 

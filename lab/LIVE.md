@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 11:59 Berlin (09:59Z, vom Runner)
 - **Deadline:** 2026-09-26 14:59 Berlin (12:59Z)
-- **Zuletzt aktualisiert:** 13:51 Berlin
+- **Zuletzt aktualisiert:** 13:52 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-EXP-020 läuft wieder (Transformer-Datenwechsel, Seed 30 fast fertig, dann Seeds 31–34). Nebenher: Dokumentation, danach Denkarbeit zu EXP-034.
+EXP-020 Seed 31, Wechsel-Läufe (fertig ~14:18). Danach kurzer Blick auf Seed 31, gegen 14:35 Warteschlange zwischen zwei Läufen anhalten, Abschlussbericht.
 
 ## Als Nächstes
 
-Nächste Sitzungen: EXP-020 fertig, dann EXP-035 (Warmup, Transformer) und EXP-034 (GD in beiden Phasen).
+Nächste Sitzung (16:59): `sh lab/experiments/queue_s8.sh`: Rest EXP-020 → EXP-035 → EXP-034.
 
 ## Verlauf dieser Sitzung
 
+- 13:52 Sammel-Warteschlange `queue_s8.sh` für die nächsten Sitzungen geschrieben (ein Befehl).
 - 13:51 Gegenprobe mit einem anderen Maß: Mit früher σ_3-Phase nutzt das Endnetz 4,6–4,7 von 5 Zielfrequenzen, ohne sie nur 0,4, egal mit welchem Optimierer. Der Befund ist robust.
 - 13:50 EXP-020 Seed 30: In den Mischzuständen tauchen zwei fremde Frequenzen (34, 39) auf. Herkunft offen, notiert.
 - 13:49 Beobachtung in den EXP-033-Daten: Die frühe Neigung wird vor allem um die Generalisierung verstärkt, nicht während der Memorisierung. Als Vorhersage für EXP-034 festgelegt.

@@ -1040,3 +1040,10 @@ Ursprung offen. *Frage für später* (nicht festgelegt): Treten in Mischzuständ
 (frühe σ_3-Phase → Endnetz nutzt fast genau die Ziele F, egal mit welchem Optimierer) ist unter dem gröberen Maß **stärker**
 sichtbar als unter ds; der kleine GD-Vorsprung (R = 1.26) ist dagegen nur im feinen Anteilsmaß zu sehen und sollte nicht
 überbetont werden. Kein Einfluss auf die vorab festgelegten Urteile.
+
+**Zyklus 8 (13:52): Wo liegt die Festlegung relativ zur Memorisierung? (EXP-020 Seed 30, beschreibend).** Lauf „nur F“:
+Trainingsgenauigkeit bei Schritt 25 ≈ 0.03–0.04, bei 50 **0.10**, Verlust 4.75 → 4.12 (ln 113 = 4.73); Train-Acc ≥ 0.97 erst bei
+Schritt 120–130, Test ≥ 0.95 bei 950. Die Festlegung (25, 50] liegt also **vor** der Memorisierung, in der ersten Phase des
+Verlustabfalls, nicht an ihrem Ende. Das passt zum Zwei-Hot-Befund (EXP-032/033: Festlegung bei ≈ 1.25–1.8 × Init-Amplitude,
+lange vor dem Fit) und zu N13 (bei Schritt 250 ist die Zielmenge schon voll eingeprägt). 1 Seed; Bestätigung mit den übrigen
+EXP-020-Seeds (beschreibend, nicht vorab festgelegt: Train-Acc bei hi ≤ 0.5 in allen gültigen Seeds).

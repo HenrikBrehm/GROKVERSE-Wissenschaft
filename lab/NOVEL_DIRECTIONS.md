@@ -306,6 +306,9 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   of Neural Network Training* (https://arxiv.org/abs/2002.10365). Dass wenige Dutzend Schritte mit einem ungeraden
   Aktivierungsanteil festlegen, welche Fourier-Frequenzen ein danach rein quadratisches Netz nutzt: **nicht gefunden**
   (vorläufig). Die allgemeine Aussage „frühe Phase legt fest“ ist bekannt.
+- **EXP-032 (11:09):** vorab festgelegt, *Festlegung in ≤ 20 Schritten*, t½ = 5 Schritte (ρ 0.91, p = 1e-4). Die frühe
+  Neigung wird bis zum Ende etwa verdreifacht. Stand N12: **gestützt** in der Form „wenige frühe Schritte mit ungeradem
+  Aktivierungsanteil legen die Frequenzneigung fest“ (ein Modell, AdamW, 5 Splits).
 
 ## N13: Memorisierung prägt das Masken-Spektrum ein, Generalisierung verdrängt Teile durch 2k-Oberwellen #neu/kandidat
 

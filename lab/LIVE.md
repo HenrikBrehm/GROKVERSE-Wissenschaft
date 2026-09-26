@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 08:59 Berlin (06:59Z, vom Runner)
 - **Deadline:** 2026-09-26 11:59 Berlin (09:59Z)
-- **Zuletzt aktualisiert:** 10:48 Berlin
+- **Zuletzt aktualisiert:** 10:57 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-**[[experiments/EXP-032-early-lockin/README|EXP-032]] läuft** (6/20, Ende ~11:10): Wie viele Schritte mit linearem Anteil
+**[[experiments/EXP-032-early-lockin/README|EXP-032]] läuft** (12/20, Ende ~11:09): Wie viele Schritte mit linearem Anteil
 reichen, um die Frequenzwahl festzulegen: 1, 5, 10 oder 20? Danach von selbst EXP-027b (~15 min) → EXP-025.
 
 ## Als Nächstes

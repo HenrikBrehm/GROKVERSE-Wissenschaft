@@ -1,8 +1,8 @@
 ---
 id: EXP-032
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat, befund/positiv]
 ---
 # EXP-032: Wie früh legt sich das Netz fest? Feines Umschaltraster in den ersten 50 Schritten
 
@@ -31,6 +31,27 @@ mit neuen Läufen und einem passenden Kriterium vermessen.
 | **Was dagegen spräche** | t½ = 50 oder kein Anstieg bis 20 |
 | **Grenzen** | 5 Splits; die Einheiten 10–14 F sind aus EXP-026 bekannt (dort nur t_s = 0 und ≥ 50) |
 | **Budget** | 20 × ~88 s ≈ 30 min |
+
+## Ergebnis (Sitzung 7, 11:09 Berlin)
+
+30/30 gültig (20 neu, t_s = 0 und 50 aus EXP-026); alle Endnetze generalisieren (Test 1.0).
+
+| t_s | 0 | 1 | 5 | 10 | 20 | 50 |
+|---|---|---|---|---|---|---|
+| mittleres ds bei 5000 | −0.002 | +0.024 | **+0.094** | +0.131 | +0.147 | +0.165 |
+| mittleres ds am Umschaltschritt | 0.002 | 0.003 | 0.034 | 0.067 | 0.098 | 0.117 |
+| Amplitude r am Umschaltschritt (Median) | 0.0094 | 0.0095 | 0.0118 | 0.0167 | 0.0290 | 0.0725 |
+| Generalisierungsschritt | 1390 | 1560 | 1990 | 2140 | 2370 | 2730 |
+
+Spearman ρ = 0.91, Permutations-p = 1e-4; t½ = 5 (erste Stufe mit ds ≥ ½ · ds(50)).
+**Urteil: *Festlegung in ≤ 20 Schritten*** (vorab festgelegt). Schon **5 Schritte** mit linearem Anteil legen die halbe
+End-Neigung fest, zu einem Zeitpunkt, an dem die Merkmale erst ~25 % über der Init-Amplitude liegen.
+**Beschreibend:** Die Neigung am Umschaltschritt wird bis zum Ende etwa verdreifacht (0.034 → 0.094 bei t_s = 5), das spricht
+für ein Verstärken des frühen Vorsprungs („wer zuerst wächst, gewinnt“) statt bloßen Erhaltens. Jeder zusätzliche frühe
+Schritt mit linearem Anteil verzögert die Generalisierung (1390 → 2730 Schritte).
+**Grenzen:** 5 Splits, eine Architektur, eine Lernrate; AdamW normiert die ersten Schritte stark (Schrittweite ≈ lr pro
+Parameter unabhängig vom Gradientenbetrag), was die frühe Festlegung begünstigen könnte. Ob das bei SGD oder kleinerer
+Lernrate ebenso schnell geht, ist offen.
 
 ## Befehle
 

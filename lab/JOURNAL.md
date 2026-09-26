@@ -886,3 +886,10 @@ q_H ≈ 0.5 in allen Breiten), n_eff fällt von 52 auf 30. Selbst 32 Neuronen nu
 Netze müssen auswählen“ trägt in dieser Form nicht. EXP-027b läuft trotzdem wie festgelegt (unabhängige Splits).
 **10:40 Priorität:** In `queue_s5.sh` läuft EXP-020 jetzt vor EXP-018/014, weil seine Läufe ohne Wechsel zugleich die
 Bestätigungsdaten für EXP-028 liefern. Keine inhaltliche Änderung an EXP-020.
+
+**Zyklus 11 (11:09–11:09): EXP-032 ausgewertet (vorab festgelegt).** 30/30 gültig, alle Endnetze generalisieren. ds bei 5000:
+0 −0.002, 1 +0.024, **5 +0.094**, 10 +0.131, 20 +0.147, 50 +0.165; ρ 0.91, p = 1e-4, t½ = 5 → ***Festlegung in ≤ 20 Schritten***.
+Nach 5 Schritten ist r erst 0.0118 (Init 0.0094), die Neigung am Umschaltschritt 0.034 und wird bis 5000 auf 0.094
+verstärkt. Generalisierung verzögert sich monoton (1390 → 2730). *Einordnung:* Das ist der bisher schärfste Befund dieser
+Sitzung: Die Frequenzneigung eines x²-Netzes wird in den ersten ~5–10 von 5000 Schritten durch einen kurzzeitig
+vorhandenen ungeraden Aktivierungsanteil festgelegt. Offen: Rolle von AdamW (Idee EXP-033 im BACKLOG).

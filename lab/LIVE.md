@@ -1,16 +1,16 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 13
+# LIVE: Laborsitzung 13 – **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-26 19:59 Berlin (17:59Z, vom Runner)
 - **Deadline:** 2026-09-26 22:59 Berlin (20:59Z)
-- **Zuletzt aktualisiert:** 21:10 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 21:10 Berlin (gemessen). **Status: Sitzung beendet.** Nächster geplanter Start: **00:59 Berlin** (runner-state.json, 22:59Z).
 - **Run-Fenster:** zu. **Neu (Regel 18, Nutzer 20:30): heute Nacht Läufe erst ab 03:00.** Bis dahin setze ich den Astra-Review als Code um.
 
 ## Gerade
 
-Abschlussbericht gesichert (JOURNAL). Die Sitzung läuft noch bis 22:59; ich schärfe bis dahin nur noch die Planung (keine neuen Versuche).
+Nichts läuft. Alles ist gesichert und committet. Heute Nacht laufen Versuche erst ab 03:00 (Regel 18).
 
 ## Als Nächstes
 
@@ -18,6 +18,7 @@ Nächste Sitzung 00:59: bis 03:00 nur Planung; ab 03:00 Wächter-Abnahme, Tests,
 
 ## Verlauf dieser Sitzung
 
+- 21:10 Letzte Kontrolle: Nachtprogramm GPU (436 Befehle) und CPU (274) im Probedurchlauf fehlerfrei, alle Dateien vorhanden. Sitzung beendet.
 - 21:10 **Neuer Funktionstest EXP-051** vorbereitet: Nutzt das Netz die gesteuerten Frequenzen wirklich? Wird ohne neues Training an den heute Nacht gespeicherten EXP-047-Modellen geprüft. Die Prüfung fand einen Denkfehler in der Kontrolle (unmöglicher Energieabgleich), vor jedem Lauf behoben.
 - 21:00 Zweitprüfung der gemeinsamen Technik: keine Blocker; zwei mittlere Punkte behoben (alte GPU-Prüfläufe würden nach Code-Änderung wiederverwendet; CPU-Last vor der GPU-Abnahme zu hoch bemessen). Tests für das Nachtprogramm ergänzt.
 - 20:51 Nachtprogramm auch für die CPU-Versuche gebaut; die schon fertigen Läufe werden erkannt und nicht wiederholt. Tests für die neuen Sicherungen geschrieben (laufen ab 03:00).

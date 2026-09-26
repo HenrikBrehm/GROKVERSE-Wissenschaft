@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-26, 22:05 Berlin (Sitzung 14, läuft bis 00:19). Nächster Runner-Start laut runner-state.json: 00:54 Berlin._
+_Zuletzt aktualisiert: 2026-09-26, 22:55 Berlin (Sitzung 15, läuft bis 01:39). Nächster Runner-Start laut runner-state.json: 02:14 Berlin._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]]
 
@@ -11,7 +11,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 
 - **Keine Läufe (Training oder Tests) vor 03:00 Berlin** (Wächter: `WINDOW_START_OVERRIDES`). Davor nur Code/Doku/Rechnung auf Dateien.
 - 18a vollständig (Punkte 3, 10, 16, 11, 17, 5; 18c Programm A/B/C), alles **ungetestet** bis 03:00. Offen: EXP-034-Port (nach P3-Design).
-- **Sitzung ab 00:54 bis 03:00:** nichts Pflichtiges offen (ELR-Volltext und P3-Schärfung in Sitzung 14 erledigt). Nichts starten, was trainiert oder testet.
+- **Nächste Sitzung ab 02:14:** bis 03:00 nichts Pflichtiges offen (Sitzung 15: N30-Fenstermodell, EXP-054 und Lesarten für EXP-041/042 vor den Läufen eingefroren). Ab 03:00 Schritte unten.
 - Stand je Punkt: Tabelle „Umsetzung“ am Ende von [[reviews/ASTRA_2026-09-26]].
 
 ## Wiederaufnahme ab 03:00 (18b), genau in dieser Reihenfolge
@@ -38,6 +38,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
    - EXP-052 (Paket C): `lab/experiments/EXP-052-oos-mask-prediction/exp052.py`, sobald die R-Arme von EXP-043, 046, 048 fertig sind (Holm fest über vier).
    - EXP-039 (CPU): `lab/experiments/EXP-039-lr-clock/eval_pi.py` (π gegen drei Uhren, `predictions_pi.json`, nur beschreibend).
    - EXP-044 (GPU): `lab/experiments/EXP-044-generalize-lockin/pi_persistence.py` (π gegen EXP-020, Lesarten (i)/(ii) in der README).
+   - **Neu (Sitzung 15):** EXP-054 nach EXP-036: `lab/experiments/EXP-054-window-oos/n30_window.py` (erst `--selftest`); EXP-042 nach dessen
+     Hauptauswertung: `lab/experiments/EXP-042-bias-strength/pi_window.py` (erst `--selftest`, EXP-020-Regression). Beide nur beschreibend.
 9. **Vor dem Einfrieren von P1:** `lab/tools/pilot_power.py` (Δ_pow-Pilotstreuung, n für Power 80 %; vorher prüfen, dass die summary.json von
    EXP-048/049 aus dieser Nacht stammt). Bestätigungsblock dann mit `confirm_splits.py --manifest …` und `confirm_p1.py --jobs/--analyze …`
    (nur mit committetem Manifest; Seeds 1000–1099). P3 vorher schärfen: primär Wechsel bei t = 25 (Decke bei 150), Maß π, Überlappung nach EXP-053.

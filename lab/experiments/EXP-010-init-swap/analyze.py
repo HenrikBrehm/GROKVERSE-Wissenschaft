@@ -26,11 +26,11 @@ def load(d: Path) -> tuple[dict, np.ndarray, list[int]]:
     return res, np.load(d / "spectra.npy"), np.load(d / "spectra_steps.npy").tolist()
 
 
-def pair(seed: int) -> dict:
+def pair(seed: int, swap_tmpl: Path = SWAP, event_key: str = "init_swap") -> dict:
     row: dict = {"seed": seed, "valid": False}
     try:
         base, base_spec, base_steps = load(Path(str(BASE).format(s=seed)))
-        swap, _, _ = load(Path(str(SWAP).format(s=seed)))
+        swap, _, _ = load(Path(str(swap_tmpl).format(s=seed)))
     except FileNotFoundError as e:
         row["reason"] = f"missing: {e.filename}"
         return row
@@ -40,7 +40,7 @@ def pair(seed: int) -> dict:
     if base["split_hash"] != swap["split_hash"]:
         row["reason"] = "split_hash differs"
         return row
-    ev = swap["events"]["init_swap"]
+    ev = swap["events"][event_key]
     if not np.allclose(base_spec[base_steps.index(0)], ev["power_before"], rtol=1e-5):
         row["reason"] = "baseline init spectrum != swap power_before"
         return row

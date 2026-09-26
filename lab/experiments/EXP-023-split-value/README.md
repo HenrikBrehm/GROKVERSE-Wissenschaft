@@ -40,7 +40,7 @@ Verteilung wie W_V); alle anderen Gewichte, der Split und die Init sind wie in d
 ## Befehle
 
 ```
-python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/freq_ban.py --seed 10 --condition baseline --steps 50 --split-value --out-root lab/experiments/EXP-023-split-value/raw_smoke
+python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/freq_ban.py --seed 50 --condition baseline --steps 50 --split-value rand --out-root lab/experiments/EXP-023-split-value/raw_smoke   # (Nachtrag a: Variante nötig)
 sh lab/experiments/EXP-023-split-value/queue.sh
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-023-split-value/analyze.py
 ```

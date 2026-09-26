@@ -2167,3 +2167,13 @@ Integrationsfenster für die Frequenzwahl: nicht gefunden (vorläufig), als N30 
 auch EXP-041 (schwacher Zufallssplit R gegen starken Split E)? *Ergebnis:* Nur bei t = 150, und dort trennt P41b sogar drei Modelle:
 Schrittfenster (N30) → *geprägt*, Amplitudenschwelle (H40) → *gemischt*, H42 → *überschrieben*. Als Nachtrag b vor jedem Lauf eingetragen,
 beschreibend. Außerdem BACKLOG P3: π bleibt Primärgröße, π nach 250 G-Schritten als billiger Zweitpunkt.
+
+**Zyklus 3 (22:53, Paket B, post hoc, explorativ): Bleibt nur π stabil oder die ganze Spektrumsform?** (Prüfpunkt 1 der Gegenprüfung aus Zyklus 1)
+*Messung (`posthoc_shape_stability.py`, alle 56 Frequenzen, Seeds 30–34):* Korrelation des Log-Spektrums zwischen Schritt 250 und Ende ist in
+Wechselläufen (0.82–0.90 im Mittel) so hoch wie in reinen Läufen (0.83–0.84); die Top-5 behalten 3.8–4.6 von 5 (rein 3.6–3.8). Die Ähnlichkeit
+zum Endspektrum „nur G“ wächst in der G-Phase **nicht**: t = 25 0.57 → 0.59, t = 50 0.15 → 0.12, t = 150 −0.07 → −0.08; nur t = 10 zieht leicht
+nach G (0.73 → 0.83). *Deutung:* Nach Schritt 250 verändert sich das Spektrum weiter, aber in gleichem Maß wie ohne Wechsel und ohne Zug
+Richtung G. Damit gilt die Stabilität nicht nur für die Projektion π, sondern auch für die Gesamtform (Einwand 1 teilweise ausgeräumt; „eingefroren“
+gegen „proportional verstärkt“ bleibt ununterscheidbar, beides heißt aber: die Datenwahl nach 250 Schritten ändert die Mischung kaum).
+Ausnahme t = 10: dort wirkt G noch nach Schritt 250 (passt zu einem Fenster, das bei so wenig F-Vorlauf später schließt, oder zu Init-Anteilen).
+*Entscheidung:* als Exploration in EXP-020 und FINDINGS (K4, post hoc); dichte Spektren in den ersten 250 Schritten bleiben der eigentliche Test (N30).

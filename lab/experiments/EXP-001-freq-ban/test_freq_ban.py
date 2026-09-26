@@ -121,6 +121,21 @@ def test_split_seed_leaves_init_rng_untouched() -> None:   # EXP-014
     assert split_hash(d_other["train_idx"]) != split_hash(d_own["train_idx"])
 
 
+def test_engineered_split_indexing() -> None:   # EXP-016
+    from grokverse.config import get_config
+    from grokverse.data import make_dataset
+    sys.path.insert(0, str(HERE.parent / "EXP-016-engineered-split"))
+    import make_split as mk
+    d = make_dataset(get_config("arch25k", seed=0))
+    ax = d["all_x"].numpy()
+    for flat in (0, 5, 113 * 7 + 3, 113 * 113 - 1):         # flat index a*p + b <-> (a, b)
+        assert ax[flat, 0] == flat // 113 and ax[flat, 1] == flat % 113
+    F = mk.target_set(10)
+    idx = mk.engineered_train_idx(10, F, 2.0)
+    assert len(idx) == len(d["train_idx"]) and len(np.unique(idx)) == len(idx)
+    assert np.array_equal(idx, mk.engineered_train_idx(10, F, 2.0))    # deterministic
+
+
 def test_shrink_matches_top_ban_energy() -> None:              # amendment 2026-09-25b
     B = fb.fourier_basis(P)
     W = np.random.default_rng(2).normal(size=(P, 16))

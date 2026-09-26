@@ -196,6 +196,11 @@ def run(a: argparse.Namespace) -> dict:
     run_id = f"{exp_id}_{a.condition}_t{a.t0}_m{a.m}_seed{a.seed}_thr{a.threads}"
     if a.split_seed is not None:
         run_id += f"_split{a.split_seed}"
+    if a.split_file is not None:     # EXP-016: engineered train split from a .npy of flat indices a*p+b
+        if a.split_seed is not None:
+            raise SystemExit("--split-file and --split-seed are exclusive")
+        exp_id = "EXP-016"
+        run_id = f"{exp_id}_{a.condition}_seed{a.seed}_thr{a.threads}_{Path(a.split_file).stem}"
     out_dir = Path(a.out_root) / run_id
     if (out_dir / "result.json").exists() and not a.force:
         prev = json.loads((out_dir / "result.json").read_text())
@@ -210,6 +215,11 @@ def run(a: argparse.Namespace) -> dict:
     # so a foreign split leaves the model init unchanged
     data = make_dataset(cfg if a.split_seed is None
                         else get_config("arch25k", seed=a.split_seed, steps=a.steps, threads=a.threads))
+    if a.split_file is not None:
+        tr = torch.from_numpy(np.load(a.split_file).astype(np.int64))
+        te = torch.from_numpy(np.setdiff1d(np.arange(p * p), tr.numpy()))
+        data = {**data, "train_x": data["all_x"][tr], "train_y": data["all_y"][tr],
+                "test_x": data["all_x"][te], "test_y": data["all_y"][te], "train_idx": tr, "test_idx": te}
     trx, try_, tex, tey = data["train_x"], data["train_y"], data["test_x"], data["test_y"]
     model = build_model(cfg)
     opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay,
@@ -244,7 +254,7 @@ def run(a: argparse.Namespace) -> dict:
            "condition": a.condition, "seed": a.seed, "t0": a.t0, "m": a.m,
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
-           "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "max_steps": a.steps,
+           "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "git_commit": git_commit(), "versions": lib_versions(),
            "platform": platform.platform(), "argv": sys.argv,
@@ -350,6 +360,8 @@ def main() -> None:
     ap.add_argument("--out-root", default=str(HERE / "raw"))
     ap.add_argument("--split-seed", type=int, default=None,
                     help="EXP-014: take the train/test split of this seed (init stays from --seed)")
+    ap.add_argument("--split-file", default=None,
+                    help="EXP-016: .npy with flat train indices a*p+b (test = complement)")
     ap.add_argument("--save-model", action="store_true")
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args()

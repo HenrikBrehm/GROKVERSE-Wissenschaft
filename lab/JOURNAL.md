@@ -222,3 +222,10 @@ Prädiktoren; Exploration Seeds 0–9, Bestätigung 10–19).
    lief schon mit dieser Zuordnung).
 6. [medium] d_swap − d_mag ist kein additiver Anteil: **übernommen** (Umbenennung, keine Äquivalenzaussage).
 Alles als Nachtrag a in beiden READMEs, **bevor** ein Swap-Lauf fertig war.
+
+**Zyklus 2 (neu): EXP-012 Phase 1** (Exploration, Seeds 0–9, gespeicherte Läufe; kurz parallel zum laufenden
+Training, 9 s Rechenzeit, nur Forward/Backward). Rekonstruierte Init = gespeicherter Schritt 0, bitgenau, 10/10.
+r̄: E0 0.375 · U0 0.414 · **G0 0.302** · A1 0.348. → G0 für Phase 2 festgelegt. Interpretation: Der erste Gradient
+trägt mehr Information über die finale Frequenzwahl als das Init-Spektrum selbst, aber nur mäßig. Das passt
+dazu, dass die Wahl in den ersten ~250 Schritten fällt. Nächste Frage (Idee): Ab welchem Schritt ist K ablesbar
+(Lock-in-Kurve r̄(t) für t = 0, 1, 5, 25, 100, 250)? Dafür bräuchte man dichtere frühe Spektren.

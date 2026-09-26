@@ -1,8 +1,8 @@
 ---
 id: EXP-012
-status: vorbereitet
+status: laufend
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/laufend, neu/kandidat]
 verwandt: ["[[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]", "[[experiments/EXP-010-init-swap/README|EXP-010]]", "[[experiments/EXP-011-init-magswap/README|EXP-011]]"]
 ---
 # EXP-012: Wer wählt die Frequenzen? Init-Gradient statt Init-Spektrum
@@ -41,3 +41,22 @@ MLP) und vom Trainingssplit ab.
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-012-init-gradient/predict.py --phase 1
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-012-init-gradient/predict.py --phase 2 --predictor X
 ```
+
+## Phase 1 (Exploration, Seeds 0–9), ausgeführt 2026-09-26 ~03:15 Berlin
+
+`predict.py --phase 1` über den Wächter (8.9 s). Die rekonstruierte Init stimmte bei **allen 10 Seeds** bitgenau
+mit `ckpt_step000000.pt` der gespeicherten Läufe überein (trotz torch 2.13 statt 2.12.1). Ergebnis
+`summary_phase1.json`:
+
+| Prädiktor | r̄ (0 = Top, Null 0.5) | p gegen Null (MC) |
+|---|---|---|
+| E0 (W_E-Init, Referenz) | 0.375 | 7e-4 |
+| U0 (W_U-Init) | 0.414 | 0.016 |
+| **G0 (erster Gradient an W_E)** | **0.302** | 1e-5 |
+| A1 (sign G0) | 0.348 | 4e-5 |
+
+→ **gewählt: G0.** G0 ist bei 7 von 10 Seeds besser als E0 (Ausnahmen Seeds 2, 4, 8). Das ist Exploration,
+kein Beleg. Bestätigung: Phase 2 an Seeds 10–19 mit `--predictor G0`, sobald ≥ 8 Baselines fertig sind.
+Einordnung vorab: Selbst G0 ist weit von der Schärfe des Spektrums bei Schritt 250 entfernt (Seed 10: 4 von 5
+schon Top-4). Die Wahl entsteht also großteils in der Dynamik der ersten ~250 Schritte, nicht in einer einzelnen
+Init-Größe.

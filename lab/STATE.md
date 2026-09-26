@@ -9,8 +9,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 
 ## Wiederaufnahme (zuerst lesen)
 
-- **SITZUNG 10 (18:21):** Neu vorab festgelegt: EXP-035 Nachtrag c (P35d, Zustandsvergleich Λ- gegen schrittgleich, nur Seed 32;
-  `state_match.py` in der Queue), EXP-040 Nachtrag c (R(hi) ∈ [0.5, 2]), EXP-039 Nachtrag b (Vorbehalt Strecke). N21 (Attraktoren).
+- **SITZUNG 10 (18:21):** Neu: EXP-035 Nachtrag c/d (P35d nach Codex **zurückgezogen**, `state_match.py` nicht in der Queue), EXP-040 Nachtrag c (R(hi) ∈ [0.5, 2]), EXP-039 Nachtrag b (Vorbehalt Strecke). N21 (Attraktoren).
 - **SITZUNG 10 (18:16):** `queue_s10.sh` macht jetzt nach einem fehlgeschlagenen Versuch mit dem nächsten weiter (`part()`), nur
   rc 3 (Wächter) stoppt. Nach dem Nachtlauf deshalb **das Log nach „failed“ durchsuchen** und den betroffenen Versuch reparieren.
   Neu vorbereitet (nicht in einer Queue): **EXP-041** (Prägung E → R / R → E, 10 Seeds, ≈ 3.1 h, ungetestet). Ideen N19, N20.

@@ -315,3 +315,10 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   vorab festgelegte Bestätigung an 10–19 ([[experiments/EXP-029-memo-imprint-random/README|EXP-029]]): Einprägung 10/10
   (ρ 0.42), Verblassen bis gen + 25 nur 8/10 → *teilweise*. Die frühere EXP-015-Aussage „M0 sagt K voraus“ ist damit
   wahrscheinlich ein Rest dieser Einprägung, der die Generalisierung teilweise überlebt.
+- **Korrektur nach Codex-Angriff (09:57, `EXP-029/codex_conclusion_review_2026-09-26.txt`), übernommen:** Belegt ist nur:
+  W_E ist vor der Generalisierung **spezifisch** mit der eigenen Trainingsmaske ausgerichtet (eigene 0.42 / 0.47 gegen
+  fremde 0.02 / −0.02, je 10/10). **Nicht belegt:** dass die Generalisierung den Abdruck löscht (das Maximum liegt in
+  allen Seeds vor der Generalisierung, teils um den Memorisierungsbeginn; eher allmähliches Abklingen, Fenster und
+  Endpunkt sind ungleich aggregiert) und dass „M0 → K“ ein Rest ist (dafür fehlt ein Überlebens-/Mediationstest →
+  [[experiments/EXP-030-imprint-residue/README|EXP-030]]). Die beiden Sätze oben („Generalisierung verdrängt“,
+  „wahrscheinlich ein Rest“) gelten bis dahin als Hypothesen, nicht als Befunde.

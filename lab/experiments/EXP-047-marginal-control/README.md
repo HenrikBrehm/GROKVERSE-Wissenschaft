@@ -55,3 +55,19 @@ python lab/experiments/EXP-047-marginal-control/make_split.py --seed I          
 sh lab/experiments/EXP-047-marginal-control/queue.sh J                          # Selbsttest, 40 Läufe, Auswertung
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-047-marginal-control/analyze.py
 ```
+
+## Nachtrag a (Sitzung 13, 2026-09-26 20:05 Berlin, gemessen; vor jedem Lauf): Vorhersage erster Ordnung
+
+Kriterien und Urteile oben bleiben **unverändert**. Hier nur eine vorab notierte theoretische Erwartung.
+*Herleitung (linearisiert, erster Schritt bei der Init):* Ist die Ausgabe bei der Init nahezu gleichverteilt (u) und die Abbildung
+Einbettung → Logits für alle Paare gleich (W_U), dann ist der Gradient an Zeile a von W_E
+g_a = W_U (n_a u − Σ_b m(a,b) e_{a+b}). Die Summe des Zielteils über c ist n_a, also fällt der Häufigkeitsanteil **exakt** heraus:
+g_a = −W_U P⊥ Σ_b m(a,b) e_{a+b}. Nach der DFT über a ist die Gradientenleistung bei k proportional zu
+Σ_c |L_k(c)|² − |n_k|²/p („zentriertes M0“): Das Häufigkeitsspektrum ist genau der Teil von M0, den der erste Gradient **nicht** sieht.
+Das gilt für jede Gruppe (auch D₅₉, [[experiments/EXP-046-dihedral-steering/README|EXP-046]]).
+*Rechnung* (`theory_counts.py`, reine numpy-Rechnung auf den 40 Splits): Häufigkeitsanteil an M0 nur 0.9 %; zentriertes M0 unter
+shuf: Zielrang 26.0 (Zufall 27.5), Zielanteil 0.090 (Zufall 0.089); unter eng unverändert 2.0 / 0.192.
+**Erwartung erster Ordnung:** Δ̄_shuf ≈ 0 (H47a nein), D̄ ≈ Δ̄_eng > 0 (H47b ja).
+*Was diese Herleitung nicht abdeckt:* paarabhängige Jacobi-Matrizen des MLP (ReLU), Adams Normierung in späteren Schritten, spätere
+Phasen mit nicht gleichverteilter Ausgabe. Fällt Δ̄_shuf trotzdem klar positiv aus, läuft der Häufigkeitseffekt über einen dieser
+Wege, nicht über den ersten Gradienten; das wäre selbst ein Befund.

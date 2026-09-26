@@ -1681,3 +1681,32 @@ erste Mechanismus-Kontrolle mit festgehaltenen Randverteilungen. *Messungen geei
 Testmenge/Grokking (EXP-016 Nachtrag a), misst aber die Auswahl vor der Endlösung; EXP-045 misst deshalb zusätzlich bei 10 000.
 *Nächste Annahme, die angegriffen wird:* dass M0 der Wirkweg ist. EXP-047 prüft genau das; bei *Häufigkeiten steuern mit* müssten
 [[BEFUND-split-mechanismus]] und K1/K2 in [[FINDINGS]] umformuliert werden.
+
+*Korrektur zu Sitzung 12 (eingetragen in Sitzung 13, 20:05 Berlin, gemessen):* Sitzung 12 lief laut `runner-state.json` nur
+19:29–19:50 Berlin (20.7 min; letzter Commit 3d304d3 um 19:50). Die Zeitangaben „20:02–20:18“ (Zyklus 3), „20:22“ (Rückblick),
+„20:12/20:17“ (EXP-047-README) und „20:21“ (LIVE) waren **geschätzt und lagen in der Zukunft**; die Arbeit geschah vor 19:50.
+Inhalte und Zahlen bleiben unverändert. Die dort erwähnte Codex-Prüfung von EXP-046 brach mit dem Sitzungsende ab, ohne Befund.
+
+---
+
+## Sitzung 13 (2026-09-26, Start 19:59 Berlin, Deadline 22:59; außerhalb des Fensters; nur Prüfung, Code, Denkarbeit)
+
+Stand gelesen (20:00, gemessen): kein STOP, kein Training aktiv, Fenster zu (ab 00:00; nächster Runner-Start 00:59 Berlin).
+Hinweis für Zeitstempel: `TZ=Europe/Berlin date` zeigt in Git Bash UTC (keine tzdata); maßgeblich ist `guarded_run.py --check` (`now_berlin`).
+Auch meine ersten LIVE-Zeiten dieser Sitzung waren geschätzt (20:08/20:10 um 20:03) und sind korrigiert.
+
+**Zyklus 1 (20:00–20:05): Kann der ungetestete Nachtcode von EXP-046/047 still falsche Zahlen liefern?** Eigene Prüfung gegen
+`training/grokverse`: `get_config(p=118)` erlaubt (nur p ≥ 2 geprüft), `W_E` hat Form [vocab, d], `evaluate`/`logits_last`/
+`split_hash` (sortiert) passen, `Config.task` existiert (EXP-047-Auswertung liest `config.task`), Run-IDs von `freq_ban.py`
+(`…_seed{s}_thr1_{stem}_devcuda`) und `group_train.py` passen zu den Globs der Auswertungen, Hintergrundjobs in `sh` lesen
+stdin nicht (POSIX: /dev/null). Die 40 EXP-047-Splits: je 3831 eindeutige Paare, a- und b-Häufigkeiten eng = shuf exakt,
+Zielmengen gleich, F ∩ G = ∅ (reine numpy-Rechnung). *Ergebnis:* kein Fehler gefunden.
+*Codex:* neu gestartet (read-only, `codex_review_s13_2026-09-26.txt`), **abgebrochen mit „Your workspace is out of credits“**.
+Nach Regel 12 nicht umgangen; stattdessen prüft ein unabhängiger Claude-Subagent (frischer Kontext, nur lesend).
+
+**Zyklus 2 (20:03–20:05, reine Rechnung): Was sagt eine Theorie erster Ordnung für EXP-047 voraus?** Herleitung: Bei gleichverteilter
+Ausgabe und gemeinsamer Jacobi-Matrix fällt der Häufigkeitsanteil aus dem ersten W_E-Gradienten **exakt** heraus (Σ_c des Zielteils
+= n_a); die Gradientenleistung ist das „zentrierte M0“ Σ_c|L_k(c)|² − |n_k|²/p. `theory_counts.py`: Häufigkeitsanteil an M0 0.9 %;
+zentriertes M0 unter shuf: Zielrang 26.0 (Zufall 27.5). *Ergebnis:* Vorhersage erster Ordnung Δ̄_shuf ≈ 0, D̄ > 0; als
+[[experiments/EXP-047-marginal-control/README|EXP-047]] Nachtrag a **vor jedem Lauf** notiert (Kriterien unverändert). Bedeutung:
+Ein positives Δ̄_shuf wäre damit nicht bloß „Häufigkeiten wirken“, sondern ein Hinweis auf einen Weg jenseits des ersten Gradienten.

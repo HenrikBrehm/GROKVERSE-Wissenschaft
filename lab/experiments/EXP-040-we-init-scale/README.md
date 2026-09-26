@@ -87,6 +87,11 @@ um ± log 2 Wachstumszeiten, auf unserem Gitter vermutlich unsichtbar). Ein Erge
 lineare (Adam-typische) Wachstum; *unverändert* wäre auch mit einer Schwelle bei exponentiellem Wachstum vereinbar und widerlegt die
 Schwellenidee deshalb nicht allgemein, nur ihre lineare Fassung.
 
+**Risiko (Literatur, 18:54):** Kumar et al. 2023 („Grokking as the transition from lazy to rich training dynamics“,
+https://arxiv.org/abs/2310.06110) steuern den Grokking-Zeitpunkt über eine Ausgabeskala, die das Tempo des Merkmalslernens festlegt.
+Eine größere W_E-Init (s = 2) könnte das Netz „fauler“ machen und gen_F verzögern; dann scheitern Zellen an der Regel „Kreuzung vor
+gen_F“ und werden *unklar*. Das ist in der Festlegung schon so geregelt, hier nur als erwartbarer Ausfallgrund notiert.
+
 ## Status
 
 Vorab festgelegt, Code geschrieben, **ungetestet** (Fenster geschlossen): Selbsttest und Smoke laufen als erste Schritte der

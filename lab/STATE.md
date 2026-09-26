@@ -1,274 +1,57 @@
 ---
 tags: [lab/state]
 ---
-# lab/STATE.md: aktueller Stand
+# lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-26, 20:29 Berlin (Sitzung 13; nächster Runner-Start 2026-09-27 00:59 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 20:44 Berlin (Sitzung 13). Nächster Runner-Start laut runner-state.json: 00:59 Berlin._
 
-Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
+Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]]
 
-## Wiederaufnahme (zuerst lesen)
+## Verbindlich jetzt: Regel 18 (Astra-Review umsetzen), Nacht 26./27.09.
 
-- **REGEL 18 GILT (Nutzer, 2026-09-26 20:30; entdeckt in Sitzung 13 um 20:33): Astra-Review umsetzen, [[reviews/ASTRA_2026-09-26]].**
-  Nacht 26./27.09.: **Läufe (Training und Tests) erst ab 03:00 Berlin** (im Wächter hinterlegt). Vorher nur Code/Doku in dieser Reihenfolge
-  (Regel 18a): 1. Punkt 3 Fingerprint/Sperre/atomare NPY in `freq_ban.py` → 2. Punkt 10 GPU-001/compare.py + `config.device` →
-  3. Punkt 16 gemeinsamer Ergebnislader → 4. Punkt 11 Nacht-Queues auf `parallel_queue.py` → 5. Punkt 17 STATE ≤ 80 Zeilen →
-  6. Punkt 5 getrennte Zufallsströme. Ab 03:00 (18b): Wächter-Abnahme mit harmlosem Job + STOP-Test, dann freq_ban-Tests, dann GPU-001,
-  dann Nacht-Queues: **GPU jetzt `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1`** (Hintergrund; ersetzt
-  queue_gpu_s11.sh; Plan ansehen mit `--dry-run`; Wiederaufnahme = derselbe Befehl; Status in `lab/runner/logs/night_*/night_status.json`).
-  Fortschritt: Tabelle „Umsetzung“ unten in `lab/reviews/ASTRA_2026-09-26.md`. **Der Sitzung-13-Block darunter
-  (Queues ab 00:59 starten) ist dadurch überholt**, gilt nur noch für Inhalte (was vorbereitet ist).
-- **SITZUNG 13 (20:29) → NÄCHSTE SITZUNG (Start 00:59 Berlin, Fenster offen): genau diese Schritte, gilt vor allen Blöcken darunter.**
-  1. `python lab/tools/guarded_run.py --check` (muss `in_window: true` zeigen) und `ps -ef | grep -E "queue|guarded_run" | grep -v grep` (nichts aktiv).
-  2. GPU-Queue im Hintergrund: `sh lab/experiments/queue_gpu_s11.sh > lab/runner/logs/gpu_s11.log 2>&1`.
-     Reihenfolge: GPU-001 (Regression → Gleichwertigkeit → Durchsatz, ≈ 15 min) → EXP-043 → EXP-046 → EXP-047 → EXP-048 → EXP-049 → EXP-044 → EXP-045.
-     Nach ≈ 1 min im Log `regression` prüfen; bei FAIL stoppt die Queue selbst (dann GPU vorerst nicht nutzen, Blocker eintragen).
-  3. CPU-Queue im Hintergrund: `sh lab/experiments/queue_s10.sh > lab/runner/logs/queue_s10.log 2>&1` (ignoriert GPU-Läufe beim Warten).
-  4. Beobachten (Regel 14); `verdict_*.json` von GPU-001 ins JOURNAL (Regel 16b/c: Gleichwertigkeit, s/Schritt, J).
-  5. Ende der Queue: rc 3 = Wächter/Deadline → nächste Sitzung **denselben Befehl** neu starten (Fertiges wird übersprungen);
-     rc 1 „done WITH FAILURES“ → Log nach „failed“ durchsuchen; ebenfalls einfach neu starten ist harmlos.
-  6. Auswerten: `python lab/tools/night_report.py lab/runner/logs/gpu_s11.log` (liest GPU-001-Verdikte und alle summary.json).
-     **Vor jeder Deutung** [[LESART-nacht-2026-09-27]] lesen (vorab festgelegte Kombinationsregeln), dann READMEs/LAB/FINDINGS eintragen.
-  7. Falls die GPU-Queue deutlich vor 13:00 fertig ist: [[experiments/EXP-050-phase-dissociation/README|EXP-050]] (M0c gegen M0,
-     vorbereitet, unabhängig geprüft, nach Prüfung um Kontrollmodus quadlm erweitert; 60 Läufe) mit `sh lab/experiments/EXP-050-phase-dissociation/queue.sh J` starten (J aus
-     `verdict_throughput.json`).
-  Neu in Sitzung 13: EXP-048 (nicht-modulare Addition, Primärgröße trendbereinigtes Δ_pow), EXP-049 (4× Breite), EXP-050 (nicht
-  eingereiht); Nachträge vor jedem Lauf in EXP-046 (Lesart), EXP-047 (Theorie: Häufigkeiten wirken im ersten Gradienten nicht), GPU-001
-  (Durchsatz-Ablehnungen), EXP-043–049 (NaN-Läufe ungültig). **Codex ohne Guthaben** („out of credits“) → Claude-Subagenten als Zweitprüfung.
-  Zeitstempel nur aus `guarded_run.py --check` (`now_berlin`); Git-Bash-`date` kennt Europe/Berlin nicht. Nur gezielt `git add <pfad>`
-  (nie `commit -a`: Nutzeränderungen an `guarded_run.py`, `install_task.ps1`, `runner-state.json` bleiben uncommittet).
-- **SITZUNG 12 (19:58) → NÄCHSTE SITZUNG (ab 00:00, im Fenster), gilt vor dem Sitzung-11-Block unten:**
-  Ablauf wie unten Schritte 1–5, aber die GPU-Queue ist jetzt **fail-closed** (Codex s12, commit 2b19820): Reihenfolge
-  GPU-001 → EXP-043 → **EXP-046** (neu: Diedergruppe D₅₉, nicht-abelsch) → EXP-044 → EXP-045. Endet sie mit
-  „done WITH FAILURES“ (rc 1), im Log nach „failed“ suchen; rc 3 = Wächter hat abgelehnt (Fenster/Deadline), Wiederaufnahme =
-  dieselbe Queue erneut starten (überspringt Fertiges). Nach GPU-001: `verdict_{regression,equivalence,throughput}.json`
-  lesen und ins JOURNAL (Regel 16b/c). Auswertung EXP-046: `summary.json` gegen README (Strukturprüfung zuerst!).
-  Nicht von mir: uncommittete Nutzeränderungen in `lab/tools/guarded_run.py` (DST-Fix) und `lab/runner/install_task.ps1`
-  (4 h Zeitlimit) sowie `lab/tools/parallel_queue.py` (Regel 17) — nicht anfassen/committen.
-- **SITZUNG 11 (19:24) → NÄCHSTE SITZUNG (ab 00:00, im Fenster) in dieser Reihenfolge:**
-  1. `python lab/tools/guarded_run.py --check`; keine Queue aktiv (`ps -ef | grep -E "queue|guarded_run"`).
-  2. `sh lab/experiments/queue_gpu_s11.sh > lab/runner/logs/gpu_s11.log 2>&1` im Hintergrund (GPU-001 → EXP-043 → EXP-044 →
-     EXP-045, J aus dem Durchsatztest). **Warten, bis im Log `regression: PASS` steht (≈ 1 min).** Das ist der Regressionstest
-     für die `--device`/`--p`/`--task`/`--arch`-Änderungen an `freq_ban.py`. Bei `regression: FAIL` stoppt die GPU-Queue selbst;
-     dann `git checkout a91ef0d -- lab/experiments/EXP-001-freq-ban/freq_ban.py`, erst danach Schritt 3 (GPU entfällt vorerst).
-  3. Dann `sh lab/experiments/queue_s10.sh > lab/runner/logs/queue_s10.log 2>&1` im Hintergrund (CPU, wie geplant). Die
-     Warteschleifen darin ignorieren GPU-Läufe (`--device cuda`).
-  4. Beide Logs beobachten. `equivalence: FAIL` → GPU-Queue stoppt, Blocker hier eintragen; EXP-043/045 dann erst nach queue_s10
-     auf der CPU erwägen (neuer Nachtrag nötig, Geräte nie mischen).
-  5. Ergebnisse: `summary.json` von EXP-043/044/045 gegen die vorab festgelegte Lesart in den READMEs; [[FINDINGS]] aktualisieren.
-- **Sitzung 11 neu:** [[FINDINGS]] (Synthese, Regel 15a); `freq_ban.py` `--device`/`--p`/`--task` (ungetestet);
-  [[experiments/GPU-001-equivalence/README|GPU-001]] (Kriterien vorab); [[experiments/EXP-043-generalize-steering/README|EXP-043]]
-  (Verallgemeinerung von K2 auf add 97 / mul 113, 10 Seeds, vorab festgelegt, Splits erzeugt).
+- **Keine Läufe (Training oder Tests) vor 03:00 Berlin** (Wächter: `WINDOW_START_OVERRIDES`). Davor nur Code/Doku.
+- Reihenfolge 18a (Code, vor 03:00): Punkt 3 ✅ ungetestet · Punkt 10 ✅ ungetestet · Punkt 16 teilweise (Lader + EXP-046–050;
+  **offen: EXP-043/044/045 auf `lab/tools/result_loader.py` umstellen**) · Punkt 11 GPU ✅ ungetestet (`night_program.py`;
+  **offen: CPU-Queue `queue_s10.sh`**) · Punkt 17 ✅ (diese Datei) · Punkt 5 **offen** (neue Versuche nutzen `SeedSequence`;
+  FINDINGS-Vermerk „EXP-016 stark, Seed-Abhängigkeit eingeschränkt“ fehlt). Dazu 18c: FINDINGS zum Programm A/B/C umbauen.
+- Stand je Punkt: Tabelle „Umsetzung“ am Ende von [[reviews/ASTRA_2026-09-26]].
 
-- **ENDE SITZUNG 10 (19:00) → nächste Sitzung beginnt hier.** Start 2026-09-26 22:29 Berlin, Fenster ab 00:00. **Im Fenster ein Befehl:**
-  `python lab/tools/guarded_run.py --check`, prüfen, dass keine Queue läuft (`ps -ef | grep -E "queue|guarded_run"`), dann
-  `sh lab/experiments/queue_s10.sh` im Hintergrund (Log `lab/runner/logs/queue_s10.log`) und beobachten. Danach
-  `python lab/tools/night_report.py lab/runner/logs/queue_s10.log`, Ergebnisse in README/JOURNAL/LAB/[[BEFUND-festlegung]] eintragen,
-  dabei die **vorab festgelegte Lesart** in [[BEFUND-festlegung]] einhalten. Bis 00:00 Denkarbeit (Ideen: G-Unterdrückung N22,
-  kalibrierter Test für N21, SGD-G-Phase als Test der Adam-Verdrängung).
-- **SITZUNG 10 (18:51), NEUE REIHENFOLGE:** `queue_s10.sh` = EXP-035 (Seeds 30, 31, 32, 34) → EXP-038 → **EXP-041** → EXP-036 → EXP-039
-  → EXP-040 → EXP-034 → EXP-042 → queue_s5. Grund: F und G teilen ≈ 73 % der Paare, die Festlegung ist nur gegen einen 27-%-Wechsel
-  gezeigt; EXP-041 (E/R ≈ 37 % gemeinsam) ist der härtere Test und kommt vor den Uhr-Versuchen (JOURNAL Zyklus 20).
-- **SITZUNG 10 (18:49), Auswertung nach der Nacht:** `python lab/tools/night_report.py lab/runner/logs/queue_s10.log` (nur lesend)
-  zeigt Ablehnungen, Fehlschläge, fertige Läufe und die Urteile aller `summary*.json`. `freq_ban.py` wurde nach Codex gehärtet
-  (9fa4b7a; Überspringen prüft jetzt Skalen-Metadaten und Schnappschüsse); der Überspringen-Zweig ist erst in der Nacht getestet.
-- **SITZUNG 10 (18:38):** Neu vorbereitet **EXP-042** (Split-Neigung eps_G 8/1, Splits erzeugt, Nachtrag a nach Codex). Reihenfolge
-  `queue_s10.sh` jetzt: EXP-035 → EXP-038 → EXP-036 → EXP-039 → EXP-040 → EXP-034 → EXP-042 → EXP-041 → queue_s5. Neue Codepfade
-  (alle fail-closed durch Smoke/Selbsttest am Anfang ihrer Queue): EXP-036 (Schnappschüsse), EXP-039, EXP-040, EXP-041, EXP-042.
-- **SITZUNG 10 (18:21):** Neu: EXP-035 Nachtrag c/d (P35d nach Codex **zurückgezogen**, `state_match.py` nicht in der Queue), EXP-040 Nachtrag c (R(hi) ∈ [0.5, 2]), EXP-039 Nachtrag b (Vorbehalt Strecke). N21 (Attraktoren).
-- **SITZUNG 10 (18:16):** `queue_s10.sh` macht jetzt nach einem fehlgeschlagenen Versuch mit dem nächsten weiter (`part()`), nur
-  rc 3 (Wächter) stoppt. Nach dem Nachtlauf deshalb **das Log nach „failed“ durchsuchen** und den betroffenen Versuch reparieren.
-  Neu vorbereitet (nicht in einer Queue): **EXP-041** (Prägung E → R / R → E, 10 Seeds, ≈ 3.1 h, ungetestet). Ideen N19, N20.
-- **SITZUNG 10 (18:02):** Neu **EXP-040** (W_E-Init-Skala, H40 Amplitudenschwelle; Nachtrag a nach Codex), **ungetestet**:
-  Selbsttest + Smoke laufen fail-closed am Anfang von `EXP-040/queue.sh`. `freq_ban.py` speichert seit 60d9ab0 bei `--spectra-at`
-  zusätzlich W_E-Schnappschüsse (`we_snapshots.npy`); dieser Pfad ist **erst durch den EXP-036-Smoke** geprüft (steht in der Queue
-  vor allen EXP-036-Läufen). Scheitert er: `freq_ban.py`, Funktion `spectrum()`, prüfen. Reihenfolge `queue_s10.sh`:
-  EXP-035 → EXP-038 → EXP-036 → EXP-039 → EXP-040 → EXP-034 → queue_s5.
-- **SITZUNG 10 (17:55):** Fenster heute zu. Neu: **EXP-039** (Lernraten-Uhr, vorab festgelegt mit Nachtrag a nach Codex, Smoke
-  und Selbsttest ok), in `queue_s10.sh` nach EXP-036 eingehängt. EXP-035: Seed 30 komplett, Seed 31 t = 50 und 150 fertig
-  (Queue überspringt sie). Nächstes Fenster unverändert: `sh lab/experiments/queue_s10.sh`.
-- **SITZUNG 10 (17:41):** EXP-035 Seed 30 fertig (7 Läufe), Seed 31 t = 50, 150 laufen von Hand bis ~17:52 (Log
-  `lab/runner/logs/exp035_s10_manual.log`). `queue_s9.sh` ist beendet. EXP-036 hat **Nachtrag d + e** (kalibriertes P36b mit frühen
-  Spektren `--spectra-at`, Smoke vorgeschaltet und von Hand geprüft). **Nächstes Fenster (ab 00:00) unverändert:**
-  `python lab/tools/guarded_run.py --check`, keine Queue aktiv (`ps -ef | grep -E "queue|guarded_run"`), dann
-  `sh lab/experiments/queue_s10.sh` im Hintergrund (EXP-035 Rest überspringt Fertiges → EXP-038 → EXP-036 (+ `analyze_p36b.py`) → EXP-034 → queue_s5).
+## Wiederaufnahme ab 03:00 (18b), genau in dieser Reihenfolge
 
-- **ENDE SITZUNG 9 (17:06) → nächste Sitzung beginnt hier.** Nächster Start 19:49 Berlin = **außerhalb des Fensters** (heute bis
-  18:00, ab 27.09. 00:00–13:00): bis 00:00 nur Denk-/Sucharbeit. **Im Fenster ein Befehl:** `python lab/tools/guarded_run.py --check`,
-  prüfen, dass keine Queue läuft (`ps -ef | grep -E "queue|guarded_run"`), dann **`sh lab/experiments/queue_s10.sh`** im
-  Hintergrund (Log z. B. `lab/runner/logs/queue_s10.log`): EXP-035 (Rest; überspringt Fertiges) → **EXP-038** → **EXP-036** →
-  EXP-034 → queue_s5. Nach jeder Auswertung Ergebnis ins README/JOURNAL/LAB (die Queue schreibt nur `summary.json`).
-  Abgeschlossen in Sitzung 9: EXP-020 (*nicht bestätigt*; beschreibend (25, 50] in 5/5), EXP-028 (*teilweise*), EXP-037
-  (*gestützt* mit Einschränkung: reproduzierbare, funktionale Konfliktfrequenzen). Befunde: JOURNAL „Abschlussbericht Sitzung 9“.
-  **Vor dem EXP-036-Start (Denkarbeit, 19:49–00:00):** P36b kalibriert neu festlegen (EXP-036 Nachtrag c; Codex-Einwände
-  in `EXP-037-alternation-conflict/codex_conclusion_review_2026-09-26.txt`). EXP-036 steht in queue_s10 erst nach EXP-038.
-  Denkarbeit-Ideen: warum 25–50 Schritte (Verbindung zur linearen Modentheorie aus EXP-033), Konfliktfrequenzen theoretisch
-  (gemeinsame Unterstützung, P36b), EXP-038-Folgeversuch mit norm-angepasstem Rücksetzen.
+1. `python lab/tools/guarded_run.py --check` → `allowed: true`. Keine andere Queue aktiv (`ps -ef | grep -E "night_program|queue|guarded_run" | grep -v grep`).
+2. Wächter-Abnahme: `python lab/tools/guarded_run.py -- python -c "import time; time.sleep(60)"` im Hintergrund, währenddessen
+   `lab/STOP` anlegen → Exit 3 und Kind beendet? **STOP sofort wieder löschen**, im JOURNAL vermerken. Scheitert es: Blocker in LIVE.
+3. Tests: `python lab/tools/guarded_run.py -- python lab/tools/result_loader.py` (Selbsttest); freq_ban-Tests inkl. Fingerprint
+   (Test noch schreiben: gleicher Lauf überspringt, anderes `--steps` → Fehler, Sperre bei Doppelstart, `completed` nur mit Artefakten).
+4. GPU: `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1` im Hintergrund (Plan: `--dry-run`). Beginnt mit GPU-001
+   (Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 → 048 → 049 → 044 → 045.
+   Wiederaufnahme = derselbe Befehl (Fertiges wird per Fingerprint übersprungen). Status: `lab/runner/logs/night_*/night_status.json`.
+5. CPU parallel: `sh lab/experiments/queue_s10.sh > lab/runner/logs/queue_s10.log 2>&1` (bis zur Umstellung auf parallel_queue).
+6. Beobachten (Regel 14). GPU-001-Verdikte ins JOURNAL (Gleichwertigkeit, s/Schritt, J). Punkt 9: GPU bleibt experimentell.
+7. Auswerten: `python lab/tools/night_report.py`; **vor jeder Deutung** [[LESART-nacht-2026-09-27]] lesen.
 
-- **SITZUNG 9 (16:22):** EXP-020 **abgeschlossen** (*nicht bestätigt* 4/5; beschreibend (25, 50] in 5/5), EXP-028 *teilweise*,
-  EXP-020 Nachtrag d an frischen Seeds **nicht bestätigt**. `queue_s9.sh` läuft EXP-037 (Smoke ok; 9 Läufe bis ~17:05), dann
-  EXP-035. Wiederaufnahme: `sh lab/experiments/queue_s9.sh` (überspringt Fertiges). Nach EXP-037:
-  `python lab/tools/guarded_run.py -- python lab/experiments/EXP-037-alternation-conflict/ablate_foreign.py` (von Hand,
-  nicht in der Queue; braucht `summary.json` von EXP-037).
+## Aktive Queue / laufende Jobs
 
-- **SITZUNG 9 (15:13):** `queue_s8.sh` angehalten, **`queue_s9.sh` läuft** (Log `lab/runner/logs/queue_s9.log`; Reihenfolge EXP-020 Rest → Auswertungen → **EXP-037** → EXP-035 → EXP-036 → EXP-034 → queue_s5). Wiederaufnahme = `sh lab/experiments/queue_s9.sh`.
-- **SITZUNG 9 (15:04):** `queue_s8.sh` lief seit 14:50 (Log `lab/runner/logs/queue_s8.log`, EXP-020 Seed 32
-  t = 1000, dann Seeds 33, 34, dann EXP-035). **Ab jetzt `sh lab/experiments/queue_s9.sh` statt `queue_s8.sh`** (gleiche
-  Reihenfolge, zusätzlich Nachtrag-d-Auswertung und **EXP-036** nach EXP-035; überspringt Fertiges). Nie zwei Queues
-  gleichzeitig: vorher `ps -ef | grep -E "queue|guarded_run"`.
-  Neu vorab festgelegt: EXP-020 **Nachtrag d** (fremde Frequenzen in Mischzuständen, P-d1/P-d2 für Seeds 33/34,
-  `conflict_freqs.py`), **EXP-036** (neue Init bei gleichem Split, 7 Paare, Vorzeichentest über Paare; nach Codex umgebaut,
-  Nachtrag a). N15 in NOVEL_DIRECTIONS.
+- Keine (Stand 20:44). Vorbereitet, ungetestet: GPU-001, EXP-043–049 (in `night_program.py`), EXP-050 (optional:
+  `--experiments GPU-001,EXP-050`), CPU: `queue_s10.sh` (EXP-035 → 038 → 041 → 036 → 039 → 040 → 034 → 042 → queue_s5).
 
-- **ENDE SITZUNG 8 (14:27):** `queue_s5.sh` kontrolliert angehalten; letzter Lauf EXP-020 Seed 32 t = 150 lief zu Ende (vor der
-  Deadline). EXP-020: Seeds 30, 31 vollständig (beide (25, 50], stützen H20), Seed 32: nur F, nur G, t = 150, 50, 25, 10 fertig (es fehlen 400, 1000).
-  **Weiter mit `sh lab/experiments/queue_s8.sh`** (siehe nächster Punkt). Befunde der Sitzung: JOURNAL „Abschlussbericht Sitzung 8“.
+## Drei Prioritäten (Regel 18c: Programm A/B/C)
 
-- **NÄCHSTE SITZUNG, ein Befehl (Sitzung 8, 13:51):** `python lab/tools/guarded_run.py --check`, dann prüfen, dass keine Queue läuft
-  (`ps -ef | grep -E "queue|guarded_run"`), dann **`sh lab/experiments/queue_s8.sh`** im Hintergrund (Log z. B.
-  `lab/runner/logs/queue_s8.log`). Reihenfolge darin: Rest von EXP-020 (Seeds 31–34) → Auswertung EXP-020 und EXP-028 →
-  EXP-035 (Smoke, Seeds 30–32) → Auswertung → EXP-034 → Auswertung → Rest von `queue_s5.sh`. Alles überspringt Fertiges.
-  Nach jeder Auswertung: Ergebnis ins README/JOURNAL/LAB (die Queue schreibt nur `summary.json`).
+1. **A – Split-Steuerung verallgemeinern und replizieren:** EXP-043 (Modulus), 046 (D₅₉), 048 (nicht-modular), 049 (Breite),
+   045 (MLP); Mechanismus-Kontrolle EXP-047 (Häufigkeiten). Funktionale Wirkung (Ablation) fehlt noch → planen.
+2. **B – Persistenz nach Datenwechsel:** EXP-044 (bedingt auf EXP-043), CPU-Versuche EXP-035–042 (laufen in queue_s10).
+3. **C – mechanistische Vorhersage an unberührten Fällen:** EXP-050 (M0c gegen M0, Kontrolle quadlm), Theorie erster Ordnung
+   ([[BEFUND-split-mechanismus]] Herleitung; EXP-047 Nachtrag a).
 
-- **Sitzung 8, 13:47 (neuester Stand):** Reihenfolge für die nächsten Fenster: (1) `queue_s5.sh` weiter (EXP-020 Seeds 31–34; danach
-  EXP-020- und EXP-028-Auswertung), (2) `sh lab/experiments/EXP-035-warmup-lockin/queue.sh 30 31 32` (braucht die EXP-020-
-  Intervalle der Seeds; beginnt mit Smoke), (3) `sh lab/experiments/EXP-034-phase2-optimizer/queue.sh`. Alternativ EXP-034 vor
-  EXP-035, falls EXP-020 noch läuft und ein Jobplatz frei ist: nie zwei Queues gleichzeitig. `queue_s5.sh` enthält nach EXP-020
-  noch EXP-018/014/023/022/010 (viele Stunden): nach EXP-020 ggf. anhalten, um EXP-035/034 vorzuziehen.
-  `freq_ban.py` hat seit b231fc6 eine Option `--warmup` (Standard 0 = unverändert).
+## Blocker / Hinweise
 
-- **Sitzung 8, 13:32:** EXP-033 **abgeschlossen** (*zustandsbestimmt* vorab; nach Codex eingeschränkt: AdamW in Phase 1 nicht nötig).
-  `queue_s5.sh` läuft wieder seit 13:17 (EXP-020 Seed 30 fast fertig, dann Seeds 31–34). **EXP-034** vorab festgelegt
-  (Nachtrag a, commit a7e9cf2/c36d212), nicht ausgeführt, `--opt2 gd` ungetestet. **Nächste Sitzung (Fenster heute bis 18:00,
-  ab 2026-09-27 wieder 00–13):** Prioritätsvorschlag: EXP-020 zu Ende (liefert EXP-020 + EXP-028), dann
-  `sh lab/experiments/EXP-034-phase2-optimizer/queue.sh` (A ≈ 75 min, Pilot ≈ 27 min, B ≈ 90 min), Auswertung
-  `python lab/tools/guarded_run.py -- python lab/experiments/EXP-034-phase2-optimizer/analyze.py`. Vor dem Start prüfen, ob
-  noch eine Queue läuft (`ps -ef | grep -E "queue|guarded_run"`); nie zwei Queues gleichzeitig.
+- **Codex ohne Guthaben** („out of credits“, 20:04): Zweitprüfung durch Claude-Subagenten (frischer Kontext, nur lesend).
+- Uncommittete Nutzeränderungen (`guarded_run.py`, `install_task.ps1`, `tick.ps1`, `runner/README.md`, `SESSION_PREAMBLE.md`,
+  `runner-state.json`, `parallel_queue.py`) **nicht committen** (der Astra-Review liegt seit s13 mit der Umsetzungstabelle im Git); nur gezielt `git add <pfad>`, nie `commit -a`.
+- Zeitstempel nur aus `guarded_run.py --check` (`now_berlin`); `--check` liefert jetzt Exit 3, wenn nicht erlaubt.
+- Shell-Skripte mit LF; Heredocs mit Backticks nur mit `<<'EOF'`; lange Patches als Datei statt Heredoc.
+- `Path.with_suffix` nicht für Namen mit „eps2.0“ benutzen.
 
-- **Sitzung 8, 12:30:** EXP-033-Queue läuft (Nachtrag c, `_bt`-Läufe); Wiederaufnahme = `sh lab/experiments/EXP-033-optimizer-lockin/queue.sh` (überspringt Fertiges). `queue_s5.sh` weiter pausiert.
+## Letzte abgeschlossene Versuche (Details [[LAB]], [[FINDINGS]])
 
-- **Sitzung 8, 12:18:** `queue_s5.sh` **angehalten** (EXP-020 Seed 30: F, G, t = 150 fertig, t = 50 lief zu Ende). EXP-033-Queue
-  läuft im Hintergrund (Log `lab/runner/logs/queue_exp033.log`). Danach: `analyze.py` von EXP-033, dann `sh lab/experiments/queue_s5.sh`.
-- **Sitzung 8, 12:15:** `queue_s5.sh` läuft (EXP-020 Seed 30, Log `lab/runner/logs/queue_s5.log`). **EXP-033** vorab festgelegt
-  (Nachtrag a nach Codex, commit 840e890), noch kein Lauf. Plan: nach EXP-020 Seed 30 Warteschlange anhalten (nur den
-  `sh`-Prozess beenden, laufenden Lauf fertig werden lassen), dann `sh lab/experiments/EXP-033-optimizer-lockin/queue.sh`,
-  dann `python lab/tools/guarded_run.py -- python lab/experiments/EXP-033-optimizer-lockin/analyze.py`, dann `queue_s5.sh`
-  erneut (überspringt Fertiges). Wurde die Sitzung unterbrochen: erst `tasklist | grep python` prüfen, dann in dieser
-  Reihenfolge fortsetzen (beide Skripte überspringen Fertiges).
-
-- **ENDE SITZUNG 7 (11:24) → nächste Sitzung beginnt hier.** Kette `queue_s7.sh` wird vor Sitzungsende kontrolliert
-  um 11:51 gestoppt (EXP-025 vollständig, ausgewertet). **Nächste Schritte im Fenster:**
-  1. `python lab/tools/guarded_run.py --check`
-  2. EXP-025 ist fertig und ausgewertet (*teilweise*, 11:51).
-  3. `sh lab/experiments/queue_s5.sh` (EXP-018/020-Smokes, dann **EXP-020 zuerst** (liefert auch EXP-028), EXP-018, EXP-014, …),
-     danach `python lab/tools/guarded_run.py -- python lab/experiments/EXP-028-memo-imprint/analyze.py`
-  **Neue Befunde Sitzung 7:** EXP-032 *Festlegung in ≤ 20 Schritten* (t½ = 5), EXP-030 *Rest gestützt*, EXP-029 *teilweise*,
-  EXP-024 Q *richtungsgleich n. s.* / R *bestätigt* (memorierend), EXP-026 *Anker ok, Trend n. s.*, EXP-027 *nicht auswertbar*,
-  EXP-027b *widerspricht*. EXP-031 zurückgestellt (Umbau nötig). Ideen: EXP-033 (AdamW-Rolle), EXP-031 neu (gekreuzte Spender).
-- **Sitzung 7, 10:32:** EXP-026 fertig (*Anker ok, Trend n. s.*; beschreibend Festlegung in ≤ 50 Schritten). Kette läuft:
-  EXP-027 → EXP-032 → EXP-027b (beide in `EXP-025/queue.sh` vorangestellt) → EXP-025 → queue_s5. Wiederaufnahme:
-  `sh lab/experiments/queue_s7.sh` (überspringt Fertiges). Auswertungen: EXP-027 `analyze.py` (erwartet *nicht auswertbar*,
-  Güte), EXP-032 `analyze.py`, EXP-027b `analyze_b.py`, EXP-025 `analyze.py`. EXP-031 zurückgestellt.
-- **Sitzung 7, 09:59, neue Befunde (ohne Training, vorab festgelegt):** EXP-029 *teilweise* (W_E ist in der Memorisierungsphase
-  spezifisch mit der eigenen Maske ausgerichtet, 10/10; Abbau bis gen + 25 nur 8/10), EXP-030 *Rest gestützt* (M0 → K läuft
-  über W_E bei Schritt 250). EXP-028 vorbereitet (wartet auf EXP-020-Läufe). N13 nach Codex korrigiert.
-- **Sitzung 7, 09:46:** EXP-024 **abgeschlossen** (Q richtungsgleich n. s., R bestätigt aber memorierend). Läuft:
-  `sh lab/experiments/queue_s7.sh` (Log `lab/runner/logs/queue_s7.log`): EXP-026-Smoke (ok) → EXP-026 (30 Läufe, seit 09:44,
-  **Umschaltdesign nach Codex, Nachtrag a**, commit 53450e1) → EXP-027 (in EXP-026/queue.sh verkettet) → EXP-025 → `queue_s5.sh`. Alles überspringt Fertiges;
-  Wiederaufnahme = `sh lab/experiments/queue_s7.sh` erneut starten (die Warteschleife endet sofort, weil das EXP-024-Log
-  schon eine `[exp024]`-Zeile hat; fehlt sie, zuerst `sh lab/experiments/EXP-024-quadratic-agf-mask/queue.sh`).
-  Auswertungen danach: EXP-026, EXP-027, EXP-025 je `analyze.py` (über den Wächter).
-
-- **Sitzung 6, 08:53:** Baseline 19 fertig (EXP-003d 10/10). Läuft: **EXP-024** (`sh lab/experiments/EXP-024-quadratic-agf-mask/queue.sh`,
-  Log `lab/runner/logs/queue_exp024.log`, überspringt fertige Läufe). `queue_s5.sh` ist **angehalten**; danach neu starten
-  (setzt bei den Smokes EXP-018/020 fort). Nach EXP-024: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-024-quadratic-agf-mask/analyze.py`.
-- EXP-015/012 Phase 2 mit n = 10 nur berichten: `mask_spectrum.py --phase 2 --suffix _n10`, `predict.py --phase 2 --predictor G0 --suffix _n10`.
-
-- **Sitzung 5, 07:31:** Der Nutzer hat um 06:58 die Freigabe erteilt (`.claude/settings.local.json`: `sh lab/experiments/*queue*`,
-  `python lab/tools/guarded_run.py *`). `queue_s5.sh` lief 07:30–08:24: EXP-016 Seeds 16–19 und Baseline 18 fertig; Baseline 19
-  vom Wächter abgelehnt (Deadline), rc 3, keine Prozesse mehr. **Nächste Sitzung: denselben Befehl erneut starten** (setzt
-  bei Baseline 19 fort).
-- **Neue Warteschlange:** `sh lab/experiments/queue_s5.sh` (ersetzt `queue_s4b.sh`, dieselben Läufe plus EXP-018/020,
-  neue Reihenfolge). Log z. B. nach `lab/runner/logs/queue_s5.log`. Reihenfolge: EXP-016 Seeds 16–19 (je 2 × 4.5 min,
-  danach Entscheidung) → EXP-003d-Baselines 18, 19 → Smoke EXP-018 und EXP-020 (+ `check_smoke.py`) → EXP-018 Seeds
-  20–24 → EXP-014 Kreuzpaare → EXP-020 → EXP-023 → EXP-022 (über deren eigene `queue.sh`) → EXP-018 Seeds 25–29 →
-  EXP-010-Tausch 11–19. Sie stoppt bei **jedem** Exit ≠ 0;
-  fertige Läufe werden übersprungen (`freq_ban.py` endet dann seit Sitzung 5 mit 0). Neu starten = fortsetzen.
-- **Abgebrochene Läufe** stehen mit `status: running` in `result.json` und werden neu gestartet (kein Resume).
-- Vor jedem Start: `python lab/tools/guarded_run.py --check`.
-- **Abhängigkeit:** Die Läufe mit `--min-minutes 33` (Baselines, EXP-014, EXP-010) brauchen den **uncommitteten**
-  `guarded_run.py` des Nutzers ohne feste Jobgrenze (Regel 14). Mit der committeten Fassung (Jobgrenze 20 min) würde der
-  Wächter sie mit Exit 3 ablehnen und die Warteschlange hielte an (Codex-Prüfung der Warteschlange, Sitzung 5).
-- **Zeilenenden:** Python schreibt unter Windows im Textmodus CRLF. Shell-Skripte müssen LF haben (sonst bricht `sh`).
-  Nach Änderungen an `*.sh` mit `file` prüfen; beim Schreiben aus Python `newline='
-'` benutzen.
-- Nach EXP-016 Seed 17 (8 Seeds): `python lab/experiments/EXP-016-engineered-split/analyze.py`.
-
-## Kurzlage
-
-- **Repo:** lokales Git, `main` = Import-Snapshot, `lab/research` = Laborarbeit. Kein Remote, kein Push.
-  Uncommittete Änderungen an `lab/runner/*`, `lab/runner-state.json` und `lab/tools/guarded_run.py` stammen vom
-  Nutzer (Regeln 13/14, keine feste Jobgrenze). Sie sind bewusst nicht committet; der Nutzer entscheidet.
-- **Umgebung:** Windows 11, Python 3.12, torch 2.13.0, numpy 2.5.1 (Studie: torch 2.12.1). Die rekonstruierten Inits
-  stimmen trotzdem bitgenau mit den gespeicherten Schritt-0-Checkpoints überein. 0.13 s/Schritt (Transformer, 4 Threads).
-- **Studie (historisch, nicht umschreiben):** `RESULTS.md`. Interpretation bei den Autoren.
-- **Runner:** aktiviert (Aufgabe `GROKVERSE-Lab-Runner`), Sitzungsstart und -ende-Klassifikation belegt.
-
-## Stand der Versuche (nach Sitzung 5)
-
-**Bestätigt an frischen Seeds 10–17 (vorab festgelegt):**
-- [[experiments/EXP-015-mask-spectrum/README|EXP-015]]: Das Masken-Spektrum M0 des Trainingssplits (ohne Gewichte) sagt die
-  Rangfolge der gelernten Frequenzen voraus (r̄ 0.277, fremde Masken 0.499, p 2.5e-5). **Nur Assoziation.**
-- [[experiments/EXP-012-init-gradient/README|EXP-012]]: Erster Gradient an W_E > Init-Spektrum (p 0.031).
-
-**Abgeschlossen (Sitzung 5, 08:06):** [[experiments/EXP-016-engineered-split/README|EXP-016]] *steuerbar*: 10/10 Seeds, Δ̄ = +7.7 von 10,
-p ≈ 0.001. Konstruierte Splits geben die gelernten Frequenzen vor; alle Abweichungen sind 2k-Harmonische der Ziele.
-
-**Neu vorbereitet in Sitzung 5 (alle nicht ausgeführt, Codex-Reviews eingearbeitet):**
-- [[experiments/EXP-018-split-speed/README|EXP-018]]: Beschleunigt ein spektral konzentrierter Split das Grokking?
-  Feste Testmenge, Kontrolle D = Gewichte von E innerhalb der Antidiagonalen permutiert, Seeds 20–29. Drei
-  konkurrierende Vorhersagen (H18 / Frequency Principle nach Zhou et al. 2024 / Komplement-Artefakt).
-- [[experiments/EXP-019-coherent-mask/README|EXP-019]]: kohärentes Masken-Spektrum M0c gegen M0 (post hoc
-  richtungsgleich, n. s.); Bestätigung ohne eigene Läufe aus EXP-018 Arm R + Baselines 18/19.
-- [[experiments/EXP-020-data-switch/README|EXP-020]]: Datenwechsel F → G nach t Schritten, gleiches G-Budget:
-  kausale Festlegungszeit der Frequenzwahl. Seeds 30–34.
-- [[experiments/EXP-021-harmonic-misses/README|EXP-021]]: Bestätigung „Fehlgriffe = 2k der Ziele“ an 18 frischen Läufen
-  (EXP-016 16–19, EXP-020 nur-F/nur-G), ohne eigenes Training.
-- [[experiments/EXP-023-split-value/README|EXP-023]]: Eigene Wertematrix für Position 1 (Seeds 50–59, rand/copy/Baseline,
-  3000 Schritte): folgt die finale Wahl dann M0 statt M0c? Kausaltest des Mechanismus.
-- [[experiments/EXP-022-single-frequency/README|EXP-022]]: Erzwingt ein Ein-Frequenz-Split eine Ein-Frequenz-Lösung?
-  Seeds 40–44, Arme S1/D1/S5, 6000 Schritte, funktionale Messung (`nanda`) am gespeicherten Modell.
-**Post hoc (Sitzung 5):** Die natürliche M0-Konzentration eines Zufallssplits sagt die Grokking-Zeit nicht voraus.
-**Mechanismus (Sitzung 5, post hoc, nach Codex-Angriff präzisiert):** Im ersten W_E-Gradienten interferieren linke und
-rechte Eingabeposition frequenzweise so, wie es der Kreuzterm der Maske (M0c − M0) vorhersagt (18/18 Seeds, fremde
-Maske −0.09); deshalb beschreibt M0c die Gradientenleistung besser als M0 (0.77 vs. 0.57). Ob M0c auch K besser
-vorhersagt: EXP-019.
-**Oberwellen (Sitzung 5, explorativ):** Alle 14 Nicht-Ziel-Frequenzen in EXP-016 (Seeds 10–15) sind fold(2k) eines Ziels.
-Auch unter Zufallssplits enthält die W_E-Top-5 gehäuft (k, 2k)-Paare. In den Studienmodellen sind die schwächeren
-2k-Glieder die unwichtigsten der Top-5 (Ablation 8/8), aber nicht null; Phasenkopplung nur in 3/10 Paaren deutlich;
-sie erreichen die Top-5 meist erst nach dem Grokking. Vorhersage für EXP-016 Seeds 16–19 vorab festgelegt (Nachtrag b).
-**Literatur (Sitzung 5):** N3 in anderer Form bekannt (Zhou et al. 2024, Frequency Principle, andere Aufgaben); bei
-festem Split variiert K trotzdem über Inits (GitHub-Nachbau) → Split ist nicht die einzige Ursache.
-
-**Weiter vorbereitet:** EXP-014 (Kreuzdesign), EXP-017 (RFM), EXP-013 (Lock-in-Kurve), EXP-011, EXP-001/002.
-**Teilweise:** EXP-010 (1/10 Paare), EXP-003d (9/10 Baselines; Seed 18 gen 8775).
-
-## Nächste konkrete Aktionen (nur im Fenster 00:00–13:00 Berlin)
-
-1. `python lab/tools/guarded_run.py --check`, dann `sh lab/experiments/queue_s5.sh` im Hintergrund, beobachten.
-2. EXP-016 ist fertig. Nach den Baselines 18/19: EXP-015/012 Phase 2 mit n = 10 nur berichten.
-3. Nach den Smokes: `check_smoke.py` (EXP-020) und `result.json` des EXP-018-Smokes prüfen (`test_hash`, 2554 Testpaare).
-4. Auswertungen: `EXP-021-harmonic-misses/analyze.py`, `EXP-022-single-frequency/analyze.py`, `EXP-018-split-speed/analyze.py`, `EXP-019-coherent-mask/analyze.py`, `EXP-014-split-vs-init/analyze.py`,
-   `EXP-020-data-switch/analyze.py`, `EXP-010-init-swap/analyze.py` (je über den Wächter, wo `make_dataset` benutzt wird).
-5. Außerhalb des Fensters: Theorie (AGF-Nutzen mit maskiertem Verlust ↔ M0c herleiten), Reverse-Kontrolle G → F für
-   EXP-020 als eigenen Nachtrag erwägen, Google Scholar gezielt zu N6.
-
-## Blocker
-
-- **Aufgehoben 07:31:** Der Nutzer hat um 06:58 die Bash-Freigabe erteilt; die Warteschlange läuft. Der Eintrag darunter ist historisch.
-
-- **Sitzung 5 (2026-09-26 05:52 Berlin):** Der Start von `sh lab/experiments/queue_s4b.sh` im Hintergrund wurde vom
-  Auto-Mode-Klassifikator von Claude Code abgelehnt („Safety Bypass Flag“), obwohl jeder Lauf über `guarded_run.py`
-  geht. Nach den Regeln der Ablehnung **nicht umgangen** (auch nicht über Einzelaufrufe). Die Warteschlange muss der
-  Nutzer freigeben: entweder eine Bash-Berechtigungsregel für `sh lab/experiments/queue_s5.sh` (Nachfolger von `queue_s4b.sh`) bzw.
-  `python lab/tools/guarded_run.py` hinzufügen oder die Warteschlange selbst starten. Bis dahin nur Denk- und Sucharbeit.
+- Letzte Urteile stammen aus Sitzung 9/10 (EXP-020, EXP-028, EXP-037); seither nur vorbereitet. Kernaussagen K1–K6 in [[FINDINGS]].

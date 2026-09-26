@@ -2256,17 +2256,19 @@ Argument dort, auch mit Standardwert, ändert also den Fingerprint jedes Laufs. 
 Überspringen, und die Wiederaufnahme der Nachtprogramme bricht ab. *Entscheidung:* heute Nacht nichts am Trainer ändern. Bauregel in BACKLOG und STATE:
 nur bei Abweichung vom Standard aufnehmen, mit einem Selbsttest „Fingerprint eines Standardlaufs unverändert“.
 
-**Entscheidung, die Sitzung vor der Deadline zu beenden (6T23:):** Der letzte offene Designpunkt aus 18a/Astra (5, Kreuzblock) ist erledigt.
+**Entscheidung, die Sitzung vor der Deadline zu beenden (23:47):** Der letzte offene Designpunkt aus 18a/Astra (5, Kreuzblock) ist erledigt.
 Weitere Arbeit vor 03:00 wäre Nachrechnen an ausgeschöpften Daten oder eine Trainer-Änderung, die die heutige Abnahme gefährdet.
 Der nächste Runner-Start (03:14) hängt nicht davon ab.
 
-### Abschlussbericht Sitzung 16 (Stand 6T23: Berlin; Auftrag §10)
+### Abschlussbericht Sitzung 16 (Stand 23:47 Berlin; Auftrag §10)
 
 - **Befunde:** keine neuen Messungen (Fenster zu). Design: Der gekreuzte Split×Init-Block für die P1-Bestätigung ist festgelegt und gebaut
   (sekundär, feste Lesart, 20 Zusatzläufe). Damit ist Astra-Punkt 5 im Design vollständig. Außerdem eine Bauregel für neue Trainer-Argumente
   (Fingerprint-Stabilität).
-- **Offene Grenzen:**  ist ungetestet (Selbsttest ab 03:00, schon in STATE Schritt 3). Der Kreuzblock trennt Init von
+- **Offene Grenzen:** `confirm_p1.py` ist nicht im Fenster getestet (Selbsttest ab 03:00 über den Wächter, schon in STATE Schritt 3; siehe Vorfall unten). Der Kreuzblock trennt Init von
   Init×Split-Wechselwirkung nicht.
-- **Reproduktion:** [confirm_p1] selftest ok (nur im Fenster, über ).
-- **Nächste Aktion:** STATE „Wiederaufnahme ab 03:00“ unverändert, dazu  ins P1-Manifest beim Einfrieren.
+- **Reproduktion:** `python lab/tools/confirm_p1.py --selftest` (nur im Fenster, über `guarded_run.py`).
+- **Nächste Aktion:** STATE „Wiederaufnahme ab 03:00“ unverändert, dazu `cross` ins P1-Manifest beim Einfrieren.
 - **Runner:** nächster Start laut runner-state.json 03:14 Berlin (01:14Z); Läufe ab 03:00.
+
+**Vorfall (23:47, Regelverstoß, unbeabsichtigt):** Beim Schreiben dieses Abschlussberichts habe ich ein Bash-Heredoc ohne Anführungszeichen benutzt. Die Shell hat den Backtick-Ausdruck `python lab/tools/confirm_p1.py --selftest` aus dem Berichtstext **ausgeführt**: außerhalb des Fensters (vor 03:00, Regel 18) und ohne `guarded_run.py`. Der Selbsttest ist reine Rechnung. Er hat „selftest ok“ ausgegeben, keine Datei geschrieben (`git status` unverändert, kein `lab/confirm/`) und keinen Prozess hinterlassen. Dieses Ergebnis zählt **nicht** als Abnahme. Der Selbsttest läuft ab 03:00 regulär über den Wächter. Die übrigen Backtick-Stücke waren keine gültigen Befehle und haben nichts ausgeführt. Die Berichtstexte sind oben korrigiert. *Ursache:* die bekannte Falle aus STATE („Heredocs mit Backticks nur mit <<'EOF'“), die ich hier missachtet habe. *Lehre:* Notiztexte nie über ein Heredoc mit Variablen-Ersetzung schreiben, sondern als Datei (Write-Werkzeug) und dann byteweise anhängen.

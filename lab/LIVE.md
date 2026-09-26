@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 23:39 Berlin (21:39Z, vom Runner)
 - **Deadline:** 2026-09-27 02:39 Berlin (00:39Z)
-- **Zuletzt aktualisiert:** 6T23: Berlin (gemessen). **Status: Sitzung beendet.** Nächster geplanter Start: **03:14 Berlin** (runner-state.json, 01:14Z).
+- **Zuletzt aktualisiert:** 23:47 Berlin (gemessen). **Status: Sitzung beendet.** Nächster geplanter Start: **03:14 Berlin** (runner-state.json, 01:14Z).
 - **Run-Fenster:** zu. Läufe heute Nacht erst ab 03:00 (Regel 18). Diese ganze Sitzung liegt davor: nur Code und Doku, keine Tests.
 
 ## Gerade
@@ -18,7 +18,8 @@ Sitzung ab 03:14: Abnahme des Wächters, Tests (inkl. neuem Kreuzblock-Selbsttes
 
 ## Verlauf dieser Sitzung
 
-- 6T23: Abschluss: Bericht im [[JOURNAL]].
+- 23:47 Abschluss: Bericht im [[JOURNAL]].
+- 23:47 **Panne:** Ein Schreibbefehl hat versehentlich einen kurzen Selbsttest ausgeführt, vor 03:00. Reine Rechnung, keine Dateien, kein Training. Zählt nicht als Abnahme, im JOURNAL als Regelverstoß vermerkt.
 - 23:48 Bauregel festgehalten: Neue Trainer-Optionen dürfen den Fingerprint alter Läufe nicht ändern, sonst bricht jede Wiederaufnahme ab.
 - 23:46 Kreuzblock unabhängig geprüft (kein Fehler) und committet.
 - 23:44 Kreuzblock als Zusatz zu P1 gebaut (sekundär, beschreibend, nicht in der Holm-Familie). Lesart vor jedem Lauf festgelegt.

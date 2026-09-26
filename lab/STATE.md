@@ -3,12 +3,18 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 18:51 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 19:00 Berlin (Ende Sitzung 10; nächster Start 2026-09-26 22:29 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **ENDE SITZUNG 10 (19:00) → nächste Sitzung beginnt hier.** Start 2026-09-26 22:29 Berlin, Fenster ab 00:00. **Im Fenster ein Befehl:**
+  `python lab/tools/guarded_run.py --check`, prüfen, dass keine Queue läuft (`ps -ef | grep -E "queue|guarded_run"`), dann
+  `sh lab/experiments/queue_s10.sh` im Hintergrund (Log `lab/runner/logs/queue_s10.log`) und beobachten. Danach
+  `python lab/tools/night_report.py lab/runner/logs/queue_s10.log`, Ergebnisse in README/JOURNAL/LAB/[[BEFUND-festlegung]] eintragen,
+  dabei die **vorab festgelegte Lesart** in [[BEFUND-festlegung]] einhalten. Bis 00:00 Denkarbeit (Ideen: G-Unterdrückung N22,
+  kalibrierter Test für N21, SGD-G-Phase als Test der Adam-Verdrängung).
 - **SITZUNG 10 (18:51), NEUE REIHENFOLGE:** `queue_s10.sh` = EXP-035 (Seeds 30, 31, 32, 34) → EXP-038 → **EXP-041** → EXP-036 → EXP-039
   → EXP-040 → EXP-034 → EXP-042 → queue_s5. Grund: F und G teilen ≈ 73 % der Paare, die Festlegung ist nur gegen einen 27-%-Wechsel
   gezeigt; EXP-041 (E/R ≈ 37 % gemeinsam) ist der härtere Test und kommt vor den Uhr-Versuchen (JOURNAL Zyklus 20).

@@ -1546,3 +1546,18 @@ Phase 1 nicht nötig“); (2) Lesart für EXP-041 auf dessen Urteilskategorien z
 bleiben in jedem Fall auf den Teilwechsel beschränkt; (3) EXP-020-Kern präzisiert: d wird in (25, 50] positiv, die Endzustände sind
 dort noch gemischt, exakt „nur F“ erst ab t = 150 (auch in der Lage von [[LAB]] korrigiert); (4) EXP-042 *später* belegt H42 nicht.
 Lehre: Eine Synthese ist die Stelle, an der sich Überaussagen einschleichen; sie braucht dieselbe Prüfung wie ein Versuch.
+
+**Ergänzung zum Abschlussbericht Sitzung 10 (19:00):**
+- **Wichtigste neue Einsicht nach dem Entwurf:** F und G teilen ≈ 73 % der Trainingspaare; die Festlegung ist nur gegen einen
+  Teilwechsel gezeigt. EXP-041 (≈ 63 % neue Paare) ist deshalb in der Queue nach vorn gerückt (nach EXP-038). Außerdem: Nach der
+  Festlegung drückt G-Training die G-Zielfrequenzen stärker als fortgesetztes F-Training (39/40, 33/40, 25/35, 24/24; ungeklärt;
+  Erklärungskandidat „Adam-Verdrängung“ ist ein bekannter allgemeiner Effekt, ungeprüft).
+- **Neu vorbereitet:** EXP-042 (Split-Neigung; Splits erzeugt). **Neue Notiz:** [[BEFUND-festlegung]] mit vorab festgelegter Lesart
+  der Ergebniskombinationen (nach Codex korrigiert). **Werkzeug:** `lab/tools/night_report.py`.
+- **`freq_ban.py` nach Codex gehärtet** (9fa4b7a). Alle neuen Pfade werden nachts zuerst durch Smokes/Selbsttests geprüft.
+- **Queue `queue_s10.sh`:** EXP-035 (Seeds 30, 31, 32, 34) → EXP-038 → EXP-041 → EXP-036 → EXP-039 → EXP-040 → EXP-034 → EXP-042 →
+  queue_s5; ein Fehlschlag überspringt nur den betroffenen Versuch, rc 3 stoppt.
+- **Codex insgesamt:** 9 Reviews (EXP-036 d, EXP-039, EXP-040, EXP-041, EXP-042, `freq_ban.py`, Schlussfolgerungen Zyklus 12,
+  Befundnotiz), alle needs-attention; übernommen bzw. mit Grund abgelehnt, siehe Zyklen.
+- **Scheduler:** Aufgabe `GROKVERSE-Lab-Runner` aktiv; nächster Start laut `runner-state.json` 2026-09-26T20:29:44.7949635Z = **2026-09-26 22:29 Berlin**
+  (außerhalb des Fensters bis 00:00; die Sitzung soll um 00:00 `queue_s10.sh` starten).

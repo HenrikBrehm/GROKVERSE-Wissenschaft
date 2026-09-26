@@ -598,3 +598,10 @@ beiden Positionen im ersten Gradienten entsteht durch den geteilten Wertepfad de
 dem MLP-Kontrast (Zyklus 18) ist das der bislang stärkste Beleg für den Mechanismus hinter M0c. Grenze: nur der erste
 Gradient bei Init; ob das die finale Frequenzwahl kausal ändert, zeigt erst ein Training mit getrennten Wertepfaden
 (nicht vorbereitet).
+
+**Zyklus 20 (07:00–07:09, Vorbereitung): EXP-023 „getrennte Wertepfade“.** Frage: Bestimmt die Positions-Interferenz auch
+die **finale** Frequenzwahl? Eingriff im Training: Position 1 bekommt eine eigene Wertematrix W_V1 (Variante im Labor,
+Studiencode unverändert, `--split-value`). **Codex-Review** (`EXP-023-split-value/codex_review_2026-09-26.txt`), 5
+Befunde, alle übernommen (Nachtrag a): Arme rand und copy, frische Seeds 50–59 mit eigenen Baselines, feste 3000 Schritte
+für alle, Init-Prüfsumme, Lader mit Rundlauf-Test. Tests 15/15. Nebenbei: Das Skript `value_path_intervention.py` rechnete
+beim Import; `__main__`-Schutz ergänzt (Ergebnis-JSON unverändert, deterministisch).

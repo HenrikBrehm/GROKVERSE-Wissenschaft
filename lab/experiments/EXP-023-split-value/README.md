@@ -44,3 +44,27 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/freq_
 sh lab/experiments/EXP-023-split-value/queue.sh
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-023-split-value/analyze.py
 ```
+
+## Nachtrag a (2026-09-26 07:09 Berlin, nach Codex-Review, **vor jedem Lauf**): neues Design
+
+Codex (`codex_review_2026-09-26.txt`, „needs-attention“), 5 Befunde, selbst geprüft, alle **übernommen**. Die Tabelle
+oben gilt nur noch, wo sie hier nicht ersetzt wird.
+1. [high] *Der Eingriff trennt „geteilter Pfad“ nicht von „andere Anfangsfunktion + mehr Parameter“.* → Zwei Arme:
+   **rand** (W_V1 unabhängig gezogen: bricht die Interferenz des ersten Gradienten) und **copy** (W_V1 = Kopie von W_V:
+   gleiche Anfangsfunktion und gleicher erster Gradient wie die Baseline, danach entkoppelt). Beide haben die zusätzlichen
+   Parameter. Manipulationsprüfung in `analyze.py`: Kreuzterm-Korrelation im ersten Gradienten des umgebauten Modells
+   (Seed 50: Baseline 0.47, rand 0.21; Seed 51: 0.71 gegen −0.05).
+2. [high] *Die Baselines der Seeds 10–17 waren schon angesehen* (M0c-Vorteil bekannt), Regressionseffekt. → **Frische
+   Seeds 50–59 mit eigenen, neuen Baselines**; nichts davon existiert bisher.
+3. [high] *Messung bei gen + 25 bedingt auf Grokking und unterschiedliche Trainingsdauer.* → **Alle Läufe genau 3000
+   Schritte** ohne Frühstopp (`--steps 3000 --stop-after-gen 100000`), K = W_E-Top-5 bei Schritt 3000, kein Ausschluss
+   nicht-generalisierender Läufe. Begründung für 3000: Die Frequenzwahl steht früh fest (EXP-009; EXP-016: Prägung bis
+   Schritt 250).
+4. [medium] *Protokollprüfung zu schwach.* → `analyze.py` prüft Status, Seed, Bedingung, max_steps, steps_completed,
+   Stoppregel, Variante, keine Split-Datei; `freq_ban.py` speichert jetzt `init_checksum_shared` (SHA-256 aller
+   Parameter der unveränderten Init); die drei Arme eines Seeds müssen dieselbe Prüfsumme und denselben Split haben.
+5. [medium] *Gespeicherte Modelle wären falsch rekonstruierbar.* → `load_variant()` (Umbau + striktes Laden); Test mit
+   Speicher-/Lade-Rundlauf (gleiche Logits) im Fenster ok (15/15, 07:05).
+**Primär neu:** Δ_i = [r̄_rand(M0c) − r̄_rand(M0)] − [r̄_base(M0c) − r̄_base(M0)], einseitiger Vorzeichen-Permutationstest über
+die Seeds 50–59; Entscheidungsregeln wie oben. Sekundär: dasselbe für copy (Erwartung ≈ 0); Manipulationsprüfung.
+Budget neu: 30 Läufe × 3000 Schritte × 0.13 s ≈ 6.5 min, zusammen ≈ 3.3 h. Grenze bleibt: geringe Teststärke.

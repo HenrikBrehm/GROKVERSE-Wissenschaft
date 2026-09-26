@@ -197,11 +197,16 @@ def test_split_value_variant() -> None:   # EXP-023
         assert torch.equal(prm, dict(var.named_parameters())[name])
     assert "W_V1" in dict(var.named_parameters())                 # (3) W_V1 is trained
     x = torch.tensor([[1, 2, 113], [5, 7, 113], [40, 40, 113]])
-    with torch.no_grad():                                          # (2) W_V1 := W_V reproduces the original model
-        var.W_V1.copy_(var.W_V)
-        assert torch.allclose(var.logits_last(x), base.logits_last(x), atol=1e-6)
-        var.W_V1.mul_(2.0)
-        assert not torch.allclose(var.logits_last(x), base.logits_last(x), atol=1e-6)
+    with torch.no_grad():
+        assert not torch.allclose(var.logits_last(x), base.logits_last(x), atol=1e-6)   # rand changes the function
+        set_seed(10)
+        cp = sv.convert(build_model(cfg), 10, "copy")                 # (2) copy variant == original model
+        assert torch.allclose(cp.logits_last(x), base.logits_last(x), atol=1e-6)
+        assert sv.shared_checksum(cp) == sv.shared_checksum(var) == sv.shared_checksum(base)
+    state = {k: v.clone() for k, v in var.state_dict().items()}       # (4) save/reload round trip
+    re = sv.load_variant(cfg, state, 10, "rand")
+    with torch.no_grad():
+        assert torch.allclose(re.logits_last(x), var.logits_last(x), atol=1e-7)
 
 
 def test_shrink_matches_top_ban_energy() -> None:              # amendment 2026-09-25b

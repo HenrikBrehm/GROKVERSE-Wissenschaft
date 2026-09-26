@@ -37,6 +37,7 @@ Run ONLY through lab/tools/guarded_run.py (run window). Example, from the root:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import platform
 import sys
@@ -211,7 +212,7 @@ def run(a: argparse.Namespace) -> dict:
         raise SystemExit("--test-file / --switch-split-file need --split-file")
     if a.split_value:                # EXP-023: position 1 gets its own attention value matrix
         exp_id = "EXP-023"
-        run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + "_sv"
+        run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_sv{a.split_value}"
     out_dir = Path(a.out_root) / run_id
     if (out_dir / "result.json").exists() and not a.force:
         prev = json.loads((out_dir / "result.json").read_text())
@@ -254,12 +255,16 @@ def run(a: argparse.Namespace) -> dict:
             raise SystemExit(f"[exp] invalid switch file {a.switch_split_file}: same size, unique, disjoint from test")
         switch_idx = torch.from_numpy(rs.astype(np.int64))
     model = build_model(cfg)
+    init_checksum = hashlib.sha256()          # EXP-023: all parameters of the plain init, name-sorted
+    for name, prm in sorted(model.named_parameters()):
+        init_checksum.update(name.encode())
+        init_checksum.update(np.ascontiguousarray(prm.detach().cpu().numpy()).tobytes())
     if a.split_value:                # after the baseline init (identical weights), before the optimizer
         if cfg.arch != "transformer":
             raise SystemExit("--split-value needs the transformer")
         sys.path.insert(0, str(HERE.parent / "EXP-023-split-value"))
         from split_value import convert
-        model = convert(model, a.seed)
+        model = convert(model, a.seed, a.split_value)
     opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay,
                             betas=(cfg.beta1, cfg.beta2))
     basis = fourier_basis(p)
@@ -293,7 +298,8 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "max_steps": a.steps,
+           "switch_step": a.switch_step, "split_value": a.split_value,
+           "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "test_hash": split_hash(data["test_idx"]),
            "switch_hash": None if switch_idx is None else split_hash(switch_idx),
@@ -419,8 +425,9 @@ def main() -> None:
     ap.add_argument("--switch-split-file", default=None,
                     help="EXP-020: .npy train set that replaces --split-file after --switch-step (needs --test-file)")
     ap.add_argument("--switch-step", type=int, default=None, help="EXP-020: last step trained on --split-file")
-    ap.add_argument("--split-value", action="store_true",
-                    help="EXP-023: position 1 gets its own attention value matrix W_V1 (separate generator)")
+    ap.add_argument("--split-value", choices=("rand", "copy"), default=None,
+                    help="EXP-023: position 1 gets its own attention value matrix W_V1 (rand: separate generator, "
+                         "copy: copy of W_V, untied afterwards)")
     ap.add_argument("--save-model", action="store_true")
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args()

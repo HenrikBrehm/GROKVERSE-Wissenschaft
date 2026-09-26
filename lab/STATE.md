@@ -14,7 +14,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 - **Neue Warteschlange:** `sh lab/experiments/queue_s5.sh` (ersetzt `queue_s4b.sh`, dieselben Läufe plus EXP-018/020,
   neue Reihenfolge). Log z. B. nach `lab/runner/logs/queue_s5.log`. Reihenfolge: EXP-016 Seeds 16–19 (je 2 × 4.5 min,
   danach Entscheidung) → EXP-003d-Baselines 18, 19 → Smoke EXP-018 und EXP-020 (+ `check_smoke.py`) → EXP-018 Seeds
-  20–24 → EXP-014 Kreuzpaare → EXP-020 → EXP-018 Seeds 25–29 → EXP-010-Tausch 11–19. Danach `sh lab/experiments/EXP-022-single-frequency/queue.sh`
+  20–24 → EXP-014 Kreuzpaare → EXP-020 → EXP-018 Seeds 25–29 → EXP-010-Tausch 11–19. Danach `sh lab/experiments/EXP-022-single-frequency/queue.sh` und `sh lab/experiments/EXP-023-split-value/queue.sh`
   (15 Läufe à 13 min, Modelle gespeichert). Sie stoppt bei **jedem** Exit ≠ 0;
   fertige Läufe werden übersprungen (`freq_ban.py` endet dann seit Sitzung 5 mit 0). Neu starten = fortsetzen.
 - **Abgebrochene Läufe** stehen mit `status: running` in `result.json` und werden neu gestartet (kein Resume).
@@ -53,6 +53,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
   kausale Festlegungszeit der Frequenzwahl. Seeds 30–34.
 - [[experiments/EXP-021-harmonic-misses/README|EXP-021]]: Bestätigung „Fehlgriffe = 2k der Ziele“ an 18 frischen Läufen
   (EXP-016 16–19, EXP-020 nur-F/nur-G), ohne eigenes Training.
+- [[experiments/EXP-023-split-value/README|EXP-023]]: Eigene Wertematrix für Position 1 (Seeds 50–59, rand/copy/Baseline,
+  3000 Schritte): folgt die finale Wahl dann M0 statt M0c? Kausaltest des Mechanismus.
 - [[experiments/EXP-022-single-frequency/README|EXP-022]]: Erzwingt ein Ein-Frequenz-Split eine Ein-Frequenz-Lösung?
   Seeds 40–44, Arme S1/D1/S5, 6000 Schritte, funktionale Messung (`nanda`) am gespeicherten Modell.
 **Post hoc (Sitzung 5):** Die natürliche M0-Konzentration eines Zufallssplits sagt die Grokking-Zeit nicht voraus.

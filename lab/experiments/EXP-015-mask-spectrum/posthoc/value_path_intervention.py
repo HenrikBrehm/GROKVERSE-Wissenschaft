@@ -69,7 +69,12 @@ def cross_rho(s: int, mode: str) -> float:
     return pg.rho(PS - PL - PR, pg.m0c(Mk) - pg.ms.m0(Mk))
 
 
-out = {mode: [cross_rho(s, mode) for s in range(10)] for mode in ("unmodified", "own_WV", "own_WO")}
-summ = {m: {"mean": float(np.mean(v)), "n_positive": int(sum(x > 0 for x in v))} for m, v in out.items()}
-print(json.dumps(summ, indent=1))
-(HERE / "value_path_intervention.json").write_text(json.dumps({"summary": summ, "per_seed": out}, indent=1))
+def main() -> None:
+    out = {mode: [cross_rho(s, mode) for s in range(10)] for mode in ("unmodified", "own_WV", "own_WO")}
+    summ = {m: {"mean": float(np.mean(v)), "n_positive": int(sum(x > 0 for x in v))} for m, v in out.items()}
+    print(json.dumps(summ, indent=1))
+    (HERE / "value_path_intervention.json").write_text(json.dumps({"summary": summ, "per_seed": out}, indent=1))
+
+
+if __name__ == "__main__":
+    main()

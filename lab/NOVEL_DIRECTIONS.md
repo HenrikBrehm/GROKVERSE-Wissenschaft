@@ -645,3 +645,7 @@ Gruppen und eine nicht-modulare Aufgabe geprüft wird. Das bleibt der Kandidat v
   um „eingefroren“ von „proportional verstärkt“ zu trennen (Top-k-Identität und die übrigen Richtungen, nicht nur π).
 - **Literatur (Suche 2026-09-26 22:48):** „The Order Is The Message“ (https://arxiv.org/abs/2603.25047), Critical Learning Periods
   (https://arxiv.org/abs/1711.08856). Ein additives Integrationsfenster für die Frequenzwahl: nicht gefunden (vorläufig).
+- **Nachtrag Literatur (22:58):** „A Spectral Theory of Grokking: Weight Decay induces Feature Learning“ (https://arxiv.org/abs/2609.26679,
+  laut Abstract): Nach der Memorisierung treibt Weight Decay einen Übergang von lazy zu rich; Fourier-Struktur im NTK wächst weiter, Zeitskala
+  lr · wd. Passt zur späten gemeinsamen Verstärkung (π bleibt, Kontrast wächst), sagt aber nichts über Frequenzwahl oder Datenzusammensetzung.
+

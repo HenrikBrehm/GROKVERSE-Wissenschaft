@@ -169,5 +169,5 @@ grob (0–2 F, 2–5 G) unterscheidbar sind. Reproduktion für EXP-035/037: `pos
   Konstante 0.5 aber schon mit 0.14. Nur „verträglich mit einem frühen Fenster von ≈ 50–100 Schritten“.
 - `posthoc_clock_crossover.py`: Top-5-Kreuzung unter reinem Takt aus den Split-Dateien: 32–40 (beobachtet (25, 50] in 5/5). Folge für
   EXP-042 siehe dort, Nachträge b und c. Einzelheiten und Prüfung: [[JOURNAL]] Sitzung 15, Zyklus 1.
-- `posthoc_shape_stability.py` (22:53): Auch die ganze Spektrumsform ändert sich nach Schritt 250 nur so stark wie in reinen Läufen und nähert
+- `posthoc_shape_stability.py` (22:52): Auch die ganze Spektrumsform ändert sich nach Schritt 250 nur so stark wie in reinen Läufen und nähert
   sich dem Endspektrum „nur G“ nicht weiter an (Ausnahme t = 10: 0.73 → 0.83).

@@ -33,6 +33,14 @@ K sind deshalb verrauscht. Primär- und Ko-Primärtest bleiben **unverändert**.
 Spearman(U_eigene, Endspektrum) − Spearman(U_andere, Endspektrum) über alle 56 Frequenzen, Vorzeichen-Flip-Test über die
 20 Einheiten. Ein Widerspruch zwischen primärem und sekundärem Ergebnis wird berichtet, nicht aufgelöst.
 
+## Nachtrag b (09:31 Berlin, vor jedem EXP-025-Lauf): ReLU-Arm generalisiert vermutlich nicht
+
+In EXP-024 Arm R erreichen die ReLU-Zwei-Hot-Netze (ohne Bias, Init-Skala 0.1, 5000 Schritte) Train 1.0, aber nur Test
+0.03–0.09: Sie memorieren. Für EXP-025 heißt das: K_relu beschreibt die Frequenzen eines memorierenden Netzes, nicht einer
+Lösung. Tests und Entscheidungsregeln bleiben **unverändert**; berichtet wird zusätzlich die Test-Genauigkeit je Arm, und
+ein ReLU-Ergebnis wird ausdrücklich als Aussage über memorierende Netze eingeordnet. Ein Ergebnis nur für Arm quad (10
+Einheiten) wird zusätzlich berichtet, ohne Entscheidung.
+
 ## Befehle
 
     sh lab/experiments/EXP-025-utility-random-split/queue.sh        (jeder Lauf über guarded_run.py)

@@ -322,3 +322,5 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   Endpunkt sind ungleich aggregiert) und dass „M0 → K“ ein Rest ist (dafür fehlt ein Überlebens-/Mediationstest →
   [[experiments/EXP-030-imprint-residue/README|EXP-030]]). Die beiden Sätze oben („Generalisierung verdrängt“,
   „wahrscheinlich ein Rest“) gelten bis dahin als Hypothesen, nicht als Befunde.
+- **EXP-030 (09:58):** Mediation vorab festgelegt: M0 → K ρ 0.24, gegeben W_E bei Schritt 250 nur 0.04 (10/10, p = 0.001)
+  → *Rest gestützt*: Die Maskenwirkung auf K läuft über den frühen Abdruck. Offen bleibt nur der Abbau-Teil von N13.

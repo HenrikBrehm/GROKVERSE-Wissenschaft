@@ -847,3 +847,11 @@ ist vermutlich der Rest eines viel stärkeren Abdrucks aus der Memorisierungspha
 ist nur explorativ belegt (Seeds 0–9); die Bestätigung bräuchte Läufe, die länger über das Grokking hinaus laufen.
 **09:51 Kontrolle fremde Masken (post hoc, selbst, bevor Codex antwortete):** ρ mit fremdem M0 im selben Fenster 0.02
 (Baselines) bzw. −0.02 (Studie), eigene 0.42 / 0.47, 10/10 in beiden Sätzen. Der Abdruck ist maskenspezifisch.
+
+**Codex-Angriff auf N13 (09:57–10:02, `EXP-029/codex_conclusion_review_2026-09-26.txt`):** „needs-attention“, 2 Punkte,
+beide übernommen: (1) Abbau durch die Generalisierung nicht belegt (Maxima vor der Generalisierung, ungleiche Aggregation
+Fenster gegen Endpunkt); (2) „Rest“ braucht Mediation. N13 korrigiert (Behauptungen als Hypothesen markiert).
+**Zyklus 7 (10:02–09:58): Mediation.** [[experiments/EXP-030-imprint-residue/README|EXP-030]] vorab festgelegt (9470d85), dann ausgewertet:
+ρ(M0, K) 0.235 (fremd 0.008), partiell gegeben W_E bei 250: **0.036**, Δ 10/10, p = 0.001 → *Rest gestützt*. W_E bei 250 sagt K
+auch nach Herausrechnen von M0 stark voraus (0.42). *Deutung:* Die Maske wirkt über den frühen Abdruck auf die Endwahl; der
+Abdruck selbst enthält daneben viel Init-Information.

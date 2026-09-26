@@ -35,6 +35,7 @@ Priorität: P1 als Nächstes · P2 bald · P3 Idee. Status: offen · vorbereitet
 | EXP-027 | P2 | Wird die Split-Neigung zur Auswahl, wenn das Netz zu schmal ist, um alle Frequenzen zu tragen (Breite < 4(p−1) = 448)? | EXP-024: breites x²-Netz nutzt fast alle Frequenzen, Split neigt nur (+15 %); Morwani Thm 7. Vorhersage: ov_H steigt mit sinkender Breite | vorbereitet (Sitzung 7), läuft nach EXP-026 | [[experiments/EXP-027-width-selection/README\|EXP-027]] |
 | EXP-028 | P1 | Ist die Zielmenge in der Memorisierungsphase vollständig eingeprägt und verliert sie um die Generalisierung Plätze an 2k-Oberwellen? | Verbindet EXP-016, EXP-021 und EXP-024 R zu einem Zwei-Phasen-Bild (N13) | vorbereitet (Sitzung 7), wartet auf EXP-020 | [[experiments/EXP-028-memo-imprint/README\|EXP-028]] |
 | EXP-029 | P1 | Gilt die Einprägung auch bei Zufallssplits (Baselines 10–19)? | N13 für natürliche Splits | abgeschlossen (Sitzung 7): teilweise | [[experiments/EXP-029-memo-imprint-random/README\|EXP-029]] |
+| EXP-030 | P1 | Läuft die M0 → K-Assoziation über den frühen W_E-Abdruck? | Mediationstest auf Codex' Einwand zu N13 | abgeschlossen (Sitzung 7): Rest gestützt | [[experiments/EXP-030-imprint-residue/README\|EXP-030]] |
 | TOOL-1 | P2 | Explorer-Ansicht „Spektrum über Zeit mit Eingriffsmarke“ für EXP-001/002 (HTML aus `spectra.npy`) | Macht Verbote und Ausweichfrequenzen sichtbar | offen, erst nach Daten | — |
 
 Hinweise: Seeds 3–9 der Primärsplits bleiben für die Bestätigung von EXP-001 unberührt. Die

@@ -85,6 +85,29 @@ def test_init_swap_exchanges_power_and_keeps_norm() -> None:   # EXP-010
     assert fb.top_frequencies(after, 5) == sorted(weak)               # weak set now strongest
 
 
+def test_init_magswap_moves_power_but_keeps_directions() -> None:   # EXP-011
+    B = fb.fourier_basis(P)
+    W = np.random.default_rng(2).normal(size=(P, 16))
+    before = fb.freq_power(W, B)
+    pairs = fb.swap_pairs(before, 5, 7)
+    W_full = fb.swap_frequency_coefficients(W, B, pairs)
+    W_mag = fb.magswap_frequency_coefficients(W, B, pairs)
+    assert np.allclose(fb.freq_power(W_mag, B), fb.freq_power(W_full, B))
+    assert np.isclose(np.linalg.norm(W_mag), np.linalg.norm(W))
+    c0, cm, cf = B.T @ W, B.T @ W_mag, B.T @ W_full
+    moved = set(fb.freq_columns([k for pr in pairs for k in pr]))
+    for col in range(P):                       # untouched frequencies (and const) identical
+        if col not in moved:
+            assert np.allclose(cm[col], c0[col])
+    for k, j in pairs:                         # directions stay with their own frequency
+        ck = fb.freq_columns([k])
+        u0 = c0[ck].ravel() / np.linalg.norm(c0[ck])
+        um = cm[ck].ravel() / np.linalg.norm(cm[ck])
+        uf = cf[ck].ravel() / np.linalg.norm(cf[ck])
+        assert np.isclose(u0 @ um, 1.0)
+        assert abs(u0 @ uf) < 0.99             # the full swap does move the direction
+
+
 def test_shrink_matches_top_ban_energy() -> None:              # amendment 2026-09-25b
     B = fb.fourier_basis(P)
     W = np.random.default_rng(2).normal(size=(P, 16))

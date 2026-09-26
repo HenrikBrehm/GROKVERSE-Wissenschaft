@@ -26,6 +26,9 @@ Conditions
                  (drawn like ban_random, seed + SWAP_SALT). Norm and distribution of the
                  iid-normal init are preserved; data split and all other weights are
                  identical to the baseline of the same seed. t0 is ignored.
+  init_magswap   (EXP-011) like init_swap, but only the block NORMS of each pair (t, s) are
+                 exchanged; each frequency keeps its own coefficient direction. The power
+                 spectrum after the swap equals init_swap's; only the directions differ.
 
 Run ONLY through lab/tools/guarded_run.py (run window). Example, from the root:
     python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/freq_ban.py \
@@ -57,9 +60,10 @@ from grokverse.train import all_transitions, evaluate  # noqa: E402
 from grokverse.utils import git_commit, lib_versions  # noqa: E402
 
 CONDITIONS = ("baseline", "ban_emerging", "ban_random", "ban_destined", "init_swap",
-              "shrink_matched")
+              "shrink_matched", "init_magswap")
+INIT_CONDITIONS = ("init_swap", "init_magswap")   # init-only interventions, no ban
 EXP_ID = "EXP-001"
-EXP_ID_BY_CONDITION = {"init_swap": "EXP-010"}
+EXP_ID_BY_CONDITION = {"init_swap": "EXP-010", "init_magswap": "EXP-011"}
 SWAP_SALT = 20_011            # init_swap draws S with seed + salt
 RANDOM_SALT = 10_007          # ban_random draws with seed + salt, never the run seed itself
 SPECTRUM_EVERY = 250          # steps between stored W_E power spectra
@@ -130,6 +134,20 @@ def swap_frequency_coefficients(W: np.ndarray, basis: np.ndarray,
     return basis @ new
 
 
+def magswap_frequency_coefficients(W: np.ndarray, basis: np.ndarray,
+                                   pairs: list[tuple[int, int]]) -> np.ndarray:
+    """New W [p, d] where, for each pair (k, j), the (cos, sin) coefficient block of k is
+    rescaled to the norm of j's block and vice versa. Directions stay with their frequency;
+    power per frequency equals that of ``swap_frequency_coefficients``; Frobenius norm kept."""
+    coef = basis.T @ W
+    new = coef.copy()
+    for k, j in pairs:
+        ck, cj = freq_columns([k]), freq_columns([j])
+        nk, nj = np.linalg.norm(coef[ck]), np.linalg.norm(coef[cj])
+        new[ck], new[cj] = coef[ck] * (nj / nk), coef[cj] * (nk / nj)
+    return basis @ new
+
+
 def shrink_factor(power: np.ndarray, m: int) -> float:
     """Amplitude factor that removes the same power as banning the top-m frequencies."""
     top = np.sort(power)[::-1][:m].sum()
@@ -192,14 +210,15 @@ def run(a: argparse.Namespace) -> dict:
     basis = fourier_basis(p)
 
     events: dict = {}
-    if a.condition == "init_swap":   # numpy only: consumes no torch RNG, so data/weights match baseline
+    if a.condition in INIT_CONDITIONS:   # numpy only: consumes no torch RNG, so data/weights match baseline
         W0 = model.W_E.detach().numpy().astype(np.float64)[:p]
         pw0 = freq_power(W0, basis)
         pairs = swap_pairs(pw0, a.m, a.seed + SWAP_SALT)
+        swap_fn = (swap_frequency_coefficients if a.condition == "init_swap"
+                   else magswap_frequency_coefficients)
         with torch.no_grad():
-            model.W_E[:p] = torch.tensor(swap_frequency_coefficients(W0, basis, pairs),
-                                         dtype=model.W_E.dtype)
-        events["init_swap"] = {"pairs": pairs, "power_before": pw0.tolist(),
+            model.W_E[:p] = torch.tensor(swap_fn(W0, basis, pairs), dtype=model.W_E.dtype)
+        events[a.condition] = {"pairs": pairs, "power_before": pw0.tolist(),
                                "power_after": freq_power(
                                    model.W_E.detach().numpy().astype(np.float64)[:p], basis).tolist()}
 
@@ -216,7 +235,7 @@ def run(a: argparse.Namespace) -> dict:
     spectra, spectra_steps = [], []
     res = {"exp_id": exp_id, "run_id": run_id, "status": "running",
            "condition": a.condition, "seed": a.seed, "t0": a.t0, "m": a.m,
-           "ban_from_step": None if a.condition in ("baseline", "init_swap") else ban_from,
+           "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
@@ -259,7 +278,7 @@ def run(a: argparse.Namespace) -> dict:
             with torch.no_grad():
                 model.W_E.grad[:p] = proj @ model.W_E.grad[:p]
         opt.step()
-        if a.condition not in ("baseline", "init_swap") and step == ban_from:
+        if a.condition not in ("baseline",) + INIT_CONDITIONS and step == ban_from:
             W_now = model.W_E.detach().numpy().astype(np.float64)[:p]
             if banned is None and a.condition != "shrink_matched":
                 banned = _choose_ban(a.condition, W_now, basis, a.m, a.seed)

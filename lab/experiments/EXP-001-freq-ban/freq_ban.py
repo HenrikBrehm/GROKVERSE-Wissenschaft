@@ -234,6 +234,9 @@ def run(a: argparse.Namespace) -> dict:
     if a.split_value:                # EXP-023: position 1 gets its own attention value matrix
         exp_id = "EXP-023"
         run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_sv{a.split_value}"
+    extra_spec = {int(x) for x in a.spectra_at.split(",") if x.strip()}   # logging only: run_id unchanged
+    if any(x < 1 for x in extra_spec):
+        raise SystemExit("--spectra-at needs steps >= 1")
     out_dir = Path(a.out_root) / run_id
     if not a.force and previous_status(out_dir / "result.json") == "completed":
         print(f"[exp] {run_id} already completed; use --force to overwrite", flush=True)
@@ -320,7 +323,7 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch,
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "spectra_at": sorted(extra_spec),
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "test_hash": split_hash(data["test_idx"]),
@@ -438,7 +441,7 @@ def run(a: argparse.Namespace) -> dict:
             events["alternations"] = events.get("alternations", 0) + 1
             events.setdefault("alternation_trace", []).append([step, split_hash(nxt)])   # Codex: behavioural check
         dense_eval(step)
-        if step % SPECTRUM_EVERY == 0:
+        if step % SPECTRUM_EVERY == 0 or step in extra_spec:
             spectrum(step)
         if ("generalization_step" not in events and step % cfg.eval_every_test == 0
                 and dense["test_acc"][-1] >= gen_thr):
@@ -448,7 +451,7 @@ def run(a: argparse.Namespace) -> dict:
             write("running")
         if step >= stop_at:
             break
-    if step % SPECTRUM_EVERY:
+    if step % SPECTRUM_EVERY and step not in extra_spec:
         spectrum(step)
     final_power = freq_power(model.W_E.detach().numpy().astype(np.float64)[:p], basis)
     res["final_top_m_freqs"] = top_frequencies(final_power, a.m)
@@ -492,6 +495,8 @@ def main() -> None:
                     help="EXP-037: alternate F/G in blocks of this many steps until --switch-step (0 = off)")
     ap.add_argument("--reset-at-switch", choices=("we", "rest"), default=None,
                     help="EXP-038: at --switch-step reset W_E or all other parameters to init (+ their AdamW state)")
+    ap.add_argument("--spectra-at", default="",
+                    help="EXP-036 Nachtrag d: extra comma-separated steps with stored W_E spectra (logging only)")
     ap.add_argument("--save-model", action="store_true")
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args()

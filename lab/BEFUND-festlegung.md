@@ -70,6 +70,19 @@ Gesamtaussage bedeuten soll, damit sie nicht nachträglich zurechtgelegt wird.
 präzisiert (d > 0, nicht „F-Frequenzen“), EXP-033 richtig wiedergegeben, Lesart 1/2 und 4 auf die Urteilskategorien der Versuche
 zurückgeführt.
 
+## Kontinuierliche Sicht (Sitzung 14, post hoc an gespeicherten Läufen, explorativ)
+
+Persistenz π ∈ [0, 1] (0 = wie nur zweiter Split, 1 = wie nur erster), aus der Elastizität β (log W_E-Leistung auf log M0 je Split) oder,
+gleichwertig, aus dem Log-Verhältnis der Zielleistung (beide Maße weichen höchstens 0.05 im Mittel voneinander ab):
+- **Zeitverlauf** ([[experiments/EXP-020-data-switch/README|EXP-020]], 5 Seeds): π = 0.15 / 0.38 / 0.72 / 1.00 bei Wechsel nach 10 / 25 / 50 / 150
+  Schritten; glatt, Halbwert ≈ 30–35 Schritte, Spanne über Seeds ≤ 0.28.
+- **Uhr** ([[experiments/EXP-035-warmup-lockin/README|EXP-035]], 1–2 Seeds): Mit Warmup folgt π früh der aufsummierten Lernrate Λ, nicht der
+  Schrittzahl; später hält es stärker fest als Λ allein vorhersagt.
+- **Wettlauf** ([[experiments/EXP-037-alternation-conflict/README|EXP-037]], 3 Seeds): 100 F-Schritte am Stück → π ≈ 1.0; dieselben 100 F-Schritte
+  mit G verschränkt → 0.52–0.75.
+Alles an bereits gesehenen Daten, wenige Seeds, F/G mit ≈ 73 % geteilten Paaren: keine Bestätigung. Nutzen: ein trennscharfes Maß für P3
+([[BACKLOG]] „Persistenzmaß für P3“) und Konkurrenzmodelle mit Zeitstruktur.
+
 ## Nächstverwandte Literatur
 
 LeDoux 2026 (https://arxiv.org/abs/2603.25047): Minibatch-Reihenfolge bestimmt die Grundfrequenz. He et al. 2026

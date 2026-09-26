@@ -608,3 +608,17 @@ bleibt damit vorläufig ungefunden; die Init-Skalen-Abhängigkeit dort passt zur
 *Nachtrag N28 (Sitzung 14):* Simulierte Kapazität bei ρ ≈ 0.45: Top-1 unter 1000 Kandidaten ≈ 0.47 (Zufall 0.001), also grob 9–10 Bit
 über die Teilmenge aus 56 Spektralwerten. Falls EXP-052 ρ in dieser Höhe zeigt, wäre ein eigener Versuch mit vielen Kandidaten (und
 Schritten nach dem Grokking, wo ρ sinkt) der nächste Schritt; Datenschutz-Lesart (Mitgliedschaft aus Gewichten) nur als Spielzeug-Analogie.
+
+## N29: Frequenzsteuerung über Loss-Gewichte statt über die Auswahl der Paare (Sitzung 14, 22:02) #neu/kandidat
+
+Frage: Die Theorie erster Ordnung sagt, dass nur das *gewichtete* Masken-Spektrum M0_w zählt (Gradient = Σ w(a, b) · …). Dann müsste man die
+Frequenzwahl auch steuern können, **ohne Paare zu entfernen**: gleiche zufällige Trainingsmenge, aber Loss-Gewichte w = q(a, b) aus der
+EXP-016-Konstruktion. Offline (reine Rechnung, 10 Zielmengen, add 113, ε = 2): Zielanteil in M0 bei Auswahl (EXP-016) 0.193, bei Gewichten auf
+einem zufälligen 30-%-Split 0.179, bei Gewichten auf **allen** Paaren 0.986 (die volle Maske ist selbst flach, es bleibt nur das Gewichtsmuster;
+gleichverteilt 0.089). **Nutzen:** (1) trennt „welche Paare fehlen“ (samt Komplement-Testmenge) von „wie stark wird gewichtet“, also ein
+direkter Test des Mechanismus hinter K2; (2) eine Steuerung, die keine Daten weglässt. **Vorhersage erster Ordnung:** Gewichte auf dem
+zufälligen Split steuern etwa so stark wie die Auswahl (Δ_pow ähnlich EXP-016). Gegenhypothese: Die Steuerung hängt am Fehlen von Paaren
+(Memorisierungsdruck), dann steuern Gewichte deutlich schwächer. Braucht eine Option  im gemeinsamen Trainer (Review nach 18c)
+und gehört zu Paket A (Mechanismus von P1). Suche 2026-09-26 („per-example loss weighting controls which Fourier features learned modular
+addition grokking sample weights“): nur Arbeiten zu Init-Lotterie und Weight Decay (He et al. 2026, https://arxiv.org/abs/2602.16849);
+Gewichtssteuerung der Frequenzen nicht gefunden (vorläufig).

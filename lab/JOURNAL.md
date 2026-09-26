@@ -2405,3 +2405,7 @@ Die Standardfolge beginnt mit EXP-014. Das ist eine Exploration aus queue_s5 (Sp
 Diese Piloten braucht das Einfrieren von P3.
 *Entscheidung:* CPU-Start mit `--experiments EXP-035,EXP-038,EXP-041,EXP-036,EXP-039,EXP-040,EXP-042,EXP-014` (keine Codeänderung; `--experiments` legt bei `--cpu` die Reihenfolge fest,
 Zeile 626). EXP-014 bleibt im Programm, nur am Ende. STATE Schritt 5 angepasst. GPU-Reihenfolge unverändert (A zuerst: 043, 046, 047/051, 048, 049; dann B: 044; dann 045).
+*Zweitprüfung Zyklus 1 (Claude-Subagent python-reviewer, nur lesend, nichts ausgeführt):* nichts blockierend. Selbsttest, Importpfade (`ROOT = HERE.parents[2]`),
+Verträglichkeit der neuen Felder mit `--check-smoke`, `result_loader.py` und den drei `analyze.py` bestätigt; Smokes umgehen den Wächter per `--force` in `raw_smoke`.
+Zwei niedrige Hinweise: (1) `--threads` im Fingerprint → eine Wiederholung mit anderer Threadzahl bricht ab. *Beibehalten, absichtlich:* Threads ändern die Rundung,
+also ist das eine andere Konfiguration. (2) `default=str` nur im Fingerprint, nicht beim Schreiben von `result.json`. *Verworfen für heute:* Alle Argumente sind int/str/bool.

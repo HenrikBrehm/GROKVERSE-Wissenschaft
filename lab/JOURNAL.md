@@ -1482,3 +1482,7 @@ Nicht übernommen: transaktionale Schreibvorgänge mit Generationen (Aufwand; `-
 injektive Kodierung beliebiger Fließkomma-Skalen (die Queues benutzen nur 0.5, 2, 8). Statisch gegengelesen: Für alte Läufe ohne die
 neuen Felder liefert der Überspringen-Zweig wie bisher Exit 0. **Ungetestet** bis zur Nacht (der Überspringen-Zweig läuft zuerst bei
 EXP-035 Seed 30; scheitert er, macht `queue_s10.sh` mit EXP-038 weiter).
+
+**Zyklus 18 (18:48, ohne Training): Was genau widerlegt EXP-040?** Unter Adam (lineares Wachstum, gemessen) sagt die Schwellenidee
+Zeit ∝ s voraus, unter Gradientenfluss (exponentielles Wachstum) nur ∝ log(1/s). *Ergebnis:* Einordnung in EXP-040 ergänzt: *unverändert*
+widerlegt nur die lineare Fassung von H40, nicht jede Schwellenidee. Regeln unverändert.

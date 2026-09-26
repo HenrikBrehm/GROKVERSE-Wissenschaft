@@ -78,6 +78,15 @@ f ≳ 0.3. **Zahl-Vorhersage (beschreibend, kein Urteil):** In der Mehrheit der 
 (`n_R_hi_in_0.5_2`). Liegt R(hi) regelmäßig weit darunter (< 0.5), holt das Signal die Init beim Festlegen gar nicht ein, und H40 in
 dieser Form ist falsch, selbst wenn das H40-Muster der Verschiebung auftritt.
 
+## Einordnung (18:48 Berlin, Sitzung 10, ändert keine Regel): warum linear in s
+
+Unter Adam wachsen die Zielamplituden früh ≈ linear in Λ (EXP-039 Nachtrag b: Strecke ≈ 0.11 · Λ), daher sagt H40 eine Schwellenzeit
+∝ s voraus (s = 0.5 → Fenster halbiert, s = 2 → verdoppelt). Unter Gradientenfluss mit kleiner Init (Theorie von He et al. 2026,
+AGF) wachsen Merkmale dagegen exponentiell, und dieselbe Schwellenidee ergäbe nur eine Verschiebung ∝ log(1/s) (bei s = 0.5 bzw. 2
+um ± log 2 Wachstumszeiten, auf unserem Gitter vermutlich unsichtbar). Ein Ergebnis *H40-Muster* spräche also zugleich für das
+lineare (Adam-typische) Wachstum; *unverändert* wäre auch mit einer Schwelle bei exponentiellem Wachstum vereinbar und widerlegt die
+Schwellenidee deshalb nicht allgemein, nur ihre lineare Fassung.
+
 ## Status
 
 Vorab festgelegt, Code geschrieben, **ungetestet** (Fenster geschlossen): Selbsttest und Smoke laufen als erste Schritte der

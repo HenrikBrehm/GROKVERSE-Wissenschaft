@@ -32,7 +32,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 6. Beobachten (Regel 14). GPU-001-Verdikte ins JOURNAL (Gleichwertigkeit, s/Schritt, J). Punkt 9: GPU bleibt experimentell.
 7. Auswerten: `python lab/tools/night_report.py`; **vor jeder Deutung** [[LESART-nacht-2026-09-27]] lesen.
 8. **EXP-052** (eingefrorene Vorhersage, Sitzung 14): Selbsttest `guarded_run.py -- python lab/experiments/EXP-052-oos-mask-prediction/exp052.py --selftest`
-   (ab 03:00, vor den Läufen); Auswertung von Hand, sobald EXP-043 „random“ (und ggf. EXP-046 „random“) erfolgreich: `guarded_run.py -- python .../exp052.py`.
+   (ab 03:00, vor den Läufen); Auswertung von Hand, sobald die R-Arme von EXP-043, EXP-046 und EXP-048 („random“) erfolgreich sind (Holm fest über vier Fälle; ein fehlender Fall zählt p = 1): `guarded_run.py -- python .../exp052.py`.
 
 ## Aktive Queue / laufende Jobs
 
@@ -43,8 +43,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 
 1. **A – Split-Steuerung verallgemeinern und replizieren:** EXP-043 (Modulus), 046 (D₅₉), 048 (nicht-modular), 049 (Breite),
    045 (MLP); Mechanismus-Kontrolle EXP-047 (Häufigkeiten). Funktionale Wirkung (P2): EXP-051 (Pilot, nach EXP-047).
-2. **B – Persistenz nach Datenwechsel:** EXP-044 (bedingt auf EXP-043), CPU EXP-035–042 (`night_program.py --cpu`); P3-Entwurf im [[BACKLOG]].
-3. **C – mechanistische Vorhersage an unberührten Fällen:** EXP-050 (M0c gegen M0, Kontrolle quadlm), Theorie erster Ordnung
+2. **B – Persistenz nach Datenwechsel:** EXP-044 (bedingt auf EXP-043), CPU EXP-035–042 (`night_program.py --cpu`); P3-Entwurf im [[BACKLOG]] mit Überlappungskonstruktion EXP-053 (Entwurf) und ELR-Arm.
+3. **C – mechanistische Vorhersage an unberührten Fällen:** EXP-052 (eingefroren, Sitzung 14; läuft ohne eigene Läufe mit), EXP-050 (M0c gegen M0, Kontrolle quadlm), Theorie erster Ordnung
    ([[BEFUND-split-mechanismus]] Herleitung; EXP-047 Nachtrag a).
 
 ## Blocker / Hinweise

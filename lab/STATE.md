@@ -3,14 +3,14 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 14:27 Berlin (Sitzung 8 beendet; nächster Start 16:59 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 14:44 Berlin (Sitzung 8 beendet; nächster Start 16:59 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
 - **ENDE SITZUNG 8 (14:27):** `queue_s5.sh` kontrolliert angehalten; letzter Lauf EXP-020 Seed 32 t = 150 lief zu Ende (vor der
-  Deadline). EXP-020: Seeds 30, 31 vollständig (beide (25, 50], stützen H20), Seed 32: nur F, nur G, t = 150 fertig.
+  Deadline). EXP-020: Seeds 30, 31 vollständig (beide (25, 50], stützen H20), Seed 32: nur F, nur G, t = 150, 50, 25, 10 fertig (es fehlen 400, 1000).
   **Weiter mit `sh lab/experiments/queue_s8.sh`** (siehe nächster Punkt). Befunde der Sitzung: JOURNAL „Abschlussbericht Sitzung 8“.
 
 - **NÄCHSTE SITZUNG, ein Befehl (Sitzung 8, 13:51):** `python lab/tools/guarded_run.py --check`, dann prüfen, dass keine Queue läuft

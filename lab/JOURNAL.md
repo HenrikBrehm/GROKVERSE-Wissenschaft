@@ -1086,3 +1086,5 @@ eine Warteschleife mit zu breitem `grep "stop"`.
 und `EXP-020-data-switch/analyze.py`; lineare Moden: `EXP-033-optimizer-lockin/linear_modes.py [--split-dir … --seeds …]`.
 **Scheduler:** Aufgabe `GROKVERSE-Lab-Runner` aktiv; nächster Start laut `runner-state.json` 2026-09-26T14:59:45Z = **16:59 Berlin**
 (Fenster heute bis 18:00, ab dem 27.09. wieder 00:00–13:00).
+**Nachtrag 14:44:** Nach dem Anhalten der Queue noch drei Einzelläufe mit den Queue-Argumenten (Seed 32, t = 50, 25, 10), alle
+fertig (rc 0). EXP-020 Seed 32 fehlen noch t = 400 und 1000. Keine Python-Prozesse mehr. Sitzung beendet.

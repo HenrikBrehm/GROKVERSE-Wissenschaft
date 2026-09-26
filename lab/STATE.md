@@ -30,8 +30,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
    Ist das GPU-Programm vor ≈ 11:00 fertig (GPU-001 bestanden): EXP-050 nachschieben (`--experiments GPU-001,EXP-050`, Paket C, 60 Läufe).
 5. CPU **erst nach GPU-001**: `python lab/tools/night_program.py --cpu > lab/runner/logs/night_cpu.log 2>&1` (EXP-014 → 035 → 038 → 041 → 036 →
    039 → 040 → 042). Nicht portiert: 034 (nach P3-Design); 018/022/023/010 zurückgestellt ([[BACKLOG]] „Sichtung nach Regel 18c“).
-   **Wenn GPU-001 scheitert:** kein GPU-Lauf; sofort `--cpu` mit voller CPU-Zahl. Paket A ist GPU-gebunden (13 Stellen `device="cuda"`,
-   Laufnamen `_devcuda`): nächste Sitzung Geräteparameter für EXP-043/046/047/048/052 einbauen und prüfen lassen (CPU ≈ 4–5 min je 2000-Schritte-Lauf).
+   **Wenn GPU-001 scheitert:** kein GPU-Lauf; sofort `--cpu` mit voller CPU-Zahl. Paket A danach auf der CPU (Sitzung 15, geprüft, ungetestet):
+   `python lab/tools/night_program.py --paket-a-cpu --experiments EXP-043,... [--cpu-workers N]` (≈ 300 Läufe, mehrere Fenster;
+   neben `--cpu` Threadsumme ≤ 12). Auswertungen von Hand dann mit `LAB_PAKET_A_DEVICE=cpu`.
 6. Beobachten (Regel 14). GPU-001-Verdikte ins JOURNAL (Gleichwertigkeit, s/Schritt, J). Punkt 9: GPU bleibt experimentell.
 7. Auswerten: `python lab/tools/night_report.py`; **vor jeder Deutung** [[LESART-nacht-2026-09-27]] lesen.
 8. **Eingefrorene Vorhersagen (Sitzung 14), nach den jeweiligen Läufen, alle über den Wächter:**

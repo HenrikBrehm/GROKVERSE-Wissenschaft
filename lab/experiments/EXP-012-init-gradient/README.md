@@ -1,8 +1,8 @@
 ---
 id: EXP-012
-status: laufend
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/laufend, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]", "[[experiments/EXP-010-init-swap/README|EXP-010]]", "[[experiments/EXP-011-init-magswap/README|EXP-011]]"]
 ---
 # EXP-012: Wer wählt die Frequenzen? Init-Gradient statt Init-Spektrum
@@ -60,3 +60,13 @@ kein Beleg. Bestätigung: Phase 2 an Seeds 10–19 mit `--predictor G0`, sobald 
 Einordnung vorab: Selbst G0 ist weit von der Schärfe des Spektrums bei Schritt 250 entfernt (Seed 10: 4 von 5
 schon Top-4). Die Wahl entsteht also großteils in der Dynamik der ersten ~250 Schritte, nicht in einer einzelnen
 Init-Größe.
+
+## Phase 2 (Bestätigung, Seeds 10–17), ausgeführt 2026-09-26 04:53 Berlin
+
+`predict.py --phase 2 --predictor G0` (Wächter), 8 gültige Seeds (rekonstruierte Init = Baseline-Spektrum bei 0).
+`summary_phase2.json`: r̄ E0 0.369 · U0 0.448 · **G0 0.254** · A1 0.245 · Referenz E250 0.060.
+H12: r̄_E0 − r̄_G0 = 0.115, einseitiger Vorzeichentest **p = 0.031**; G0 gegen Null p < 1e-5 → **bestätigt**.
+Nebenbefund: E0 allein ist an frischen Seeds ebenfalls informativ (p = 0.0015). Das repliziert
+[[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]] unabhängig. Bei Schritt 250 ist K fast vollständig festgelegt
+(r̄ 0.06). Zusammen mit [[experiments/EXP-015-mask-spectrum/README|EXP-015]]: Der erste Gradient ist im Wesentlichen das
+Masken-Spektrum des Splits (Spearman 0.57), und beide sagen K besser voraus als die Init.

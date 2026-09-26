@@ -297,3 +297,13 @@ Baseline Seed 13 fertig 03:47: gen 5275, K {7, 15, 16, 25, 42}.
 Baseline Seed 14 fertig 04:11: gen 11200 (langsam), K {11, 14, 27, 36, 37}.
 Baseline Seed 15 fertig 04:24: gen 5975, K {5, 17, 20, 24, 40}.
 Baseline Seed 16 fertig: gen 7425, K {6, 14, 32, 34, 37}.
+Baseline Seed 17 fertig 04:53: gen 5625, K {5, 12, 13, 24, 43}. → 8 Baselines (10–17).
+
+**Bestätigungen an frischen Seeds 10–17 (04:53, vorab festgelegte Regeln, keine Zwischenblicke):**
+- **EXP-015 bestätigt:** r̄(M0) 0.277 (p < 1e-5), fremde Masken 0.499 (p_perm 5e-5). M0 schlägt E0 (p 0.035), nicht G0.
+- **EXP-012 bestätigt:** G0 0.254 vs. E0 0.369, p = 0.031. E0 allein informativ (p 0.0015) → EXP-009 repliziert.
+- E250 = 0.06: Die Wahl ist nach 250 Schritten praktisch fertig.
+Deutung (Interpretation, nicht Beleg): Der Datensplit legt über den ersten Gradienten fest, welche Frequenzen früh wachsen;
+die Init-Leistung trägt zusätzlich etwas bei. Kausal offen: EXP-016 (läuft), EXP-014 (nächste Sitzung).
+EXP-016-Smoke (50 Schritte, Seed 10, Arm F): Top-5 von W_E nach 50 Schritten = exakt die Zielmenge {16, 20, 25, 47, 49}.
+Das ist nur ein Funktionstest; die Primärmessung ist Schritt 2000.

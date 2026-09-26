@@ -1,8 +1,8 @@
 ---
 id: EXP-015
-status: laufend
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/laufend, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[experiments/EXP-014-split-vs-init/README|EXP-014]]", "[[experiments/EXP-012-init-gradient/README|EXP-012]]", "[[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]"]
 ---
 # EXP-015: Sagt allein der Trainingssplit die Frequenzen voraus? (Masken-Spektrum)
@@ -82,3 +82,22 @@ auch jedes Masken-Spektrum hätte; die angekündigten Vergleiche mit E0/G0 fehlt
   allgemeine Vorliebe. Das ist Exploration; die Bestätigung bleibt Phase 2.
 Nicht übernommen: unabhängig gekreuzte Init/Split-Läufe für EXP-015 selbst. Das leistet
 [[experiments/EXP-014-split-vs-init/README|EXP-014]].
+
+## Phase 2 (Bestätigung, Seeds 10–17), ausgeführt 2026-09-26 04:53 Berlin
+
+`mask_spectrum.py --phase 2` (Wächter, 5 s), 8 gültige Seeds (18/19 noch ohne Baseline; Mindestzahl 8 erfüllt).
+`summary_phase2.json`:
+
+| Größe | Wert |
+|---|---|
+| **r̄(M0), passende Maske** | **0.277** (MC-Null 0.5: p < 1e-5) |
+| r̄ mit fremden Masken | 0.499, **Permutations-p = 5e-5** |
+| Überlappung M0-Top-5 mit K | 1.1 von 5 (Zufall 0.45) |
+| sekundär: E0 | 0.369 (M0 besser, einseitig p = 0.035) |
+| sekundär: G0 | 0.254 (M0 nicht besser, p = 0.81) |
+| sekundär: log E0 + log M0 | 0.258 (nicht besser als M0, p = 0.19) |
+
+**Urteil nach vorab festgelegter Regel: bestätigt** (beide ko-primären Tests p < 0.05). Das Masken-Spektrum des
+Trainingssplits allein, ohne jedes Gewicht, sagt an frischen Seeds voraus, welche Frequenzen der Transformer lernt, und
+zwar split-spezifisch. Einordnung: Das ist eine Vorhersage, noch kein kausaler Nachweis; den liefern EXP-014/016.
+Grenzen: 8 Seeds, eine Architektur in der Bestätigung (die MLP-Befunde sind post hoc), p = 113, 30 %-Split.

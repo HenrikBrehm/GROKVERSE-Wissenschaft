@@ -10,3 +10,7 @@ training/external/
 lab/runner/logs/
 lab/runner/*.lock
 lab/experiments/*/raw*/
+
+# personal Claude Code settings
+.claude/settings.local.json
+.venv-gpu/

@@ -5,17 +5,19 @@ Enforces the binding run window of the lab mission (lab/runner/PROMPT.md §7):
 
 * runs may only execute between 00:00 and 13:00 Europe/Berlin (DST-aware);
 * the whole run, including child processes, must be over by 13:00;
-* a hard timeout = min(job budget, session budget, time to 13:00 - buffer);
+* a hard timeout = min(session budget, time to 13:00 - buffer[, optional job budget]);
+  since 2026-09-25 there is no fixed per-job limit any more (user wish): the agent watches
+  its runs itself and aborts them when they stall or diverge;
 * if the Berlin time cannot be determined reliably, nothing is started.
 
 Usage (from the project root):
 
-    python lab/tools/guarded_run.py [--job-minutes 20] [--min-minutes 5] -- <command ...>
+    python lab/tools/guarded_run.py [--job-minutes N] [--min-minutes 5] -- <command ...>
     python lab/tools/guarded_run.py --check          # print the window status, start nothing
 
 The session deadline (UTC ISO timestamp) is read from the environment variable
-LAB_SESSION_DEADLINE_UTC, which the outer runner sets. Without it only the job
-budget and the 13:00 limit apply.
+LAB_SESSION_DEADLINE_UTC, which the outer runner sets. Without it only the 13:00
+limit (and an optional --job-minutes) apply.
 
 Exit codes: 0 command succeeded · 3 refused (outside window / not enough time /
 STOP file / clock unreliable) · 124 killed on timeout · otherwise the command's code.
@@ -28,7 +30,7 @@ import os
 import subprocess
 import sys
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -36,7 +38,8 @@ LOG = ROOT / "lab" / "runner" / "logs" / "guarded_runs.jsonl"
 STOP_FILE = ROOT / "lab" / "STOP"
 
 WINDOW_END_HOUR = 13          # runs must be finished by 13:00 Berlin
-DEFAULT_JOB_MINUTES = 20.0    # mission §9: at most 20 minutes per job
+# one-off exceptions granted by the user (Berlin date -> end hour)
+WINDOW_END_OVERRIDES = {date(2026, 9, 26): 18}   # user, 2026-09-26: training allowed until 18:00 today
 BUFFER_MINUTES = 3.0          # kept free before 13:00 for a controlled shutdown
 EXIT_REFUSED, EXIT_TIMEOUT = 3, 124
 
@@ -51,13 +54,16 @@ def berlin_now(now_utc: datetime | None = None) -> datetime:
 
 
 def window_status(now_utc: datetime, session_deadline_utc: datetime | None,
-                  job_minutes: float) -> dict:
+                  job_minutes: float | None = None) -> dict:
     """Pure decision function: is a run allowed now, and for how long at most?"""
     local = berlin_now(now_utc)
-    in_window = 0 <= local.hour < WINDOW_END_HOUR
-    end_local = local.replace(hour=WINDOW_END_HOUR, minute=0, second=0, microsecond=0)
+    end_hour = WINDOW_END_OVERRIDES.get(local.date(), WINDOW_END_HOUR)
+    in_window = 0 <= local.hour < end_hour
+    end_local = local.replace(hour=end_hour, minute=0, second=0, microsecond=0)
     to_end = (end_local - local).total_seconds() / 60.0 - BUFFER_MINUTES
-    limits = {"job_budget": job_minutes, "window_end_minus_buffer": to_end}
+    limits = {"window_end_minus_buffer": to_end}
+    if job_minutes is not None:
+        limits["job_budget"] = job_minutes
     if session_deadline_utc is not None:
         limits["session_budget"] = (session_deadline_utc - now_utc).total_seconds() / 60.0
     binding = min(limits, key=limits.get)
@@ -94,7 +100,7 @@ def _log(entry: dict) -> None:
         f.write(json.dumps(entry) + "\n")
 
 
-def run_guarded(cmd: list[str], job_minutes: float, min_minutes: float) -> int:
+def run_guarded(cmd: list[str], job_minutes: float | None, min_minutes: float) -> int:
     now = datetime.now(timezone.utc)
     try:
         st = window_status(now, _session_deadline(), job_minutes)
@@ -141,14 +147,15 @@ def run_guarded(cmd: list[str], job_minutes: float, min_minutes: float) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--job-minutes", type=float, default=DEFAULT_JOB_MINUTES)
+    ap.add_argument("--job-minutes", type=float, default=None,
+                    help="optional self-imposed cap for this job (no default limit)")
     ap.add_argument("--min-minutes", type=float, default=5.0,
                     help="refuse unless at least this much run time is available")
     ap.add_argument("--check", action="store_true", help="print the window status and exit")
     ap.add_argument("cmd", nargs=argparse.REMAINDER)
     a = ap.parse_args()
-    if a.job_minutes > DEFAULT_JOB_MINUTES:
-        ap.error(f"--job-minutes may not exceed the mission limit of {DEFAULT_JOB_MINUTES}")
+    if a.job_minutes is not None and a.job_minutes <= 0:
+        ap.error("--job-minutes must be positive")
     if a.check:
         print(json.dumps(window_status(datetime.now(timezone.utc), _session_deadline(),
                                        a.job_minutes), indent=2))

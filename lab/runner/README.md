@@ -23,9 +23,12 @@ Der Agent hat das nicht umgangen. Ob der Runner aktiviert wird, entscheidest du.
 **Warteschleife ohne Modellanfragen:** Ein Tick liest nur `runner-state.json` und beendet sich,
 solange `now < next_start_utc`. Nur ein fälliger Tick ruft `claude` auf.
 
-**Takt:** `next_start_utc = Sitzungsstart + 5 h` (volle UTC-Zeitstempel, keine Kalenderarithmetik,
-deshalb keine Verkürzung an Tagesgrenzen). Verpasste Termine (Rechner aus) werden nicht nachgeholt:
-Der erste fällige Tick startet genau eine Sitzung, und der nächste Termin wird von ihr aus berechnet.
+**Takt (Dauerbetrieb seit 2026-09-25, Wunsch des Nutzers):** Eine Sitzung dauert höchstens 180 min
+(Deadline, harter Timeout 200 min). Endet sie normal, startet der nächste Tick sofort die nächste
+Sitzung. Der Agent arbeitet also durchgehend, bis das Usage-Limit erreicht ist, und nach dem Reset
+geht es automatisch weiter (siehe unten). Nach einem Fehler oder Timeout wird nach 30 min wiederholt,
+nach 3 Fehlern in Folge wird angehalten. Verpasste Termine (Rechner aus) werden nicht nachgeholt:
+Der erste fällige Tick startet genau eine Sitzung.
 
 **Keine Parallelität:** Sperrdatei `session.lock` (mit PID, atomar per `CreateNew`; verwaiste Sperren
 werden erkannt) und zusätzlich `MultipleInstances IgnoreNew` in der Aufgabe.
@@ -46,7 +49,7 @@ und startet nichts mehr. Die STOP-Datei entfernt er nie selbst.
 
 **Zeitfenster:** Der Runner darf Sitzungen jederzeit starten. Test- und Trainingsläufe erlaubt
 innerhalb einer Sitzung nur `lab/tools/guarded_run.py`. Es erzwingt 00:00–13:00 Europe/Berlin, die
-20-Minuten-Jobgrenze und die Sitzungsdeadline (`LAB_SESSION_DEADLINE_UTC` = Start + 90 min) und
+die Sitzungsdeadline (eine feste Jobgrenze gibt es seit 2026-09-25 nicht mehr, der Agent beobachtet seine Läufe selbst) (`LAB_SESSION_DEADLINE_UTC` = Start + 180 min) und
 verweigert den Start, wenn die Uhrzeit nicht bestimmbar ist.
 
 ## Sicherheitsrelevante Entscheidung, die bei dir liegt

@@ -43,7 +43,7 @@ Masken-Spektrums in Gruppenkoordinaten; Anteil 0.196–0.212 (add 97), 0.178–0
 | **Grenzen** | Eine Architektur, eine Konstruktion (ε = 2), 2000 Schritte, K = W_E-Top-5 (nicht funktional); GPU statt CPU (andere torch-Version, deshalb GPU-001); Seeds 70–79 teilen die Init nicht zwischen den Aufgaben (anderes Vokabular bei p = 97) |
 | **Budget** | 40 Läufe × 2000 Schritte (+ 20 R-Läufe), J parallel auf der GPU; Dauer erst nach GPU-001 bekannt (CPU wären ≈ 3 h) |
 
-## Einordnung vor jedem Lauf (19:27 Berlin): Multiplikation ist hier fast nur ein anderer Modulus
+## Einordnung vor jedem Lauf (19:25 Berlin): Multiplikation ist hier fast nur ein anderer Modulus
 
 W_E und W_U sind Nachschlagetabellen mit iid-Gauß-Init; ihre Verteilung ist invariant, wenn man die Token umbenennt. Benennt man
 jeden Rest a ≠ 0 in log_g a um (Eingabe **und** Ausgabe), wird Multiplikation mod 113 auf den 112² Paaren ohne Null **exakt** zu

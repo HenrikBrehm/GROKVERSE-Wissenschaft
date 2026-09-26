@@ -7,7 +7,7 @@ verwandt: ["[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experim
 ---
 # EXP-045: Steuerung über die Daten in einer anderen Architektur (MLP mit gemeinsamem Embedding)
 
-**Status:** vorbereitet, **nicht ausgeführt**, Code ungetestet. Definition fixiert 2026-09-26 19:31 Berlin (Sitzung 11), vor jedem Lauf.
+**Status:** vorbereitet, **nicht ausgeführt**, Code ungetestet. Definition fixiert 2026-09-26 19:26 Berlin (Sitzung 11), vor jedem Lauf.
 Ziel in [[FINDINGS]]: K2 über die Architektur verallgemeinern (Regel 15c). GPU, nach bestandenem GPU-001.
 
 ## Idee

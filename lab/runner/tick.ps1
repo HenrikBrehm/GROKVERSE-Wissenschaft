@@ -9,10 +9,11 @@
   3. lock held by live process -> exits (no parallel sessions).
   4. now < next_start_utc      -> exits.
   5. otherwise starts ONE `claude -p` session (prompt = SESSION_PREAMBLE.md + PROMPT.md),
-     next_start_utc = this start + 5 h (full UTC timestamps, no calendar arithmetic),
-     hard timeout 110 min, then classifies the outcome:
-       completed | usage_limit (reset + 60 s, or +5 h if no reliable reset time) |
-       timeout_killed | error (3 in a row -> halted_error).
+     session deadline = start + 180 min (only a context chunk, not a work limit),
+     hard timeout 200 min, then classifies the outcome:
+       completed      -> next session at the next tick (continuous work, user wish 2026-09-25)
+       usage_limit    -> reset + 60 s, or +5 h if no reliable reset time
+       timeout_killed | error -> retry after 30 min (3 in a row -> halted_error).
   Missed slots are never replayed: a due tick runs exactly one session.
 
   Windows PowerShell 5.1 compatible. Manual dry check: tick.ps1 -WhatIf
@@ -29,9 +30,10 @@ $LockFile  = Join-Path $PSScriptRoot 'session.lock'
 $LogDir    = Join-Path $PSScriptRoot 'logs'
 $TaskName  = 'GROKVERSE-Lab-Runner'
 
-$IntervalHours       = 5
-$SessionBudgetMin    = 90
-$HardTimeoutMin      = 110
+$IntervalHours       = 5     # only the retry delay after a usage limit without a parsable reset time
+$SessionBudgetMin    = 180   # context chunk; the next session follows right after (continuous mode)
+$HardTimeoutMin      = 200   # hang protection only
+$ErrorBackoffMin     = 30
 $ResetBufferSec      = 60
 $MaxConsecutiveFails = 3
 
@@ -224,9 +226,11 @@ try {
         Set-Field $state 'consecutive_failures' 0
     } elseif ($outcome -ne 'timeout_killed' -and $exitCode -eq 0 -and -not $isError) {
         $outcome = 'completed'
+        Set-Field $state 'next_start_utc' $endUtc.ToString('o')      # continue at the next tick
         Set-Field $state 'status' 'idle'
         Set-Field $state 'consecutive_failures' 0
     } else {
+        Set-Field $state 'next_start_utc' $endUtc.AddMinutes($ErrorBackoffMin).ToString('o')
         $fails = [int]$state.consecutive_failures + 1
         Set-Field $state 'consecutive_failures' $fails
         if ($fails -ge $MaxConsecutiveFails) {

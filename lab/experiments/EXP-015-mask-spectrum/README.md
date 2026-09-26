@@ -118,3 +118,10 @@ Review: `codex_conclusion_review_2026-09-26.txt` (needs-attention, 3 Befunde), s
    **p = 2.5e-5** (= 1/8!, die wahre Zuordnung ist die einzige beste). Der frühere Wert 5e-5 war die Untergrenze der
    Monte-Carlo-Schätzung.
 Das Urteil *bestätigt* (Assoziation, vorab festgelegt) bleibt; die Deutung ist auf Assoziation beschränkt.
+
+## Nachtrag c (2026-09-26 08:55, Sitzung 6): Phase 2 mit allen 10 Seeds (nur berichtet)
+
+Die Entscheidung fiel bei n = 8 (oben). Mit Baselines 18/19 (`mask_spectrum.py --phase 2 --suffix _n10`,
+`summary_phase2_n10.json`): r̄(M0) = **0.279** (p < 1e-5), fremde Masken 0.492 (Permutation p = 5e-5), mittlere
+Top-5-Überlappung 1.0. Sekundär: M0 besser als E0 (0.381, p = 0.022); gegen G0 (0.239) nicht besser (p = 0.86);
+log E0 + log M0 0.261 (p = 0.15). Ergebnis unverändert *bestätigt*; nur Assoziation.

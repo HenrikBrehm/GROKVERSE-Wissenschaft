@@ -70,3 +70,9 @@ Nebenbefund: E0 allein ist an frischen Seeds ebenfalls informativ (p = 0.0015). 
 [[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]] unabhängig. Bei Schritt 250 ist K fast vollständig festgelegt
 (r̄ 0.06). Zusammen mit [[experiments/EXP-015-mask-spectrum/README|EXP-015]]: Der erste Gradient ist im Wesentlichen das
 Masken-Spektrum des Splits (Spearman 0.57), und beide sagen K besser voraus als die Init.
+
+## Nachtrag (2026-09-26 08:55, Sitzung 6): Phase 2 mit allen 10 Seeds (nur berichtet)
+
+`predict.py --phase 2 --predictor G0 --suffix _n10` (`summary_phase2_n10.json`): r̄ G0 **0.239**, E0 0.381, U0 0.444,
+A1 0.234, E250 0.061. H12: r̄_E0 − r̄_G0 = 0.142, Vorzeichentest **p = 0.0078** (vorher n = 8: p = 0.031). Unverändert
+*bestätigt*. E0 gegen Null weiter informativ (p = 0.0013).

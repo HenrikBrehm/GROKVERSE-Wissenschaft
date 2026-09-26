@@ -437,3 +437,14 @@ vorhersagt, prüft EXP-019 (post hoc nur richtungsgleich). Für EXP-016/018/020 
 Splits wurden über M0 gebaut; M0c-Top-5 der Konstruktionen wird bei der Auswertung sekundär berichtet.
 Einschränkung: Die Seeds 0–9 wurden schon für die Hypothesenbildung von M0c benutzt; (a) enthält 10–17, die für
 M0c neu sind, aber nicht vorab festgelegt waren.
+
+**Zyklus 7 (06:23, post hoc an EXP-016, Idee nach Sicht der Daten): Erklärt M0c die „Fehlgriffe“ in EXP-016?**
+`EXP-016-engineered-split/posthoc_m0c.py`. Ergebnis: In den konstruierten Splits ist die M0c-Top-5 identisch mit der
+M0-Top-5 (= Zielmenge) in allen 12 Läufen; die Überlappung ist daher gleich (3.83). Die 14 gelernten Nicht-Ziel-Frequenzen
+liegen in M0c nicht weit vorn (2 von 14 in den Top-10; Zufall ≈ 1.4, weil 5 der 10 Plätze Ziele sind). **Befund:
+negativ.** Die Fehlgriffe kommen nicht aus der Maske, vermutlich aus der Init (vgl. EXP-012: Init trägt bei).
+Nebenbeobachtung (post hoc, nicht vorab festgelegt): Arm F trifft öfter als Arm G (F 4, 4, 4, 4, 5, 5; G 4, 3, 3, 3, 3, 4;
+F > G in 5 von 5 ungebundenen Seeds). Die Konstruktion ist symmetrisch (G aus dem Komplement von F, gleiche
+Stärke 0.185–0.199), also vermutlich Zufall. **Vorab festgelegte Prüfung an Seeds 16–19** (noch nicht gelaufen): Ist
+F > G in ≥ 3 von 4, wird die Asymmetrie untersucht (z. B. Salz-Abhängigkeit der Stichprobe); sonst als Zufall
+abgelegt. Keine Auswirkung auf die Primärgröße Δ, die F und G symmetrisch behandelt.

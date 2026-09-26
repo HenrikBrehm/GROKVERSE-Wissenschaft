@@ -1131,7 +1131,7 @@ nach nur 2000 G-Schritten; bei Weight Decay 1.0 (Zeitskala ≈ 1/(lr·wd) = 1000
 (vgl. Primacy Bias, Lyle et al. 2025). Messung: Leistungsanteil der Zielfrequenzen F bzw. G im W_E-Spektrum während der G-Phase,
 Läufe t = 150, 400, 1000, Seeds 30–32. *Ergebnis:* Der F-Anteil **steigt** in der G-Phase weiter (Seed 30, t = 150: 0.36 → 0.91;
 Seed 31: 0.40 → 0.82; Seed 32: 0.30 → 0.76), der G-Anteil fällt (0.068 → 0.010; 0.056 → 0.007) bzw. bleibt bei Seed 32 flach
-(≈ 0.07, weil G-Ziel 22 = 2 · 11 die Oberwelle eines F-Ziels ist). Kein Trend zu G über 2–8 Weight-Decay-Zeitkonstanten.
+(≈ 0.07, weil G-Ziel 22 = 2 · 11 die Oberwelle eines F-Ziels ist). Kein Trend zu G über die 2000 G-Schritte (≈ 2 Weight-Decay-Zeitkonstanten).
 Deutung: Sobald das Netz mit F-Frequenzen generalisiert, löst es auch alle G-Paare; es gibt keinen Gradienten zu G mehr,
 die Festlegung vertieft sich. *Entscheidung:* kein Langlauf-Versuch (erwarteter Erkenntnisgewinn gering), Einwand als
-beschreibend beantwortet notiert. Grenze: 3 Seeds, 2000–2850 G-Schritte, keine Aussage über viel längere Zeiträume.
+beschreibend beantwortet notiert. Grenze: 3 Seeds, je 2000 G-Schritte, keine Aussage über viel längere Zeiträume.

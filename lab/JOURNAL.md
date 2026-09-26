@@ -991,3 +991,11 @@ AdamW“-Folgerung aus Nicht-Signifikanz, Pilot aus allen drei Startzuständen, 
 (commit a7e9cf2). *Eigener Fehler:* Ein `sed` mit `\|` zerstörte den Nachtrag im README und wurde committet; aus dem vorigen
 Commit wiederhergestellt (c36d212). Status: vorbereitet, **nicht ausgeführt**, `train_opt.py --opt2 gd` ungetestet (erst
 der Pilot prüft den Pfad). Budget ≈ 3 h → nächste Sitzungen.
+
+**13:38 EXP-020 Zwischenstand (beschreibend, 1/5 Seeds; das vorab festgelegte Urteil braucht alle Seeds):** Seed 30 vollständig
+und gültig. d(t) = |K∩F| − |K∩G| nach Wechsel F → G bei t und genau 2000 G-Schritten: t = 0 −3, 10 −3, **25 −1, 50 +1**,
+150 +3, 400 +3, 1000 +3, ∞ +3; monoton; gen_F = 950 → Seed stützt H20 (Festlegung im Intervall (25, 50], vor dem Grokking).
+Ab t = 150 ist K **identisch** mit dem Lauf „nur F“ ([6, 12, 29, 42, 55]), obwohl danach 2000 Schritte nur G folgen.
+*Einordnung (vorläufig):* Das ist das Transformer-Gegenstück zu EXP-032 (Zwei-Hot-Netz, Festlegung in ≤ 20 Schritten):
+Auch hier legen wenige Dutzend AdamW-Schritte die Frequenzwahl fest. Ob das an Adams Vorzeichen-Schritten hängt, ist für
+den Transformer offen (EXP-033/034 betreffen nur das Zwei-Hot-Netz).

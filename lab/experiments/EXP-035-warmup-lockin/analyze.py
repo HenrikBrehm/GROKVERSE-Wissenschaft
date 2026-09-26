@@ -48,6 +48,18 @@ def meta_ok(base, wu, s: int) -> str | None:
     return None
 
 
+def d_h_curve(row: dict, s: int) -> dict | None:
+    """Nachtrag b (secondary, reported only): harmonic-extended d_h (F/G side incl. fold(2k), shared ones excluded)."""
+    if not row.get("K"):
+        return None
+    tg = json.loads((LAB / "EXP-020-data-switch" / f"splits/seed{s}.json").read_text(encoding="utf-8"))["targets"]
+    fold = lambda k: min(k % 113, 113 - k % 113)  # noqa: E731
+    fx = set(tg["F"]) | {fold(2 * k) for k in tg["F"]}
+    gx = set(tg["G"]) | {fold(2 * k) for k in tg["G"]}
+    fx, gx = fx - (fx & gx), gx - (fx & gx)
+    return {str(t): len(set(K) & fx) - len(set(K) & gx) for t, K in row["K"].items()}
+
+
 def main() -> None:
     base = load_mod("exp020_base")
     wu = load_mod("exp020_wu")
@@ -59,7 +71,8 @@ def main() -> None:
     for s in wu.SEEDS:
         rb, rw = base.row(s), wu.row(s)
         r = {"seed": s, "base": {k: rb.get(k) for k in ("valid", "d", "lo", "hi", "monotone", "gen_F", "reason")},
-             "wu": {k: rw.get(k) for k in ("valid", "d", "lo", "hi", "monotone", "gen_F", "reason")}}
+             "wu": {k: rw.get(k) for k in ("valid", "d", "lo", "hi", "monotone", "gen_F", "reason")},
+             "d_h_secondary": {"base": d_h_curve(rb, s), "wu": d_h_curve(rw, s)}}
         why = None
         if not (rb["valid"] and rw["valid"]):
             why = "invalid run set"

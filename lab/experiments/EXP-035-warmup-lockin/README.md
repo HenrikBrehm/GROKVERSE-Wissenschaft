@@ -65,3 +65,9 @@ Code-Commit des Nachtrags: b231fc6.
 
     sh lab/experiments/EXP-035-warmup-lockin/queue.sh 30 31 32
     python lab/tools/guarded_run.py -- python lab/experiments/EXP-035-warmup-lockin/analyze.py
+
+## Nachtrag b (2026-09-26 15:43 Berlin, vor jedem EXP-035-Lauf): Oberwellen-erweitertes d nur berichtet
+
+EXP-020 Seed 33 war nur wegen einer 2k-Oberwelle nicht monoton (JOURNAL Sitzung 9, Zyklus 7). `analyze.py` berichtet
+zusätzlich d_h (F-/G-Seite einschließlich fold(2k), gemeinsame ausgenommen) für Basis und Warmup. **Urteil und
+Auswertbarkeit bleiben unverändert** (weiter mit d und Monotonie-Pflicht).

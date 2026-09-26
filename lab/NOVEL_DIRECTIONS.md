@@ -347,3 +347,18 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   „wahrscheinlich ein Rest“) gelten bis dahin als Hypothesen, nicht als Befunde.
 - **EXP-030 (09:58):** Mediation vorab festgelegt: M0 → K ρ 0.24, gegeben W_E bei Schritt 250 nur 0.04 (10/10, p = 0.001)
   → *Rest gestützt*: Die Maskenwirkung auf K läuft über den frühen Abdruck. Offen bleibt nur der Abbau-Teil von N13.
+
+## N14: Kritische Periode der Frequenzwahl im Transformer: Schrittzahl oder Lernratenplan? #neu/kandidat
+
+- **Beobachtung (Sitzung 8, EXP-020 Seed 30, beschreibend):** Datenwechsel F → G nach t Schritten, danach 2000 G-Schritte: Die
+  Frequenzwahl folgt ab t ∈ (25, 50] dauerhaft F; ab t = 150 ist K identisch mit „nur F“. Frage: Verschiebt ein Warmup diese
+  Periode? → [[experiments/EXP-035-warmup-lockin/README|EXP-035]].
+- **Suche 2026-09-26 13:48:** „grokking modular addition critical period data distribution shift early training frequencies fixed
+  switch training set“, „learning rate warmup delays critical period feature commitment early training“. Nächstverwandt:
+  Achille et al. 2019 (https://arxiv.org/abs/1711.08856) und Kleinman et al. 2023 (https://arxiv.org/abs/2308.12221), kritische
+  Perioden allgemein; Kosson, Messmer & Jaggi 2024 (https://arxiv.org/abs/2410.23922): Warmup wirkt, weil es die anfangs zu großen
+  (winkelmäßigen) Updates von AdamW begrenzt, passt zur Vermutung hinter EXP-035; Kalai-artige Embedding-Arbeit
+  https://arxiv.org/abs/2505.15624 (Embedding-Dynamik beim Grokking, keine Frequenzwahl, kein Datenwechsel). Ein
+  Datenwechsel-Eingriff, der die *Identität* der gelernten Fourier-Frequenzen als Marker einer kritischen Periode benutzt, und
+  dessen Verschiebung durch Warmup: **nicht gefunden** (vorläufig; Google Scholar/OpenReview nicht gezielt).
+

@@ -9,6 +9,10 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **Sitzung 7, 10:32:** EXP-026 fertig (*Anker ok, Trend n. s.*; beschreibend Festlegung in ≤ 50 Schritten). Kette läuft:
+  EXP-027 → EXP-032 → EXP-027b (beide in `EXP-025/queue.sh` vorangestellt) → EXP-025 → queue_s5. Wiederaufnahme:
+  `sh lab/experiments/queue_s7.sh` (überspringt Fertiges). Auswertungen: EXP-027 `analyze.py` (erwartet *nicht auswertbar*,
+  Güte), EXP-032 `analyze.py`, EXP-027b `analyze_b.py`, EXP-025 `analyze.py`. EXP-031 zurückgestellt.
 - **Sitzung 7, 09:59, neue Befunde (ohne Training, vorab festgelegt):** EXP-029 *teilweise* (W_E ist in der Memorisierungsphase
   spezifisch mit der eigenen Maske ausgerichtet, 10/10; Abbau bis gen + 25 nur 8/10), EXP-030 *Rest gestützt* (M0 → K läuft
   über W_E bei Schritt 250). EXP-028 vorbereitet (wartet auf EXP-020-Läufe). N13 nach Codex korrigiert.

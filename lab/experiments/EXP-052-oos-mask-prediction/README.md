@@ -138,3 +138,13 @@ intadd: nur 2000) und die Variationskoeffizienten von W_E und M0. Konkurrierende
 (M2) lineare Instabilität (Leistung ∝ exp(λ · M0 · t)): β wächst in der frühen Phase etwa proportional zu t und wird ≫ 1;
 (M3) Wettbewerb/Sättigung: β wächst zunächst, flacht dann ab oder fällt.
 Kein Test, kein Urteil; bei Stützung von M2 wäre ein eigener, vorab festgelegter Versuch mit dichten Messpunkten der nächste Schritt (Paket C).
+
+*Exploration nach dem Einfrieren von Nachtrag h (Commit vor dieser Zeile, 21:50 Berlin; reine Nachrechnung gespeicherter Läufe, kein Training):*
+An den 10 EXP-018/020-Läufen „nur F/nur G“ (add 113, **konstruierte** Splits, Seeds 30–34, CPU, Spektren alle 250 Schritte) liegt β bei
+Schritt 0 bei ≈ 0 (−0.07…0.05), bei 250 bei 1.37–1.77, bei 1000 bei 1.92–3.04 und bei 2000 bei 2.50–4.51, steigt also in allen 10 Läufen
+monoton, auch nach dem Grokking (gen 625–1325); ρ(M0, W_E) fällt dabei von ≈ 0.5 auf 0.2–0.4 (Leistung konzentriert sich auf die Ziele,
+die übrige Rangfolge wird Rauschen). **Lesart (explorativ):** M1 passt nicht (β > 1 schon bei 250); M2 in reiner Form passt auch nicht
+(β wächst ≈ linear mit Achsenabschnitt, 250 → 2000 nur Faktor 1.8–2.7 statt 8); eine Sättigung (M3) ist bis 3000 nicht zu sehen.
+Naheliegend: schnelle frühe Verstärkung (< 250 Schritte, nicht aufgelöst) plus anhaltende Kontrastzunahme durch Weight Decay, das ungenutzte
+Frequenzen abbaut. Grenzen: konstruierte statt Zufallssplits, β von den 5 Zielen dominiert, 250er-Raster. Die EXP-052-Zufallssplits (Messpunkte
+50/250/500/1000/2000) prüfen das an unberührten Fällen.

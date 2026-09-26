@@ -1,0 +1,56 @@
+(node:19372) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0dd76-3344-7003-b253-f961572023e5).
+[codex] Turn started (01a0dd76-34e7-7aa1-b303-6f31b286abf0).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’m tracing the actual diff and execution path across...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "def spectra...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "def spectra... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content -Liter...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content -Liter... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "returncode|...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "returncode|... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import json fro...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import json fro... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import json fro...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import json fro... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -Lit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-ChildItem -Lit... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"57 \\*|fol...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"57 \\*|fol... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Lit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Lit... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"Do not ship the preregistration: Part B cannot isolat...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against 212659f
+Verdict: needs-attention
+
+Do not ship the preregistration: Part B cannot isolate the phase-2 optimizer, and its decision rule can declare “AdamW required” even when every valid split is positive. Pilot and retry handling can also strand the study.
+
+Findings:
+- [high] Part B cannot identify a phase-2 optimizer effect (lab/experiments/EXP-034-phase2-optimizer/README.md:25-33)
+  On fresh seeds, the level-10 AR/GD states are evaluated only with GD phase 2. The same-split AdamW comparison is level 5 in Part A; the level-10 AdamW evidence comes from older EXP-033 splits. Thus a negative Part B changes split cohort, phase-1 amplitude, and phase-2 optimizer rather than isolating the optimizer. It cannot support the registered conclusion that preservation “requires AdamW.”
+  Recommendation: Add AR10 and GD10 runs with AdamW phase 2 on seeds 60–69, plus their optimizer-specific anchor, and base the conclusion on paired within-split phase-2 optimizer contrasts. Require the AdamW level-10 effect to reproduce before interpreting a GD2 failure.
+- [high] The B rule converts positive or inconclusive data into “AdamW required” (lab/experiments/EXP-034-phase2-optimizer/analyze.py:73-79)
+  B is evaluated with as few as eight valid splits while retaining the fixed k>=9 threshold. With eight valid splits, even 8/8 positives in both arms necessarily produce “Erhalt braucht AdamW”; with nine valid splits, 8/9 positives in both arms produce the same verdict despite a one-sided exact sign-test p≈0.0195. More generally, failing the positive threshold is not evidence that AdamW is necessary.
+  Recommendation: Either require all ten splits or predefine sample-size-specific exact tests. Report failures to establish persistence as inconclusive; claim optimizer dependence only from a direct paired interaction or a preregistered noninferiority/equivalence analysis with a meaningful margin.
+- [medium] The pilot tests lr2 only at the anchor state (lab/experiments/EXP-034-phase2-optimizer/select_lr2.py:14-21)
+  The largest lr2 is selected solely from t0 anchor runs. AR10 and GD10 begin phase 2 from materially changed parameter norms and gradients, so stability and generalization at initialization do not certify the chosen step size for either treated state. Selecting the most aggressive anchor-safe rate can make confirmatory arms diverge or fail the accuracy gate, rendering the locked study unevaluable.
+  Recommendation: On held-out split 70, test each candidate from anchor, AR10, and GD10 switch states, and choose the largest rate satisfying the finite/generalization rule for all three. Alternatively preregister all candidate rates as a robustness grid.
+- [medium] Expected failure and retry states are not idempotent (lab/experiments/EXP-034-phase2-optimizer/queue.sh:20-35)
+  When no pilot rate qualifies, select_lr2.py writes lr2.json with null and exits nonzero; queue.sh then exits successfully. On the next invocation, the file's existence skips the pilot and line 28 attempts to format None with :g, after which the shell can continue with an empty L. Separately, line 35 stops on every main GD rc=4 and never implements the line-3 exception for a saved reached=false result, so one unreachable B phase-1 target prevents collecting later splits even though the protocol permits up to two invalid units.
+  Recommendation: Parse and validate lr2.json on every invocation and exit cleanly whenever lr2 is null. Capture rc=4 explicitly, inspect result.json, continue only for the exact preregistered reached=false case where missing units are allowed, and stop for divergence, corruption, or missing results.
+
+Next steps:
+- Redesign Part B as a same-split level-10 phase-2 optimizer comparison.
+- Replace the fixed-threshold negative verdict with a valid exact-test or equivalence rule.
+- Expand the held-out pilot to all phase-2 starting states.
+- Make queue retries and rc=4 handling fail-closed and idempotent.

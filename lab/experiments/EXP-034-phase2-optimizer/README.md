@@ -37,6 +37,23 @@ ergebnisblinde Protokolländerung, das endgültige Protokoll gehört an frischen
 | **Grenzen** | GD2 ist eine andere Dynamik (u. U. langsamere Generalisierung, andere Endlösung); N₂ aus dem Pilot; eine Architektur |
 | **Budget** | A: 30 × 1.5 min ≈ 45 min; Pilot B 3 × ~3 min; B: 30 × ~3 min ≈ 1.5 h |
 
+## Nachtrag a (13:31 Berlin, nach Codex-Review `codex_review_2026-09-26.txt`, vor jedem EXP-034-Lauf): gilt allein, wo abweichend
+
+Codex: needs-attention, 2 × high, 2 × medium, alle zutreffend und **übernommen**:
+1. *Teil B isolierte den Phase-2-Optimierer nicht* (Stufe 10 mit AdamW-Phase-2 gab es nur an alten Splits). → Teil A umfasst
+   jetzt auch **AR10 und GD10 mit AdamW-Phase-2** an 60–69; Teil B vergleicht je Split mit genau diesen Läufen.
+   **Tor B:** Stufe 10 mit AdamW-Phase-2 repliziert an 60–69 (k_AR ≥ 9 und k_GD ≥ 9), sonst B *nicht auswertbar*.
+2. *Die B-Regel folgerte „braucht AdamW“ aus Nicht-Signifikanz.* → B verlangt **alle 10 Splits gültig**. Neue Entscheidung B:
+   k_AR\|GD2 ≥ 9 und k_GD\|GD2 ≥ 9 → ***Erhalt ohne AdamW***; sonst, wenn für einen Arm das 95-%-Bootstrap-KI von
+   R2 = mean Δ\|GD2 / mean Δ\|AdamW (gleiche Splits, 10 000×, Seed 0) ganz unter 0.5 liegt → ***Erhalt unter GD-Phase-2 deutlich
+   schwächer*** (Arm nennen); sonst ***unklar***. „Braucht AdamW“ wird nicht mehr als Urteil vergeben.
+3. *Pilot nur am Anker.* → Pilot auf Split 70 aus **allen drei Startzuständen** (Anker, AR10, GD10); gewählt: größte lr₂, bei der
+   alle drei endlich, vollständig und Test ≥ 0.9 sind.
+4. *Warteschlange nicht idempotent* → `lr2.json` wird bei jedem Start neu erzeugt und geprüft; jeder Exit ≠ 0 im Hauptteil
+   stoppt (alle Einheiten müssen gültig sein).
+Zusätzlich: Teil A Stufe 10 wird als **Bestätigung von EXP-033 an frischen Splits** berichtet (k_GD ≥ 9 → *bestätigt*).
+Budget neu: A 50 Läufe ≈ 75 min, Pilot 9 × ~3 min, B 30 × ~3 min ≈ 1.5 h → über mehrere Sitzungen.
+
 ## Befehle
 
     sh lab/experiments/EXP-034-phase2-optimizer/make_splits.sh        # erledigt 13:23 (über den Wächter)

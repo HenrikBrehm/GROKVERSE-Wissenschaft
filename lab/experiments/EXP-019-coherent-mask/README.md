@@ -58,6 +58,9 @@ M0c(k) = 4 Σ_c |N̂_links(k, c)|² · cos²(arg N̂_links(k, c) + πkc/p),  M0(
 M0c gewichtet also jede Antidiagonale danach, wie **spiegelsymmetrisch** ihr Paarmuster um a = c/2 ist, d. h. nach der
 **Kommutationssymmetrie** des Splits ((a, b) und (b, a) beide im Training). Für eine kommutationssymmetrische Maske ist
 M0c = 2·M0 exakt (gleiche Rangfolge). Der ganze Unterschied zwischen M0c und M0 stammt aus der Asymmetrie des Splits.
+**Korrektur (07:28, nach Codex):** Genauer: M0c − M0 = 2 Σ_c |N̂|² cos(2θ) ist ein **Symmetrie**-Term: maximal (= M0) für
+kommutationssymmetrische Splits, im Mittel ≈ 0 für Zufallssplits. Der Satz davor ist so zu lesen: M0c weicht von 2·M0
+genau um die Abweichung von der Symmetrie ab.
 Numerisch geprüft: Formel gegen `m0c` relative Abweichung ≤ 5e-15; symmetrische Masken M0c/(2·M0) = 1.000.
 
 ## Nachtrag b (2026-09-26 06:55, vor jedem der Läufe, keine Änderung der Primärgröße)

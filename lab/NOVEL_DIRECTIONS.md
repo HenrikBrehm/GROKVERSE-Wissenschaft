@@ -200,7 +200,7 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
 
 ## N8: Kommutationssymmetrie des Splits und Frequenzwahl #neu/kandidat (schwach)
 
-- **Befund (Rechnung, Sitzung 5):** M0c − M0 hängt nur an der Kommutations-Asymmetrie des Splits (Herleitung in
+- **Befund (Rechnung, Sitzung 5; korrigiert 07:28):** M0c − M0 ist ein Kommutations-**Symmetrie**-Term des Splits (maximal = M0 bei symmetrischen Splits, ≈ 0 im Mittel bei Zufallssplits); vorher fälschlich „hängt nur an der Asymmetrie“ (Herleitung in
   [[experiments/EXP-019-coherent-mask/README|EXP-019]]). Die gemessenen Interferenzen im ersten Gradienten folgen diesem
   Term (18/18 Seeds).
 - **Suche 2026-09-26** („grokking modular addition commutative symmetric training set include both (a,b) and (b,a) effect

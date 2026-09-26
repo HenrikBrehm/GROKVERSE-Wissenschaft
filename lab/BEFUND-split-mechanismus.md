@@ -22,25 +22,33 @@ Vorab festgelegt und bestätigt ist nur, was ausdrücklich so markiert ist.
    addiert) beschreibt die Leistung des tatsächlichen ersten Gradienten besser als M0: ρ 0.77 gegen 0.57 (G0 über 3 Inits,
    10/10 Seeds).
 2. **Direkt gemessen:** Zerlegt man den ersten Gradienten in den Beitrag der linken und der rechten Position, heben sich
-   die Kreuzterme über alle Frequenzen auf, **frequenzweise** folgen sie aber dem Kreuzterm der Maske M0c − M0
-   (ρ 0.50, 18/18 Seeds positiv, fremde Maske −0.09).
-3. **Geschlossene Form (numerisch exakt geprüft):** M0c(k) = 4 Σ_c |N̂(k, c)|² cos²(arg N̂(k, c) + πkc/p), M0 = 2 Σ_c |N̂|².
-   M0c − M0 misst die **Kommutations-Asymmetrie** des Splits; für symmetrische Splits ist M0c = 2·M0.
-4. **Architektur-Kontrast (Vorhersage vor der Rechnung, bestätigt):** In der MLP mit gemeinsamem Embedding laufen die
-   beiden Operanden durch verschiedene Hälften von W_in; dort folgt der Kreuzterm der Maske nicht (ρ 0.05), und M0 ist
-   die bessere Statistik (Gradient 0.37 gegen 0.24; finale Frequenzen r̄ 0.323 gegen 0.351). Im Transformer (geteilter
-   Wertepfad der Attention) ist es umgekehrt.
+   die Kreuzterme über alle Frequenzen **näherungsweise** auf (mittlere Kohärenz 0.01), **frequenzweise** folgen sie aber
+   dem Kreuzterm der Maske M0c − M0 (ρ 0.50, 18/18 Seeds positiv; Kontrolle mit fremder Maske −0.09, nur Seeds 0–9).
+3. **Geschlossene Form (numerisch exakt geprüft):** M0c(k) = 4 Σ_c |N̂(k, c)|² cos²(θ), θ = arg N̂(k, c) + πkc/p,
+   M0 = 2 Σ_c |N̂|². Der Kreuzterm M0c − M0 = 2 Σ_c |N̂|² cos(2θ) misst, wie **spiegelsymmetrisch** (gleichphasig) das
+   Paarmuster jeder Antidiagonale ist, also die Kommutations-**Symmetrie**: Für symmetrische Splits ist er maximal
+   (= M0, also M0c = 2·M0), für Zufallssplits im Mittel ≈ 0. (Korrigiert nach Codex-Prüfung; vorher fälschlich
+   „Asymmetrie“.)
+4. **Architektur-Kontrast (Vorhersage vor der Rechnung, für den ersten Gradienten bestätigt, explorativ):** In der MLP mit
+   gemeinsamem Embedding laufen die beiden Operanden durch verschiedene Hälften von W_in; dort folgt der Kreuzterm der
+   Maske nicht (ρ 0.05), und M0 beschreibt den ersten Gradienten besser als M0c (0.37 gegen 0.24, 9/10 Seeds, p ≈ 0.003).
+   Für die **finalen** Frequenzen ist der Unterschied nur beschreibend: r̄ 0.323 (M0) gegen 0.351 (M0c), 6/10 Seeds,
+   p ≈ 0.21. Eine MLP-Konfiguration, 10 vorhandene Seeds. Im Transformer ist es umgekehrt.
 5. **Eingriff (in silico, Vorhersage vorher):** Bekommt Position 1 im ersten Gradienten eine eigene Wertematrix W_V′,
    verschwindet die Interferenz (ρ 0.47 → −0.03; eigene W_O′: 0.07). Ursache ist also der geteilte Wertepfad der
    Attention. Nur für den ersten Gradienten gezeigt, nicht für die finale Wahl.
 6. Ob M0c auch die **finalen** Frequenzen besser vorhersagt, ist offen: post hoc richtungsgleich, nicht signifikant;
    Bestätigung vorab festgelegt in [[experiments/EXP-019-coherent-mask/README|EXP-019]].
 
-## Konstruierte Splits: sofortige Prägung, spätere Verdrängung durch 2k (EXP-016, Seeds 10–15)
+## Konstruierte Splits: frühe Prägung, spätere Verdrängung durch 2k (EXP-016, unvollständige Vorschau)
 
-- Die Daten prägen die Frequenzen **sofort** auf: W_E-Top-5 = Zielmenge bei Schritt 50 (Smoke) bzw. 250 (12/12 Läufe).
-- Bis Schritt 2000 werden einzelne Ziele verdrängt, und zwar die **früh schwächsten** (14/14 auf Rang 4–5 bei Schritt 250;
-  deren Schwäche hängt teils an der Maske, teils an der Init).
+**Vorschau auf 6 von 10 Seeds (10–15, je Arm F und G), unter der vorab festgelegten Mindestzahl von 8; EXP-016 ist noch
+nicht auswertbar.** F und G teilen je Seed die Init, die 12 Läufe sind also nicht unabhängig.
+- Früh prägen die Daten die Frequenzen auf: W_E-Top-5 = Zielmenge bei Schritt 250 in 12/12 Läufen (frühester gemeinsamer
+  Messpunkt); bei Schritt 50 nur in einem einzigen Smoke-Lauf gesehen.
+- Bis Schritt 2000 werden einzelne Ziele verdrängt, und zwar die **früh schwächsten** (14/14 auf Rang 4–5 bei Schritt 250).
+  Beschreibend, ohne Ursachenzuschreibung: Unter den verdrängten Zielen stehen viele auch in der Maske (M0) weit hinten
+  (Rang 4–5 in 10/14) und etwas weniger im Init-Spektrum (9/14, p ≈ 0.06).
 - Alle 14 verdrängenden Frequenzen sind **zweite Harmonische fold(2k)** einer Zielfrequenz desselben Arms (Muster erst beim
   Lesen gefunden; Bestätigung vorab festgelegt in [[experiments/EXP-021-harmonic-misses/README|EXP-021]]).
 
@@ -55,8 +63,11 @@ Vorab festgelegt und bestätigt ist nur, was ausdrücklich so markiert ist.
 
 ## Negativ (ebenfalls Sitzung 5)
 
-- Die natürliche Konzentration des Masken-Spektrums eines Zufallssplits sagt die Grokking-Zeit nicht voraus.
-- Eine oberwellen-bereinigte K verbessert die Vorhersage durch M0/M0c nicht.
+- Zwischen der natürlichen Konzentration des Masken-Spektrums eines Zufallssplits und der Grokking-Zeit wurde **kein
+  belastbarer Zusammenhang** nachgewiesen (Transformer Seeds 0–9: ρ −0.40, p 0.25, in der vermuteten Richtung; MLP ρ +0.15;
+  Baselines 10–17 ρ +0.02; sehr enger Wertebereich 0.1015–0.1088).
+- Eine oberwellen-bereinigte K bringt **keine statistisch belastbare Verbesserung** (M0c r̄ 0.254 → 0.254, p 0.48;
+  M0 0.294 → 0.292).
 - Die Fehlgriffe in EXP-016 liegen weder in M0c noch im Init-Spektrum vorn.
 
 ## Einordnung in die Literatur (vorläufig)

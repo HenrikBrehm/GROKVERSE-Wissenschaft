@@ -622,3 +622,13 @@ n_eff 55.0 gegen 55.5). **Einordnung: fast trivial und klein.** M0c = M0 + Kreuz
 hinzufügt; die Richtung ist damit nahezu durch Konstruktion gegeben, und beide Spektren sind fast flach. Kein Beleg für eine
 Erklärung des Frequenzzahl-Unterschieds; eine Prüfung bräuchte Training (z. B. Frequenzzahl im EXP-023-Arm rand gegen
 Baseline nach dem Grokking). Nicht vorbereitet.
+
+**Konsistenzprüfung der Befundnotiz (07:28)** durch Codex (`lab/codex_befund_review_2026-09-26.txt`), 4 Befunde, alle geprüft
+und übernommen: (1) Der EXP-016-Abschnitt war kausal formuliert, obwohl erst 6 von mindestens 8 Seeds vorliegen und Schritt
+50 nur ein Smoke-Lauf ist → als unvollständige Vorschau gekennzeichnet, Rangbefunde ohne Ursachenzuschreibung.
+(2) **Rechenfehler meinerseits:** „M0c − M0 misst die Kommutations-Asymmetrie“ ist falsch. Aus der geschlossenen Form folgt
+M0c − M0 = 2 Σ_c |N̂|² cos(2θ), ein **Symmetrie**-Term (maximal = M0 bei symmetrischen Splits). Korrigiert in der
+Befundnotiz, im EXP-019-README (Nachsatz) und in N8; die Aussage in Zyklus 12 oben ist entsprechend zu lesen. Zudem:
+Aufhebung der Kreuzterme nur näherungsweise (0.01), Fremdmasken-Kontrolle nur n = 10. (3) MLP-Kontrast: „bestätigt“ nur für
+den ersten Gradienten (9/10, p ≈ 0.003); für die finalen Frequenzen 6/10, p ≈ 0.21, nur beschreibend. (4) Negative Befunde
+vorsichtiger formuliert („kein belastbarer Zusammenhang nachgewiesen“, mit Zahlen).

@@ -19,6 +19,7 @@ Laufende EXP-016-Läufe beobachten. Ab ≈ 05:39 Stand sichern und Abschlussberi
 
 ## Verlauf dieser Sitzung
 
+- 05:19 EXP-016 Seed 12 Arm G: 3 von 5 aus G. Zwischenstand Δ = +8, +7, +7 (3 Seeds; Entscheidung erst ab 8).
 - 05:15 EXP-016 Seed 12 Arm F: 4 von 5 aus der Zielmenge, gen 625 (Zufallssplit 3525).
 - 05:11 EXP-016 Seed 11 Arm G: 3 von 5 aus G, 2 weitere direkt daneben (38/55 statt 39/56). Δ = +7.
 - 05:06 EXP-016 Seed 11 Arm F: wieder 4 von 5 aus der Zielmenge, gen 775 (Zufallssplit 5975).

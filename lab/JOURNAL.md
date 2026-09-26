@@ -1421,3 +1421,9 @@ Zyklus 12 auf „unkalibrierte Top-5-Kollision“ zurückgestuft. Die Zahlen aus
 „Attraktor“ gelten als nicht gezeigt. Codex zählt bei Seed 30 acht statt neun Mengen; meine Zählung nimmt „nur F“ bei Schritt 2000
 aus den Spektren, was die Warmup-Variante von „nur F“ als eigene Menge zählt. Lehre: Eine Beobachtung aus einer Katalog-Suche
 ist noch kein Vorhersagetest; ein schief gebauter Vergleich hätte eine falsche Bestätigung liefern können.
+
+**Zyklus 14 (18:27, ohne Training): Warum ist die Festlegung unumkehrbar?** Überlegung: Jede Frequenzmenge löst die ganze Aufgabe; der
+Split neigt die Wahl nur. Nach dem Wechsel lernt das Netz G mit den vorhandenen F-Frequenzen. **H42** (N22): Festlegung, sobald der
+F-Vorsprung die pro Schritt wirkende G-Neigung überwiegt. Prüfbare Folgerungen: spätere Festlegung bei stärker konzentriertem G;
+P41b eher *überschrieben* (als Erwartung in EXP-041 notiert, Regeln unverändert). Testskizze (eps-Variation) in N22, nicht festgelegt,
+weil die Queue voll ist. *Ergebnis:* neue Hypothese mit zwei Vorhersagen, keine Daten.

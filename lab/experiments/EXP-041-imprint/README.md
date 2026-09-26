@@ -64,6 +64,10 @@ Codex: needs-attention, 3 × hoch, 1 × mittel, alle übernommen.
 Budget neu: 4 Läufe × ≈ 4.6 min ≈ 19 min je Seed, 10 Seeds ≈ 3.1 h. Code nach dem Nachtrag **ungetestet** (Selbsttest am
 Queue-Anfang, fail-closed).
 
+**Erwartung aus H42 (N22), 18:27, vor jedem Lauf, ändert keine Regel:** Für P41b eher *überschrieben* oder *gemischt* als *geprägt*,
+weil der schwache Split R in 150 Schritten einen kleineren Vorsprung aufbaut, als die Neigung von E danach ausgleichen kann.
+Tritt *geprägt* ein, spricht das gegen H42 in dieser Form.
+
 ## Status
 
 Vorab festgelegt, Code geschrieben, **ungetestet** (Fenster geschlossen; Selbsttest am Queue-Anfang, fail-closed).

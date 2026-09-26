@@ -471,3 +471,16 @@ Minibatch-Reihenfolge bestimmt die Grundfrequenz; keine Festlegungszeit, kein We
   entsteht größtenteils durch die Plateaus „nur F“/„nur G“. „Wenige diskrete Zustände“ und „Attraktor“ sind **nicht** gezeigt.
   Nötig wären: Plateaus ausschließen, Vergleiche vorab festlegen, seed-spezifische Zufalls-Null mit Mehrfachkorrektur, kontinuierliche
   Spektren oder Verhalten statt Top-5, Störungs-/Neustart-Tests. Bis dahin: Kandidat mit niedriger Priorität.
+
+## N22: Festlegung als Wettlauf „Vorsprung gegen Split-Neigung“ (H42) #neu/kandidat
+
+- **Überlegung (Sitzung 10, 18:27, ohne neue Daten):** Jede Frequenzmenge löst dieselbe Aufgabe (a + b mod p); F und G sind nur
+  verschiedene Stichproben derselben Tabelle. Der Split *neigt* die Wahl (EXP-015/016), er erzwingt sie nicht. Nach dem Wechsel kann
+  das Netz G mit den schon angelegten F-Frequenzen lernen; die G-Neigung verstärkt dann eher die vorhandenen als neue Frequenzen.
+  **H42:** Festgelegt ist die Wahl, sobald der Amplitudenvorsprung der F-Frequenzen größer ist als der Vorteil, den die G-Neigung den
+  G-Frequenzen pro Schritt verschafft. Folgerungen: (a) stärker konzentriertes G (größeres eps in `make_splits.py`) → spätere
+  Festlegung; stärker konzentriertes F → frühere; (b) für EXP-041 P41b (schwacher Split R als Vorlauf, starker E danach) eher
+  *überschrieben* oder *gemischt* als *geprägt*; (c) verträglich mit H40 (Vorsprung wird relativ zur Init-Amplitude gemessen).
+- **Skizze eines Tests (nicht festgelegt):** EXP-020-Protokoll mit G-Splits eps ∈ {1, 2, 4} bei festem F (eps 2), Gitter wie EXP-020,
+  Seeds 30–32; Vorhersage H42: hi(eps = 4) > hi(eps = 2) > hi(eps = 1). Konkurrenz (reine Λ-Uhr): gleiches Intervall.
+- **Literatur:** noch nicht gesucht („rich get richer feature competition head start“, AGF von Kunin et al. ist nächstverwandt).

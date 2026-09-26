@@ -101,3 +101,23 @@ ohne Warmup), eine vorab festgelegte Effektgröße und eine Zufalls-Null über m
 Die Queue läuft jetzt über die Seeds 30, 31, 32, **34** („weitere, falls Budget“ in der Festlegung; 33 ist ohne Warmup nicht monoton
 und deshalb nicht auswertbar). Die Entscheidungsregel bleibt: ≥ 3 auswertbare Seeds, **alle** *verzögert* → Urteil. Ein vierter Seed
 kann das Urteil nur erschweren, nicht erleichtern. Anlass: Robustheit, falls ein Seed an den Gültigkeitsregeln scheitert.
+
+## Post hoc (Sitzung 14, 2026-09-26 21:52 Berlin, explorativ, bereits gesehene Läufe): kontinuierliche Persistenz π unter Warmup
+
+Maß wie [[experiments/EXP-020-data-switch/README|EXP-020]] „Post hoc (Sitzung 14)“ (π = normierte Differenz der Elastizitäten β_F − β_G,
+0 = wie nur G, 1 = wie nur F; Normierung mit dem F-Lauf mit Warmup, G-Lauf ohne Warmup aus EXP-018). Vergleich mit den Läufen ohne Warmup
+über die aufsummierte Lernrate Λ(t) = t(t+1)/400 (Warmup 200 Schritte):
+
+| Seed | t | Λ(t) | π mit Warmup | π ohne Warmup bei gleichem t (Schrittuhr) | π ohne Warmup bei t = Λ (Λ-Uhr, interpoliert) |
+|---|---|---|---|---|---|
+| 30 | 25 | 1.6 | 0.02 | 0.36 | ≈ 0.02 |
+| 30 | 50 | 6.4 | 0.09 | 0.69 | ≈ 0.08 |
+| 30 | 100 | 25.2 | 0.56 | — | ≈ 0.36 |
+| 30 | 150 | 56.6 | 0.94 | 0.99 | ≈ 0.72 |
+| 31 | 50 | 6.4 | 0.18 | 0.89 | ≈ 0.12 |
+| 31 | 150 | 56.6 | 0.93 | 1.04 | ≈ 0.90 |
+
+**Lesart (explorativ, 1–2 Seeds):** Die Schrittuhr ist klar falsch (t = 50: 0.09/0.18 statt 0.69/0.89). Die Λ-Uhr trifft den frühen Teil,
+unterschätzt aber bei größerem t die Persistenz (Seed 30: 0.56 statt ≈ 0.36, 0.94 statt ≈ 0.72). Mögliche Deutung: Neben Λ zählt die Zahl
+der Schritte (Adam-Schritte haben eine Mindestgröße, Weight Decay wirkt pro Schritt). Keine Bestätigung; die vorab festgelegte Prüfung ist
+[[experiments/EXP-039-lr-clock/README|EXP-039]] (heute Nacht, CPU).

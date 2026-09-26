@@ -507,3 +507,8 @@ unverändert: nicht gefunden (vorläufig).
 **Nachtrag zu N14/N22 (18:51):** Nach der Festlegung (Wechsel bei 150) wachsen unter G-Daten die F-Frequenzen wie unter F weiter,
 die G-Ziele schrumpfen (5/5 Seeds, beschreibend). Einschränkung: F/G teilen ≈ 73 % der Paare; die Festlegung ist bisher nur gegen
 einen Teilwechsel (≈ 27 %) gezeigt; EXP-041 (≈ 63 % Wechsel) ist der härtere Test.
+
+**Auffälligkeit zu N22 (18:54, post hoc, beschreibend):** Nach der Festlegung liegen die G-Zielfrequenzen unter G-Training fast immer
+**niedriger** als unter fortgesetztem F-Training (t = 150: 39/40; t = 400: 33/40; t = 1000: 25/35; EXP-037 C_F100: 24/24). Die
+naheliegende Erklärung (schnelleres F-Wachstum) hält nicht (F höher nur in 13/40 bei t = 400). Ungeklärt; Kandidat für eine
+eigene Frage, falls es sich in EXP-041/042 wiederholt.

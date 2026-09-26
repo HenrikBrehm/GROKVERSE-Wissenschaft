@@ -1523,3 +1523,11 @@ Zeitpunkte, post hoc, keine Erklärung geprüft. Spekulation: Beim Anpassen der 
 diese schneller (F-Leistung im Wechsellauf früh höher, Zyklus 20), und Weight Decay plus Konkurrenz um Norm drücken ungenutzte
 Frequenzen stärker. *Entscheidung:* als Auffälligkeit notiert (N22); prüfbar in EXP-041/042 mit den vorhandenen Spektren, kein
 eigener Versuch.
+
+**Zyklus 23 (18:54, ohne Training, post hoc): Hält die Auffälligkeit aus Zyklus 22 an anderen Wechselzeitpunkten?** G-Ziele im
+Wechsellauf niedriger als in „nur F“ (alle gespeicherten Zeitpunkte nach dem Wechsel, Seeds 30–34): t = 400: 33 von 40; t = 1000:
+25 von 35; EXP-037 C_F100: 24 von 24 (also mit abnehmender Deutlichkeit bei späterem Wechsel). Der „F-Schub“ dagegen **nicht**:
+F-Ziele im Wechsellauf höher nur in 13/40, 14/35, 10/24. *Ergebnis:* Die G-Unterdrückung unter G-Training ist über Wechselzeitpunkte
+hinweg wiederkehrend (beschreibend, Zeitpunkte nicht unabhängig); meine Erklärung aus Zyklus 22 (schnelleres F-Wachstum drückt G)
+wird **nicht** gestützt und ist verworfen. Offene Frage (N22): Warum drückt Training auf G die G-Zielfrequenzen stärker als Training
+auf F? Keine Erklärung geprüft.

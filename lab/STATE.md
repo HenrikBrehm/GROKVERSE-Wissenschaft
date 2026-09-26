@@ -5,7 +5,9 @@ tags: [lab/state]
 
 _Zuletzt aktualisiert: 2026-09-26, ~02:57 Berlin (Sitzung 4, vom Runner gestartet 00:49Z, Deadline 03:49Z)._
 
-> **LÄUFT (Sitzung 4):** `sh lab/experiments/EXP-010-init-swap/run_pairs.sh` im Hintergrund, Log
+> **LÄUFT (Sitzung 4, ab 03:12):** `sh lab/experiments/queue_s4.sh` (Log `lab/runner/logs/queue_s4.log`): Baselines 11–19,
+> dann EXP-014-Kreuzläufe, dann EXP-010-Tausch 11–19, am Ende EXP-013. **Wiederaufnahme: dasselbe Skript erneut starten.**
+> Vorher (bis 03:12): `sh lab/experiments/EXP-010-init-swap/run_pairs.sh` im Hintergrund, Log
 > `lab/runner/logs/pairs_s4.log`. Abwechselnd EXP-003d-Baseline (`raw_d`) und EXP-010 `init_swap`
 > (`EXP-010-init-swap/raw`), Seeds 10→19, je Lauf nur bei ≥ 33 min Restzeit. **Wiederaufnahme:** dasselbe
 > Skript erneut starten. Fertige Läufe überspringt `freq_ban.py`. Ein Lauf mit `status: running` war

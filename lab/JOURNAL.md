@@ -1535,3 +1535,7 @@ auf F? Keine Erklärung geprüft.
 **18:55: Erklärungskandidat „Adam-Verdrängung“** für die G-Unterdrückung (N22): Prämisse geprüft, der Verlust springt beim Wechsel
 (Seed 30: 0.04 → 1.65; Seed 31: 0.02 → 1.23) und fällt in ≈ 20 Schritten. Vorhersagen notiert (SGD in der G-Phase → keine zusätzliche
 Unterdrückung). Nicht festgelegt, kein Lauf.
+
+**Zyklus 24 (18:56, ohne Training): Literatur zur „Adam-Verdrängung“.** Allgemeiner Mechanismus bekannt (https://arxiv.org/abs/2608.15824):
+große Gradienten bleiben im zweiten Moment und dämpfen spätere Updates. Einordnung: Erklärungskandidat = Anwendung eines bekannten
+Effekts (#neu/bekannt), die Beobachtung (G-Unterdrückung nach Datenwechsel) bleibt beschreibend und ungeklärt.

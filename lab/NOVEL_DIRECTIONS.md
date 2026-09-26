@@ -520,3 +520,10 @@ eigene Frage, falls es sich in EXP-041/042 wiederholt.
   (späterer Wechsel) gibt schwächere Unterdrückung (passt qualitativ zu 39/40 → 33/40 → 25/35). Test wäre ein EXP-020-Wechsel mit SGD in
   der G-Phase. Korrektur: `--opt2 gd` gibt es nur im EXP-033-Trainer (`train_opt.py`, anderes Modell), nicht in `freq_ban.py`;
   für den Transformer müsste die Option erst gebaut werden. Nicht festgelegt.
+
+- **Suche zur „Adam-Verdrängung“ (18:56) #neu/bekannt (als allgemeiner Mechanismus):** „Adam second moment large gradient suppresses
+  small features weight decay forgetting after distribution shift loss spike“. Der allgemeine Effekt ist beschrieben: Ein großer
+  Gradient bleibt über viele Schritte im zweiten Moment und dämpft die normalen Updates („Second-Moment Memory in Coordinatewise Adam“,
+  https://arxiv.org/abs/2608.15824; ähnlich „Adaptive Preconditioners Trigger Loss Spikes in Adam“, https://arxiv.org/abs/2506.04805).
+  Unsere Erklärung der G-Unterdrückung wäre eine Anwendung dieses bekannten Effekts; neu wäre höchstens die Beobachtung selbst
+  (Frequenzwahl nach Datenwechsel). Erklärung weiterhin ungeprüft.

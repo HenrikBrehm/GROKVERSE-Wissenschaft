@@ -75,3 +75,5 @@ Wege, nicht über den ersten Gradienten; das wäre selbst ein Befund.
 ## Nachtrag (Sitzung 13, 2026-09-26 20:20 Berlin, gemessen; vor jedem Lauf): nicht-endliche Läufe ungültig
 
 Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lauf (NaN in W_E) wäre bisher als gültig gezählt worden und hätte still ein falsches K oder sogar das Urteil *widerspricht* mit p = 0 erzeugt (`one_sided_p` mit NaN gibt 0.0). `analyze.py` wertet einen Lauf mit nicht-endlichem Spektrum bzw. W_E jetzt als **ungültig** (zählt gegen die Mindestzahl gültiger Seeds). Urteilsregeln sonst unverändert.
+
+*Ergänzung (20:33 Berlin, gemessen; reine Rechnung, vor jedem Lauf):* Einfache Split-Statistiken, die sich bei EXP-050 als Confound zeigten, sind hier zwischen eng und shuf ausgeglichen: Spiegelpaare 566 ± 19 gegen 568 ± 19, Diagonalpaare 33.8 gegen 32.4, Reihenfolge-Neigung +0.003 gegen −0.001 (je 20 Splits).

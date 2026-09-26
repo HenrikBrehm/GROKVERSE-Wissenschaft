@@ -1,8 +1,8 @@
 ---
 id: EXP-027
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat, befund/unklar]
 ---
 # EXP-027: Wird die Split-Neigung zur Auswahl, wenn das Netz zu schmal für alle Frequenzen ist?
 
@@ -61,6 +61,24 @@ Güte-Schwelle 0.90; EXP-027 wird nach seiner Regel *nicht auswertbar* sein. Die
 (512 neu trainiert, `--alpha 0`); sonst alles wie Nachtrag a (u = q_H − q_F, Spearman über Rang −w, Permutation innerhalb der
 Splits, p < 0.05; Güte-Schwelle Train ≥ 0.99, Test ≥ 0.90; vollständiges 4 × 5-Raster). Entscheidung wie EXP-027.
 `queue_b.sh`, `analyze_b.py`.
+
+## Ergebnis EXP-027 (Sitzung 7, 10:39 Berlin)
+
+25/25 Läufe gültig in der Herkunft, aber alle 5 Läufe mit Breite 32 verfehlen die Güte-Schwelle (Test 0.83–0.86).
+**Urteil nach der Vorab-Regel: *nicht auswertbar (Güte-Schwelle verfehlt)*.**
+
+Beschreibend (Mittel je Breite, nicht bewertet):
+
+| Breite | 512 | 256 | 128 | 64 | 32 |
+|---|---|---|---|---|---|
+| u = q_H − q_F | +0.02 | −0.14 | −0.09 | +0.07 | +0.14 |
+| q_H | 0.58 | 0.57 | 0.47 | 0.48 | 0.49 |
+| n_eff (effektive Zahl genutzter Frequenzen) | 52.3 | 49.8 | 45.4 | 40.3 | 30.4 |
+| Test-Genauigkeit | 1.00 | 1.00 | 1.00 | 0.99 | 0.85 |
+
+Kein erkennbarer Trend der H-Bevorzugung mit der Breite; auch bei 512 ist q_H auf diesen 5 Splits nur 0.58. Die Netze werden
+mit sinkender Breite konzentrierter, nutzen aber selbst mit 32 Neuronen noch ≈ 30 Frequenzen effektiv; eine Auswahl
+weniger Frequenzen wie beim Transformer entsteht nicht. EXP-027b (Nachtrag b) läuft wie festgelegt.
 
 ## Befehle
 

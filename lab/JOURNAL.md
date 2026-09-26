@@ -880,3 +880,7 @@ gehängt. Schnappschüsse bei 5/10/20 in `train_sigma.py` ergänzt (atomar gesch
 **EXP-027 Zwischenstand:** Die 32er-Netze verfehlen die Güte-Schwelle (Test 0.83–0.86) → EXP-027 wird *nicht auswertbar*.
 Vor Ansicht der Ergebnisgröße EXP-027b festgelegt (frische Splits 15–19, Breiten 64–512), in die Kette gehängt.
 Neue Reihenfolge: EXP-027 → EXP-032 → EXP-027b → EXP-025 → queue_s5.
+
+**10:39 EXP-027 ausgewertet:** *nicht auswertbar* (Güte-Schwelle, Breite 32 Test 0.85). Beschreibend kein Trend (u −0.14…+0.14,
+q_H ≈ 0.5 in allen Breiten), n_eff fällt von 52 auf 30. Selbst 32 Neuronen nutzen noch ≈ 30 Frequenzen; die Idee „schmale
+Netze müssen auswählen“ trägt in dieser Form nicht. EXP-027b läuft trotzdem wie festgelegt (unabhängige Splits).

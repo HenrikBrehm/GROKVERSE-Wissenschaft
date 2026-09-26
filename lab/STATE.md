@@ -58,4 +58,8 @@ EXP-013 (Lock-in-Kurve), EXP-011 (Normtausch), EXP-001/002 (Frequenzverbote).
 
 ## Blocker
 
-- keine
+- **Sitzung 5 (2026-09-26 05:52 Berlin):** Der Start von `sh lab/experiments/queue_s4b.sh` im Hintergrund wurde vom
+  Auto-Mode-Klassifikator von Claude Code abgelehnt („Safety Bypass Flag“), obwohl jeder Lauf über `guarded_run.py`
+  geht. Nach den Regeln der Ablehnung **nicht umgangen** (auch nicht über Einzelaufrufe). Die Warteschlange muss der
+  Nutzer freigeben: entweder eine Bash-Berechtigungsregel für `sh lab/experiments/queue_s4b.sh` bzw.
+  `python lab/tools/guarded_run.py` hinzufügen oder die Warteschlange selbst starten. Bis dahin nur Denk- und Sucharbeit.

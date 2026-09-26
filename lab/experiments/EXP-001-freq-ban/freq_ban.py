@@ -199,8 +199,10 @@ def run(a: argparse.Namespace) -> dict:
     if a.split_file is not None:     # EXP-016: engineered train split from a .npy of flat indices a*p+b
         if a.split_seed is not None:
             raise SystemExit("--split-file and --split-seed are exclusive")
-        exp_id = "EXP-016"
+        exp_id = "EXP-016" if a.test_file is None else "EXP-018"
         run_id = f"{exp_id}_{a.condition}_seed{a.seed}_thr{a.threads}_{Path(a.split_file).stem}"
+    elif a.test_file is not None:
+        raise SystemExit("--test-file needs --split-file")
     out_dir = Path(a.out_root) / run_id
     if (out_dir / "result.json").exists() and not a.force:
         prev = json.loads((out_dir / "result.json").read_text())
@@ -223,6 +225,13 @@ def run(a: argparse.Namespace) -> dict:
             raise SystemExit(f"[exp] invalid split file {a.split_file}: need {n_expected} unique ints in [0, p*p)")
         tr = torch.from_numpy(raw.astype(np.int64))
         te = torch.from_numpy(np.setdiff1d(np.arange(p * p), tr.numpy()))
+        if a.test_file is not None:       # EXP-018: common held-out test set instead of the complement
+            rt = np.load(a.test_file)
+            if (rt.ndim != 1 or not np.issubdtype(rt.dtype, np.integer) or len(rt) == 0
+                    or len(np.unique(rt)) != len(rt) or rt.min() < 0 or rt.max() >= p * p
+                    or np.intersect1d(rt, raw).size):
+                raise SystemExit(f"[exp] invalid test file {a.test_file}: need unique ints in [0, p*p) disjoint from train")
+            te = torch.from_numpy(np.sort(rt).astype(np.int64))
         data = {**data, "train_x": data["all_x"][tr], "train_y": data["all_y"][tr],
                 "test_x": data["all_x"][te], "test_y": data["all_y"][te], "train_idx": tr, "test_idx": te}
     trx, try_, tex, tey = data["train_x"], data["train_y"], data["test_x"], data["test_y"]
@@ -259,8 +268,9 @@ def run(a: argparse.Namespace) -> dict:
            "condition": a.condition, "seed": a.seed, "t0": a.t0, "m": a.m,
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
-           "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "max_steps": a.steps,
+           "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
+           "test_hash": split_hash(data["test_idx"]),
            "git_commit": git_commit(), "versions": lib_versions(),
            "platform": platform.platform(), "argv": sys.argv,
            "start_utc": datetime.now(timezone.utc).isoformat()}
@@ -367,6 +377,8 @@ def main() -> None:
                     help="EXP-014: take the train/test split of this seed (init stays from --seed)")
     ap.add_argument("--split-file", default=None,
                     help="EXP-016: .npy with flat train indices a*p+b (test = complement)")
+    ap.add_argument("--test-file", default=None,
+                    help="EXP-018: .npy with flat test indices (disjoint from --split-file) instead of the complement")
     ap.add_argument("--save-model", action="store_true")
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args()

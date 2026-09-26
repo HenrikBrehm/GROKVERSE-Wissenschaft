@@ -136,6 +136,22 @@ def test_engineered_split_indexing() -> None:   # EXP-016
     assert np.array_equal(idx, mk.engineered_train_idx(10, F, 2.0))    # deterministic
 
 
+def test_split_speed_sets() -> None:   # EXP-018
+    sys.path.append(str(HERE.parent / "EXP-018-split-speed"))
+    import make_splits as m18
+    sets = m18.build(20)
+    test = sets["test"]
+    assert len(test) == round(0.2 * P * P) and len(np.unique(test)) == len(test)
+    for arm in m18.ARMS:
+        tr = sets[arm]
+        assert len(tr) == round(0.3 * P * P) and len(np.unique(tr)) == len(tr)
+        assert np.intersect1d(tr, test).size == 0                 # common test set is held out
+    assert all(np.array_equal(sets[k], m18.build(20)[k]) for k in sets)   # deterministic
+    meta = m18.describe(20, sets)
+    assert meta["arms"]["E"]["M0_top5"] == meta["targets"]
+    assert meta["arms"]["E"]["top5_power_share"] > 1.4 * meta["arms"]["D"]["top5_power_share"]
+
+
 def test_shrink_matches_top_ban_energy() -> None:              # amendment 2026-09-25b
     B = fb.fourier_basis(P)
     W = np.random.default_rng(2).normal(size=(P, 16))

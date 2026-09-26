@@ -133,3 +133,13 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
 - **Einordnung:** Eine Zuordnung der Frequenzwahl zum Split und ein Vorhersager nur aus der Maske wurden nach dieser
   Suche **nicht gefunden**. Vorläufig, keine Garantie. Vor einem Anspruch: Bestätigung an Seeds 10–19 (EXP-015 Phase 2,
   EXP-014) und eine gründlichere Suche (OpenReview, Google Scholar).
+- **Nachsuche 2026-09-26 (~03:35 Berlin).** Suchbegriffe: „openreview grokking "training set" choice influences learned
+  Fourier features modular addition data subset determines representation“, „"modular addition" "train split" OR "data
+  split" seed separate initialization seed frequencies learned grokking ablation“, „Mallinar Beaglehole grokking modular
+  arithmetic average gradient outer product recursive feature machine“. Neu geprüft: **Mallinar et al. 2025, Emergence in
+  non-neural models (RFM/AGOP)** (https://arxiv.org/abs/2407.20199): Kernel-Maschine ohne Zufalls-Init lernt
+  blockzirkulante Merkmale; welche Frequenzen und warum, wird laut WebFetch **nicht** analysiert. Mehrere Arbeiten halten
+  den Datensplit über Seeds fest (dann kann der Split-Effekt gar nicht auftauchen). **Einordnung unverändert:** nicht
+  gefunden, vorläufig.
+- **Idee (N3b):** In RFM gibt es keine zufällige Init; eine Frequenzauswahl dort müsste vollständig aus dem Split kommen.
+  M0 sollte sie dann vorhersagen. Billiger Zusatztest außerhalb der Netze.

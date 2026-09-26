@@ -1,8 +1,8 @@
 ---
 id: EXP-016
-status: laufend
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/laufend, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[experiments/EXP-015-mask-spectrum/README|EXP-015]]", "[[experiments/EXP-014-split-vs-init/README|EXP-014]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-016: Frequenzen über die Datenauswahl steuern (konstruierter Split)
@@ -87,3 +87,17 @@ Ziele zufällig harmonisch verwandt sind (Seed 14 F: 13 = fold(2·50) wurde entf
 Korrektur (06:37, nach Codex): Die oben „funktional“ genannten Schlüsselfrequenzen der Studie sind die Regel `nanda`
 (Fourier-Norm von W_L = W_out·W_U mit Schwelle), **keine Ablation**. Die Deutung „2k ist nur Oberwelle“ ist damit noch
 nicht belegt; siehe JOURNAL (Codex-Angriff Sitzung 5) und den Ablationstest danach.
+
+## Ergebnis (2026-09-26 08:06 Berlin, Sitzung 5, vorab festgelegte Auswertung nach Nachtrag a)
+
+**Entscheidung: *steuerbar*.** Alle 10 Seeds gültig. Δ_i = +8, +7, +7, +7, +8, +9, +8, +7, +8, +8; Δ̄ = **+7.7** (max. 10),
+einseitiger Vorzeichentest über 10 unabhängige Init-Seeds p = 1/1024 ≈ 0.001. Mittlere Überlappung mit der eigenen
+Zielmenge 3.9 von 5, mit der Zielmenge des anderen Arms 0.05; Zufallssplit-Baseline gegen F/G 0.44 (Seeds 10–17).
+Sekundär (Nachtrag b): Δ_h̄ 8.3 (p ≈ 0.001); **alle 20** Nicht-Ziel-Frequenzen der W_E-Top-5 sind zweite Harmonische
+fold(2k) einer Zielfrequenz (Seeds 16–19: 8/8, vorab vorhergesagt > 50 %). F-gegen-G-Asymmetrie an Seeds 16–19: F > G in
+1, G > F in 1 → nach der vorab festgelegten Regel als Zufall abgelegt. Grokking (nicht Primärgröße, Komplement-Testmenge):
+gen 450–1100 unter konstruierten Splits; ob das echte Beschleunigung ist, prüft [[experiments/EXP-018-split-speed/README|EXP-018]].
+Zwischenstand bei n = 8 (07:48): Δ̄ 7.6, p 0.004; die Entscheidung wurde wie angekündigt erst bei n = 10 getroffen.
+**Grenzen:** eine Konstruktion (ε = 2), nur Transformer, p = 113, 30 %-Split, eine Plattform; K ist die W_E-Top-5 bei
+Schritt 2000. „Steuerbar“ heißt: Die Datenauswahl gibt die Frequenzmenge weitgehend vor; die Init entscheidet nur mit,
+welche Ziele später durch Harmonische ersetzt werden (explorativ, [[BEFUND-split-mechanismus]]).

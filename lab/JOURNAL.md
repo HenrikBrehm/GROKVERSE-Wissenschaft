@@ -650,3 +650,9 @@ eines G-Ziels). Δ_17 = +7.
 = 0.0039; passende Überlappung 3.875/5, gekreuzte 0.06; Zufallssplit-Baseline gegen F/G 0.44. Sekundär (Nachtrag b):
 Δ_h̄ 8.25; **alle** Nicht-Ziel-Frequenzen der Seeds 16–17 sind 2k-Harmonische (4/4); F > G in 1 von 2 Seeds (16), G > F in 0.
 Die Entscheidung fällt wie angekündigt bei n = 10 (Seeds 18/19 laufen).
+EXP-016 Seed 18 ~07:56: F K {18, 19, 27, 39, 54} (4/5, 54 = 2·27), G K {13, 20, 24, 48, 53} (4/5, 48 = 2·24), gekreuzt 0. Δ_18 = +8.
+EXP-016 Seed 19 ~08:04: F K {5, 7, 9, 10, 53} (3/5; 7 = fold(2·53), 10 = 2·5), G K = G exakt (5/5). Δ_19 = +8.
+**EXP-016 abgeschlossen (08:06), vorab festgelegte Entscheidung: *steuerbar*.** n = 10, Δ̄ = +7.7, 10/10 positiv, p = 1/1024.
+Passend 3.9/5, gekreuzt 0.05, Baseline 0.44. Sekundär: alle 20 Nicht-Ziel-Frequenzen sind 2k-Harmonische (Seeds 16–19:
+8/8, Vorhersage „> 50 %“ erfüllt); F-G-Asymmetrie nicht wiederholt (1:1) → Zufall. Details im EXP-016-README.
+Baseline 18 läuft seit 08:05 (höchstens 15000 Schritte ≈ 33 min, endet vor der Deadline).

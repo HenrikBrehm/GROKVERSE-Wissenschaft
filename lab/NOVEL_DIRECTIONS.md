@@ -237,3 +237,6 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   ohne Mechanismus; *Context Staircase* (https://arxiv.org/pdf/2608.30315) zu Embedding-Dynamik bei kleiner Init mit
   positionsspezifischen Signaturen, andere Aufgabe. Der konkrete Mechanismus wurde **nicht gefunden** (vorläufig).
 - **Grenze:** Bisher nur der erste Gradient bei Init und eine Konfiguration (p = 113, 30 %-Split).
+- **Stand 2026-09-26 08:06 (Sitzung 5):** EXP-016 abgeschlossen, *steuerbar* (10/10 Seeds, Δ̄ +7.7, p ≈ 0.001). Kausaler
+  Beleg, dass die Datenauswahl die Frequenzwahl eines Transformers für modulare Addition vorgibt; Einordnung siehe oben
+  (Grundidee in anderer Form bekannt, Zhou et al. 2024; Z_p-Umsetzung und Steuerung nicht gefunden, vorläufig).

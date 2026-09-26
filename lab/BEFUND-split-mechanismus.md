@@ -42,8 +42,9 @@ Vorab festgelegt und bestätigt ist nur, was ausdrücklich so markiert ist.
 
 ## Konstruierte Splits: frühe Prägung, spätere Verdrängung durch 2k (EXP-016, unvollständige Vorschau)
 
-**Vorschau auf 6 von 10 Seeds (10–15, je Arm F und G), unter der vorab festgelegten Mindestzahl von 8; EXP-016 ist noch
-nicht auswertbar.** F und G teilen je Seed die Init, die 12 Läufe sind also nicht unabhängig.
+**EXP-016 selbst ist seit 08:06 abgeschlossen: *steuerbar*** (10/10 Seeds, Δ̄ +7.7, p ≈ 0.001, vorab festgelegt); alle 20
+Nicht-Ziel-Frequenzen sind 2k-Harmonische. Die folgenden Rangbefunde stammen aus der Vorschau auf Seeds 10–15 und bleiben
+explorativ; F und G teilen je Seed die Init, die Läufe sind also nicht unabhängig.
 - Früh prägen die Daten die Frequenzen auf: W_E-Top-5 = Zielmenge bei Schritt 250 in 12/12 Läufen (frühester gemeinsamer
   Messpunkt); bei Schritt 50 nur in einem einzigen Smoke-Lauf gesehen.
 - Bis Schritt 2000 werden einzelne Ziele verdrängt, und zwar die **früh schwächsten** (14/14 auf Rang 4–5 bei Schritt 250).

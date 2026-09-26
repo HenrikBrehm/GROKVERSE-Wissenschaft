@@ -707,3 +707,5 @@ Gruppen und eine nicht-modulare Aufgabe geprüft wird. Das bleibt der Kandidat v
   ersten Messpunkt ≥ gen bis Schritt 2000 (750–1500 Schritte danach) von 0.56 auf 0.82 (20/20 steigen, Δ 0.26 ± 0.07); Ziele des anderen Arms 0.016, Zufall 5/56 = 0.089.
   |Top-5 ∩ T| sinkt leicht (4.3 → 3.9, bekannte 2k-Oberwellen). Grenzen: F/G teilen die Init; nur bis 2000 Schritte. Länger: EXP-045 (MLP, bis 10 000).
   Skript und Zahlen: `lab/experiments/EXP-016-engineered-split/posthoc_postgen_persistence.py/.json`.
+  *Kontrolle (Zyklus 2):* Zufallssplit-Läufe der Studie verdichten nach dem Grokking ebenfalls (+0.11 nach 750 Schritten, 10/10). Der Anstieg ist also allgemein.
+  Belastbar ist nur „kein Abklingen“, eine Verstärkung durch den Split ist nicht gezeigt (`posthoc_postgen_control.py/.json`).

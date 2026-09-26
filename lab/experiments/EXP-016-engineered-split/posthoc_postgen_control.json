@@ -1,0 +1,896 @@
+{
+ "summary": {
+  "random_study|set_at_gen|+750": {
+   "n": 10,
+   "share_gen_mean": 0.6439,
+   "delta_mean": 0.1132,
+   "delta_sd": 0.0331,
+   "n_up": 10
+  },
+  "random_study|set_at_gen|+1500": {
+   "n": 10,
+   "share_gen_mean": 0.6439,
+   "delta_mean": 0.1923,
+   "delta_sd": 0.0293,
+   "n_up": 10
+  },
+  "random_study|set_at_end|+750": {
+   "n": 10,
+   "share_gen_mean": 0.6166,
+   "delta_mean": 0.1251,
+   "delta_sd": 0.0404,
+   "n_up": 10
+  },
+  "random_study|set_at_end|+1500": {
+   "n": 10,
+   "share_gen_mean": 0.6166,
+   "delta_mean": 0.2186,
+   "delta_sd": 0.0353,
+   "n_up": 10
+  },
+  "engineered_exp016|set_at_gen|+750": {
+   "n": 20,
+   "share_gen_mean": 0.5642,
+   "delta_mean": 0.2272,
+   "delta_sd": 0.0423,
+   "n_up": 20
+  },
+  "engineered_exp016|set_at_gen|+1500": {
+   "n": 20,
+   "share_gen_mean": 0.5642,
+   "delta_mean": 0.2765,
+   "delta_sd": 0.077,
+   "n_up": 20
+  },
+  "engineered_exp016|set_at_end|+750": {
+   "n": 20,
+   "share_gen_mean": 0.5569,
+   "delta_mean": 0.2463,
+   "delta_sd": 0.0419,
+   "n_up": 20
+  },
+  "engineered_exp016|set_at_end|+1500": {
+   "n": 20,
+   "share_gen_mean": 0.5569,
+   "delta_mean": 0.3014,
+   "delta_sd": 0.0752,
+   "n_up": 20
+  }
+ },
+ "rows": {
+  "random_study": [
+   {
+    "seed": 0,
+    "gen": 7975,
+    "step_at_gen": 8427,
+    "set_at_gen": {
+     "gen": 0.6961,
+     "gen+750": {
+      "step": 9020,
+      "share": 0.7905
+     },
+     "gen+1500": {
+      "step": 9654,
+      "share": 0.8649
+     }
+    },
+    "set_at_end": {
+     "gen": 0.6066,
+     "gen+750": {
+      "step": 9020,
+      "share": 0.7008
+     },
+     "gen+1500": {
+      "step": 9654,
+      "share": 0.7769
+     }
+    }
+   },
+   {
+    "seed": 1,
+    "gen": 6250,
+    "step_at_gen": 6421,
+    "set_at_gen": {
+     "gen": 0.6113,
+     "gen+750": {
+      "step": 7356,
+      "share": 0.7483
+     },
+     "gen+1500": {
+      "step": 7873,
+      "share": 0.8065
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5939,
+     "gen+750": {
+      "step": 7356,
+      "share": 0.7725
+     },
+     "gen+1500": {
+      "step": 7873,
+      "share": 0.8473
+     }
+    }
+   },
+   {
+    "seed": 2,
+    "gen": 8125,
+    "step_at_gen": 8427,
+    "set_at_gen": {
+     "gen": 0.6783,
+     "gen+750": {
+      "step": 9020,
+      "share": 0.7806
+     },
+     "gen+1500": {
+      "step": 9654,
+      "share": 0.8771
+     }
+    },
+    "set_at_end": {
+     "gen": 0.6257,
+     "gen+750": {
+      "step": 9020,
+      "share": 0.7456
+     },
+     "gen+1500": {
+      "step": 9654,
+      "share": 0.8681
+     }
+    }
+   },
+   {
+    "seed": 3,
+    "gen": 7425,
+    "step_at_gen": 7873,
+    "set_at_gen": {
+     "gen": 0.694,
+     "gen+750": {
+      "step": 8427,
+      "share": 0.7585
+     },
+     "gen+1500": {
+      "step": 9654,
+      "share": 0.8703
+     }
+    },
+    "set_at_end": {
+     "gen": 0.6807,
+     "gen+750": {
+      "step": 8427,
+      "share": 0.7492
+     },
+     "gen+1500": {
+      "step": 9654,
+      "share": 0.8924
+     }
+    }
+   },
+   {
+    "seed": 4,
+    "gen": 10275,
+    "step_at_gen": 10333,
+    "set_at_gen": {
+     "gen": 0.6063,
+     "gen+750": {
+      "step": 11060,
+      "share": 0.7434
+     },
+     "gen+1500": {
+      "step": 11837,
+      "share": 0.8405
+     }
+    },
+    "set_at_end": {
+     "gen": 0.6063,
+     "gen+750": {
+      "step": 11060,
+      "share": 0.7434
+     },
+     "gen+1500": {
+      "step": 11837,
+      "share": 0.8405
+     }
+    }
+   },
+   {
+    "seed": 5,
+    "gen": 5625,
+    "step_at_gen": 5999,
+    "set_at_gen": {
+     "gen": 0.634,
+     "gen+750": {
+      "step": 6873,
+      "share": 0.8084
+     },
+     "gen+1500": {
+      "step": 7356,
+      "share": 0.8776
+     }
+    },
+    "set_at_end": {
+     "gen": 0.6076,
+     "gen+750": {
+      "step": 6873,
+      "share": 0.8072
+     },
+     "gen+1500": {
+      "step": 7356,
+      "share": 0.8822
+     }
+    }
+   },
+   {
+    "seed": 6,
+    "gen": 6325,
+    "step_at_gen": 6421,
+    "set_at_gen": {
+     "gen": 0.6043,
+     "gen+750": {
+      "step": 7356,
+      "share": 0.7322
+     },
+     "gen+1500": {
+      "step": 7873,
+      "share": 0.7999
+     }
+    },
+    "set_at_end": {
+     "gen": 0.6043,
+     "gen+750": {
+      "step": 7356,
+      "share": 0.7322
+     },
+     "gen+1500": {
+      "step": 7873,
+      "share": 0.7999
+     }
+    }
+   },
+   {
+    "seed": 7,
+    "gen": 7750,
+    "step_at_gen": 7873,
+    "set_at_gen": {
+     "gen": 0.6023,
+     "gen+750": {
+      "step": 8427,
+      "share": 0.676
+     },
+     "gen+1500": {
+      "step": 9654,
+      "share": 0.7951
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5639,
+     "gen+750": {
+      "step": 8427,
+      "share": 0.6449
+     },
+     "gen+1500": {
+      "step": 9654,
+      "share": 0.8003
+     }
+    }
+   },
+   {
+    "seed": 8,
+    "gen": 8125,
+    "step_at_gen": 8427,
+    "set_at_gen": {
+     "gen": 0.6806,
+     "gen+750": {
+      "step": 9020,
+      "share": 0.7782
+     },
+     "gen+1500": {
+      "step": 9654,
+      "share": 0.8286
+     }
+    },
+    "set_at_end": {
+     "gen": 0.6454,
+     "gen+750": {
+      "step": 9020,
+      "share": 0.7665
+     },
+     "gen+1500": {
+      "step": 9654,
+      "share": 0.8432
+     }
+    }
+   },
+   {
+    "seed": 9,
+    "gen": 5825,
+    "step_at_gen": 5999,
+    "set_at_gen": {
+     "gen": 0.632,
+     "gen+750": {
+      "step": 6873,
+      "share": 0.7547
+     },
+     "gen+1500": {
+      "step": 7356,
+      "share": 0.8016
+     }
+    },
+    "set_at_end": {
+     "gen": 0.632,
+     "gen+750": {
+      "step": 6873,
+      "share": 0.7547
+     },
+     "gen+1500": {
+      "step": 7356,
+      "share": 0.8016
+     }
+    }
+   }
+  ],
+  "engineered_exp016": [
+   {
+    "seed": 10,
+    "arm": "F",
+    "gen": 525,
+    "step_at_gen": 750,
+    "set_at_gen": {
+     "gen": 0.5758,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8297
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.883
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5758,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8297
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.883
+     }
+    }
+   },
+   {
+    "seed": 10,
+    "arm": "G",
+    "gen": 975,
+    "step_at_gen": 1000,
+    "set_at_gen": {
+     "gen": 0.5308,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.7421
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.786
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5268,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.7473
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8033
+     }
+    }
+   },
+   {
+    "seed": 11,
+    "arm": "F",
+    "gen": 775,
+    "step_at_gen": 1000,
+    "set_at_gen": {
+     "gen": 0.5851,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.7484
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.7684
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5448,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.7523
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.7929
+     }
+    }
+   },
+   {
+    "seed": 11,
+    "arm": "G",
+    "gen": 975,
+    "step_at_gen": 1000,
+    "set_at_gen": {
+     "gen": 0.5623,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.7878
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8349
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5188,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.7843
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8458
+     }
+    }
+   },
+   {
+    "seed": 12,
+    "arm": "F",
+    "gen": 625,
+    "step_at_gen": 750,
+    "set_at_gen": {
+     "gen": 0.5852,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8173
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.885
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5852,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8173
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.885
+     }
+    }
+   },
+   {
+    "seed": 12,
+    "arm": "G",
+    "gen": 500,
+    "step_at_gen": 500,
+    "set_at_gen": {
+     "gen": 0.4589,
+     "gen+750": {
+      "step": 1250,
+      "share": 0.7727
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.9147
+     }
+    },
+    "set_at_end": {
+     "gen": 0.4486,
+     "gen+750": {
+      "step": 1250,
+      "share": 0.7801
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.9226
+     }
+    }
+   },
+   {
+    "seed": 13,
+    "arm": "F",
+    "gen": 1050,
+    "step_at_gen": 1250,
+    "set_at_gen": {
+     "gen": 0.5916,
+     "gen+750": {
+      "step": 2000,
+      "share": 0.7777
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.7777
+     }
+    },
+    "set_at_end": {
+     "gen": 0.591,
+     "gen+750": {
+      "step": 2000,
+      "share": 0.8152
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8152
+     }
+    }
+   },
+   {
+    "seed": 13,
+    "arm": "G",
+    "gen": 525,
+    "step_at_gen": 750,
+    "set_at_gen": {
+     "gen": 0.5967,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8105
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8622
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5789,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8308
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.9029
+     }
+    }
+   },
+   {
+    "seed": 14,
+    "arm": "F",
+    "gen": 1100,
+    "step_at_gen": 1250,
+    "set_at_gen": {
+     "gen": 0.6524,
+     "gen+750": {
+      "step": 2000,
+      "share": 0.809
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.809
+     }
+    },
+    "set_at_end": {
+     "gen": 0.6524,
+     "gen+750": {
+      "step": 2000,
+      "share": 0.809
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.809
+     }
+    }
+   },
+   {
+    "seed": 14,
+    "arm": "G",
+    "gen": 625,
+    "step_at_gen": 750,
+    "set_at_gen": {
+     "gen": 0.5559,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8334
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.9118
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5559,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8334
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.9118
+     }
+    }
+   },
+   {
+    "seed": 15,
+    "arm": "F",
+    "gen": 925,
+    "step_at_gen": 1000,
+    "set_at_gen": {
+     "gen": 0.5769,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.7542
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.786
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5769,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.7542
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.786
+     }
+    }
+   },
+   {
+    "seed": 15,
+    "arm": "G",
+    "gen": 600,
+    "step_at_gen": 750,
+    "set_at_gen": {
+     "gen": 0.5668,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8116
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8397
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5668,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8364
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8793
+     }
+    }
+   },
+   {
+    "seed": 16,
+    "arm": "F",
+    "gen": 675,
+    "step_at_gen": 750,
+    "set_at_gen": {
+     "gen": 0.5354,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8103
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8945
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5354,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8103
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8945
+     }
+    }
+   },
+   {
+    "seed": 16,
+    "arm": "G",
+    "gen": 825,
+    "step_at_gen": 1000,
+    "set_at_gen": {
+     "gen": 0.5964,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.8451
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8809
+     }
+    },
+    "set_at_end": {
+     "gen": 0.596,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.8457
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.881
+     }
+    }
+   },
+   {
+    "seed": 17,
+    "arm": "F",
+    "gen": 650,
+    "step_at_gen": 750,
+    "set_at_gen": {
+     "gen": 0.5542,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8162
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8479
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5478,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8247
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8665
+     }
+    }
+   },
+   {
+    "seed": 17,
+    "arm": "G",
+    "gen": 700,
+    "step_at_gen": 750,
+    "set_at_gen": {
+     "gen": 0.5334,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.7398
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.7665
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5317,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.7811
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8187
+     }
+    }
+   },
+   {
+    "seed": 18,
+    "arm": "F",
+    "gen": 775,
+    "step_at_gen": 1000,
+    "set_at_gen": {
+     "gen": 0.596,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.793
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8287
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5832,
+     "gen+750": {
+      "step": 1750,
+      "share": 0.7967
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.84
+     }
+    }
+   },
+   {
+    "seed": 18,
+    "arm": "G",
+    "gen": 575,
+    "step_at_gen": 750,
+    "set_at_gen": {
+     "gen": 0.5967,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.7908
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8318
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5934,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.8423
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8943
+     }
+    }
+   },
+   {
+    "seed": 19,
+    "arm": "F",
+    "gen": 450,
+    "step_at_gen": 500,
+    "set_at_gen": {
+     "gen": 0.4579,
+     "gen+750": {
+      "step": 1250,
+      "share": 0.7378
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8848
+     }
+    },
+    "set_at_end": {
+     "gen": 0.4529,
+     "gen+750": {
+      "step": 1250,
+      "share": 0.7714
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.9132
+     }
+    }
+   },
+   {
+    "seed": 19,
+    "arm": "G",
+    "gen": 550,
+    "step_at_gen": 750,
+    "set_at_gen": {
+     "gen": 0.5756,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.801
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8203
+     }
+    },
+    "set_at_end": {
+     "gen": 0.5756,
+     "gen+750": {
+      "step": 1500,
+      "share": 0.801
+     },
+     "gen+1500": {
+      "step": 2000,
+      "share": 0.8203
+     }
+    }
+   }
+  ]
+ }
+}

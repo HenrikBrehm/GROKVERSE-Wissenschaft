@@ -310,6 +310,16 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   Neigung wird bis zum Ende etwa verdreifacht. Stand N12: **gestützt** in der Form „wenige frühe Schritte mit ungeradem
   Aktivierungsanteil legen die Frequenzneigung fest“ (ein Modell, AdamW, 5 Splits).
 
+- **Einwand (Sitzung 8, 12:03):** Die Zahl „5 Schritte“ ist an AdamW gebunden: Adams erster Schritt ist ein Vorzeichen-Schritt der
+  Größe lr (Abuduweili & Liu 2024, https://arxiv.org/abs/2412.02153); in EXP-032 ist r am Umschaltschritt über alle Splits
+  identisch. Kritische Perioden gibt es auch in linearen Netzen ohne Optimierer-Details (Kleinman, Achille & Soatto 2023,
+  https://arxiv.org/abs/2308.12221). Ob die Festlegung selbst den Weg braucht: [[experiments/EXP-033-optimizer-lockin/README|EXP-033]].
+
+- **EXP-033 (Sitzung 8, 13:18):** GD in der σ_3-Phase bis zur Amplitude von 10 AdamW-Schritten gibt eine bleibende F-Neigung in
+  10/10 Splits, etwas stärker als AdamW (R 1.26). Die lineare Modentheorie (Singulärvektoren von Xᵀ(Y − 1/P)) sagte die
+  stärkere GD-Neigung am Umschaltschritt vorher (10/10). N12 damit in der Form „frühe Festlegung braucht in Phase 1 kein
+  Adam“ gestützt; Erhalt ohne Adam offen ([[experiments/EXP-034-phase2-optimizer/README|EXP-034]]).
+
 ## N13: Memorisierung prägt das Masken-Spektrum ein, Generalisierung verdrängt Teile durch 2k-Oberwellen #neu/kandidat
 
 - **Beobachtung (Sitzung 7, post hoc, EXP-016):** Bei Schritt 250 (Memorisierungsphase) sind die W_E-Top-5 in 20/20

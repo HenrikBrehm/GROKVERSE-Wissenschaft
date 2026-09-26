@@ -5,20 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 11:59 Berlin (09:59Z, vom Runner)
 - **Deadline:** 2026-09-26 14:59 Berlin (12:59Z)
-- **Zuletzt aktualisiert:** 12:30 Berlin
+- **Zuletzt aktualisiert:** 13:32 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-**EXP-033 läuft** (seit 12:20): Pilot fertig, GD-Lernrate 3 gewählt (76 Schritte bis zur Ziel-Amplitude). Jetzt 10 Splits × (AdamW, GD, Vorzeichen) + 5 AdamW-behalten.
-EXP-020 ist pausiert (Seed 30: 4 von 8 Läufen fertig).
+EXP-020 läuft wieder (Transformer-Datenwechsel, Seed 30 fast fertig, dann Seeds 31–34). Nebenher: Dokumentation, danach Denkarbeit zu EXP-034.
 
 ## Als Nächstes
 
-EXP-033 beobachten (~70 min), auswerten; danach `queue_s5.sh` fortsetzen.
+Nächste Sitzung: EXP-020 fertig laufen lassen, dann EXP-034 (frische Splits, GD auch in Phase 2).
 
 ## Verlauf dieser Sitzung
 
+- 13:31 **EXP-034 vorab festgelegt** und nach Codex umgebaut: Hält die Festlegung auch, wenn *beide* Phasen ohne AdamW laufen? Und schon bei der 5-Schritte-Amplitude? Frische Splits 60–69.
+- 13:21 Codex greift die Schlussfolgerung an → eingeschränkt: Belegt ist nur, dass AdamW in der *frühen* Phase nicht nötig ist; die späte Phase lief immer mit AdamW.
+- 13:18 **EXP-033 Ergebnis:** Die frühe Festlegung ist **kein AdamW-Artefakt der ersten Phase**. Reiner Gradientenabstieg bis zur gleichen Merkmalsgröße legt das Netz genauso fest (10/10 Splits), sogar etwas stärker, wie die lineare Rechnung vorhergesagt hatte (10/10).
+- 13:17 EXP-020 fortgesetzt.
 - 12:30 EXP-033: Treffgenauigkeit der Amplitude verbessert (Nachtrag c, bevor ein Ergebnis angesehen wurde); Split 10 fertig, 9 Splits folgen (~45 min).
 - 12:20 EXP-033 Pilot: GD-Lernrate 3 nach vorab festgelegter Regel gewählt.
 

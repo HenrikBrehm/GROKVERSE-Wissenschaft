@@ -3,11 +3,19 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 12:15 Berlin (Sitzung 8, Start 11:59, Deadline 14:59 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 13:32 Berlin (Sitzung 8, Start 11:59, Deadline 14:59 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
+
+- **Sitzung 8, 13:32:** EXP-033 **abgeschlossen** (*zustandsbestimmt* vorab; nach Codex eingeschränkt: AdamW in Phase 1 nicht nötig).
+  `queue_s5.sh` läuft wieder seit 13:17 (EXP-020 Seed 30 fast fertig, dann Seeds 31–34). **EXP-034** vorab festgelegt
+  (Nachtrag a, commit a7e9cf2/c36d212), nicht ausgeführt, `--opt2 gd` ungetestet. **Nächste Sitzung (Fenster heute bis 18:00,
+  ab 2026-09-27 wieder 00–13):** Prioritätsvorschlag: EXP-020 zu Ende (liefert EXP-020 + EXP-028), dann
+  `sh lab/experiments/EXP-034-phase2-optimizer/queue.sh` (A ≈ 75 min, Pilot ≈ 27 min, B ≈ 90 min), Auswertung
+  `python lab/tools/guarded_run.py -- python lab/experiments/EXP-034-phase2-optimizer/analyze.py`. Vor dem Start prüfen, ob
+  noch eine Queue läuft (`ps -ef | grep -E "queue|guarded_run"`); nie zwei Queues gleichzeitig.
 
 - **Sitzung 8, 12:30:** EXP-033-Queue läuft (Nachtrag c, `_bt`-Läufe); Wiederaufnahme = `sh lab/experiments/EXP-033-optimizer-lockin/queue.sh` (überspringt Fertiges). `queue_s5.sh` weiter pausiert.
 

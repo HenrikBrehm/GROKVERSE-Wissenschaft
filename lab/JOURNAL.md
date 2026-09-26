@@ -970,3 +970,24 @@ Schritten, Überschuss 0.05/0.26/0.44/3.6/10.7 %. Regel → **lr = 3** (`lr.json
 das Ziel-r um 4.7 %, GD um 1.5 % (Toleranz 2 %). Warteschlange angehalten, Rückwärtshalbierung des letzten Schritts
 eingebaut (`--backtrack`, Ziel ≤ +0.5 %), Split 10 neu: GD +0.35 % (77 Schritte, letzter Schritt × 0.25), SIGN +0.32 %
 (11 Schritte). Die beiden Läufe ohne `_bt` bleiben unausgewertet. Warteschlange läuft weiter (~45 min).
+
+**Zyklus 2 (12:20–13:18): EXP-033 ausgeführt und ausgewertet (vorab festgelegt, Nachtrag a–c).** 10 Splits × AR/GD/SIGN
++ 5 RET, alle vollständig, Amplitude ≤ 0.4 % getroffen, alle Endnetze Test 1.0. Δ (ankerbereinigt): AR 0.120, **GD 0.151**,
+SIGN 0.133; Δ_GD > 0 in **10/10** (p = 0.001); R = 1.26, KI [1.10, 1.46] → vorab-Kategorie ***zustandsbestimmt***.
+Nachtrag b (lineare Moden) **bestätigt:** ds am Umschaltschritt GD > AR in 10/10 (0.105 gegen 0.066). SIGN ≈ AR.
+Post hoc: ds(J) des Splits sagt die GD-Neigung am Umschaltschritt voraus (Spearman 0.84; AR 0.62; Ende 0.42/0.30).
+RET − AR = 0.015 (Optimierer-Reset kostet wenig); RET 10–14 = EXP-032 t_s = 10 exakt (Kontrolle der Reproduzierbarkeit).
+**Codex-Angriff auf die Schlussfolgerung (13:13–13:21, `EXP-033/codex_conclusion_review_2026-09-26.txt`), übernommen:**
+Das Etikett überdehnt. Belegt: AdamW ist **in Phase 1** nicht nötig, bedingt auf AdamW-Phase 2, an Stufe t_s = 10. Nicht
+belegt: Pfadunabhängigkeit (die Zustände unterscheiden sich), Erhalt ohne AdamW, die 5-Schritte-Stufe; Nachtrag c war
+ergebnisblinde Änderung, kein reines Vorab-Protokoll. README entsprechend eingeschränkt.
+*Entscheidung:* weiterprüfen → EXP-034.
+
+**Zyklus 3 (13:21–13:33): EXP-034 vorab festgelegt (neue Intervention: Optimierer der Phase 2).** Frische Splits 60–69 (+ Pilot 70,
+alle M0-Top-5 = Ziele), Teil A: Stufen 5 und 10 mit AdamW-Phase 2 (Bestätigung EXP-033 + 5-Schritte-Stufe ohne AdamW),
+Teil B: GD-Phase 2 (Weight Decay so, dass die Schrumpfung pro Schritt der von AdamW gleicht) mit Vergleich je Split.
+**Codex-Review (13:25–13:30):** 2 × high, 2 × medium, alle übernommen (Vergleich innerhalb derselben Splits, keine „braucht
+AdamW“-Folgerung aus Nicht-Signifikanz, Pilot aus allen drei Startzuständen, idempotente Warteschlange) → Nachtrag a
+(commit a7e9cf2). *Eigener Fehler:* Ein `sed` mit `\|` zerstörte den Nachtrag im README und wurde committet; aus dem vorigen
+Commit wiederhergestellt (c36d212). Status: vorbereitet, **nicht ausgeführt**, `train_opt.py --opt2 gd` ungetestet (erst
+der Pilot prüft den Pfad). Budget ≈ 3 h → nächste Sitzungen.

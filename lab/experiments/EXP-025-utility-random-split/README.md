@@ -26,6 +26,13 @@ Zurück: [[LAB]] · [[BACKLOG]] · [[JOURNAL]] · [[NOVEL_DIRECTIONS]] (N11) · 
 | **Grenzen** | Die Seeds 10–19 der Zufallssplits sind für den Transformer schon ausgewertet (EXP-015), für diese Netze aber frisch. Beide Arme teilen denselben Split pro Seed (abhängige Einheiten). Die Nutzenrechnung ist eine Aussage über den Start (kleine Init); AdamW und CE weichen von der AGF-Annahme ab |
 | **Budget** | 20 Läufe × ~60–80 s ≈ 25 min, dazu ~1 min Nutzenrechnung. Ein Job gleichzeitig |
 
+## Nachtrag a (2026-09-26 09:19 Berlin, Sitzung 7, vor jedem EXP-025-Lauf)
+
+EXP-024 post hoc: Die gewichteten Spektren dieser Zwei-Hot-Netze sind fast flach (Anteil je Frequenz ≈ 5/56), die Top-5
+K sind deshalb verrauscht. Primär- und Ko-Primärtest bleiben **unverändert**. Neu, nur sekundär: ρ_own − ρ_other =
+Spearman(U_eigene, Endspektrum) − Spearman(U_andere, Endspektrum) über alle 56 Frequenzen, Vorzeichen-Flip-Test über die
+20 Einheiten. Ein Widerspruch zwischen primärem und sekundärem Ergebnis wird berichtet, nicht aufgelöst.
+
 ## Befehle
 
     sh lab/experiments/EXP-025-utility-random-split/queue.sh        (jeder Lauf über guarded_run.py)

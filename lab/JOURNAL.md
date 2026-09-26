@@ -1569,3 +1569,6 @@ G-Ziele „nur F“) über die 1000 Schritte danach. Spearman ρ = −0.67, eins
 (Seeds 32, 33 bei t = 150) → −0.18, −0.29. *Ergebnis:* richtungsgleich mit der Vorhersage, aber **stark konfundiert**: Der Verlustsprung
 hängt am Trainingsstadium (generalisierte Netze bei t = 1000 sind in einer anderen Phase), die 15 Punkte sind nicht unabhängig (je Seed 3),
 post hoc. Kein Beleg für den Mechanismus. *Entscheidung:* notiert; ein sauberer Test bräuchte SGD in der G-Phase bei gleichem Stadium.
+
+*Nachtrag Zyklus 26 (19:01):* innerhalb gleichen Wechselzeitpunkts (Stadiums-Confound ausgeschaltet, je n = 5): t = 150 ρ = −0.3,
+t = 400 ρ = −0.7 (Spearman, von Hand aus den Tabellenwerten). Richtung gleich, schwach, n klein. Einordnung unverändert: Hinweis, kein Beleg.

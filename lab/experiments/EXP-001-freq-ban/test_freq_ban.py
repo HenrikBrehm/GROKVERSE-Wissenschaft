@@ -179,6 +179,31 @@ def test_switch_requires_test_file() -> None:   # EXP-020: fail closed on incomp
     assert not (HERE / "raw_test_never").exists()
 
 
+def test_split_value_variant() -> None:   # EXP-023
+    import importlib.util
+    import torch
+    from grokverse.config import get_config
+    from grokverse.models import build_model
+    from grokverse.seed import set_seed
+    spec = importlib.util.spec_from_file_location("sv", HERE.parent / "EXP-023-split-value/split_value.py")
+    sv = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(sv)
+    cfg = get_config("arch25k", seed=10)
+    set_seed(10)
+    base = build_model(cfg)
+    set_seed(10)
+    var = sv.convert(build_model(cfg), 10)
+    for name, prm in base.named_parameters():                    # (1) baseline init untouched
+        assert torch.equal(prm, dict(var.named_parameters())[name])
+    assert "W_V1" in dict(var.named_parameters())                 # (3) W_V1 is trained
+    x = torch.tensor([[1, 2, 113], [5, 7, 113], [40, 40, 113]])
+    with torch.no_grad():                                          # (2) W_V1 := W_V reproduces the original model
+        var.W_V1.copy_(var.W_V)
+        assert torch.allclose(var.logits_last(x), base.logits_last(x), atol=1e-6)
+        var.W_V1.mul_(2.0)
+        assert not torch.allclose(var.logits_last(x), base.logits_last(x), atol=1e-6)
+
+
 def test_shrink_matches_top_ban_energy() -> None:              # amendment 2026-09-25b
     B = fb.fourier_basis(P)
     W = np.random.default_rng(2).normal(size=(P, 16))

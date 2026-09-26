@@ -64,3 +64,5 @@ Nächstverwandt: He et al. 2026, *On the Mechanism and Dynamics of Modular Addit
 Paare werden zuerst memoriert, Frequenzen konkurrieren je Neuron nach Init-Betrag und Phasenlage; vollständige/zufällige Daten, keine
 Konstruktion des Splits über die Phase des Kreuzterms (laut Suchtreffer-Zusammenfassung). Einordnung: #neu/kandidat, vorläufig
 („nach unserer Suche vom 2026-09-26 nicht gefunden“; nur Zusammenfassungen geprüft).
+
+*Entscheidung (20:28):* Der MLP-Gegenarm (Vorhersage: MLP mit getrennten W_in-Hälften folgt M0, also steuert anti dort) wird erst nach [[experiments/EXP-045-mlp-steering/README|EXP-045]] festgelegt: Erst dessen K bei 2000 und 10 000 Schritten zeigt, ob das MLP nach 2000 Schritten schon eine Auswahl getroffen hat. `freq_ban.py --arch mlp` kann die EXP-050-Splits unverändert trainieren (Run-IDs enden auf `_mlp_devcuda`, kollidieren nicht mit dem Transformer-Glob).

@@ -518,4 +518,5 @@ eigene Frage, falls es sich in EXP-041/042 wiederholt.
   steigt (die Einträge mischen alle Frequenzen), der normierte Schritt für die kleinen G-Anteile sinkt, der entkoppelte Weight Decay
   bleibt gleich: G schrumpft schneller. Vorhersage: unter SGD ohne Momente keine zusätzliche Unterdrückung; ein kleinerer Verlustsprung
   (späterer Wechsel) gibt schwächere Unterdrückung (passt qualitativ zu 39/40 → 33/40 → 25/35). Test wäre ein EXP-020-Wechsel mit SGD in
-  der G-Phase (`--opt2 gd` aus EXP-034 existiert). Nicht festgelegt.
+  der G-Phase. Korrektur: `--opt2 gd` gibt es nur im EXP-033-Trainer (`train_opt.py`, anderes Modell), nicht in `freq_ban.py`;
+  für den Transformer müsste die Option erst gebaut werden. Nicht festgelegt.

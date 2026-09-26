@@ -113,3 +113,8 @@ auf den 40 eingefrorenen Vorhersagen (reine numpy-Rechnung): Ist M0c der wahre T
 ρ(M0c) − ρ(M0) bei +0.16 (bei ρ ≈ 0.78: +0.24), Power von S1 (einseitig, 40 Läufe) ≈ 1.0; ist M0 der Treiber, liegt sie bei −0.17 bis −0.22.
 S1 trennt also scharf, *falls* einer der beiden Treiber ist. Ein S1 nahe 0 heißt dann: Mischung oder ein dritter Treiber, nicht „zu wenig Daten“.
 Tests und Urteilsregeln unverändert.
+
+## Nachtrag f (Sitzung 14, vor jedem Lauf): Identifikation konservativ
+
+Dritte Prüfung (Claude-Subagent): Bindungen und NaN hätten die Identifikation (Nachtrag d) geschönt. Jetzt zählen Gleichstände und nicht-endliche
+Werte gegen den eigenen Split; zusätzlich wird der Zufalls-Mittelrang (n + 1)/2 berichtet. Nur beschreibend, Tests unverändert.

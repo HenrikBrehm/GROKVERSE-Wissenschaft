@@ -35,7 +35,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 8. **EXP-052** (eingefrorene Vorhersage, Sitzung 14): Selbsttest `guarded_run.py -- python lab/experiments/EXP-052-oos-mask-prediction/exp052.py --selftest`
    (ab 03:00, vor den Läufen); Auswertung von Hand, sobald die R-Arme von EXP-043, EXP-046 und EXP-048 („random“) erfolgreich sind (Holm fest über vier Fälle; ein fehlender Fall zählt p = 1): `guarded_run.py -- python .../exp052.py`.
 
-9. **Nach der Nacht, vor dem Einfrieren von P1:** `guarded_run.py -- python lab/tools/pilot_power.py --selftest`, dann ohne Argument: Δ_pow je Pilotfall (EXP-043/046/047 aus den Läufen, 048/049 aus summary.json), SD, KI und nötige Seed-Zahl (Power 80 %, α 0.05/3) → `lab/tools/pilot_power_summary.json`.
+9. **Nach der Nacht, vor dem Einfrieren von P1:** `guarded_run.py -- python lab/tools/pilot_power.py --selftest`, dann ohne Argument: Δ_pow je Pilotfall (EXP-043/046/047 aus den Läufen, 048/049 aus summary.json), SD, KI und nötige Seed-Zahl (Power 80 %, α 0.05/3) → `lab/tools/pilot_power_summary.json` (vorher prüfen, dass die summary.json von EXP-048/049 aus dieser Nacht stammt).
 ## Aktive Queue / laufende Jobs
 
 - Keine (Stand 21:02). Vorbereitet, ungetestet: GPU-001, EXP-043–049 (in `night_program.py`), EXP-050 (optional:

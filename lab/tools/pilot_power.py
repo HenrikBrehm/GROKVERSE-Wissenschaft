@@ -6,7 +6,7 @@ the pilot night from the stored runs (shared result loader, same validity rules)
 and plans n for the confirmation block (seeds 1000-1099):
   true mean = MIN_EFFECT (1.0, FINDINGS) with the pilot SD (conservative when the pilot mean is larger),
   one-sided sign-flip test at alpha / FAMILY (Holm worst case over P1-P3), power by simulation (normal and pilot bootstrap).
-Exploration only: it does not change any preregistered verdict. Run under guarded_run.py (EXP-043 import pulls torch).
+Exploration only: it does not change any preregistered verdict; writes tools/pilot_power_summary.json. Run under guarded_run.py (EXP-043 import pulls torch).
 
   python lab/tools/pilot_power.py [--selftest]
 """
@@ -24,7 +24,7 @@ sys.path.insert(0, str(LAB / "tools"))
 from result_loader import Expect, find_run, load_run  # noqa: E402
 
 STEP, MIN_EFFECT, ALPHA, FAMILY, POWER_GOAL = 2000, 1.0, 0.05, 3, 0.8
-N_SIM, N_FLIP, N_MAX, RNG_SEED = 2000, 2000, 60, 1
+N_SIM, N_FLIP, N_MAX, RNG_SEED = 1000, 2000, 60, 1
 
 
 def delta_pow(pF: np.ndarray, pG: np.ndarray, F: list[int], G: list[int]) -> float:
@@ -85,7 +85,25 @@ def sign_flip_p(d: np.ndarray, rng: np.random.Generator) -> float:
 
 def power(n: int, draw, rng: np.random.Generator) -> float:
     a = ALPHA / FAMILY
-    return float(np.mean([sign_flip_p(draw(n), rng) < a for _ in range(N_SIM // 10)]))
+    return float(np.mean([sign_flip_p(draw(n), rng) < a for _ in range(N_SIM)]))
+
+
+def first_n(draw, rng: np.random.Generator) -> int | None:
+    """Smallest n with estimated power >= goal at n AND n + 1 (review s14: first noisy crossing biases n down)."""
+    ok_prev = False
+    for n in range(6, N_MAX + 2):
+        ok = power(n, draw, rng) >= POWER_GOAL
+        if ok and ok_prev:
+            return n - 1
+        ok_prev = ok
+    return None
+
+
+def sd_upper80(sd: float, n: int) -> float:
+    """Upper 80 % bound of the SD from n pilot values (chi-square, Wilson-Hilferty approximation of the 20 % quantile)."""
+    k, z = n - 1, -0.8416
+    q = k * (1 - 2 / (9 * k) + z * np.sqrt(2 / (9 * k))) ** 3
+    return float(sd * np.sqrt(k / q))
 
 
 def plan(D: list[float], rng: np.random.Generator) -> dict:
@@ -95,8 +113,13 @@ def plan(D: list[float], rng: np.random.Generator) -> dict:
     res = {"n_pilot": len(x), "mean": float(x.mean()), "sd": sd, "n_positive": int((x > 0).sum()),
            "ci95_mean": [float(np.quantile(boot, 0.025)), float(np.quantile(boot, 0.975))]}
     centered = x - x.mean() + MIN_EFFECT
-    for name, draw in (("normal", lambda n: rng.normal(MIN_EFFECT, sd, n)), ("bootstrap", lambda n: rng.choice(centered, n))):
-        res[f"n_needed_{name}"] = next((n for n in range(6, N_MAX + 1) if power(n, draw, rng) >= POWER_GOAL), None)
+    sd_up = sd_upper80(sd, len(x))
+    res["sd_upper80"] = sd_up
+    for name, draw in (("normal", lambda n: rng.normal(MIN_EFFECT, sd, n)), ("bootstrap", lambda n: rng.choice(centered, n)),
+                       ("normal_sd_upper80", lambda n: rng.normal(MIN_EFFECT, sd_up, n))):
+        res[f"n_needed_{name}"] = first_n(draw, rng)
+    if x.mean() < MIN_EFFECT:
+        res["warning"] = "pilot mean below the minimum effect: power at mean 1 is optimistic"
     return res
 
 
@@ -106,7 +129,14 @@ def selftest() -> None:
     big = plan(list(rng.normal(8.4, 1.2, 10)), rng)          # EXP-016-like pilot: SD 1.2 -> small n for mean >= 1
     assert big["n_needed_normal"] is not None and big["n_needed_normal"] <= 20, big
     tiny = plan(list(rng.normal(0.2, 6.0, 10)), rng)           # very noisy pilot -> more seeds than the cap
-    assert tiny["n_needed_normal"] is None or tiny["n_needed_normal"] > big["n_needed_normal"], (tiny, big)
+    assert tiny["n_needed_normal"] is None and "warning" in tiny, tiny
+    import itertools                                           # Monte Carlo sign flip vs the exact test
+    d = np.array([0.9, -0.2, 1.3, 0.4, 0.7, -0.5, 1.1, 0.2])
+    flips = np.array(list(itertools.product((1, -1), repeat=len(d))))
+    exact = float(((flips * d).mean(axis=1) >= d.mean() - 1e-12).mean())
+    assert abs(sign_flip_p(d, rng) - exact) < 0.03, (sign_flip_p(d, rng), exact)
+    assert abs(delta_pow(np.array([2.0, 1, 1, 4]), np.array([1.0, 2, 3, 1]), [1, 4], [2, 3]) - (np.log(6 / 2) + np.log(5 / 2))) < 1e-12
+    assert 1.1 < sd_upper80(1.0, 10) < 1.4
     print("[pilot_power] selftest ok", big["n_needed_normal"], tiny["n_needed_normal"])
 
 

@@ -1,0 +1,31 @@
+{
+ "seed": 77,
+ "task": "add",
+ "p": 97,
+ "eps": 0.0,
+ "arm": "R",
+ "targets": [
+  11,
+  12,
+  17,
+  27,
+  34
+ ],
+ "M0_top5": [
+  6,
+  11,
+  22,
+  39,
+  45
+ ],
+ "target_ranks": [
+  3,
+  36,
+  37,
+  33,
+  7
+ ],
+ "n_train": 2823,
+ "target_power_share": 0.10607497794591167,
+ "n_zero_pairs_in_train": 68
+}

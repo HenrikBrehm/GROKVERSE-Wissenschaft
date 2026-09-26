@@ -5,18 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 14:49 Berlin (12:49Z, vom Runner)
 - **Deadline:** 2026-09-26 17:49 Berlin (15:49Z)
-- **Zuletzt aktualisiert:** 16:50 Berlin
+- **Zuletzt aktualisiert:** 17:06 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-EXP-037 Nebenarm (A = 25) läuft, 3 Läufe bis ~17:05. Danach startet die Warteschlange EXP-035 (Warmup), soweit die Zeit reicht.
+EXP-035 (Warmup) läuft an: Seed 30 „nur F“ mit Warmup. Abschlussbericht ist geschrieben (JOURNAL), wird am Ende ergänzt.
 
 ## Als Nächstes
 
-A = 25 nachtragen, dann Abschlussbericht (ab ~17:35).
+Nächste Sitzung 19:49 (nur Denkarbeit), Läufe ab 00:00: `queue_s10.sh` (EXP-035 → EXP-038 → EXP-036 → EXP-034).
 
 ## Verlauf dieser Sitzung
+
+- 17:06 Abschlussbericht und Wiederaufnahme geschrieben. Reihenfolge für die Nacht festgelegt.
+- 17:05 **Neue Idee aus den Daten:** Die Konfliktfrequenzen sind genau die, die *beide* Datensätze früh als Zweitbeste stützen (7 von 7). Als Vorhersage für EXP-036 festgelegt, bevor es läuft.
+- 17:03 EXP-037 Nebenarm (Blöcke von 25 Schritten): gleiches Bild, wieder dieselben Konfliktfrequenzen.
 
 - 16:50 **EXP-037 Ergebnis (vorab festgelegt: gestützt):** Wechseln sich F und G in den ersten 200 Schritten ständig ab, entstehen in allen 3 Seeds „Konfliktfrequenzen“, und zwar jeweils dieselben wie beim frühen Einzelwechsel. Gleiche Datenmenge ohne Wechselspiel: keine. Die Konfliktfrequenzen werden wirklich genutzt (Entfernen kostet so viel wie bei Zielfrequenzen). **Ob sie aus der Initialisierung stammen, bleibt offen.**
 

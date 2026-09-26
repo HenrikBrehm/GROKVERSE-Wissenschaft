@@ -19,6 +19,7 @@ Laufende EXP-016-Läufe beobachten. Ab ≈ 05:39 Stand sichern und Abschlussberi
 
 ## Verlauf dieser Sitzung
 
+- 05:11 EXP-016 Seed 11 Arm G: 3 von 5 aus G, 2 weitere direkt daneben (38/55 statt 39/56). Δ = +7.
 - 05:06 EXP-016 Seed 11 Arm F: wieder 4 von 5 aus der Zielmenge, gen 775 (Zufallssplit 5975).
 - 05:08 Codex-Angriff auf EXP-015: Wortlaut auf „sagt voraus“ korrigiert; exakter Test p = 2.5e-5; auch gegen die funktionalen Schlüsselfrequenzen der Studie hält der Befund (p = 3.6e-6).
 - 05:02 EXP-016 Seed 10 Arm G: 4 von 5 Frequenzen aus **seiner** Zielmenge G, keine aus F. Δ = +8 von max. 10. Die Frequenzen folgen der Datenauswahl (1 Seed).

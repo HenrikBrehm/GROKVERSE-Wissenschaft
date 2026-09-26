@@ -3,6 +3,8 @@
 Arms: alpha = 3 until switch step t_s, then 0 (pure x^2); t_s in {0, 50, 250, 1000, 2500, never}. Units: EXP-016
 splits seeds 10-14, arm F. Endpoint d = ov(Top-5, F) - ov(Top-5, H) of the h = 2 weighted spectrum at step 5000.
 Fails closed unless the full 6 x 5 grid is complete.
+Nachtrag b (before any run): primary endpoint is the continuous share difference
+ds = share(F) - share(H) of the normalised h = 2 spectrum; the top-5 d is secondary.
 """
 from __future__ import annotations
 
@@ -44,6 +46,11 @@ def run_id(ts: int, s: int) -> str:
     return f"EXP-026_a3_seed{s}_F" if ts < 0 else f"EXP-026_a3_sw{ts}to0_seed{s}_F"
 
 
+def share_diff(sp: list[float], T: set[int], H: set[int]) -> float:
+    w = np.array(sp) / np.sum(sp)
+    return float(w[[k - 1 for k in T]].sum() - w[[k - 1 for k in H]].sum())
+
+
 def top5(sp: list[float]) -> set[int]:
     return set(int(k) for k in np.argsort(-np.array(sp))[:5] + 1)
 
@@ -65,7 +72,8 @@ def load() -> list[dict]:
             last = r["spectra"]["5000"]
             tq, tl = top5(last["weighted"]), top5(last["weighted_lin"])
             rows.append({"ts": ts, "seed": s, "ov_F": len(tq & T), "ov_H": len(tq & H), "d": len(tq & T) - len(tq & H),
-                         "d_lin": len(tl & T) - len(tl & H), "test_acc": r["final_test_acc"],
+                         "d_lin": len(tl & T) - len(tl & H), "ds": share_diff(last["weighted"], T, H),
+                         "ds_lin": share_diff(last["weighted_lin"], T, H), "test_acc": r["final_test_acc"],
                          "gen95": r["gen_step_test95"]})
     return rows
 
@@ -76,15 +84,16 @@ def main() -> None:
     if len(rows) != len(TS) * len(SEEDS):
         out["verdict"] = "nicht auswertbar (Raster unvollständig)"
     else:
-        md = {ts: float(np.mean([x["d"] for x in rows if x["ts"] == ts])) for ts in TS}
-        md_lin_never = float(np.mean([x["d_lin"] for x in rows if x["ts"] == -1]))
-        out["mean_d"] = {str(k): v for k, v in md.items()}
-        out["mean_d_lin_never"] = md_lin_never
+        out["secondary_mean_d_top5"] = {str(ts): float(np.mean([x["d"] for x in rows if x["ts"] == ts])) for ts in TS}
+        md = {ts: float(np.mean([x["ds"] for x in rows if x["ts"] == ts])) for ts in TS}
+        md_lin_never = float(np.mean([x["ds_lin"] for x in rows if x["ts"] == -1]))
+        out["mean_ds"] = {str(k): v for k, v in md.items()}
+        out["mean_ds_lin_never"] = md_lin_never
         out["gen95_mean"] = {str(ts): float(np.mean([x["gen95"] if x["gen95"] is not None else np.nan
                                                      for x in rows if x["ts"] == ts])) for ts in TS}
         anchors = md[0] < 0 and md[-1] > 0 and md_lin_never > 0
         rank = np.array([TS.index(x["ts"]) for x in rows], float)
-        d = np.array([x["d"] for x in rows], float)
+        d = np.array([x["ds"] for x in rows], float)
         seed = np.array([x["seed"] for x in rows])
         rho = spearman(rank, d)
         rng = np.random.default_rng(0)

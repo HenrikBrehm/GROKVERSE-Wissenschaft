@@ -69,6 +69,18 @@ Raster erlaubt, und α = 0 bekam eine erfundene Untergrenze. (6) Das Raster wurd
 | **Budget** | 30 × ~83 s ≈ 42 min, Reihenfolge der Warteschlange: Anker zuerst (0, nie), dann 250, 1000, 50, 2500 |
 | **Auswerter** | an synthetischen Fällen geprüft (früh → A (50, 250], spät → B, alles H oder alles F → nicht ablesbar, fehlende Zelle → nicht auswertbar) |
 
+## Nachtrag b (2026-09-26 09:18 Berlin, vor jedem EXP-026-Lauf): kontinuierliche Messgröße statt Top-5
+
+Anlass: EXP-024 Arm Q ist ausgewertet (siehe dort). Post hoc zeigte sich, dass das gewichtete Spektrum dieser Zwei-Hot-Netze
+**fast flach** ist (Anteil je Frequenz ≈ 5/56; am Ende H 0.102, F 0.084 von 1). Die Top-5-Überlappung hängt dann an kleinen
+Unterschieden und ist verrauscht. **Primäre Messgröße ab jetzt:** ds = Anteil(F) − Anteil(H) am normierten h = 2-Spektrum
+bei Schritt 5000; Anker und Spearman-Test unverändert, nur mit ds statt d (für „nie“ zusätzlich ds_lin > 0). Die
+Top-5-Differenz d wird sekundär berichtet. Auswerter erneut an den synthetischen Fällen geprüft (`test_analyze.py`, über
+den Wächter, 5/5).
+**Grenze, neu:** Der Arm t_s = 0 ist das reine x²-Netz und damit praktisch identisch mit EXP-024 Arm Q auf Seeds 10–14 F,
+dessen Ergebnis (gemittelt über 19 Einheiten) ich bereits kenne. Der Anker d(0) < 0 ist daher nicht unabhängig von
+EXP-024; der eigentliche Test ist der Verlauf über t_s und der Anker „nie“.
+
 ## Befehle
 
     sh lab/experiments/EXP-026-parity-crossover/queue.sh           (jeder Lauf über guarded_run.py)

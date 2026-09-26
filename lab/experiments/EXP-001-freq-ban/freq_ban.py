@@ -223,7 +223,7 @@ def run(a: argparse.Namespace) -> dict:
             run_id = (f"{exp_id}_{a.condition}_seed{a.seed}_thr{a.threads}_{Path(a.split_file).stem}"
                       f"_to_{Path(a.switch_split_file).stem}_at{a.switch_step}")
         if (a.p, a.task) != (113, "add"):          # EXP-043: other modulus / multiplication (split stem names the task)
-            exp_id = "EXP-043"
+            exp_id = "EXP-044" if a.switch_split_file is not None else "EXP-043"   # EXP-044: data switch
             run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_{a.task}{a.p}"
     elif a.test_file is not None or a.switch_split_file is not None:
         raise SystemExit("--test-file / --switch-split-file need --split-file")

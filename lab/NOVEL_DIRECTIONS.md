@@ -527,3 +527,16 @@ eigene Frage, falls es sich in EXP-041/042 wiederholt.
   https://arxiv.org/abs/2608.15824; ähnlich „Adaptive Preconditioners Trigger Loss Spikes in Adam“, https://arxiv.org/abs/2506.04805).
   Unsere Erklärung der G-Unterdrückung wäre eine Anwendung dieses bekannten Effekts; neu wäre höchstens die Beobachtung selbst
   (Frequenzwahl nach Datenwechsel). Erklärung weiterhin ungeprüft.
+
+## N23: Datensteuerung der Charaktere bei Gruppenoperationen (Multiplikation mod p über den diskreten Logarithmus) #neu/kandidat
+
+*Sitzung 11, 2026-09-26.* Frage: Lässt sich bei Multiplikation mod p, die das Netz in der Log-Basis (Charaktere von Z_{p−1}) löst,
+die Wahl der Charaktere durch einen in Log-Koordinaten konstruierten Trainingssplit vorgeben, wie bei Addition (EXP-016)? Wenn ja,
+wirkt der Hebel über die Gruppenstruktur der Aufgabe, nicht über die Zahlendarstellung. Test: [[experiments/EXP-043-generalize-steering/README|EXP-043]].
+**Suche (2026-09-26):** WebSearch „grokking modular multiplication discrete logarithm Fourier features training data selection controls
+learned frequencies“ und „arXiv 2026 grokking which frequencies learned depend on training set subset modular arithmetic group“.
+Nächstverwandt: „The Discrete-Log Clock: How a Transformer Learns Modular Multiplication“ (https://arxiv.org/abs/2606.17399; im
+Volltext per Abrufwerkzeug geprüft: 30 % Daten ohne Nullpaare, Mechanismus in 80 % der Seeds, Schlüsselfrequenzen je Seed
+verschieden, **keine** Untersuchung, was die Wahl bestimmt, kein Dateneingriff); Chughtai et al. 2023 (Gruppendarstellungen,
+universell); He et al. 2026 (https://arxiv.org/abs/2602.16849, Init-Lotterie, Addition). *Einordnung:* nach unserer Suche nicht
+gefunden (vorläufig; Abruf-Zusammenfassung, Volltext nicht selbst vollständig gelesen).

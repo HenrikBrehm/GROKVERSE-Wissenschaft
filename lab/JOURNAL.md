@@ -1572,3 +1572,32 @@ post hoc. Kein Beleg für den Mechanismus. *Entscheidung:* notiert; ein sauberer
 
 *Nachtrag Zyklus 26 (19:01):* innerhalb gleichen Wechselzeitpunkts (Stadiums-Confound ausgeschaltet, je n = 5): t = 150 ρ = −0.3,
 t = 400 ρ = −0.7 (Spearman, von Hand aus den Tabellenwerten). Richtung gleich, schwach, n klein. Einordnung unverändert: Hinweis, kein Beleg.
+
+---
+
+## Sitzung 11 (2026-09-26, 19:10–22:09 Berlin, außerhalb des Fensters; nur Code, Vorbereitung, Denkarbeit)
+
+Neue Nutzerregeln 15 (Synthese, ≥ 10 Seeds, Verallgemeinerung zuerst) und 16 (GPU) gelesen. Kein Training läuft (19:12: nur
+zwei `torch.cuda`-Abfragen des Nutzers).
+
+**Zyklus 1 (19:25): Synthese.** Frage: Was sind nach 42 Versuchen die tragenden Aussagen? *Ergebnis:* [[FINDINGS]] mit sechs
+Kernaussagen (K1 M0 sagt K voraus; K2 Steuerung über Splits; K3 erster Gradient; K4 frühe Festlegung; K5 AdamW in Phase 1 nicht
+nötig; K6 Aktivierung), Belegen, Literatur und der größten offenen Frage: Gilt K2/K4 außerhalb von Addition mod 113?
+*Entscheidung:* Neue Arbeit zielt zuerst auf diese Frage (Regel 15c).
+
+**Zyklus 2 (19:45): GPU vorbereiten (Regel 16a).** `freq_ban.py --device` (Init auf der CPU wie bisher, dann `.to(dev)`;
+Daten, Projektoren, Rückwege nach numpy mit `.cpu()`; Run-ID-Suffix `_devcuda`; `device`, `device_name`, `cuda_max_mem_mb` in
+`result.json`), dazu `--p`/`--task` für EXP-043 (nur mit `--split-file` und `baseline`). Nur `py_compile` geprüft (Fenster zu).
+Prüfung [[experiments/GPU-001-equivalence/README|GPU-001]] mit vorab festgelegten Kriterien: (1) CPU-Regression gegen den
+gespeicherten EXP-016-Smoke, exakt; (2) GPU-Wiederholung der gespeicherten CPU-Läufe EXP-016 Seeds 10–12 (A1 Top-5 bei 2000
+≥ 4/5 je Seed, A2 ≥ 8/9 frühe Vergleiche, A3 gleicher Grokking-Ausgang ± max(100, 15 %)); (3) Durchsatz J = 1/2/4/8.
+**Fund beim Planen:** Die Warteschleifen in `queue_s10.sh`, `queue_s5.sh`, EXP-041 und EXP-042 warten auf *jeden*
+`guarded_run`-Prozess; parallele GPU-Läufe hätten die CPU-Queue blockiert. Geändert auf „ignoriere Prozesse mit `--device cuda`“
+(`ps -ef` zeigt die Argumente, geprüft mit einem Schlafprozess; Filterlogik an Beispielzeilen geprüft). Commit c2c0b91.
+
+**Zyklus 3 (19:58): Verallgemeinerung vorab festgelegt.** Frage: Gibt ein konstruierter Split auch bei Addition mod 97 und bei
+Multiplikation mod 113 (Log-Basis, Z_112, g = 3) die gelernten Frequenzen vor? [[experiments/EXP-043-generalize-steering/README|EXP-043]]:
+EXP-016-Design (Arme F/G, Δ, Vorzeichentest), 10 Seeds je Aufgabe (70–79), Holm über zwei Aufgaben, GPU, K aus W_E-Schnappschüssen
+in der Gruppenbasis. Splits erzeugt (reine Rechnung): Zielmenge = M0-Top-5 in 40/40 Fällen, Anteil 0.18–0.21. Literatur (N23):
+„Discrete-Log Clock“ (arXiv 2606.17399) findet je Seed verschiedene Schlüsselfrequenzen, auch nicht-teilerfremde (2, 8, 56), und
+fragt nicht nach der Ursache; deshalb Ziele aus allen k = 1..55 statt nur teilerfremden (Entscheidung vor jedem Lauf). Commit af1dac5.

@@ -564,3 +564,9 @@ Zusatzidee: Wenn ja, konkurrieren Zahlengerade und aufgezwungene Uhr; das R²-Ma
 **Suche (2026-09-26, 20:04–20:06 Berlin):** siehe EXP-048-README (drei Suchanfragen; Liu et al. 2022, Zhou et al. 2024
 https://arxiv.org/abs/2406.03445, Chen et al. 2026 https://arxiv.org/abs/2607.07066). *Einordnung:* nach unserer Suche nicht gefunden
 (vorläufig; nur Abstracts/Suchtreffer).
+
+*Nachtrag zu N24/K2 (Sitzung 13, 2026-09-26 20:18 Berlin):* He et al. 2026 (https://arxiv.org/abs/2606.02993) per Abruf der HTML-Fassung
+geprüft (Zusammenfassung des Abrufwerkzeugs, nicht selbst vollständig gelesen): §2 „the network observes every pair (g₁, g₂) ∈ G×G“,
+also **nur vollständige Trainingsmengen**; welche Irreps gelernt werden, bestimmt dort die zufällige Init (abelsch: gleichverteilt über die
+nicht-trivialen Irreps, §5.1). Eine Steuerung über unvollständige oder verzerrte Trainingsmengen behandelt die Arbeit nicht. Einordnung von
+K2/N24 unverändert: nach unserer Suche nicht gefunden (vorläufig).

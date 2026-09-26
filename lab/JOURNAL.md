@@ -605,3 +605,11 @@ Studiencode unverändert, `--split-value`). **Codex-Review** (`EXP-023-split-val
 Befunde, alle übernommen (Nachtrag a): Arme rand und copy, frische Seeds 50–59 mit eigenen Baselines, feste 3000 Schritte
 für alle, Init-Prüfsumme, Lader mit Rundlauf-Test. Tests 15/15. Nebenbei: Das Skript `value_path_intervention.py` rechnete
 beim Import; `__main__`-Schutz ergänzt (Ergebnis-JSON unverändert, deterministisch).
+
+**Betriebsprüfung (07:19): Codex prüft `queue_s5.sh` als Ganzes** (`lab/codex_queue_s5_review_2026-09-26.txt`), 2 Befunde:
+(1) [high] Mit dem **committeten** `guarded_run.py` (Jobgrenze 20 min) würden alle `--min-minutes 33`-Läufe abgelehnt.
+Geprüft: Im Arbeitsverzeichnis liegt die uncommittete Nutzerfassung ohne Jobgrenze (Regel 14); damit liefen in Sitzung 4
+dieselben Aufrufe. Kein Betriebsfehler hier, aber eine Abhängigkeit → in STATE vermerkt; der Commit bleibt beim Nutzer.
+(2) [medium] `result.json` wurde nicht atomar geschrieben; ein Abbruch durch den Wächter mitten im Schreiben hätte jeden
+Neustart blockiert. **Übernommen:** Schreiben über Temp-Datei + `os.replace`, unlesbare Metadaten gelten als
+unfertiger Lauf (`previous_status`), Test mit abgeschnittener Datei; 16/16.

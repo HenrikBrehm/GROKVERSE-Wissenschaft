@@ -19,6 +19,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
   fertige Läufe werden übersprungen (`freq_ban.py` endet dann seit Sitzung 5 mit 0). Neu starten = fortsetzen.
 - **Abgebrochene Läufe** stehen mit `status: running` in `result.json` und werden neu gestartet (kein Resume).
 - Vor jedem Start: `python lab/tools/guarded_run.py --check`.
+- **Abhängigkeit:** Die Läufe mit `--min-minutes 33` (Baselines, EXP-014, EXP-010) brauchen den **uncommitteten**
+  `guarded_run.py` des Nutzers ohne feste Jobgrenze (Regel 14). Mit der committeten Fassung (Jobgrenze 20 min) würde der
+  Wächter sie mit Exit 3 ablehnen und die Warteschlange hielte an (Codex-Prüfung der Warteschlange, Sitzung 5).
 - **Zeilenenden:** Python schreibt unter Windows im Textmodus CRLF. Shell-Skripte müssen LF haben (sonst bricht `sh`).
   Nach Änderungen an `*.sh` mit `file` prüfen; beim Schreiben aus Python `newline='
 '` benutzen.

@@ -39,6 +39,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import platform
 import sys
 import time
@@ -188,6 +189,16 @@ def _choose_ban(cond: str, W_E: np.ndarray, basis: np.ndarray, m: int, seed: int
     raise ValueError(cond)
 
 
+def previous_status(path: Path) -> str | None:
+    """Status of an earlier run; a result.json truncated by a kill counts as unfinished (Codex review 2026-09-26)."""
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text()).get("status")
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return None
+
+
 def run(a: argparse.Namespace) -> dict:
     cfg = get_config("arch25k", seed=a.seed, steps=a.steps, threads=a.threads)
     p = cfg.p
@@ -214,11 +225,9 @@ def run(a: argparse.Namespace) -> dict:
         exp_id = "EXP-023"
         run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_sv{a.split_value}"
     out_dir = Path(a.out_root) / run_id
-    if (out_dir / "result.json").exists() and not a.force:
-        prev = json.loads((out_dir / "result.json").read_text())
-        if prev.get("status") == "completed":
-            print(f"[exp] {run_id} already completed; use --force to overwrite", flush=True)
-            raise SystemExit(0)           # skip is not an error (EXP-020 queue stops on every other failure)
+    if not a.force and previous_status(out_dir / "result.json") == "completed":
+        print(f"[exp] {run_id} already completed; use --force to overwrite", flush=True)
+        raise SystemExit(0)           # skip is not an error (EXP-020 queue stops on every other failure)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     # identical order to grokverse.train.train(): threads, seed, data, model, optimizer
@@ -327,7 +336,9 @@ def run(a: argparse.Namespace) -> dict:
                     "sec_per_step": round((time.perf_counter() - t_start) / max(step, 1), 5)})
         np.save(out_dir / "spectra.npy", np.asarray(spectra))
         np.save(out_dir / "spectra_steps.npy", np.asarray(spectra_steps))
-        (out_dir / "result.json").write_text(json.dumps(res, indent=1))
+        tmp = out_dir / "result.json.tmp"             # atomic: a kill during the write cannot truncate result.json
+        tmp.write_text(json.dumps(res, indent=1))
+        os.replace(tmp, out_dir / "result.json")
 
     step, t_start = 0, time.perf_counter()
     dense_eval(0); spectrum(0)

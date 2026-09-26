@@ -209,6 +209,15 @@ def test_split_value_variant() -> None:   # EXP-023
         assert torch.allclose(re.logits_last(x), var.logits_last(x), atol=1e-7)
 
 
+def test_previous_status_tolerates_truncated_result(tmp_path) -> None:   # Codex review 2026-09-26
+    f = tmp_path / "result.json"
+    assert fb.previous_status(f) is None
+    f.write_text('{"status": "completed", "dense": {"test_st')          # killed mid-write
+    assert fb.previous_status(f) is None
+    f.write_text('{"status": "completed"}')
+    assert fb.previous_status(f) == "completed"
+
+
 def test_shrink_matches_top_ban_energy() -> None:              # amendment 2026-09-25b
     B = fb.fourier_basis(P)
     W = np.random.default_rng(2).normal(size=(P, 16))

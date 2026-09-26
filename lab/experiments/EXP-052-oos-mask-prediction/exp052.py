@@ -5,6 +5,7 @@ which had NOT been run when the predictions were frozen (session 14, 2026-09-26)
 
   --predict   pure numpy on the split files: M0, M0c, count spectrum in group coordinates -> predictions.json (frozen)
   --predict-d59  Nachtrag a (before any run): the same for the 10 D_59 random splits of EXP-046 -> predictions_d59.json
+  --predict-intadd  Nachtrag b (before any run): non-modular a + b (EXP-048 arm R), k = 6..56 only -> predictions_intadd.json
   --selftest  pure numpy: our M0 reproduces make_split.py (F/G targets = M0 top-5, R "M0_top5") for all 60 splits
   (default)   analysis after the EXP-043 R runs: run through guarded_run.py
 """
@@ -21,6 +22,7 @@ HERE = Path(__file__).resolve().parent
 LAB = HERE.parents[1]
 E43 = LAB / "experiments/EXP-043-generalize-steering"
 E46 = LAB / "experiments/EXP-046-dihedral-steering"
+E48 = LAB / "experiments/EXP-048-intadd-steering"
 sys.path.insert(0, str(E43))
 sys.path.append(str(E46))                  # appended: EXP-046 also has a make_split.py (must not shadow EXP-043)
 sys.path.insert(0, str(LAB / "tools"))
@@ -34,6 +36,8 @@ STEP, EXTRA_STEPS, M, ALPHA, MIN_VALID = 2000, (50, 250, 500, 1000), 5, 0.05, 8
 N_PERM, PERM_SEED = 20_000, 52
 PRED = HERE / "predictions.json"
 PRED_D59 = HERE / "predictions_d59.json"
+PRED_INT = HERE / "predictions_intadd.json"
+P_INT, KMAX_INT, KLO_INT, SEEDS_INT = 113, 56, 6, tuple(range(160, 170))   # EXP-048: k <= 5 carry the number line
 N59, SEEDS_D59, EXTRA_D59 = 59, tuple(range(140, 150)), (250, 500, 1000)   # D_59 spectra every 250 steps (group_train)
 PREDICTORS = ("M0", "M0c", "CNT")
 
@@ -83,6 +87,46 @@ def spectra_d59(idx: np.ndarray) -> dict[str, np.ndarray]:
         m0c.append(2.0 * float((((left + right).T @ r) ** 2).sum()))
     cnt = dh.irrep_power(Mk.sum(1)[:, None], B, labels, n) + dh.irrep_power(Mk.sum(0)[:, None], B, labels, n)
     return {"M0": dh.mask_power(idx, n), "M0c": np.array(m0c), "CNT": cnt}
+
+
+def spectra_intadd(idx: np.ndarray) -> dict[str, np.ndarray]:
+    """Integer addition (outputs 0..224): M0 as EXP-048 make_split.mask_power, M0c coherent, CNT of the a/b counts;
+    returned for k = KLO_INT..56 only (index 0 = k 6)."""
+    P, NC = P_INT, 2 * P_INT - 1
+    Mk = np.zeros((P, P))
+    Mk[idx // P, idx % P] = 1.0
+    t, c = np.arange(P)[:, None], np.arange(NC)[None, :]
+    o = c - t
+    ok = (o >= 0) & (o < P)
+    oc = np.clip(o, 0, P - 1)
+    L, R = np.where(ok, Mk[t, oc], 0.0), np.where(ok, Mk[oc, t], 0.0)
+    fold = lambda x: (x[1:KMAX_INT + 1] + x[P - KMAX_INT:][::-1])[KLO_INT - 1:]   # noqa: E731
+    FL, FR = np.fft.fft(L, axis=0), np.fft.fft(R, axis=0)
+    return {"M0": fold((np.abs(FL) ** 2 + np.abs(FR) ** 2).sum(axis=1)), "M0c": fold((np.abs(FL + FR) ** 2).sum(axis=1)),
+            "CNT": fold(np.abs(np.fft.fft(Mk.sum(1))) ** 2 + np.abs(np.fft.fft(Mk.sum(0))) ** 2)}
+
+
+def detrend_dft_intadd(W: np.ndarray) -> np.ndarray:
+    """EXP-048 primary measurement: per column remove the least-squares line in a, DFT power k = 1..56; here k >= 6."""
+    X = np.stack([np.ones(P_INT), np.arange(P_INT, dtype=float)], 1)
+    D = W - X @ np.linalg.lstsq(X, W, rcond=None)[0]
+    pw = (np.abs(np.fft.fft(D, axis=0)) ** 2).sum(axis=1)
+    return (pw[1:KMAX_INT + 1] + pw[P_INT - KMAX_INT:][::-1])[KLO_INT - 1:]
+
+
+def predict_intadd() -> None:
+    if PRED_INT.exists():
+        raise SystemExit(f"{PRED_INT.name} exists: predictions are frozen (delete only with a JOURNAL entry)")
+    out: dict = {"frozen": "session 14, 2026-09-26, Nachtrag b, before any EXP-048 run", "k_first": KLO_INT, "cases": {}}
+    for s in SEEDS_INT:
+        name = f"split_intadd113_seed{s}_eps0.0_R"
+        f = E48 / f"splits/{name}.npy"
+        sp = spectra_intadd(np.load(f))
+        out["cases"][f"intadd_seed{s}"] = {
+            "split_file": f.relative_to(LAB.parent).as_posix(), "split_sha256": file_sha256(f),
+            **{f"{k}_top5": [x + KLO_INT - 1 for x in top(v)] for k, v in sp.items()}, **{k: v.tolist() for k, v in sp.items()}}
+    PRED_INT.write_text(json.dumps(out, indent=1), encoding="utf-8")
+    print(f"[exp052] wrote {PRED_INT.name}: {len(out['cases'])} cases (k = {KLO_INT}..{KMAX_INT})")
 
 
 def predict_d59() -> None:
@@ -169,6 +213,20 @@ def selftest() -> None:
             assert top(sp["M0"]) == meta["M0_top5"], st
             assert len(sp["M0c"]) == len(sp["CNT"]) == dh.n_irrep2(N59) and np.all(sp["M0c"] >= 0), st
             n_checked += 1
+    import importlib.util                              # Nachtrag b: intadd M0 = EXP-048 make_split.mask_power (k >= 6)
+    spec = importlib.util.spec_from_file_location("make_split_048", E48 / "make_split.py")
+    mk48 = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mk48)
+    for s in SEEDS_INT:
+        for arm, eps in (("F", "2.0"), ("G", "2.0"), ("R", "0.0")):
+            idx = np.load(E48 / f"splits/split_intadd113_seed{s}_eps{eps}_{arm}.npy")
+            assert np.allclose(spectra_intadd(idx)["M0"], mk48.mask_power(idx)[KLO_INT - 1:]), (s, arm)
+            n_checked += 1
+    a_ = np.arange(P_INT, dtype=float)
+    ramp = np.outer(a_, np.linspace(1, 2, 4))
+    wave = np.outer(np.cos(2 * np.pi * 9 * a_ / P_INT), np.ones(4))
+    assert detrend_dft_intadd(5 * ramp).max() < 1e-12 * P_INT ** 3
+    assert int(np.argmax(detrend_dft_intadd(5 * ramp + wave))) + KLO_INT == 9
     assert abs(spearman(np.arange(10.0), np.arange(10.0) ** 3) - 1) < 1e-12
     print(f"[exp052] selftest ok ({n_checked} splits)", flush=True)
 
@@ -226,8 +284,19 @@ def run_powers_d59(s: int, f: Path) -> tuple[str | None, dict[int, np.ndarray]]:
     return None, {t: L.spectrum(t) for t in (0, STEP) + EXTRA_D59}
 
 
+def run_powers_intadd(s: int, f: Path) -> tuple[str | None, dict[int, np.ndarray]]:
+    """Detrended final W_E (we_final.npy, step 2000) of the EXP-048 R run; no step-0 W_E is stored -> no E0 here."""
+    L = load_run(find_run(E48 / "raw", f"EXP-048_seed{s}_split_intadd113_seed{s}_eps0.0_R_devcuda"),
+                 Expect(seed=s, device="cuda", max_steps=STEP, split_file=f, config={"p": 225}, at=(STEP,),
+                        files=("we_final.npy",)))
+    if L.status != "ok":
+        return f"{L.status}: {L.reason}", {}
+    return None, {STEP: detrend_dft_intadd(np.load(L.path / "we_final.npy").astype(np.float64))}
+
+
 def case_rows(name: str, seeds: tuple[int, ...], pred: dict, spec_fn, run_fn, extra: tuple[int, ...],
-              rng: np.random.Generator) -> tuple[dict, list[dict]]:
+              rng: np.random.Generator, off: int = 0) -> tuple[dict, list[dict]]:
+    """off: frequency of vector index 0 minus 1 (0 for k = 1.., 5 for intadd k = 6..)."""
     rows, W = [], {}
     for s in seeds:
         c = pred[f"{name}_seed{s}"]
@@ -243,10 +312,13 @@ def case_rows(name: str, seeds: tuple[int, ...], pred: dict, spec_fn, run_fn, ex
             continue
         pw = W[s] = pw_at[STEP]
         K = top(pw)
-        r = {"seed": s, "valid": True, "K": K, "E0_top5": top(pw_at[0])}
+        r = {"seed": s, "valid": True, "K": [k + off for k in K]}
         for k in PREDICTORS:
-            r[f"rho_{k}"], r[f"rbar_{k}"], r[f"ov_{k}"] = spearman(sp[k], pw), rbar(sp[k], K), len(set(c[f"{k}_top5"]) & set(K))
-        r["rho_E0"], r["rbar_E0"] = spearman(pw_at[0], pw), rbar(pw_at[0], K)
+            r[f"rho_{k}"], r[f"rbar_{k}"] = spearman(sp[k], pw), rbar(sp[k], K)
+            r[f"ov_{k}"] = len(set(c[f"{k}_top5"]) & set(r["K"]))
+        if 0 in pw_at:
+            r["E0_top5"] = [k + off for k in top(pw_at[0])]
+            r["rho_E0"], r["rbar_E0"] = spearman(pw_at[0], pw), rbar(pw_at[0], K)
         r["rho_M0_at"] = {t: spearman(sp["M0"], pw_at[t]) for t in extra}
         rows.append(r)
     valid = [r for r in rows if r["valid"]]
@@ -259,7 +331,7 @@ def case_rows(name: str, seeds: tuple[int, ...], pred: dict, spec_fn, run_fn, ex
     t_out["rho_M0_matched"] = float(np.trace(Rm) / len(vs))
     t_out["rho_M0_foreign"] = float((Rm.sum() - np.trace(Rm)) / (len(vs) * (len(vs) - 1)))
     t_out["p_primary"] = perm_p(Rm, rng)
-    for k in PREDICTORS + ("E0",):
+    for k in PREDICTORS + (("E0",) if all("rho_E0" in r for r in valid) else ()):
         t_out[f"rho_{k}_mean"] = float(np.mean([r[f"rho_{k}"] for r in valid]))
         t_out[f"rbar_{k}_mean"] = float(np.mean([r[f"rbar_{k}"] for r in valid]))
     t_out["rho_M0_at_mean"] = {t: float(np.mean([r["rho_M0_at"][t] for r in valid])) for t in extra}
@@ -279,6 +351,10 @@ def analyze() -> None:
     pred59 = json.loads(PRED_D59.read_text(encoding="utf-8"))["cases"]   # Nachtrag a: third case of the family
     out["tasks"]["D59"], valid = case_rows("D59", SEEDS_D59, pred59, spectra_d59, run_powers_d59, EXTRA_D59, rng)
     all_rows += valid
+    predi = json.loads(PRED_INT.read_text(encoding="utf-8"))["cases"]   # Nachtrag b: fourth case, non-modular
+    out["tasks"]["intadd"], valid = case_rows("intadd", SEEDS_INT, predi, spectra_intadd, run_powers_intadd, (), rng,
+                                              off=KLO_INT - 1)
+    all_rows += valid
     ps = {t: v["p_primary"] for t, v in out["tasks"].items() if "p_primary" in v}
     adj = holm(ps)
     for t, v in out["tasks"].items():
@@ -290,7 +366,7 @@ def analyze() -> None:
         sec = {}
         for name, a, b in (("S1_M0c_better_than_M0", "M0c", "M0"), ("S2_M0_better_than_E0", "M0", "E0"),
                            ("S3_M0_better_than_CNT", "M0", "CNT")):
-            d = np.array([r[f"rho_{a}"] - r[f"rho_{b}"] for r in all_rows])
+            d = np.array([r[f"rho_{a}"] - r[f"rho_{b}"] for r in all_rows if f"rho_{b}" in r])   # E0: not for intadd
             sec[name] = {"mean_diff": float(d.mean()), "n_pos": int((d > 0).sum()), "n": len(d), "p_one_sided": sign_flip_p(d, rng)}
         out["secondary"] = sec
     (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
@@ -302,6 +378,8 @@ if __name__ == "__main__":
     arg = sys.argv[1:]
     if arg == ["--predict"]:
         predict()
+    elif arg == ["--predict-intadd"]:
+        predict_intadd()
     elif arg == ["--predict-d59"]:
         predict_d59()
     elif arg == ["--selftest"]:

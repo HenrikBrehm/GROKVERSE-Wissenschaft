@@ -68,3 +68,15 @@ desselben Splits machte die Suche sonst mehrdeutig → „fehlt“). Vermerkt: (
 (iii) Spearman mit Ordinalrängen: in keinem eingefrorenen Vektor gibt es Bindungen. Bestätigt: gleiche Koordinaten/Basis wie EXP-043
 (Zeile i = W_E[g^i] = Log-Koordinate i), Schnappschuss bei 0 vorhanden, Statistik korrekt, fremde M0 untereinander unkorreliert
 (−0.015 / −0.012), kein Pfad, auf dem ein Fehler ein falsch-positives Urteil erzeugt.
+
+## Nachtrag b (Sitzung 14, 2026-09-26  Berlin gemessen, **vor jedem Lauf**): vierter Fall, nicht-modulare Addition
+
+**Vierter Fall:** die 10 Zufallssplits (Arm R, ε = 0, Seeds 160–169) von [[experiments/EXP-048-intadd-steering/README|EXP-048]]
+(a + b ohne Modulo, Ausgabe 0..224). M0 wie `EXP-048/make_split.mask_power` (Ganzzahlversion), M0c kohärent, CNT aus den a/b-Häufigkeiten.
+Wegen der Zahlengerade (EXP-048 Nachtrag a) **nur k = 6..56** und das W_E-Spektrum **trendbereinigt** (`we_final.npy` bei 2000, je Spalte die
+Kleinste-Quadrate-Gerade in a entfernt, wie die Primärgröße von EXP-048). E0 gibt es hier nicht (kein W_E bei Schritt 0 gespeichert):
+S2 ohne diesen Fall. Eingefroren in `predictions_intadd.json` (`--predict-intadd`). **Primärfamilie jetzt vier Glieder, Holm über vier.**
+Gesehen nach dem Einfrieren: ρ(M0, M0c) 0.71, ρ(M0, CNT) 0.03, fremde Splits untereinander ρ(M0) **0.06** (Rest des dreieckigen Trägers bei
+k ≥ 6; betrifft eigen und fremd gleich, der Permutationstest bleibt gültig, verliert aber etwas Trennschärfe).
+**Erwartung hier offen:** Der Mechanismus erster Ordnung braucht keine Gruppe, aber das Netz kann bei a + b eine Zahlengerade statt Fourier-
+Merkmalen lernen; dann ist der Rest-W_E nach der Trendbereinigung womöglich Rauschen und der Fall *nicht bestätigt*, ohne dass K1 dort falsch ist.

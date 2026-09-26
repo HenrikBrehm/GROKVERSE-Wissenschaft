@@ -1,8 +1,8 @@
 ---
 id: EXP-025
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat, befund/unklar]
 ---
 # EXP-025: Sagt der architekturspezifische AGF-Nutzen die Frequenzwahl auch unter Zufallssplits voraus?
 
@@ -40,6 +40,15 @@ In EXP-024 Arm R erreichen die ReLU-Zwei-Hot-Netze (ohne Bias, Init-Skala 0.1, 5
 Lösung. Tests und Entscheidungsregeln bleiben **unverändert**; berichtet wird zusätzlich die Test-Genauigkeit je Arm, und
 ein ReLU-Ergebnis wird ausdrücklich als Aussage über memorierende Netze eingeordnet. Ein Ergebnis nur für Arm quad (10
 Einheiten) wird zusätzlich berichtet, ohne Entscheidung.
+
+## Ergebnis (Sitzung 7, 11:51 Berlin)
+
+20/20 gültig. Ko-primär: r̄(U_eigene, K) = 0.42 gegen Zufall 0.5, **p = 0.003** (fremde Masken 0.50). Primär (Spezifität):
+d̄ = r̄(U_andere) − r̄(U_eigene) = +0.042, **p = 0.12**. Sekundär ρ_own − ρ_other +0.046, p = 0.09. Test-Genauigkeit: quad
+1.0, ReLU 0.07 (memorierend, siehe Nachtrag b). r̄(M0): quad 0.46, ReLU 0.34.
+**Urteil: *teilweise*.** Der exakte Nutzen auf der eigenen Maske sagt die gelernten Frequenzen auch unter Zufallssplits
+über dem Zufall voraus; dass die eigene Aktivierung dabei besser passt als die andere, ist nicht gezeigt. Beim
+memorierenden ReLU-Netz sagt das einfache M0 K sogar besser voraus (0.34) als der ReLU-Nutzen (0.42).
 
 ## Befehle
 

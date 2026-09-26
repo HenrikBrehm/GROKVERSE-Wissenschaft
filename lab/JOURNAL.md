@@ -926,3 +926,7 @@ mehrfach geschätzte statt gemessene Uhrzeiten eingetragen (korrigiert).
 Warteschlangen `sh lab/experiments/queue_s7.sh` bzw. die Einzel-`queue.sh`.
 **Nächste Aktion:** siehe STATE.md (EXP-025 fertigstellen und auswerten, dann `queue_s5.sh` mit EXP-020 zuerst → EXP-028).
 **Scheduler:** Aufgabe `GROKVERSE-Lab-Runner` aktiv; nächster Start laut `runner-state.json` 11:59:45Z = **13:59 Berlin**.
+**Nachtrag 11:51:** EXP-025 fertig und ausgewertet: *teilweise* (r̄ eigener Nutzen 0.42, p = 0.003; Spezifität p = 0.12).
+Kette danach um 11:51 kontrolliert gestoppt (`queue_s7.sh` und das gerade gestartete `queue_s5.sh` beendet, bevor ein
+Trainingslauf daraus begann; keine Python-Prozesse mehr). Nächste Sitzung: direkt `sh lab/experiments/queue_s5.sh`.
+

@@ -10,10 +10,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 ## Wiederaufnahme (zuerst lesen)
 
 - **ENDE SITZUNG 7 (11:24) → nächste Sitzung beginnt hier.** Kette `queue_s7.sh` wird vor Sitzungsende kontrolliert
-  gestoppt (EXP-025 teilweise gelaufen; fertige Läufe werden übersprungen). **Nächste Schritte im Fenster:**
+  um 11:51 gestoppt (EXP-025 vollständig, ausgewertet). **Nächste Schritte im Fenster:**
   1. `python lab/tools/guarded_run.py --check`
-  2. `sh lab/experiments/EXP-025-utility-random-split/queue.sh` (überspringt EXP-032/027b und fertige EXP-025-Läufe), dann
-     `python lab/tools/guarded_run.py -- python lab/experiments/EXP-025-utility-random-split/analyze.py`
+  2. EXP-025 ist fertig und ausgewertet (*teilweise*, 11:51).
   3. `sh lab/experiments/queue_s5.sh` (EXP-018/020-Smokes, dann **EXP-020 zuerst** (liefert auch EXP-028), EXP-018, EXP-014, …),
      danach `python lab/tools/guarded_run.py -- python lab/experiments/EXP-028-memo-imprint/analyze.py`
   **Neue Befunde Sitzung 7:** EXP-032 *Festlegung in ≤ 20 Schritten* (t½ = 5), EXP-030 *Rest gestützt*, EXP-029 *teilweise*,

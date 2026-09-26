@@ -5,20 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 08:59 Berlin (06:59Z, vom Runner)
 - **Deadline:** 2026-09-26 11:59 Berlin (09:59Z)
-- **Zuletzt aktualisiert:** 11:26 Berlin
+- **Zuletzt aktualisiert:** 11:52 Berlin · **Sitzung beendet**
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-**[[experiments/EXP-025-utility-random-split/README|EXP-025]] läuft** (2/20, bis ~11:51). Abschlussbericht ist geschrieben
-(JOURNAL, Sitzung 7). Kurz vor 11:55 stoppe ich die Kette und beende die Sitzung.
+**Sitzung beendet** (11:52). Keine Läufe aktiv. Nächster geplanter Start laut Runner: **13:59 Berlin** (11:59:45Z).
 
 ## Als Nächstes
 
-Auswertungen in dieser Reihenfolge, sobald die Läufe fertig sind. Sitzungsende 11:59; Abschluss ab ~11:45.
+`sh lab/experiments/queue_s5.sh` (EXP-020 zuerst, liefert auch die Bestätigung für EXP-028). Details in [[STATE]].
 
 ## Verlauf dieser Sitzung
 
+- 11:51 EXP-025 *teilweise* (Nutzen sagt Frequenzen über Zufall voraus, aber nicht spezifisch für die Aktivierung). Kette gestoppt, Sitzung beendet.
 - 11:25 Abschlussbericht und Wiederaufnahmeweg (STATE) geschrieben.
 - 11:24 EXP-027b *widerspricht*: Schmale Netze wählen nicht stärker nach dem Split. Idee verworfen.
 - 11:10 **EXP-032 bestätigt: Schon 5 Trainingsschritte (von 5000) legen die halbe Frequenzneigung fest** (ρ 0.91, p = 1e-4). Der bisher schärfste Befund der Sitzung.

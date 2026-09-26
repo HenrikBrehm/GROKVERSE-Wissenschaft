@@ -97,3 +97,17 @@ erst bei 120–130. **Sekundär, vorab für die Seeds 31–34:** In jedem gülti
 „nur F“ an der oberen Intervallgrenze hi (nächster aufgezeichneter Schritt, alle 10 Schritte) ≤ 0.5 → *Festlegung vor der
 Memorisierung bestätigt*; sonst *nicht bestätigt*. Seed 30 zählt nicht mit (daran gefunden). Auswertung von Hand aus
 `dense.train_acc`; ändert H20 und seine Entscheidung nicht.
+
+## Nachtrag d (2026-09-26 14:52 Berlin, nach Ansicht der Seeds 30–32, **vor** jedem Lauf der Seeds 33/34): fremde Frequenzen in Mischzuständen
+
+Beschreibend, sekundär; ändert H20 nicht. Beobachtung an Seeds 30–32 (Exploration): In Läufen mit Wechsel bei t ≤ 50
+enthält K Frequenzen außerhalb A = F ∪ G ∪ fold(2k) ∪ K_nurF ∪ K_nurG (Seed 30: 34, 39; Seed 31: 36, 42, 22; Seed 32: 8, 13),
+bei t ≥ 150 nie. Diese Frequenzen stehen im Init-Spektrum von W_E (Schritt 0) auffällig weit oben (Ränge 1, 2, 4, 8, 11, 18, 29
+von 56; Median 8). Deutung (Spekulation): Solange weder F noch G festgelegt ist, heben sich die Datensignale teilweise auf
+und das Init-Spektrum setzt sich durch.
+**Vorab für die frischen Seeds 33, 34** (Definition und Code: `conflict_freqs.py`, Stand dieses Commits):
+- **P-d1** (je Seed, nur gültige Seeds mit allen 8 Läufen): mindestens eine fremde Frequenz in einem Lauf mit t ∈ {10, 25, 50}
+  und keine in t ∈ {150, 400, 1000} → *erfüllt*, sonst *nicht erfüllt*.
+- **P-d2** (gepoolt über beide Seeds): Median des Init-Rangs der verschiedenen fremden Frequenzen ≤ 14 → *erfüllt*.
+  Zufall wäre ≈ 28. Keine fremde Frequenz → *nicht erfüllt*.
+Grenze: 2 Seeds, keine Inferenzstatistik; die Beobachtung stammt aus denselben Läufen, aus denen die Deutung kommt.

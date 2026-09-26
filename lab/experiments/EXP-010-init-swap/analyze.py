@@ -52,6 +52,8 @@ def pair(seed: int, swap_tmpl: Path = SWAP, event_key: str = "init_swap") -> dic
     init_rank = np.argsort(np.argsort(-np.asarray(ev["power_before"]), kind="stable"), kind="stable")
     row.update({"valid": True, "T": sorted(T), "S": sorted(S), "K_base": sorted(kb),
                 "K_swap": sorted(ks), "d": d, "gen_base": gb, "gen_swap": gs,
+                # secondary decomposition (added 2026-09-26 before any result): d = gain_S + loss_T
+                "gain_S": len(ks & S) - len(kb & S), "loss_T": len(kb & T) - len(ks & T),
                 "delta_gen": None if gb is None or gs is None else gs - gb,
                 "rbar0_base": float((init_rank[[k - 1 for k in kb]] / (N_FREQ - 1)).mean())})
     return row
@@ -72,6 +74,8 @@ def main() -> None:
     else:
         d = np.array([r["d"] for r in valid], dtype=float)
         p = sign_flip_p(d)
+        out["gain_S_mean"] = float(np.mean([r["gain_S"] for r in valid]))
+        out["loss_T_mean"] = float(np.mean([r["loss_T"] for r in valid]))
         out.update({"d_mean": float(d.mean()), "p": p,
                     "verdict": "widerspricht" if d.mean() <= 0 else
                     ("steuerbar" if p < ALPHA else "richtungsgleich, nicht signifikant")})

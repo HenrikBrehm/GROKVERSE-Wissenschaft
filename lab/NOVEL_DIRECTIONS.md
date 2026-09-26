@@ -46,7 +46,18 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   unterscheidet sich das von Architekturen ohne gemeinsames Embedding (Lotterie pro Neuron)?
 - **Versuche:** [[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]] (Befund positiv, p < 1e-5,
   seed-spezifisch; bei m2h nur pro Neuron) · [[experiments/EXP-010-init-swap/README|EXP-010]]
-  (kausaler Init-Tausch, vorbereitet)
+  (kausaler Init-Tausch, läuft seit Sitzung 4) · [[experiments/EXP-011-init-magswap/README|EXP-011]]
+  (nur die Normen tauschen: trägt der Betrag oder die Richtung des Koeffizientenblocks?, vorbereitet)
+- **Nachsuche 2026-09-26 (Sitzung 4, zu EXP-010/011).** Suchbegriffe: „grokking modular addition
+  initialization embedding Fourier frequency magnitude versus phase which frequencies win intervention“,
+  „arXiv 2026 transformer modular arithmetic key frequencies determined by initialization embedding swap
+  experiment“. He et al. 2026 per WebFetch erneut geprüft: nur **beobachtend** (Betrag und Fehlausrichtung
+  bei Init vs. Gewinner), keine gezielten Tausch- oder Skalierungseingriffe, nur 2-Schicht-MLPs pro Neuron.
+  Weitere Treffer ohne Init-Eingriff ins Spektrum: *Mechanistic Insights into Grokking from the Embedding
+  Layer* (https://arxiv.org/abs/2505.15624, Lernraten und Sampling für Embeddings), *The Discrete-Log Clock*
+  (https://arxiv.org/abs/2606.17399), *Let Me Grok for You* (https://arxiv.org/pdf/2504.13292, Embedding-Transfer).
+  **Einordnung:** Ein kausaler, verteilungserhaltender Init-Tausch im gemeinsamen Transformer-Embedding und
+  die Trennung Betrag vs. Richtung wurden nach dieser Suche nicht gefunden. Vorläufig, keine Garantie.
 - **Suche 2026-09-25.** Suchbegriffe: „grokking which Fourier frequencies selected initialization
   lottery modular addition“, „grokking modular addition frequency selection random seed determined
   initialization key frequencies per seed“, „modular addition transformer predict key frequencies

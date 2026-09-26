@@ -48,6 +48,23 @@ def test_fingerprint_unit() -> None:
         assert fb.run_fingerprint(ns(**change))[0] != f1, f"fingerprint ignores {change}"
     assert fields["split_file_sha256"] == fb.file_sha256(str(SPLIT)) and fields["test_file_sha256"] is None
     assert fb.run_fingerprint(ns(spectra_at="10,5"))[0] == fb.run_fingerprint(ns(spectra_at="5,10"))[0]
+    # session 18: a late argument enters the fingerprint only when it differs from its default, so existing runs keep
+    # their fingerprints (a namespace without the attribute = a record from before the argument existed)
+    assert "lr_scale_after_switch" not in fields
+    assert fb.run_fingerprint(ns(lr_scale_after_switch=1.0))[0] == f1, "default late argument changed the fingerprint"
+    # anchor to the pre-session-18 algorithm (Codex s18): FINGERPRINT_ARGS + sorted spectra + file hashes + version only
+    import hashlib
+    a0 = ns()
+    old_fields = {k: getattr(a0, k) for k in fb.FINGERPRINT_ARGS}
+    old_fields["spectra_at"] = []
+    old_fields.update({f"{k}_sha256": fb.file_sha256(getattr(a0, k)) for k in fb.FINGERPRINT_FILES})
+    old_fields["fingerprint_version"] = 1
+    blob = json.dumps(old_fields, sort_keys=True, separators=(",", ":"), default=str)
+    assert f1 == hashlib.sha256(blob.encode()).hexdigest(), "default fingerprint differs from the pre-session-18 algorithm"
+    S, c = 150, 3.0                                                     # ELR window: exactly steps S+1 .. S+500
+    assert [fb.lr_mult_after_switch(t, S, c) for t in (S, S + 1, S + 500, S + 501)] == [1.0, c, c, 1.0]
+    assert sum(fb.lr_mult_after_switch(t, S, c) == c for t in range(1, 2000)) == fb.LR_AFTER_SWITCH_STEPS
+    assert fb.run_fingerprint(ns(lr_scale_after_switch=3.0))[0] != f1, "fingerprint ignores --lr-scale-after-switch"
 
 
 def test_pid_and_atomic_unit(tmp: Path) -> None:
@@ -74,6 +91,9 @@ def test_integration(tmp: Path) -> None:
 
     r = train(out, "--steps", "20")                                   # identical request -> skip, exit 0
     assert r.returncode == 0 and "already completed" in r.stdout, r.stdout + r.stderr
+
+    r = train(out, "--steps", "20", "--lr-scale-after-switch", "3")   # session 18: ELR arm needs a data switch
+    assert r.returncode != 0 and "--lr-scale-after-switch needs" in (r.stdout + r.stderr), r.stdout + r.stderr
 
     r = train(out, "--steps", "30")                                   # Astra's failure case: other budget, same run id
     assert r.returncode != 0 and "another configuration" in (r.stdout + r.stderr), r.stdout + r.stderr

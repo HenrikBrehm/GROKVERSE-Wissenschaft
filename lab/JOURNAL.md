@@ -2351,3 +2351,21 @@ Eine Zweitprüfung durch einen Claude-Subagenten (nur lesend, ausdrücklich kein
 Init-Wiederherstellung, Geräte, Tor/Siegel und der angepasste Test wurden bestätigt, die Schwellen gelten als für fp32 erreichbar. Zwei mittlere Hinweise:
 (1) `--min-minutes 3` sei knapp. *Verworfen:* Das ist nur die Mindest-Restzeit für den Start, keine Laufzeitgrenze (`guarded_run.py`).
 (2) Die Thread-Umstellung in C4 ist ein globaler Nebeneffekt. *Übernommen:* `try/finally`.
+
+**Zyklus 3 (ELR-Arm für P3 jetzt statt beim Einfrieren?, 00:50).** *Frage:* Der P3-Entwurf ([[BACKLOG]] „Drittes Konkurrenzmodell (iii) ELR“) braucht eine Trainer-Option
+„lr × c für die ersten 500 Schritte nach dem Wechsel“. Geplant war, sie erst beim Einfrieren von P3 zu bauen. *Neues Argument:* Das GPU-001-Siegel umfasst `freq_ban.py`.
+Jede Trainer-Änderung **nach** einer bestandenen GPU-Abnahme entwertet sie und erzwingt die ganze Abnahme neu (≈ 20–30 min Fenster). Heute Nacht läuft die Abnahme zum
+ersten Mal. Also ist jetzt der billigste Zeitpunkt, sofern der Standardpfad bitgleich bleibt (die Regressionsstufe prüft genau das).
+*Änderung (ungetestet):* `--lr-scale-after-switch c` (Standard 1.0 = aus; Schritte switch_step+1 … switch_step+500, das sind genau die ersten 500 Schritte auf dem zweiten Split,
+weil der Wechsel nach `opt.step()` bei switch_step greift). Ausschließlich ohne `--warmup`, `--lr-scale` und `--alternate-every`, nur mit `--switch-split-file`. Run-ID `_lras<c>`.
+Nach der Bauregel aus Sitzung 16 steht das Argument in `LATE_ARGS` und geht nur bei Abweichung vom Standard in den Fingerprint. Zusätzlich wird bei jedem Wechsellauf die Parameternorm
+‖θ‖ am Wechsel mitgeschrieben (`events.switch.param_norm`, nur lesend, additiv), damit die ELR = lr/‖θ‖ in allen Armen als Kovariate vorliegt.
+Tests in `test_freq_ban_fingerprint.py`: Standard ohne Attribut = Standard mit 1.0 = alter Fingerprint; 3.0 ändert ihn; Aufruf ohne Wechsel bricht mit Meldung ab.
+*Prüfung:* Codex (Regel 18c: Änderung am gemeinsamen Trainer) läuft; bei „out of credits“ ein Claude-Subagent.
+*Entscheidung:* kein neuer Versuch, nur die Option. Der ELR-Arm wird erst mit P3 festgelegt (c ∈ {1, 3, 10}, Vorhersagen (i)/(ii)/(iii) wie im BACKLOG).
+*Codex-Prüfung Zyklus 3 (codex-rescue, nur lesend; Codex hat wieder Guthaben):* „nothing blocking“. Standardpfad und Fingerprint unverändert, Schrittfenster
+switch_step+1 … +500 korrekt, die Ausschlüsse greifen. Drei Hinweise, alle selbst geprüft und **übernommen**:
+(1) mittel: Mit `--reset-at-switch` wurde ‖θ‖ vor dem Zurücksetzen gemessen → jetzt nach dem Reset-Block (beschreibt die Parameter, auf die die skalierten Schritte wirken).
+(2) mittel: Kein Test erreicht das Schrittfenster → Multiplikator als reine Funktion `lr_mult_after_switch` herausgezogen, Test bei S, S+1, S+500, S+501 und Zählung = 500.
+(3) niedrig: Der Stabilitätstest verglich nur neue mit neuer Rechnung → jetzt gegen den nachgebauten Fingerprint-Algorithmus vor Sitzung 18 verankert (einen festen Hashwert
+kann ich vor 03:00 nicht erzeugen, ohne Python auszuführen).

@@ -69,6 +69,7 @@ EXP_ID_BY_CONDITION = {"init_swap": "EXP-010", "init_magswap": "EXP-011"}
 SWAP_SALT = 20_011            # init_swap draws S with seed + salt
 RANDOM_SALT = 10_007          # ban_random draws with seed + salt, never the run seed itself
 LR_SCALE_UNTIL = 250          # EXP-039: last step with the scaled lr (on the first train set)
+LR_AFTER_SWITCH_STEPS = 500   # P3 ELR arm (session 18): steps after the switch trained with lr * c
 SPECTRUM_EVERY = 250          # steps between stored W_E power spectra
 PARTIAL_WRITE_EVERY = 500     # steps between partial result.json writes
 STORED_RUN = "txf_add_p113_wd1.0_frac0.3_seed{seed}_arch25k"
@@ -79,6 +80,7 @@ FINGERPRINT_ARGS = ("seed", "condition", "t0", "m", "steps", "stop_after_gen", "
                     "split_value", "warmup", "alternate_every", "reset_at_switch", "lr_scale", "we_init_scale",
                     "spectra_at", "p", "task", "arch", "device", "save_model")
 FINGERPRINT_FILES = ("split_file", "test_file", "switch_split_file")
+LATE_ARGS = {"lr_scale_after_switch": 1.0}   # name -> default; in the fingerprint only if != default (session 18)
 LOCK_NAME = "run.lock"
 
 
@@ -198,6 +200,12 @@ def _choose_ban(cond: str, W_E: np.ndarray, basis: np.ndarray, m: int, seed: int
     raise ValueError(cond)
 
 
+def lr_mult_after_switch(step: int, switch_step: int, c: float) -> float:
+    """P3 ELR arm (session 18): c for the first LR_AFTER_SWITCH_STEPS steps on the second split, else 1. The switch takes
+    effect after opt.step() at switch_step, so the second split is trained from switch_step + 1 on."""
+    return c if switch_step < step <= switch_step + LR_AFTER_SWITCH_STEPS else 1.0
+
+
 def previous_status(path: Path) -> str | None:
     """Status of an earlier run; a result.json truncated by a kill counts as unfinished (Codex review 2026-09-26)."""
     if not path.exists():
@@ -217,6 +225,11 @@ def run_fingerprint(a: argparse.Namespace) -> tuple[str, dict]:
     fields = {k: getattr(a, k) for k in FINGERPRINT_ARGS}
     fields["spectra_at"] = sorted({int(x) for x in a.spectra_at.split(",") if x.strip()})
     fields.update({f"{k}_sha256": file_sha256(getattr(a, k)) for k in FINGERPRINT_FILES})
+    # session 18: arguments added after the fingerprint enter it ONLY when they differ from their default, so the
+    # fingerprints of all existing runs stay unchanged (otherwise every resume would fail with 'another configuration')
+    for k, default in LATE_ARGS.items():
+        if getattr(a, k, default) != default:
+            fields[k] = getattr(a, k)
     fields["fingerprint_version"] = FINGERPRINT_VERSION
     blob = json.dumps(fields, sort_keys=True, separators=(",", ":"), default=str)
     return hashlib.sha256(blob.encode()).hexdigest(), fields
@@ -367,6 +380,13 @@ def run(a: argparse.Namespace) -> dict:
         if a.we_init_scale <= 0:
             raise SystemExit("--we-init-scale needs s > 0")
         run_id += f"_wes{a.we_init_scale:g}"
+    if a.lr_scale_after_switch != 1.0:   # P3 ELR arm (session 18, Lyle et al. 2025): lr * c for the first
+        # LR_AFTER_SWITCH_STEPS steps after --switch-step, full lr otherwise (1.0 = off)
+        if (not np.isfinite(a.lr_scale_after_switch) or a.lr_scale_after_switch <= 0 or a.switch_split_file is None
+                or a.warmup or a.lr_scale != 1.0 or a.alternate_every):
+            raise SystemExit("--lr-scale-after-switch needs a finite c > 0, --switch-split-file, "
+                             "no --warmup, no --lr-scale and no --alternate-every")
+        run_id += f"_lras{a.lr_scale_after_switch:g}"
     if a.alternate_every:            # EXP-037: F/G blocks of this many steps before --switch-step (0 = off)
         if a.switch_split_file is None or a.alternate_every < 1 or a.alternate_every >= a.switch_step:
             raise SystemExit("--alternate-every needs --switch-split-file and 1 <= A < --switch-step")
@@ -503,7 +523,7 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "lr_scale_until": LR_SCALE_UNTIL, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "spectra_at": sorted(extra_spec),
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "lr_scale_until": LR_SCALE_UNTIL, "lr_scale_after_switch": a.lr_scale_after_switch, "lr_after_switch_steps": LR_AFTER_SWITCH_STEPS, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "spectra_at": sorted(extra_spec),
            "device": a.device, "device_name": (torch.cuda.get_device_name(dev) if dev.type == "cuda" else platform.processor()),
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": {**cfg.to_dict(), "device": a.device},   # Astra 10: Config keeps 'cpu'; record the real device
@@ -570,6 +590,9 @@ def run(a: argparse.Namespace) -> dict:
             on_first = switch_idx is None or step <= a.switch_step
             for g in opt.param_groups:
                 g["lr"] = cfg.lr * (a.lr_scale if on_first and step <= LR_SCALE_UNTIL else 1.0)
+        if a.lr_scale_after_switch != 1.0:   # P3 ELR arm: c * lr for switch_step < step <= switch_step + 500
+            for g in opt.param_groups:
+                g["lr"] = cfg.lr * lr_mult_after_switch(step, a.switch_step, a.lr_scale_after_switch)
         opt.step()
         if (a.warmup or a.lr_scale != 1.0 or a.we_init_scale != 1.0) and switch_idx is not None and step == a.switch_step:   # EXP-035 Nachtrag a: displacement at the switch
             with torch.no_grad():
@@ -632,6 +655,9 @@ def run(a: argparse.Namespace) -> dict:
                                              "train_acc_after": evaluate(model, trx, try_, p)[1]}
                 if not check:
                     raise SystemExit("[exp] EXP-038 reset check failed")
+            # session 18, P3 model (iii): ELR = lr / ||theta|| at the switch (read-only, additive field); after a reset,
+            # so it describes the parameters the post-switch updates act on (Codex s18)
+            events["switch"]["param_norm"] = float(sum(float((q.detach() ** 2).sum()) for q in model.parameters()) ** 0.5)
         elif a.alternate_every and step < a.switch_step and step % a.alternate_every == 0:
             # EXP-037: block k = steps (k-1)A+1 .. kA trains on F for odd k, on G for even k
             nxt = switch_idx if (step // a.alternate_every) % 2 == 1 else data["train_idx"]
@@ -699,6 +725,8 @@ def main() -> None:
                     help="EXP-038: at --switch-step reset W_E or all other parameters to init (+ their AdamW state)")
     ap.add_argument("--lr-scale", type=float, default=1.0,
                     help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
+    ap.add_argument("--lr-scale-after-switch", type=float, default=1.0,
+                    help="P3 ELR arm: lr * c for the 500 steps after --switch-step, full lr otherwise (1.0 = off)")
     ap.add_argument("--we-init-scale", type=float, default=1.0,
                     help="EXP-040: scale the non-DC part of W_E[:p] by s right after init (checksum = plain init; 1.0 = off)")
     ap.add_argument("--spectra-at", default="",

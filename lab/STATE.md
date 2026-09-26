@@ -60,7 +60,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 
 ## Blocker / Hinweise
 
-- **Codex ohne Guthaben** („out of credits“, 20:04): Zweitprüfung durch Claude-Subagenten (frischer Kontext, nur lesend).
+- Codex funktioniert wieder (Sitzung 18, 00:5x, Prüfung des ELR-Arms). Ohne Guthaben: Zweitprüfung durch Claude-Subagenten (frischer Kontext, nur lesend).
+- **Trainer geändert (Sitzung 18, ungetestet):** `--lr-scale-after-switch` (Standard aus) + `events.switch.param_norm`. Die Regressionsstufe von GPU-001 und `test_freq_ban_fingerprint.py` prüfen den Standardpfad.
 - Uncommittete Nutzeränderungen (`guarded_run.py`, `install_task.ps1`, `tick.ps1`, `runner/README.md`, `SESSION_PREAMBLE.md`,
   `runner-state.json`, `parallel_queue.py`) **nicht committen**; nur gezielt `git add <pfad>`, nie `commit -a`.
 - Zeitstempel nur aus `guarded_run.py --check` (`now_berlin`); `--check` liefert Exit 3, wenn nicht erlaubt.

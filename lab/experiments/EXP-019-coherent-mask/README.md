@@ -48,7 +48,7 @@ Präzisierung (06:37, nach Codex und direkter Messung `posthoc/positional_gradie
 gleicher Phase. Über alle Frequenzen heben sich die Kreuzterme zwischen linker und rechter Position auf; frequenzweise
 folgt der gemessene Kreuzterm dem Masken-Kreuzterm M0c − M0 (ρ 0.50, 18/18 Seeds positiv, fremde Maske −0.09).
 
-## Herleitung (2026-09-26 06:44, numerisch geprüft)
+## Herleitung (2026-09-26 06:40, numerisch geprüft)
 
 Mit N_rechts(t, c) = N_links(c − t, c) (Spiegelung entlang der Antidiagonale) gilt N̂_rechts(k, c) = e^{−ikc}·conj(N̂_links(k, c))
 (ω = 2π/p in den Exponenten mitgedacht). Daraus:

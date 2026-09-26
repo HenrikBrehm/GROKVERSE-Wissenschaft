@@ -523,7 +523,7 @@ nachweisbar. Die Formulierung „nur Oberwelle“ ist zu ersetzen durch: **„na
 2k-Komponente“**. Nebenbefund: Auch nicht-harmonische Top-5-Glieder können fast unwichtig sein (Seed 5, k = 14:
 Δloss 0.002). Die W_E-Top-5 ist also als K-Definition verrauscht; die Studie hat dafür eigene Regeln (`nanda` u. a.).
 
-**Zyklus 11 (06:40, post hoc, gleiche Seeds über die Zeit; Codex-Punkt 5):** `posthoc_overtone_timecourse.py`,
+**Zyklus 11 (06:39, post hoc, gleiche Seeds über die Zeit; Codex-Punkt 5):** `posthoc_overtone_timecourse.py`,
 8 Paare (2k schwächer) aus Seeds 0–9, `embeddings.npy` (125 Zeitpunkte). Ergebnis: Das Leistungsverhältnis 2k/k **fällt**
 über das Training (z. B. Seed 0: 0.84 bei Init → 0.16 bei 25k), k wächst also schneller. Aber in **5/8** Paaren kommt 2k erst
 **nach** der Generalisierung in die Top-5 (Schritt 6421–17797 gegen gen 5605–8427), weil andere Frequenzen beim
@@ -531,7 +531,7 @@ Aufräumen schneller verschwinden; in 3/8 (Seeds 1, 3, 6) war 2k schon ab Init u
 **Befund:** Innerhalb derselben Seeds taucht 2k meist spät in der Top-5 auf (Rang), nicht durch relatives Wachstum.
 Die Kohortenaussage aus Zyklus 9 ist damit für den Rang bestätigt, für die Leistung widerlegt.
 
-**Zyklus 12 (06:42, Theorie):** M0c geschlossen hergeleitet: M0c(k) = 4 Σ_c |N̂_L|² cos²(arg N̂_L + πkc/p), M0 = 2 Σ_c |N̂_L|²
+**Zyklus 12 (06:40, Theorie):** M0c geschlossen hergeleitet: M0c(k) = 4 Σ_c |N̂_L|² cos²(arg N̂_L + πkc/p), M0 = 2 Σ_c |N̂_L|²
 (EXP-019 README). Numerisch exakt bestätigt (≤ 5e-15); bei kommutationssymmetrischen Masken M0c = 2·M0. Der Unterschied
 M0c − M0 misst also nur die Kommutations-Asymmetrie des Splits. Literatur: Symmetrie und Grokking-Tempo bekannt
 (2411.05353), Bezug zur Frequenzwahl nicht gefunden → [[NOVEL_DIRECTIONS]] N8, niedrige Priorität, nicht vorbereitet.

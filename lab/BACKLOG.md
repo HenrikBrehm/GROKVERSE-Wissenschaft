@@ -73,3 +73,8 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 - **EXP-023** (eigene Wertematrix, Mechanismus) → **C**, überschneidet sich mit EXP-050; C nicht aktiv: *zurückgestellt*.
 - **EXP-022** (eine Frequenz), **EXP-010** (Init-Tausch) → außerhalb A/B/C: *zurückgestellt*.
 
+## Nächster Baustein für Paket A: funktionaler Nachweis P2 (Plan, Sitzung 13, 20:55)
+
+- **Idee (noch keine EXP-ID, erst nach der Pilotnacht festlegen):** EXP-016-artige F/G-Läufe (neue Ströme, Pilot-Seeds außerhalb 1000–1099) mit `freq_ban.py --save-model`; danach **ohne Nachtraining** die Zielfrequenzen aus dem gespeicherten Modell entfernen und die Testgenauigkeit auf der gemeinsamen Testmenge messen, gegen größengleiche Zufallsfrequenzmengen (Kontrollverteilung, z-Wert) und gegen die Zielmenge des anderen Arms. Werkzeug vorhanden: `training/grokverse/analysis/causal_ablation.py` (`transformer_ablations`, `random_frequency_sets`, `with_control`), die Methode der Studie mit vorab festgelegter Lesart auch für „kein Schaden“.
+- **Offene Designfrage:** Messzeitpunkt. Bei 2000 Schritten sind EXP-016-Läufe meist schon generalisiert (gen 500–975); für neue Aufgaben (EXP-048: nicht-modular) erst nach Kenntnis der gen-Schritte aus der Pilotnacht festlegen.
+

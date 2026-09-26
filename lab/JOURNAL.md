@@ -1125,3 +1125,13 @@ Commit 6bf7775; `queue_s9.sh` = queue_s8 mit EXP-036 nach EXP-035.
 **15:02 EXP-020 Seed 32 (beschreibend, 3/5 Seeds):** gültig, d = −4 (t=0), −4 (10), −3 (25), **+3 (50)**, +3 (150…∞), monoton, gen_F = 1225
 → stützt H20, Intervall wieder **(25, 50]** (3/3 Seeds identisch). Nachtrag c: Train-Acc „nur F“ bei Schritt 50 = 0.102 ≤ 0.5
 → erfüllt (2/2 der Seeds 31–34). Nachtrag d (Exploration): fremd 13 (t = 10), 8, 13 (t = 25, 50), keine bei t ≥ 150.
+
+**Zyklus 4 (15:03): Ist die Festlegung dauerhaft oder nur langsam? (EXP-020, beschreibend, ohne Training).** Einwand: EXP-020 misst K
+nach nur 2000 G-Schritten; bei Weight Decay 1.0 (Zeitskala ≈ 1/(lr·wd) = 1000 Schritte) könnte das Netz später doch zu G wandern
+(vgl. Primacy Bias, Lyle et al. 2025). Messung: Leistungsanteil der Zielfrequenzen F bzw. G im W_E-Spektrum während der G-Phase,
+Läufe t = 150, 400, 1000, Seeds 30–32. *Ergebnis:* Der F-Anteil **steigt** in der G-Phase weiter (Seed 30, t = 150: 0.36 → 0.91;
+Seed 31: 0.40 → 0.82; Seed 32: 0.30 → 0.76), der G-Anteil fällt (0.068 → 0.010; 0.056 → 0.007) bzw. bleibt bei Seed 32 flach
+(≈ 0.07, weil G-Ziel 22 = 2 · 11 die Oberwelle eines F-Ziels ist). Kein Trend zu G über 2–8 Weight-Decay-Zeitkonstanten.
+Deutung: Sobald das Netz mit F-Frequenzen generalisiert, löst es auch alle G-Paare; es gibt keinen Gradienten zu G mehr,
+die Festlegung vertieft sich. *Entscheidung:* kein Langlauf-Versuch (erwarteter Erkenntnisgewinn gering), Einwand als
+beschreibend beantwortet notiert. Grenze: 3 Seeds, 2000–2850 G-Schritte, keine Aussage über viel längere Zeiträume.

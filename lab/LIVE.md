@@ -10,7 +10,7 @@ tags: [lab/live]
 
 ## Gerade
 
- läuft: EXP-020 Seed 33 (danach 34, je ~40 min, bis ~16:25). Dann EXP-035 (Warmup).
+Die Warteschlange queue_s8.sh läuft: EXP-020 Seed 33 (danach 34, je ~40 min, bis ~16:25). Dann EXP-035 (Warmup).
 
 ## Als Nächstes
 

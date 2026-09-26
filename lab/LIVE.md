@@ -16,10 +16,11 @@ Zielen) trainiert: Ab welchem t bleibt die erste Neigung? Das misst, *wann* sich
 
 ## Als Nächstes
 
-Kette läuft von selbst weiter: EXP-027 (Breite, 20 Läufe) → EXP-025 (20) → dann EXP-031 (falls Codex-Prüfung ok) → `queue_s5.sh`.
+Kette läuft von selbst weiter: EXP-027 (Breite, 20 Läufe) → EXP-025 (20) → `queue_s5.sh`. (EXP-031 nach Codex zurückgestellt.)
 
 ## Verlauf dieser Sitzung
 
+- 10:10 EXP-031 zurückgestellt: Codex zeigte, dass der Versuch so nicht trennen kann, ob die Init oder der Split wirkt. Umbau später.
 - 10:02 **Neu: EXP-031 vorab festgelegt:** Eingriff statt Korrelation. Einbettung von Lauf A bei Schritt 500 in Lauf B verpflanzen; folgt die Frequenzwahl A oder B? Codex prüft.
 - 09:59 **EXP-030: Die Wirkung des Splits auf die Endfrequenzen läuft fast vollständig über den Zustand der Einbettung bei Schritt 250** (10/10 Seeds). Codex hatte diese Prüfung verlangt.
 - 09:53 Kontrolle: Der Abdruck ist spezifisch für die eigene Trainingsmaske (fremde Masken: ≈ 0).

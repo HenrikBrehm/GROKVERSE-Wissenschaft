@@ -781,7 +781,7 @@ gestartet (Fenster war offen, ~5 s, nur numpy). Künftig auch solche Tests über
 Nutzers mitgenommen; sofort mit `git reset --soft HEAD~1` zurückgenommen, nur das README neu committet. Arbeitsbaum
 unverändert, die Nutzerdateien sind wieder uncommittet (`git status` geprüft).
 
-**Zyklus 2 (09:19–09:24): EXP-024 Arm Q ausgewertet (vorab festgelegt).** 19/19 gültig, alle generalisieren (Test 1.0).
+**Zyklus 2 (09:16–09:20): EXP-024 Arm Q ausgewertet (vorab festgelegt).** 19/19 gültig, alle generalisieren (Test 1.0).
 ov_H 1.11, ov_F 0.21 (Zufall 0.45), d̄ +0.89, Vorzeichentest p = 0.0017, Kontrolle m·F 0.44. **Urteil: richtungsgleich,
 n. s.** (Mindestgröße ov_H ≥ 2 verfehlt). Richtung wie von der Nutzenrechnung vorhergesagt, Größe weit darunter (3.25
 im Nutzen). Post hoc: ov_H wächst langsam (0.53 → 1.11), keine scharfe Frühwahl; das gewichtete Spektrum ist **fast flach**

@@ -82,7 +82,7 @@ Wichtige Abweichung: Das trainierte R-Netz hat keinen Bias (Nachtrag a), der Nut
 
 **Neuheit:** vorläufig, siehe [[NOVEL_DIRECTIONS]] N11 (Suche folgt).
 
-## Ergebnis Arm Q (primär), Sitzung 7, 09:21 Berlin
+## Ergebnis Arm Q (primär), Sitzung 7, 09:17 Berlin
 
 `analyze.py` über den Wächter, 19/19 Läufe gültig (alle 5000 Schritte, endlich, Test-Genauigkeit 1.0 in allen Läufen).
 

@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 08:59 Berlin (06:59Z, vom Runner)
 - **Deadline:** 2026-09-26 11:59 Berlin (09:59Z)
-- **Zuletzt aktualisiert:** 09:25 Berlin
+- **Zuletzt aktualisiert:** 09:20 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
@@ -20,7 +20,7 @@ EXP-024 auswerten → EXP-026 (30 Läufe, ~42 min) → EXP-025 (20 Läufe) → `
 
 ## Verlauf dieser Sitzung
 
-- 09:24 **EXP-024 Arm Q: richtungsgleich, n. s.** Das x²-Netz neigt sich wie vorhergesagt zu den halben Zielen (p = 0.002), aber nur schwach (1.1 statt ≥ 2 von 5). Überraschung: Das Netz nutzt fast *alle* Frequenzen gleich stark; der Split kippt nur die Gewichtung.
+- 09:18 **EXP-024 Arm Q: richtungsgleich, n. s.** Das x²-Netz neigt sich wie vorhergesagt zu den halben Zielen (p = 0.002), aber nur schwach (1.1 statt ≥ 2 von 5). Überraschung: Das Netz nutzt fast *alle* Frequenzen gleich stark; der Split kippt nur die Gewichtung.
 - 09:15 Codex hat EXP-026 zerlegt (6 Einwände, alle berechtigt). Umgebaut zu einem Umschaltversuch: bis Schritt t mit Aktivierung 3x + x², danach x². Ab welchem t bleibt die Wahl?
 - 09:08 **Neu: EXP-026 vorab festgelegt.** Rechnung: Der ungerade Teil einer Aktivierung lenkt auf die Ziele, der gerade auf die halben Ziele. Der Umschlagpunkt soll zeigen, *wann* im Training die Frequenzwahl fällt.
 - 09:01 Literatur geprüft: He et al. 2026 bestätigt, dass ReLU-Endlösungen auf dem geraden Anteil beruhen.

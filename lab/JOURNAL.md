@@ -792,3 +792,11 @@ vor jedem ihrer Läufe. Auswerter-Test EXP-026 diesmal über den Wächter (5/5).
 *Kritik an mir selbst:* Die Schwelle ov_H ≥ 2 stammt aus dem Nutzen am Start; dass trainierte breite x²-Netze ein flaches
 Spektrum haben, hätte ich vorher aus der Max-Margin-Literatur wissen können. Neue Versuche mit diesem Modell brauchen von
 Anfang an Anteilsmaße.
+
+**Zyklus 3 (09:22): Folgefrage aus dem flachen Spektrum: Muss ein schmales Netz auswählen?** Morwani et al. 2023 (Thm 7,
+am Volltext geprüft): Max-Margin-Lösungen nutzen jede Frequenz, ab Breite 4(p−1) = 448. EXP-024 lief mit 512, also
+musste das Netz nicht auswählen. → [[experiments/EXP-027-width-selection/README|EXP-027]] vorab festgelegt: Breiten 32/64/128
+(512 aus EXP-026 t_s = 0, rechnerisch identisch), Seeds 10–14 F, primär Spearman(−w, Anteil H − Anteil F), Permutation
+innerhalb der Splits. `train_sigma.py` hat dafür `--width` bekommen (Standard 512, EXP-026 unverändert). EXP-027 ist ans
+Ende der EXP-026-Warteschlange gehängt (die laufende `queue_s7.sh` wurde nicht verändert). Ohne Codex-Review (kleine
+Erweiterung, gleicher Auswertetyp wie EXP-026); das ist eine Grenze.

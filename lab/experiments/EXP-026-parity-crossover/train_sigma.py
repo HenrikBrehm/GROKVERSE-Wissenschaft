@@ -61,6 +61,7 @@ def main() -> None:
     ap.add_argument("--alpha", type=float, required=True)
     ap.add_argument("--switch-step", type=int, default=-1, help="-1 = never; else alpha -> --alpha-after from this step on")
     ap.add_argument("--alpha-after", type=float, default=0.0)
+    ap.add_argument("--width", type=int, default=D, help="hidden neurons (EXP-027); default 512 as EXP-024/026")
     ap.add_argument("--steps", type=int, default=5000)
     ap.add_argument("--init-scale", type=float, default=0.1)
     ap.add_argument("--lr", type=float, default=1e-3)
@@ -89,8 +90,8 @@ def main() -> None:
 
     torch.manual_seed(a.seed if a.init_seed is None else a.init_seed)
     torch.set_num_threads(4)
-    W_in = torch.nn.Parameter(torch.randn(2 * P, D) * a.init_scale / np.sqrt(2 * P))
-    W_out = torch.nn.Parameter(torch.randn(D, P) * a.init_scale / np.sqrt(D))
+    W_in = torch.nn.Parameter(torch.randn(2 * P, a.width) * a.init_scale / np.sqrt(2 * P))
+    W_out = torch.nn.Parameter(torch.randn(a.width, P) * a.init_scale / np.sqrt(a.width))
     params = [W_in, W_out]
     opt = torch.optim.AdamW(params, lr=a.lr, weight_decay=a.wd, betas=(0.9, 0.98))
     cur = {"alpha": a.alpha}
@@ -99,7 +100,7 @@ def main() -> None:
     def fwd(xa, xb):
         return act(W_in[xa] + W_in[P + xb]) @ W_out
 
-    sw = "" if a.switch_step < 0 else f"_sw{a.switch_step}to{a.alpha_after:g}"
+    sw = ("" if a.switch_step < 0 else f"_sw{a.switch_step}to{a.alpha_after:g}") + ("" if a.width == D else f"_w{a.width}")
     run_id = (f"EXP-026_a{a.alpha:g}{sw}_seed{a.seed}_random" if a.random_split else f"EXP-026_a{a.alpha:g}{sw}_seed{a.seed}_{a.arm}") + ("" if a.init_seed is None else f"_init{a.init_seed}")
     out_dir = Path(a.out) / run_id
     out_dir.mkdir(parents=True, exist_ok=True)

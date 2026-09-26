@@ -13,3 +13,5 @@ for TS in 0 -1 250 1000 50 2500; do
   done
 done
 echo "[exp026] all done"
+# EXP-027 (width vs selection) needs the t_s = 0 runs above; chained here so it runs right after EXP-026.
+sh lab/experiments/EXP-027-width-selection/queue.sh || exit $?

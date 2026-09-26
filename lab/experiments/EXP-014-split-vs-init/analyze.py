@@ -9,10 +9,14 @@ import itertools
 import json
 from pathlib import Path
 
+import sys
+
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
 LAB = HERE.parents[1]
+sys.path.insert(0, str(LAB / "experiments/EXP-015-mask-spectrum"))
+sys.path.insert(0, str(LAB / "experiments/EXP-015-mask-spectrum/posthoc"))
 BASE = LAB / "experiments/EXP-003-early-prediction/raw_d/EXP-001_baseline_t2000_m5_seed{s}_thr4"
 CROSS = HERE / "raw/EXP-014_baseline_t2000_m5_seed{i}_thr4_split{j}"
 SEEDS = list(range(10, 20))
@@ -90,6 +94,14 @@ def cross_row(i: int, j: int) -> dict:
         return r
     kc, ki, kj = set(c["final_top_m_freqs"]), set(bi["final_top_m_freqs"]), set(bj["final_top_m_freqs"])
     r.update({"valid": True, "ov_init": len(kc & ki), "ov_split": len(kc & kj)})
+    # Nachtrag b (session 5): rank predictors for K_cross: coherent mask spectrum of the USED split j vs of the init's
+    # own (unused) split i, and the init power E0 of init i (step-0 spectrum of the cross run)
+    import mask_spectrum as ms
+    from coherent_m0 import m0c
+    K = sorted(kc)
+    r.update({"rbar_M0c_used_split": ms.p12.rbar(m0c(ms.mask_matrix(j)), K),
+              "rbar_M0c_own_split": ms.p12.rbar(m0c(ms.mask_matrix(i)), K),
+              "rbar_E0_init": ms.p12.rbar(cs[cst.index(0)], K)})
     return r
 
 
@@ -123,6 +135,13 @@ def main() -> None:
                     "p_ov_split_vs_chance": chance_p(osp, len(rows)),
                     "verdict": "Split dominiert" if D.mean() > 0 and p < ALPHA else
                     ("Init dominiert (Richtung entgegen Erwartung)" if D.mean() < 0 else "kein Nachweis")})
+        # Nachtrag b: per unit, mean over both directions of rbar(own split) - rbar(used split); > 0 = used split predicts
+        dm = np.array([np.mean([r["rbar_M0c_own_split"] - r["rbar_M0c_used_split"] for r in u["rows"]]) for u in valid])
+        out["secondary_Nachtrag_b"] = {
+            "rbar_M0c_used_split": float(np.mean([r["rbar_M0c_used_split"] for r in rows])),
+            "rbar_M0c_own_split": float(np.mean([r["rbar_M0c_own_split"] for r in rows])),
+            "rbar_E0_init": float(np.mean([r["rbar_E0_init"] for r in rows])),
+            "p_used_split_better": one_sided_p(dm)}
     (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "units"}, indent=1))
     for u in units:

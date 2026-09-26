@@ -50,3 +50,14 @@ von [[experiments/EXP-015-mask-spectrum/README|EXP-015]], festgelegt vor jedem K
 kleinste p = 1/32; *Split dominiert* verlangt also D_u > 0 in (fast) allen Paaren. Weniger als 5 gültige Einheiten:
 *nicht auswertbar*. Die Zufallsvergleiche ov gegen 0.45 bleiben sekundär.
 Befehl je Richtung: `freq_ban.py --seed a --split-seed b --condition baseline --stop-after-gen 25 --out-root lab/experiments/EXP-014-split-vs-init/raw`.
+
+## Nachtrag b (2026-09-26 06:59 Berlin, Sitzung 5, **vor jedem Kreuzlauf**, Primärgröße unverändert)
+
+Neue Sekundärgröße aus den Befunden von Sitzung 5 (kohärentes Masken-Spektrum M0c, EXP-019): Für jeden Kreuzlauf
+(Init i, Split j) r̄ der finalen Menge K_cross unter M0c des **benutzten** Splits j und unter M0c des **eigenen, nicht
+benutzten** Splits i der Init, dazu unter der Init-Leistung E0 von i. Test: pro Paar-Einheit Mittel von
+r̄(eigener Split) − r̄(benutzter Split) über beide Richtungen, einseitiger Vorzeichen-Permutationstest (> 0 = der
+benutzte Split sagt voraus). Erwartung nach EXP-015/016: r̄(benutzt) ≈ 0.2–0.3, r̄(eigen) ≈ 0.5. Bausteine an Baseline 10
+geprüft (eigener Split 0.175, fremder 0.669, E0 0.404). Nachbarbefund: Ein GitHub-Nachbau mit festem Split zeigt, dass
+auch die Init allein die Wahl verschiebt ([[NOVEL_DIRECTIONS]] N3); ein Ergebnis „kein dominanter Faktor“ bei der
+Primärgröße wäre damit gut vereinbar.

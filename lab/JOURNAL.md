@@ -1427,3 +1427,10 @@ Split neigt die Wahl nur. Nach dem Wechsel lernt das Netz G mit den vorhandenen 
 F-Vorsprung die pro Schritt wirkende G-Neigung überwiegt. Prüfbare Folgerungen: spätere Festlegung bei stärker konzentriertem G;
 P41b eher *überschrieben* (als Erwartung in EXP-041 notiert, Regeln unverändert). Testskizze (eps-Variation) in N22, nicht festgelegt,
 weil die Queue voll ist. *Ergebnis:* neue Hypothese mit zwei Vorhersagen, keine Daten.
+
+**Zyklus 15 (18:28–18:31, ohne Training): H42 prüfbar machen, EXP-042.** Frage: Hängt der Festlegungszeitpunkt an der Neigung des
+neuen Splits? G-Splits mit eps 8 und 1 aus demselben Zufallsstrom wie EXP-020 (reine Rechnung; F und Testmenge fail-closed als
+bitgleich geprüft, G bei eps 2 reproduziert exakt). Zielanteil M0(G): 0.115 (eps 1), 0.18 (eps 2), 0.36 (eps 8), in allen 4 Seeds
+gleich. Vorab festgelegt (EXP-042-README, primär eps 8, Zelle *später* bei lo ≥ 50). *Ergebnis:* vorbereitet, ungetestet, in
+keiner Queue. Eigene Fehler: wieder Backticks in einem ungeschützten Heredoc (ein Wort im README fehlte, repariert, keine
+Wirkung); Betragsstriche |K ∩ F| in Tabellenzellen zerlegen Obsidian-Tabellen, in EXP-036/039/041/042 maskiert.

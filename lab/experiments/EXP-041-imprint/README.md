@@ -24,7 +24,7 @@ in den Top-5 nur ≈ 10 % der Leistung, E ≈ 18 % (EXP-018).
 |---|---|
 | **Splits** | EXP-018, Seeds 20–25: E (konstruiert, Ziele = `targets`), R (zufällig), je 3831 Paare, gemeinsame Testmenge (2554) |
 | **Läufe je Seed** | nur R, nur E (je 2000 Schritte); E → R bei t = 150; R → E bei t = 150; R → E bei t = 50 (jeweils + 2000 Schritte). Init = Seed, full batch, lr konstant |
-| **Maß** | K = Top-5 von W_E am Ende. Ex = Ziele(E) ∪ fold(2 · Ziele(E)), Rx = K_R ∪ fold(2 · K_R) (K_R = „nur R“ derselben Init), gemeinsame ausgenommen; d = |K ∩ Ex| − |K ∩ Rx| |
+| **Maß** | K = Top-5 von W_E am Ende. Ex = Ziele(E) ∪ fold(2 · Ziele(E)), Rx = K_R ∪ fold(2 · K_R) (K_R = „nur R“ derselben Init), gemeinsame ausgenommen; d = \|K ∩ Ex\| − \|K ∩ Rx\| |
 | **Gültig** | alle 5 Läufe vollständig (Schritte, Split-, Test-, Wechsel-Hashes), gleiche Init-Prüfsumme, d(nur E) > 0 > d(nur R) |
 | **P41a** | E → R @150 **gehalten**, wenn d > 0 |
 | **P41b** | R → E @150 **gehalten**, wenn d < 0 (die Wahl bleibt bei R) |

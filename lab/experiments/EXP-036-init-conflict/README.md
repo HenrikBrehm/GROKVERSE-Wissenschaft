@@ -93,7 +93,7 @@ vorher mit einem Smoke (fail-closed).
 | **Frage** | Sind die neuen fremden Frequenzen die, die **beide** Datensätze **vor** dem Festlegungsfenster (Schritt 25–50) anschieben? Und ist das enger als das Init-Spektrum? |
 | **Einheit** | Paar (wie Nachtrag a), nur auswertbare Paare (alle Läufe gültig, F_new nicht leer) |
 | **Kandidaten** | C = {1..56} \ A (A exakt wie im Haupttest, reine Läufe derselben neuen Init) |
-| **Maß** | Wachstum Δ_X(k) = Leistung(τ) − Leistung(0) im reinen Lauf X ∈ {F, G}, τ = **20**; Rang in C; S(k) = **max**(Rang_F, Rang_G) (konjunktiv), Gleichstand nach Rang_F + Rang_G, dann k; q(k) = Position/|C| |
+| **Maß** | Wachstum Δ_X(k) = Leistung(τ) − Leistung(0) im reinen Lauf X ∈ {F, G}, τ = **20**; Rang in C; S(k) = **max**(Rang_F, Rang_G) (konjunktiv), Gleichstand nach Rang_F + Rang_G, dann k; q(k) = Position/\|C\| |
 | **Paarstatistik** | q_p = Mittel von q über F_new; q_init,p ebenso mit C nach Init-Leistung geordnet |
 | **Test 1 (gegen Zufall)** | Erfolg, wenn q_p ≤ 0.25. Unter H0 (F_new unabhängig von S innerhalb C) gilt P(q_p ≤ 0.25) ≤ 0.25 (Selbsttest per Monte Carlo), also konservativ X ~ Bin(m, 0.25). m < 5 → *nicht auswertbar*; P(X ≥ k) < 0.05 → ***gestützt*** (bei m = 7: ≥ 5 Erfolge; m = 5: ≥ 4); k/m ≤ 0.25 → *nicht gestützt*; sonst *unklar* |
 | **Test 2 (gegen Init)** | Erfolg, wenn q_p < q_init,p; einseitiger Vorzeichentest über Paare, p < 0.05 → *enger als Init*; k/m ≤ 0.5 → *nicht enger*; sonst *unklar* |

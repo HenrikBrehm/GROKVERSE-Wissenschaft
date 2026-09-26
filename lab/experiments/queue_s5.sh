@@ -22,7 +22,7 @@ exp018() {
       --test-file $S18/seed${S}_test.npy --out-root $R/EXP-018-split-speed/raw
   done; done
 }
-while ps -ef | grep -v grep | grep -q "guarded_run.py"; do sleep 10; done
+while ps -ef | grep -v grep | grep "guarded_run.py" | grep -v -q -- "--device cuda"; do sleep 10; done
 for S in 16 17 18 19; do
   run 7 --seed $S --condition baseline --steps 2000 --split-file $S16/split_seed${S}_eps2.0.npy --out-root $R/EXP-016-engineered-split/raw
   run 7 --seed $S --condition baseline --steps 2000 --split-file $S16/split_seed${S}_eps2.0_G.npy --out-root $R/EXP-016-engineered-split/raw

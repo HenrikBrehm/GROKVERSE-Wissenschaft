@@ -5,7 +5,7 @@
 F=lab/experiments/EXP-001-freq-ban/freq_ban.py
 X=lab/experiments/EXP-042-bias-strength
 run() { mm=$1; shift; python lab/tools/guarded_run.py --min-minutes $mm -- python $F "$@"; rc=$?; [ $rc -eq 0 ] || { echo "[exp042] stop, rc=$rc"; exit $rc; }; }
-while ps -ef | grep -v grep | grep -q "guarded_run.py"; do sleep 10; done   # Codex: one job at a time
+while ps -ef | grep -v grep | grep "guarded_run.py" | grep -v -q -- "--device cuda"; do sleep 10; done   # Codex: one job at a time
 python lab/tools/guarded_run.py --min-minutes 1 -- python $X/analyze.py --selftest || { echo "[exp042] selftest failed"; exit 1; }
 # Nachtrag a: own only-F reference per seed (same code/environment; also a reproducibility check against EXP-020)
 for S in ${*:-30 31 32 34}; do

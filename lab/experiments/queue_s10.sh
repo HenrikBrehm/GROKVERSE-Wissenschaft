@@ -8,7 +8,7 @@ R=lab/experiments
 part() { d=$1; shift; sh $R/$d/queue.sh "$@"; rc=$?; [ $rc -eq 0 ] && return 0
   [ $rc -eq 3 ] && { echo "[queue10] $d refused by guard (rc 3), stop"; exit 3; }
   echo "[queue10] $d failed (rc $rc), continuing with the next experiment"; }
-while ps -ef | grep -v grep | grep -q "guarded_run.py"; do sleep 10; done
+while ps -ef | grep -v grep | grep "guarded_run.py" | grep -v -q -- "--device cuda"; do sleep 10; done
 part EXP-035-warmup-lockin 30 31 32 34   # session 10: seed 34 added (design allows more seeds if budget)
 python lab/tools/guarded_run.py -- python $R/EXP-035-warmup-lockin/analyze.py || echo "[queue10] EXP-035 analysis failed (continuing)"
 part EXP-038-where-lockin

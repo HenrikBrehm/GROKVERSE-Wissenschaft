@@ -6,7 +6,7 @@ F=lab/experiments/EXP-001-freq-ban/freq_ban.py
 SP=lab/experiments/EXP-018-split-speed/splits
 O=lab/experiments/EXP-041-imprint/raw
 run() { mm=$1; shift; python lab/tools/guarded_run.py --min-minutes $mm -- python $F "$@" --out-root $O; rc=$?; [ $rc -eq 0 ] || { echo "[exp041] stop, rc=$rc"; exit $rc; }; }
-while ps -ef | grep -v grep | grep -q "guarded_run.py"; do sleep 10; done   # one job at a time
+while ps -ef | grep -v grep | grep "guarded_run.py" | grep -v -q -- "--device cuda"; do sleep 10; done   # one job at a time
 python lab/tools/guarded_run.py --min-minutes 1 -- python lab/experiments/EXP-041-imprint/analyze.py --selftest || { echo "[exp041] selftest failed"; exit 1; }
 for S in ${*:-20 21 22 23 24 25 26 27 28 29}; do
   for A in R E; do

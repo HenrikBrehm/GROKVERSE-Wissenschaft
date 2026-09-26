@@ -201,7 +201,9 @@ def previous_status(path: Path) -> str | None:
 
 
 def run(a: argparse.Namespace) -> dict:
-    cfg = get_config("arch25k", seed=a.seed, steps=a.steps, threads=a.threads)
+    if (a.p, a.task) != (113, "add") and (a.split_file is None or a.split_seed is not None or a.condition != "baseline"):
+        raise SystemExit("--p/--task other than 113/add only with --split-file and --condition baseline (EXP-043)")
+    cfg = get_config("arch25k", seed=a.seed, steps=a.steps, threads=a.threads, p=a.p, task=a.task)
     p = cfg.p
     exp_id = EXP_ID_BY_CONDITION.get(a.condition, EXP_ID)
     if a.split_seed is not None:     # EXP-014: data split from another seed, init from --seed
@@ -220,6 +222,9 @@ def run(a: argparse.Namespace) -> dict:
             exp_id = "EXP-020"
             run_id = (f"{exp_id}_{a.condition}_seed{a.seed}_thr{a.threads}_{Path(a.split_file).stem}"
                       f"_to_{Path(a.switch_split_file).stem}_at{a.switch_step}")
+        if (a.p, a.task) != (113, "add"):          # EXP-043: other modulus / multiplication (split stem names the task)
+            exp_id = "EXP-043"
+            run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_{a.task}{a.p}"
     elif a.test_file is not None or a.switch_split_file is not None:
         raise SystemExit("--test-file / --switch-split-file need --split-file")
     if a.warmup:                     # EXP-035: linear learning-rate warmup (default 0 = unchanged behaviour)
@@ -246,6 +251,10 @@ def run(a: argparse.Namespace) -> dict:
     if a.split_value:                # EXP-023: position 1 gets its own attention value matrix
         exp_id = "EXP-023"
         run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_sv{a.split_value}"
+    if a.device != "cpu":            # rule 16: GPU runs get their own run_id, never mixed with CPU runs of an experiment
+        if not a.device.startswith("cuda") or not torch.cuda.is_available():
+            raise SystemExit(f"[exp] device {a.device!r} not available (torch.cuda.is_available() is False)")
+        run_id += "_dev" + a.device.replace(":", "")
     extra_spec = {int(x) for x in a.spectra_at.split(",") if x.strip()}   # logging only: run_id unchanged
     if any(x < 1 for x in extra_spec):
         raise SystemExit("--spectra-at needs steps >= 1")
@@ -317,6 +326,9 @@ def run(a: argparse.Namespace) -> dict:
             num = model.W_E[:p]
             mean = num.mean(dim=0, keepdim=True)
             model.W_E[:p] = mean + a.we_init_scale * (num - mean)
+    dev = torch.device(a.device)       # rule 16: init is built on the CPU (identical weights), then moved
+    model = model.to(dev)
+    trx, try_, tex, tey = (t.to(dev) for t in (trx, try_, tex, tey))
     keep_init = bool(a.warmup or a.reset_at_switch or a.lr_scale != 1.0 or a.we_init_scale != 1.0)
     init_params = [q.detach().clone() for q in model.parameters()] if keep_init else []   # EXP-035/038
     we_idx = next((i for i, q in enumerate(model.parameters()) if q is model.W_E), None) if keep_init else None
@@ -326,23 +338,23 @@ def run(a: argparse.Namespace) -> dict:
 
     events: dict = {}
     if a.condition in INIT_CONDITIONS:   # numpy only: consumes no torch RNG, so data/weights match baseline
-        W0 = model.W_E.detach().numpy().astype(np.float64)[:p]
+        W0 = model.W_E.detach().cpu().numpy().astype(np.float64)[:p]
         pw0 = freq_power(W0, basis)
         pairs = swap_pairs(pw0, a.m, a.seed + SWAP_SALT)
         swap_fn = (swap_frequency_coefficients if a.condition == "init_swap"
                    else magswap_frequency_coefficients)
         with torch.no_grad():
-            model.W_E[:p] = torch.tensor(swap_fn(W0, basis, pairs), dtype=model.W_E.dtype)
+            model.W_E[:p] = torch.tensor(swap_fn(W0, basis, pairs), dtype=model.W_E.dtype, device=dev)
         events[a.condition] = {"pairs": pairs, "power_before": pw0.tolist(),
                                "power_after": freq_power(
-                                   model.W_E.detach().numpy().astype(np.float64)[:p], basis).tolist()}
+                                   model.W_E.detach().cpu().numpy().astype(np.float64)[:p], basis).tolist()}
 
     ban_from = 1 if a.condition == "ban_destined" else a.t0
     banned: list[int] | None = None
     proj: torch.Tensor | None = None
     if a.condition == "ban_destined":
         banned = top_frequencies(freq_power(_stored_final_W_E(a.seed, p), basis), a.m)
-        proj = torch.tensor(ban_projector(basis, banned), dtype=model.W_E.dtype)
+        proj = torch.tensor(ban_projector(basis, banned), dtype=model.W_E.dtype, device=dev)
 
     dense = {"train_steps": [], "train_acc": [], "train_loss": [], "test_steps": [],
              "test_acc": [], "test_loss": [], "eval_every_train": cfg.eval_every_train,
@@ -354,6 +366,7 @@ def run(a: argparse.Namespace) -> dict:
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
            "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "lr_scale_until": LR_SCALE_UNTIL, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "spectra_at": sorted(extra_spec),
+           "device": a.device, "device_name": (torch.cuda.get_device_name(dev) if dev.type == "cuda" else platform.processor()),
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "test_hash": split_hash(data["test_idx"]),
@@ -374,10 +387,10 @@ def run(a: argparse.Namespace) -> dict:
 
     def spectrum(step: int) -> None:
         spectra_steps.append(step)
-        spectra.append(freq_power(model.W_E.detach().numpy().astype(np.float64)[:p], basis))
+        spectra.append(freq_power(model.W_E.detach().cpu().numpy().astype(np.float64)[:p], basis))
         if extra_spec and (step == 0 or step in extra_spec):
             we_snap_steps.append(step)
-            we_snaps.append(model.W_E.detach().numpy()[:p].astype(np.float32).copy())
+            we_snaps.append(model.W_E.detach().cpu().numpy()[:p].astype(np.float32).copy())
 
     def write(status: str) -> None:
         res.update({"status": status, "steps_completed": step, "banned_freqs": banned,
@@ -385,6 +398,8 @@ def run(a: argparse.Namespace) -> dict:
                     "transitions": all_transitions(dense) if dense["test_steps"] else None,
                     "elapsed_s": round(time.perf_counter() - t_start, 1),
                     "sec_per_step": round((time.perf_counter() - t_start) / max(step, 1), 5)})
+        if dev.type == "cuda":        # rule 16c: memory per process, to size parallel GPU runs
+            res["cuda_max_mem_mb"] = round(torch.cuda.max_memory_allocated(dev) / 2**20, 1)
         np.save(out_dir / "spectra.npy", np.asarray(spectra))
         np.save(out_dir / "spectra_steps.npy", np.asarray(spectra_steps))
         if we_snaps:
@@ -421,10 +436,10 @@ def run(a: argparse.Namespace) -> dict:
                 d_we = float((model.W_E - init_params[we_idx]).norm())
             events["displacement_at_switch"] = {"all": d_all, "W_E": d_we}
         if a.condition not in ("baseline",) + INIT_CONDITIONS and step == ban_from:
-            W_now = model.W_E.detach().numpy().astype(np.float64)[:p]
+            W_now = model.W_E.detach().cpu().numpy().astype(np.float64)[:p]
             if banned is None and a.condition != "shrink_matched":
                 banned = _choose_ban(a.condition, W_now, basis, a.m, a.seed)
-                proj = torch.tensor(ban_projector(basis, banned), dtype=model.W_E.dtype)
+                proj = torch.tensor(ban_projector(basis, banned), dtype=model.W_E.dtype, device=dev)
             events["pre_ban_acc"] = {"train": evaluate(model, trx, try_, p)[1],
                                      "test": evaluate(model, tex, tey, p)[1]}
             events["power_at_ban"] = freq_power(W_now, basis).tolist()
@@ -432,7 +447,7 @@ def run(a: argparse.Namespace) -> dict:
                 factor = shrink_factor(np.asarray(events["power_at_ban"]), a.m)
                 with torch.no_grad():
                     model.W_E[:p] = torch.tensor(shrink_nonconstant(W_now, basis, factor),
-                                                 dtype=model.W_E.dtype)
+                                                 dtype=model.W_E.dtype, device=dev)
                 events["shrink_factor"] = factor
                 events["post_ban_acc"] = {"train": evaluate(model, trx, try_, p)[1],
                                           "test": evaluate(model, tex, tey, p)[1]}
@@ -451,11 +466,11 @@ def run(a: argparse.Namespace) -> dict:
                    "F_and_G": np.intersect1d(old, switch_idx.numpy())}    # Codex review: new pairs separately
             events["switch"] = {"step": step, "train_acc_before": evaluate(model, trx, try_, p)[1],
                                 "new_train_hash": split_hash(switch_idx),
-                                **{f"acc_{k}": evaluate(model, data["all_x"][torch.from_numpy(v)],
-                                                        data["all_y"][torch.from_numpy(v)], p)[1]
+                                **{f"acc_{k}": evaluate(model, data["all_x"][torch.from_numpy(v)].to(dev),
+                                                        data["all_y"][torch.from_numpy(v)].to(dev), p)[1]
                                    for k, v in sub.items() if len(v)},
                                 **{f"n_{k}": int(len(v)) for k, v in sub.items()}}
-            trx, try_ = data["all_x"][switch_idx], data["all_y"][switch_idx]
+            trx, try_ = data["all_x"][switch_idx].to(dev), data["all_y"][switch_idx].to(dev)
             if a.reset_at_switch:    # EXP-038: selected parameters back to their init, their AdamW state cleared
                 params = list(model.parameters())
                 sel = [(i == we_idx) == (a.reset_at_switch == "we") for i in range(len(params))]
@@ -479,7 +494,7 @@ def run(a: argparse.Namespace) -> dict:
         elif a.alternate_every and step < a.switch_step and step % a.alternate_every == 0:
             # EXP-037: block k = steps (k-1)A+1 .. kA trains on F for odd k, on G for even k
             nxt = switch_idx if (step // a.alternate_every) % 2 == 1 else data["train_idx"]
-            trx, try_ = data["all_x"][nxt], data["all_y"][nxt]
+            trx, try_ = data["all_x"][nxt].to(dev), data["all_y"][nxt].to(dev)
             events["alternations"] = events.get("alternations", 0) + 1
             events.setdefault("alternation_trace", []).append([step, split_hash(nxt)])   # Codex: behavioural check
         dense_eval(step)
@@ -495,7 +510,7 @@ def run(a: argparse.Namespace) -> dict:
             break
     if step % SPECTRUM_EVERY and step not in extra_spec:
         spectrum(step)
-    final_power = freq_power(model.W_E.detach().numpy().astype(np.float64)[:p], basis)
+    final_power = freq_power(model.W_E.detach().cpu().numpy().astype(np.float64)[:p], basis)
     res["final_top_m_freqs"] = top_frequencies(final_power, a.m)
     res["final_acc"] = {"train": evaluate(model, trx, try_, p)[1],
                         "test": evaluate(model, tex, tey, p)[1]}
@@ -543,6 +558,9 @@ def main() -> None:
                     help="EXP-040: scale the non-DC part of W_E[:p] by s right after init (checksum = plain init; 1.0 = off)")
     ap.add_argument("--spectra-at", default="",
                     help="EXP-036 Nachtrag d: extra comma-separated steps with stored W_E spectra (logging only)")
+    ap.add_argument("--p", type=int, default=113, help="EXP-043: modulus (default 113 = unchanged)")
+    ap.add_argument("--task", choices=("add", "mul"), default="add", help="EXP-043: task (default add = unchanged)")
+    ap.add_argument("--device", default="cpu", help="rule 16: 'cpu' (default, unchanged) or 'cuda' (AMD ROCm via .venv-gpu)")
     ap.add_argument("--save-model", action="store_true")
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args()

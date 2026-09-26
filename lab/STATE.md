@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 06:39 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 06:53 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
@@ -14,7 +14,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 - **Neue Warteschlange:** `sh lab/experiments/queue_s5.sh` (ersetzt `queue_s4b.sh`, dieselben Läufe plus EXP-018/020,
   neue Reihenfolge). Log z. B. nach `lab/runner/logs/queue_s5.log`. Reihenfolge: EXP-016 Seeds 16–19 (je 2 × 4.5 min,
   danach Entscheidung) → EXP-003d-Baselines 18, 19 → Smoke EXP-018 und EXP-020 (+ `check_smoke.py`) → EXP-018 Seeds
-  20–24 → EXP-014 Kreuzpaare → EXP-020 → EXP-018 Seeds 25–29 → EXP-010-Tausch 11–19. Sie stoppt bei **jedem** Exit ≠ 0;
+  20–24 → EXP-014 Kreuzpaare → EXP-020 → EXP-018 Seeds 25–29 → EXP-010-Tausch 11–19. Danach `sh lab/experiments/EXP-022-single-frequency/queue.sh`
+  (15 Läufe à 13 min, Modelle gespeichert). Sie stoppt bei **jedem** Exit ≠ 0;
   fertige Läufe werden übersprungen (`freq_ban.py` endet dann seit Sitzung 5 mit 0). Neu starten = fortsetzen.
 - **Abgebrochene Läufe** stehen mit `status: running` in `result.json` und werden neu gestartet (kein Resume).
 - Vor jedem Start: `python lab/tools/guarded_run.py --check`.
@@ -47,6 +48,10 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
   richtungsgleich, n. s.); Bestätigung ohne eigene Läufe aus EXP-018 Arm R + Baselines 18/19.
 - [[experiments/EXP-020-data-switch/README|EXP-020]]: Datenwechsel F → G nach t Schritten, gleiches G-Budget:
   kausale Festlegungszeit der Frequenzwahl. Seeds 30–34.
+- [[experiments/EXP-021-harmonic-misses/README|EXP-021]]: Bestätigung „Fehlgriffe = 2k der Ziele“ an 18 frischen Läufen
+  (EXP-016 16–19, EXP-020 nur-F/nur-G), ohne eigenes Training.
+- [[experiments/EXP-022-single-frequency/README|EXP-022]]: Erzwingt ein Ein-Frequenz-Split eine Ein-Frequenz-Lösung?
+  Seeds 40–44, Arme S1/D1/S5, 6000 Schritte, funktionale Messung (`nanda`) am gespeicherten Modell.
 **Post hoc (Sitzung 5):** Die natürliche M0-Konzentration eines Zufallssplits sagt die Grokking-Zeit nicht voraus.
 **Mechanismus (Sitzung 5, post hoc, nach Codex-Angriff präzisiert):** Im ersten W_E-Gradienten interferieren linke und
 rechte Eingabeposition frequenzweise so, wie es der Kreuzterm der Maske (M0c − M0) vorhersagt (18/18 Seeds, fremde
@@ -67,7 +72,7 @@ festem Split variiert K trotzdem über Inits (GitHub-Nachbau) → Split ist nich
 1. `python lab/tools/guarded_run.py --check`, dann `sh lab/experiments/queue_s5.sh` im Hintergrund, beobachten.
 2. EXP-016 auswerten, sobald 8 Seeds da sind; EXP-015/012 Phase 2 mit n = 10 nur berichten.
 3. Nach den Smokes: `check_smoke.py` (EXP-020) und `result.json` des EXP-018-Smokes prüfen (`test_hash`, 2554 Testpaare).
-4. Auswertungen: `EXP-018-split-speed/analyze.py`, `EXP-019-coherent-mask/analyze.py`, `EXP-014-split-vs-init/analyze.py`,
+4. Auswertungen: `EXP-021-harmonic-misses/analyze.py`, `EXP-022-single-frequency/analyze.py`, `EXP-018-split-speed/analyze.py`, `EXP-019-coherent-mask/analyze.py`, `EXP-014-split-vs-init/analyze.py`,
    `EXP-020-data-switch/analyze.py`, `EXP-010-init-swap/analyze.py` (je über den Wächter, wo `make_dataset` benutzt wird).
 5. Außerhalb des Fensters: Theorie (AGF-Nutzen mit maskiertem Verlust ↔ M0c herleiten), Reverse-Kontrolle G → F für
    EXP-020 als eigenen Nachtrag erwägen, Google Scholar gezielt zu N6.

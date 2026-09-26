@@ -543,3 +543,11 @@ Ein-Frequenz-Lösung erzwingt, wurde nicht gefunden (vorläufig). Beim Bau gefun
 und nur einem Ziel erzeugt das Clipping q ≥ 0.05 Harmonische 2k, 3k, 6k im Masken-Spektrum (Seed 42: 14 → 28, 42, 29).
 S1 nutzt deshalb ε = 0.9 ohne Clipping (Top-1-Anteil 0.136–0.158 statt ≈ 0.02). Drei konkurrierende Vorhersagen im README.
 Nicht ausgeführt.
+
+**Codex-Review EXP-022** (`EXP-022-single-frequency/codex_review_2026-09-26.txt`), 5 Befunde, alle geprüft und übernommen
+(README Nachtrag a, 06:51): funktionale Primärgröße (Regel `nanda` auf W_L, gespeicherte Modelle, keep/drop-Ablation von
+f1) statt W_E-n_eff; neue Primärkontrolle D1 (S1-Gewichte innerhalb der Antidiagonalen permutiert, gleiche Abdeckung,
+Top-1-Anteil 0.02 statt 0.14); feste 6000 Schritte für alle Arme; gemeinsames Erfolgskriterium; strenge Protokollprüfung.
+Prüfung der Messwerkzeuge am Studienmodell Seed 0: `nanda` reproduziert die gespeicherte Schlüsselmenge exakt; nur die
+Schlüsselfrequenzen in W_E behalten → Test-Acc 0.995, nur eine (15) behalten → 0.054. Ein normal trainiertes Netz braucht
+also tatsächlich mehrere Frequenzen; das ist der Vergleichspunkt für S1.

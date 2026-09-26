@@ -5,19 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 05:49 Berlin (03:49Z, vom Runner)
 - **Deadline:** 2026-09-26 08:49 Berlin (06:49Z)
-- **Zuletzt aktualisiert:** 06:38 Berlin
+- **Zuletzt aktualisiert:** 06:53 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin), Wächter `--check` ok.
 
 ## Gerade
 
-Keine Trainingsläufe (Queue-Start abgelehnt, siehe [[STATE]]). Auswertung an gespeicherten Modellen: Die „Fehlgriffe“
-in EXP-016 sind 2k-Frequenzen der Ziele; sie sind im fertigen Netz nachrangig, aber nicht bedeutungslos.
+Keine Trainingsläufe (Queue-Start abgelehnt, siehe [[STATE]]). Vorbereitung neuer Versuche; alle mit Codex-Review
+nachgeschärft und nicht ausgeführt.
 
 ## Als Nächstes
 
-STATE sichern; danach Zeitverlauf der 2k-Komponenten an Studien-Checkpoints (gleiche Seeds) oder Theorie-Notiz.
+Weitere Denkarbeit bis ~08:35, dann Abschlussbericht. Nächste Sitzung im Fenster: `queue_s5.sh`, dann EXP-022.
 
 ## Verlauf dieser Sitzung
+
+- 06:51 [[experiments/EXP-022-single-frequency/README|EXP-022]] vorbereitet: Erzwingt ein Ein-Frequenz-Split eine Ein-Frequenz-Lösung? Codex-Review: 5 Befunde übernommen.
+- 06:40 [[experiments/EXP-021-harmonic-misses/README|EXP-021]] vorab festgelegt (Bestätigung der 2k-Fehlgriffe an frischen Läufen). M0c geschlossen hergeleitet: misst die Kommutations-Asymmetrie des Splits.
 
 - 06:38 Ablation an Studienmodellen: 2k-Frequenzen sind die unwichtigsten der Top-5 (8/8), aber nicht null; Phasenkopplung nur teilweise.
 - 06:35 **Direkte Messung:** Linke und rechte Eingabeposition interferieren im ersten Gradienten frequenzweise wie vom Masken-Kreuzterm vorhergesagt (18/18 Seeds). Codex-Angriff auf die Schlussfolgerungen: 5 Befunde, Formulierungen zurückgestuft.

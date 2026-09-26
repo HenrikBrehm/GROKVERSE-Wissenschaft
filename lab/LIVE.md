@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 19:59 Berlin (17:59Z, vom Runner)
 - **Deadline:** 2026-09-26 22:59 Berlin (20:59Z)
-- **Zuletzt aktualisiert:** 20:33 Berlin (gemessen)
-- **Run-Fenster:** zu, wieder ab 00:00. Die nächste Sitzung (Start 00:59 Berlin) startet die Nacht-Queues. Diese Sitzung: Prüf-, Code- und Denkarbeit.
+- **Zuletzt aktualisiert:** 20:45 Berlin (gemessen)
+- **Run-Fenster:** zu. **Neu (Regel 18, Nutzer 20:30): heute Nacht Läufe erst ab 03:00.** Bis dahin setze ich den Astra-Review als Code um.
 
 ## Gerade
 
-EXP-050 ist nach der Prüfung umgebaut: Die Kontrolle stimmt jetzt in allen einfachen Eigenschaften der Trainingsmenge mit dem Testarm überein und unterscheidet sich nur in der Größe, um die es geht.
+Ich setze den Astra-Review um (Regel 18). Erledigt, aber erst ab 03:00 testbar: eindeutige Fingerabdrücke für Läufe (kein falsches Überspringen mehr), korrekte GPU-Durchsatzmessung, ein gemeinsamer Ergebnislader, ein neues Programm für die GPU-Nacht statt Shell-Skripten, STATE auf eine Seite gekürzt, FINDINGS als Forschungsprogramm A/B/C.
 
 ## Als Nächstes
 
-Prüfen, was bis zum Sitzungsende (22:59) noch sinnvoll ist, ohne weitere ungetestete Versuche aufzuhäufen.
+Tests für die Fingerabdrücke schreiben (laufen ab 03:00), dann die Auswertungen von EXP-043/044/045 auf den gemeinsamen Lader umstellen.
 
 ## Verlauf dieser Sitzung
 
+- 20:45 **Regel 18 entdeckt (Nutzer-Auftrag von 20:30)** und umgesteuert: Plan der Nacht geändert (Läufe erst ab 03:00, vorher Umbau nach dem Astra-Review). Sechs von acht Code-Punkten stehen (ungetestet).
 - 20:33 **EXP-050 verbessert:** Die Prüfung fand eine versteckte Nebenwirkung. Die gleichphasigen Trainingsmengen enthalten viel mehr „Spiegelpaare“ (a+b und b+a), und die lernt ein Netz schneller. Neue Kontrolle „quadlm“ mit gleich vielen Spiegelpaaren gebaut.
 - 20:28 GPU-001 (Eingangsprüfung der Nacht) unabhängig prüfen lassen: kein Blocker, eine Schwachstelle behoben (abgelehnte Durchsatzläufe gingen unter). Neuer Kausaltest [[experiments/EXP-050-phase-dissociation/README|EXP-050]] vorbereitet.
 - 20:23 Theorie: Eine einfache Rechnung zum ersten Lernschritt erklärt, warum im Transformer eine andere Maskengröße (M0c) passt als im MLP (M0). Vorab festgelegt, wie die sechs Nachtergebnisse zusammen zu lesen sind ([[LESART-nacht-2026-09-27]]).

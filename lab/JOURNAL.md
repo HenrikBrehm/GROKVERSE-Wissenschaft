@@ -1345,7 +1345,7 @@ anders). Messung geeignet? Das Top-5-Maß ist oberwellenanfällig; bisher haben 
 behandelt. Nächste anzugreifende Annahme: dass „Festlegung“ ein Ereignis im W_E-Spektrum ist. EXP-038 (Teil-Rücksetzen) prüft,
 wo sie sitzt.
 
-**Zyklus 5 (17:53–18:05, ohne Training): Warum Λ ≈ 25–50? Neue Hypothese H40 und EXP-040.** Aus gespeicherten EXP-035-Läufen:
+**Zyklus 5 (17:53–18:01, ohne Training): Warum Λ ≈ 25–50? Neue Hypothese H40 und EXP-040.** Aus gespeicherten EXP-035-Läufen:
 ‖W_E − W_E,0‖ am Wechsel 2.84 (Seed 30, t = 100, noch offen) bzw. 5.50 (t = 150, festgelegt), Init-Norm 10.5, Init-Amplitude pro
 Frequenz im Median 1.40. Grobe Überschlagsrechnung (Codex: unvergleichbare Größen, nur Motivation): das Datensignal erreicht beim
 Festlegen etwa die Init-Amplitude. **H40:** Die Wahl fällt, wenn das Datensignal die Init-Amplitude der Konkurrenz einholt. Unter

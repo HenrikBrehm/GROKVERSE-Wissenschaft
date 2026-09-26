@@ -409,3 +409,21 @@ letzten Schichten); nicht gefunden (vorläufig): Lokalisierung der Frequenzwahl 
 - **Nachtrag zu N15 (Sitzung 10):** He et al. 2026 beschreiben (laut Abstract) im zweischichtigen Netz, dass Init-Betrag und
   Phasenausrichtung den Frequenzwettbewerb entscheiden. Das stützt die Init-Deutung von N15 als plausible Vorannahme; EXP-036
   prüft sie im Transformer unter Datenkonflikt, was dort nicht behandelt wird.
+
+## N18: Festlegung als Amplitudenschwelle: Datensignal gegen Init-Amplitude #neu/kandidat
+
+- **Idee (Sitzung 10, aus gespeicherten EXP-035-Strecken, grob):** Die Frequenzwahl bleibt offen, solange das datengetriebene
+  Signal in W_E unter der Init-Amplitude der Konkurrenzfrequenzen liegt, und fällt, wenn es sie einholt. Unter Adam wächst die
+  Strecke ∝ Σ lr, das erklärte die Λ-Uhr (N17) und verbände sie mit N15 (Init entscheidet bei Konflikt) und mit der
+  Frequenz-Lotterie von He et al. 2026 (https://arxiv.org/abs/2602.16849). Test: [[experiments/EXP-040-we-init-scale/README|EXP-040]]
+  (Init-Skala s verschiebt das Λ-Fenster um den Faktor s), zusammen mit [[experiments/EXP-039-lr-clock/README|EXP-039]].
+- **Suche 2026-09-26 18:02 (WebSearch/WebFetch):** „initialization scale determines which features are learned early training
+  signal exceeds initialization noise feature selection timing Adam“, „grokking initialization scale embedding Fourier frequency
+  selection lottery initial magnitude modular addition“. He et al. 2026 (https://arxiv.org/abs/2602.16849, OpenReview
+  https://openreview.net/forum?id=Qc4RLl7t3S): Lotterie **innerhalb jedes Neurons** eines Zweischichtnetzes, Gewinner nach
+  Init-Betrag und Phasenfehlstellung, Theorie im Gradientenfluss bei kleiner Init; **kein Zeitpunkt abgeleitet**, keine
+  Abhängigkeit von Lernrate oder Init-Skala quantifiziert, keine Split- oder Datenwechsel-Abhängigkeit (laut Volltext-Auszug).
+  „No More Adam“ (Autoren nicht geprüft) (https://arxiv.org/abs/2412.11768): Gradienten-SNR bei der Init, andere Frage. Ergebnis:
+  **nicht gefunden** (vorläufig). Weiter nachholen: „initialization scale feature selection
+  timing“, „signal-to-init ratio critical period“, „lazy to rich transition init scale grokking“ (Kumar et al. 2023,
+  https://arxiv.org/abs/2310.06110, verbindet Init-Skala mit dem Grokking-Zeitpunkt, nicht mit der Frequenzwahl).

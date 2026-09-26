@@ -3,12 +3,17 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 17:55 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 18:02 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **SITZUNG 10 (18:02):** Neu **EXP-040** (W_E-Init-Skala, H40 Amplitudenschwelle; Nachtrag a nach Codex), **ungetestet**:
+  Selbsttest + Smoke laufen fail-closed am Anfang von `EXP-040/queue.sh`. `freq_ban.py` speichert seit 60d9ab0 bei `--spectra-at`
+  zusätzlich W_E-Schnappschüsse (`we_snapshots.npy`); dieser Pfad ist **erst durch den EXP-036-Smoke** geprüft (steht in der Queue
+  vor allen EXP-036-Läufen). Scheitert er: `freq_ban.py`, Funktion `spectrum()`, prüfen. Reihenfolge `queue_s10.sh`:
+  EXP-035 → EXP-038 → EXP-036 → EXP-039 → EXP-040 → EXP-034 → queue_s5.
 - **SITZUNG 10 (17:55):** Fenster heute zu. Neu: **EXP-039** (Lernraten-Uhr, vorab festgelegt mit Nachtrag a nach Codex, Smoke
   und Selbsttest ok), in `queue_s10.sh` nach EXP-036 eingehängt. EXP-035: Seed 30 komplett, Seed 31 t = 50 und 150 fertig
   (Queue überspringt sie). Nächstes Fenster unverändert: `sh lab/experiments/queue_s10.sh`.

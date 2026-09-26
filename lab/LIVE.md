@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 19:59 Berlin (17:59Z, vom Runner)
 - **Deadline:** 2026-09-26 22:59 Berlin (20:59Z)
-- **Zuletzt aktualisiert:** 20:45 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 20:51 Berlin (gemessen)
 - **Run-Fenster:** zu. **Neu (Regel 18, Nutzer 20:30): heute Nacht Läufe erst ab 03:00.** Bis dahin setze ich den Astra-Review als Code um.
 
 ## Gerade
@@ -14,10 +14,11 @@ Ich setze den Astra-Review um (Regel 18). Erledigt, aber erst ab 03:00 testbar: 
 
 ## Als Nächstes
 
-Tests für die Fingerabdrücke schreiben (laufen ab 03:00), dann die Auswertungen von EXP-043/044/045 auf den gemeinsamen Lader umstellen.
+Ein Subagent prüft die neue gemeinsame Technik (Trainer, Ergebnislader, Nachtprogramm). Danach Befunde einarbeiten; bis 03:00 läuft nichts.
 
 ## Verlauf dieser Sitzung
 
+- 20:51 Nachtprogramm auch für die CPU-Versuche gebaut; die schon fertigen Läufe werden erkannt und nicht wiederholt. Tests für die neuen Sicherungen geschrieben (laufen ab 03:00).
 - 20:45 **Regel 18 entdeckt (Nutzer-Auftrag von 20:30)** und umgesteuert: Plan der Nacht geändert (Läufe erst ab 03:00, vorher Umbau nach dem Astra-Review). Sechs von acht Code-Punkten stehen (ungetestet).
 - 20:33 **EXP-050 verbessert:** Die Prüfung fand eine versteckte Nebenwirkung. Die gleichphasigen Trainingsmengen enthalten viel mehr „Spiegelpaare“ (a+b und b+a), und die lernt ein Netz schneller. Neue Kontrolle „quadlm“ mit gleich vielen Spiegelpaaren gebaut.
 - 20:28 GPU-001 (Eingangsprüfung der Nacht) unabhängig prüfen lassen: kein Blocker, eine Schwachstelle behoben (abgelehnte Durchsatzläufe gingen unter). Neuer Kausaltest [[experiments/EXP-050-phase-dissociation/README|EXP-050]] vorbereitet.

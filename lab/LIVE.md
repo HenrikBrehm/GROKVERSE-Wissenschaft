@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 02:49 Berlin (00:49Z, vom Runner)
 - **Deadline:** 2026-09-26 05:49 Berlin (03:49Z)
-- **Zuletzt aktualisiert:** 04:25 Berlin
+- **Zuletzt aktualisiert:** 04:41 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin). Erste Sitzung mit Läufen.
 
 ## Gerade
 
-**Lauf:** Baseline Seed 16 (seit 04:24). Danach 17, dann EXP-016.
+**Lauf:** Baseline Seed 17 (seit 04:41), die letzte vor der Bestätigung. Danach EXP-016.
 Codex-Review der Split-Linie ist eingearbeitet (Nachträge vor jedem Lauf).
 
 ## Als Nächstes
@@ -19,6 +19,7 @@ Sobald 8 Baselines fertig sind (10–17): Bestätigung EXP-015 und EXP-012 Phase
 
 ## Verlauf dieser Sitzung
 
+- 04:41 Baseline Seed 16 fertig: gen 7425 (7 von 10).
 - 04:24 Baseline Seed 15 fertig: gen 5975 (6 von 10).
 - 04:11 Baseline Seed 14 fertig: gen 11200, langsamer Seed (5 von 10).
 - 03:47 Baseline Seed 13 fertig: gen 5275 (4 von 10).

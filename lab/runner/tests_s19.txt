@@ -1,0 +1,13 @@
+# Session 19: all pending tests/selftests for 18b2, run AFTER accept_guard.ps1 (never at the same time: it creates lab/STOP).
+#   python lab/tools/parallel_queue.py lab/runner/tests_s19.txt --workers 3 --min-minutes 5
+python lab/experiments/EXP-001-freq-ban/test_freq_ban.py
+python lab/tests/test_freq_ban_fingerprint.py
+python lab/tests/test_night_program.py
+python lab/tools/result_loader.py
+python lab/tools/trainer_guard.py --selftest
+python lab/experiments/EXP-052-oos-mask-prediction/exp052.py --selftest
+python lab/tools/pilot_power.py --selftest
+python lab/tools/confirm_splits.py --selftest
+python lab/tools/confirm_p1.py --selftest
+python lab/experiments/EXP-054-window-oos/n30_window.py --selftest
+python lab/experiments/EXP-042-bias-strength/pi_window.py --selftest

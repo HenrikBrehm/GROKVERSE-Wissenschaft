@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 17:29 Berlin (15:29Z, vom Runner)
 - **Deadline:** 2026-09-26 20:29 Berlin (18:29Z)
-- **Zuletzt aktualisiert:** 18:38 Berlin
+- **Zuletzt aktualisiert:** 18:48 Berlin
 - **Run-Fenster:** offen bis 18:00 (heutige Ausnahme), danach erst wieder ab 00:00.
 
 ## Gerade
@@ -18,6 +18,7 @@ Ab 00:00 (nächste Sitzung, Start 22:29) läuft `queue_s10.sh`: EXP-035 Rest →
 
 ## Verlauf dieser Sitzung
 
+- 18:48 Codex hat das Trainingsprogramm auf Fehler geprüft (4 Funde, u. a. konnten alte Dateien fälschlich als fertig gelten). 4 Reparaturen eingebaut; getestet wird das in der Nacht automatisch vor den Läufen.
 - 18:38 **EXP-042 vorbereitet:** Lernt das Netz nach dem Datenwechsel eher um, wenn der neue Datensatz stärker in Richtung seiner eigenen Frequenzen zieht? Codex: Das trennt nicht sauber zwischen „stärkerer Zug“ und „weniger gemeinsame Daten“, Aussage deshalb eingeengt. Alle neuen Versuche stehen in der Nacht-Queue.
 - 18:27 **Korrektur:** Codex hat den Befund von 18:21 zerlegt: Die „wenigen Endzustände“ entstehen vor allem durch die reinen F-/G-Läufe, die Übereinstimmungen habe ich im Nachhinein herausgesucht, und der Vergleich war schief gebaut. Vorhersage für Seed 32 zurückgezogen; bleibt nur eine unkalibrierte Beobachtung.
 - 18:21 **Neuer Befund aus alten Daten:** Pro Seed gibt es nur wenige verschiedene Endzustände, und ganz verschiedene Eingriffe landen teils *exakt* im selben Zustand, vor allem, wenn gleich viel Lernrate aufsummiert war. Für Seed 32 (noch ohne Warmup-Läufe) als Vorhersage festgelegt.

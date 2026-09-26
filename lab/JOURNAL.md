@@ -2384,7 +2384,7 @@ nachziehen, bevor eine ihrer Run-IDs mit anderen Argumenten wiederverwendet wird
 
 Start: `--check` Exit 3 (außerhalb, Regel 18: Läufe erst ab 03:00), kein STOP, keine Python-Prozesse, Arbeitsbaum wie Sitzung 18 hinterlassen.
 
-**Zyklus 1 (Fingerprint für die drei kleinen Trainer, 01:12–01:25).** *Frage:* Sitzung 18 (Codex-Teilhinweis, selbst bestätigt) fand, dass
+**Zyklus 1 (Fingerprint für die drei kleinen Trainer, bis ≈ 01:12, gemessen nachträglich).** *Frage:* Sitzung 18 (Codex-Teilhinweis, selbst bestätigt) fand, dass
 `group_train.py`, `intadd_train.py` und `width_train.py` einen Lauf allein nach `status == "completed"` überspringen. Ist jetzt der richtige Zeitpunkt, das zu schließen?
 *Argument:* Ja. In EXP-046/048/049 existiert noch kein `result.json`; nach der Nacht gäbe es Läufe ohne Fingerprint, die man dann als Altlast gesondert behandeln müsste
 (wie in `freq_ban.py` mit `legacy_mismatch`). Das GPU-001-Siegel umfasst diese Trainer nicht, die Abnahme wird also nicht entwertet.
@@ -2395,7 +2395,7 @@ unlesbares `result.json` oder unfertiger Lauf mit gleichem Fingerprint → neu t
 *Prüfung:* Selbsttest ab 03:00 (`python lab/tools/trainer_guard.py --selftest`); die Smokes des Nachtprogramms (je 50 Schritte, `raw_smoke`) prüfen den Import und den Schreibpfad.
 *Entscheidung:* übernommen; offener Punkt aus Sitzung 18 damit geschlossen, sobald der Selbsttest besteht.
 
-**Zyklus 2 (Passt die Nacht ins Fenster? Reihenfolge der CPU-Queue, 01:28–01:40).** *Frage:* Was wird bis 13:00 realistisch fertig, und stimmt die Reihenfolge mit den
+**Zyklus 2 (Passt die Nacht ins Fenster? Reihenfolge der CPU-Queue, bis 01:14 gemessen).** *Frage:* Was wird bis 13:00 realistisch fertig, und stimmt die Reihenfolge mit den
 Prioritäten aus Regel 18c überein? *Vorgehen:* `night_program.py --dry-run` und `--cpu --dry-run` (führen nichts aus, schreiben nichts; geprüft mit `git status`), Laufzahlen gezählt,
 Dauer aus gespeicherten `sec_per_step` (EXP-016/020, CPU 4 Threads: 0.124–0.131 s/Schritt → ≈ 4,3 min je 2000 Schritte).
 *Ergebnis:* GPU-Programm ≈ 300 Läufe à 2000 Schritte (043: 60, 046: 30, 047: 40, 048: 30, 049: 40, 044: 100) plus EXP-045 (20 Läufe bis 10 000 Schritte). Die GPU-Geschwindigkeit ist

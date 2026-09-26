@@ -598,3 +598,10 @@ EXP-052 Nachtrag d (Top-1-Identifikation unter 10 Kandidaten je Fall). Suche 202
 weights spectral fingerprint dataset inference provenance“): Arbeiten zu Modell-Abstammung über Spektren der Gewichte (z. B.
 https://arxiv.org/abs/2608.07786, https://arxiv.org/abs/2511.06390) erkennen das *Basismodell*, nicht die Trainingsteilmenge; „Dataset
 Inference“ arbeitet über das Verhalten. Vorläufig nicht gefunden; Spielzeug-Rahmen (algorithmische Aufgaben), Übertrag offen.
+
+*Literatur zu K4 / Paket B (Sitzung 14, 2026-09-26):* Suche „early training commitment features persist after training data distribution
+switch small transformer 2026 critical period representation lock-in“. Nächstverwandt: *Critical Windows of Complexity Control: When
+Transformers Decide to Reason or Memorize* (https://arxiv.org/abs/2605.04396): ein scharfes Zeitfenster (≈ 25 % des Trainings), in dem
+Weight Decay über „Schlussfolgern oder Memorieren“ entscheidet; Lage hängt von der Init-Skala ab; laut Abstract **nicht** bei modularer
+Arithmetik und ohne Frequenzen oder Datenzusammensetzung. Unser K4 (Festlegung der Frequenzwahl nach 25–50 Schritten, über die Daten)
+bleibt damit vorläufig ungefunden; die Init-Skalen-Abhängigkeit dort passt zur Frage von EXP-040 (W_E-Init-Skala).

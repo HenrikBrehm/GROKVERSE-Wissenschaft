@@ -72,3 +72,4 @@ nutzt ([[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]).
 | [[experiments/EXP-042-bias-strength/README\|EXP-042]] Verzögert ein stärker konzentrierter zweiter Split die Festlegung? ([[NOVEL_DIRECTIONS]] N22) | vorbereitet (Sitzung 10), ungetestet | — |
 | [[experiments/GPU-001-equivalence/README\|GPU-001]] Gleichwertigkeit CPU/GPU, Regression, Durchsatz (Regel 16) | vorbereitet (Sitzung 11), ungetestet | — |
 | [[experiments/EXP-043-generalize-steering/README\|EXP-043]] Verallgemeinert sich die Steuerung über die Daten? add mod 97, mul mod 113 (Log-Basis) | vorbereitet (Sitzung 11), Splits erzeugt, ungetestet | — |
+| [[experiments/EXP-046-dihedral-steering/README\|EXP-046]] Steuerung über die Daten in einer nicht-abelschen Gruppe (D₅₉, Irreps statt Frequenzen; [[NOVEL_DIRECTIONS]] N24) | vorbereitet (Sitzung 12), Splits erzeugt, ungetestet | — |

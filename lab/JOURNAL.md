@@ -632,3 +632,11 @@ Befundnotiz, im EXP-019-README (Nachsatz) und in N8; die Aussage in Zyklus 12 ob
 Aufhebung der Kreuzterme nur näherungsweise (0.01), Fremdmasken-Kontrolle nur n = 10. (3) MLP-Kontrast: „bestätigt“ nur für
 den ersten Gradienten (9/10, p ≈ 0.003); für die finalen Frequenzen 6/10, p ≈ 0.21, nur beschreibend. (4) Negative Befunde
 vorsichtiger formuliert („kein belastbarer Zusammenhang nachgewiesen“, mit Zahlen).
+
+**07:30 Warteschlange gestartet.** Beim Prüfen einer unerwarteten `.gitignore`-Änderung (06:58, nicht von mir) gefunden:
+Der Nutzer hat um 06:58 in `.claude/settings.local.json` genau die erbetene Freigabe eingetragen (`sh lab/experiments/*queue*`,
+`python lab/tools/guarded_run.py *`). Damit ist die Ablehnung von 05:52 aufgehoben. `sh lab/experiments/queue_s5.sh` läuft im
+Hintergrund (Log `lab/runner/logs/queue_s5.log`), Wächter: 79.7 min Sitzungsbudget. Erwartung: EXP-016 Seeds 16–19
+(8 × ~4.5 min) bis ~08:06, danach Baseline 18, soweit Zeit bleibt; der Wächter beendet spätestens zur Deadline.
+Auswertung EXP-016: Vorab waren 10 Seeds festgelegt (mindestens 8 gültige). Bei n = 8 nur **Zwischenstand**; die
+Entscheidung gilt bei n = 10, um keine zweite Auswertung mit anderem Abbruchpunkt zu haben.

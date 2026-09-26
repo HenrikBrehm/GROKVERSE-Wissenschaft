@@ -46,6 +46,24 @@ Codex: needs-attention, 2 × hoch, 2 × mittel.
 4. **(mittel) Kein Schutz gegen gleichzeitige Jobs.** **Übernommen:** Die Queue wartet zu Beginn, bis kein `guarded_run.py` mehr läuft.
 Budget neu ≈ 3.1 h. Code nach dem Nachtrag ungetestet (Selbsttest am Queue-Anfang).
 
+## Nachtrag b (Sitzung 15, 2026-09-26 ≈ 23:05 Berlin, vor jedem EXP-042-Lauf; nur beschreibend, das Urteil aus Nachtrag a bleibt)
+
+**Anlass (post hoc an EXP-020/037, [[experiments/EXP-020-data-switch/README|EXP-020]] Nachtrag Sitzung 15):** Ein reiner Takt mit linearer
+Überlagerung in einem frühen Integrationsfenster (jeder der ersten T* ≈ 69 Schritte zählt gleich) gibt die EXP-020-Persistenz wieder und
+sagt die Verschränkungsarme von EXP-037 ohne Anpassung voraus. Unter genau diesem **reinen Takt** verschiebt sich die Top-5-Kreuzung
+trotzdem mit der Stärke von G (`EXP-020-data-switch/posthoc_clock_crossover.py`, aus den Split-Dateien): eps 2 → t ≈ 32–40 (beobachtet
+(25, 50] in 5/5), **eps 8 → t ≈ 46–54** (je nach Form des Zugs: zentriertes M0 51–54, log M0 46–48), eps 1 → t ≈ 14–24.
+**Folge:** Die Aussage in „Anlass“ („Eine reine Uhr sagt dasselbe Fenster (25, 50] voraus, unabhängig von G“) stimmt für das Top-5-Maß
+nicht. Ein Ergebnis *später* bei eps 8 trennt H42 nicht von einem reinen Takt; die Kreuzung liegt unter beiden Lesarten nahe am Gitterpunkt 50.
+
+**Trennende Größe (vorab festgelegt, beschreibend):** normierte Persistenz π je Seed (`pi_window.py`, Normierung mit den eigenen reinen
+Läufen bei Schritt 2000). Bei linearer Überlagerung gilt π(t) = t/T*, unabhängig von G.
+- **C (fester Takt):** Mittel über Seeds weicht in jeder Zelle höchstens 0.12 von min(1, t/69) ab.
+- **O (Stärke von G verschiebt das Fenster):** eps 8 bei t = 25 oder 50 mindestens 0.15 **unter** der Kurve; eps 1 bei t = 10 oder 25 mindestens 0.15 **darüber**.
+- Sonst: weder C noch O. Zusätzlich π bei Schritt 250 gegen π am Ende (Erwartung aus EXP-020: Mischung ab Schritt 250 eingefroren, |Δ| ≤ 0.1).
+Bereits gesehene Daten, die diese Festlegung beeinflusst haben: EXP-020 (Seeds 30–34, Kurve und T*), EXP-037 (Seeds 30–32). Code ungetestet
+(Selbsttest mit EXP-020-Regression ab 03:00, nach dem EXP-042-Hauptlauf: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-042-bias-strength/pi_window.py`).
+
 ## Status
 
 Vorab festgelegt, Splits erzeugt (reine Rechnung), Code **ungetestet** (Fenster geschlossen). Noch in keiner Queue.

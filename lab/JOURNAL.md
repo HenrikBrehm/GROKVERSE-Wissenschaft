@@ -2130,3 +2130,12 @@ festem Split variiert K trotzdem über Inits (GitHub-Nachbau) → Split ist nich
 - **Reproduktion:** `python lab/experiments/EXP-020-data-switch/posthoc_beta_persistence.py`, `.../posthoc_pi_other.py`, `python lab/experiments/EXP-039-lr-clock/predict_pi.py` (eingefroren, verweigert Überschreiben), `python lab/experiments/EXP-052-oos-mask-prediction/exp052.py --predict` (dito).
 - **Nächste Aktion:** STATE „Wiederaufnahme ab 03:00“ (Wächter-Abnahme → Tests inkl. vier neuer Selbsttests → `night_program.py` → `--cpu` nach GPU-001 → Auswertungen, dann eingefrorene Vorhersagen prüfen).
 - **Runner:** nächster Start laut runner-state.json 00:54 Berlin (22:54Z); Läufe erst ab 03:00.
+
+## Sitzung 15 (2026-09-26 22:39 Berlin bis 01:39, außerhalb des Fensters; Läufe erst ab 03:00)
+
+**Zyklus 1 (ab 22:41, Paket B, post hoc an gespeicherten Läufen, explorativ): Wächst der F-Vorsprung unter G-Training oder zerfällt er?**
+*Frage:* π(t) aus Sitzung 14 misst die Persistenz nur am Ende (t + 2000). P3 definiert „festgelegt“ als „nach B Schritten persistent“, also
+hängt das Urteil davon ab, wie π mit der Dauer s des G-Trainings wandert. *Vorab notiert (vor der Rechnung):* Lesart V (Verstärkung,
+AGF/N22: aktive Merkmale bleiben, reich wird reicher) → π(s) steigt mit s; Lesart Z (Zerfall, Prägung wird langsam überschrieben) → π(s) fällt
+mit s, dann hängt P3 empfindlich an B; Lesart K (konstant) → π nach kurzer Übergangszeit flach, B unkritisch. *Messung:* π(t, s) mit den
+Spektren, die alle 250 Schritte gespeichert sind; Normierung je Seed mit den reinen F- und G-Läufen (EXP-018) beim selben globalen Schritt.

@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 05:49 Berlin (03:49Z, vom Runner)
 - **Deadline:** 2026-09-26 08:49 Berlin (06:49Z)
-- **Zuletzt aktualisiert:** 07:31 Berlin
+- **Zuletzt aktualisiert:** 07:39 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin), Wächter `--check` ok.
 
 ## Gerade
@@ -18,6 +18,10 @@ danach Baselines 18/19, soweit die Zeit bis zur Deadline reicht.
 Läufe beobachten (alle ~5–10 min), EXP-016 auswerten, sobald 8 Seeds da sind; ab ~08:35 Abschlussbericht.
 
 ## Verlauf dieser Sitzung
+
+- 07:39 EXP-016 Seed 16 Arm G: 3/5 aus G, die zwei anderen sind 2k-Harmonische von G-Zielen. Δ₁₆ = +8.
+
+- 07:34 EXP-016 Seed 16 Arm F: Zielmenge exakt gelernt (5/5), gen 675.
 
 - 07:31 Freigabe des Nutzers gefunden (06:58), Warteschlange gestartet.
 - 07:28 Befundnotiz nach Codex-Konsistenzprüfung korrigiert (u. a. Rechenfehler: M0c − M0 ist ein Symmetrie-, kein Asymmetrie-Term).

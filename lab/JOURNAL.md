@@ -640,3 +640,6 @@ Hintergrund (Log `lab/runner/logs/queue_s5.log`), Wächter: 79.7 min Sitzungsbud
 (8 × ~4.5 min) bis ~08:06, danach Baseline 18, soweit Zeit bleibt; der Wächter beendet spätestens zur Deadline.
 Auswertung EXP-016: Vorab waren 10 Seeds festgelegt (mindestens 8 gültige). Bei n = 8 nur **Zwischenstand**; die
 Entscheidung gilt bei n = 10, um keine zweite Auswertung mit anderem Abbruchpunkt zu haben.
+EXP-016 Seed 16 Arm F 07:34: gen 675, K {11, 26, 31, 51, 53} = F exakt (5/5), 0 aus G = {15, 25, 27, 35, 48}.
+EXP-016 Seed 16 Arm G ~07:39: gen 825, K {15, 25, 27, 30, 54}, 3 aus G, 0 aus F. Δ_16 = +8. Die beiden Nicht-Ziele sind
+30 = 2·15 und 54 = 2·27 (Harmonische von G-Zielen; EXP-021 wertet formal erst am Ende aus).

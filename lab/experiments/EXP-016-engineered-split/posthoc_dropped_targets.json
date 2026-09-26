@@ -1,0 +1,215 @@
+{
+ "summary": {
+  "n_dropped": 14,
+  "chance_rank5": 2.8,
+  "M0_rank": {
+   "mean": 3.857142857142857,
+   "n_lowest(5)": 5,
+   "n_bottom2": 10
+  },
+  "E0_rank": {
+   "mean": 3.642857142857143,
+   "n_lowest(5)": 6,
+   "n_bottom2": 9
+  },
+  "rank_at_250": {
+   "mean": 4.642857142857143,
+   "n_lowest(5)": 9,
+   "n_bottom2": 14
+  }
+ },
+ "rows": [
+  {
+   "seed": 10,
+   "arm": "F",
+   "dropped": [
+    25
+   ],
+   "M0_rank": [
+    5
+   ],
+   "E0_rank": [
+    1
+   ],
+   "rank_at_250": [
+    5
+   ]
+  },
+  {
+   "seed": 10,
+   "arm": "G",
+   "dropped": [
+    42
+   ],
+   "M0_rank": [
+    5
+   ],
+   "E0_rank": [
+    5
+   ],
+   "rank_at_250": [
+    5
+   ]
+  },
+  {
+   "seed": 11,
+   "arm": "F",
+   "dropped": [
+    14
+   ],
+   "M0_rank": [
+    4
+   ],
+   "E0_rank": [
+    5
+   ],
+   "rank_at_250": [
+    4
+   ]
+  },
+  {
+   "seed": 11,
+   "arm": "G",
+   "dropped": [
+    39,
+    56
+   ],
+   "M0_rank": [
+    3,
+    5
+   ],
+   "E0_rank": [
+    2,
+    5
+   ],
+   "rank_at_250": [
+    4,
+    5
+   ]
+  },
+  {
+   "seed": 12,
+   "arm": "F",
+   "dropped": [
+    47
+   ],
+   "M0_rank": [
+    4
+   ],
+   "E0_rank": [
+    5
+   ],
+   "rank_at_250": [
+    5
+   ]
+  },
+  {
+   "seed": 12,
+   "arm": "G",
+   "dropped": [
+    9,
+    50
+   ],
+   "M0_rank": [
+    1,
+    4
+   ],
+   "E0_rank": [
+    5,
+    4
+   ],
+   "rank_at_250": [
+    5,
+    4
+   ]
+  },
+  {
+   "seed": 13,
+   "arm": "F",
+   "dropped": [
+    38
+   ],
+   "M0_rank": [
+    5
+   ],
+   "E0_rank": [
+    1
+   ],
+   "rank_at_250": [
+    5
+   ]
+  },
+  {
+   "seed": 13,
+   "arm": "G",
+   "dropped": [
+    24,
+    35
+   ],
+   "M0_rank": [
+    4,
+    3
+   ],
+   "E0_rank": [
+    4,
+    3
+   ],
+   "rank_at_250": [
+    5,
+    4
+   ]
+  },
+  {
+   "seed": 14,
+   "arm": "F",
+   "dropped": [],
+   "M0_rank": [],
+   "E0_rank": [],
+   "rank_at_250": []
+  },
+  {
+   "seed": 14,
+   "arm": "G",
+   "dropped": [
+    6,
+    45
+   ],
+   "M0_rank": [
+    4,
+    5
+   ],
+   "E0_rank": [
+    5,
+    4
+   ],
+   "rank_at_250": [
+    5,
+    4
+   ]
+  },
+  {
+   "seed": 15,
+   "arm": "F",
+   "dropped": [],
+   "M0_rank": [],
+   "E0_rank": [],
+   "rank_at_250": []
+  },
+  {
+   "seed": 15,
+   "arm": "G",
+   "dropped": [
+    3
+   ],
+   "M0_rank": [
+    2
+   ],
+   "E0_rank": [
+    2
+   ],
+   "rank_at_250": [
+    5
+   ]
+  }
+ ]
+}

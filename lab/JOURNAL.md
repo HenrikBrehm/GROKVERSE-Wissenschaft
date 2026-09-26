@@ -558,7 +558,15 @@ Schritt 50 5/5. Die Daten prägen die Frequenzen also sofort auf; später ersetz
 Zyklus 7–8). Folge: EXP-020-Gitter vor jedem Lauf um t = 10 und 25 ergänzt (Nachtrag b). Die Überlappung bei 250 ist eine
 vorab festgelegte Sekundärgröße von EXP-016; hier nur als Zwischenblick, keine Entscheidung.
 
-**Technik (06:55):** Beim Prüfen gefunden: Meine Python-Bearbeitungen haben mehrere Dateien auf CRLF umgestellt, darunter
+**Technik (06:52):** Beim Prüfen gefunden: Meine Python-Bearbeitungen haben mehrere Dateien auf CRLF umgestellt, darunter
 `queue_s5.sh` und `EXP-020-data-switch/queue.sh`, die unter `sh` gebrochen wären (`sh -n` meldet das nicht). Alle in
 dieser Sitzung geänderten oder neuen Dateien, die zu Sitzungsbeginn LF hatten oder neu sind, wieder auf LF gestellt;
 Tests danach 14/14 und 5/5. Hinweis in STATE. Zwei Probe-`summary.json` (Trockenläufe, „nicht auswertbar“) aus Git entfernt.
+
+**Zyklus 15 (06:54, post hoc an EXP-016 Seeds 10–15): Welche Ziele werden nach Schritt 250 verdrängt?** Hypothese vorher: die
+Ziele mit der niedrigsten Masken- bzw. Init-Leistung. `posthoc_dropped_targets.py`. 14 verdrängte Ziele in 12 Läufen.
+Rang unter den 5 Zielen (1 = stärkstes): nach Leistung bei Schritt 250 **alle 14 auf Rang 4 oder 5** (Zufall 5.6), Mittel 4.64;
+nach M0 Rang 4–5 in 10/14 (Mittel 3.86; binomial p ≈ 0.02); nach Init-Leistung E0 in 9/14 (Mittel 3.64; p ≈ 0.06).
+**Befund (explorativ):** Verdrängt werden die früh schwächsten Ziele; deren Schwäche geht teils auf die Maske, teils auf
+die Init zurück. Zusammen mit Zyklus 7/8: Die Daten legen die Frequenzmenge sofort fest; in der späteren Dynamik ersetzen
+2k-Harmonische stärkerer Ziele die schwächsten Ziele. Läufe nicht streng unabhängig (F und G teilen die Init).

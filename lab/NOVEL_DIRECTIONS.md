@@ -276,6 +276,11 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   **Folge für EXP-024 Arm R:** Zwei Bilder sagen Gegensätzliches voraus: Nutzen am Start (linearer Anteil) → F; gerade
   Anteile tragen die Endlösung → H. Arm R ist damit ein echter Unterscheidungstest zwischen Anfangsauswahl und
   Endlösung. Einordnung N11 unverändert vorläufig (Split-Abhängigkeit weiter nicht gefunden).
+- **Ergebnis EXP-024 (Sitzung 7, 09:43):** Richtung in beiden Armen wie vorhergesagt. x²: H angereichert (1.1/5 gegen F
+  0.2, p = 0.002), aber *richtungsgleich, n. s.* nach der Größenregel; das breite x²-Netz nutzt fast alle Frequenzen
+  (Morwani Thm 7), der Split neigt nur (+15 % Leistung auf H). ReLU: F 4.8/5 ab Schritt 50, *bestätigt*, aber die Netze
+  memorieren (Test 6 %). Stand der Idee: **teilweise gestützt**; die Architekturabhängigkeit der Richtung ist da, als
+  „Auswahl“ nur bei memorierenden ReLU-Netzen deutlich. Weiter: EXP-026 (Zeitpunkt), EXP-027 (Breite).
 
 ## N12: Paritäts-Umschlagpunkt als Uhr: Bei welcher Merkmalsamplitude fällt die Frequenzwahl? #neu/kandidat
 

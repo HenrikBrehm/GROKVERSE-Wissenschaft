@@ -1561,3 +1561,11 @@ Lehre: Eine Synthese ist die Stelle, an der sich Überaussagen einschleichen; si
   Befundnotiz), alle needs-attention; übernommen bzw. mit Grund abgelehnt, siehe Zyklen.
 - **Scheduler:** Aufgabe `GROKVERSE-Lab-Runner` aktiv; nächster Start laut `runner-state.json` 2026-09-26T20:29:44.7949635Z = **2026-09-26 22:29 Berlin**
   (außerhalb des Fensters bis 00:00; die Sitzung soll um 00:00 `queue_s10.sh` starten).
+
+**Zyklus 26 (19:01, ohne Training, post hoc): Hängt die G-Unterdrückung am Verlustsprung beim Wechsel (Vorhersage der Adam-Verdrängung)?**
+EXP-020, Seeds 30–34 × Wechsel t ∈ {150, 400, 1000}: Trainingsverlust am Wechselschritt (auf G) gegen mittleres log(G-Ziele Wechsellauf /
+G-Ziele „nur F“) über die 1000 Schritte danach. Spearman ρ = −0.67, einseitiges Permutations-p = 0.0035 (15 Punkte). Beispiele: Verlust
+≈ 0 (Seeds 30, 31, 34 bei t = 1000, schon generalisiert) → keine Unterdrückung (log-Verhältnis +0.08, +0.06, −0.01); Verlust 3.2–3.3
+(Seeds 32, 33 bei t = 150) → −0.18, −0.29. *Ergebnis:* richtungsgleich mit der Vorhersage, aber **stark konfundiert**: Der Verlustsprung
+hängt am Trainingsstadium (generalisierte Netze bei t = 1000 sind in einer anderen Phase), die 15 Punkte sind nicht unabhängig (je Seed 3),
+post hoc. Kein Beleg für den Mechanismus. *Entscheidung:* notiert; ein sauberer Test bräuchte SGD in der G-Phase bei gleichem Stadium.

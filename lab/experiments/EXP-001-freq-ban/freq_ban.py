@@ -201,9 +201,10 @@ def previous_status(path: Path) -> str | None:
 
 
 def run(a: argparse.Namespace) -> dict:
-    if (a.p, a.task) != (113, "add") and (a.split_file is None or a.split_seed is not None or a.condition != "baseline"):
-        raise SystemExit("--p/--task other than 113/add only with --split-file and --condition baseline (EXP-043)")
-    cfg = get_config("arch25k", seed=a.seed, steps=a.steps, threads=a.threads, p=a.p, task=a.task)
+    if ((a.p, a.task, a.arch) != (113, "add", "transformer")
+            and (a.split_file is None or a.split_seed is not None or a.condition != "baseline" or a.split_value)):
+        raise SystemExit("--p/--task/--arch other than 113/add/transformer only with --split-file and --condition baseline")
+    cfg = get_config("arch25k", seed=a.seed, steps=a.steps, threads=a.threads, p=a.p, task=a.task, arch=a.arch)
     p = cfg.p
     exp_id = EXP_ID_BY_CONDITION.get(a.condition, EXP_ID)
     if a.split_seed is not None:     # EXP-014: data split from another seed, init from --seed
@@ -225,6 +226,9 @@ def run(a: argparse.Namespace) -> dict:
         if (a.p, a.task) != (113, "add"):          # EXP-043: other modulus / multiplication (split stem names the task)
             exp_id = "EXP-044" if a.switch_split_file is not None else "EXP-043"   # EXP-044: data switch
             run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_{a.task}{a.p}"
+        if a.arch != "transformer":                # EXP-045: shared-embedding MLP (model.W_E exists, same analysis)
+            exp_id = "EXP-045"
+            run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_{a.arch}"
     elif a.test_file is not None or a.switch_split_file is not None:
         raise SystemExit("--test-file / --switch-split-file need --split-file")
     if a.warmup:                     # EXP-035: linear learning-rate warmup (default 0 = unchanged behaviour)
@@ -560,6 +564,8 @@ def main() -> None:
                     help="EXP-036 Nachtrag d: extra comma-separated steps with stored W_E spectra (logging only)")
     ap.add_argument("--p", type=int, default=113, help="EXP-043: modulus (default 113 = unchanged)")
     ap.add_argument("--task", choices=("add", "mul"), default="add", help="EXP-043: task (default add = unchanged)")
+    ap.add_argument("--arch", choices=("transformer", "mlp"), default="transformer",
+                    help="EXP-045: shared-embedding MLP (default transformer = unchanged)")
     ap.add_argument("--device", default="cpu", help="rule 16: 'cpu' (default, unchanged) or 'cuda' (AMD ROCm via .venv-gpu)")
     ap.add_argument("--save-model", action="store_true")
     ap.add_argument("--force", action="store_true")

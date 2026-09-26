@@ -1580,12 +1580,12 @@ t = 400 ρ = −0.7 (Spearman, von Hand aus den Tabellenwerten). Richtung gleich
 Neue Nutzerregeln 15 (Synthese, ≥ 10 Seeds, Verallgemeinerung zuerst) und 16 (GPU) gelesen. Kein Training läuft (19:12: nur
 zwei `torch.cuda`-Abfragen des Nutzers).
 
-**Zyklus 1 (19:25): Synthese.** Frage: Was sind nach 42 Versuchen die tragenden Aussagen? *Ergebnis:* [[FINDINGS]] mit sechs
+**Zyklus 1 (19:13): Synthese.** Frage: Was sind nach 42 Versuchen die tragenden Aussagen? *Ergebnis:* [[FINDINGS]] mit sechs
 Kernaussagen (K1 M0 sagt K voraus; K2 Steuerung über Splits; K3 erster Gradient; K4 frühe Festlegung; K5 AdamW in Phase 1 nicht
 nötig; K6 Aktivierung), Belegen, Literatur und der größten offenen Frage: Gilt K2/K4 außerhalb von Addition mod 113?
 *Entscheidung:* Neue Arbeit zielt zuerst auf diese Frage (Regel 15c).
 
-**Zyklus 2 (19:45): GPU vorbereiten (Regel 16a).** `freq_ban.py --device` (Init auf der CPU wie bisher, dann `.to(dev)`;
+**Zyklus 2 (19:16): GPU vorbereiten (Regel 16a).** `freq_ban.py --device` (Init auf der CPU wie bisher, dann `.to(dev)`;
 Daten, Projektoren, Rückwege nach numpy mit `.cpu()`; Run-ID-Suffix `_devcuda`; `device`, `device_name`, `cuda_max_mem_mb` in
 `result.json`), dazu `--p`/`--task` für EXP-043 (nur mit `--split-file` und `baseline`). Nur `py_compile` geprüft (Fenster zu).
 Prüfung [[experiments/GPU-001-equivalence/README|GPU-001]] mit vorab festgelegten Kriterien: (1) CPU-Regression gegen den
@@ -1595,9 +1595,17 @@ gespeicherten EXP-016-Smoke, exakt; (2) GPU-Wiederholung der gespeicherten CPU-L
 `guarded_run`-Prozess; parallele GPU-Läufe hätten die CPU-Queue blockiert. Geändert auf „ignoriere Prozesse mit `--device cuda`“
 (`ps -ef` zeigt die Argumente, geprüft mit einem Schlafprozess; Filterlogik an Beispielzeilen geprüft). Commit c2c0b91.
 
-**Zyklus 3 (19:58): Verallgemeinerung vorab festgelegt.** Frage: Gibt ein konstruierter Split auch bei Addition mod 97 und bei
+**Zyklus 3 (19:19): Verallgemeinerung vorab festgelegt.** Frage: Gibt ein konstruierter Split auch bei Addition mod 97 und bei
 Multiplikation mod 113 (Log-Basis, Z_112, g = 3) die gelernten Frequenzen vor? [[experiments/EXP-043-generalize-steering/README|EXP-043]]:
 EXP-016-Design (Arme F/G, Δ, Vorzeichentest), 10 Seeds je Aufgabe (70–79), Holm über zwei Aufgaben, GPU, K aus W_E-Schnappschüssen
 in der Gruppenbasis. Splits erzeugt (reine Rechnung): Zielmenge = M0-Top-5 in 40/40 Fällen, Anteil 0.18–0.21. Literatur (N23):
 „Discrete-Log Clock“ (arXiv 2606.17399) findet je Seed verschiedene Schlüsselfrequenzen, auch nicht-teilerfremde (2, 8, 56), und
 fragt nicht nach der Ursache; deshalb Ziele aus allen k = 1..55 statt nur teilerfremden (Entscheidung vor jedem Lauf). Commit af1dac5.
+*Korrektur (19:24, gemessen mit `guarded_run.py --check`):* Die Uhrzeiten der Zyklen 1–3 und in LIVE/STATE/READMEs waren **geschätzt**
+und lagen in der Zukunft (bis „20:30“). Ersetzt durch die Commit-Zeiten (c2c0b91 19:16, af1dac5 19:19, 843d1c1 19:22). Das ist derselbe
+Fehler wie in Sitzung 10. Ab jetzt gilt: vor jedem Zeitstempel die Uhr messen.
+
+**Zyklus 4 (19:22): K4-Verallgemeinerung vorab festgelegt**, bedingt auf EXP-043: [[experiments/EXP-044-generalize-lockin/README|EXP-044]].
+F und G werden **unabhängig** gezogen (Überlappung gemessen 37–39 % statt 73 % in EXP-020), Wechsel bei t ∈ {25, 50, 150}, gleiches
+G-Budget, 10 Seeds (80–89) je Aufgabe, primär d(150) mit Vorzeichentest. Die Queue startet nur Aufgaben, die in EXP-043 *steuerbar*
+sind. Splits erzeugt (Zielmenge = M0-Top-5 in 40/40). `freq_ban.py`: Wechselläufe der neuen Aufgaben heißen EXP-044.

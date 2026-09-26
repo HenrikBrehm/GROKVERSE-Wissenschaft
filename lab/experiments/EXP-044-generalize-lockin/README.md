@@ -7,7 +7,7 @@ verwandt: ["[[experiments/EXP-020-data-switch/README|EXP-020]]", "[[experiments/
 ---
 # EXP-044: Frühe Festlegung (K4) bei anderen Aufgaben, mit fast vollständigem Datenwechsel
 
-**Status:** vorbereitet, **nicht ausgeführt**, Code ungetestet. Definition fixiert 2026-09-26 ~20:30 Berlin (Sitzung 11), vor jedem
+**Status:** vorbereitet, **nicht ausgeführt**, Code ungetestet. Definition fixiert 2026-09-26 19:22 Berlin (Sitzung 11), vor jedem
 Lauf und vor jedem Ergebnis von EXP-043. Ziel in [[FINDINGS]]: K4 außerhalb von Addition mod 113 (größte offene Frage).
 **Bedingt:** läuft nur für die Aufgaben, die in [[experiments/EXP-043-generalize-steering/README|EXP-043]] *steuerbar* sind (ohne
 Steuerung ist ein Wechsel F → G nicht lesbar; die Queue prüft das selbst). GPU, nach bestandenem GPU-001.

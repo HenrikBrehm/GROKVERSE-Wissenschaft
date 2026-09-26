@@ -7,7 +7,7 @@ verwandt: ["[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experim
 ---
 # EXP-043: Verallgemeinert sich die Steuerung der Frequenzwahl über die Daten? (Addition mod 97, Multiplikation mod 113)
 
-**Status:** vorbereitet, **nicht ausgeführt**, Code ungetestet. Definition fixiert 2026-09-26 ~20:00 Berlin (Sitzung 11), vor
+**Status:** vorbereitet, **nicht ausgeführt**, Code ungetestet. Definition fixiert 2026-09-26 19:19 Berlin (Sitzung 11), vor
 jedem Lauf. Ziel in [[FINDINGS]]: größte offene Frage (K2 außerhalb von Addition mod 113; Regel 15c). Läuft **nur auf der GPU**
 und erst nach bestandenem [[experiments/GPU-001-equivalence/README|GPU-001]].
 
@@ -42,6 +42,18 @@ Masken-Spektrums in Gruppenkoordinaten; Anteil 0.196–0.212 (add 97), 0.178–0
 | **Was dagegen spräche** | Δ̄ ≤ 0 oder n. s. bei mul: Die Steuerung hängt dann an der additiven Anordnung, nicht an der Gruppenstruktur |
 | **Grenzen** | Eine Architektur, eine Konstruktion (ε = 2), 2000 Schritte, K = W_E-Top-5 (nicht funktional); GPU statt CPU (andere torch-Version, deshalb GPU-001); Seeds 70–79 teilen die Init nicht zwischen den Aufgaben (anderes Vokabular bei p = 97) |
 | **Budget** | 40 Läufe × 2000 Schritte (+ 20 R-Läufe), J parallel auf der GPU; Dauer erst nach GPU-001 bekannt (CPU wären ≈ 3 h) |
+
+## Einordnung vor jedem Lauf (19:27 Berlin): Multiplikation ist hier fast nur ein anderer Modulus
+
+W_E und W_U sind Nachschlagetabellen mit iid-Gauß-Init; ihre Verteilung ist invariant, wenn man die Token umbenennt. Benennt man
+jeden Rest a ≠ 0 in log_g a um (Eingabe **und** Ausgabe), wird Multiplikation mod 113 auf den 112² Paaren ohne Null **exakt** zu
+Addition mod 112, in Verteilung über Init und Split. Übrig bleiben das Token 0 und die 225 Paare mit einer Null (Ausgabe 0).
+EXP-043 prüft deshalb in Wahrheit: **(1) anderer Primmodulus (97), (2) zusammengesetzter Modulus 112** (mit nicht treuen
+Frequenzen, gcd(k, 112) > 1) plus eine kleine Störung durch die Null. Eine *wirklich* andere Aufgabe ist das nicht; die
+Gesamtlesart oben wird entsprechend gelesen: *steuerbar* bei mul 113 heißt „auch bei zusammengesetztem Modulus mit Null-Token“,
+nicht „bei einer anderen Rechenart“. Urteilsregeln unverändert. Echte Verallgemeinerung über die Aufgabe braucht eine nicht
+zyklische Struktur (z. B. nicht-abelsche Gruppe, Chughtai et al. 2023) oder eine nicht-modulare Aufgabe; über die Architektur:
+[[experiments/EXP-045-mlp-steering/README|EXP-045]] (MLP mit gemeinsamem Embedding).
 
 ## Befehle
 

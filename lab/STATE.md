@@ -3,13 +3,13 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 20:05 Berlin (Sitzung 11; nächster Start laut runner-state 2026-09-27 00:09 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 19:24 Berlin (Sitzung 11; nächster Start laut runner-state 2026-09-27 00:09 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
-- **SITZUNG 11 (20:05) → NÄCHSTE SITZUNG (ab 00:00, im Fenster) in dieser Reihenfolge:**
+- **SITZUNG 11 (19:24) → NÄCHSTE SITZUNG (ab 00:00, im Fenster) in dieser Reihenfolge:**
   1. `python lab/tools/guarded_run.py --check`; keine Queue aktiv (`ps -ef | grep -E "queue|guarded_run"`).
   2. `sh lab/experiments/GPU-001-equivalence/queue.sh > lab/runner/logs/gpu001.log 2>&1` im Hintergrund. **Warten, bis im Log
      `regression: PASS` steht (≈ 1 min).** Das ist der Regressionstest für die `--device`-Änderung an `freq_ban.py` (c2c0b91).

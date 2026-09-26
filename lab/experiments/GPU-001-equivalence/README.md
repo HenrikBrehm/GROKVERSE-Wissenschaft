@@ -20,7 +20,7 @@ GPU-Läufe bekommen das Suffix `_devcuda` in der Run-ID (nie mit CPU-Läufen ver
 Die Warteschleifen in `queue_s10.sh`, `queue_s5.sh`, EXP-041 und EXP-042 ignorieren jetzt `guarded_run`-Prozesse mit
 `--device cuda` (sonst hätten GPU-Läufe die CPU-Queue blockiert; Regel 16c).
 
-## Akzeptanzkriterien (vorab festgelegt, 2026-09-26 ~19:45 Berlin, vor jedem GPU-Lauf)
+## Akzeptanzkriterien (vorab festgelegt, 2026-09-26 19:16 Berlin, vor jedem GPU-Lauf)
 
 1. **Regression (CPU):** Der geänderte `freq_ban.py` reproduziert den gespeicherten 50-Schritte-Smoke von EXP-016 (Seed 10)
    **exakt** (alle Dense-Kurven Differenz 0, gleiche Top-5). *Scheitert das:* `queue_s10.sh` **nicht** mit dem geänderten Code

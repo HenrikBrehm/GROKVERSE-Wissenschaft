@@ -605,3 +605,6 @@ Transformers Decide to Reason or Memorize* (https://arxiv.org/abs/2605.04396): e
 Weight Decay über „Schlussfolgern oder Memorieren“ entscheidet; Lage hängt von der Init-Skala ab; laut Abstract **nicht** bei modularer
 Arithmetik und ohne Frequenzen oder Datenzusammensetzung. Unser K4 (Festlegung der Frequenzwahl nach 25–50 Schritten, über die Daten)
 bleibt damit vorläufig ungefunden; die Init-Skalen-Abhängigkeit dort passt zur Frage von EXP-040 (W_E-Init-Skala).
+*Nachtrag N28 (Sitzung 14):* Simulierte Kapazität bei ρ ≈ 0.45: Top-1 unter 1000 Kandidaten ≈ 0.47 (Zufall 0.001), also grob 9–10 Bit
+über die Teilmenge aus 56 Spektralwerten. Falls EXP-052 ρ in dieser Höhe zeigt, wäre ein eigener Versuch mit vielen Kandidaten (und
+Schritten nach dem Grokking, wo ρ sinkt) der nächste Schritt; Datenschutz-Lesart (Mitgliedschaft aus Gewichten) nur als Spielzeug-Analogie.

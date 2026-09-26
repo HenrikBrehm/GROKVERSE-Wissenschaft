@@ -148,3 +148,9 @@ die übrige Rangfolge wird Rauschen). **Lesart (explorativ):** M1 passt nicht (�
 Naheliegend: schnelle frühe Verstärkung (< 250 Schritte, nicht aufgelöst) plus anhaltende Kontrastzunahme durch Weight Decay, das ungenutzte
 Frequenzen abbaut. Grenzen: konstruierte statt Zufallssplits, β von den 5 Zielen dominiert, 250er-Raster. Die EXP-052-Zufallssplits (Messpunkte
 50/250/500/1000/2000) prüfen das an unberührten Fällen.
+
+## Nachtrag i (Sitzung 14, vor jedem Lauf): Erwartung für die Identifikation (Nachtrag d), aus Simulation
+
+Simulation (reine numpy-Rechnung, add 97, Kandidaten = zufällige 30-%-Splits, W_E-Rangprofil = M0-Ränge + Rauschen): bei eigenem ρ ≈ 0.65 /
+0.45 / 0.30 Top-1-Treffer unter 10 Kandidaten ≈ 0.98 / 0.92 / 0.77, unter 1000 Kandidaten ≈ 0.98 / 0.47 / 0.12 (Zufall 0.001). Bei ρ ≈ 0.45
+wären also grob 9–10 Bit über die Trainingsteilmenge allein aus dem W_E-Spektrum ablesbar. Vergleich nach den Läufen nur beschreibend.

@@ -5,21 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 08:59 Berlin (06:59Z, vom Runner)
 - **Deadline:** 2026-09-26 11:59 Berlin (09:59Z)
-- **Zuletzt aktualisiert:** 10:02 Berlin
+- **Zuletzt aktualisiert:** 10:32 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-**[[experiments/EXP-026-parity-crossover/README|EXP-026]] läuft** (seit 09:44, 30 Läufe à ~88 s, 13 fertig, Ende ~10:35).
-Frage: Wenn ein Netz erst mit Aktivierung 3x + x² (zieht zu den Zielen) und ab Schritt t mit x² (zieht zu den halben
-Zielen) trainiert: Ab welchem t bleibt die erste Neigung? Das misst, *wann* sich das Netz festlegt.
+**[[experiments/EXP-027-width-selection/README|EXP-027]] läuft** (Breiten 32–256, schnell). Danach von selbst:
+[[experiments/EXP-032-early-lockin/README|EXP-032]] (Wie früh legt sich das Netz fest? 20 Läufe, ~30 min) →
+EXP-027b (frische Splits, ~15 min) → EXP-025 → queue_s5.
 
 ## Als Nächstes
 
-Kette läuft von selbst weiter: EXP-027 (Breite, 20 Läufe) → EXP-025 (20) → `queue_s5.sh`. (EXP-031 nach Codex zurückgestellt.)
+Auswertungen in dieser Reihenfolge, sobald die Läufe fertig sind. Sitzungsende 11:59; Abschluss ab ~11:45.
 
 ## Verlauf dieser Sitzung
 
+- 10:32 **EXP-026 fertig:** Schon 50 Schritte mit Aktivierung 3x + x² legen die Frequenzwahl eines x²-Netzes fest (5/5, danach ändert sich nichts mehr). Der vorab gewählte Test passte nicht zur Stufenform → formal n. s.; Folgeversuch EXP-032 mit feinem Raster festgelegt.
 - 10:10 EXP-031 zurückgestellt: Codex zeigte, dass der Versuch so nicht trennen kann, ob die Init oder der Split wirkt. Umbau später.
 - 10:02 **Neu: EXP-031 vorab festgelegt:** Eingriff statt Korrelation. Einbettung von Lauf A bei Schritt 500 in Lauf B verpflanzen; folgt die Frequenzwahl A oder B? Codex prüft.
 - 09:59 **EXP-030: Die Wirkung des Splits auf die Endfrequenzen läuft fast vollständig über den Zustand der Einbettung bei Schritt 250** (10/10 Seeds). Codex hatte diese Prüfung verlangt.

@@ -869,3 +869,14 @@ und Split zugleich; Endpunkt 3000 instabil, weil die Studienläufe erst ab 5600 
 geprüft; falsches Budget unbemerkt). **Entscheidung: nicht ausführen, zurückgestellt.** Das richtige Design (gekreuzte
 Spender, Messung nach der Generalisierung) kostet mehrere Stunden Rechenzeit; es gehört in eine spätere Sitzung.
 Lehre: Endpunkte vor der Festlegung an den vorhandenen Zeitverläufen auf Stabilität prüfen.
+
+**Zyklus 10 (10:29–10:32): EXP-026 ausgewertet.** 30/30 vollständig; alle x²-Endnetze generalisieren, der Arm „nie“ memoriert.
+Mittleres ds: t_s = 0 −0.002, **50 +0.165**, 250 +0.113, 1000 +0.091, 2500 +0.087, nie +0.105; alle 25 Läufe mit t_s ≥ 50
+positiv. **Vorab-Urteil: *Anker ok, Trend n. s.*** (ρ 0.13, p 0.25). Beschreibend eine Stufe in den ersten 50 Schritten mit
+Plateau; mein Rangtest über alle Stufen passte nicht zur Stufenform (Designfehler, nicht nachträglich korrigiert). Anker
+d(0) < 0 nur knapp. Nebenbefund: 50 Schritte σ_3 verdoppeln die Generalisierungszeit (1390 → 2730).
+→ [[experiments/EXP-032-early-lockin/README|EXP-032]] vorab festgelegt (t_s = 1, 5, 10, 20; Monotonie + Halbwertszeit), in die Kette
+gehängt. Schnappschüsse bei 5/10/20 in `train_sigma.py` ergänzt (atomar geschrieben, berührt das Training nicht).
+**EXP-027 Zwischenstand:** Die 32er-Netze verfehlen die Güte-Schwelle (Test 0.83–0.86) → EXP-027 wird *nicht auswertbar*.
+Vor Ansicht der Ergebnisgröße EXP-027b festgelegt (frische Splits 15–19, Breiten 64–512), in die Kette gehängt.
+Neue Reihenfolge: EXP-027 → EXP-032 → EXP-027b → EXP-025 → queue_s5.

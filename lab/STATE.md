@@ -12,8 +12,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 - **Keine Läufe (Training oder Tests) vor 03:00 Berlin** (Wächter: `WINDOW_START_OVERRIDES`). Davor nur Code/Doku.
 - Reihenfolge 18a (Code, vor 03:00): Punkt 3 ✅ ungetestet · Punkt 10 ✅ ungetestet · Punkt 16 ✅ für alle Nachtauswertungen (EXP-043–050, ungetestet) · Punkt 11 ✅ ungetestet (GPU und `--cpu`; offen: EXP-034-Port) · Punkt 17 ✅ (diese Datei) · Punkt 5 ✅ (neue Versuche mit `SeedSequence`, Vermerk in FINDINGS) · 18c ✅ (FINDINGS = Programm A/B/C,
   P1–P3, Bestätigungsblock Seeds 1000–1099, Nullkalibrierung). Zweitprüfung der gemeinsamen Technik erledigt (JOURNAL Zyklus 14).
-- **Sitzung ab 00:59 bis 03:00:** nichts Pflichtiges offen. Optional: P2 (funktional) als Versuch festlegen (Plan im [[BACKLOG]]),
-  P3-Entwurf schärfen, Volltext arXiv 2507.20057 lesen. Nichts starten, was trainiert oder testet.
+- **Sitzung ab 00:59 bis 03:00:** nichts Pflichtiges offen. Optional: P3-Entwurf schärfen (ELR als drittes Konkurrenzmodell), Volltext arXiv 2507.20057 lesen. Nichts starten, was trainiert oder testet.
 - Stand je Punkt: Tabelle „Umsetzung“ am Ende von [[reviews/ASTRA_2026-09-26]].
 
 ## Wiederaufnahme ab 03:00 (18b), genau in dieser Reihenfolge
@@ -26,7 +25,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
    Sperre, atomare Arrays, Artefaktprüfung; kleine CPU-Läufe im Temp-Ordner) und
    `python lab/tools/guarded_run.py -- python lab/tests/test_night_program.py` (Ablaufsteuerung, simulierte Jobs). Scheitert etwas: beheben, bevor Queues starten.
 4. GPU: `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1` im Hintergrund (Plan: `--dry-run`). Beginnt mit GPU-001
-   (Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 → 048 → 049 → 044 → 045.
+   (Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 (+ EXP-051, Ablation an den EXP-047-Modellen) → 048 → 049 → 044 → 045.
    Wiederaufnahme = derselbe Befehl (Fertiges wird per Fingerprint übersprungen). Status: `lab/runner/logs/night_*/night_status.json`.
 5. CPU **erst nach GPU-001** (sonst verfälscht CPU-Last die J-Messung): `python lab/tools/night_program.py --cpu > lab/runner/logs/night_cpu.log 2>&1` (**EXP-014** → 035 → 038 → 041 → 036 →
    039 → 040 → 042). Nicht portiert, gesichtet ([[BACKLOG]] „Sichtung nach Regel 18c“): 034 nach P3-Design; 018/022/023/010 zurückgestellt.
@@ -41,7 +40,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 ## Drei Prioritäten (Regel 18c: Programm A/B/C)
 
 1. **A – Split-Steuerung verallgemeinern und replizieren:** EXP-043 (Modulus), 046 (D₅₉), 048 (nicht-modular), 049 (Breite),
-   045 (MLP); Mechanismus-Kontrolle EXP-047 (Häufigkeiten). Funktionale Wirkung (P2): Plan im [[BACKLOG]].
+   045 (MLP); Mechanismus-Kontrolle EXP-047 (Häufigkeiten). Funktionale Wirkung (P2): EXP-051 (Pilot, nach EXP-047).
 2. **B – Persistenz nach Datenwechsel:** EXP-044 (bedingt auf EXP-043), CPU EXP-035–042 (`night_program.py --cpu`); P3-Entwurf im [[BACKLOG]].
 3. **C – mechanistische Vorhersage an unberührten Fällen:** EXP-050 (M0c gegen M0, Kontrolle quadlm), Theorie erster Ordnung
    ([[BEFUND-split-mechanismus]] Herleitung; EXP-047 Nachtrag a).

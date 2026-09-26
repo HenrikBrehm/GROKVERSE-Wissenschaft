@@ -19,7 +19,7 @@ Frequenzen/Irreps ein Netz repräsentiert und nutzt, und diese Wahl ist nach kur
 
 | Paket | Frage | Stand | Aktiv? |
 |---|---|---|---|
-| **A** | Split-Steuerung unabhängig replizieren, verallgemeinern **und funktional** nachweisen | Pilot/Verallgemeinerung vorbereitet: EXP-043, 045, 046, 047, 048, 049. **Fehlt:** funktionaler Test (gespeicherte Modelle, Ablation der Zielfrequenzen auf gemeinsamer Testmenge gegen energiegleiche Kontrollablation) und ein unabhängiger Bestätigungsblock | ja |
+| **A** | Split-Steuerung unabhängig replizieren, verallgemeinern **und funktional** nachweisen | Pilot/Verallgemeinerung vorbereitet: EXP-043, 045, 046, 047, 048, 049. Funktionaler Pilot: [[experiments/EXP-051-functional-ablation/README|EXP-051]] (Ablation an den EXP-047-Modellen gegen energiegleiche Kontrolle). **Fehlt:** unabhängiger Bestätigungsblock | ja |
 | **B** | Persistenz nach Datenwechsel: F→G **und** G→F, kontrollierte Überlappung, festes Nachtrainingsbudget; „festgelegt“ = „nach B Schritten persistent“ | EXP-044 (bedingt auf EXP-043); CPU EXP-035–042 (`night_program.py --cpu`). Konkurrenzmodell: effektive Lernrate steuert die Merkmalsersetzung (Lyle et al. 2025, https://arxiv.org/abs/2507.20057) → EXP-039/040 trennen ELR und Datenauswahl | ja |
 | **C** | Eine mechanistische Vorhersage an unberührten Fällen | EXP-050 (M0c gegen M0, Kontrolle quadlm), Theorie erster Ordnung ([[BEFUND-split-mechanismus]]) | vorbereitet, nicht aktiv |
 

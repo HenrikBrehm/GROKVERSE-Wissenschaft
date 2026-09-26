@@ -251,16 +251,19 @@ class Night:
         self.runs_then_analysis("EXP-046", "main", [job(s, "2.0", a) for s in range(140, 150) for a in "FG"], 5)
         self.runs_then_analysis("EXP-046", "random", [job(s, "0.0", "R") for s in range(140, 150)], 5)
 
-    def freq_ban_2000(self, e: str, s: int, stem: str) -> list[str]:
+    def freq_ban_2000(self, e: str, s: int, stem: str, *extra: str) -> list[str]:
         return [GPY, FB, "--seed", str(s), "--condition", "baseline", "--steps", "2000", "--threads", "1", "--device", "cuda",
-                "--split-file", f"{e}/splits/{stem}.npy", "--out-root", f"{e}/raw"]
+                "--split-file", f"{e}/splits/{stem}.npy", "--out-root", f"{e}/raw", *extra]
 
     def exp047(self) -> None:
         e = f"{R}/{EXP_DIR['EXP-047']}"
         self.must("EXP-047_selftest", [PY, f"{e}/analyze.py", "--selftest"])
-        cmds = [self.freq_ban_2000(e, s, f"split_add113_seed{s}_{k}_{a}")
+        cmds = [self.freq_ban_2000(e, s, f"split_add113_seed{s}_{k}_{a}", "--save-model")   # models for EXP-051 (P2)
                 for s in range(150, 160) for k in ("eng", "shuf") for a in "FG"]
         self.runs_then_analysis("EXP-047", "main", cmds, 5)
+        e51 = f"{R}/EXP-051-functional-ablation"          # P2: ablation on the saved EXP-047 models, no training
+        self.must("EXP-051_selftest", [PY, f"{e51}/analyze.py", "--selftest"])
+        self.must("EXP-051_analysis", [PY, f"{e51}/analyze.py"], 5)
 
     def exp048(self) -> None:
         e = f"{R}/{EXP_DIR['EXP-048']}"

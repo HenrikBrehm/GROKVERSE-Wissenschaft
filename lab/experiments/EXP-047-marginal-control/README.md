@@ -82,3 +82,8 @@ Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lau
 
 **Art:** Mechanismus-Kontrolle innerhalb Paket A, Exploration. Bestätigung nur im reservierten Block (Seeds 1000–1099, [[FINDINGS]] „Programm“) nach eingefrorenem Analysemanifest.
 **Gesehen:** Häufigkeits- und M0-Spektren der EXP-016-Splits (Seeds 10–19) und der eigenen 40 Splits offline angesehen; daraus die Frage und die Theorie-Erwartung (Nachtrag a). EXP-015 (post hoc: Häufigkeitsspektrum sagt K unter Zufallssplits nicht voraus) bekannt. Keine Läufe der Seeds 150–159.
+
+## Nachtrag b (Sitzung 13, 21:06 Berlin, vor jedem Lauf): Modelle werden gespeichert
+
+Alle 40 Läufe bekommen `--save-model` (Modell am Ende, Schritt 2000). Das verändert das Training nicht; es liefert die Modelle für den funktionalen Test [[experiments/EXP-051-functional-ablation/README|EXP-051]] (P2). Urteilsregeln hier unverändert.
+

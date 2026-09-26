@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 17:29 Berlin (15:29Z, vom Runner)
 - **Deadline:** 2026-09-26 20:29 Berlin (18:29Z)
-- **Zuletzt aktualisiert:** 18:48 Berlin
+- **Zuletzt aktualisiert:** 18:51 Berlin
 - **Run-Fenster:** offen bis 18:00 (heutige Ausnahme), danach erst wieder ab 00:00.
 
 ## Gerade
@@ -14,10 +14,11 @@ Denkarbeit (Fenster zu): Befunde aus gespeicherten Läufen, Vorhersagen für die
 
 ## Als Nächstes
 
-Ab 00:00 (nächste Sitzung, Start 22:29) läuft `queue_s10.sh`: EXP-035 Rest → EXP-038 → EXP-036 → EXP-039 → EXP-040 → EXP-034 → EXP-042 → EXP-041.
+Ab 00:00 (nächste Sitzung, Start 22:29) läuft `queue_s10.sh`: EXP-035 Rest → EXP-038 → EXP-041 → EXP-036 → EXP-039 → EXP-040 → EXP-034 → EXP-042.
 
 ## Verlauf dieser Sitzung
 
+- 18:51 **Wichtige Einschränkung gefunden:** Die beiden Datensätze F und G im Wechselversuch teilen sich 73 % ihrer Beispiele. Die „Festlegung“ ist also bisher nur gegen einen Teilwechsel gezeigt. EXP-041 wechselt fast alle Beispiele aus und läuft deshalb jetzt früher in der Nacht. Außerdem: Nach der Festlegung schrumpfen die Frequenzen des neuen Datensatzes sogar, obwohl auf ihm trainiert wird (5 von 5 Seeds).
 - 18:48 Codex hat das Trainingsprogramm auf Fehler geprüft (4 Funde, u. a. konnten alte Dateien fälschlich als fertig gelten). 4 Reparaturen eingebaut; getestet wird das in der Nacht automatisch vor den Läufen.
 - 18:38 **EXP-042 vorbereitet:** Lernt das Netz nach dem Datenwechsel eher um, wenn der neue Datensatz stärker in Richtung seiner eigenen Frequenzen zieht? Codex: Das trennt nicht sauber zwischen „stärkerer Zug“ und „weniger gemeinsame Daten“, Aussage deshalb eingeengt. Alle neuen Versuche stehen in der Nacht-Queue.
 - 18:27 **Korrektur:** Codex hat den Befund von 18:21 zerlegt: Die „wenigen Endzustände“ entstehen vor allem durch die reinen F-/G-Läufe, die Übereinstimmungen habe ich im Nachhinein herausgesucht, und der Vergleich war schief gebaut. Vorhersage für Seed 32 zurückgezogen; bleibt nur eine unkalibrierte Beobachtung.

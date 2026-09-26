@@ -1509,3 +1509,5 @@ Stichprobe mit den vorhandenen F-Frequenzen (Prämisse von H42/N22 gestützt, be
 **teilweisen** Wechsel gezeigt. In EXP-041 teilen E und R nur ≈ 37 % (Zufallsniveau 3831/10215), dort werden ≈ 63 % getauscht:
 EXP-041 P41a ist damit der härtere Test der Festlegung (als Einordnung in EXP-041 notiert, Regeln unverändert). EXP-042 eps 8 senkt
 die Überlappung auf ≈ 57 %.
+
+**18:51: Queue-Reihenfolge geändert** (EXP-041 nach EXP-038, vor EXP-036/039/040), BACKLOG EXP-041 → P1. Grund: Zyklus 20.

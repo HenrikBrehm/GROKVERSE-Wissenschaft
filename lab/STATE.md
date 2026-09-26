@@ -3,12 +3,15 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 18:49 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 18:51 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **SITZUNG 10 (18:51), NEUE REIHENFOLGE:** `queue_s10.sh` = EXP-035 (Seeds 30, 31, 32, 34) → EXP-038 → **EXP-041** → EXP-036 → EXP-039
+  → EXP-040 → EXP-034 → EXP-042 → queue_s5. Grund: F und G teilen ≈ 73 % der Paare, die Festlegung ist nur gegen einen 27-%-Wechsel
+  gezeigt; EXP-041 (E/R ≈ 37 % gemeinsam) ist der härtere Test und kommt vor den Uhr-Versuchen (JOURNAL Zyklus 20).
 - **SITZUNG 10 (18:49), Auswertung nach der Nacht:** `python lab/tools/night_report.py lab/runner/logs/queue_s10.log` (nur lesend)
   zeigt Ablehnungen, Fehlschläge, fertige Läufe und die Urteile aller `summary*.json`. `freq_ban.py` wurde nach Codex gehärtet
   (9fa4b7a; Überspringen prüft jetzt Skalen-Metadaten und Schnappschüsse); der Überspringen-Zweig ist erst in der Nacht getestet.

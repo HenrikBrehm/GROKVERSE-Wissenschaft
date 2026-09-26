@@ -5,19 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 05:49 Berlin (03:49Z, vom Runner)
 - **Deadline:** 2026-09-26 08:49 Berlin (06:49Z)
-- **Zuletzt aktualisiert:** 06:51 Berlin
+- **Zuletzt aktualisiert:** 07:10 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin), Wächter `--check` ok.
 
 ## Gerade
 
-Keine Trainingsläufe (Queue-Start abgelehnt, siehe [[STATE]]). Vorbereitung neuer Versuche; alle mit Codex-Review
-nachgeschärft und nicht ausgeführt.
+Keine Trainingsläufe (Queue-Start abgelehnt, siehe [[STATE]]). Codex prüft die ganze Warteschlange `queue_s5.sh` auf
+Betriebsfehler, bevor sie unbeaufsichtigt läuft.
 
 ## Als Nächstes
 
-Weitere Denkarbeit bis ~08:35, dann Abschlussbericht. Nächste Sitzung im Fenster: `queue_s5.sh`, dann EXP-022.
+Befunde der Prüfung einarbeiten; ab ~08:35 Abschlussbericht.
 
 ## Verlauf dieser Sitzung
+
+- 07:09 [[experiments/EXP-023-split-value/README|EXP-023]] vorbereitet (eigene Wertematrix für Position 1 im Training), Codex-Review: 5 Befunde übernommen. Warteschlange: EXP-023 und EXP-022 direkt nach EXP-020.
+- 06:58 **Eingriff in silico:** Eigene Wertematrix für Position 1 → die Interferenz im ersten Gradienten verschwindet (0.47 → −0.03). MLP-Kontrast bestätigt die Vorhersage. Befundnotiz [[BEFUND-split-mechanismus]].
+- 06:54 Verdrängt werden die früh schwächsten Zielfrequenzen (14/14).
 
 - 06:51 [[experiments/EXP-022-single-frequency/README|EXP-022]] vorbereitet: Erzwingt ein Ein-Frequenz-Split eine Ein-Frequenz-Lösung? Codex-Review: 5 Befunde übernommen.
 - 06:40 [[experiments/EXP-021-harmonic-misses/README|EXP-021]] vorab festgelegt (Bestätigung der 2k-Fehlgriffe an frischen Läufen). M0c geschlossen hergeleitet: misst die Kommutations-Asymmetrie des Splits.

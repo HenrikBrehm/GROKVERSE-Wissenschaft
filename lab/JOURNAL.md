@@ -1025,3 +1025,11 @@ und der Transformer zeigt in einem Seed eine scharfe kritische Periode (EXP-020)
 Festlegung“ zieht sich seit Sitzung 7; die Eingriffe wechseln aber (Aktivierung, Optimierer, Daten, Lernratenplan), und jede
 Stufe beseitigt einen konkreten Einwand. Nächste Annahme zum Angreifen: dass ds (Anteil F − Anteil H) die richtige Messgröße
 ist. Das K-basierte d aus EXP-020 und ds sollten an denselben Läufen verglichen werden (Idee, nicht festgelegt).
+
+**Zyklus 6 (13:50): Herkunft der „Konfliktfrequenzen“ in EXP-020 Seed 30 (beschreibend, ohne Training).** F = [6, 29, 30, 42, 48],
+G = [23, 32, 36, 43, 47]. In den Mischzuständen (Wechsel bei t = 25 bzw. 50) wachsen ab Schritt 250 die Frequenzen **34 und 39**
+bis auf Anteile ≈ 0.10–0.13 (so stark wie Zielfrequenzen) und stehen am Ende in K. Geprüft: keine 2k-Oberwelle eines Ziels;
+im Init-Spektrum nicht unter den Top-8; in den Masken-Spektren M0 von F, G, F∩G, G\F, F\G, F∪G nur auf Rang 11–54. Die
+Erklärung „Summen-/Differenzton“ ist wertlos, weil 49 von 56 Frequenzen Summen oder Differenzen aus F∪G sind. *Ergebnis:*
+Ursprung offen. *Frage für später* (nicht festgelegt): Treten in Mischzuständen generell Frequenzen außerhalb F ∪ G ∪ 2k auf
+(Seeds 31–34), und sind es dieselben wie in einem Zufallssplit-Lauf mit derselben Init? → BACKLOG-Idee.

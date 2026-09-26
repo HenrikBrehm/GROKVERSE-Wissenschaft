@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 08:59 Berlin (06:59Z, vom Runner)
 - **Deadline:** 2026-09-26 11:59 Berlin (09:59Z)
-- **Zuletzt aktualisiert:** 09:46 Berlin
+- **Zuletzt aktualisiert:** 09:48 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
@@ -20,6 +20,7 @@ Kette läuft von selbst weiter: EXP-027 (Breite, 20 Läufe) → EXP-025 (20) →
 
 ## Verlauf dieser Sitzung
 
+- 09:47 **Neu: EXP-028 vorab festgelegt.** In allen 20 alten Transformer-Läufen stehen während des Auswendiglernens genau die Split-Frequenzen oben; erst beim Generalisieren kommen Oberwellen dazu. Bestätigung an frischen Läufen folgt.
 - 09:44 EXP-026 gestartet. Smoke ok; das Netz mit starkem linearem Anteil memoriert allerdings nur.
 - 09:43 **EXP-024 fertig.** ReLU: Ziele F sofort und fast vollständig (4.8/5, p = 2e-6), wie vorhergesagt, aber ohne Generalisierung. x²: nur schwache Neigung zu den halben Zielen. Richtung beider Arme wie vorhergesagt.
 - 09:31 Beobachtung: Die ReLU-Netze aus EXP-024 memorieren nur (Test 3–9 %). Bei EXP-025 vorab vermerkt.

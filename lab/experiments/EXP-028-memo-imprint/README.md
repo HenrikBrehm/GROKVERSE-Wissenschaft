@@ -11,7 +11,7 @@ Zurück: [[LAB]] · [[BACKLOG]] · [[JOURNAL]] · [[NOVEL_DIRECTIONS]] (N13) · 
 [[experiments/EXP-020-data-switch/README|EXP-020]] · verwandt [[experiments/EXP-021-harmonic-misses/README|EXP-021]],
 [[experiments/EXP-024-quadratic-agf-mask/README|EXP-024]] (ReLU-Netze memorieren und zeigen F sofort).
 
-## Anlass (post hoc, Sitzung 7, 09:50 Berlin, `EXP-016/posthoc_memo_imprint.py`)
+## Anlass (post hoc, Sitzung 7, 09:45 Berlin, `EXP-016/posthoc_memo_imprint.py`)
 
 In allen 20 EXP-016-Transformerläufen liegt Schritt 250 in der Memorisierungsphase (Train ≥ 0.99 ab Schritt 120–130,
 Test ≥ 0.95 erst bei 450–1100). **Bei Schritt 250 sind die W_E-Top-5 in 20/20 Läufen genau die 5 Ziele F** (Anteil der

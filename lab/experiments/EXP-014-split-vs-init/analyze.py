@@ -66,26 +66,67 @@ def chance_p(mean_ov: float, n: int) -> float:
     return float((np.sum(null >= mean_ov - 1e-12) + 1) / (N_MC + 1))
 
 
+PAIRS = [(10, 11), (12, 13), (14, 15), (16, 17), (18, 19)]   # Nachtrag a: disjoint, both directions
+
+
+def cross_row(i: int, j: int) -> dict:
+    """Like row(), but for an explicit (init i, split j) cross run."""
+    r: dict = {"init": i, "split": j, "valid": False}
+    try:
+        c, cs, cst = load(Path(str(CROSS).format(i=i, j=j)))
+        bi, bis, bist = load(Path(str(BASE).format(s=i)))
+        bj, _, _ = load(Path(str(BASE).format(s=j)))
+    except FileNotFoundError as e:
+        r["reason"] = f"missing {e.filename}"
+        return r
+    if any(x["status"] != "completed" or x["events"].get("generalization_step") is None for x in (c, bi, bj)):
+        r["reason"] = "not completed or not crossed"
+        return r
+    if c["split_hash"] != bj["split_hash"] or c.get("split_seed") != j:
+        r["reason"] = "split mismatch"
+        return r
+    if not np.allclose(cs[cst.index(0)], bis[bist.index(0)], rtol=1e-6):
+        r["reason"] = "init mismatch"
+        return r
+    kc, ki, kj = set(c["final_top_m_freqs"]), set(bi["final_top_m_freqs"]), set(bj["final_top_m_freqs"])
+    r.update({"valid": True, "ov_init": len(kc & ki), "ov_split": len(kc & kj)})
+    return r
+
+
+def one_sided_p(d: np.ndarray) -> float:
+    flips = np.array(list(itertools.product((1, -1), repeat=len(d))))
+    return float(((flips * d).mean(axis=1) >= d.mean() - 1e-12).mean())
+
+
 def main() -> None:
-    rows = [row(i) for i in SEEDS]
-    valid = [r for r in rows if r["valid"]]
-    out: dict = {"rows": rows, "n_valid": len(valid)}
-    if len(valid) < MIN_VALID:
+    """Primary since Nachtrag a: pair units u = (a, b), D_u = sum of ov_split - ov_init over both
+    cross directions; one-sided sign-flip over the 5 independent units (split > init)."""
+    units = []
+    for a, b in PAIRS:
+        ab, ba = cross_row(a, b), cross_row(b, a)
+        u = {"pair": [a, b], "valid": ab["valid"] and ba["valid"], "rows": [ab, ba]}
+        if u["valid"]:
+            u["D"] = (ab["ov_split"] + ba["ov_split"]) - (ab["ov_init"] + ba["ov_init"])
+        units.append(u)
+    valid = [u for u in units if u["valid"]]
+    out: dict = {"units": units, "n_valid_units": len(valid)}
+    if len(valid) < 5:          # with 4 units the smallest one-sided p is 1/16 > 0.05
         out["verdict"] = "nicht auswertbar"
     else:
-        D = np.array([r["D"] for r in valid], dtype=float)
-        p = two_sided_p(D)
-        oi = float(np.mean([r["ov_init"] for r in valid]))
-        osp = float(np.mean([r["ov_split"] for r in valid]))
-        out.update({"D_mean": float(D.mean()), "p_two_sided": p, "ov_init_mean": oi,
-                    "ov_split_mean": osp, "p_ov_init_vs_chance": chance_p(oi, len(valid)),
-                    "p_ov_split_vs_chance": chance_p(osp, len(valid)),
-                    "verdict": ("Split dominiert" if D.mean() > 0 else "Init dominiert")
-                    if p < ALPHA else "kein dominanter Faktor"})
+        D = np.array([u["D"] for u in valid], dtype=float)
+        p = one_sided_p(D)
+        rows = [r for u in valid for r in u["rows"]]
+        oi = float(np.mean([r["ov_init"] for r in rows]))
+        osp = float(np.mean([r["ov_split"] for r in rows]))
+        out.update({"D_mean": float(D.mean()), "p_one_sided": p, "ov_init_mean": oi, "ov_split_mean": osp,
+                    "p_ov_init_vs_chance": chance_p(oi, len(rows)),
+                    "p_ov_split_vs_chance": chance_p(osp, len(rows)),
+                    "verdict": "Split dominiert" if D.mean() > 0 and p < ALPHA else
+                    ("Init dominiert (Richtung entgegen Erwartung)" if D.mean() < 0 else "kein Nachweis")})
     (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
-    print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
-    for r in rows:
-        print(r)
+    print(json.dumps({k: v for k, v in out.items() if k != "units"}, indent=1))
+    for u in units:
+        print(u)
 
 
 if __name__ == "__main__":

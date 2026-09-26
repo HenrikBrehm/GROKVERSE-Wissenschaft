@@ -71,9 +71,10 @@ def main() -> None:
         top = sorted((np.argsort(-pw, kind="stable")[:5] + 1).tolist())
         row = {"seed": s, "valid": True, "K": K, "M0_top5": top, "ov": len(set(top) & set(K)),
                "rbar_M0": p12.rbar(pw, K)}
-        if a.phase == 2:                 # Nachtrag a: secondary log E0 + log M0
-            E0 = p12.init_predictors(s)[0]["E0"]
-            row["rbar_logprod"] = p12.rbar(np.log(E0) + np.log(pw), K)
+        if a.phase == 2:                 # Nachtrag a/b: secondaries E0, G0, log E0 + log M0
+            pr = p12.init_predictors(s)[0]
+            row["rbar_logprod"] = p12.rbar(np.log(pr["E0"]) + np.log(pw), K)
+            row["rbar_E0"], row["rbar_G0"] = p12.rbar(pr["E0"], K), p12.rbar(pr["G0"], K)
         rows.append(row)
     valid = [r for r in rows if r["valid"]]
     out: dict = {"phase": a.phase, "rows": rows, "n_valid": len(valid)}
@@ -82,7 +83,20 @@ def main() -> None:
         p = p12.mc_null_p(rb, len(valid))
         out.update({"rbar_M0": rb, "p_vs_null": p, "ov_mean": float(np.mean([r["ov"] for r in valid]))})
         if a.phase == 2:
-            out["verdict"] = "bestätigt" if p < p12.ALPHA else "nicht bestätigt"
+            # Nachtrag b (Codex review): co-primary matched vs foreign masks, permutation over mask assignment
+            vs = [r["seed"] for r in valid]
+            masks = {m: m0(mask_matrix(m)) for m in vs}
+            R = np.array([[p12.rbar(masks[m], r["K"]) for m in vs] for r in valid])
+            rng = np.random.default_rng(0)
+            null = np.array([R[np.arange(len(vs)), rng.permutation(len(vs))].mean() for _ in range(20000)])
+            p_perm = float((np.sum(null <= np.trace(R) / len(vs) - 1e-12) + 1) / (len(null) + 1))
+            out["foreign_mask"] = {"rbar_foreign_mean": float((R.sum() - np.trace(R)) / (len(vs) * (len(vs) - 1))),
+                                   "p_perm": p_perm}
+            out["verdict"] = "bestätigt" if p < p12.ALPHA and p_perm < p12.ALPHA else "nicht bestätigt"
+            for name in ("E0", "G0"):
+                d = np.array([r[f"rbar_{name}"] - r["rbar_M0"] for r in valid])
+                out[f"secondary_vs_{name}"] = {"rbar": float(np.mean([r[f"rbar_{name}"] for r in valid])),
+                                               "p_M0_better": p12.sign_flip_p(d)}
             diff = np.array([r["rbar_M0"] - r["rbar_logprod"] for r in valid])
             out["secondary_logprod"] = {"rbar": float(np.mean([r["rbar_logprod"] for r in valid])),
                                         "p_better_than_M0": p12.sign_flip_p(diff)}

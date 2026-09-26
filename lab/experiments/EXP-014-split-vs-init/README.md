@@ -38,3 +38,15 @@ Beide lassen sich trennen: Der Split hat einen eigenen `torch.Generator`, die In
 python lab/tools/guarded_run.py --min-minutes 33 -- python lab/experiments/EXP-001-freq-ban/freq_ban.py --seed I --split-seed J --condition baseline --stop-after-gen 25 --out-root lab/experiments/EXP-014-split-vs-init/raw
 python lab/experiments/EXP-014-split-vs-init/analyze.py
 ```
+
+## Nachtrag a (2026-09-26 ~03:30 Berlin, nach Codex-Review, **vor jedem Kreuzlauf**)
+
+Codex: Das zyklische Design nutzt jede Baseline zweimal (B_{i+1} geht positiv in D_i und negativ in D_{i+1} ein); der
+zeilenweise Vorzeichentest ist dann nicht gültig. **Übernommen.** Neues Design mit unabhängigen Einheiten:
+5 disjunkte Paare (10,11), (12,13), (14,15), (16,17), (18,19), jeweils **beide** Richtungen (Init a × Split b und
+Init b × Split a), zusammen 10 Kreuzläufe. Pro Paar D_u = Σ ov_split − Σ ov_init über beide Richtungen.
+Test **einseitig** (Split > Init), Richtung begründet durch die Gradient-Vorschau (ρ 0.34 vs. −0.01) und die Befunde
+von [[experiments/EXP-015-mask-spectrum/README|EXP-015]], festgelegt vor jedem Kreuzlauf. Mit 5 Einheiten ist das
+kleinste p = 1/32; *Split dominiert* verlangt also D_u > 0 in (fast) allen Paaren. Weniger als 5 gültige Einheiten:
+*nicht auswertbar*. Die Zufallsvergleiche ov gegen 0.45 bleiben sekundär.
+Befehl je Richtung: `freq_ban.py --seed a --split-seed b --condition baseline --stop-after-gen 25 --out-root lab/experiments/EXP-014-split-vs-init/raw`.

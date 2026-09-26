@@ -69,3 +69,16 @@ nur die Paare mit Transformer bzw. Two-hot-MLP haben verschiedene Init und gleic
 Exploration Seeds 0–9 (`combined_explore.py`): r̄ E0 0.375 · M0 0.307 · G0 0.302 · Rangmittel(E0, M0) 0.290 ·
 **log E0 + log M0: 0.284**. Für Phase 2 kommt als **Sekundärgröße** (nur berichtet, keine Entscheidung) hinzu:
 r̄(log E0 + log M0) gegen r̄(M0), einseitiger Vorzeichentest. Die Primärentscheidung (M0 gegen Null) bleibt unverändert.
+
+## Nachtrag b (2026-09-26 ~03:30 Berlin, nach Codex-Review, vor Phase 2)
+
+Codex: Der Vergleich gegen gleichverteilte Ränge schließt eine **allgemeine** Frequenzvorliebe nicht aus, die zufällig
+auch jedes Masken-Spektrum hätte; die angekündigten Vergleiche mit E0/G0 fehlten im Code. **Übernommen:**
+- **Ko-primär** in Phase 2: passende gegen fremde Masken (Permutation der Zuordnung Lauf → Maske, 20 000 Züge).
+  *bestätigt* verlangt jetzt p < 0.05 gegen die Null **und** p_perm < 0.05.
+- E0- und G0-Vergleiche implementiert (sekundär).
+- **Vorabprüfung an den Explorationsdaten** (`foreign_mask_check.py`, Seeds 0–9, alle 4 Architekturen): passend
+  0.307–0.329, fremd 0.49–0.52, p_perm ≤ 5.5e-4 überall. Die Vorhersage ist also **split-spezifisch**, keine
+  allgemeine Vorliebe. Das ist Exploration; die Bestätigung bleibt Phase 2.
+Nicht übernommen: unabhängig gekreuzte Init/Split-Läufe für EXP-015 selbst. Das leistet
+[[experiments/EXP-014-split-vs-init/README|EXP-014]].

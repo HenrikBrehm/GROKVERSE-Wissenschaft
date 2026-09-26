@@ -50,3 +50,20 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-001-freq-ban/freq_
 python lab/tools/guarded_run.py --min-minutes 33 -- python lab/experiments/EXP-001-freq-ban/freq_ban.py --seed I --condition baseline --stop-after-gen 25 --split-file lab/experiments/EXP-016-engineered-split/splits/split_seed{I}_eps2.0.npy --out-root lab/experiments/EXP-016-engineered-split/raw
 python lab/experiments/EXP-016-engineered-split/analyze.py
 ```
+
+## Nachtrag a (2026-09-26 ~03:30 Berlin, nach Codex-Review, **vor jedem Lauf**): neues Design
+
+Codex, geprüft und **übernommen**:
+1. *Testmenge = Komplement:* Für T = 1 − M sind alle Nicht-DC-Fourierkoeffizienten die negierten von M, die
+   Testmenge hat also dieselben Spitzen. Das Stoppkriterium (Test-Acc) und der Messzeitpunkt von K hängen damit von
+   der Behandlung ab. → **K wird bei festem Schritt 2000 gemessen** (Top-5 von W_E), alle Läufe genau 2000 Schritte
+   (`--steps 2000`), unabhängig von Testmenge und Grokking. Kein Ausschluss nicht-generalisierender Läufe.
+2. *Kontrolle:* Ein Zufallssplit kontrolliert die Konstruktion nicht. → Pro Init i **zwei** konstruierte Splits
+   gleicher Stärke mit **disjunkten** Zielmengen F_i und G_i (`make_split.py --arm G`; Anteil an M0 0.185–0.199).
+   **Primär:** Δ_i = ov(K_F, F) + ov(K_G, G) − ov(K_F, G) − ov(K_G, F); einseitiger Vorzeichentest über die 10
+   unabhängigen Init-Seeds (jeder hat seine eigenen zwei Läufe). *steuerbar*: Δ̄ > 0, p < 0.05; sonst wie oben.
+   Sekundär: Top-5 der EXP-003d-Baseline bei Schritt 2000 gegen F und G.
+3. *Split-Datei:* `freq_ban.py` prüft jetzt Form, Typ, Anzahl, Eindeutigkeit und Wertebereich (fail-closed); die
+   Auswertung vergleicht den `split_hash` des Laufs mit dem Inhalt der .npy statt nur mit dem Dateinamen.
+Budget neu: 20 Läufe × 2000 Schritte × 0.13 s ≈ 4.5 min, zusammen ≈ 90 min.
+Befehl: `freq_ban.py --seed I --condition baseline --steps 2000 --split-file lab/experiments/EXP-016-engineered-split/splits/split_seed{I}_eps2.0{,_G}.npy --out-root lab/experiments/EXP-016-engineered-split/raw`

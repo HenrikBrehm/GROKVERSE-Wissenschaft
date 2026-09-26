@@ -271,3 +271,18 @@ aber schon. Zusätzlich: Gleicher Seed → höhere Überlappung der finalen Freq
 Paaren, einzeln schwach. Einordnung: stützt N3 (Split wählt mit), bleibt aber post hoc. Bestätigung vorab festgelegt
 über EXP-015 Phase 2, EXP-014 und EXP-016.
 Exploration: Kombination log E0 + log M0 r̄ 0.284 (M0 0.307, E0 0.375), als Sekundärgröße für EXP-015 Phase 2 vorab ergänzt.
+
+**Codex-Review der Split-Linie (EXP-014/015/016)**, `EXP-016-engineered-split/codex_review_2026-09-26.txt`, Urteil
+„needs-attention“. M0-Indizes, k/p−k-Faltung und der gewichtete Sampler seien in sich stimmig. Befunde, selbst geprüft:
+1. [high] EXP-015: Die Null schließt eine allgemeine Frequenzvorliebe nicht aus. **Übernommen und sofort geprüft**
+   (`foreign_mask_check.py`, Explorationsdaten): Fremde Masken ergeben r̄ 0.49–0.52, passende 0.31–0.33, p_perm ≤ 5.5e-4
+   in allen 4 Architekturen. Der Einwand trifft auf diese Daten nicht zu; der Test ist trotzdem jetzt ko-primär in
+   Phase 2. E0/G0-Vergleiche implementiert.
+2. [high] EXP-016: Die Komplement-Testmenge hat dieselben Spektralspitzen (für T = 1 − M stimmt das exakt), und
+   Stoppregel und Messzeitpunkt hängen daran. **Übernommen:** fester Schritt 2000, kein Ausschluss, zweiter
+   konstruierter Arm G mit disjunkten Zielen als Kontrolle gleicher Konstruktionsstärke.
+3. [high] EXP-014: zyklische Wiederverwendung der Baselines macht den zeilenweisen Vorzeichentest ungültig.
+   **Übernommen:** 5 disjunkte Paare × beide Richtungen, einseitig (Richtung vorab begründet).
+4. [medium] Split-Datei ungeprüft. **Übernommen:** fail-closed-Prüfung in `freq_ban.py`, Inhalts-Hash in der Auswertung.
+Beim Test der Änderungen habe ich einen eigenen Fehler gefunden (Namenskonflikt `analyze` im sys.path), behoben, 11/11.
+Alle Änderungen vor jedem Lauf der betroffenen Versuche.

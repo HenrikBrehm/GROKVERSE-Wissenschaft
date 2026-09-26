@@ -124,7 +124,7 @@ def test_split_seed_leaves_init_rng_untouched() -> None:   # EXP-014
 def test_engineered_split_indexing() -> None:   # EXP-016
     from grokverse.config import get_config
     from grokverse.data import make_dataset
-    sys.path.insert(0, str(HERE.parent / "EXP-016-engineered-split"))
+    sys.path.append(str(HERE.parent / "EXP-016-engineered-split"))   # append: avoid shadowing analyze
     import make_split as mk
     d = make_dataset(get_config("arch25k", seed=0))
     ax = d["all_x"].numpy()

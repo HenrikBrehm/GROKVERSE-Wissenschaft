@@ -216,7 +216,12 @@ def run(a: argparse.Namespace) -> dict:
     data = make_dataset(cfg if a.split_seed is None
                         else get_config("arch25k", seed=a.split_seed, steps=a.steps, threads=a.threads))
     if a.split_file is not None:
-        tr = torch.from_numpy(np.load(a.split_file).astype(np.int64))
+        raw = np.load(a.split_file)       # fail closed (Codex review 2026-09-26)
+        n_expected = int(round(cfg.train_frac * p * p))
+        if (raw.ndim != 1 or not np.issubdtype(raw.dtype, np.integer) or len(raw) != n_expected
+                or len(np.unique(raw)) != len(raw) or raw.min() < 0 or raw.max() >= p * p):
+            raise SystemExit(f"[exp] invalid split file {a.split_file}: need {n_expected} unique ints in [0, p*p)")
+        tr = torch.from_numpy(raw.astype(np.int64))
         te = torch.from_numpy(np.setdiff1d(np.arange(p * p), tr.numpy()))
         data = {**data, "train_x": data["all_x"][tr], "train_y": data["all_y"][tr],
                 "test_x": data["all_x"][te], "test_y": data["all_y"][te], "train_idx": tr, "test_idx": te}

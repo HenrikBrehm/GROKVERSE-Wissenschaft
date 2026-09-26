@@ -23,13 +23,21 @@ P, TRAIN_FRAC, N_FREQ, M = 113, 0.3, 56, 5
 TARGET_SALT = 30_011
 
 
-def target_set(seed: int) -> list[int]:
-    return sorted(int(k) for k in np.random.default_rng(seed + TARGET_SALT).choice(
+ARM_SALT = {"F": 0, "G": 7}      # Nachtrag a: second arm G with a disjoint target set
+
+
+def target_set(seed: int, arm: str = "F") -> list[int]:
+    F = sorted(int(k) for k in np.random.default_rng(seed + TARGET_SALT).choice(
         np.arange(1, N_FREQ + 1), size=M, replace=False))
+    if arm == "F":
+        return F
+    pool = np.setdiff1d(np.arange(1, N_FREQ + 1), F)
+    return sorted(int(k) for k in np.random.default_rng(seed + TARGET_SALT + ARM_SALT[arm]).choice(
+        pool, size=M, replace=False))
 
 
-def engineered_train_idx(seed: int, targets: list[int], eps: float) -> np.ndarray:
-    rng = np.random.default_rng(seed + TARGET_SALT + 1)
+def engineered_train_idx(seed: int, targets: list[int], eps: float, arm: str = "F") -> np.ndarray:
+    rng = np.random.default_rng(seed + TARGET_SALT + 1 + ARM_SALT[arm])
     a = np.arange(P).repeat(P)
     b = np.tile(np.arange(P), P)
     phi = rng.uniform(0, 2 * np.pi, size=(len(targets), P))          # per (k, c)
@@ -53,21 +61,23 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--eps", type=float, default=1.0)
+    ap.add_argument("--arm", choices=tuple(ARM_SALT), default="F")
     ap.add_argument("--out", default=str(HERE / "splits"))
     a = ap.parse_args()
-    F = target_set(a.seed)
-    idx = engineered_train_idx(a.seed, F, a.eps)
+    F = target_set(a.seed, a.arm)
+    idx = engineered_train_idx(a.seed, F, a.eps, a.arm)
     pw = ms.m0(mask_from_idx(idx))
     order = np.argsort(-pw, kind="stable")
     top = sorted((order[:M] + 1).tolist())
     rank = np.argsort(order)
-    meta = {"seed": a.seed, "eps": a.eps, "targets": F, "M0_top5": top,
+    meta = {"seed": a.seed, "eps": a.eps, "arm": a.arm, "targets": F, "M0_top5": top,
             "target_ranks": [int(rank[k - 1]) for k in F], "n_train": int(len(idx)),
             "target_power_share": float(pw[[k - 1 for k in F]].sum() / pw.sum())}
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    np.save(out / f"split_seed{a.seed}_eps{a.eps}.npy", idx)
-    (out / f"split_seed{a.seed}_eps{a.eps}.json").write_text(json.dumps(meta, indent=1), encoding="utf-8")
+    stem = f"split_seed{a.seed}_eps{a.eps}" + ("" if a.arm == "F" else f"_{a.arm}")
+    np.save(out / f"{stem}.npy", idx)
+    (out / f"{stem}.json").write_text(json.dumps(meta, indent=1), encoding="utf-8")
     print(json.dumps(meta))
 
 

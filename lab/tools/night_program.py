@@ -10,7 +10,7 @@ selftests, analyses - goes through lab/tools/parallel_queue.py and therefore thr
 Completed runs are skipped by the trainers (fingerprint check in freq_ban.py), so resume = rerun the same command.
 Status after every experiment: <log-dir>/night_status.json. One instance at a time (lock file with PID).
 
-CPU mode (--cpu): the CPU night queue (queue_s10.sh minus EXP-034 and queue_s5) as the same kind of program, own lock, so it
+CPU mode (--cpu): EXP-014 (from queue_s5) and the CPU night queue (queue_s10.sh minus EXP-034) as the same kind of program, own lock, so it
 can run next to the GPU program. CPU runs keep --threads 4 (run ids and finished runs depend on it); workers default to
 max(1, (12 - J_gpu) // 4) so that all CPU threads stay <= 12 (rule 17). EXP-034 (dependent job chain) is not ported yet.
 
@@ -42,7 +42,8 @@ FB = f"{R}/EXP-001-freq-ban/freq_ban.py"
 G1 = f"{R}/GPU-001-equivalence"
 S16 = f"{R}/EXP-016-engineered-split/splits"
 DEFAULT_ORDER = ("GPU-001", "EXP-043", "EXP-046", "EXP-047", "EXP-048", "EXP-049", "EXP-044", "EXP-045")
-CPU_ORDER = ("EXP-035", "EXP-038", "EXP-041", "EXP-036", "EXP-039", "EXP-040", "EXP-042")   # queue_s10 order, EXP-034 not ported
+# EXP-014 first (programme A, Astra 5: crossed split x init; triage s13), then the queue_s10 order; EXP-034 not ported
+CPU_ORDER = ("EXP-014", "EXP-035", "EXP-038", "EXP-041", "EXP-036", "EXP-039", "EXP-040", "EXP-042")
 S20 = f"{R}/EXP-020-data-switch/splits"
 EXP_DIR = {"EXP-043": "EXP-043-generalize-steering", "EXP-044": "EXP-044-generalize-lockin",
            "EXP-045": "EXP-045-mlp-steering", "EXP-046": "EXP-046-dihedral-steering",
@@ -50,7 +51,7 @@ EXP_DIR = {"EXP-043": "EXP-043-generalize-steering", "EXP-044": "EXP-044-general
            "EXP-049": "EXP-049-width-steering", "EXP-050": "EXP-050-phase-dissociation",
            "EXP-035": "EXP-035-warmup-lockin", "EXP-036": "EXP-036-init-conflict", "EXP-038": "EXP-038-where-lockin",
            "EXP-039": "EXP-039-lr-clock", "EXP-040": "EXP-040-we-init-scale", "EXP-041": "EXP-041-imprint",
-           "EXP-042": "EXP-042-bias-strength"}
+           "EXP-042": "EXP-042-bias-strength", "EXP-014": "EXP-014-split-vs-init"}
 CPU_EXPS = set(CPU_ORDER)
 LOCK = ROOT / "lab" / "runner" / "night_program.lock"
 LOCK_CPU = ROOT / "lab" / "runner" / "night_program_cpu.lock"
@@ -285,6 +286,14 @@ class Night:
     def fb(self, *args: str) -> list[str]:
         return [PY, FB, "--condition", "baseline", *args]
 
+    def exp014(self) -> None:
+        """queue_s5.sh: crossed init a x split b, disjoint pairs both directions (EXP-014 Nachtrag a); default 15000 steps."""
+        o = f"{R}/{EXP_DIR['EXP-014']}"
+        pairs = ((10, 11), (11, 10), (12, 13), (13, 12), (14, 15), (15, 14), (16, 17), (17, 16), (18, 19), (19, 18))
+        cmds = [self.fb("--seed", str(a), "--split-seed", str(b), "--stop-after-gen", "25", "--out-root", f"{o}/raw")
+                for a, b in pairs]
+        self.runs_then_analysis("EXP-014", "main", cmds, 33)
+
     def exp035(self) -> None:
         o = f"{R}/{EXP_DIR['EXP-035']}"
         self.smoke("EXP-035", [self.fb("--seed", "30", "--steps", "60", "--stop-after-gen", "8000",
@@ -421,7 +430,8 @@ class Night:
         steps = {"GPU-001": self.gpu001, "EXP-043": self.exp043, "EXP-044": self.exp044, "EXP-045": self.exp045,
                  "EXP-046": self.exp046, "EXP-047": self.exp047, "EXP-048": self.exp048, "EXP-049": self.exp049,
                  "EXP-050": self.exp050, "EXP-035": self.exp035, "EXP-036": self.exp036, "EXP-038": self.exp038,
-                 "EXP-039": self.exp039, "EXP-040": self.exp040, "EXP-041": self.exp041, "EXP-042": self.exp042}
+                 "EXP-039": self.exp039, "EXP-040": self.exp040, "EXP-041": self.exp041, "EXP-042": self.exp042,
+                 "EXP-014": self.exp014}
         failed = False
         for name in order:
             print(f"[night] {now()} {name} start (J={self.J})", flush=True)

@@ -1052,3 +1052,37 @@ EXP-020-Seeds (beschreibend, nicht vorab festgelegt: Train-Acc bei hi ≤ 0.5 in
 gen_F = 625 → stützt H20, Intervall wieder **(25, 50]**. Ab t = 150 ist K identisch mit „nur F“ ([23, 29, 41, 45, 55]).
 Nachtrag c: Train-Acc „nur F“ bei Schritt 50 = 0.108 ≤ 0.5 → erfüllt (1/1 der vorab festgelegten Seeds 31–34).
 Zwischenstand H20: 2/2 stützen; Urteil erst mit allen Seeds.
+
+### Abschlussbericht Sitzung 8 (2026-09-26, 11:59–~14:40 Berlin)
+
+**Wichtigste Befunde:**
+1. **[[experiments/EXP-033-optimizer-lockin/README|EXP-033]] (vorab festgelegt, Nachträge a–c):** Die frühe Festlegung im Zwei-Hot-Netz
+   ist **kein AdamW-Artefakt der frühen Phase**: Reiner Gradientenabstieg bis zur gleichen Merkmalsamplitude erzeugt eine
+   bleibende F-Neigung in 10/10 Splits (p = 0.001), etwas stärker als AdamW (R 1.26, KI [1.10, 1.46]); signGD ≈ AdamW.
+   Vorab-Kategorie *zustandsbestimmt*, nach Codex **eingeschränkt**: belegt nur „AdamW in Phase 1 nicht nötig“, bei
+   AdamW-Phase 2, Stufe t_s = 10. Die lineare Modentheorie sagte die stärkere GD-Neigung am Umschaltschritt vorher (10/10).
+   Unter dem Top-5-Maß: Anker 0.4 von 5 Zielen, alle Arme 4.6–4.7.
+2. **[[experiments/EXP-020-data-switch/README|EXP-020]] (2/5 Seeds, beschreibend):** Der Transformer legt seine Frequenzwahl nach
+   **25–50 Schritten** fest (Seeds 30 und 31 identisch), vor der Memorisierung (Train-Acc ≈ 0.1); ab 150 Schritten F bleibt K
+   nach 2000 G-Schritten exakt wie „nur F“. Beide Seeds stützen H20; Urteil erst mit 5 Seeds.
+3. Post hoc: Die frühe Neigung wird vor allem um die Generalisierung verstärkt (P34d vorab für EXP-034); in Mischzuständen
+   entstehen „Konfliktfrequenzen“ außerhalb F ∪ G ∪ 2k (Ursprung offen).
+
+**Vorbereitet, nicht ausgeführt (alle nach Codex-Review umgebaut, Analysen synthetisch getestet):**
+[[experiments/EXP-034-phase2-optimizer/README|EXP-034]] (GD auch in Phase 2, 5-Schritte-Stufe, frische Splits 60–69, Vorhersagen
+P34c/P34d), [[experiments/EXP-035-warmup-lockin/README|EXP-035]] (Warmup gegen die Festlegungszeit des Transformers).
+Grund: Jobplatz durch EXP-020 belegt. Nächster Schritt: `sh lab/experiments/queue_s8.sh`.
+
+**Offene Grenzen:** Zwei-Hot-Befunde an einer Architektur; Phase 2 bisher immer AdamW; EXP-020 erst 2 Seeds; Warmup-Effekt
+ungeprüft; `train_opt.py --opt2 gd` und `freq_ban.py --warmup` sind im echten Lauf ungetestet (beide Queues beginnen mit
+Pilot bzw. Smoke und stoppen bei Fehlern).
+**Codex:** fünf Reviews (EXP-033 Design, EXP-033 Schluss, EXP-034, EXP-035, jeweils needs-attention), alle Einwände geprüft,
+fast alle übernommen (nicht: volles Faktorialdesign und large-ε-Adam in EXP-033).
+**Eigene Fehler:** mehrfach geschätzte statt gemessene Uhrzeiten (korrigiert); ein `sed` mit `\|` zerstörte einen README-
+Abschnitt (aus Git wiederhergestellt); ein f-String mit geschweiften Klammern; eine ungeprüfte Autorenzuschreibung (entfernt);
+eine Warteschleife mit zu breitem `grep "stop"`.
+**Reproduktion:** EXP-033: `sh lab/experiments/EXP-033-optimizer-lockin/queue.sh`, dann
+`python lab/tools/guarded_run.py -- python lab/experiments/EXP-033-optimizer-lockin/analyze.py`; EXP-020: `queue_s5.sh`/`queue_s8.sh`
+und `EXP-020-data-switch/analyze.py`; lineare Moden: `EXP-033-optimizer-lockin/linear_modes.py [--split-dir … --seeds …]`.
+**Scheduler:** Aufgabe `GROKVERSE-Lab-Runner` aktiv; nächster Start laut `runner-state.json` 2026-09-26T14:59:45Z = **16:59 Berlin**
+(Fenster heute bis 18:00, ab dem 27.09. wieder 00:00–13:00).

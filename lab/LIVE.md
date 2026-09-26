@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 11:59 Berlin (09:59Z, vom Runner)
 - **Deadline:** 2026-09-26 14:59 Berlin (12:59Z)
-- **Zuletzt aktualisiert:** 14:16 Berlin
+- **Zuletzt aktualisiert:** 14:31 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-EXP-020 Seed 32 läuft. Gegen 14:35 halte ich die Warteschlange zwischen zwei Läufen an und schreibe den Abschlussbericht.
+Letzte zwei Läufe der Sitzung: EXP-020 Seed 32, Wechsel bei t = 50 und 25 (bis ~14:41). Abschlussbericht ist geschrieben.
 
 ## Als Nächstes
 
@@ -18,6 +18,7 @@ Nächste Sitzung (16:59): `sh lab/experiments/queue_s8.sh`: Rest EXP-020 → EXP
 
 ## Verlauf dieser Sitzung
 
+- 14:31 Warteschlange kontrolliert angehalten, Abschlussbericht im JOURNAL; noch zwei Einzelläufe bis ~14:41.
 - 14:16 **EXP-020 Seed 31 wie Seed 30:** Festlegung zwischen Schritt 25 und 50, vor der Memorisierung (Train-Acc 11 %). 2 von 5 Seeds.
 - 13:53 Seed 30: Die Festlegung fällt, bevor das Netz die Trainingsdaten gelernt hat (Train-Acc 10 % bei Schritt 50).
 - 13:52 Sammel-Warteschlange `queue_s8.sh` für die nächsten Sitzungen geschrieben (ein Befehl).

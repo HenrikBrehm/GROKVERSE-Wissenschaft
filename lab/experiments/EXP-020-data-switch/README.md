@@ -1,8 +1,8 @@
 ---
 id: EXP-020
-status: vorbereitet
+status: laufend
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/laufend, neu/kandidat]
 verwandt: ["[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experiments/EXP-013-lockin-curve/README|EXP-013]]", "[[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-020: Datenwechsel mitten im Training: kausale Festlegungszeit der Frequenzwahl

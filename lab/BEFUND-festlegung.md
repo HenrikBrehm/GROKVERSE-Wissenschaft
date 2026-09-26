@@ -44,6 +44,22 @@ Spekulation sind getrennt markiert. „Neu“ heißt immer: nach unserer Suche v
 | **Prägung** (N19) | Ein kurzer Vorlauf legt die Frequenzen auch gegen einen Zufallssplit fest; ob ein schwacher Split genauso prägt, ist offen | [[experiments/EXP-041-imprint/README\|EXP-041]] |
 | **Init bei Konflikt** (N15) | Heben sich F und G auf, entscheidet die Init | [[experiments/EXP-036-init-conflict/README\|EXP-036]] |
 
+## Vorab festgelegte Lesart der Ergebniskombinationen (18:53 Berlin, vor allen Läufen von EXP-039 bis EXP-042)
+
+Die Urteile der einzelnen Versuche bleiben wie in deren READMEs festgelegt; hier steht nur, was eine **Kombination** für die
+Gesamtaussage bedeuten soll, damit sie nicht nachträglich zurechtgelegt wird.
+1. **EXP-041 P41a *nicht gezeigt*** (E → R kippt auf R): Die Festlegung aus EXP-020 gilt nur für Teilwechsel (≈ 27 % neue Paare). Alle
+   Uhr-Aussagen (EXP-035/039/040/042) werden dann ausdrücklich als Aussagen über den Teilwechsel formuliert.
+2. **P41a *geprägt*:** Die Festlegung überlebt einen fast vollständigen Datenwechsel; die Uhr-Versuche sprechen über eine allgemeine
+   Eigenschaft des Trainings in diesem Aufbau.
+3. **EXP-039 *Λ* und EXP-040 *H40-Muster*:** gemeinsame Lesart „Amplitudenschwelle unter Adam“ (N18); nur Assoziation, kein Mechanismus.
+   **EXP-039 *Λ*, EXP-040 *unverändert*:** Optimierer-Uhr ohne Init-Bezug (oder Schwelle mit exponentiellem Wachstum, EXP-040 Einordnung).
+   **EXP-039 *Schritt*:** Uhr in Schritten (z. B. Adams Momenten-Horizont); H40 in linearer Fassung dann unwahrscheinlich.
+4. **EXP-042 *später*:** Der Zeitpunkt hängt auch vom zweiten Split ab; eine reine Uhr (egal welche) reicht dann nicht. Zusammen mit
+   3. hieße das: Schwelle *und* Gegenkraft (H40 + H42). **EXP-042 *gleich*:** keine Verschiebung bei dieser Gitterauflösung.
+5. Jede Kombination mit *unklar* wird als *unklar* berichtet, nicht durch die anderen Versuche „aufgefüllt“.
+6. Kein Versuch erlaubt eine Aussage über andere Architekturen oder Aufgaben.
+
 ## Nächstverwandte Literatur
 
 LeDoux 2026 (https://arxiv.org/abs/2603.25047): Minibatch-Reihenfolge bestimmt die Grundfrequenz. He et al. 2026

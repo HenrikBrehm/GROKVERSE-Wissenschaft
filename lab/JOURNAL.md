@@ -1511,3 +1511,7 @@ EXP-041 P41a ist damit der härtere Test der Festlegung (als Einordnung in EXP-0
 die Überlappung auf ≈ 57 %.
 
 **18:51: Queue-Reihenfolge geändert** (EXP-041 nach EXP-038, vor EXP-036/039/040), BACKLOG EXP-041 → P1. Grund: Zyklus 20.
+
+**Zyklus 21 (18:53, ohne Training): Vorab-Lesart der Ergebniskombinationen** in [[BEFUND-festlegung]] festgelegt (EXP-041 × EXP-039 ×
+EXP-040 × EXP-042), bevor einer dieser Versuche läuft. Zweck: keine nachträgliche Gesamtdeutung. Neue Befundnotiz [[BEFUND-festlegung]]
+fasst die Festlegungs-Linie (Sitzungen 7–10) mit Einschränkungen zusammen.

@@ -7,7 +7,7 @@ verwandt: ["[[FINDINGS]]", "[[STATE]]", "[[JOURNAL]]"]
 ---
 # Vorab-Lesart der GPU-Nacht 26./27.09.2026 (vor jedem Lauf festgelegt)
 
-Zurück zu [[FINDINGS]] · [[LAB]]. Geschrieben in Sitzung 13 (2026-09-26, ≈ 20:25 Berlin), **bevor** ein einziger Lauf von
+Zurück zu [[FINDINGS]] · [[LAB]]. Geschrieben in Sitzung 13 (2026-09-26, 20:22 Berlin, gemessen), **bevor** ein einziger Lauf von
 EXP-043 bis EXP-049 existierte. Die Einzelurteile regeln die READMEs; hier steht nur, was die **Kombination** für [[FINDINGS]] heißt.
 
 ## Einzelne Bausteine → Aussage in FINDINGS

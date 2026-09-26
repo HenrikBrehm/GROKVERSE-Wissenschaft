@@ -1,0 +1,75 @@
+(node:18760) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0dcbd-02a7-7491-ba01-4ff0feaeb43c).
+[codex] Turn started (01a0dcbd-0448-71b2-bc64-15dbc7f23263).
+[codex] Assistant message captured: {"verdict":"approve","summary":"I’m inspecting the exact diff and tracing it against the refe...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git diff --no-ext-...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git diff --no-ext-... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --no-ext-...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --no-ext-... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'trai...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'trai... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$targets = @('"'tr...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$targets = @('"'tr... (exit 0)
+[codex] Assistant message captured: {"verdict":"approve","summary":"The loading and loss path match the model API, but I found pr...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' from pathlib im...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' from pathlib im... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Command py,pyt...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Command py,pyt... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -For...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -For... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'foreach ($s in 0.....
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'foreach ($s in 0..... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$rows = @(foreach ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$rows = @(foreach ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'foreach ($s in 0.....
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'foreach ($s in 0..... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command node -...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command node -... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' const fs=requir...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' const fs=requir... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' const fs=requir...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' const fs=requir... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --no-ext-...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --no-ext-... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab/ex...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab/ex... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"No-ship: the implementation can produce a formally “c...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against HEAD~1
+Verdict: needs-attention
+
+No-ship: the implementation can produce a formally “causal” verdict from a non-selective intervention, an unstable early endpoint, and silently mismatched or stale runs.
+
+Findings:
+- [high] The transplant changes the unmeasured '='-token pathway (lab/experiments/EXP-031-we-transplant/transplant.py:61-63)
+  The primary mediator and endpoint are Fourier properties of W_E[:p], but the code copies all 114 rows, including W_E[p]. Every input uses that row at the final '=' position, and logits_last reads that position, so replacing it changes the query/value/residual state used for every prediction while leaving B's positional embedding and downstream weights in place. A later shift toward A's frequencies could therefore be adaptation to an incompatible '=' representation rather than a causal effect of A's numerical-token imprint.
+  Recommendation: Keep B's '=' row and transplant only W_E[:p]. Add a preregistered '='-only sham arm; ideally preserve B's DC component and transplant only the Fourier components constituting the claimed imprint.
+- [high] Donor identity confounds the split imprint with A's initialization lottery (lab/experiments/EXP-031-we-transplant/README.md:24-29)
+  A and B use different seeds, and a seed determines both the data split and every initialized weight. A's step-500 W_E and its 25k target T_A therefore share A's initialization as well as A's split. The repository's prior experiments explicitly find that initialization-level W_E information predicts final frequencies. Consequently, following T_A would show that some feature of A's embedding is causal, but cannot support the stated mask-imprint mechanism; A's initialization lottery is an equally direct explanation.
+  Recommendation: Use a crossed design that varies initialization and split independently: create same-init/different-split and different-init/same-split donors through step 500, then test their transplants separately. Base the mask-imprint conclusion on the split effect conditional on initialization.
+- [high] The early endpoint and aggregate control rule can misclassify the treatment (lab/experiments/EXP-031-we-transplant/analyze.py:43-54)
+  The stored study runs all generalize after step 3000 (crossings 5625–10275). At the nearest stored point, step 3040, W_E top-5 overlaps the 25k target by only 2/5 for seed 2 and 3/5 for seeds 5 and 7. Despite this pair-specific instability, the analyzer validates the endpoint using only mean control d < 0; invalid controls with d >= 0 can be hidden by other controls. It then tests absolute transplant d rather than the paired change from that B's control. Thus “causal” can be returned even when a transplant does not improve A-affinity relative to its own control.
+  Recommendation: Make Δd_i = d_transplant,i - d_control,i the primary paired endpoint, require each control to demonstrate preregistered pair-level target validity, and measure after a fixed post-generalization period or at 25k. Specify tie handling and apply the exact test to the paired effects.
+- [medium] The continuation changes the recorded numerical protocol without detecting it (lab/experiments/EXP-031-we-transplant/transplant.py:51-57)
+  The source study manifests record torch_num_threads=1, while this continuation hard-codes threads=4. The training implementation itself documents that CPU reductions and trajectories differ by thread count. The code also reconstructs the current arch25k preset and split without asserting them against B's stored config, manifest, or expected split hash; strict load_state_dict checks only parameter keys and shapes. The experiment therefore compares a fresh-Adam, four-thread trajectory against destinations learned under one thread and will not fail closed if preset or split-generation behavior drifts.
+  Recommendation: Load B's stored run configuration, preserve its thread count, and assert every relevant hyperparameter plus the reconstructed split hash against its manifest before training. Record and have the analyzer enforce checkpoint hashes, source commit/version, and configuration.
+- [medium] Wrong-budget completed runs are silently accepted as step-3000 results (lab/experiments/EXP-031-we-transplant/analyze.py:28-38)
+  Run IDs do not encode --steps, and the analyzer accepts any result with complete=true without validating args, the final logged step, split hash, or arm metadata. For example, a 20-step invocation written under raw has the same ID, is marked complete, and is then labeled test_acc_3000; because spectra are only sampled every 250 steps, its final_top5 can actually be the step-500 spectrum. queue.sh will also skip that file once it contains complete=true.
+  Recommendation: Reject results unless args exactly match the preregistration, curve[-1][0] and spectra_steps[-1] equal 3000, source and donor seeds match the pair, and split/config/checkpoint hashes match expected values. Include a protocol/config digest in the run ID and existing-run guard.
+
+Next steps:
+- Narrow the intervention and add crossed initialization/split plus '='-row sham controls.
+- Replace the verdict with a pairwise treatment-versus-control endpoint measured after generalization.
+- Pin and validate the original run configuration, split, checkpoints, and result budget before launching the queue.

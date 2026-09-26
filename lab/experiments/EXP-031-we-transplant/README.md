@@ -1,6 +1,6 @@
 ---
 id: EXP-031
-status: vorbereitet
+status: zurückgestellt
 datum: 2026-09-26
 tags: [exp/vorbereitet, neu/kandidat]
 ---
@@ -31,6 +31,22 @@ Frequenzen von A (Abdruck kausal) oder die von B (Daten und übrige Gewichte bes
 | **Was dagegen spräche** | d ≤ 0 im Transplantationsarm: Dann ist der frühe Abdruck nur Anzeiger, und die übrigen Gewichte oder die Daten legen die Wahl fest |
 | **Grenzen** | Der Tausch bricht das Zusammenspiel von W_E mit den übrigen Gewichten (Genauigkeit fällt vermutlich stark). Messung bei 3000 statt am Ende (Budget; die Top-5 stehen laut EXP-003/012 früh fest). Nur 5 Paare, Explorationsseeds 0–9 der Studie. Frisches AdamW in beiden Armen |
 | **Budget** | 2500 Schritte × ~0.13 s ≈ 5.5 min je Lauf, 10 Läufe ≈ 55 min; Smoke: 20 Schritte (Laden, Tausch, Endlichkeit) |
+
+## Nachtrag a (10:09 Berlin): zurückgestellt nach Codex-Review, kein Lauf
+
+Codex (`codex_review_2026-09-26.txt`, „needs-attention“, 3 × high, 2 × medium), selbst geprüft, alle zutreffend:
+1. Die `=`-Zeile (W_E[p]) wird mitverpflanzt und verändert jede Vorhersage; nur W_E[:p] tauschen, dazu ein Schein-Arm
+   nur mit der `=`-Zeile.
+2. **Spender-Identität verwechselt Split-Abdruck und Init-Lotterie:** A's W_E bei 500 trägt A's Init und A's Split. Ein
+   Folgen von A belegt nur, dass etwas in W_E kausal ist. Nötig: gekreuzte Spender (gleiche Init/anderer Split und
+   umgekehrt, bis Schritt 500 eigens trainiert).
+3. **Endpunkt bei 3000 instabil:** Die Studienläufe generalisieren erst bei 5600–10 300; bei ~3040 teilen die Top-5 mit dem
+   Endmodell teils nur 2/5 (Seed 2) oder 3/5 (Seeds 5, 7). Primär müsste Δd = d_transplant − d_control je Paar sein, mit
+   Gültigkeit je Paar, gemessen nach der Generalisierung.
+4. Thread-Zahl (Studie 1, hier 4), Konfiguration und Split-Hash werden nicht gegen das Manifest geprüft.
+5. Läufe mit falschem Budget würden unbemerkt akzeptiert.
+**Entscheidung:** nicht ausführen. Der nötige Umbau (gekreuzte Spender, Läufe bis nach der Generalisierung, ~15–20 min je
+Lauf) sprengt diese Sitzung. Die Frage bleibt im BACKLOG; der Code hier ist als **ungeprüfter Entwurf** zu lesen.
 
 ## Befehle
 

@@ -864,3 +864,8 @@ Befund aus Sitzung 5, dass die M0-Konzentration die Grokking-Zeit nicht vorhersa
 geschrieben (`transplant.py`, eigenständig, baut das Modell wie `freq_ban.py`, lädt Studien-Checkpoints bei 500, frisches
 AdamW in beiden Armen). 5 Paare (B = 0, 2, 4, 6, 8; A = B + 1) × {transplant, control}, bis Schritt 3000, ~55 min.
 Ungetestet; Smoke (20 Schritte) steht am Anfang der Warteschlange. Codex-Review läuft.
+**Codex-Review EXP-031 (bis 10:09):** „needs-attention“, 5 Punkte, alle übernommen (`=`-Zeile mitverpflanzt; Spender trägt Init-Lotterie
+und Split zugleich; Endpunkt 3000 instabil, weil die Studienläufe erst ab 5600 generalisieren; Threads/Konfiguration nicht
+geprüft; falsches Budget unbemerkt). **Entscheidung: nicht ausführen, zurückgestellt.** Das richtige Design (gekreuzte
+Spender, Messung nach der Generalisierung) kostet mehrere Stunden Rechenzeit; es gehört in eine spätere Sitzung.
+Lehre: Endpunkte vor der Festlegung an den vorhandenen Zeitverläufen auf Stabilität prüfen.

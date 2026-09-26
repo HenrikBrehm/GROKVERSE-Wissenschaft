@@ -294,3 +294,4 @@ gegen finite Differenzen und Frequenzmaß an einer zirkulanten Matrix im Fenster
 (ein Job gleichzeitig; kommt in eine spätere Warteschlange). Vorbedingung vorab: RFM muss generalisieren und
 Frequenzen konzentrieren, sonst nicht auswertbar.
 Baseline Seed 13 fertig 03:47: gen 5275, K {7, 15, 16, 25, 42}.
+Baseline Seed 14 fertig 04:11: gen 11200 (langsam), K {11, 14, 27, 36, 37}.

@@ -63,6 +63,17 @@ def main() -> None:
                 res["verdict"] = "bestätigt"
             else:
                 res["verdict"] = "richtungsgleich, n. s."
+        if act == "relu":   # Nachtrag b: directional secondary prediction F > H
+            dr = [-x for x in d]
+            res["p_sign_F_gt_H"] = sign_test(dr)
+            if len(v) < 12 or sum(x != 0 for x in dr) < 8:
+                res["verdict_R"] = "nicht auswertbar"
+            elif np.mean(dr) <= 0:
+                res["verdict_R"] = "widerspricht"
+            elif res["p_sign_F_gt_H"] < 0.05 and res["ov_F_mean"] >= 2:
+                res["verdict_R"] = "bestätigt"
+            else:
+                res["verdict_R"] = "richtungsgleich, n. s."
         out[act] = res
     (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     for act, res in out.items():

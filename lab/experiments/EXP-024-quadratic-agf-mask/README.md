@@ -71,6 +71,15 @@ mit den tatsächlichen Masken und schließt das also ein; ein H-Befund belegt tr
 die Ursache ist (Alternativen: Landschaft des quadratischen Verlusts, AdamW). Ein positiver Befund heißt nur: Die
 Nutzenrechnung sagt die Wahl des trainierten Netzes voraus.
 
+## Nachtrag b (2026-09-26 ~08:58 Berlin, vor dem ersten ReLU-Lauf; Q-Läufe liefen, noch nicht angesehen)
+
+Dieselbe exakte Nutzenrechnung mit ReLU statt x² (`utility_relu.py`, 19 Einheiten, 16 × 16 Phasen): Top-5 des Nutzens
+enthalten **4.68/5 Ziele F** und 0.37/5 halbe Ziele H. Die Theorie sagt also eine **Umkehr** voraus: quadratisch → H,
+ReLU → F (ReLU hat einen linearen Anteil x/2, der die Maske bei k abgreift). Damit bekommt Arm R eine gerichtete
+Vorhersage: **H24-R:** ov(Top-5, F) > ov(Top-5, H), Vorzeichentest einseitig über d = ov_F − ov_H, sonst gleiche
+Regeln wie Arm Q (Schwelle ov_F ≥ 2). Das wird als **sekundäre** Entscheidung ausgewertet; die primäre bleibt Arm Q.
+Wichtige Abweichung: Das trainierte R-Netz hat keinen Bias (Nachtrag a), der Nutzen hier auch nicht.
+
 **Neuheit:** vorläufig, siehe [[NOVEL_DIRECTIONS]] N11 (Suche folgt).
 
 ## Befehle

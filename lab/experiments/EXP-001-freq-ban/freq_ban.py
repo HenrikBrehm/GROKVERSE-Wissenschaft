@@ -72,6 +72,14 @@ LR_SCALE_UNTIL = 250          # EXP-039: last step with the scaled lr (on the fi
 SPECTRUM_EVERY = 250          # steps between stored W_E power spectra
 PARTIAL_WRITE_EVERY = 500     # steps between partial result.json writes
 STORED_RUN = "txf_add_p113_wd1.0_frac0.3_seed{seed}_arch25k"
+# Astra review point 3 (session 13): run fingerprint over every argument that changes the run or its artifacts, plus the
+# content hashes of the data files. Run ids stay unchanged (old results remain valid); the fingerprint decides skipping.
+FINGERPRINT_VERSION = 1
+FINGERPRINT_ARGS = ("seed", "condition", "t0", "m", "steps", "stop_after_gen", "threads", "split_seed", "switch_step",
+                    "split_value", "warmup", "alternate_every", "reset_at_switch", "lr_scale", "we_init_scale",
+                    "spectra_at", "p", "task", "arch", "device", "save_model")
+FINGERPRINT_FILES = ("split_file", "test_file", "switch_split_file")
+LOCK_NAME = "run.lock"
 
 
 # --------------------------------------------------------------------------- #
@@ -200,6 +208,116 @@ def previous_status(path: Path) -> str | None:
         return None
 
 
+def file_sha256(path: str | None) -> str | None:
+    return None if path is None else hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def run_fingerprint(a: argparse.Namespace) -> tuple[str, dict]:
+    """sha256 of the canonical JSON of all effective arguments and data-file contents (not out_root/force)."""
+    fields = {k: getattr(a, k) for k in FINGERPRINT_ARGS}
+    fields["spectra_at"] = sorted({int(x) for x in a.spectra_at.split(",") if x.strip()})
+    fields.update({f"{k}_sha256": file_sha256(getattr(a, k)) for k in FINGERPRINT_FILES})
+    fields["fingerprint_version"] = FINGERPRINT_VERSION
+    blob = json.dumps(fields, sort_keys=True, separators=(",", ":"), default=str)
+    return hashlib.sha256(blob.encode()).hexdigest(), fields
+
+
+def legacy_mismatch(prev: dict, a: argparse.Namespace, out_dir: Path) -> str | None:
+    """A completed run from before the fingerprint: reject a skip if any recorded setting differs from the request."""
+    checks = (("max_steps", a.steps), ("stop_after_generalization", a.stop_after_gen), ("switch_step", a.switch_step),
+              ("warmup", a.warmup), ("alternate_every", a.alternate_every), ("reset_at_switch", a.reset_at_switch),
+              ("split_value", a.split_value), ("device", a.device))
+    for key, want in checks:
+        if key in prev and prev[key] != want:
+            return f"{key} {prev[key]!r} != requested {want!r}"
+    for key, path in (("split_hash", a.split_file), ("test_hash", a.test_file), ("switch_hash", a.switch_split_file)):
+        if path is not None and key in prev and prev[key] != split_hash(np.load(path)):
+            return f"{key} differs from the content of {path}"
+    if a.save_model and not (out_dir / "model_final.pt").exists():
+        return "--save-model requested but no model_final.pt"
+    return None
+
+
+def _pid_alive_since(pid: int, not_after_unix: float) -> bool:
+    """True if process pid runs and was created no later than not_after_unix (guards against PID reuse).
+    Windows via OpenProcess/GetProcessTimes (os.kill(pid, 0) would TERMINATE the process on Windows)."""
+    if os.name != "nt":
+        try:
+            os.kill(pid, 0)
+        except OSError:
+            return False
+        return True
+    import ctypes
+    from ctypes import wintypes
+    k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    k32.OpenProcess.restype = wintypes.HANDLE
+    k32.OpenProcess.argtypes = (wintypes.DWORD, wintypes.BOOL, wintypes.DWORD)
+    k32.GetExitCodeProcess.argtypes = (wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD))
+    k32.GetProcessTimes.argtypes = (wintypes.HANDLE,) + (ctypes.POINTER(wintypes.FILETIME),) * 4
+    k32.CloseHandle.argtypes = (wintypes.HANDLE,)
+    h = k32.OpenProcess(0x1000, False, pid)            # PROCESS_QUERY_LIMITED_INFORMATION
+    if not h:
+        return False
+    try:
+        code = wintypes.DWORD()
+        if not k32.GetExitCodeProcess(h, ctypes.byref(code)) or code.value != 259:   # STILL_ACTIVE
+            return False
+        ft = [wintypes.FILETIME() for _ in range(4)]
+        if not k32.GetProcessTimes(h, *[ctypes.byref(x) for x in ft]):
+            return True
+        created = ((ft[0].dwHighDateTime << 32) | ft[0].dwLowDateTime) / 1e7 - 11644473600.0   # FILETIME -> unix
+        return created <= not_after_unix + 5.0
+    finally:
+        k32.CloseHandle(h)
+
+
+def acquire_lock(out_dir: Path, run_id: str) -> Path:
+    """Exclusive lock per run id; a lock of a dead (or reused) PID is taken over."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    lock = out_dir / LOCK_NAME
+    for _ in range(2):
+        try:
+            fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        except FileExistsError:
+            try:
+                info = json.loads(lock.read_text())
+                holder_alive = _pid_alive_since(int(info["pid"]), float(info["created_unix"]))
+            except (OSError, ValueError, KeyError, TypeError):
+                info, holder_alive = {}, False
+            if holder_alive:
+                raise SystemExit(f"[exp] {run_id} is locked by running pid {info['pid']} ({lock})")
+            lock.unlink(missing_ok=True)                   # stale lock of a dead run
+            continue
+        with os.fdopen(fd, "w") as f:
+            json.dump({"pid": os.getpid(), "created_unix": time.time(),
+                       "start_utc": datetime.now(timezone.utc).isoformat()}, f)
+        import atexit
+        atexit.register(lambda: lock.unlink(missing_ok=True))
+        return lock
+    raise SystemExit(f"[exp] could not acquire {lock}")
+
+
+def save_npy_atomic(path: Path, arr) -> None:
+    tmp = path.with_name(path.name + ".tmp")           # no with_suffix: stems may contain dots (eps2.0)
+    with open(tmp, "wb") as f:
+        np.save(f, arr)
+    os.replace(tmp, path)
+
+
+def verify_artifacts(out_dir: Path, step: int, extra_spec: set[int], save_model: bool) -> None:
+    """Fail closed before 'completed': arrays load, match each other, end at the final step and are finite."""
+    sp, st = np.load(out_dir / "spectra.npy"), np.load(out_dir / "spectra_steps.npy")
+    if len(sp) != len(st) or len(st) == 0 or int(st[-1]) != step or not np.isfinite(sp).all():
+        raise SystemExit(f"[exp] artifact check failed in {out_dir}: spectra/steps inconsistent or non-finite")
+    if extra_spec:
+        ws, wst = np.load(out_dir / "we_snapshots.npy"), np.load(out_dir / "we_snapshot_steps.npy")
+        want = {0} | {x for x in extra_spec if x <= step}
+        if len(ws) != len(wst) or not want <= set(wst.tolist()) or not np.isfinite(ws).all():
+            raise SystemExit(f"[exp] artifact check failed in {out_dir}: W_E snapshots incomplete or non-finite")
+    if save_model and not (out_dir / "model_final.pt").exists():
+        raise SystemExit(f"[exp] artifact check failed in {out_dir}: model_final.pt missing")
+
+
 def run(a: argparse.Namespace) -> dict:
     if ((a.p, a.task, a.arch) != (113, "add", "transformer")
             and (a.split_file is None or a.split_seed is not None or a.condition != "baseline" or a.split_value)):
@@ -263,8 +381,16 @@ def run(a: argparse.Namespace) -> dict:
     if any(x < 1 for x in extra_spec):
         raise SystemExit("--spectra-at needs steps >= 1")
     out_dir = Path(a.out_root) / run_id
+    fingerprint, fp_fields = run_fingerprint(a)
     if not a.force and previous_status(out_dir / "result.json") == "completed":
         prev = json.loads((out_dir / "result.json").read_text())
+        if "fingerprint" in prev:     # Astra 3: skip only the identical run; anything else is an error, not a skip
+            if prev["fingerprint"] != fingerprint:
+                raise SystemExit(f"[exp] {run_id} completed with another configuration (fingerprint differs); "
+                                 "use another --out-root or --force")
+        elif (why := legacy_mismatch(prev, a, out_dir)) is not None:
+            raise SystemExit(f"[exp] {run_id} completed (pre-fingerprint) with another configuration: {why}; "
+                             "use another --out-root or --force")
         if (float(prev.get("lr_scale", 1.0)) != a.lr_scale              # Codex s10: same intervention as requested
                 or float(prev.get("we_init_scale", 1.0)) != a.we_init_scale):
             raise SystemExit(f"[exp] {run_id} completed with other scale metadata; rerun with --force")
@@ -277,7 +403,7 @@ def run(a: argparse.Namespace) -> dict:
                 raise SystemExit(f"[exp] {run_id} completed without the --spectra-at steps/snapshots; rerun with --force")
         print(f"[exp] {run_id} already completed; use --force to overwrite", flush=True)
         raise SystemExit(0)           # skip is not an error (EXP-020 queue stops on every other failure)
-    out_dir.mkdir(parents=True, exist_ok=True)
+    acquire_lock(out_dir, run_id)     # Astra 3: no two processes on one run id (creates out_dir)
     for stale in ("we_snapshots.npy", "we_snapshot_steps.npy"):   # Codex s10: no stale snapshots from an earlier run
         (out_dir / stale).unlink(missing_ok=True)
     if a.force:                      # Codex s12: a forced rerun that dies before its first write must not leave the old record
@@ -375,7 +501,9 @@ def run(a: argparse.Namespace) -> dict:
            "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "lr_scale_until": LR_SCALE_UNTIL, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "spectra_at": sorted(extra_spec),
            "device": a.device, "device_name": (torch.cuda.get_device_name(dev) if dev.type == "cuda" else platform.processor()),
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
-           "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
+           "config": {**cfg.to_dict(), "device": a.device},   # Astra 10: Config keeps 'cpu'; record the real device
+           "fingerprint": fingerprint, "fingerprint_fields": fp_fields,
+           "split_hash": split_hash(data["train_idx"]),
            "test_hash": split_hash(data["test_idx"]),
            "switch_hash": None if switch_idx is None else split_hash(switch_idx),
            "git_commit": git_commit(), "versions": lib_versions(),
@@ -399,7 +527,7 @@ def run(a: argparse.Namespace) -> dict:
             we_snap_steps.append(step)
             we_snaps.append(model.W_E.detach().cpu().numpy()[:p].astype(np.float32).copy())
 
-    def write(status: str) -> None:
+    def write(status: str, arrays: bool = True) -> None:
         res.update({"status": status, "steps_completed": step, "banned_freqs": banned,
                     "events": events, "dense": dense,
                     "transitions": all_transitions(dense) if dense["test_steps"] else None,
@@ -407,11 +535,12 @@ def run(a: argparse.Namespace) -> dict:
                     "sec_per_step": round((time.perf_counter() - t_start) / max(step, 1), 5)})
         if dev.type == "cuda":        # rule 16c: memory per process, to size parallel GPU runs
             res["cuda_max_mem_mb"] = round(torch.cuda.max_memory_allocated(dev) / 2**20, 1)
-        np.save(out_dir / "spectra.npy", np.asarray(spectra))
-        np.save(out_dir / "spectra_steps.npy", np.asarray(spectra_steps))
-        if we_snaps:
-            np.save(out_dir / "we_snapshots.npy", np.asarray(we_snaps))
-            np.save(out_dir / "we_snapshot_steps.npy", np.asarray(we_snap_steps))
+        if arrays:                    # Astra 3: atomic like result.json (a kill cannot leave a truncated array)
+            save_npy_atomic(out_dir / "spectra.npy", np.asarray(spectra))
+            save_npy_atomic(out_dir / "spectra_steps.npy", np.asarray(spectra_steps))
+            if we_snaps:
+                save_npy_atomic(out_dir / "we_snapshots.npy", np.asarray(we_snaps))
+                save_npy_atomic(out_dir / "we_snapshot_steps.npy", np.asarray(we_snap_steps))
         tmp = out_dir / "result.json.tmp"             # atomic: a kill during the write cannot truncate result.json
         tmp.write_text(json.dumps(res, indent=1))
         os.replace(tmp, out_dir / "result.json")
@@ -523,8 +652,12 @@ def run(a: argparse.Namespace) -> dict:
                         "test": evaluate(model, tex, tey, p)[1]}
     res["end_utc"] = datetime.now(timezone.utc).isoformat()
     if a.save_model:
-        torch.save(model.state_dict(), out_dir / "model_final.pt")
-    write("completed")
+        tmp_model = out_dir / "model_final.pt.tmp"
+        torch.save(model.state_dict(), tmp_model)
+        os.replace(tmp_model, out_dir / "model_final.pt")
+    write("finalizing")               # Astra 3: all arrays on disk, then check them, then mark completed
+    verify_artifacts(out_dir, step, extra_spec, a.save_model)
+    write("completed", arrays=False)
     print(f"[exp] {run_id} completed: steps {step}, gen {events.get('generalization_step')}, "
           f"banned {banned}, final top-{a.m} {res['final_top_m_freqs']}, "
           f"{res['sec_per_step']} s/step", flush=True)

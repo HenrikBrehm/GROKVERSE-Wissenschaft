@@ -77,22 +77,30 @@ def equivalence() -> tuple[dict, bool]:
 
 
 def throughput() -> tuple[dict, bool]:
-    """Codex s12: a level counts only if all J processes completed on cuda; pass needs J = 1 complete."""
+    """Astra 10: throughput = completed steps / measured wall time of the whole level (incl. process and ROCm start-up);
+    a level counts only if all J processes completed 500 steps on cuda and its wall-time record exists (queue.sh writes
+    raw_par/wall_J<J>.txt = start and end unix seconds). pass needs J = 1 complete."""
     levels = {}
     for J in (1, 2, 4, 8):
-        sps = []
+        done, mem = 0, []
         for i in range(1, J + 1):
             for d in (HERE / "raw_par" / f"J{J}_{i}").glob("*/result.json"):
                 r = json.loads(d.read_text(encoding="utf-8"))
                 if r["status"] == "completed" and r.get("device") == "cuda" and r.get("steps_completed") == 500:
-                    sps.append((r["sec_per_step"], r.get("cuda_max_mem_mb")))
-        complete = len(sps) == J
-        mean_sps = float(np.mean([x[0] for x in sps])) if sps else None
-        levels[f"J{J}"] = {"n_completed": len(sps), "complete": complete, "sec_per_step_mean": mean_sps,
-                           "aggregate_steps_per_s": len(sps) / mean_sps if sps else 0.0,
-                           "max_mem_mb": max((x[1] or 0) for x in sps) if sps else None}
+                    done += 1
+                    mem.append(r.get("cuda_max_mem_mb") or 0)
+        wall_f = HERE / "raw_par" / f"wall_J{J}.txt"
+        wall = None
+        if wall_f.exists():
+            t0, t1 = (float(x) for x in wall_f.read_text().split()[:2])
+            wall = t1 - t0 if t1 > t0 else None
+        complete = done == J and wall is not None
+        levels[f"J{J}"] = {"n_completed": done, "complete": complete, "wall_s": wall,
+                           "aggregate_steps_per_s": (J * 500 / wall) if complete else 0.0,
+                           "runs_per_hour": (J * 3600 / wall) if complete else 0.0,
+                           "max_mem_mb": max(mem) if mem else None}
     ok = levels["J1"]["complete"]
-    return {"levels": levels, "pass": ok}, ok
+    return {"levels": levels, "definition": "J*500 steps / wall time of the level", "pass": ok}, ok
 
 
 def main() -> None:

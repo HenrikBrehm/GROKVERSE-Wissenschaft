@@ -27,6 +27,7 @@ set +e
 rm -rf $OUT/raw_par $OUT/.tp_rc
 mkdir -p $OUT/.tp_rc
 for J in 1 2 4 8; do
+  t0=$(date +%s)
   i=1
   while [ $i -le $J ]; do
     ( python $G --min-minutes 5 -- $GPY $FB --seed 10 --condition baseline --steps 500 --threads 1 --device cuda --split-file $S16/split_seed10_eps2.0.npy --out-root $OUT/raw_par/J${J}_$i --force
@@ -34,6 +35,7 @@ for J in 1 2 4 8; do
     i=$((i+1))
   done
   wait
+  echo "$t0 $(date +%s)" > $OUT/raw_par/wall_J$J.txt   # Astra 10: wall time of the whole level for compare.py
 done
 if grep -qxE '3|124' $OUT/.tp_rc/* 2>/dev/null; then echo "[gpu001] throughput run refused/timed out, no verdict, stop (rc 3)"; exit 3; fi
 python $G --min-minutes 2 -- python $OUT/compare.py throughput || { rc=$?; echo "[gpu001] throughput FAIL/refused rc $rc"; exit $rc; }

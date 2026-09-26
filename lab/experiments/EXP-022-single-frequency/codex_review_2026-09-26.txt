@@ -1,0 +1,69 @@
+(node:12380) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0dc07-227d-76d1-855d-fda188d26fe9).
+[codex] Turn started (01a0dc07-23c2-70b2-bf18-64949f0b547e).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’m inspecting the exact commit diff, generated split...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$ErrorActionPrefer...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$ErrorActionPrefer... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The preregistration already exposes major construct-v...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "def (keyed_...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "def (keyed_... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^" lab/ex...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^" lab/ex... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^" lab/ex...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^" lab/ex... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^" lab/ex...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^" lab/ex... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "python -B -c \"imp...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "python -B -c \"imp... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command py,pyt...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command py,pyt... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'where.exe python; ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'where.exe python; ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git diff --check H...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git diff --check H... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git ls-tree HEAD l...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git ls-tree HEAD l... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "class .*Tra...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "class .*Tra... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"W_E|W_U|lo...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"W_E|W_U|lo... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^" traini...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^" traini... (exit 1)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The strongest blockers are now clear: the primary end...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^" lab/ex...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^" lab/ex... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"No-ship: the preregistration can produce a formally “...
+[codex] Turn completed.
+# Codex Adversarial Review
+
+Target: branch diff against HEAD~1
+Verdict: needs-attention
+
+No-ship: the preregistration can produce a formally “confirmed” result without demonstrating a single-frequency circuit, and its primary S1/S5 contrast and measurement time are materially confounded.
+
+Findings:
+- [high] Raw W_E participation ratio does not measure frequencies functionally used (lab/experiments/EXP-022-single-frequency/analyze.py:39-42)
+  The primary endpoint collapses the final input-embedding spectrum to a concentration statistic. W_E is only one component of the transformer circuit; attention projections, effective neuron curves, the unembedding, and logits determine whether a frequency is functionally used. Participation ratio is also not cardinality: one dominant frequency can hide several weaker but necessary frequencies, while unused initialization power can inflate n_eff. The queue does not save the model, so the proposed runs cannot later establish the claimed circuit with functional analysis or ablation.
+  Recommendation: Save final and fixed-step checkpoints, make a functional frequency definition primary (effective neuron/logit directions or W_out@W_U with preregistered thresholds), and require frequency-specific ablations to show that one frequency suffices. Retain W_E participation ratio only as a descriptive secondary metric.
+- [high] S1 versus S5 changes more than the number of target frequencies (lab/experiments/EXP-022-single-frequency/make_splits.py:34-40)
+  S1 uses one fresh phase realization with eps=0.9 and no effective clipping; S5 uses five separately generated phases with eps=2 and nonlinear clipping. Sharing sampling keys does not match the sampling-weight distribution, marginal pair coverage, commuted-pair coverage, or harmonic contamination. The committed metadata confirms materially different realized spectra: S1 top-1 power is 0.136–0.158 and top-5 power is about 0.208–0.229, whereas S5 top-1 is about 0.037–0.042 and top-5 is 0.177–0.188. A lower n_eff could therefore reflect peak strength, clipping, or pair non-uniformity rather than one target versus five.
+  Recommendation: Reuse the exact f1 phase inside S5, calibrate realized total target power, and add matched controls preserving each arm's empirical weight distribution and per-antidiagonal/marginal coverage while changing only Fourier allocation. Precompute and gate on count CVs, commuted-pair coverage, clipping rate, and complete M0 spectra.
+- [high] Primary spectra are measured at treatment-dependent training times (lab/experiments/EXP-022-single-frequency/analyze.py:36-40)
+  The analyzer always reads the last spectrum, but runs stop at first generalization plus 2000 steps or at 8000 if they do not cross. An early-generalizing arm may therefore be measured thousands of optimization steps before another arm, while a failed arm is measured at the cap. Any ordinary spectral evolution can appear as an S1/S5 effect, and successful and unsuccessful models are compared at qualitatively different states.
+  Recommendation: Run every arm to the same fixed cap and define n_eff at a fixed preregistered step as primary. Analyze trajectories and gen-relative checkpoints only as secondary endpoints, selecting spectra through spectra_steps rather than array position.
+- [high] The verdict can confirm H22 without a single-frequency solution or successful learning (lab/experiments/EXP-022-single-frequency/analyze.py:40-73)
+  Five arbitrarily small inequalities—for example n_eff 20.0 versus 20.1—produce “bestätigt.” Final test accuracy is recorded but does not gate the verdict, training accuracy is omitted, and a non-crossing run can still contribute its spectrum. Thus an underfit S1 model can confirm H22. Conversely, the approximate-equality prediction has no equivalence margin, “late” is undefined, and clean test accuracy does not test the stated robustness to neuronal noise. With five seeds, the sign test reaches p<0.05 only under unanimity and provides no magnitude estimate.
+  Recommendation: Define joint success criteria requiring training fit, clean generalization, a substantively single-frequency functional count, and a minimum paired effect versus S5. Specify equivalence and timing margins, add explicit perturbation/noise robustness tests, and choose more seeds from a power calculation while reporting paired effects and uncertainty.
+- [medium] Analyzer accepts cached runs produced under the wrong protocol (lab/experiments/EXP-022-single-frequency/analyze.py:25-39)
+  Validation checks only completion, seed, step cap, and data hashes. It does not verify exp_id, condition, stop_after_generalization=2000, evaluation cadence, model configuration, or that spectra_steps ends at steps_completed. Because the trainer's output path does not encode the stopping rule and skips any completed result already there, an earlier run using the same split files but a different stopping rule can be silently reused and accepted, directly changing the primary endpoint.
+  Recommendation: Validate the complete preregistered protocol and spectrum shape/final step, or store and compare a configuration fingerprint. Make the runner refuse an existing completed directory when its protocol differs, and add synthetic tests covering stale and mismatched results.
+
+Next steps:
+- Redesign and regenerate matched S1/S5/control splits before any training run.
+- Replace last-W_E n_eff with fixed-step functional circuit measurements and save checkpoints.
+- Operationalize all three predictions, including equivalence, learning/generalization, and perturbation robustness.
+- Harden protocol validation and add analyzer tests before queueing the 15 runs.

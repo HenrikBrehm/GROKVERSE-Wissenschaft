@@ -51,3 +51,29 @@ python lab/experiments/EXP-022-single-frequency/make_splits.py
 sh lab/experiments/EXP-022-single-frequency/queue.sh
 python lab/experiments/EXP-022-single-frequency/analyze.py
 ```
+
+## Nachtrag a (2026-09-26 06:51 Berlin, nach Codex-Review, **vor jedem Lauf**): neues Design
+
+Codex (`codex_review_2026-09-26.txt`, „needs-attention“), 5 Befunde, selbst geprüft, alle **übernommen**. Die Tabelle
+oben gilt nur noch, wo sie hier nicht ersetzt wird.
+1. [high] *n_eff von W_E misst keine genutzten Frequenzen, und Modelle wurden nicht gespeichert.* → Alle Läufe mit
+   `--save-model`. **Primär funktional:** K_func = Regel `nanda` der Studie (Fourier-Norm von W_L = W_out·W_U, Schwelle
+   0.25 des Maximums) am gespeicherten Modell. Dazu Ablationen in W_E: nur {DC, f1} behalten („keep_f1“) und f1 entfernen.
+   n_eff nur noch beschreibend. Geprüft am Studienmodell Seed 0 (`check_functional.py`): `nanda` reproduziert die
+   gespeicherte Menge exakt; nur die Schlüsselfrequenzen behalten → Test-Acc 0.995; nur eine behalten → 0.054.
+2. [high] *S1 und S5 unterscheiden sich in mehr als der Zahl der Ziele* (ε, Clipping 7 % bei S5, Gewichtsverteilung).
+   → **Neue Primärkontrolle D1:** die exakten Gewichte von S1 innerhalb jeder Antidiagonale permutiert, gleiche
+   Ziehungsschlüssel (wie EXP-018 Arm D). Gemessen: Rest-Häufigkeiten (CV von c 0.12–0.14) und Anteil vertauschter Paare
+   (0.28–0.31) wie S1; Top-1-Anteil 0.021–0.022 statt 0.136–0.158. S5 bleibt als Sekundärvergleich (Vorhersage b).
+   R entfällt (EXP-018 deckt R ab).
+3. [high] *Messzeitpunkt hing von der Behandlung ab.* → Alle Arme laufen **genau 6000 Schritte** ohne Frühstopp
+   (`--steps 6000 --stop-after-gen 8000`), Messung bei 6000.
+4. [high] *Winzige Unterschiede hätten „bestätigt“ ergeben, ohne Lernerfolg.* → **Gemeinsames Erfolgskriterium** pro
+   Seed („Ein-Frequenz-Lösung“): K_func(S1) = {f1} **und** Train-Acc ≥ 0.99 **und** T*-Acc ≥ 0.95 **und** keep_f1 ≥ 0.90.
+   **Entscheidung:** *erzwingbar*, wenn ≥ 4/5 Seeds den Erfolg zeigen, D1 in keinem Seed nur eine Frequenz hat und
+   |K_func(S1)| < |K_func(D1)| in 5/5; *teilweise*, wenn nur Letzteres gilt; sonst *nicht erzwingbar*. Vorhersage (b)
+   („Vielfalt bleibt“) gilt als gestützt, wenn |K_func(S1)| in ≥ 4/5 Seeds höchstens 1 von |K_func(S5)| abweicht.
+   Robustheit gegen Rauschen (He et al.) bleibt ungetestet; das wäre ein eigener Nachtrag.
+5. [medium] *Protokollprüfung zu schwach.* → `analyze.py` prüft exp_id, condition, max_steps, steps_completed,
+   stop_after_generalization, Taktung, letzten Spektrumsschritt und das Modell.
+Budget neu: 15 Läufe × 6000 Schritte × 0.13 s ≈ 13 min, zusammen ≈ 3.3 h.

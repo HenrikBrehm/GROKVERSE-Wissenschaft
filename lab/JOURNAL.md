@@ -317,3 +317,4 @@ dass der Split wählt. **Übernommen**, Wortlaut überall korrigiert (auch meine
 exaktes p 3.6e-6. (3) Bindungen → exakt über 8!: p = 2.5e-5. Kausalität prüft EXP-016 (Seed 10: Δ = +8) und EXP-014.
 EXP-016 Seed 11 Arm F 05:06: gen 775 (Baseline 5975), K {5, 10, 18, 27, 44}, 4 aus F = {5, 14, 18, 27, 44}.
 EXP-016 Seed 11 Arm G ~05:11: gen 975, K {19, 20, 29, 38, 55}, 3 aus G = {19, 20, 29, 39, 56} (38/55 sind Nachbarn von 39/56), 0 aus F. Δ_11 = +7. Beobachtung für später (nicht vorab festgelegt): Nachbarfrequenzen k±1 der Ziele.
+EXP-016 Seed 12 Arm F 05:15: gen 625 (Baseline 3525), K {6, 12, 22, 23, 48}, 4 aus F = {6, 22, 23, 47, 48}.

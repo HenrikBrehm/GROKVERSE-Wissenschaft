@@ -1757,3 +1757,14 @@ sechs ungetestete GPU-Versuche in einer Queue. Kein weiterer neuer Versuch heute
 (kontinuierlich, an EXP-016 kalibriert) ist für neue Aufgaben die bessere Primärgröße und wird in EXP-046 beschreibend mitberichtet.
 *Nächste Annahme, die angegriffen wird:* dass die Steuerung über die Paarstruktur läuft (EXP-047) und dass sie mehr ist als eine
 Eigenheit zyklischer Gruppen (EXP-046/048).
+
+**Zyklus 6 (20:18–20:23): Literatur-Tiefe für K2 und Robustheit der Nachtauswertungen.** (a) Volltext-Abrufe: He et al. 2026
+(nur vollständige Trainingsmengen, Auswahl durch Init) und Marchetti et al. 2026 (Reihenfolge nach Fourier-Statistik des festen
+*Kodierungsvektors*, vollständige gleichverteilte Daten, kein Dateneingriff). Beide stützen die vorläufige Neuheitseinordnung von K2/N24.
+(b) Subagent-Review EXP-049: kein Blocker; **Mittel:** ein divergierter Lauf (NaN) hätte in EXP-049 still *widerspricht* mit p = 0
+ergeben (`one_sided_p` mit NaN → 0.0, numerisch geprüft). Selbst geprüft: dieselbe Lücke in **allen** Nachtauswertungen EXP-043–049
+(in 043/044/045 als stilles Unsinns-K: Top-5 aus lauter NaN = k 1..5 per Tie-Break). Überall behoben: nicht-endliches Spektrum/W_E =
+ungültiger Lauf; in allen sieben READMEs als Nachtrag vor jedem Lauf vermerkt. *Niedrig:* J aus dem d = 128-Durchsatztest (nur Laufzeit);
+Init-Verdünnung hebt Δ_pow(512) mechanisch an (Einschränkung in EXP-049 ergänzt, Primärurteil unberührt).
+(c) Gestartet: unabhängige Prüfung von GPU-001 und der fail-closed-Änderungen aus 2b19820 (nie geprüft, nie ausgeführt, sperren aber
+die ganze GPU-Nacht).

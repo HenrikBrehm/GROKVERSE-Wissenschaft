@@ -503,3 +503,7 @@ early training“. Einziger gemeldeter Treffer: Liu, Paquette & Sous 2026, „Sp
 HTML-Volltext geprüft: modulare Arithmetik nur als statisches Spielzeugmodell, **kein** Datenwechsel mitten im Training und keine
 Festlegungszeit (die Zusammenfassung des Abruf-Werkzeugs hatte „data switch“ fälschlich als Inhalt angegeben). Einordnung von N14
 unverändert: nicht gefunden (vorläufig).
+
+**Nachtrag zu N14/N22 (18:51):** Nach der Festlegung (Wechsel bei 150) wachsen unter G-Daten die F-Frequenzen wie unter F weiter,
+die G-Ziele schrumpfen (5/5 Seeds, beschreibend). Einschränkung: F/G teilen ≈ 73 % der Paare; die Festlegung ist bisher nur gegen
+einen Teilwechsel (≈ 27 %) gezeigt; EXP-041 (≈ 63 % Wechsel) ist der härtere Test.

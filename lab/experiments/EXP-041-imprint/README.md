@@ -68,6 +68,10 @@ Queue-Anfang, fail-closed).
 weil der schwache Split R in 150 Schritten einen kleineren Vorsprung aufbaut, als die Neigung von E danach ausgleichen kann.
 Tritt *geprägt* ein, spricht das gegen H42 in dieser Form.
 
+**Einordnung (18:51, vor jedem Lauf, ändert keine Regel):** E und R teilen je Seed nur 1392–1479 von 3831 Paaren (≈ 37 %,
+Zufallsniveau), F und G in EXP-020 dagegen ≈ 73 %. P41a prüft die Festlegung also gegen einen fast vollständigen Datenwechsel
+(≈ 63 % neue Paare) und ist damit ein deutlich härterer Test als EXP-020.
+
 ## Status
 
 Vorab festgelegt, Code geschrieben, **ungetestet** (Fenster geschlossen; Selbsttest am Queue-Anfang, fail-closed).

@@ -1496,3 +1496,16 @@ die Folgesitzungen die Nacht-Ergebnisse in einem Aufruf sehen. Am `queue_s9.log`
 eine Wächter-Ablehnung um 17:36).
 
 **18:50: EXP-035 um Seed 34 erweitert** (Nachtrag e; vom Design erlaubt; macht das Urteil strenger, nicht leichter; +≈ 35 min).
+
+**Zyklus 20 (18:51, ohne Training, post hoc aus gespeicherten EXP-020-Spektren): Was macht das G-Training nach der Festlegung?**
+Wechsel bei t = 150 gegen „nur F“, mittlere Leistung der 5 F-Ziele / 5 G-Ziele (Init-Mittel ≈ 2.0), Seeds 30–34:
+F-Ziele wachsen unter G weiter wie unter F (Schritt 250: 17.0/15.4, 17.1/16.2, 16.2/14.4, 17.0/15.2, 18.0/16.8; Schritt 2000:
+25.6/24.6, 25.7/23.6, 25.6/27.8, 22.8/29.1, 29.3/32.0). G-Ziele **schrumpfen trotz G-Daten** wie im reinen F-Lauf (Schritt 250 → 2000:
+3.19 → 0.30 gegen 3.53 → 0.40; ähnlich in allen 5 Seeds), im Wechsellauf zu fast allen Zeitpunkten sogar etwas tiefer als ohne
+Wechsel. *Ergebnis:* Nach der Festlegung fördert G seine eigenen Zielfrequenzen sichtbar nicht (5/5); das Netz lernt die neue
+Stichprobe mit den vorhandenen F-Frequenzen (Prämisse von H42/N22 gestützt, beschreibend).
+**Wichtige Einschränkung, die ich bisher nicht beachtet hatte:** F und G teilen sich 2745–2795 von 3831 Trainingspaaren (≈ 73 %); der
+„Datenwechsel“ in EXP-020/035/037/039/040 tauscht also nur ≈ 27 % der Paare. Die Festlegung ist damit bisher nur gegen einen
+**teilweisen** Wechsel gezeigt. In EXP-041 teilen E und R nur ≈ 37 % (Zufallsniveau 3831/10215), dort werden ≈ 63 % getauscht:
+EXP-041 P41a ist damit der härtere Test der Festlegung (als Einordnung in EXP-041 notiert, Regeln unverändert). EXP-042 eps 8 senkt
+die Überlappung auf ≈ 57 %.

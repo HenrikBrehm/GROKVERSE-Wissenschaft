@@ -43,7 +43,7 @@ Fällt sie am Start (AGF-Bild), liegt α* nahe r_init; entscheidet die Endlösun
 | **Grenzen** | 5 Stufen im Faktor-10-Raster: α̂* nur auf ~1 Dekade genau. Die AGF-Rechnung nimmt Merkmale einer Frequenz und kleine Init an; AdamW normiert Schritte, was r(t) anders wachsen lässt als Gradientenfluss. Der Umschlag in α könnte auch aus anderen Effekten des linearen Terms entstehen (z. B. leichteres Anpassen) |
 | **Budget** | 25 Läufe × ~83 s ≈ 35 min. Smoke: α = 3 und α = 0.003 am EXP-024-Smoke-Split Seed 9 (nur Laufbarkeit, Endlichkeit, Zeit). Bei Divergenz dürfen lr/Init **vor** der Hauptserie geändert werden (hier nachtragen) |
 
-## Nachtrag a (2026-09-26 09:25 Berlin, nach Codex-Review, vor jedem EXP-026-Lauf): Umbau zum Umschaltversuch
+## Nachtrag a (2026-09-26 09:15 Berlin, nach Codex-Review, vor jedem EXP-026-Lauf): Umbau zum Umschaltversuch
 
 Codex-Review (`codex_review_2026-09-26.txt`, „needs-attention“, 4 × high, 2 × medium), selbst geprüft, **alle
 übernommen**: (1) Getrennt trainierte α-Stufen sind keine Uhr, denn α verändert die gesamte Optimierung; ein

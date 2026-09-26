@@ -7,7 +7,7 @@ verwandt: ["[[LAB]]", "[[BEFUND-split-mechanismus]]", "[[BEFUND-festlegung]]", "
 ---
 # FINDINGS: Kernaussagen des Labors (eine Seite)
 
-Zurück zu [[LAB]]. Stand 2026-09-26, Sitzung 13 (nach 48 angelegten Versuchen; Kernaussagen seit Sitzung 11 unverändert, keine neuen Läufe). „Neu“ heißt immer: nach unserer Suche vom
+Zurück zu [[LAB]]. Nachtrag Sitzung 14 (22:00): nur Vorbereitung und Nachrechnung gespeicherter Läufe, keine neuen Läufe, Kernaussagen unverändert. Stand 2026-09-26, Sitzung 13 (nach 48 angelegten Versuchen; Kernaussagen seit Sitzung 11 unverändert, keine neuen Läufe). „Neu“ heißt immer: nach unserer Suche vom
 2026-09-26 nicht gefunden, vorläufig. **Alle Aussagen gelten bisher nur für eine Aufgabe (Addition mod 113) und im Kern eine
 Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelheiten: [[BEFUND-split-mechanismus]], [[BEFUND-festlegung]].
 
@@ -20,8 +20,8 @@ Frequenzen/Irreps ein Netz repräsentiert und nutzt, und diese Wahl ist nach kur
 | Paket | Frage | Stand | Aktiv? |
 |---|---|---|---|
 | **A** | Split-Steuerung unabhängig replizieren, verallgemeinern **und funktional** nachweisen | Pilot/Verallgemeinerung vorbereitet: EXP-043, 045, 046, 047, 048, 049. Funktionaler Pilot: [[experiments/EXP-051-functional-ablation/README|EXP-051]] (Ablation an den EXP-047-Modellen gegen energiegleiche Kontrolle). K1 an unberührten Fällen (add 97, mul 113, D₅₉), Vorhersage vor den Läufen eingefroren: [[experiments/EXP-052-oos-mask-prediction/README|EXP-052]]. **Fehlt:** unabhängiger Bestätigungsblock | ja |
-| **B** | Persistenz nach Datenwechsel: F→G **und** G→F, kontrollierte Überlappung, festes Nachtrainingsbudget; „festgelegt“ = „nach B Schritten persistent“ | EXP-044 (bedingt auf EXP-043); CPU EXP-035–042 (`night_program.py --cpu`). Konkurrenzmodell: effektive Lernrate steuert die Merkmalsersetzung (Lyle et al. 2025, https://arxiv.org/abs/2507.20057) → EXP-039/040 trennen ELR und Datenauswahl | ja |
-| **C** | Eine mechanistische Vorhersage an unberührten Fällen | EXP-050 (M0c gegen M0, Kontrolle quadlm), Theorie erster Ordnung ([[BEFUND-split-mechanismus]]) | vorbereitet, nicht aktiv |
+| **B** | Persistenz nach Datenwechsel: F→G **und** G→F, kontrollierte Überlappung, festes Nachtrainingsbudget; „festgelegt“ = „nach B Schritten persistent“ | EXP-044 (bedingt auf EXP-043); CPU EXP-035–042 (`night_program.py --cpu`). Konkurrenzmodell: effektive Lernrate steuert die Merkmalsersetzung (Lyle et al. 2025, https://arxiv.org/abs/2507.20057) → EXP-039/040 trennen ELR und Datenauswahl. *Sitzung 14:* kontinuierliches Persistenzmaß π (post hoc an EXP-020: 0.15/0.38/0.72/≈1 bei t = 10/25/50/150), Überlappungskonstruktion [[experiments/EXP-053-p3-overlap-design/README|EXP-053]] (Entwurf), eingefrorene Uhr-Vorhersagen für EXP-039 und Lesarten (i)/(ii) für EXP-044 | ja |
+| **C** | Eine mechanistische Vorhersage an unberührten Fällen | EXP-050 (M0c gegen M0, Kontrolle quadlm), Theorie erster Ordnung ([[BEFUND-split-mechanismus]]); *Sitzung 14:* [[experiments/EXP-052-oos-mask-prediction/README|EXP-052]] (40 Vorhersagen aus dem Split, per Commit vor den Läufen eingefroren; läuft ohne eigene Läufe mit den Nacht-R-Armen) | vorbereitet, nicht aktiv |
 
 Höchstens zwei Pakete aktiv (derzeit A und B). Andere Linien nur, wenn sie zwischen ausdrücklich genannten Konkurrenzmodellen entscheiden.
 

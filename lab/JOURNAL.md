@@ -2168,7 +2168,7 @@ auch EXP-041 (schwacher Zufallssplit R gegen starken Split E)? *Ergebnis:* Nur b
 Schrittfenster (N30) → *geprägt*, Amplitudenschwelle (H40) → *gemischt*, H42 → *überschrieben*. Als Nachtrag b vor jedem Lauf eingetragen,
 beschreibend. Außerdem BACKLOG P3: π bleibt Primärgröße, π nach 250 G-Schritten als billiger Zweitpunkt.
 
-**Zyklus 3 (22:53, Paket B, post hoc, explorativ): Bleibt nur π stabil oder die ganze Spektrumsform?** (Prüfpunkt 1 der Gegenprüfung aus Zyklus 1)
+**Zyklus 3 (22:52 gemessen, Paket B, post hoc, explorativ): Bleibt nur π stabil oder die ganze Spektrumsform?** (Prüfpunkt 1 der Gegenprüfung aus Zyklus 1)
 *Messung (`posthoc_shape_stability.py`, alle 56 Frequenzen, Seeds 30–34):* Korrelation des Log-Spektrums zwischen Schritt 250 und Ende ist in
 Wechselläufen (0.82–0.90 im Mittel) so hoch wie in reinen Läufen (0.83–0.84); die Top-5 behalten 3.8–4.6 von 5 (rein 3.6–3.8). Die Ähnlichkeit
 zum Endspektrum „nur G“ wächst in der G-Phase **nicht**: t = 25 0.57 → 0.59, t = 50 0.15 → 0.12, t = 150 −0.07 → −0.08; nur t = 10 zieht leicht
@@ -2177,3 +2177,9 @@ Richtung G. Damit gilt die Stabilität nicht nur für die Projektion π, sondern
 gegen „proportional verstärkt“ bleibt ununterscheidbar, beides heißt aber: die Datenwahl nach 250 Schritten ändert die Mischung kaum).
 Ausnahme t = 10: dort wirkt G noch nach Schritt 250 (passt zu einem Fenster, das bei so wenig F-Vorlauf später schließt, oder zu Init-Anteilen).
 *Entscheidung:* als Exploration in EXP-020 und FINDINGS (K4, post hoc); dichte Spektren in den ersten 250 Schritten bleiben der eigentliche Test (N30).
+
+**Zyklus 4 (22:53 gemessen, Paket B): N30 an unberührten Inits, vorab festgelegt ([[experiments/EXP-054-window-oos/README|EXP-054]]).**
+*Frage:* Gilt das Fensterbild aus Zyklus 1–3 auch bei neuen Inits? EXP-036 (CPU-Nacht) nutzt die EXP-020-Splits mit neuen Inits 130–134, 230, 231
+und speichert dichte Spektren 5 … 200. *Änderung:* eigener, reiner Auswerteversuch EXP-054 (statt sechstem EXP-036-Nachtrag, Regel 15b):
+A = Fenster übertragbar (π_Ende bei t = 10/25/50 höchstens 0.12 neben 0.145/0.362/0.725, T* nicht neu angepasst), B = Setzschritt (Median ≤ 150
+„früh gesetzt“, > 200 „später gesetzt“). `n30_window.py` ungetestet, Speicherplan geprüft (SPECTRUM_EVERY = 250 plus `--spectra-at`, Endspektrum).

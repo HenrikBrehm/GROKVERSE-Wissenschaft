@@ -126,3 +126,15 @@ Restklassen). Vorab notiert: Anteil 0.564 unter allen k; die eingefrorenen M0-To
 auf sie fallen 0.564 der M0-Leistung. **Die Rechnung erster Ordnung sagt also keine Vorliebe voraus.** Berichtet werden der Anteil
 nicht-treuer k in K und an der W_E-Leistung bei Schritt 2000. Liegt er deutlich unter 0.56, bevorzugt das Netz schon vor dem Grokking
 treue Frequenzen, und zwar über einen Weg, den M0 nicht enthält (Hinweis auf eine Grenze der Theorie erster Ordnung). Kein Test, kein Urteil.
+
+## Nachtrag h (Sitzung 14, vor jedem Lauf): nur beschreibend, Verstärkung kleiner Daten-Asymmetrien
+
+In den Zufallssplits schwankt M0 über die Frequenzen nur wenig (Variationskoeffizient add 97 0.097, mul 113 0.091, D₅₉ 0.065, intadd
+0.078; Maximum/Median ≈ 1.15–1.26; ein konstruierter Split zum Vergleich 0.36 bzw. 2.3). Folgt das W_E-Spektrum trotzdem mit ρ ≈ 0.5
+(add 113, Memorisierungsphase, EXP-015 Zeitverlauf), dann verstärkt das Training diese Asymmetrien. Berichtet wird je Lauf die
+**Elastizität β_t** (Steigung von log W_E-Leistung auf log M0) bei 50, 250, 500, 1000, 2000 Schritten (D₅₉: 250, 500, 1000, 2000;
+intadd: nur 2000) und die Variationskoeffizienten von W_E und M0. Konkurrierende Lesarten, vorab notiert:
+(M1) nur erste Ordnung: W_E-Leistung ≈ Init + c · M0 → β klein (< 1), ohne Trend über t;
+(M2) lineare Instabilität (Leistung ∝ exp(λ · M0 · t)): β wächst in der frühen Phase etwa proportional zu t und wird ≫ 1;
+(M3) Wettbewerb/Sättigung: β wächst zunächst, flacht dann ab oder fällt.
+Kein Test, kein Urteil; bei Stützung von M2 wäre ein eigener, vorab festgelegter Versuch mit dichten Messpunkten der nächste Schritt (Paket C).

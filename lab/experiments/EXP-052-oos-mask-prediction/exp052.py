@@ -321,6 +321,10 @@ def case_rows(name: str, seeds: tuple[int, ...], pred: dict, spec_fn, run_fn, ex
             r["E0_top5"] = [k + off for k in top(pw_at[0])]
             r["rho_E0"], r["rbar_E0"] = spearman(pw_at[0], pw), rbar(pw_at[0], K)
         r["rho_M0_at"] = {t: spearman(sp["M0"], pw_at[t]) for t in extra}
+        # Nachtrag h (descriptive): elasticity beta_t of log W_E power on log M0 (first gradient alone: beta = 1)
+        lm = np.log(sp["M0"])
+        r["beta_at"] = {t: float(np.polyfit(lm, np.log(pw_at[t]), 1)[0]) for t in sorted(set(extra) | {STEP})}
+        r["cv_WE"], r["cv_M0"] = float(pw.std() / pw.mean()), float(sp["M0"].std() / sp["M0"].mean())
         rows.append(r)
     valid = [r for r in rows if r["valid"]]
     t_out: dict = {"n_valid": len(valid), "rows": rows}
@@ -343,6 +347,9 @@ def case_rows(name: str, seeds: tuple[int, ...], pred: dict, spec_fn, run_fn, ex
         t_out[f"rho_{k}_mean"] = float(np.mean([r[f"rho_{k}"] for r in valid]))
         t_out[f"rbar_{k}_mean"] = float(np.mean([r[f"rbar_{k}"] for r in valid]))
     t_out["rho_M0_at_mean"] = {t: float(np.mean([r["rho_M0_at"][t] for r in valid])) for t in extra}
+    t_out["beta_at_mean"] = {t: float(np.mean([r["beta_at"][t] for r in valid])) for t in sorted(set(extra) | {STEP})}
+    t_out["cv_WE_mean"], t_out["cv_M0_mean"] = (float(np.mean([r["cv_WE"] for r in valid])),
+                                                float(np.mean([r["cv_M0"] for r in valid])))
     if name == "mul113":                                  # Nachtrag g (descriptive): non-faithful characters of Z_112
         import math
         nf = {k for k in range(1, 56) if math.gcd(k, 112) > 1}

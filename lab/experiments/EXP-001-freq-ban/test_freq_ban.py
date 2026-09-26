@@ -108,6 +108,19 @@ def test_init_magswap_moves_power_but_keeps_directions() -> None:   # EXP-011
         assert abs(u0 @ uf) < 0.99             # the full swap does move the direction
 
 
+def test_split_seed_leaves_init_rng_untouched() -> None:   # EXP-014
+    import torch
+    from grokverse.config import get_config
+    from grokverse.data import make_dataset, split_hash
+    torch.manual_seed(10)
+    ref = torch.rand(3)
+    torch.manual_seed(10)
+    d_other = make_dataset(get_config("arch25k", seed=11))
+    assert torch.equal(torch.rand(3), ref)          # global RNG not consumed by the split
+    d_own = make_dataset(get_config("arch25k", seed=10))
+    assert split_hash(d_other["train_idx"]) != split_hash(d_own["train_idx"])
+
+
 def test_shrink_matches_top_ban_energy() -> None:              # amendment 2026-09-25b
     B = fb.fourier_basis(P)
     W = np.random.default_rng(2).normal(size=(P, 16))

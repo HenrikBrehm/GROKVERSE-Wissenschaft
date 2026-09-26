@@ -30,3 +30,6 @@ nutzt ([[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]).
 | [[experiments/EXP-009-freq-commitment/SUMMARY\|EXP-009]] Frequenz-Lotterie / Lock-in (Auswertung) | abgeschlossen | Init-Spektrum von W_E trägt Information über die finalen Top-5 (r̄ = 0.386 vs. 0.5, p < 1e-5, seed-spezifisch). Bei der Two-hot-MLP nur pro Neuron |
 | [[experiments/EXP-010-init-swap/README\|EXP-010]] Init-Tausch (kausal) | **läuft** (Sitzung 4, Paare mit EXP-003d) | noch kein Ergebnis |
 | [[experiments/EXP-011-init-magswap/README\|EXP-011]] Betrag oder Richtung? (nur Normen tauschen) | vorbereitet | noch kein Lauf |
+| [[experiments/EXP-012-init-gradient/README\|EXP-012]] Init-Gradient als Frequenz-Prädiktor | Phase 1 fertig | Erster Gradient an W_E sagt K besser voraus als das Init-Spektrum (r̄ 0.30 vs. 0.375, explorativ); Bestätigung offen |
+| [[experiments/EXP-013-lockin-curve/README\|EXP-013]] Lock-in-Kurve Schritt 0–300 | vorbereitet | noch kein Lauf |
+| [[experiments/EXP-014-split-vs-init/README\|EXP-014]] Split oder Init? | vorbereitet | noch kein Lauf |

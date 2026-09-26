@@ -229,3 +229,14 @@ r̄: E0 0.375 · U0 0.414 · **G0 0.302** · A1 0.348. → G0 für Phase 2 festg
 trägt mehr Information über die finale Frequenzwahl als das Init-Spektrum selbst, aber nur mäßig. Das passt
 dazu, dass die Wahl in den ersten ~250 Schritten fällt. Nächste Frage (Idee): Ab welchem Schritt ist K ablesbar
 (Lock-in-Kurve r̄(t) für t = 0, 1, 5, 25, 100, 250)? Dafür bräuchte man dichtere frühe Spektren.
+
+**Zyklus 3 (neu): EXP-014 vorab festgelegt** (Split vs. Init, Kreuzdesign). Überlegung: Bei Init ist der Gradient an
+W_E[a] ≈ Σ_b M(a,b)·Jᵀ W_U[:, a+b]. Mit vollem Datensatz wäre das für alle a gleich, also stammt die
+Frequenzvorliebe aus der zufälligen Split-Maske im Zusammenspiel mit den Gewichten. Option `--split-seed` in
+`freq_ban.py` (Split hat eigenen Generator, Init unverändert; Unit-Test 10/10 im Fenster). EXP-013 (Lock-in-Kurve)
+vorbereitet und eingereiht.
+
+**Rückschau nach 3 Zyklen (§4):** Gelernt: Die Frequenzwahl beim Transformer fällt in den ersten ~250 Schritten,
+das Init-Spektrum von W_E erklärt davon wenig, der erste Gradient etwas mehr (explorativ). Der erste Tauschlauf
+(Seed 10, noch laufend) lenkt früh nur 1 von 5 Frequenzen um. Wir wiederholen uns nicht, die Messungen passen.
+Nächste anzugreifende Annahme: dass „die Init“ die Lotterie trägt. Der Split ist der unbeachtete Kandidat (EXP-014).

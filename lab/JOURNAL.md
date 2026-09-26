@@ -1758,7 +1758,7 @@ sechs ungetestete GPU-Versuche in einer Queue. Kein weiterer neuer Versuch heute
 *Nächste Annahme, die angegriffen wird:* dass die Steuerung über die Paarstruktur läuft (EXP-047) und dass sie mehr ist als eine
 Eigenheit zyklischer Gruppen (EXP-046/048).
 
-**Zyklus 6 (20:18–20:23): Literatur-Tiefe für K2 und Robustheit der Nachtauswertungen.** (a) Volltext-Abrufe: He et al. 2026
+**Zyklus 6 (20:16–20:20): Literatur-Tiefe für K2 und Robustheit der Nachtauswertungen.** (a) Volltext-Abrufe: He et al. 2026
 (nur vollständige Trainingsmengen, Auswahl durch Init) und Marchetti et al. 2026 (Reihenfolge nach Fourier-Statistik des festen
 *Kodierungsvektors*, vollständige gleichverteilte Daten, kein Dateneingriff). Beide stützen die vorläufige Neuheitseinordnung von K2/N24.
 (b) Subagent-Review EXP-049: kein Blocker; **Mittel:** ein divergierter Lauf (NaN) hätte in EXP-049 still *widerspricht* mit p = 0

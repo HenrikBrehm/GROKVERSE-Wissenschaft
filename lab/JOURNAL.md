@@ -643,3 +643,10 @@ Entscheidung gilt bei n = 10, um keine zweite Auswertung mit anderem Abbruchpunk
 EXP-016 Seed 16 Arm F 07:34: gen 675, K {11, 26, 31, 51, 53} = F exakt (5/5), 0 aus G = {15, 25, 27, 35, 48}.
 EXP-016 Seed 16 Arm G ~07:39: gen 825, K {15, 25, 27, 30, 54}, 3 aus G, 0 aus F. Δ_16 = +8. Die beiden Nicht-Ziele sind
 30 = 2·15 und 54 = 2·27 (Harmonische von G-Zielen; EXP-021 wertet formal erst am Ende aus).
+EXP-016 Seed 17 Arm F 07:43: gen 650, K {13, 26, 43, 49, 50}, 4 aus F = {1, 26, 43, 49, 50}; 13 = fold(2·50).
+EXP-016 Seed 17 Arm G 07:47: gen 700, K {1, 8, 20, 42, 56}, 4 aus G; 1 ist ein F-Ziel, aber zugleich fold(2·56) (Harmonische
+eines G-Ziels). Δ_17 = +7.
+**EXP-016 Zwischenstand n = 8 (07:48, vorab festgelegte Auswertung, `analyze.py`):** Δ̄ = +7.625 (8/8 positiv), p = 1/256
+= 0.0039; passende Überlappung 3.875/5, gekreuzte 0.06; Zufallssplit-Baseline gegen F/G 0.44. Sekundär (Nachtrag b):
+Δ_h̄ 8.25; **alle** Nicht-Ziel-Frequenzen der Seeds 16–17 sind 2k-Harmonische (4/4); F > G in 1 von 2 Seeds (16), G > F in 0.
+Die Entscheidung fällt wie angekündigt bei n = 10 (Seeds 18/19 laufen).

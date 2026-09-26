@@ -10,8 +10,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 ## Verbindlich jetzt: Regel 18 (Astra-Review umsetzen), Nacht 26./27.09.
 
 - **Keine Läufe (Training oder Tests) vor 03:00 Berlin** (Wächter: `WINDOW_START_OVERRIDES`). Davor nur Code/Doku.
-- Reihenfolge 18a (Code, vor 03:00): Punkt 3 ✅ ungetestet · Punkt 10 ✅ ungetestet · Punkt 16 ✅ für alle Nachtauswertungen (EXP-043–050, ungetestet) · Punkt 11 GPU ✅ ungetestet (`night_program.py`;
-  **offen: CPU-Queue `queue_s10.sh`**) · Punkt 17 ✅ (diese Datei) · Punkt 5 **offen** (neue Versuche nutzen `SeedSequence`;
+- Reihenfolge 18a (Code, vor 03:00): Punkt 3 ✅ ungetestet · Punkt 10 ✅ ungetestet · Punkt 16 ✅ für alle Nachtauswertungen (EXP-043–050, ungetestet) · Punkt 11 ✅ ungetestet (GPU und `--cpu`; offen: EXP-034-Port) · Punkt 17 ✅ (diese Datei) · Punkt 5 **offen** (neue Versuche nutzen `SeedSequence`;
   FINDINGS-Vermerk „EXP-016 stark, Seed-Abhängigkeit eingeschränkt“ fehlt). Dazu 18c: FINDINGS zum Programm A/B/C umbauen.
 - Stand je Punkt: Tabelle „Umsetzung“ am Ende von [[reviews/ASTRA_2026-09-26]].
 
@@ -26,14 +25,15 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 4. GPU: `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1` im Hintergrund (Plan: `--dry-run`). Beginnt mit GPU-001
    (Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 → 048 → 049 → 044 → 045.
    Wiederaufnahme = derselbe Befehl (Fertiges wird per Fingerprint übersprungen). Status: `lab/runner/logs/night_*/night_status.json`.
-5. CPU parallel: `sh lab/experiments/queue_s10.sh > lab/runner/logs/queue_s10.log 2>&1` (bis zur Umstellung auf parallel_queue).
+5. CPU parallel: `python lab/tools/night_program.py --cpu > lab/runner/logs/night_cpu.log 2>&1` (EXP-035 → 038 → 041 → 036 → 039 →
+   040 → 042; EXP-034 und Reste von queue_s5 noch nicht portiert, nach 18c sichten).
 6. Beobachten (Regel 14). GPU-001-Verdikte ins JOURNAL (Gleichwertigkeit, s/Schritt, J). Punkt 9: GPU bleibt experimentell.
 7. Auswerten: `python lab/tools/night_report.py`; **vor jeder Deutung** [[LESART-nacht-2026-09-27]] lesen.
 
 ## Aktive Queue / laufende Jobs
 
 - Keine (Stand 20:44). Vorbereitet, ungetestet: GPU-001, EXP-043–049 (in `night_program.py`), EXP-050 (optional:
-  `--experiments GPU-001,EXP-050`), CPU: `queue_s10.sh` (EXP-035 → 038 → 041 → 036 → 039 → 040 → 034 → 042 → queue_s5).
+  `--experiments GPU-001,EXP-050`), CPU: `night_program.py --cpu`.
 
 ## Drei Prioritäten (Regel 18c: Programm A/B/C)
 

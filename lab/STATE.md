@@ -3,11 +3,18 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 13:32 Berlin (Sitzung 8, Start 11:59, Deadline 14:59 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 13:47 Berlin (Sitzung 8, Start 11:59, Deadline 14:59 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
+
+- **Sitzung 8, 13:47 (neuester Stand):** Reihenfolge für die nächsten Fenster: (1) `queue_s5.sh` weiter (EXP-020 Seeds 31–34; danach
+  EXP-020- und EXP-028-Auswertung), (2) `sh lab/experiments/EXP-035-warmup-lockin/queue.sh 30 31 32` (braucht die EXP-020-
+  Intervalle der Seeds; beginnt mit Smoke), (3) `sh lab/experiments/EXP-034-phase2-optimizer/queue.sh`. Alternativ EXP-034 vor
+  EXP-035, falls EXP-020 noch läuft und ein Jobplatz frei ist: nie zwei Queues gleichzeitig. `queue_s5.sh` enthält nach EXP-020
+  noch EXP-018/014/023/022/010 (viele Stunden): nach EXP-020 ggf. anhalten, um EXP-035/034 vorzuziehen.
+  `freq_ban.py` hat seit b231fc6 eine Option `--warmup` (Standard 0 = unverändert).
 
 - **Sitzung 8, 13:32:** EXP-033 **abgeschlossen** (*zustandsbestimmt* vorab; nach Codex eingeschränkt: AdamW in Phase 1 nicht nötig).
   `queue_s5.sh` läuft wieder seit 13:17 (EXP-020 Seed 30 fast fertig, dann Seeds 31–34). **EXP-034** vorab festgelegt

@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 11:59 Berlin (09:59Z, vom Runner)
 - **Deadline:** 2026-09-26 14:59 Berlin (12:59Z)
-- **Zuletzt aktualisiert:** 13:38 Berlin
+- **Zuletzt aktualisiert:** 13:47 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
@@ -14,10 +14,11 @@ EXP-020 läuft wieder (Transformer-Datenwechsel, Seed 30 fast fertig, dann Seeds
 
 ## Als Nächstes
 
-Nächste Sitzung: EXP-020 fertig laufen lassen, dann EXP-034 (frische Splits, GD auch in Phase 2).
+Nächste Sitzungen: EXP-020 fertig, dann EXP-035 (Warmup, Transformer) und EXP-034 (GD in beiden Phasen).
 
 ## Verlauf dieser Sitzung
 
+- 13:47 **EXP-035 vorab festgelegt:** Wenn der Transformer langsamer anläuft (Lernraten-Warmup), legt er sich dann später fest? Codex fand 5 Schwachstellen, alle behoben, bevor ein Lauf startete.
 - 13:38 **EXP-020, erster Seed (vorläufig):** Der Transformer legt sich nach 25–50 Trainingsschritten auf seine Frequenzen fest. Wer 150 Schritte F gesehen hat, behält F exakt, auch nach 2000 Schritten nur mit G. Noch 4 Seeds.
 - 13:33 Vorhersage für EXP-034 festgelegt: Der Split 69 sollte sich am schwächsten festlegen (lineare Rechnung). Auswertung von EXP-034 synthetisch getestet (5/5).
 - 13:31 **EXP-034 vorab festgelegt** und nach Codex umgebaut: Hält die Festlegung auch, wenn *beide* Phasen ohne AdamW laufen? Und schon bei der 5-Schritte-Amplitude? Frische Splits 60–69.

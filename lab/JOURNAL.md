@@ -999,3 +999,16 @@ Ab t = 150 ist K **identisch** mit dem Lauf „nur F“ ([6, 12, 29, 42, 55]), o
 *Einordnung (vorläufig):* Das ist das Transformer-Gegenstück zu EXP-032 (Zwei-Hot-Netz, Festlegung in ≤ 20 Schritten):
 Auch hier legen wenige Dutzend AdamW-Schritte die Frequenzwahl fest. Ob das an Adams Vorzeichen-Schritten hängt, ist für
 den Transformer offen (EXP-033/034 betreffen nur das Zwei-Hot-Netz).
+
+**Zyklus 4 (13:33–13:47): Lineare Modenvorhersage für EXP-034 (Nachtrag b) und EXP-035 vorab festgelegt.**
+(a) ds(J) der frischen Splits 60–69 berechnet (0.063–0.119, Split 69 am schwächsten) und als Vorhersage P34c festgelegt
+(Spearman ≥ 0.5 mit der GD10-Neigung am Umschaltschritt). EXP-034-Auswertung synthetisch getestet (5/5).
+(b) **EXP-035 (neue Intervention am Transformer):** Verschiebt ein Lernraten-Warmup (200 Schritte) die Festlegungszeit aus
+EXP-020? Motivation: EXP-020 Seed 30 legt sich in (25, 50] Schritten fest; im Zwei-Hot-Netz hing die Festlegung an der
+Amplitude, nicht am Optimierer. `freq_ban.py --warmup` ergänzt (Standard 0, Codepfad unverändert; die laufende
+EXP-020-Warteschlange nutzt die Datei, deshalb atomar geschrieben, CRLF erhalten, Diff 10 Zeilen).
+**Codex-Review (13:42–13:46):** 3 × high, 2 × medium, alle übernommen → Nachtrag a (b231fc6/f242775): Warmup nur in der F-Phase
+(sonst ungleiche G-Budgets), gemessene Strecke ‖θ − θ₀‖ am Umschaltschritt, Hypothese abgeschwächt auf „hängt am
+Lernratenplan“, Monotonie/gen_F-Pflicht, intervallsichere Einordnung, Metadatenprüfung, Smoke am Anfang der Queue.
+*Eigene Fehler:* zweimal Zeilenenden bzw. f-String-Klammern falsch (sofort bemerkt und korrigiert, vor jedem Lauf).
+Status: vorbereitet, nicht ausgeführt.

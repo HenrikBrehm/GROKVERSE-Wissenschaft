@@ -3,11 +3,17 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 15:13 Berlin (Sitzung 9 läuft, Deadline 17:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 16:22 Berlin (Sitzung 9 läuft, Deadline 17:49 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
+
+- **SITZUNG 9 (16:22):** EXP-020 **abgeschlossen** (*nicht bestätigt* 4/5; beschreibend (25, 50] in 5/5), EXP-028 *teilweise*,
+  EXP-020 Nachtrag d an frischen Seeds **nicht bestätigt**. `queue_s9.sh` läuft EXP-037 (Smoke ok; 9 Läufe bis ~17:05), dann
+  EXP-035. Wiederaufnahme: `sh lab/experiments/queue_s9.sh` (überspringt Fertiges). Nach EXP-037:
+  `python lab/tools/guarded_run.py -- python lab/experiments/EXP-037-alternation-conflict/ablate_foreign.py` (von Hand,
+  nicht in der Queue; braucht `summary.json` von EXP-037).
 
 - **SITZUNG 9 (15:13):** `queue_s8.sh` angehalten, **`queue_s9.sh` läuft** (Log `lab/runner/logs/queue_s9.log`; Reihenfolge EXP-020 Rest → Auswertungen → **EXP-037** → EXP-035 → EXP-036 → EXP-034 → queue_s5). Wiederaufnahme = `sh lab/experiments/queue_s9.sh`.
 - **SITZUNG 9 (15:04):** `queue_s8.sh` lief seit 14:50 (Log `lab/runner/logs/queue_s8.log`, EXP-020 Seed 32

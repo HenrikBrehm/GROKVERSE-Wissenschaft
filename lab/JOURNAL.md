@@ -2226,3 +2226,26 @@ Das Kontingent ist ab 03:00 wertvoller (Abnahme, Beobachten, Auswerten). Der nä
   `…/posthoc_shape_stability.py` (reine Rechnung auf gespeicherten Spektren).
 - **Nächste Aktion:** STATE „Wiederaufnahme ab 03:00“. Neu dort: EXP-054 nach EXP-036, `pi_window.py` nach EXP-042, CPU-Weg für Paket A bei gescheitertem GPU-001.
 - **Runner:** nächster Start laut runner-state.json 02:14 Berlin (00:14Z); Läufe ab 03:00.
+
+## Sitzung 16 (2026-09-26 23:39 Berlin bis 02:39, außerhalb des Fensters; Läufe erst ab 03:00)
+
+Start 23:39: kein STOP, Fenster zu (`--check` Exit 3), keine Python-/Trainingsprozesse, Branch lab/research sauber bis auf die Nutzerdateien.
+Die ganze Sitzung liegt vor 03:00, also keine Läufe und keine Tests (auch keine Selbsttests).
+
+**Zyklus 1 (Astra Punkt 5, letzter offener Rest: gekreuzter Split×Init-Block).** *Frage:* Braucht der Bestätigungsblock einen Kreuzblock?
+Und wie sieht er aus, ohne die P1-Inferenz zu verwässern? *Prüfung des Ist-Designs (`confirm_p1.py`):* Jede P1-Einheit trainiert F und G mit derselben
+Init (`--seed s`). Ziele und beide Splits kommen aus getrennten SeedSequence-Strömen, Δ_pow ist eine Doppeldifferenz innerhalb der Einheit.
+Die Richtung „andere Splits, gleiche Init“ ist damit schon gekreuzt. Es fehlt die Richtung „gleicher Split, andere Init“, und genau die trennt
+„Split steuert“ von „dieses Seed-Paket wirkt“ (Astra). *Änderung (vor jedem Lauf festgelegt):* optionales Manifestfeld `cross`: Die ersten 5 Seeds von
+add 113 trainieren ihre F/G-Splitdateien zusätzlich mit den Inits s + 200 und s + 300 (reserviert 1200–1399; 20 Zusatzläufe, keine neuen Splits).
+Auswertung `cross_block`: Δ_pow je (Einheit, Init), Varianzanteile als einfaktorielle Zufallseffekte (σ²_Einheit = Split-Paar + Ziele gegen
+σ²_Init inkl. Wechselwirkung, nicht trennbar), Anteil Δ > 0, Minimum je Einheit. Die Lesart ist fest: „stabil über Inits“ bei ≥ 90 % Δ > 0 und
+Init-SD < Mittel/2, „init-abhängig“ bei < 75 % oder Init-SD ≥ Mittel, sonst „gemischt“; < 4 gültige Einheiten: nicht auswertbar. Das Ergebnis ist
+**sekundär und beschreibend**, steht nur unter `cross_secondary` und gehört nicht zur Holm-Familie. P1 zählt weiter ein Δ je Seed
+(Astra: wiederholte Inits desselben Splits sind keine unabhängigen Splitreplikationen). Selbsttest erweitert (Jobs, Ablehnungen, Varianzformeln, Lesart).
+**Ungetestet** (Selbsttest ab 03:00). *Zweitprüfung (Claude-Subagent, nur lesend):* Selbsttest von Hand nachgerechnet (besteht). Run-ID-Muster
+passt zu `freq_ban.py` (`EXP-016_baseline_seed<init>_thr<n>_<stem>[_dev…]`), ohne Kollision mit den Primärläufen. `Expect(seed=init)` ist konsistent,
+die ANOVA-Formeln stimmen, und P1/Holm bleiben unberührt. Kein Befund. *Nebenbei:* Ein `sed -i` hat die Datei auf LF umgestellt (die bekannte Falle);
+CRLF ist byteweise wiederhergestellt, und der Diff enthält nur die inhaltlichen Zeilen. *Ergebnis:* Astra 5 ist im Design vollständig. Das Manifest
+beim Einfrieren muss `cross` enthalten (STATE Schritt 9). *Entscheidung:* EXP-014 (CPU-Nacht) bleibt Exploration und entscheidet über den Kreuzblock
+nicht mehr. Der Block kommt unabhängig davon, weil er billig ist (20 GPU-Läufe) und die Trennung direkt am Bestätigungsmaß Δ_pow zeigt.

@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-26, 22:55 Berlin (Sitzung 15, läuft bis 01:39). Nächster Runner-Start laut runner-state.json: 02:14 Berlin._
+_Zuletzt aktualisiert: 2026-09-26, 23:46 Berlin (Sitzung 16, läuft bis 02:39). Nächster Runner-Start laut runner-state.json: 03:14 Berlin._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]]
 
@@ -11,7 +11,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 
 - **Keine Läufe (Training oder Tests) vor 03:00 Berlin** (Wächter: `WINDOW_START_OVERRIDES`). Davor nur Code/Doku/Rechnung auf Dateien.
 - 18a vollständig (Punkte 3, 10, 16, 11, 17, 5; 18c Programm A/B/C), alles **ungetestet** bis 03:00. Offen: EXP-034-Port (nach P3-Design).
-- **Nächste Sitzung ab 02:14:** bis 03:00 nichts Pflichtiges offen (Sitzung 15: N30-Fenstermodell, EXP-054 und Lesarten für EXP-041/042 vor den Läufen eingefroren). Ab 03:00 Schritte unten.
+- **Nächste Sitzung ab 03:14 (Sitzung 16 hat den Kreuzblock ergänzt, sonst nichts offen):** bis 03:00 nichts Pflichtiges offen (Sitzung 15: N30-Fenstermodell, EXP-054 und Lesarten für EXP-041/042 vor den Läufen eingefroren). Ab 03:00 Schritte unten.
 - Stand je Punkt: Tabelle „Umsetzung“ am Ende von [[reviews/ASTRA_2026-09-26]].
 
 ## Wiederaufnahme ab 03:00 (18b), genau in dieser Reihenfolge
@@ -44,7 +44,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 9. **Vor dem Einfrieren von P1:** `lab/tools/pilot_power.py` (Δ_pow-Pilotstreuung, n für Power 80 %; vorher prüfen, dass die summary.json von
    EXP-048/049 aus dieser Nacht stammt). Bestätigungsblock dann mit `confirm_splits.py --manifest …` und `confirm_p1.py --jobs/--analyze …`
    (nur mit committetem Manifest; Seeds 1000–1099). P3 vorher schärfen: primär Wechsel bei t = 25 (Decke bei 150), Maß π, Überlappung nach EXP-053.
-   Gekreuzten Split×Init-Block (Astra 5) anhand von EXP-014 (Kreuzdesign, CPU-Nacht) entscheiden: trägt die Init einen großen Varianzanteil, Block kreuzen.
+   Gekreuzter Split×Init-Block (Astra 5) ist entschieden (Sitzung 16): ins Manifest `"cross": {"task": "add", "p": 113, "seeds": [erste 5], "inits_per_seed": 2}`
+   (20 Zusatzläufe, sekundär; Lesart in `confirm_p1.py`). EXP-014 bleibt Exploration.
 
 ## Aktive Queue / laufende Jobs
 

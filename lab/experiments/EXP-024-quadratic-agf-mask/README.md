@@ -1,8 +1,8 @@
 ---
 id: EXP-024
-status: laufend
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/laufend, neu/kandidat, befund/unklar]
+tags: [exp/abgeschlossen, neu/kandidat, befund/positiv, befund/unklar]
 ---
 # EXP-024: Lernt ein quadratisches Netz auf einem konstruierten Split die *halben* Zielfrequenzen?
 
@@ -110,7 +110,33 @@ Größe (3.25/5 im Nutzen am Start) erreicht das trainierte Netz bei Weitem nich
   gemessen werden kann nur, wohin sich die Leistung neigt.
 - Folge: EXP-026 (Nachtrag b) und EXP-025 (Nachtrag a) bekommen vor ihren Läufen eine kontinuierliche Messgröße.
 
-Arm R: siehe unten (läuft noch).
+## Ergebnis Arm R (sekundär, gerichtet nach Nachtrag b), Sitzung 7, 09:43 Berlin
+
+19/19 Läufe vollständig. **Die ReLU-Netze generalisieren nicht:** Train 1.0, Test im Mittel 0.063 (0.03–0.09).
+
+| Größe | Wert |
+|---|---|
+| ov(Top-5, F), Mittel | **4.79** (Nutzen am Start sagte 4.68 voraus) |
+| ov(Top-5, H), Mittel | 0.21 |
+| d = ov_F − ov_H | −4.58 (in H-Richtung), alle 19 informativ; einseitiger Test F > H **p = 1.9e-6** |
+| Kontrolle m·F / 2F | 0.37 / 0.26 |
+| W_out-Spektrum ov_F | 4.32 |
+
+**Urteil H24-R: *bestätigt*** (p < 0.05, ov_F ≥ 2). Zeitverlauf (post hoc): Schon bei Schritt 50 sind alle 5 Ziele die
+Top-5 (Anteil F 0.151 gegen Zufall 0.089) und bleiben es bis 5000. Die Wahl fällt also sofort, wie es der lineare
+(ungerade) Anteil der ReLU im Nutzen vorhersagt.
+**Einordnung:** Das ist eine Aussage über **memorierende** Netze. Die Endlösungs-Aussage von He et al. 2026 (ReLU-Lösungen
+tragen über den geraden Anteil) betrifft generalisierende Netze und wird hier nicht geprüft. Ohne Generalisierung liegt
+eine einfachere Erklärung nahe: Das Netz passt die Trainingsmenge an, deren Maske ihre Leistung bei F hat.
+
+## Gesamtbild EXP-024
+
+Gleiche Daten, andere Aktivierung, entgegengesetzte Neigung, beide in der von der Nutzenrechnung vorhergesagten
+Richtung: x² → halbe Ziele H (schwach, Spektrum fast flach, *richtungsgleich, n. s.* nach der Größenregel), ReLU → Ziele F
+(stark und sofort, *bestätigt*, aber ohne Generalisierung). Die Paritätszerlegung (`utility_parity.py`: ungerader Anteil
+→ k, gerader → 2k) erklärt den Unterschied. Offen: ob ein **generalisierendes** Netz mit gemischter Aktivierung seine
+Wahl am Start festlegt ([[experiments/EXP-026-parity-crossover/README|EXP-026]]) und ob schmale x²-Netze auswählen
+statt nur zu neigen ([[experiments/EXP-027-width-selection/README|EXP-027]]).
 
 ## Befehle
 

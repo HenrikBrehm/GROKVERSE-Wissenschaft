@@ -815,3 +815,9 @@ und die ReLU-Zwei-Hot-Netze generalisieren in 5000 Schritten nicht. *Messungen g
 Perzentilmaße (EXP-026 b, EXP-027 a). *Nächste Annahme, die angegriffen werden sollte:* dass eine „Wahl“ bei dichten
 Lösungen überhaupt stattfindet. EXP-027 (Breite) greift genau das an; EXP-026 fragt, wann eine Neigung festgelegt wird.
 Codex hat in dieser Sitzung zweimal ein Design vor dem ersten Lauf gekippt bzw. gehärtet; beides war berechtigt.
+
+**Zyklus 4 (09:43): EXP-024 Arm R ausgewertet.** 19/19 vollständig, aber **nicht generalisierend** (Test 0.063). ov_F 4.79,
+ov_H 0.21, Test F > H p = 1.9e-6 → H24-R *bestätigt*. Schon ab Schritt 50 alle 5 Ziele in der Top-5 (Anteil 0.151,
+Zufall 0.089). Der Nutzen am Start (4.68) trifft auch die Größe. Einordnung: memorierende Netze; die He-et-al.-Aussage zur
+geraden Endlösung ist damit nicht geprüft, und eine einfachere Erklärung (das Netz passt die Maske an) ist nicht
+ausgeschlossen. Gesamtbild EXP-024 im README; Status abgeschlossen. *Nächster Schritt:* EXP-026 läuft (Smoke gestartet 09:42).

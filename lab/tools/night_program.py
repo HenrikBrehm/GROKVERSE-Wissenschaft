@@ -131,6 +131,9 @@ class Night:
                                             "--split-file", f"{S16}/split_seed10_eps2.0.npy",
                                             "--out-root", f"{G1}/raw_cpu_regression", "--force"], 3)
         self.must("gpu001_regression", [PY, f"{G1}/compare.py", "regression"])
+        if not self.dry:                  # review s13: a re-gate must not reuse runs made with older code
+            for d_ in ("raw_equiv", "raw_equiv_cpu_venv"):
+                shutil.rmtree(ROOT / G1 / d_, ignore_errors=True)
         equiv = [[GPY, FB, "--seed", str(s), "--condition", "baseline", "--steps", "2000", "--threads", "1",
                   "--device", "cuda", "--split-file", f"{S16}/split_seed{s}_eps2.0.npy", "--out-root", f"{G1}/raw_equiv"]
                  for s in (10, 11, 12)]
@@ -456,7 +459,12 @@ class Night:
                 self.save()
                 print(f"[night] {name}: guard refused ({ex}), stop", flush=True)
                 return 3
-            except Failed as ex:
+            except Exception as ex:          # review s13: unexpected errors fail this experiment, not the program
+                if isinstance(ex, Failed):
+                    msg = str(ex)
+                else:
+                    msg = f"unexpected {type(ex).__name__}: {ex}"
+                ex = Failed(msg)
                 failed = True
                 self.status["experiments"][name]["state"] = f"failed: {ex}"
                 print(f"[night] {name} FAILED: {ex}", flush=True)
@@ -563,8 +571,8 @@ def main() -> int:
         if bad:
             ap.error(f"not CPU experiments: {bad}")
         workers = a.cpu_workers
-        if workers is None:
-            j = Night.best_J() if Night.passed("throughput") else 4
+        if workers is None:               # review s13: before GPU-001 has chosen J assume the worst case J = 8 -> 1 worker
+            j = Night.best_J() if Night.passed("throughput") else 8
             workers = max(1, (12 - j) // 4)
         night = Night(Path(".") if a.dry_run else (a.log_dir or ROOT / "lab" / "runner" / "logs" /
                       f"night_cpu_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S_%fZ')}"), dry=a.dry_run)

@@ -257,7 +257,7 @@ def _pid_alive_since(pid: int, not_after_unix: float) -> bool:
     k32.CloseHandle.argtypes = (wintypes.HANDLE,)
     h = k32.OpenProcess(0x1000, False, pid)            # PROCESS_QUERY_LIMITED_INFORMATION
     if not h:
-        return False
+        return ctypes.get_last_error() == 5            # access denied: the process exists (review s13), else gone
     try:
         code = wintypes.DWORD()
         if not k32.GetExitCodeProcess(h, ctypes.byref(code)) or code.value != 259:   # STILL_ACTIVE
@@ -283,7 +283,12 @@ def acquire_lock(out_dir: Path, run_id: str) -> Path:
                 info = json.loads(lock.read_text())
                 holder_alive = _pid_alive_since(int(info["pid"]), float(info["created_unix"]))
             except (OSError, ValueError, KeyError, TypeError):
-                info, holder_alive = {}, False
+                # review s13: a lock file still being written by its creator is empty for a moment -> young = alive
+                try:
+                    young = time.time() - lock.stat().st_mtime < 30
+                except OSError:
+                    young = False
+                info, holder_alive = {"pid": "?"}, young
             if holder_alive:
                 raise SystemExit(f"[exp] {run_id} is locked by running pid {info['pid']} ({lock})")
             lock.unlink(missing_ok=True)                   # stale lock of a dead run

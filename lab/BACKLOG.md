@@ -78,3 +78,11 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 - **Idee (noch keine EXP-ID, erst nach der Pilotnacht festlegen):** EXP-016-artige F/G-Läufe (neue Ströme, Pilot-Seeds außerhalb 1000–1099) mit `freq_ban.py --save-model`; danach **ohne Nachtraining** die Zielfrequenzen aus dem gespeicherten Modell entfernen und die Testgenauigkeit auf der gemeinsamen Testmenge messen, gegen größengleiche Zufallsfrequenzmengen (Kontrollverteilung, z-Wert) und gegen die Zielmenge des anderen Arms. Werkzeug vorhanden: `training/grokverse/analysis/causal_ablation.py` (`transformer_ablations`, `random_frequency_sets`, `with_control`), die Methode der Studie mit vorab festgelegter Lesart auch für „kein Schaden“.
 - **Offene Designfrage:** Messzeitpunkt. Bei 2000 Schritten sind EXP-016-Läufe meist schon generalisiert (gen 500–975); für neue Aufgaben (EXP-048: nicht-modular) erst nach Kenntnis der gen-Schritte aus der Pilotnacht festlegen.
 
+## Entwurf P3-Bestätigung für Paket B (Plan, Sitzung 13, 21:01; wird nach der Pilotnacht eingefroren)
+
+- **Design:** je Seed zwei unabhängig gezogene konstruierte Splits A und B mit **festgelegter Überlappung** (Stufen z. B. 0 %, ≈ 30 %, ≈ 60 % gemeinsamer Paare; Konstruktion wie EXP-044, aber Überlappung gezielt gesetzt statt nur gemessen), gemeinsame Testmenge. Arme: nur A, nur B, **A→B und B→A** bei t = 150, danach **festes Budget** von 2000 Schritten auf dem zweiten Split.
+- **Messgröße:** Persistenz = kontinuierlicher Zielenergie-Kontrast (Δ_pow-Form) zwischen Wechsellauf und dem reinen Lauf des zweiten Splits, in beiden Richtungen gemittelt; „festgelegt“ = Kontrast nach 2000 Schritten > 0 (Astra 8).
+- **Konkurrenzmodelle:** (i) Persistenz unabhängig von der Überlappung (Festlegung im Netz); (ii) Persistenz steigt mit der Überlappung (nur geteilte Paare halten die Wahl). Die Überlappungsstufen entscheiden zwischen beiden.
+- **Pilot für die Streuung:** EXP-044 (F→G, ≈ 38 % Überlappung) und EXP-041 (E→R, R→E) aus der Nacht; Seeds im reservierten Block 1000–1099.
+- **Literatur vorher:** Volltext von arXiv 2507.20057 (Lernen unter Nichtstationarität) lesen.
+

@@ -295,3 +295,4 @@ gegen finite Differenzen und Frequenzmaß an einer zirkulanten Matrix im Fenster
 Frequenzen konzentrieren, sonst nicht auswertbar.
 Baseline Seed 13 fertig 03:47: gen 5275, K {7, 15, 16, 25, 42}.
 Baseline Seed 14 fertig 04:11: gen 11200 (langsam), K {11, 14, 27, 36, 37}.
+Baseline Seed 15 fertig 04:24: gen 5975, K {5, 17, 20, 24, 40}.

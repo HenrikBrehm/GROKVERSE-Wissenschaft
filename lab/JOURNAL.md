@@ -2424,3 +2424,21 @@ Stufen. Ein Absturz bei J8 (z. B. Speicher) senkt also nur J und verfälscht nic
 (5) „mittel“: `--cpu-workers` hat keine Obergrenze gegen die GPU-Threads. *Stimmt:* Der Standard (12 − J)//4 hält die Summe ≤ 12, nur eine ausdrückliche Zahl kann sie überschreiten.
 Keine Codeänderung. STATE nennt die explizite Zahl nur für den Fall ohne GPU.
 *Entscheidung:* keine Änderung am Nachtprogramm. Nichts davon blockiert den Start um 03:00.
+
+## Sitzung 20 (2026-09-27, Start 01:29 Berlin, Deadline 04:29; Fenster ab 03:00)
+
+Start 01:29 (gemessen): kein STOP, Fenster zu (Exit 3), keine Python-Prozesse. Sitzung 19 endete 23:21Z nach 11.8 min.
+Beide Trockenläufe des Nachtprogramms (GPU, CPU mit Reihenfolge aus Sitzung 19) planen vollständig und schreiben nichts (`git status` unverändert).
+
+**Zyklus 1 (Nimmt Zhou/Zhang/Xu K2 vorweg? Bleibt die gepflanzte Wahl nach dem Grokking? bis 01:33 gemessen).** *Frage:* Die Nachsuche aus Sitzung 17 nannte
+Zhou, Zhang, Xu (CiCP 2026) nur nach Angabe des Subagenten: „ungleichmäßige Stichprobe erzeugt zuerst unechte Frequenzen“. *Vorgehen:* Zeitschriftenseite, arXiv-Abstract und
+HTML-Volltext (2405.17479) selbst abgerufen, per Zusammenfassung des Abrufwerkzeugs. *Ergebnis Literatur:* Das ist die schon zitierte Arbeit Zhou et al. 2024. Aufgaben: sin(6x),
+Parität, MNIST, keine modulare Arithmetik. Die Frequenzen aus der Stichprobe sind dort Aliasing-Artefakte neben der festen Zielfunktion und klingen auf der Testmenge ab.
+K2 (Auswahl unter gleichwertigen Lösungen) ist davon abgegrenzt und bleibt „nach unserer Suche nicht gefunden, vorläufig“. Die Arbeit ist aber die nächste Vorarbeit und muss
+beim Einordnen ausdrücklich genannt werden. *Daraus die Prüffrage:* Klingt die gepflanzte Wahl bei uns nach dem Grokking ab? *Nachrechnung gespeicherter Läufe* (kein Training;
+`lab/experiments/EXP-016-engineered-split/posthoc_postgen_persistence.py`, 20 EXP-016-Läufe, Spektren alle 250 Schritte): Alle 20 Läufe generalisieren (gen 450–1100, Test ≈ 1.0 bei 2000).
+Der Anteil der eigenen Ziele an der W_E-Leistung steigt vom ersten Messpunkt ≥ gen bis 2000 von 0.56 auf 0.82 (20/20 steigen, Δ 0.26 ± 0.07 SD). Die Ziele des anderen Arms liegen bei 0.016,
+Zufall 5/56 = 0.089. |Top-5 ∩ T| 4.3 → 3.9 (bekannte 2k-Oberwellen). *Deutung (beschreibend, post hoc):* Die Konzentration auf die gepflanzten Frequenzen wächst nach dem
+Grokking weiter, ein Abklingen wie bei Zhou et al. zeigt sich nicht. Grenzen: F und G teilen die Init (K2-Einschränkung), nur bis Schritt 2000, keine Kontrolle, ob der Anteil
+der eigenen Top-5 in Zufallssplit-Läufen genauso wächst (das wäre ein allgemeines Verdichten durch Weight Decay, keine Besonderheit des Splits). *Entscheidung:* als Randnotiz in
+[[NOVEL_DIRECTIONS]] (Nachprüfung Sitzung 20). Kein neuer Versuch (Regel 15b). Längere Zeitskala liefert EXP-045 (MLP, bis 10 000 Schritte) aus dem Nachtprogramm.

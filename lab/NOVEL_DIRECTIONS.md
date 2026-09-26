@@ -689,3 +689,21 @@ Gruppen und eine nicht-modulare Aufgabe geprüft wird. Das bleibt der Kandidat v
   N31 bleibt offen und wird dadurch schärfer: In unserem Aufbau (p = 113, Full-Batch-fähig) wäre der Stride s = 10 → Frequenz round(113/10) = 11;
   ein Konfliktarm nähme Ziele F ohne 11 und die Stride-Reihenfolge, Kontrollen Stride allein (Zufallssplit) und F allein (Zufallsreihenfolge, gleiche Batchgröße).
   Unterschiede zu LeDoux (Modulus, Datenanteil, Tiefe, Epochenzahl) vor jeder Deutung beachten.
+
+## Nachprüfung 2026-09-27 (Sitzung 20, 01:31 Berlin, gemessen): Zhou, Zhang, Xu gegen K2
+
+- **Frage:** Nimmt „A Rationale from a Frequency Perspective for Grokking“ (CiCP, Juni 2026, https://www.global-sci.com/cicp/article/view/24634) K2 vorweg?
+  In der Nachsuche von Sitzung 17 stand dazu nur die Angabe des Subagenten.
+- **Selbst geprüft (Seite der Zeitschrift, arXiv-Abstract und HTML-Volltext https://arxiv.org/html/2405.17479, per Zusammenfassung des Abrufwerkzeugs):**
+  Die Zeitschriftenfassung ist die Arbeit, die in [[FINDINGS]] schon als Zhou et al. 2024 zitiert ist. Aufgaben: sin(6x) in 1D, dünne Parität (10,[10]) und MNIST.
+  **Keine modulare Arithmetik, keine Gruppenoperation.** Eine unzureichende, ungleichmäßige Stichprobe erzeugt „unechte“ (aliasierte) Frequenzen. Das Netz lernt
+  sie zuerst. Auf der Trainingsmenge bleiben sie durch Aliasing erhalten, auf der Testmenge sinkt ihre Amplitude, sobald die wahren Frequenzen gelernt sind.
+- **Abgrenzung:** Dort hat die Zielfunktion einen festen Frequenzinhalt, und die Stichprobe erzeugt Artefakte *neben* der richtigen Lösung. Bei Addition mod p
+  ist jede Frequenzmenge eine gleich richtige Lösung. K2 behauptet, dass die Zusammensetzung *unter gleichwertigen Lösungen auswählt* und die Wahl bleibt
+  (EXP-016 misst bei festem Schritt 2000; alle 20 Läufe haben da schon generalisiert, gen 450–1100, Test ≈ 1.0). Das zeigt die Arbeit nicht. Ihr Befund „Stichprobe → Frequenzen, zuerst“ ist aber die nächste
+  bekannte Vorarbeit. Beim Einordnen von K1/K2 muss sie ausdrücklich genannt werden (bisher nur als „verwandt, andere Aufgaben“).
+- **Einordnung:** K2 bleibt „nach unserer Suche vom 2026-09-27 nicht gefunden, vorläufig“. Neuer Prüfpunkt für Paket A: Bleibt die gepflanzte Wahl auch
+  **lange nach dem Grokking** erhalten (Zhou et al. sehen ein Abklingen auf der Testmenge)? *Post hoc an EXP-016 (Sitzung 20, 01:33 gemessen, nur gespeicherte Läufe, beschreibend):* nein, kein Abklingen. Der Anteil der eigenen Ziele an der W_E-Leistung steigt vom
+  ersten Messpunkt ≥ gen bis Schritt 2000 (750–1500 Schritte danach) von 0.56 auf 0.82 (20/20 steigen, Δ 0.26 ± 0.07); Ziele des anderen Arms 0.016, Zufall 5/56 = 0.089.
+  |Top-5 ∩ T| sinkt leicht (4.3 → 3.9, bekannte 2k-Oberwellen). Grenzen: F/G teilen die Init; nur bis 2000 Schritte. Länger: EXP-045 (MLP, bis 10 000).
+  Skript und Zahlen: `lab/experiments/EXP-016-engineered-split/posthoc_postgen_persistence.py/.json`.

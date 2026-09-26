@@ -15,14 +15,14 @@ python lab/tools/guarded_run.py --min-minutes 2 -- python $F --seed 30 --conditi
 python lab/experiments/EXP-037-alternation-conflict/check_smoke.py || { echo "[exp037] smoke check failed"; exit 1; }
 for S in 30 31 32; do
   run 7 --seed $S --condition baseline --steps 2200 --stop-after-gen 8000 --split-file $S20/seed${S}_train_F.npy \
-    --test-file $S20/seed${S}_test.npy --switch-split-file $S20/seed${S}_train_G.npy --switch-step 200 --alternate-every 5
+    --test-file $S20/seed${S}_test.npy --switch-split-file $S20/seed${S}_train_G.npy --switch-step 200 --alternate-every 5 --save-model
 done
 for S in 30 31 32; do   # control C_F100
   run 7 --seed $S --condition baseline --steps 2200 --stop-after-gen 8000 --split-file $S20/seed${S}_train_F.npy \
-    --test-file $S20/seed${S}_test.npy --switch-split-file $S20/seed${S}_train_G.npy --switch-step 100
+    --test-file $S20/seed${S}_test.npy --switch-split-file $S20/seed${S}_train_G.npy --switch-step 100 --save-model
 done
 for S in 30 31 32; do
   run 7 --seed $S --condition baseline --steps 2200 --stop-after-gen 8000 --split-file $S20/seed${S}_train_F.npy \
-    --test-file $S20/seed${S}_test.npy --switch-split-file $S20/seed${S}_train_G.npy --switch-step 200 --alternate-every 25
+    --test-file $S20/seed${S}_test.npy --switch-split-file $S20/seed${S}_train_G.npy --switch-step 200 --alternate-every 25 --save-model
 done
 echo "[exp037] all done"

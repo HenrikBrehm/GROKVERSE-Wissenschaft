@@ -57,6 +57,9 @@ alle übernommen:
 Rezenz) → *mehrdeutig*; H37 ∧ H37(C_F100) → *nicht spezifisch*; nur H37 → *gestützt*; sonst *F-Akkumulation* / *G (Rezenz)* /
 *unklar*. Budget jetzt 9 Läufe + Smoke ≈ 42 min.
 
+**Nachtrag b (15:16, vor jedem Lauf):** Alle 9 Läufe mit `--save-model` (Endmodell), damit fremde Frequenzen später
+funktional geprüft werden können (Ablation). Ändert weder Messung noch Urteil.
+
 ## Reproduktion
 
 ```

@@ -1624,3 +1624,22 @@ Design im Studien-MLP mit gemeinsamem Embedding (kein Attention-Wertepfad), add 
 generalisiert im Median bei 9 250), K bei 10 000 primär, bei 2000 sekundär. `freq_ban.py --arch mlp` (nur mit `--split-file`,
 `baseline`). Splits erzeugt (M0-Top-5 = Ziele in 20/20). GPU-Sammelqueue `queue_gpu_s11.sh` (GPU-001 → 043 → 044 → 045) geschrieben;
 J wird aus dem Durchsatztest gewählt.
+
+---
+
+## Sitzung 12 (2026-09-26, 19:29–22:29 Berlin, außerhalb des Fensters; nur Code, Vorbereitung, Denkarbeit)
+
+Stand gelesen (19:30): kein STOP, kein Training aktiv, Fenster zu (wieder ab 00:00; nächster Runner-Start 00:29 Berlin).
+Die Codex-Prüfung von EXP-043/GPU aus Sitzung 11 (`codex_review_2026-09-26.txt`) war **ohne Ergebnis abgebrochen** (nur
+Fortschrittszeilen, kein Befund). 19:35 neu gestartet (`codex_review_s12_2026-09-26.txt`), Umfang: `freq_ban.py`-Änderungen seit
+a91ef0d, GPU-001, EXP-043/044/045, `queue_gpu_s11.sh`.
+
+**Zyklus 1 (19:31–19:40, ohne Training): Echte Aufgaben-Verallgemeinerung vorbereiten.** Frage: Gilt K2 (Steuerung über den Split)
+bei einer nicht-abelschen Gruppe? Begründung: Nach Sitzung 11, Zyklus 5, sind mul/andere Moduli für das Modell wieder zyklisch.
+*Änderung:* [[experiments/EXP-046-dihedral-steering/README|EXP-046]] (D₅₉, Ordnung 118, 29 zweidimensionale Irreps; EXP-016-Design
+mit Armen F/G, Seeds 140–149, 2000 Schritte, GPU) mit vorab festgelegter Strukturprüfung (sonst *nicht auswertbar*), eigenes
+schlankes Trainingsskript `group_train.py` (gleiches Modell/Preset, keine weitere Option in `freq_ban.py`), nicht-abelsches M0.
+*Ergebnis (reine Rechnung):* Gruppentafel, Homomorphie aller 29 ρ_k, Assoziativität und Orthonormalität geprüft (fail-closed im
+Code); Zielmenge = M0-Top-5 in **20/20** Splits, Zielanteil 0.246–0.280 (gleichverteilt 0.172). Training, Selbsttest und Smoke
+**ungetestet** (Fenster). Literatur: N24 (nicht gefunden, vorläufig; nächstverwandt Marchetti et al. 2026, He et al. 2026, Chughtai 2023).
+*Entscheidung:* nach der Codex-Prüfung in die GPU-Queue nach EXP-043 einhängen.

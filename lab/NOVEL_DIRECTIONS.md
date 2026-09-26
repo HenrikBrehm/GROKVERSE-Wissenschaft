@@ -540,3 +540,17 @@ Volltext per Abrufwerkzeug geprüft: 30 % Daten ohne Nullpaare, Mechanismus in 8
 verschieden, **keine** Untersuchung, was die Wahl bestimmt, kein Dateneingriff); Chughtai et al. 2023 (Gruppendarstellungen,
 universell); He et al. 2026 (https://arxiv.org/abs/2602.16849, Init-Lotterie, Addition). *Einordnung:* nach unserer Suche nicht
 gefunden (vorläufig; Abruf-Zusammenfassung, Volltext nicht selbst vollständig gelesen).
+
+## N24: Datensteuerung der Irreps in nicht-abelschen Gruppen (Diedergruppe D₅₉) #neu/kandidat
+
+*Sitzung 12, 2026-09-26.* Frage: Gibt die Auswahl der Trainingspaare auch bei einer **nicht-abelschen** Gruppenverknüpfung vor, welche
+(mehrdimensionalen) Irreps das Netz lernt? Anlass: Multiplikation und andere Moduli sind für dieses Modell nach Token-Umbenennung
+zyklisch (Sitzung 11, Zyklus 5), also kein neuer Aufgabentyp. Nicht-abelsches Analogon des Masken-Spektrums: Leistung
+2·‖Σ_t N(t) ρ_k(t)‖²_F der Paar-Indikatoren je Ausgabe. Test: [[experiments/EXP-046-dihedral-steering/README|EXP-046]].
+**Suche (2026-09-26, 19:40 Berlin):** WebSearch „grokking group composition which irreducible representations learned training data
+distribution arXiv“, „toy model of universality Chughtai group composition irreps learned seeds dihedral S5“, „"non-abelian" group
+multiplication neural network training set sampling biases which representation is learned grokking dihedral“, dazu Abstract-Abruf
+von https://arxiv.org/abs/2606.02993 (He et al. 2026: Auswahl durch Init, keine Datenmanipulation laut Abstract) und
+https://arxiv.org/abs/2602.03655 (Marchetti et al. 2026: Reihenfolge nach Fourier-Statistik der *Eingabekodierung*). Chughtai et al.
+2023 (https://arxiv.org/abs/2302.03025): welche Irreps gelernt werden, variiert, Ursache offen. *Einordnung:* nach unserer Suche nicht
+gefunden (vorläufig; nur Abstracts geprüft). Folgekandidat bei positivem Ergebnis: S₅ (Irreps sehr verschiedener Dimension 1–6).

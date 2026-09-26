@@ -2203,3 +2203,26 @@ für beide Geräte geprüft: jedes Muster trifft sein Gerät und nie das andere.
 alle Kindjobs (kein `env=` in parallel_queue/guarded_run), Pläne GPU/CPU unverändert. Hinweis: `--paket-a-cpu` nimmt die GPU-Sperre und darf
 neben `--cpu` laufen; dann Threadsumme ≤ 12 beachten (3 × 1 + Worker × 4). *Lehre:* Bei jeder Änderung an Lauf-Mustern den tatsächlichen
 Namen aus dem Trainer nachbauen und per fnmatch prüfen, bevor ein Plan-Diff als Beleg gilt; der Plan-Diff sieht Auswertungen nicht.
+
+**Entscheidung, die Sitzung vor der Deadline zu beenden (23:03):** Alles, was vor 03:00 ohne Läufe sinnvoll war, ist erledigt und geprüft.
+Weitere Punkte wären Nachrechnungen an bereits ausgeschöpften Daten (EXP-020/037) ohne neue Frage (Regel 13: kein Beschäftigungsprogramm).
+Das Kontingent ist ab 03:00 wertvoller (Abnahme, Beobachten, Auswerten). Der nächste Runner-Start (02:14) hängt nicht davon ab.
+
+### Abschlussbericht Sitzung 15 (Stand 23:03 Berlin; Auftrag §10)
+
+- **Wichtigste Befunde (post hoc an gespeicherten Läufen, explorativ, Seeds 30–34):** (1) Die F/G-Mischung nach einem Datenwechsel (π) und die
+  ganze Spektrumsform ändern sich nach Schritt 250 kaum, obwohl der Kontrast ≈ 2.3-fach wächst. Nach der Gegenprüfung heißt das nur
+  „gemeinsame Umskalierung“, nicht „eingefroren“. (2) Ein frühes Integrationsfenster (≈ 50–100 Schritte) ist verträglich mit EXP-020 und EXP-037,
+  aber schwach belegt (eine Konstante 0.5 passt EXP-037 fast so gut). (3) **Methodisch:** Unter reinem Takt verschiebt sich die Top-5-Kreuzung
+  mit der Stärke des zweiten Splits. Die vorab festgelegte Lesart von EXP-042 („reine Uhr → gleiches Fenster“) war deshalb für das Top-5-Maß falsch.
+  Korrigiert vor dem Lauf: π trennt beide Lesarten.
+- **Vorab eingefroren (vor jedem Lauf):** EXP-042 Nachtrag b/c (π-Lesarten C/O), EXP-041 Nachtrag b (drei Modelle für P41b), neuer Auswerteversuch
+  [[experiments/EXP-054-window-oos/README|EXP-054]] (Fenster an den neuen Inits von EXP-036: A Übertragung, B Setzschritt).
+- **Technik:** CPU-Ersatzweg für Paket A (`night_program.py --paket-a-cpu`, `LAB_PAKET_A_DEVICE`). Die Standardpläne bleiben unverändert (Plan-Diff).
+  Einen Blocker, der auch die GPU-Auswertung von EXP-043 getroffen hätte, fand die Prüfung vor jedem Lauf. Zeilenenden der Notizen wiederhergestellt.
+- **Offene Grenzen:** alles Neue ungetestet bis 03:00; π sieht gemeinsame affine Abbildungen nicht; C/O-Lesarten erkennen mit 4 Seeds nur Verschiebungen ≳ 0.15–0.2.
+  Dichte frühe Spektren (EXP-036/039/040) sind der eigentliche Test von N30.
+- **Reproduktion:** `python lab/experiments/EXP-020-data-switch/posthoc_pi_trajectory.py`, `…/posthoc_window_model.py`, `…/posthoc_clock_crossover.py`,
+  `…/posthoc_shape_stability.py` (reine Rechnung auf gespeicherten Spektren).
+- **Nächste Aktion:** STATE „Wiederaufnahme ab 03:00“. Neu dort: EXP-054 nach EXP-036, `pi_window.py` nach EXP-042, CPU-Weg für Paket A bei gescheitertem GPU-001.
+- **Runner:** nächster Start laut runner-state.json 02:14 Berlin (00:14Z); Läufe ab 03:00.

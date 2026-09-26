@@ -1,23 +1,25 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 15
+# LIVE: Laborsitzung 15 – **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-26 22:39 Berlin (20:39Z, vom Runner)
 - **Deadline:** 2026-09-27 01:39 Berlin (23:39Z)
-- **Zuletzt aktualisiert:** 23:00 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 23:03 Berlin (gemessen). **Status: Sitzung beendet.** Nächster geplanter Start: **02:14 Berlin** (runner-state.json, 00:14Z).
 - **Run-Fenster:** zu. Heute Nacht Läufe erst ab 03:00 (Regel 18). Diese Sitzung: nur Rechnen auf gespeicherten Daten, Code, Literatur.
 
 ## Gerade
 
-Ein Ersatzweg für den Fall, dass die Grafikkarte heute Nacht die Abnahme nicht besteht: Paket A kann dann auf dem Prozessor laufen. Eine unabhängige Prüfung des Codes läuft.
+Nichts läuft. Alles ist gesichert und committet. Ich habe vor der Deadline beendet: Was ohne Läufe sinnvoll war, ist erledigt. Weiteres wäre Rechnen an ausgeschöpften Daten.
 
 ## Als Nächstes
 
-Prüfbefunde einarbeiten, committen, STATE ergänzen.
+Sitzung ab 02:14. Ab 03:00: Abnahme des Wächters, Tests, GPU-Abnahme, Nachtversuche. Neu: [[experiments/EXP-054-window-oos/README|EXP-054]] nach EXP-036 auswerten. Scheitert die GPU, läuft Paket A auf dem Prozessor (Schritte in [[STATE]]).
 
 ## Verlauf dieser Sitzung
 
+- 23:03 Abschluss: Bericht im [[JOURNAL]], STATE für die Übergabe ergänzt.
+- 23:02 **Prüfung fand einen echten Fehler, bevor etwas lief:** Meine Änderung hätte die Auswertung von EXP-043 heute Nacht blind gemacht, auch auf der GPU. Behoben und für beide Geräte nachgeprüft.
 - 22:59 **CPU-Ersatzweg für Paket A gebaut** (`night_program.py --paket-a-cpu`). Der Plan für heute Nacht bleibt Zeichen für Zeichen gleich (geprüft).
 - 22:57 Zwischenbilanz: gelernt, nicht wiederholt. Ein Messproblem (Top-5 gegen π) wurde vor zwei Nachtversuchen korrigiert.
 - 22:53 **Neuer Versuch [[experiments/EXP-054-window-oos/README|EXP-054]] vor den Läufen festgelegt:** Die EXP-036-Läufe heute Nacht haben neue Startgewichte. Sie prüfen, ob das Fensterbild auch dort gilt. Eigene Läufe braucht es nicht.

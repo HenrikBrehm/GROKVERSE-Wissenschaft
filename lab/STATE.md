@@ -14,7 +14,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
   (Regel 18a): 1. Punkt 3 Fingerprint/Sperre/atomare NPY in `freq_ban.py` → 2. Punkt 10 GPU-001/compare.py + `config.device` →
   3. Punkt 16 gemeinsamer Ergebnislader → 4. Punkt 11 Nacht-Queues auf `parallel_queue.py` → 5. Punkt 17 STATE ≤ 80 Zeilen →
   6. Punkt 5 getrennte Zufallsströme. Ab 03:00 (18b): Wächter-Abnahme mit harmlosem Job + STOP-Test, dann freq_ban-Tests, dann GPU-001,
-  dann Nacht-Queues. Fortschritt: Tabelle „Umsetzung“ unten in `lab/reviews/ASTRA_2026-09-26.md`. **Der Sitzung-13-Block darunter
+  dann Nacht-Queues: **GPU jetzt `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1`** (Hintergrund; ersetzt
+  queue_gpu_s11.sh; Plan ansehen mit `--dry-run`; Wiederaufnahme = derselbe Befehl; Status in `lab/runner/logs/night_*/night_status.json`).
+  Fortschritt: Tabelle „Umsetzung“ unten in `lab/reviews/ASTRA_2026-09-26.md`. **Der Sitzung-13-Block darunter
   (Queues ab 00:59 starten) ist dadurch überholt**, gilt nur noch für Inhalte (was vorbereitet ist).
 - **SITZUNG 13 (20:29) → NÄCHSTE SITZUNG (Start 00:59 Berlin, Fenster offen): genau diese Schritte, gilt vor allen Blöcken darunter.**
   1. `python lab/tools/guarded_run.py --check` (muss `in_window: true` zeigen) und `ps -ef | grep -E "queue|guarded_run" | grep -v grep` (nichts aktiv).

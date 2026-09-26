@@ -61,10 +61,12 @@ def equivalence() -> tuple[dict, bool]:
         a3 &= a3_seed
         lc, lg = np.asarray(rc["dense"]["train_loss"]), np.asarray(rg["dense"]["train_loss"])
         n = min(len(lc), len(lg))
+        st = np.asarray(rc["dense"]["train_steps"])[:n]
         rel = np.abs(lg[:n] - lc[:n]) / np.maximum(np.abs(lc[:n]), 1e-12)
         rows.append({"seed": s, "overlap_top5": ov, "gen_cpu": gc, "gen_gpu": gg, "A3_seed": a3_seed,
-                     "rel_loss_diff_step1_10_50": [float(rel[i]) for i in (1, 10, 50) if i < n],
-                     "first_step_rel_diff_gt_1pct": next((int(i) for i in range(n) if rel[i] > 0.01), None),
+                     # Codex s12: dense train loss is logged every eval_every_train steps; report real step numbers
+                     "rel_loss_diff_at_steps": {int(st[i]): float(rel[i]) for i in (1, 10, 50) if i < n},
+                     "first_step_rel_diff_gt_1pct": next((int(st[i]) for i in range(n) if rel[i] > 0.01), None),
                      "sec_per_step_cpu": rc["sec_per_step"], "sec_per_step_gpu": rg["sec_per_step"],
                      "cuda_max_mem_mb": rg.get("cuda_max_mem_mb"),
                      "final_test_acc_cpu": rc["final_acc"]["test"], "final_test_acc_gpu": rg["final_acc"]["test"]})
@@ -75,20 +77,22 @@ def equivalence() -> tuple[dict, bool]:
 
 
 def throughput() -> tuple[dict, bool]:
-    out = {}
+    """Codex s12: a level counts only if all J processes completed on cuda; pass needs J = 1 complete."""
+    levels = {}
     for J in (1, 2, 4, 8):
         sps = []
         for i in range(1, J + 1):
             for d in (HERE / "raw_par" / f"J{J}_{i}").glob("*/result.json"):
                 r = json.loads(d.read_text(encoding="utf-8"))
-                if r["status"] == "completed" and r.get("device") == "cuda":
+                if r["status"] == "completed" and r.get("device") == "cuda" and r.get("steps_completed") == 500:
                     sps.append((r["sec_per_step"], r.get("cuda_max_mem_mb")))
-        if sps:
-            mean_sps = float(np.mean([x[0] for x in sps]))
-            out[f"J{J}"] = {"n_completed": len(sps), "sec_per_step_mean": mean_sps,
-                            "aggregate_steps_per_s": len(sps) / mean_sps,
-                            "max_mem_mb": max((x[1] or 0) for x in sps)}
-    return out, bool(out)
+        complete = len(sps) == J
+        mean_sps = float(np.mean([x[0] for x in sps])) if sps else None
+        levels[f"J{J}"] = {"n_completed": len(sps), "complete": complete, "sec_per_step_mean": mean_sps,
+                           "aggregate_steps_per_s": len(sps) / mean_sps if sps else 0.0,
+                           "max_mem_mb": max((x[1] or 0) for x in sps) if sps else None}
+    ok = levels["J1"]["complete"]
+    return {"levels": levels, "pass": ok}, ok
 
 
 def main() -> None:

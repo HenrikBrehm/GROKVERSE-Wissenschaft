@@ -14,3 +14,6 @@ lab/experiments/*/raw*/
 # personal Claude Code settings
 .claude/settings.local.json
 .venv-gpu/
+lab/experiments/*/.status/
+lab/experiments/*/.failed
+lab/experiments/*/.refused

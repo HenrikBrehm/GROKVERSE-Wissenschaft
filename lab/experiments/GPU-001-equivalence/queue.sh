@@ -30,5 +30,5 @@ for J in 1 2 4 8; do
   done
   wait
 done
-python $G --min-minutes 2 -- python $OUT/compare.py throughput
+python $G --min-minutes 2 -- python $OUT/compare.py throughput || { rc=$?; echo "[gpu001] throughput FAIL/refused rc $rc"; exit $rc; }
 echo "[gpu001] done"

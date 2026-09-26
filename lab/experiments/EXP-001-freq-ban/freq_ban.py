@@ -280,6 +280,9 @@ def run(a: argparse.Namespace) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     for stale in ("we_snapshots.npy", "we_snapshot_steps.npy"):   # Codex s10: no stale snapshots from an earlier run
         (out_dir / stale).unlink(missing_ok=True)
+    if a.force:                      # Codex s12: a forced rerun that dies before its first write must not leave the old record
+        for stale in ("result.json", "spectra.npy", "spectra_steps.npy"):
+            (out_dir / stale).unlink(missing_ok=True)
 
     # identical order to grokverse.train.train(): threads, seed, data, model, optimizer
     torch.set_num_threads(cfg.threads)

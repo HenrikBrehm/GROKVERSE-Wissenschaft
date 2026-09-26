@@ -41,8 +41,8 @@ def row(s: int) -> dict:
         stem = f"split_add113_seed{s}_eps2.0_{arm}"
         T[arm] = set(json.loads((HERE / f"splits/{stem}.json").read_text(encoding="utf-8"))["targets"])
         hits = sorted((HERE / "raw").glob(f"EXP-045_baseline_seed{s}_thr*_{stem}_mlp_*"))
-        if len(hits) != 1:
-            r["reason"] = f"arm {arm}: missing/ambiguous"
+        if len(hits) != 1 or not (hits[0] / "result.json").exists():   # Codex s12: died before first write -> invalid
+            r["reason"] = f"arm {arm}: missing/ambiguous/no result.json"
             return r
         res = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))
         if (res["status"] != "completed" or res["steps_completed"] < PRIMARY or res["config"]["arch"] != "mlp"

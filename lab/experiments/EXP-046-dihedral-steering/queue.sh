@@ -17,14 +17,14 @@ import json,glob; r=json.load(open(glob.glob('$E/raw_smoke/*/result.json')[0]))
 assert r['status']=='completed' and r['device']=='cuda' and r['order']==118 and r['config']['p']==118, r['status']
 assert r['run_id'].endswith('_devcuda') and len(r['final_top_m_irreps'])==5, r['run_id']
 print('[exp046] smoke ok', r['run_id'], r['sec_per_step'], 's/step', r.get('cuda_max_mem_mb'), 'MB')" || { echo "[exp046] smoke check failed"; exit 1; }
-REFUSED=$E/.refused; rm -f $REFUSED
+REFUSED=$E/.refused; rm -f $REFUSED $E/.failed
 job() {  # $1 seed $2 eps $3 arm
   [ -f $REFUSED ] && return 0
   python $G --min-minutes 5 -- $GPY $E/group_train.py --seed $1 --steps 2000 --device cuda \
     --split-file $E/splits/split_D59_seed$1_eps$2_$3.npy --out-root $E/raw
   rc=$?
   [ $rc -eq 3 ] && touch $REFUSED
-  [ $rc -ne 0 ] && echo "[exp046] seed $1 $3 failed rc $rc"
+  [ $rc -ne 0 ] && { echo "[exp046] seed $1 $3 failed rc $rc"; touch $E/.failed; }
   return 0
 }
 batch() {  # run the lines of stdin as jobs, J at a time
@@ -37,8 +37,9 @@ batch() {  # run the lines of stdin as jobs, J at a time
 }
 for s in 140 141 142 143 144 145 146 147 148 149; do echo "$s 2.0 F"; echo "$s 2.0 G"; done | batch
 [ -f $REFUSED ] && { echo "[exp046] guard refused, stop"; exit 3; }
-python $G --min-minutes 2 -- python $E/analyze.py || echo "[exp046] analysis failed"
+python $G --min-minutes 2 -- python $E/analyze.py || { echo "[exp046] analysis failed"; touch $E/.failed; }
 for s in 140 141 142 143 144 145 146 147 148 149; do echo "$s 0.0 R"; done | batch
 [ -f $REFUSED ] && { echo "[exp046] guard refused, stop"; exit 3; }
-python $G --min-minutes 2 -- python $E/analyze.py || echo "[exp046] analysis failed"
+python $G --min-minutes 2 -- python $E/analyze.py || { echo "[exp046] analysis failed"; touch $E/.failed; }
+[ -f $E/.failed ] && { echo "[exp046] done WITH FAILURES (see above)"; exit 1; }
 echo "[exp046] done"

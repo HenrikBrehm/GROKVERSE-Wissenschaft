@@ -20,22 +20,28 @@ assert r['status']=='completed' and r['config']['task']=='mul' and r['config']['
 assert r['run_id'].startswith('EXP-043_') and r['run_id'].endswith('_mul113_devcuda'), r['run_id']
 print('[exp043] smoke ok', r['run_id'], r['sec_per_step'], 's/step', r.get('cuda_max_mem_mb'), 'MB')"
 set +e
+ST=$E/.status; rm -rf $ST; mkdir -p $ST   # Codex s12: failures/refusals recorded, not swallowed
 job() {  # $1 task $2 p $3 seed $4 eps $5 arm
   python $G --min-minutes 10 -- $GPY $FB --seed $3 --condition baseline --steps 2000 --threads 1 --device cuda --p $2 --task $1 \
     --split-file $E/splits/split_$1$2_seed$3_eps$4_$5.npy --spectra-at 50,250,500,1000,2000 --out-root $E/raw
-  rc=$?; [ $rc -ne 0 ] && echo "[exp043] $1$2 seed $3 $5 failed rc $rc"; return 0
+  rc=$?; [ $rc -eq 3 ] && touch $ST/refused
+  [ $rc -ne 0 ] && { echo "[exp043] $1$2 seed $3 $5 failed rc $rc"; touch $ST/failed; }; return 0
 }
 batch() {  # run the lines of stdin as jobs, J at a time
   n=0
   while read t p s e a; do
+    [ -f $ST/refused ] && continue
     job $t $p $s $e $a &
     n=$((n+1)); [ $n -ge $J ] && { wait; n=0; }
   done
   wait
 }
 for s in 70 71 72 73 74 75 76 77 78 79; do for a in F G; do echo "mul 113 $s 2.0 $a"; echo "add 97 $s 2.0 $a"; done; done | batch
-python $G --min-minutes 2 -- python $E/analyze.py || echo "[exp043] analysis failed"
+[ -f $ST/refused ] && { echo "[exp043] guard refused, stop"; exit 3; }
+python $G --min-minutes 2 -- python $E/analyze.py || { echo "[exp043] analysis failed"; touch $ST/failed; }
 # secondary: random reference splits (eps 0), not needed for the verdict
 for s in 70 71 72 73 74 75 76 77 78 79; do echo "mul 113 $s 0.0 R"; echo "add 97 $s 0.0 R"; done | batch
-python $G --min-minutes 2 -- python $E/analyze.py || echo "[exp043] analysis failed"
+[ -f $ST/refused ] && { echo "[exp043] guard refused, stop"; exit 3; }
+python $G --min-minutes 2 -- python $E/analyze.py || { echo "[exp043] analysis failed"; touch $ST/failed; }
+[ -f $ST/failed ] && { echo "[exp043] done WITH FAILURES (see above)"; exit 1; }
 echo "[exp043] done"

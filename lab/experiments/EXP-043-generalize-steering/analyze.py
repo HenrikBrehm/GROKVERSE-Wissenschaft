@@ -52,7 +52,10 @@ def fold(x: int, n: int) -> int:
 
 def run_dir(task: str, p: int, s: int, arm: str, eps: str = "2.0") -> Path | None:
     hits = sorted((HERE / "raw").glob(f"EXP-043_baseline_seed{s}_thr*_split_{task}{p}_seed{s}_eps{eps}_{arm}_*"))
-    return hits[0] if len(hits) == 1 else None
+    if len(hits) != 1 or not (hits[0] / "result.json").exists():        # Codex s12: died before first write -> missing
+        return None
+    res = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))
+    return hits[0] if res.get("status") == "completed" else None
 
 
 def snapshot(d: Path, step: int) -> np.ndarray | None:
@@ -69,7 +72,7 @@ def row(task: str, p: int, s: int) -> dict:
         T[arm] = set(json.loads((HERE / f"splits/{stem}.json").read_text(encoding="utf-8"))["targets"])
         d = run_dir(task, p, s, arm)
         if d is None:
-            r["reason"] = f"arm {arm}: missing or ambiguous run dir"
+            r["reason"] = f"arm {arm}: missing, ambiguous or not completed run dir"
             return r
         res = json.loads((d / "result.json").read_text(encoding="utf-8"))
         cfg = res["config"]

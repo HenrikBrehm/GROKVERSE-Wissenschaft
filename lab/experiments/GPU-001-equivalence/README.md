@@ -44,3 +44,15 @@ python lab/experiments/GPU-001-equivalence/compare.py regression|equivalence|thr
 
 Laufzeit (geschätzt, ungeprüft): Regression ≈ 10 s; Gleichwertigkeit 3 × 2000 Schritte auf der GPU (unbekannt; CPU wären
 3 × 4.5 min); Durchsatz 15 Prozesse × 500 Schritte.
+
+## Nachtrag Sitzung 12 (2026-09-26 ~19:55 Berlin, nach Codex, **vor jedem Lauf**)
+
+Codex-Prüfung `EXP-043-generalize-steering/codex_review_s12_2026-09-26.txt` (2 Blocker, 1 hoch, 2 mittel, 3 niedrig), übernommen:
+Queues scheitern nicht mehr „offen“ (Ablehnung des Wächters rc 3 in parallelen Läufen stoppt alles, andere Fehler werden gezählt,
+die Queue endet dann mit rc 1 „done WITH FAILURES“); GPU-001-Durchsatz zählt eine Stufe J nur, wenn alle J Läufe fertig sind, die
+Hauptqueue verlangt Regression, Gleichwertigkeit und Durchsatz bestanden; `freq_ban.py --force` löscht den alten `result.json`;
+Auswertungen werten fehlende/abgebrochene Läufe als ungültig statt abzustürzen; EXP-044 prüft den Test-Hash und rechnet Holm
+über **alle gelaufenen** Aufgaben (wie hier vorab festgelegt, der Code wich ab). Diagnose-Schrittnummern in GPU-001 korrigiert.
+Nicht geändert: `config.device` bleibt „cpu“ (maßgeblich ist das Feld `device` oben im result.json; alle Auswertungen nutzen es);
+Seed 70/99 wurden früher schon benutzt, aber bei anderem p bzw. anderer Architektur, also andere Init (Einschränkung notiert).
+Urteilsregeln unverändert.

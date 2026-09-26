@@ -25,6 +25,7 @@ sw=r['events']['switch']; assert r['status']=='completed' and sw['step']==30 and
 assert sw['n_G_minus_F'] > 2000, sw
 print('[exp044] smoke ok', r['run_id'], sw)"
 set +e
+ST=$E/.status; rm -rf $ST; mkdir -p $ST   # Codex s12: failures/refusals recorded, not swallowed
 job() {  # $1 task$p (e.g. mul113) $2 seed $3 kind (F | G | switch step)
   t=${1%%[0-9]*}; p=${1#$t}; st=$S/$1_seed$2
   if [ "$3" = F ] || [ "$3" = G ]; then
@@ -35,9 +36,12 @@ job() {  # $1 task$p (e.g. mul113) $2 seed $3 kind (F | G | switch step)
       --split-file ${st}_train_F.npy --test-file ${st}_test.npy --switch-split-file ${st}_train_G.npy --switch-step $3 \
       --spectra-at $3,$(($3 + 250)),$(($3 + 2000)) --out-root $E/raw
   fi
-  rc=$?; [ $rc -ne 0 ] && echo "[exp044] $1 seed $2 $3 failed rc $rc"; return 0
+  rc=$?; [ $rc -eq 3 ] && touch $ST/refused
+  [ $rc -ne 0 ] && { echo "[exp044] $1 seed $2 $3 failed rc $rc"; touch $ST/failed; }; return 0
 }
-batch() { n=0; while read a b c; do job $a $b $c & n=$((n+1)); [ $n -ge $J ] && { wait; n=0; }; done; wait; }
+batch() { n=0; while read a b c; do [ -f $ST/refused ] && continue; job $a $b $c & n=$((n+1)); [ $n -ge $J ] && { wait; n=0; }; done; wait; }
 for task in $TASKS; do for s in 80 81 82 83 84 85 86 87 88 89; do for k in F G 25 50 150; do echo "$task $s $k"; done; done; done | batch
-python $G --min-minutes 2 -- python $E/analyze.py || echo "[exp044] analysis failed"
+[ -f $ST/refused ] && { echo "[exp044] guard refused, stop"; exit 3; }
+python $G --min-minutes 2 -- python $E/analyze.py || { echo "[exp044] analysis failed"; touch $ST/failed; }
+[ -f $ST/failed ] && { echo "[exp044] done WITH FAILURES (see above)"; exit 1; }
 echo "[exp044] done"

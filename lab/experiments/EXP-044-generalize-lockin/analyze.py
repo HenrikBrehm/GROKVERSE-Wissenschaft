@@ -42,6 +42,8 @@ def find(task: str, p: int, s: int, kind: str) -> Path | None:
 
 
 def final_K(d: Path, task: str, p: int) -> tuple[set[int] | None, dict]:
+    if not (d / "result.json").exists() or not (d / "we_snapshot_steps.npy").exists():   # Codex s12: invalid, no crash
+        return None, {}
     res = json.loads((d / "result.json").read_text(encoding="utf-8"))
     steps = np.load(d / "we_snapshot_steps.npy").tolist()
     last = res["steps_completed"]
@@ -55,6 +57,7 @@ def row(task: str, p: int, s: int) -> dict:
     meta = json.loads((HERE / f"splits/{task}{p}_seed{s}.json").read_text(encoding="utf-8"))
     F, G = set(meta["targets"]["F"]), set(meta["targets"]["G"])
     hashes = {arm: split_hash(np.load(HERE / f"splits/{task}{p}_seed{s}_train_{arm}.npy")) for arm in "FG"}
+    test_hash = split_hash(np.sort(np.load(HERE / f"splits/{task}{p}_seed{s}_test.npy")))   # Codex s12: common test set
     r: dict = {"seed": s, "valid": False, "F": sorted(F), "G": sorted(G)}
     d_of, extra = {}, {}
     for kind in ("F", "G") + tuple(str(t) for t in SWITCH):
@@ -64,7 +67,8 @@ def row(task: str, p: int, s: int) -> dict:
             return r
         K, res = final_K(dd, task, p)
         first = "G" if kind == "G" else "F"
-        if K is None or res["split_hash"] != hashes[first] or res["config"]["task"] != task or res["config"]["p"] != p:
+        if (K is None or res["split_hash"] != hashes[first] or res.get("test_hash") != test_hash
+                or res["config"]["task"] != task or res["config"]["p"] != p):
             r["reason"] = f"{kind}: not completed / not cuda / no final snapshot / hash"
             return r
         if kind not in ("F", "G") and (res.get("switch_hash") != hashes["G"] or res["switch_step"] != int(kind)):
@@ -106,7 +110,7 @@ def main() -> None:
     ev = sorted(((k, t["p"]) for k, t in out["tasks"].items() if "p" in t), key=lambda x: x[1])
     still = True
     for i, (k, pv) in enumerate(ev):
-        sig = still and pv < ALPHA / (len(ev) - i)
+        sig = still and pv < ALPHA / (len(ran) - i)     # Codex s12: family = all tasks that ran (README), not only evaluable
         still = sig
         out["tasks"][k]["holm_significant"] = sig
     for t in out["tasks"].values():

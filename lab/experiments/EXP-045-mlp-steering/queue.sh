@@ -16,15 +16,20 @@ import json,glob; r=json.load(open(glob.glob('$E/raw_smoke/*/result.json')[0]))
 assert r['status']=='completed' and r['config']['arch']=='mlp' and r['device']=='cuda' and r['run_id'].startswith('EXP-045_'), r['run_id']
 print('[exp045] smoke ok', r['run_id'], r['sec_per_step'], 's/step')"
 set +e
+ST=$E/.status; rm -rf $ST; mkdir -p $ST   # Codex s12: failures/refusals recorded, not swallowed
 job() {  # $1 seed $2 arm
   python $G --min-minutes 10 -- $GPY $FB --seed $1 --condition baseline --steps 10000 --stop-after-gen 100000 --threads 1 \
     --device cuda --arch mlp --split-file $E/splits/split_add113_seed$1_eps2.0_$2.npy --spectra-at 250,2000,5000,10000 --out-root $E/raw
-  rc=$?; [ $rc -ne 0 ] && echo "[exp045] seed $1 $2 failed rc $rc"; return 0
+  rc=$?; [ $rc -eq 3 ] && touch $ST/refused
+  [ $rc -ne 0 ] && { echo "[exp045] seed $1 $2 failed rc $rc"; touch $ST/failed; }; return 0
 }
 n=0
 for s in 90 91 92 93 94 95 96 97 98 99; do for a in F G; do
+  [ -f $ST/refused ] && continue
   job $s $a & n=$((n+1)); [ $n -ge $J ] && { wait; n=0; }
 done; done
 wait
-python $G --min-minutes 2 -- python $E/analyze.py || echo "[exp045] analysis failed"
+[ -f $ST/refused ] && { echo "[exp045] guard refused, stop"; exit 3; }
+python $G --min-minutes 2 -- python $E/analyze.py || { echo "[exp045] analysis failed"; touch $ST/failed; }
+[ -f $ST/failed ] && { echo "[exp045] done WITH FAILURES (see above)"; exit 1; }
 echo "[exp045] done"

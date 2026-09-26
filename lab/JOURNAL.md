@@ -736,3 +736,19 @@ Als sekundäre, gerichtete Entscheidung für Arm R eingetragen (EXP-024 Nachtrag
 R-Lauf; Q-Läufe liefen bereits, ihre Ergebnisse habe ich vorher nicht angesehen). Der Transformer (EXP-016: F) verhält
 sich wie die ReLU-Vorhersage. Die 2k-Oberwellen des Transformers erklärt diese Rechnung **nicht** (x² würde H = F/2
 begünstigen, nicht 2F); sie bleiben ein eigener Befund (EXP-021).
+
+**Zwischenbilanz nach drei Zyklen (08:58, §4).** *Gelernt:* Die AGF-Nutzenrechnung unter maskiertem Verlust liefert
+eine scharfe, architekturabhängige Vorhersage (x² → F/2, ReLU → F), die ohne Training aus dem Split folgt; das ist die
+erste Theorie im Labor, die die EXP-015/016-Befunde nicht nur beschreibt, sondern etwas Neues vorhersagt.
+*Wiederholen wir uns?* Nein: neue Architektur (Zwei-Hot ohne Bias), neue Messgröße (reskalierungsinvariant), neue Frage.
+*Messungen geeignet?* Die Top-5-Überlappung ist grob; deshalb zusätzlich Kontrolle über alle anderen Multiplikatoren
+m·F und Zeitverlauf (`timecourse.py`, explorativ). *Nächste Annahme, die angegriffen werden sollte:* dass der
+Transformer sich „wie ReLU“ verhält, weil er F lernt. Ebenso gut könnte er durch seine Attention eine andere effektive
+Nutzenfunktion haben. Prüfbar wäre das über den exakten ersten Wachstumsmodus eines Transformers bei kleiner Init.
+Noch nicht vorbereitet.
+
+## Sitzung 7 (2026-09-26, Start 08:59 Berlin / 06:59Z, Deadline 11:59 Berlin)
+
+**09:02 Wiederaufnahme.** Kein STOP. Sitzung 6 endete bereits 08:57 (27 min, `completed`), ohne Abschlussbericht; die
+EXP-024-Warteschlange (gestartet 08:52) lief weiter und ist ein einzelner Job (7/38 fertig, Q-Arm). Ihr Wächter rechnet
+noch mit der alten Deadline 11:29 Berlin; reicht für die restlichen ~31 Läufe (~45 min). Ich übernehme die Beobachtung.

@@ -266,3 +266,28 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   Lösung stützt sich auf die **geraden** Anteile der Aktivierung (|x|, x² austauschbar). Das spräche dafür, dass auch das
   ReLU-Netz am Ende H statt F wählt, entgegen der ReLU-Nutzenrechnung am Start (F über den linearen Anteil).
   EXP-024 Arm R trennt beide Bilder. Ein Split-Einfluss wird dort nicht betrachtet; Einordnung N11 unverändert vorläufig.
+- **Nachprüfung 09:01 (Sitzung 7, WebFetch Volltext https://arxiv.org/html/2602.16849):** He et al. 2026 schreiben wörtlich:
+  „A model trained with ReLU is robust to changes of activation function at inference time. This is because learning a
+  good solution only relies on the activation's dominant even-order components“ und „the output of a ReLU neural network
+  is fundamentally determined by the ½|x| term“ (ReLU(x) = ½(x + |x|)); Tabelle 1: Tausch ReLU → |x|, x², x⁴ zur
+  Inferenzzeit ohne Genauigkeitsverlust. Theorie nur für x² und **volle Daten**; Grokking-Teil mit Zufallssplit 0.75,
+  ohne Frage, wie der Split die Frequenzen bestimmt. McCracken et al. (https://arxiv.org/abs/2505.18266): Abstract
+  nennt weder Paritätsargument noch Splits (Quelle der Suchzusammenfassung war also He et al.).
+  **Folge für EXP-024 Arm R:** Zwei Bilder sagen Gegensätzliches voraus: Nutzen am Start (linearer Anteil) → F; gerade
+  Anteile tragen die Endlösung → H. Arm R ist damit ein echter Unterscheidungstest zwischen Anfangsauswahl und
+  Endlösung. Einordnung N11 unverändert vorläufig (Split-Abhängigkeit weiter nicht gefunden).
+
+## N12: Paritäts-Umschlagpunkt als Uhr: Bei welcher Merkmalsamplitude fällt die Frequenzwahl? #neu/kandidat
+
+- **Rechnung (Sitzung 7, 09:03):** Im exakten AGF-Nutzen unter maskiertem Verlust greift der ungerade Anteil der Aktivierung
+  die Maske bei k ab (x: 5.0/5 Ziele F), der gerade bei 2k (|x|: 2.2/5 halbe Ziele H). Für σ_α = αx + x² zählt nur
+  α/r (r = Merkmalsamplitude); der Nutzen schlägt bei α/r ≈ 1 um (`EXP-024/utility_parity.py`, `utility_parity.json`).
+- **Idee:** Da r im Training wächst, verrät der Umschlagpunkt α* trainierter σ_α-Netze, bei welcher Amplitude und damit
+  wann die Wahl fällt. Test: [[experiments/EXP-026-parity-crossover/README|EXP-026]].
+- **Suche 2026-09-26 09:05 (Sitzung 7):** „activation function odd even part determines which Fourier frequency learned
+  two-layer network small initialization feature amplitude …“, „arXiv grokking modular addition activation "alpha x + x^2"
+  OR "linear plus quadratic" activation family frequency selection training subset“. Nächstverwandt: He et al. 2026
+  (https://arxiv.org/abs/2602.16849, gerade Anteile tragen die ReLU-Endlösung, volle Daten, x²-Theorie); Salah & Yevick
+  2024 (https://arxiv.org/abs/2411.05353, Nichtlinearität steuert Grokking, ohne Frequenzwahl oder Split); Kunin et al.
+  2025 (AGF). Paritätszerlegung als Brücke Split-Spektrum (k vs 2k) ↔ gelernte Frequenz und der Umschlagpunkt als
+  Zeitmesser: **nicht gefunden** (vorläufig; Google Scholar/OpenReview nicht gezielt).

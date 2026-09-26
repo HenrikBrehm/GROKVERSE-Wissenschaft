@@ -9,6 +9,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **Sitzung 8, 12:30:** EXP-033-Queue läuft (Nachtrag c, `_bt`-Läufe); Wiederaufnahme = `sh lab/experiments/EXP-033-optimizer-lockin/queue.sh` (überspringt Fertiges). `queue_s5.sh` weiter pausiert.
+
 - **Sitzung 8, 12:18:** `queue_s5.sh` **angehalten** (EXP-020 Seed 30: F, G, t = 150 fertig, t = 50 lief zu Ende). EXP-033-Queue
   läuft im Hintergrund (Log `lab/runner/logs/queue_exp033.log`). Danach: `analyze.py` von EXP-033, dann `sh lab/experiments/queue_s5.sh`.
 - **Sitzung 8, 12:15:** `queue_s5.sh` läuft (EXP-020 Seed 30, Log `lab/runner/logs/queue_s5.log`). **EXP-033** vorab festgelegt

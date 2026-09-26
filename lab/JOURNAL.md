@@ -964,3 +964,9 @@ Synthetischer Test der Auswertung 7/7 (`test_analyze.py`, über den Wächter), d
 **12:18 Warteschlange angehalten:** `sh`-Prozess von `queue_s5.sh` beendet, der laufende EXP-020-Lauf (Seed 30, t = 50) läuft
 zu Ende; danach startet `EXP-033/queue.sh` automatisch (Log `lab/runner/logs/queue_exp033.log`). EXP-020 Seed 30 fertig
 bisher: nur F (gen früh, 371 s), nur G (252 s), t = 150 (276 s).
+**12:20 EXP-033 Pilot (Split 10, Init 99, nur Phase 1):** GD erreicht r = 0.0167 bei lr 0.3/1/3/10/30 in 750/226/76/24/9
+Schritten, Überschuss 0.05/0.26/0.44/3.6/10.7 %. Regel → **lr = 3** (`lr.json`). Hauptläufe starten.
+**12:25–12:30 Nachtrag c zu EXP-033 (Matching), ohne Ansicht eines ds-Werts:** Split 10 der ersten Hauptläufe: SIGN überschoss
+das Ziel-r um 4.7 %, GD um 1.5 % (Toleranz 2 %). Warteschlange angehalten, Rückwärtshalbierung des letzten Schritts
+eingebaut (`--backtrack`, Ziel ≤ +0.5 %), Split 10 neu: GD +0.35 % (77 Schritte, letzter Schritt × 0.25), SIGN +0.32 %
+(11 Schritte). Die beiden Läufe ohne `_bt` bleiben unausgewertet. Warteschlange läuft weiter (~45 min).

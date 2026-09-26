@@ -221,3 +221,19 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   frequencies single frequency solution sufficient margin robustness grokking“. Nächstverwandt: He et al. 2026
   (https://arxiv.org/abs/2602.16849, Mehrheitsabstimmung über Frequenzen und Phasen); Nanda et al. 2023 (3–8 Frequenzen).
   Ein Dateneingriff zur Zahl der Frequenzen wurde nicht gefunden (vorläufig).
+
+## N10: Positions-Interferenz im Embedding-Gradienten über den geteilten Wertepfad #neu/kandidat
+
+- **Befund (Sitzung 5, post hoc bzw. in silico, siehe [[BEFUND-split-mechanismus]]):** Im ersten W_E-Gradienten eines
+  1-Schicht-Transformers interferieren die Beiträge der beiden Operanden frequenzweise nach dem Kreuzterm der Trainingsmaske
+  (18/18 Seeds); die Ursache ist der geteilte Wertepfad der Attention (eigene Wertematrix für Position 1 → Interferenz weg);
+  in der MLP mit getrennten W_in-Hälften fehlt sie, dort ist M0 die bessere Statistik. Kausaltest für die finale Wahl:
+  [[experiments/EXP-023-split-value/README|EXP-023]] (vorbereitet).
+- **Suche 2026-09-26:** „transformer shared token embedding gradient interference between input positions attention value
+  path modular arithmetic training data mask spectrum“, „"modular addition" transformer vs MLP number of frequencies
+  explanation attention commutativity embedding gradient initial“. Nächstverwandt: Beobachtung, dass MLPs viel mehr
+  Frequenzen lernen als Transformer (z. B. *Interpreting Modular Addition in MLPs*,
+  https://www.lesswrong.com/posts/cbDEjnRheYn38Dpc5/interpreting-modular-addition-in-mlps; die Studie selbst, RESULTS §16),
+  ohne Mechanismus; *Context Staircase* (https://arxiv.org/pdf/2608.30315) zu Embedding-Dynamik bei kleiner Init mit
+  positionsspezifischen Signaturen, andere Aufgabe. Der konkrete Mechanismus wurde **nicht gefunden** (vorläufig).
+- **Grenze:** Bisher nur der erste Gradient bei Init und eine Konfiguration (p = 113, 30 %-Split).

@@ -579,3 +579,13 @@ Frage: Wählt der Transformer seine Frequenzen nach dem kohärenten Masken-Spekt
 
 *Volltext-Nachtrag (21:03, per Abrufwerkzeug, Zusammenfassung des HTML):* arXiv 2507.20057 ist Lyle, Sokar, Pascanu, György (Google DeepMind). Transformer mit einem Attention-Block auf modularer Addition (x+y mod 117, 20 % Training, 1 Mio. Schritte). Befund: Eine hohe **effektive Lernrate** (Lernrate relativ zur Parameternorm) löst Merkmalslernen aus und erlaubt, frühe Merkmale zu ersetzen; Grokking lässt sich auch nach Hunderttausenden Schritten durch ELR-Wiedererwärmung auslösen (§4.2); Gewichtsprojektion auf konstante Norm beschleunigt die Generalisierung (§4.1). **Keine** Frequenzanalyse, **keine** Zusammensetzung der Trainingsmenge. *Folgerung für uns:* Die ELR ist eine benannte Konkurrenzerklärung für die frühe Festlegung (K4/Paket B): Festlegung wäre dann ein Effekt sinkender ELR, nicht der Datenauswahl. EXP-039 (Lernratenskala) und EXP-040 (W_E-Init-Skala) trennen genau das (18c: zulässig, weil sie zwischen Modellen entscheiden). Einordnung von „Split steuert *welche* Frequenzen, und diese Wahl bleibt nach einem Wechsel“: weiterhin nach unserer Suche nicht gefunden (vorläufig).
 
+
+## N27: Eine Masken-Theorie erster Ordnung für jede Aufgabe mit Token-Einbettung, vorab eingefroren geprüft (Sitzung 14) #neu/kandidat
+
+Frage: Das Masken-Spektrum M0 (erwartete Frequenzleistung des ersten W_E-Gradienten, nur aus der Trainingsmenge) braucht keine
+Gruppe: N_L(t, c) = [(t, ·) ∈ Train mit Ausgabe c] genügt. Sagt es das frühe W_E-Spektrum auch bei anderem Modulus, zusammengesetzter
+Gruppe (mul 113 = Z₁₁₂), nicht-abelscher Gruppe (D₅₉, Irreps statt Frequenzen) und nicht-modularer Addition voraus? Umsetzung:
+[[experiments/EXP-052-oos-mask-prediction/README|EXP-052]], alle 40 Vorhersagen vor den Läufen per Commit eingefroren, Holm über vier Fälle,
+Sekundär M0c gegen M0 gegen Häufigkeiten gegen Init. Literatur (Suche 2026-09-26): eNTK-Merkmalsidentifikation (arXiv 2510.00468, nur
+nachträglich), He et al. 2026 (arXiv 2602.16849, 2606.02993: Init-Lotterie bei vollständigen Trainingsmengen). Eine Vorhersage aus der
+Zusammensetzung der Trainingsmenge über Aufgabentypen hinweg nicht gefunden; vorläufig, nur Abstracts/Zusammenfassungen.

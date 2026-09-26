@@ -3,21 +3,31 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 20:21 Berlin (Sitzung 13; nächster Runner-Start 2026-09-27 00:59 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 20:29 Berlin (Sitzung 13; nächster Runner-Start 2026-09-27 00:59 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
-- **SITZUNG 13 (20:12) → NÄCHSTE SITZUNG (Start 00:59, im Fenster), gilt vor den Blöcken darunter:** Ablauf wie Sitzung 11/12
-  (GPU-Queue `sh lab/experiments/queue_gpu_s11.sh > lab/runner/logs/gpu_s11.log 2>&1` und CPU-Queue `queue_s10.sh`, beide im
-  Hintergrund, vorher `--check` und `ps -ef | grep -E "queue|guarded_run"`). GPU-Reihenfolge jetzt: GPU-001 → EXP-043 → EXP-046 →
-  EXP-047 → **EXP-048** (neu: nicht-modulare Addition, Primärgröße Δ_pow trendbereinigt) → **EXP-049** (neu: 4× Breite) → EXP-044 → EXP-045.
-  Alle Nachtauswertungen werten nicht-endliche Läufe (NaN) als ungültig (s13). Morgens: `python lab/tools/night_report.py lab/runner/logs/gpu_s11.log`
-  (kennt jetzt GPU-001-Verdikte und EXP-043–049). Neu in Sitzung 13: EXP-046 Nachtrag b
-  (Lesart eingeschränkt nach unabhängiger Prüfung), EXP-047 Nachtrag a (Theorie: Häufigkeiten wirken im ersten Gradienten nicht,
-  Erwartung Δ̄_shuf ≈ 0). **Codex ist ohne Guthaben** („out of credits“); bis zur Nachfüllung Claude-Subagenten als Zweitprüfung.
-  Zeitstempel nur aus `guarded_run.py --check` (Git-Bash-`date` kennt Europe/Berlin nicht).
+- **SITZUNG 13 (20:29) → NÄCHSTE SITZUNG (Start 00:59 Berlin, Fenster offen): genau diese Schritte, gilt vor allen Blöcken darunter.**
+  1. `python lab/tools/guarded_run.py --check` (muss `in_window: true` zeigen) und `ps -ef | grep -E "queue|guarded_run" | grep -v grep` (nichts aktiv).
+  2. GPU-Queue im Hintergrund: `sh lab/experiments/queue_gpu_s11.sh > lab/runner/logs/gpu_s11.log 2>&1`.
+     Reihenfolge: GPU-001 (Regression → Gleichwertigkeit → Durchsatz, ≈ 15 min) → EXP-043 → EXP-046 → EXP-047 → EXP-048 → EXP-049 → EXP-044 → EXP-045.
+     Nach ≈ 1 min im Log `regression` prüfen; bei FAIL stoppt die Queue selbst (dann GPU vorerst nicht nutzen, Blocker eintragen).
+  3. CPU-Queue im Hintergrund: `sh lab/experiments/queue_s10.sh > lab/runner/logs/queue_s10.log 2>&1` (ignoriert GPU-Läufe beim Warten).
+  4. Beobachten (Regel 14); `verdict_*.json` von GPU-001 ins JOURNAL (Regel 16b/c: Gleichwertigkeit, s/Schritt, J).
+  5. Ende der Queue: rc 3 = Wächter/Deadline → nächste Sitzung **denselben Befehl** neu starten (Fertiges wird übersprungen);
+     rc 1 „done WITH FAILURES“ → Log nach „failed“ durchsuchen; ebenfalls einfach neu starten ist harmlos.
+  6. Auswerten: `python lab/tools/night_report.py lab/runner/logs/gpu_s11.log` (liest GPU-001-Verdikte und alle summary.json).
+     **Vor jeder Deutung** [[LESART-nacht-2026-09-27]] lesen (vorab festgelegte Kombinationsregeln), dann READMEs/LAB/FINDINGS eintragen.
+  7. Falls die GPU-Queue deutlich vor 13:00 fertig ist: [[experiments/EXP-050-phase-dissociation/README|EXP-050]] (M0c gegen M0,
+     vorbereitet, unabhängig geprüft (s. JOURNAL s13)) mit `sh lab/experiments/EXP-050-phase-dissociation/queue.sh J` starten (J aus
+     `verdict_throughput.json`).
+  Neu in Sitzung 13: EXP-048 (nicht-modulare Addition, Primärgröße trendbereinigtes Δ_pow), EXP-049 (4× Breite), EXP-050 (nicht
+  eingereiht); Nachträge vor jedem Lauf in EXP-046 (Lesart), EXP-047 (Theorie: Häufigkeiten wirken im ersten Gradienten nicht), GPU-001
+  (Durchsatz-Ablehnungen), EXP-043–049 (NaN-Läufe ungültig). **Codex ohne Guthaben** („out of credits“) → Claude-Subagenten als Zweitprüfung.
+  Zeitstempel nur aus `guarded_run.py --check` (`now_berlin`); Git-Bash-`date` kennt Europe/Berlin nicht. Nur gezielt `git add <pfad>`
+  (nie `commit -a`: Nutzeränderungen an `guarded_run.py`, `install_task.ps1`, `runner-state.json` bleiben uncommittet).
 - **SITZUNG 12 (19:58) → NÄCHSTE SITZUNG (ab 00:00, im Fenster), gilt vor dem Sitzung-11-Block unten:**
   Ablauf wie unten Schritte 1–5, aber die GPU-Queue ist jetzt **fail-closed** (Codex s12, commit 2b19820): Reihenfolge
   GPU-001 → EXP-043 → **EXP-046** (neu: Diedergruppe D₅₉, nicht-abelsch) → EXP-044 → EXP-045. Endet sie mit

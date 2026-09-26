@@ -81,11 +81,36 @@ Einheit, Permutations-Null, die A und die Top-5-Auswahl nachbildet, konjunktives
 Init-Rang, Messung vor dem Festlegungsfenster: dafür wären Spektren alle 10 Schritte nötig) gehört in einen eigenen Nachtrag
 **vor** dem Start von EXP-036. Das Haupturteil zu H36 ist davon unberührt.
 
+## Nachtrag d (2026-09-26 17:34 Berlin, Sitzung 10, **vor jedem EXP-036-Lauf**): kalibrierte Fassung von P36b
+
+Setzt die in Nachtrag c verlangte kalibrierte Fassung um. Code `analyze_p36b.py` (Selbsttest ok, über den Wächter),
+frühe Spektren über die neue, reine Protokoll-Option `freq_ban.py --spectra-at` (commit 3e1144e; ändert weder Training
+noch Run-ID). Die Queue speichert W_E-Spektren bei 5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200 und prüft die Option
+vorher mit einem Smoke (fail-closed).
+
+| Punkt | Festlegung |
+|---|---|
+| **Frage** | Sind die neuen fremden Frequenzen die, die **beide** Datensätze **vor** dem Festlegungsfenster (Schritt 25–50) anschieben? Und ist das enger als das Init-Spektrum? |
+| **Einheit** | Paar (wie Nachtrag a), nur auswertbare Paare (alle Läufe gültig, F_new nicht leer) |
+| **Kandidaten** | C = {1..56} \ A (A exakt wie im Haupttest, reine Läufe derselben neuen Init) |
+| **Maß** | Wachstum Δ_X(k) = Leistung(τ) − Leistung(0) im reinen Lauf X ∈ {F, G}, τ = **20**; Rang in C; S(k) = **max**(Rang_F, Rang_G) (konjunktiv), Gleichstand nach Rang_F + Rang_G, dann k; q(k) = Position/|C| |
+| **Paarstatistik** | q_p = Mittel von q über F_new; q_init,p ebenso mit C nach Init-Leistung geordnet |
+| **Test 1 (gegen Zufall)** | Erfolg, wenn q_p ≤ 0.25. Unter H0 (F_new unabhängig von S innerhalb C) gilt P(q_p ≤ 0.25) ≤ 0.25 (Selbsttest per Monte Carlo), also konservativ X ~ Bin(m, 0.25). m < 5 → *nicht auswertbar*; P(X ≥ k) < 0.05 → ***gestützt*** (bei m = 7: ≥ 5 Erfolge; m = 5: ≥ 4); k/m ≤ 0.25 → *nicht gestützt*; sonst *unklar* |
+| **Test 2 (gegen Init)** | Erfolg, wenn q_p < q_init,p; einseitiger Vorzeichentest über Paare, p < 0.05 → *enger als Init*; k/m ≤ 0.5 → *nicht enger*; sonst *unklar* |
+| **Beschreibend** | τ = 10 und 50; Niveau statt Wachstum; die alte Fassung (Schritt 250, Summe) aus `analyze.py` |
+
+**Was dagegen spräche:** q_p um 0.5 (keine Beziehung) oder q_p ≥ q_init,p in der Mehrheit der Paare (die Init erklärt es
+besser). **Grenzen:** Die Nullhypothese nimmt die fremden Frequenzen als zufällige Auswahl aus C; bevorzugt die Top-5-Auswahl
+am Ende generell Frequenzen mit großem frühem Wachstum, wäre Test 1 zu liberal. Genau dafür ist Test 2 (Vergleich mit einem
+anderen Prädiktor unter derselben Auswahl) da. τ = 20 liegt vor dem in 5/5 alten Seeds gefundenen Fenster (25, 50]; bei
+neuer Init kann das Fenster anders liegen (beschreibend: EXP-036 misst es nicht direkt). Das Haupturteil zu H36 bleibt unberührt.
+
 ## Reproduktion
 
 ```
 sh lab/experiments/EXP-036-init-conflict/queue.sh
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-036-init-conflict/analyze.py
+python lab/tools/guarded_run.py -- python lab/experiments/EXP-036-init-conflict/analyze_p36b.py   # Nachtrag d
 python lab/experiments/EXP-036-init-conflict/analyze.py --selftest   # Urteilslogik
 ```
 

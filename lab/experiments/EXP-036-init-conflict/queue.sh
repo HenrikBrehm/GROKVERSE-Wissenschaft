@@ -6,7 +6,11 @@
 F=lab/experiments/EXP-001-freq-ban/freq_ban.py
 S20=lab/experiments/EXP-020-data-switch/splits
 O=lab/experiments/EXP-036-init-conflict/raw
-run() { mm=$1; shift; python lab/tools/guarded_run.py --min-minutes $mm -- python $F "$@" --out-root $O; rc=$?; [ $rc -eq 0 ] || { echo "[exp036] stop, rc=$rc"; exit $rc; }; }
+run() { mm=$1; shift; python lab/tools/guarded_run.py --min-minutes $mm -- python $F "$@" --spectra-at $SA --out-root $O; rc=$?; [ $rc -eq 0 ] || { echo "[exp036] stop, rc=$rc"; exit $rc; }; }
+# Nachtrag d: early W_E spectra (logging only) for the calibrated P36b test; fail-closed smoke of --spectra-at first
+SA=5,10,15,20,25,30,40,50,75,100,150,200
+python lab/tools/guarded_run.py --min-minutes 2 -- python $F --seed 130 --condition baseline --steps 30 --stop-after-gen 8000   --split-file $S20/seed30_train_F.npy --test-file $S20/seed30_test.npy --spectra-at 5,10,20 --force   --out-root lab/experiments/EXP-036-init-conflict/raw_smoke || { echo "[exp036] smoke failed"; exit 1; }
+python -c "import numpy as n,glob,sys;s=n.load(glob.glob('lab/experiments/EXP-036-init-conflict/raw_smoke/*/spectra_steps.npy')[0]).tolist();sys.exit(0 if s==[0,5,10,20,30] else 1)"   || { echo "[exp036] smoke check failed"; exit 1; }
 for P in 30:130 31:131 32:132 33:133 34:134 30:230 31:231; do
   S=${P%%:*}; I=${P##*:}
   run 7 --seed $I --condition baseline --steps 2000 --stop-after-gen 8000 --split-file $S20/seed${S}_train_F.npy --test-file $S20/seed${S}_test.npy

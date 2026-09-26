@@ -11,6 +11,7 @@ sh $R/EXP-038-where-lockin/queue.sh || { echo "[queue10] EXP-038 stop"; exit 1; 
 python lab/tools/guarded_run.py -- python $R/EXP-038-where-lockin/analyze.py || echo "[queue10] EXP-038 analysis failed (continuing)"
 sh $R/EXP-036-init-conflict/queue.sh || { echo "[queue10] EXP-036 stop"; exit 1; }
 python lab/tools/guarded_run.py -- python $R/EXP-036-init-conflict/analyze.py || echo "[queue10] EXP-036 analysis failed (continuing)"
+python lab/tools/guarded_run.py -- python $R/EXP-036-init-conflict/analyze_p36b.py || echo "[queue10] EXP-036 P36b analysis failed (continuing)"
 sh $R/EXP-034-phase2-optimizer/queue.sh || { echo "[queue10] EXP-034 stop"; exit 1; }
 python lab/tools/guarded_run.py -- python $R/EXP-034-phase2-optimizer/analyze.py || echo "[queue10] EXP-034 analysis failed (continuing)"
 sh $R/queue_s5.sh || { echo "[queue10] queue_s5 stop"; exit 1; }

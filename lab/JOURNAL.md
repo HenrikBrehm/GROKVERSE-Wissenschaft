@@ -689,3 +689,7 @@ Hintergrund (setzt bei Baseline 19 bzw. 18 fort). **Codex:** 7 Reviews in dieser
 Schlussfolgerungen, Warteschlange, Befundnotiz), alle Befunde selbst geprüft; einer davon deckte einen eigenen Rechenfehler auf.
 **Scheduler:** Aufgabe `GROKVERSE-Lab-Runner` aktiv; nächster Start laut `runner-state.json` 08:49Z = **10:49 Berlin**
 (im Run-Fenster).
+Baseline Seed 18 (EXP-003d) 08:24: gen 8775, K {7, 17, 31, 53, 54} (9 von 10 Baselines). Danach lehnte der Wächter Baseline 19
+ab (25.7 min Restbudget < 33), Warteschlange mit rc 3 sauber beendet, keine Python-Prozesse mehr.
+**Abschlussbericht gilt damit als final (08:25).** Nächste Sitzung: `sh lab/experiments/queue_s5.sh` setzt bei Baseline 19 fort
+(EXP-016 und Baseline 18 werden übersprungen).

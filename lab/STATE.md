@@ -3,15 +3,16 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 08:06 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 08:25 Berlin (Sitzung 5, vom Runner gestartet 03:49Z, Deadline 06:49Z = 08:49 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
 - **Sitzung 5, 07:31:** Der Nutzer hat um 06:58 die Freigabe erteilt (`.claude/settings.local.json`: `sh lab/experiments/*queue*`,
-  `python lab/tools/guarded_run.py *`). `queue_s5.sh` lief ab 07:30 im Hintergrund (Log `lab/runner/logs/queue_s5.log`)
-  und wird am Sitzungsende vom Wächter gestoppt. **Nächste Sitzung: denselben Befehl erneut starten** (setzt fort).
+  `python lab/tools/guarded_run.py *`). `queue_s5.sh` lief 07:30–08:24: EXP-016 Seeds 16–19 und Baseline 18 fertig; Baseline 19
+  vom Wächter abgelehnt (Deadline), rc 3, keine Prozesse mehr. **Nächste Sitzung: denselben Befehl erneut starten** (setzt
+  bei Baseline 19 fort).
 - **Neue Warteschlange:** `sh lab/experiments/queue_s5.sh` (ersetzt `queue_s4b.sh`, dieselben Läufe plus EXP-018/020,
   neue Reihenfolge). Log z. B. nach `lab/runner/logs/queue_s5.log`. Reihenfolge: EXP-016 Seeds 16–19 (je 2 × 4.5 min,
   danach Entscheidung) → EXP-003d-Baselines 18, 19 → Smoke EXP-018 und EXP-020 (+ `check_smoke.py`) → EXP-018 Seeds
@@ -75,7 +76,7 @@ sie erreichen die Top-5 meist erst nach dem Grokking. Vorhersage für EXP-016 Se
 festem Split variiert K trotzdem über Inits (GitHub-Nachbau) → Split ist nicht die einzige Ursache.
 
 **Weiter vorbereitet:** EXP-014 (Kreuzdesign), EXP-017 (RFM), EXP-013 (Lock-in-Kurve), EXP-011, EXP-001/002.
-**Teilweise:** EXP-010 (1/10 Paare), EXP-003d (8/10 Baselines).
+**Teilweise:** EXP-010 (1/10 Paare), EXP-003d (9/10 Baselines; Seed 18 gen 8775).
 
 ## Nächste konkrete Aktionen (nur im Fenster 00:00–13:00 Berlin)
 

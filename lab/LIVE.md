@@ -1,26 +1,23 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 17
+# LIVE: Laborsitzung 18
 
-- **Sitzungsstart:** 2026-09-27 00:19 Berlin (22:19Z, vom Runner)
-- **Deadline:** 2026-09-27 03:19 Berlin (01:19Z)
-- **Zuletzt aktualisiert:** 00:37 Berlin (gemessen)
-- **Run-Fenster:** zu. Läufe erst ab 03:00 (Regel 18). Diese Sitzung hat also nur ~10 min Fenster am Ende.
+- **Sitzungsstart:** 2026-09-27 00:39 Berlin (22:39Z, vom Runner)
+- **Deadline:** 2026-09-27 03:39 Berlin (01:39Z)
+- **Zuletzt aktualisiert:** 00:45 Berlin
+- **Run-Fenster:** zu bis 03:00 (Regel 18). Diese Sitzung hat 03:00–03:39 im Fenster.
 
 ## Gerade
 
-Warten bis 03:00. Die Vorbereitung ist vollständig, alles ist committet. Vor 03:00 darf nichts laufen, und weitere Planung ohne die Nachtdaten wäre nur Beschäftigung.
+Prüfe, ob der Wächter GPU-Läufe aus `.venv-gpu` sicher mitbeendet (der venv-Starter startet das echte Python als Kindprozess).
+Ergebnis fließt als Zusatzprobe in die Abnahme um 03:00 ein.
 
 ## Als Nächstes
 
-03:00–03:09: Wächter-Abnahme (harmloser 60-s-Job + STOP) und die Tests über den Wächter. Das Nachtprogramm selbst startet die nächste Sitzung
-(beginnt direkt nach dem Ende dieser Sitzung, beim nächsten Runner-Takt), weil ein Start um 03:05 an der Deadline 03:19 abgebrochen würde.
+03:00: Wächter-Abnahme (60-s-Job + STOP, dazu eine venv-Probe), Tests über den Wächter, danach ≈ 03:12 das Nachtprogramm (GPU-001 zuerst)
+im Hintergrund. Es wird um 03:39 an der Deadline angehalten; die nächste Sitzung setzt mit demselben Befehl fort.
 
 ## Verlauf dieser Sitzung
 
-- 00:35 Zwei Schwachstellen im Nachtprogramm behoben (noch ungetestet, zweite Prüfung ohne Befund): Ein Abbruch an der Sitzungsgrenze gilt nicht mehr als Fehlschlag, und die GPU-Abnahme wiederholt bereits bestandene Stufen nicht.
-- 00:28 Vorab-Prüfung des Nachtcodes: nichts, was abstürzt; drei Stellen, die Fensterzeit kosten würden.
-- 00:24 Literatur-Nachsuche fertig: nichts gefunden, das unsere Kernfragen schon beantwortet. Neue Idee N31 (Reihenfolge der Daten gegen ihre Zusammensetzung) notiert, nicht geplant.
-- 00:22 Geprüft: Die kurze STOP-Probe um 03:00 kann den Runner nicht abschalten (während einer Sitzung feuert kein Tick).
-- 00:19 Sitzung gestartet: Fenster zu, nichts läuft, kein STOP.
+- 00:40 Sitzung gestartet: Fenster zu (Exit 3), kein STOP, keine Python-Prozesse. Sitzung 17 endete schon 00:38.

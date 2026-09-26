@@ -2317,3 +2317,22 @@ Wächters und das Anwenden von Textpatches per Python-Skript zählen nicht als L
 *Zweitprüfung (Claude-Subagent, nur lesend, ohne Ausführung):* kein Defekt. Bestätigt: 124 macht `run_queue` immer ≠ 0; die drei GPU-001-Stufen sind in `compare.py` unabhängig
 (keine Stufe liest Artefakte einer anderen), das Siegel entwertet Urteile bei Codeänderung; die Tests sind von Hand nachvollzogen. Hinweis, bewusst hingenommen: Hat eine Queue
 gleichzeitig einen echten Fehlschlag und einen 124-Abbruch, gilt das Ganze als Ablehnung. Bei der Wiederaufnahme tritt der echte Fehler erneut auf und wird dann als Fehlschlag gemeldet.
+
+## Sitzung 18 (2026-09-27 00:39 bis 03:39 Berlin, Fenster ab 03:00)
+
+Start 00:39 (gemessen, `--check`): kein STOP, Fenster zu (Exit 3), keine Python-Prozesse, Branch lab/research unverändert bis auf die Nutzerdateien.
+Sitzung 17 endete schon um 00:38 (18 min). Diese Sitzung hat also 03:00–03:39 im Fenster: Abnahme und Tests (STATE Schritte 1–3), danach
+das Nachtprogramm bis zur Deadline. Ein dort angehaltener Job gilt seit Sitzung 17 als Ablehnung, nicht als Fehlschlag, und wird mit demselben Befehl fortgesetzt.
+
+**Zyklus 1 (Wird ein GPU-Lauf aus `.venv-gpu` vom Wächter sicher mitbeendet?, bis 00:50).** *Frage:* STATE nennt als offenen Verdacht, dass `guarded_run.py`
+venv-Prozesse zu spät an das Job-Objekt bindet. `.venv-gpu/Scripts/python.exe` ist unter Windows nur ein Starter, der das echte Python
+(`Python312/python.exe`) als Kindprozess startet. Der Wächter bindet erst nach `Popen` (Zeilen 183–184). Hat der Starter sein Kind schon erzeugt,
+landet das Kind nicht im Job-Objekt des Wächters. Stirbt dann der Wächter selbst, könnte das Training ohne Zeitgrenze weiterlaufen (Gefahr für 13:00).
+*Prüfung (nur Lesen):* (1) Die normalen Abbruchwege (STOP, Zeitgrenze) laufen über `taskkill /PID … /T /F` (Zeile 95). Das folgt der Eltern-Kind-Kette
+und erreicht das echte Python, solange der Starter lebt, und der Starter wartet auf sein Kind. (2) Für den Fall „Wächter stirbt“: Der CPython-Starter
+(`PC/launcher.c`, Zweig 3.12, `run_child`, gilt laut Quelltext auch mit `VENV_REDIRECT`) legt selbst ein Job-Objekt mit
+`JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | SILENT_BREAKAWAY_OK` an und hängt sein Kind daran (Quelle: https://raw.githubusercontent.com/python/cpython/3.12/PC/launcher.c,
+abgerufen 2026-09-27, Auszug per WebFetch). Tötet das Job-Objekt des Wächters den Starter, schließt sich dessen Handle, und das Kind stirbt mit.
+*Ergebnis:* Der Verdacht ist nach dem Quelltext weitgehend entkräftet. Die Kette „Wächter-Job → Starter → Starter-Job → Kind“ hält. **Nicht gemessen.**
+*Entscheidung:* Die Abnahme um 03:00 bekommt eine Zusatzprobe mit dem venv-Python: Den Wächter allein (ohne `/T`) hart beenden und prüfen, ob das echte Python,
+das seine eigene PID in eine Datei schreibt, mit beendet wird. Den Nutzer-Wächter ändere ich nicht.

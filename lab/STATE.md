@@ -17,7 +17,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 ## Wiederaufnahme ab 03:00 (18b), genau in dieser Reihenfolge
 
 1. `python lab/tools/guarded_run.py --check` → `allowed: true`. Keine andere Queue aktiv (`ps -ef | grep -E "night_program|queue|guarded_run" | grep -v grep`).
-2. Wächter-Abnahme: `python lab/tools/guarded_run.py -- python -c "import time; time.sleep(60)"` im Hintergrund, währenddessen
+2. Wächter-Abnahme **(Sitzung 18: als Skript)**: `powershell -ExecutionPolicy Bypass -File lab/tools/accept_guard.ps1` (≈ 1 min; Proben A STOP, B/C Wächter hart beendet mit System- bzw. venv-Python; Ergebnis `lab/runner/logs/accept_guard.json`; löscht STOP selbst). Von Hand wie bisher: `python lab/tools/guarded_run.py -- python -c "import time; time.sleep(60)"` im Hintergrund, währenddessen
    `lab/STOP` anlegen → Exit 3 und Kind beendet? **STOP sofort wieder löschen**, im JOURNAL vermerken. Scheitert es: Blocker in LIVE.
 3. Tests, je `python lab/tools/guarded_run.py [--min-minutes 5] -- python <datei> [arg]`: `lab/tools/result_loader.py`;
    `lab/tests/test_freq_ban_fingerprint.py` (--min-minutes 5; kleine CPU-Läufe im Temp-Ordner); `lab/tests/test_night_program.py`;

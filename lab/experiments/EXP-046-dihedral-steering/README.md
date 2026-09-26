@@ -88,3 +88,7 @@ result.json-Schlüssel, Vorzeichentest, Shell-Logik bestätigt. Übernommen, **U
   Δ_pow (wie [[experiments/EXP-048-intadd-steering/README|EXP-048]]) berichtet, **ausdrücklich nicht vorab festgelegt, nur beschreibend**.
 - (Niedrig) Die Zufallsströme benachbarter Seeds überschneiden sich wie in EXP-016/043 (praktisch harmlos, formal nicht unabhängig);
   `--force` löscht alte Ergebnisse nicht vorab, und fertige Läufe werden ohne Schrittprüfung übersprungen (betrifft nur Handläufe).
+
+## Nachtrag (Sitzung 13, 2026-09-26 20:20 Berlin, gemessen; vor jedem Lauf): nicht-endliche Läufe ungültig
+
+Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lauf (NaN in W_E) wäre bisher als gültig gezählt worden und hätte still ein falsches K oder sogar das Urteil *widerspricht* mit p = 0 erzeugt (`one_sided_p` mit NaN gibt 0.0). `analyze.py` wertet einen Lauf mit nicht-endlichem Spektrum bzw. W_E jetzt als **ungültig** (zählt gegen die Mindestzahl gültiger Seeds). Urteilsregeln sonst unverändert.

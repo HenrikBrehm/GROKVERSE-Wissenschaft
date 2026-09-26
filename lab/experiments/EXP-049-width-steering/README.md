@@ -51,3 +51,9 @@ python lab/experiments/EXP-049-width-steering/make_split.py --seed I      # rein
 sh lab/experiments/EXP-049-width-steering/queue.sh J                      # Selbsttest, Smoke je Breite, 40 Läufe, Auswertung
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-049-width-steering/analyze.py
 ```
+
+## Nachtrag (Sitzung 13, 2026-09-26 20:20 Berlin, gemessen; vor jedem Lauf): nicht-endliche Läufe ungültig
+
+Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lauf (NaN in W_E) wäre bisher als gültig gezählt worden und hätte still ein falsches K oder sogar das Urteil *widerspricht* mit p = 0 erzeugt (`one_sided_p` mit NaN gibt 0.0). `analyze.py` wertet einen Lauf mit nicht-endlichem Spektrum bzw. W_E jetzt als **ungültig** (zählt gegen die Mindestzahl gültiger Seeds). Urteilsregeln sonst unverändert.
+
+*Weitere Einschränkung aus derselben Prüfung:* Bei Standard-Init hat W_E je Frequenz etwa gleich viel Init-Leistung, unabhängig von d, während Adam-Schritte je Gewicht breitenunabhängig sind. Die gelernte Leistung wächst also etwa mit d, und das breite Netz ist weniger von Init-Rauschen verdünnt. Das hebt Δ_pow(512) mechanisch an und wirkt gegen die Erwartung „kleiner bei 512“. Ein *größeres* Δ_pow bei 512 widerlegt die Knappheitsidee deshalb nicht. Das Primärurteil (Vorzeichen bei d = 512, Log-Verhältnisse im selben Netz, skaleninvariant) ist davon nicht betroffen. J stammt aus dem Durchsatztest mit d = 128; das betrifft nur die Laufzeit.

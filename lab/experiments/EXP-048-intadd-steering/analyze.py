@@ -56,7 +56,10 @@ def load(s: int, arm: str) -> tuple[dict, np.ndarray, np.ndarray] | str:
     if res["steps_completed"] != STEP or not (d / "we_final.npy").exists():
         return "no final W_E at step 2000"
     from intadd_train import dft_power
-    return res, np.load(d / "spectra.npy")[steps.index(STEP)], dft_power(detrend(np.load(d / "we_final.npy").astype(float)))
+    pw, W = np.load(d / "spectra.npy")[steps.index(STEP)], np.load(d / "we_final.npy").astype(float)
+    if not (np.isfinite(pw).all() and np.isfinite(W).all()):   # s13: a diverged (NaN) run is invalid
+        return "non-finite spectrum / W_E"
+    return res, pw, dft_power(detrend(W))
 
 
 def detrend(W: np.ndarray) -> np.ndarray:

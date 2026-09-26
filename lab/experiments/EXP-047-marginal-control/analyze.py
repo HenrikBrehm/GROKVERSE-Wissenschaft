@@ -49,7 +49,10 @@ def K_of(s: int, kind: str, arm: str) -> tuple[set[int] | None, str, dict]:
         return None, f"no spectrum at {STEP}", {}
     info = {"gen": res["events"].get("generalization_step"), "test_acc": res["final_acc"]["test"],
             "train_acc": res["final_acc"]["train"]}
-    return top(np.load(d / "spectra.npy")[steps.index(STEP)]), "", info
+    pw = np.load(d / "spectra.npy")[steps.index(STEP)]
+    if not np.isfinite(pw).all():                       # s13: a diverged (NaN) run is invalid, not a silent K
+        return None, "non-finite spectrum", {}
+    return top(pw), "", info
 
 
 def row(s: int) -> dict:

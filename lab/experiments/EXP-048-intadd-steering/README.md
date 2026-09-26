@@ -92,3 +92,7 @@ Unabhängige Prüfung (Claude-Subagent, nur lesend/numpy; Codex ohne Guthaben): 
 Beim Umbau gefunden: Mein erster Selbsttest für die Trendbereinigung war entartet (beide Läufe skalierte Kopien derselben Welle → Δ ≡ 0)
 und hätte die Queue heute Nacht fail-closed gestoppt. Durch numpy-Nachrechnung vor dem Lauf entdeckt und ersetzt (d = 18.3, unabhängig
 von der Rampenamplitude bis 1e-13).
+
+## Nachtrag (Sitzung 13, 2026-09-26 20:20 Berlin, gemessen; vor jedem Lauf): nicht-endliche Läufe ungültig
+
+Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lauf (NaN in W_E) wäre bisher als gültig gezählt worden und hätte still ein falsches K oder sogar das Urteil *widerspricht* mit p = 0 erzeugt (`one_sided_p` mit NaN gibt 0.0). `analyze.py` wertet einen Lauf mit nicht-endlichem Spektrum bzw. W_E jetzt als **ungültig** (zählt gegen die Mindestzahl gültiger Seeds). Urteilsregeln sonst unverändert.

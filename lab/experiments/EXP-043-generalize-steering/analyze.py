@@ -60,7 +60,10 @@ def run_dir(task: str, p: int, s: int, arm: str, eps: str = "2.0") -> Path | Non
 
 def snapshot(d: Path, step: int) -> np.ndarray | None:
     steps = np.load(d / "we_snapshot_steps.npy").tolist()
-    return np.load(d / "we_snapshots.npy")[steps.index(step)].astype(np.float64) if step in steps else None
+    if step not in steps:
+        return None
+    W = np.load(d / "we_snapshots.npy")[steps.index(step)].astype(np.float64)
+    return W if np.isfinite(W).all() else None          # s13: a diverged (NaN) run is invalid, not a silent K
 
 
 def row(task: str, p: int, s: int) -> dict:

@@ -31,6 +31,8 @@ def K_at(d: Path, step: int) -> set[int] | None:
     if step not in steps:
         return None
     W = np.load(d / "we_snapshots.npy")[steps.index(step)].astype(np.float64)
+    if not np.isfinite(W).all():                        # s13: a diverged (NaN) run is invalid, not a silent K
+        return None
     return _a43.top(_a43.group_power(W, "add", 113)[0])
 
 

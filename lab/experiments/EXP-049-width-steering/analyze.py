@@ -55,7 +55,10 @@ def load(s: int, d: int, arm: str) -> tuple[dict, np.ndarray] | str:
     steps = np.load(hits[0] / "spectra_steps.npy").tolist()
     if STEP not in steps:
         return f"no spectrum at {STEP}"
-    return res, np.load(hits[0] / "spectra.npy")[steps.index(STEP)]
+    pw = np.load(hits[0] / "spectra.npy")[steps.index(STEP)]
+    if not np.isfinite(pw).all():                       # s13 review: a diverged (NaN) run is invalid, not 'widerspricht'
+        return "non-finite spectrum"
+    return res, pw
 
 
 def row(s: int) -> dict:

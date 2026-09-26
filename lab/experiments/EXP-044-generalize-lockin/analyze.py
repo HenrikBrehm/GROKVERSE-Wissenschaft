@@ -50,6 +50,8 @@ def final_K(d: Path, task: str, p: int) -> tuple[set[int] | None, dict]:
     if res["status"] != "completed" or res.get("device") != "cuda" or last not in steps:
         return None, res
     W = np.load(d / "we_snapshots.npy")[steps.index(last)].astype(np.float64)
+    if not np.isfinite(W).all():                        # s13: a diverged (NaN) run is invalid, not a silent K
+        return None, res
     return top(group_power(W, task, p)[0]), res
 
 

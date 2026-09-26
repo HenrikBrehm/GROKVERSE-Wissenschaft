@@ -3,12 +3,15 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 18:38 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 18:49 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **SITZUNG 10 (18:49), Auswertung nach der Nacht:** `python lab/tools/night_report.py lab/runner/logs/queue_s10.log` (nur lesend)
+  zeigt Ablehnungen, Fehlschläge, fertige Läufe und die Urteile aller `summary*.json`. `freq_ban.py` wurde nach Codex gehärtet
+  (9fa4b7a; Überspringen prüft jetzt Skalen-Metadaten und Schnappschüsse); der Überspringen-Zweig ist erst in der Nacht getestet.
 - **SITZUNG 10 (18:38):** Neu vorbereitet **EXP-042** (Split-Neigung eps_G 8/1, Splits erzeugt, Nachtrag a nach Codex). Reihenfolge
   `queue_s10.sh` jetzt: EXP-035 → EXP-038 → EXP-036 → EXP-039 → EXP-040 → EXP-034 → EXP-042 → EXP-041 → queue_s5. Neue Codepfade
   (alle fail-closed durch Smoke/Selbsttest am Anfang ihrer Queue): EXP-036 (Schnappschüsse), EXP-039, EXP-040, EXP-041, EXP-042.

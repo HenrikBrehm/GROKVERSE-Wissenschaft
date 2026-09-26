@@ -1490,3 +1490,7 @@ widerlegt nur die lineare Fassung von H40, nicht jede Schwellenidee. Regeln unve
 **Zyklus 19 (18:49, ohne Training): Google Scholar direkt.** Ein Treffer (Liu et al. 2026, Spectral Lens), im Volltext ohne Datenwechsel
 oder Festlegungszeit; der Abruf-Zusammenfasser hatte einen Bezug behauptet, den der Text nicht hat. *Lehre:* Werkzeug-Zusammenfassungen
 von Suchtreffern immer am Volltext prüfen. N14 unverändert.
+
+**18:49: Werkzeug `lab/tools/night_report.py`** (nur lesend): fasst ein Queue-Log und die Urteile aller `summary*.json` zusammen, damit
+die Folgesitzungen die Nacht-Ergebnisse in einem Aufruf sehen. Am `queue_s9.log` geprüft (liest korrekt: 29 EXP-020-/3 EXP-018-Läufe,
+eine Wächter-Ablehnung um 17:36).

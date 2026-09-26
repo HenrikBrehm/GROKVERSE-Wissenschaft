@@ -263,3 +263,10 @@ Häufigkeitsspektrums 0.497 (kein Signal). → Nein: M0 trägt Information über
 **EXP-010 Seed 10 (Tausch) fertig 03:14:** gen 5175 (Baseline 3925), K_swap {14, 20, 39, 41, 43} gegen K_base
 {7, 14, 19, 35, 39}; T = {25, 30, 31, 50, 56}, S = {2, 9, 11, 20, 53} → gain_S = 1 (20), loss_T = 0, d = +1.
 Einzelwert, keine Auswertung vor ≥ 8 Paaren.
+
+**Post hoc, explorativ: Masken-Spektrum über Architekturen.** Frage: Gilt EXP-015 nur für den Transformer? Die
+gespeicherten MLP-Läufe haben dieselben Splits (gleicher Seed). r̄(M0): Transformer 0.307, MLP-512 0.323, MLP-572
+0.329, Two-hot-MLP 0.327, alle p < 1e-5. Bei der Two-hot-MLP sagt die Init nichts voraus (EXP-009: 0.58), die Maske
+aber schon. Zusätzlich: Gleicher Seed → höhere Überlappung der finalen Frequenzen über Architekturen hinweg, in 6/6
+Paaren, einzeln schwach. Einordnung: stützt N3 (Split wählt mit), bleibt aber post hoc. Bestätigung vorab festgelegt
+über EXP-015 Phase 2, EXP-014 und EXP-016.

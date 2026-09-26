@@ -54,3 +54,12 @@ Die Formel erfasst also den Hauptteil der Gradienten-Frequenzvorliebe.
 
 **Post hoc (nicht vorab festgelegt):** Das Spektrum der Token-Häufigkeiten erklärt M0 nicht (Spearman ≈ 0) und sagt K
 nicht voraus (r̄ 0.497). M0 spiegelt die Paarstruktur des Splits (`count_spectrum_posthoc.py`).
+
+**Post hoc über Architekturen** (`arch_posthoc.py`, nicht vorab festgelegt; gleiche Seeds = gleiche Splits):
+r̄(M0) Transformer 0.307 · MLP-512 0.323 · MLP-572 0.329 · **Two-hot-MLP 0.327** (alle MC p < 1e-5). Zum Vergleich
+EXP-009, Init-Spektrum: 0.37 / 0.25 / 0.33 / **0.58** (bei der Two-hot-MLP kein Init-Effekt). Das Masken-Spektrum
+wirkt also auch dort, wo die Init nichts vorhersagt.
+**Kreuz-Architektur-Überlappung** (`cross_arch_overlap_posthoc.py`): Bei gleichem Seed überlappen die finalen Top-5
+verschiedener Architekturen in allen 6 Paaren stärker als bei fremdem Seed (0.6–1.0 vs. 0.37–0.56 von 5), einzeln
+schwach (Permutations-p 0.015–0.33). Vorsicht: MLP-512/572 teilen wahrscheinlich die W_E-Init (gleiche RNG-Reihenfolge);
+nur die Paare mit Transformer bzw. Two-hot-MLP haben verschiedene Init und gleichen Split.

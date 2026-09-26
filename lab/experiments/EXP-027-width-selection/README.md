@@ -53,6 +53,15 @@ AdamW und Weight Decay können mit der Breite wechselwirken.
 Auswerter an vier synthetischen Fällen geprüft (Trend → bestätigt, kein Trend → nicht bestätigt, Güte verfehlt,
 falsche Herkunft), über den Wächter.
 
+## Nachtrag b (10:32 Berlin): EXP-027b vorab festgelegt, bevor ich die EXP-027-Ergebnisgröße angesehen habe
+
+Beobachtung während des Laufs (nur Gültigkeitsgröße): Die 32er-Netze erreichen Test 0.83–0.86 und verfehlen damit die
+Güte-Schwelle 0.90; EXP-027 wird nach seiner Regel *nicht auswertbar* sein. Die Ergebnisgröße u habe ich nicht angesehen.
+**EXP-027b** (neue, unabhängige Einheiten): EXP-016-Splits **Seeds 15–19**, Arm F; Breiten **{64, 128, 256, 512}**
+(512 neu trainiert, `--alpha 0`); sonst alles wie Nachtrag a (u = q_H − q_F, Spearman über Rang −w, Permutation innerhalb der
+Splits, p < 0.05; Güte-Schwelle Train ≥ 0.99, Test ≥ 0.90; vollständiges 4 × 5-Raster). Entscheidung wie EXP-027.
+`queue_b.sh`, `analyze_b.py`.
+
 ## Befehle
 
     sh lab/experiments/EXP-027-width-selection/queue.sh

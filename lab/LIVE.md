@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 02:49 Berlin (00:49Z, vom Runner)
 - **Deadline:** 2026-09-26 05:49 Berlin (03:49Z)
-- **Zuletzt aktualisiert:** 05:33 Berlin
+- **Zuletzt aktualisiert:** 05:37 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin). Erste Sitzung mit Läufen.
 
 ## Gerade
@@ -19,6 +19,7 @@ Laufende EXP-016-Läufe beobachten. Ab ≈ 05:39 Stand sichern und Abschlussberi
 
 ## Verlauf dieser Sitzung
 
+- 05:37 EXP-016 Seed 14 Arm G: 3 von 5 aus G. Zwischenstand Δ (5 Seeds): +8, +7, +7, +7, +8.
 - 05:32 EXP-016 Seed 14 Arm F: gelernte Frequenzen = Zielmenge exakt (5/5); gen 1100 (Zufallssplit 11200).
 - 05:28 EXP-016 Seed 13 Arm G: 3 von 5 aus G. Zwischenstand Δ = +8, +7, +7, +7.
 - 05:24 EXP-016 Seed 13 Arm F: 4 von 5 aus der Zielmenge.

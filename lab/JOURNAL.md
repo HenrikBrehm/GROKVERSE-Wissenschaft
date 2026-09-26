@@ -339,3 +339,4 @@ Zwischenstand EXP-016 (4 Seeds): Δ = +8, +7, +7, +7. Keine Entscheidung vor 8 S
 eine Plattform; „Split bestimmt“ ist erst nach EXP-016/014 zulässig. EXP-010: 1/10 Paare.
 **Codex:** 3 Reviews (EXP-010/011, Split-Linie, Schlussfolgerung EXP-015), alle Befunde geprüft, die meisten übernommen.
 EXP-016 Seed 14 Arm F 05:32: gen 1100 (Baseline 11200), K {13, 19, 37, 49, 50} = F exakt (5/5).
+EXP-016 Seed 14 Arm G ~05:37: gen 625, K {14, 20, 22, 28, 44}, 3 aus G = {6, 14, 20, 22, 45}, 0 aus F. Δ_14 = +8. Zwischenstand (5 Seeds): +8, +7, +7, +7, +8.

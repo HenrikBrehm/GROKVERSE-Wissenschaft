@@ -76,6 +76,18 @@ def main() -> None:
         else:
             A["verdict"] = "EXP-033 an frischen Splits bestätigt" if A["k_gd"] >= 9 else "EXP-033 an frischen Splits nicht bestätigt"
     res["A5"], res["A10"] = A5, A10
+    lm = {r["seed"]: r["ds_J"] for r in json.loads((HERE / "linear_modes.json").read_text())["rows"]}
+    if A10["n_valid"] == 10:   # Nachtrag b: P34c
+        def rk(v):
+            return np.argsort(np.argsort(np.array(v))).astype(float)
+        x = [lm[u["seed"]] for u in A10["units"]]
+        rho = {f"{nm}{lv}": float(np.corrcoef(rk(x), rk([u[key] for u in A["units"]]))[0, 1])
+               for A, lv in ((A5, 5), (A10, 10)) if A["n_valid"] == 10
+               for nm, key in (("dsw_gd", "dsw_gd"), ("dsw_ar", "dsw_ar"), ("d_gd", "d_gd"), ("d_ar", "d_ar"))}
+        r = rho["dsw_gd10"]
+        low = min(A10["units"], key=lambda u: u["dsw_gd"])["seed"]
+        res["P34c"] = {"rho": rho, "verdict": "bestätigt" if r >= 0.5 else "richtungsgleich" if r > 0 else "widerspricht",
+                       "weakest_gd10_switch": low, "split69_weakest": low == 69}
     f2 = HERE / "lr2.json"
     lr2 = json.loads(f2.read_text())["lr2"] if f2.exists() else None
     if lr2 is None:

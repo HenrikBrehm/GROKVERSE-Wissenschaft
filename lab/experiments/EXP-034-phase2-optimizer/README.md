@@ -54,6 +54,15 @@ Codex: needs-attention, 2 × high, 2 × medium, alle zutreffend und **übernomme
 Zusätzlich: Teil A Stufe 10 wird als **Bestätigung von EXP-033 an frischen Splits** berichtet (k_GD ≥ 9 → *bestätigt*).
 Budget neu: A 50 Läufe ≈ 75 min, Pilot 9 × ~3 min, B 30 × ~3 min ≈ 1.5 h → über mehrere Sitzungen.
 
+## Nachtrag b (2026-09-26 13:33 Berlin, vor jedem EXP-034-Lauf): Vorhersage aus der linearen Modentheorie
+
+Post hoc in EXP-033 (n = 10): Das Modenmaß ds(J) des Splits (`EXP-033/linear_modes.py`) sagte die GD-Neigung am
+Umschaltschritt voraus (Spearman 0.84). Für 60–69 vorab berechnet (`linear_modes.json`): ds(J) = 60 0.117, 61 0.087, 62 0.115,
+63 0.104, 64 0.093, 65 0.097, 66 0.099, 67 0.119, 68 0.107, **69 0.063** (schwächster).
+**P34c (sekundär, Bestätigung):** Spearman(ds(J), ds am Umschaltschritt von GD10 mit AdamW-Phase 2) ≥ 0.5 → *bestätigt*;
+0 < ρ < 0.5 → *richtungsgleich*; ρ ≤ 0 → *widerspricht*. Zusatz: Split 69 hat die kleinste GD10-Neigung am Umschaltschritt.
+Beschreibend: dasselbe für AR10, GD5, AR5 und für Δ am Ende.
+
 ## Befehle
 
     sh lab/experiments/EXP-034-phase2-optimizer/make_splits.sh        # erledigt 13:23 (über den Wächter)

@@ -7,6 +7,7 @@ k = 1..56 (u = first P rows, v = last P rows), and ds = share(F) - share(H) of (
 (b) the sign pattern sign(J) (proxy for Adam's first step on W_in, since dL/dW_in ~ J W_out at init)."""
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -29,10 +30,17 @@ def ds_of(pw: np.ndarray, T: set[int]) -> float:
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--split-dir", default=str(S16))
+    ap.add_argument("--seeds", default="10-19")
+    ap.add_argument("--out", default=str(HERE / "linear_modes.json"))
+    args = ap.parse_args()
+    lo, hi = (int(x) for x in args.seeds.split("-"))
+    sd = Path(args.split_dir)
     rows = []
-    for s in range(10, 20):
-        idx = np.load(S16 / f"split_seed{s}_eps2.0.npy")
-        T = set(json.loads((S16 / f"split_seed{s}_eps2.0.json").read_text())["targets"])
+    for s in range(lo, hi + 1):
+        idx = np.load(sd / f"split_seed{s}_eps2.0.npy")
+        T = set(json.loads((sd / f"split_seed{s}_eps2.0.json").read_text())["targets"])
         a, b = idx // P, idx % P
         y = (a + b) % P
         X = np.zeros((len(idx), 2 * P)); X[np.arange(len(idx)), a] = 1; X[np.arange(len(idx)), P + b] = 1
@@ -48,7 +56,7 @@ def main() -> None:
         rows.append({"seed": s, "targets": sorted(T), "sv_top10": S[:10].round(2).tolist(), "top_mode_freq": top_k,
                      "ds_top5_modes": ds_of(pw_top, T), "ds_J": ds_of(pw_J, T), "ds_signJ": ds_of(pw_sign, T)})
     out = {"rows": rows, "mean": {k: float(np.mean([r[k] for r in rows])) for k in ("ds_top5_modes", "ds_J", "ds_signJ")}}
-    (HERE / "linear_modes.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    Path(args.out).write_text(json.dumps(out, indent=1), encoding="utf-8")
     for r in rows:
         print(r["seed"], r["targets"], r["sv_top10"][:7], [x[0] for x in r["top_mode_freq"]],
               round(r["ds_top5_modes"], 3), round(r["ds_J"], 3), round(r["ds_signJ"], 3))

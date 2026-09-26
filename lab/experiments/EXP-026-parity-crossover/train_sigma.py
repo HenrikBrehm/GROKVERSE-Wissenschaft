@@ -91,7 +91,7 @@ def main() -> None:
     torch.manual_seed(a.seed if a.init_seed is None else a.init_seed)
     torch.set_num_threads(4)
     W_in = torch.nn.Parameter(torch.randn(2 * P, a.width) * a.init_scale / np.sqrt(2 * P))
-    W_out = torch.nn.Parameter(torch.randn(a.width, P) * a.init_scale / np.sqrt(a.width))
+    W_out = torch.nn.Parameter(torch.randn(a.width, P) * a.init_scale / np.sqrt(D))   # EXP-027 Nachtrag a: per-entry scale independent of width
     params = [W_in, W_out]
     opt = torch.optim.AdamW(params, lr=a.lr, weight_decay=a.wd, betas=(0.9, 0.98))
     cur = {"alpha": a.alpha}

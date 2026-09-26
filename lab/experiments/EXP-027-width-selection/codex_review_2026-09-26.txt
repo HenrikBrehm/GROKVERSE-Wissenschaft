@@ -1,0 +1,62 @@
+(node:18176) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0dc98-3d7b-73d3-aff0-6d053c82b83b).
+[codex] Turn started (01a0dc98-3f0c-79c3-bc26-dd070d44cbf7).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’m inspecting the exact diff and execution paths now...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Lit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Lit... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import json fro...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import json fro... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '10..14 | ForEach-O...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '10..14 | ForEach-O... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '10..14 | ForEach-O...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '10..14 | ForEach-O... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The 512 reuse checks out at the code level: the switc...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$targets=@('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$targets=@('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --check 2...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --check 2... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "& 'C:\\Program Fil...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "& 'C:\\Program Fil... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/JOURNAL....
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/JOURNAL.... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/gu...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/gu... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "& 'C:\\Program Fil...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "& 'C:\\Program Fil... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files -g 'AGE...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files -g 'AGE... (exit 1)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"Do not run this preregistration yet. The 512 reuse is...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against 2fad28a~1
+Verdict: needs-attention
+
+Do not run this preregistration yet. The 512 reuse is computationally equivalent, but the primary test can confirm on failed models and its permutation null is incompatible with width-dependent spectral concentration.
+
+Findings:
+- [high] Failed or unconverged narrow models can produce a “confirmed” verdict (lab/experiments/EXP-027-width-selection/analyze.py:39-66)
+  A run is eligible merely for finishing 5000 finite steps. Neither training accuracy, test accuracy, gen95, margin, nor convergence affects eligibility or the final verdict. Thus widths that fail to learn/generalize can still yield a significant ds_H trend from initialization or transient AdamW dynamics. The README acknowledges this changes the solution type, but the analyzer still calls it confirmation.
+  Recommendation: Pre-register a fidelity gate requiring comparable training/generalization or margin convergence at every width; otherwise return “not evaluable.” Train to a convergence criterion rather than an identical step count and aggregate gen95 explicitly.
+- [high] The permutation test assumes away width-dependent concentration (lab/experiments/EXP-027-width-selection/analyze.py:44-62)
+  Normalizing each spectrum to unit mass does not make ds_H exchangeable across widths. With fewer neurons and lower n_eff, random frequency selection produces a wider ds_H distribution even when H has no systematic advantage. Permuting width labels within a split assumes identical width-conditional distributions, so its p-value is not calibrated for the stated null of narrower networks selecting by initialization lottery. One initialization per split-width cannot estimate that lottery variance.
+  Recommendation: Add independent initialization replicates for every split-width and use a studentized/block analysis robust to width-specific variance. Test H against matched alternative frequency sets conditional on each spectrum or n_eff instead of permuting width labels under exchangeability.
+- [medium] The design cannot attribute a positive trend to the 448-neuron capacity bound (lab/experiments/EXP-026-parity-crossover/train_sigma.py:93-96)
+  Changing width also changes each W_out entry’s initialization scale by 4× between widths 512 and 32, while retaining fixed-step AdamW with weight decay 1.0. The experiment does not establish that any arm reaches the max-margin regime to which the cited bound applies, and it samples no widths near 448—the nearest sub-threshold arm is 128. A positive trend can therefore arise from parameterization and optimization time rather than representational pressure at the claimed threshold.
+  Recommendation: Add widths around the threshold, verify convergence/margins, and include controls for initialization parameterization and optimizer/weight-decay dynamics before making a capacity-based interpretation.
+- [medium] Off-protocol results can pass as a complete 4×5 grid (lab/experiments/EXP-027-width-selection/analyze.py:39-44)
+  Validation does not check the recorded seed, random_split flag, split directory/provenance, learning rate, weight decay, or initialization scale. These options are absent from the run ID, while queue.sh skips any expected path containing complete=true. A previous run using different data or hyperparameters can therefore be silently accepted; targets are then read from that same wrong result, hiding the mismatch.
+  Recommendation: Validate every preregistered argument plus seed and split metadata, and store/check a configuration and dataset hash. Make queue skipping parse JSON and require the same provenance checks.
+
+Next steps:
+- Add convergence/generalization eligibility rules before collecting data.
+- Redesign the primary null for width-specific concentration and add initialization replicates.
+- Harden run provenance validation and add near-threshold/control arms.

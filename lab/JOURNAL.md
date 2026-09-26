@@ -800,3 +800,9 @@ musste das Netz nicht auswählen. → [[experiments/EXP-027-width-selection/READ
 innerhalb der Splits. `train_sigma.py` hat dafür `--width` bekommen (Standard 512, EXP-026 unverändert). EXP-027 ist ans
 Ende der EXP-026-Warteschlange gehängt (die laufende `queue_s7.sh` wurde nicht verändert). Ohne Codex-Review (kleine
 Erweiterung, gleicher Auswertetyp wie EXP-026); das ist eine Grenze.
+
+**Codex-Review EXP-027 (09:30):** „needs-attention“. Wiederverwendung der 512er-Läufe als identisch bestätigt. Übernommen:
+Güte-Schwelle (Train ≥ 0.99, Test ≥ 0.90), kalibrierte Statistik u = q_H − q_F (Perzentile gegen zufällige 5er-Mengen
+desselben Spektrums, weil schmale Netze konzentriertere Spektren haben), breitenunabhängige W_out-Init, zusätzliche
+Breite 256, Herkunftsprüfung. Nicht übernommen (Budget, als Grenze notiert): Init-Wiederholungen, Training bis zur
+Konvergenz. Auswerter synthetisch geprüft (4/4, über den Wächter). EXP-027 Nachtrag a committet vor jedem Lauf.

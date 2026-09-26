@@ -31,6 +31,28 @@ Netz muss auswählen. Dann könnte die Neigung des Nutzens (AGF) zur Auswahl wer
 | **Grenzen** | Schmale Netze könnten schlechter generalisieren; dann vergleicht die Breite auch den Lösungstyp. Die Init-Skala von W_out hängt von w ab. Die Seeds 10–14 F sind aus EXP-024 bekannt (nur als Mittel über 19 Einheiten angesehen) |
 | **Budget** | 15 neue Läufe, ≤ 80 s je Lauf ≈ 15–20 min; läuft nach EXP-026 (braucht dessen t_s = 0-Läufe) |
 
+## Nachtrag a (09:30 Berlin, nach Codex-Review, vor jedem EXP-027-Lauf)
+
+Codex (`codex_review_2026-09-26.txt`, „needs-attention“, 2 × high, 2 × medium) bestätigte, dass die Wiederverwendung von
+EXP-026 t_s = 0 als Breite 512 rechnerisch identisch ist. Selbst geprüft, übernommen:
+1. **Güte-Schwelle:** Jeder Lauf braucht Train-Genauigkeit ≥ 0.99 und Test-Genauigkeit ≥ 0.90, sonst ist das Raster
+   *nicht auswertbar*. Nicht generalisierende Netze können nichts bestätigen.
+2. **Kalibrierte Statistik statt ds_H:** Schmale Netze haben konzentriertere Spektren, dann streut ds_H stärker, und die
+   Permutation über Breiten wäre nicht kalibriert. Neu je Lauf: q_H bzw. q_F = Perzentil des Anteils von H bzw. F unter
+   20 000 zufälligen 5er-Mengen desselben Spektrums. Ohne Bevorzugung sind beide gleichverteilt, unabhängig von der
+   Konzentration. **Primär jetzt u = q_H − q_F**, Spearman(Rang −w, u), Permutation innerhalb der Splits, Schwelle
+   p < 0.05 wie gehabt. ds_H, Top-5 und n_eff nur berichtet.
+3. **Init-Skala und Schwelle:** Die W_out-Init hat jetzt je Eintrag dieselbe Streuung wie bei 512 (0.1/√512), unabhängig
+   von w (für w = 512 unverändert). Zusätzliche Breite **256** nahe der Schwelle 448. Stufen jetzt {32, 64, 128, 256, 512},
+   20 neue Läufe.
+4. **Herkunft:** Seed, lr, wd, Init-Skala, Zufallssplit-Schalter, Split-Verzeichnis, Breite und Endaktivierung werden
+   geprüft.
+Nicht übernommen (Grenze): Init-Wiederholungen je Split und Breite und Training bis zur Konvergenz statt fester
+Schrittzahl (Budget). Ein positiver Befund belegt nicht, dass genau die Kapazitätsgrenze von Morwani die Ursache ist;
+AdamW und Weight Decay können mit der Breite wechselwirken.
+Auswerter an vier synthetischen Fällen geprüft (Trend → bestätigt, kein Trend → nicht bestätigt, Güte verfehlt,
+falsche Herkunft), über den Wächter.
+
 ## Befehle
 
     sh lab/experiments/EXP-027-width-selection/queue.sh

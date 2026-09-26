@@ -1,8 +1,8 @@
 ---
 id: EXP-033
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat, befund/positiv]
 ---
 # EXP-033: Ist die 5-Schritte-Festlegung aus EXP-032 ein AdamW-Artefakt?
 
@@ -88,6 +88,32 @@ nicht tut (nur der letzte Anflug ist betroffen; die Halbierungen werden gespeich
 werden ausgewertet. Die beiden alten Läufe von Split 10 (`EXP-033_gd_r0.0167032_lr3_seed10`, `EXP-033_sign_r0.0167032_seed10`)
 bleiben liegen, werden nicht ausgewertet, ihre ds wurden nicht angesehen. Alle übrigen Festlegungen (Toleranz 2 %, Tor,
 Entscheidung) unverändert. AdamW-Läufe sind nicht betroffen.
+
+## Ergebnis (Sitzung 8, 13:18 Berlin)
+
+Pilot: lr = 3 (Regel, `lr.json`). Alle 10 Splits × 3 Arme vollständig, Amplitude mit Rückwärtshalbierung auf ≤ 0.4 %
+getroffen, alle Endnetze Test 1.0; zusätzlich 5 RET-Läufe (15–19).
+
+| Größe (Mittel über 10 Splits) | AR (AdamW, Reset) | GD | SIGN | RET (AdamW behalten) |
+|---|---|---|---|---|
+| Δ = ds_Ende − ds₀ | 0.120 | **0.151** | 0.133 | ≈ AR + 0.015 |
+| ds am Umschaltschritt | 0.066 | **0.105** | 0.071 | – |
+| Phase-1-Schritte | 10 | 76.7 | 11 | 10 |
+| Verstärkung ds_Ende / ds_Umschalt (grob) | ≈ 1.8 | ≈ 1.4 | ≈ 1.9 | – |
+
+**Primär:** Δ_GD > 0 in **10/10** Splits (p = 0.001); Δ_AR > 0 in 10/10 (Tor erfüllt). R = 1.26, 95-%-KI [1.10, 1.46] ⊂ [0.5, 2].
+**Urteil (vorab festgelegt): *zustandsbestimmt*.** Die bleibende F-Neigung entsteht auch ohne Adam in Phase 1; reiner
+Gradientenabstieg bis zur gleichen Amplitude gibt sogar eine etwas größere Neigung (KI schließt 1 aus, bleibt aber unter
+dem Faktor 2). **Nachtrag b bestätigt:** ds am Umschaltschritt GD > AR in 10/10 (vorhergesagt ≥ 7/10). SIGN ≈ AR, der
+Vorzeichen-Schritt allein reproduziert also AdamW, GD weicht in die vorhergesagte Richtung ab.
+**Post hoc (n = 10, nicht vorab festgelegt):** Das lineare Modenmaß ds(J) des Splits sagt die Neigung am Umschaltschritt
+voraus (Spearman GD 0.84, AR 0.62), die End-Neigung nur schwach (0.42 / 0.30). Die schwächsten Splits (16, 14) sind in
+allen Armen dieselben.
+**Einordnung:** „Festlegung in 5 Schritten“ (EXP-032) ist in Schritten eine AdamW-Zahl; in Zuständen gemessen fällt die
+Festlegung, bevor die Merkmalsamplitude das ~1.8-Fache der Init erreicht, und zwar unabhängig davon, ob der Weg dorthin
+AdamW, Vorzeichen-GD oder GD ist. Der Optimierer-Reset kostet wenig (RET − AR 0.015).
+**Grenzen:** Phase 2 immer AdamW; eine Stufe (r ≈ 1.78 × Init); ‖W_out‖ am Umschaltschritt unter GD größer (3.55 gegen 2.60)
+und ist Teil der Behandlung; eine Architektur; Anker 15–19 aus EXP-027b (gleiches Protokoll).
 
 ## Befehle
 

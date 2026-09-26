@@ -2347,3 +2347,7 @@ C4 misst gegen das Eigenrauschen der CPU (1 gegen 4 Threads), damit eine unverme
 Regression, Teil des Tors und des Stufen-Überspringens; Siegel (`compare.SEAL_FILES`) umfasst `components.py`. Test `test_gpu001_stage_skip` angepasst.
 Eine Zweitprüfung durch einen Claude-Subagenten (nur lesend, ausdrücklich kein `python -c`) läuft.
 *Entscheidung:* Ab 03:00 läuft die Stufe im Nachtprogramm als Erstes (< 1 min geschätzt). Die Umsetzungstabelle hat eine Zeile für Punkt 9.
+*Zweitprüfung Zyklus 2 (Claude-Subagent, nur lesend, nichts ausgeführt):* kein kritischer oder hoher Befund. API, Optimiererzustand (frisch je Stufe),
+Init-Wiederherstellung, Geräte, Tor/Siegel und der angepasste Test wurden bestätigt, die Schwellen gelten als für fp32 erreichbar. Zwei mittlere Hinweise:
+(1) `--min-minutes 3` sei knapp. *Verworfen:* Das ist nur die Mindest-Restzeit für den Start, keine Laufzeitgrenze (`guarded_run.py`).
+(2) Die Thread-Umstellung in C4 ist ein globaler Nebeneffekt. *Übernommen:* `try/finally`.

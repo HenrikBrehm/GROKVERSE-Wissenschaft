@@ -124,8 +124,10 @@ def main() -> None:
     l_cpu = np.asarray(train(cfg, fresh(torch.device("cpu")), x, y, SHORT_STEPS))
     l_gpu = np.asarray(train(cfg, fresh(gpu), xg, yg, SHORT_STEPS))
     torch.set_num_threads(4)            # reference noise: the same CPU run with another reduction order (4 threads)
-    l_cpu4 = np.asarray(train(cfg, fresh(torch.device("cpu")), x, y, SHORT_STEPS))
-    torch.set_num_threads(1)
+    try:
+        l_cpu4 = np.asarray(train(cfg, fresh(torch.device("cpu")), x, y, SHORT_STEPS))
+    finally:
+        torch.set_num_threads(1)
     r4 = np.abs(l_gpu - l_cpu) / np.abs(l_cpu)
     r4ref = np.abs(l_cpu4 - l_cpu) / np.abs(l_cpu)
     lim4 = max(TOL["C4_loss"], 10 * float(r4ref.max()))   # GPU may not be worse than 10x CPU reduction-order noise

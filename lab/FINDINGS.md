@@ -36,7 +36,7 @@ Höchstens zwei Pakete aktiv (derzeit A und B). Andere Linien nur, wenn sie zwis
   Nur-Vorzeichen-Zählregeln sind schwach (exakt gerechnet: n = 10 braucht ≥ 9/10, Power 38 % bei q = 0.8, 74 % bei q = 0.9;
   n = 12 braucht ≥ 10/12, 89 % bei q = 0.9). Ziel: Power ≥ 80 % für den vorab genannten Mindesteffekt.
 - **Nullkalibrierung von Δ_pow (21:02, reine Nachrechnung gespeicherter Läufe):** Zufallssplits (EXP-003d-Baselines 10–19, Schritt 2000), zufällige disjunkte Zielmengen, F- und G-Lauf aus verschiedenen Seeds, 20 000 Ziehungen: Mittel −0.01, SD 0.48, 95-%-Quantil 0.79, |Δ_pow| ≥ 1 in 4 %. Der Mindesteffekt 1 liegt damit bei ≈ 2 Null-SD. Bei einer Streuung wie im Pilot EXP-016 (SD 1.2) braucht ein einseitiger Test auf Mittel ≥ 1 mit 80 % Power grob 10–12 Seeds (Normalnäherung, d ≈ 0.8); für neue Aufgaben mit der Pilotstreuung der Nacht neu rechnen.
-- **Bestätigungsblock reserviert:** Init-Seeds **1000–1099**, Splits über `SeedSequence([1000001, Versuch, Seed, Arm, Zweck])`.
+- **Bestätigungsblock reserviert:** Init-Seeds **1000–1099**, Splits über `SeedSequence([1000001, Versuch, Seed, Arm, Zweck])`. *Präzisiert (Sitzung 14, vor jeder Nutzung):* `[1000001, Versuch, Aufgabe, p, Seed, Arm, Zweck]`, damit add 113 und mul 113 bei gleichem Seed keinen Strom teilen; Werkzeug `lab/tools/confirm_splits.py`, schreibt nur mit eingefrorenem Manifest.
   Erst öffnen, wenn das Analysemanifest (Commit-ID) eingefroren ist. Jede Registrierung nennt „bereits gesehene Daten und davon
   beeinflusste Entscheidungen“. Bereits ausgewertete Seeds sind keine unabhängige Bestätigung.
 - **Messgrößen getrennt:** Repräsentationsenergie (Δ_pow, kontinuierlich), funktionale Nutzung (Ablation), Persistenz (nach B Schritten).

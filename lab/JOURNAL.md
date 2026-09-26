@@ -930,3 +930,30 @@ Warteschlangen `sh lab/experiments/queue_s7.sh` bzw. die Einzel-`queue.sh`.
 Kette danach um 11:51 kontrolliert gestoppt (`queue_s7.sh` und das gerade gestartete `queue_s5.sh` beendet, bevor ein
 Trainingslauf daraus begann; keine Python-Prozesse mehr). Nächste Sitzung: direkt `sh lab/experiments/queue_s5.sh`.
 
+
+## Sitzung 8 (2026-09-26, Start 11:59 Berlin, Deadline 14:59; Fenster heute bis 18:00)
+
+**11:59 Start.** Kein STOP, Wächter im Fenster, keine Python-Prozesse. `queue_s5.sh` im Hintergrund gestartet (Log
+`lab/runner/logs/queue_s5.log`): EXP-016/Baselines übersprungen, Smokes EXP-018/020 ok, seit 12:02 **EXP-020** Seed 30
+(„nur F“ 371 s, „nur G“ 252 s; die Läufe sind schneller als die geplanten 4.5–17 min).
+
+**Zyklus 1 (12:00–12:15): Ist die 5-Schritte-Festlegung aus EXP-032 ein AdamW-Artefakt? → EXP-033 vorab festgelegt.**
+*Beobachtung (aus vorhandenen Daten):* In EXP-032 ist r am Umschaltschritt über alle 5 Splits fast identisch
+(t_s = 5: 0.01180–0.01185; 20: 0.02893–0.02897), ebenso ds am Umschaltschritt. Das passt zu gleichförmigen
+Vorzeichen-Schritten von Adam (erster Schritt = lr · sign(g), unabhängig von der Gradientengröße). *Literatur:*
+Abuduweili & Liu 2024 (https://arxiv.org/abs/2412.02153): v₀ = 0 macht Adams ersten Schritt zu einem Vorzeichen-Schritt, der
+bei kleinen frühen Gradienten unverhältnismäßig groß ist; Kleinman, Achille & Soatto 2023 (https://arxiv.org/abs/2308.12221):
+kritische Perioden schon in tiefen linearen Netzen, also nicht an Optimierer-Details gebunden. Suche 12:03: „Adam sign
+descent first steps small initialization feature selection lock-in critical period two-layer network“, „critical learning
+periods deep linear networks Kleinman Achille 2023“. *Folgerung:* Die Aussage „5 Schritte“ ist eine Aussage über die
+Adam-Schrittgröße, nicht über die Lerndynamik. Offen: Hängt die Festlegung selbst am Weg? → [[experiments/EXP-033-optimizer-lockin/README|EXP-033]]:
+σ_3-Phase mit GD (bzw. signGD) bis zur gleichen Amplitude wie AdamW, dann identische x²-Phase mit frischem AdamW.
+**Codex-Review (12:06–12:12, `EXP-033/codex_review_2026-09-26.txt`):** needs-attention, 6 × high. Übernommen: Pseudoreplikation
+(15 Einheiten aus 5 Splits) → Split als Einheit, 10 Splits; Median-Definition (torch nimmt bei gerader Zahl den unteren Wert,
+EXP-032 den NumPy-Mittelwert) → angeglichen, Ziel-r aus dem eigenen Kontrolllauf, Toleranz 2 %; Optimierer-Reset → Arm
+„AdamW behalten“ berichtet; Punktquotient → Bootstrap-KI; lr-Wahl uneindeutig und am Bestätigungs-Split → Pilot mit
+Init-Seed 99 und deterministischer Regel; Queue fail-closed. Nicht übernommen: volles Faktorialdesign und large-ε-Adam
+(zu teuer für die Frage); stattdessen signGD-Arm, der den vermuteten Mechanismus direkt isoliert. Nachtrag a (commit 840e890)
+ersetzt das erste Design; es lief kein EXP-033-Lauf vorher. *Ergebnis des Zyklus:* Versuch vorbereitet, noch nicht
+ausgeführt (Jobplatz belegt durch EXP-020). Plan: nach EXP-020 Seed 30 die Warteschlange zwischen zwei Läufen anhalten,
+EXP-033 laufen lassen (~70 min), danach `queue_s5.sh` fortsetzen.

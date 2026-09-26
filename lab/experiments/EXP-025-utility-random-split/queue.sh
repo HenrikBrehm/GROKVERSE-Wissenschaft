@@ -1,5 +1,7 @@
 #!/bin/sh
 # EXP-025 queue: quadratic and ReLU two-hot MLP on the study's random splits, seeds 10-19. One job at a time.
+# Session 7: EXP-032 (fine switch grid, follow-up of EXP-026) runs first; chained here because queue_s7.sh is running.
+sh lab/experiments/EXP-032-early-lockin/queue.sh || exit $?
 T=lab/experiments/EXP-024-quadratic-agf-mask/train_twohot.py
 O=lab/experiments/EXP-025-utility-random-split/raw
 for ACT in quad relu; do

@@ -1,8 +1,8 @@
 ---
 id: EXP-026
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat, befund/unklar]
 ---
 # EXP-026: Umschlagpunkt ungerade/gerade: Bei welcher Merkmalsamplitude fällt die Frequenzwahl?
 
@@ -80,6 +80,33 @@ den Wächter, 5/5).
 **Grenze, neu:** Der Arm t_s = 0 ist das reine x²-Netz und damit praktisch identisch mit EXP-024 Arm Q auf Seeds 10–14 F,
 dessen Ergebnis (gemittelt über 19 Einheiten) ich bereits kenne. Der Anker d(0) < 0 ist daher nicht unabhängig von
 EXP-024; der eigentliche Test ist der Verlauf über t_s und der Anker „nie“.
+
+## Ergebnis (Sitzung 7, 10:30 Berlin)
+
+30/30 Läufe vollständig. Alle Arme mit t_s < 5000 enden als x²-Netz und generalisieren (Test 1.0); der Arm „nie“
+(σ_3 durchgehend) memoriert nur (Test 0.12–0.20).
+
+| t_s | 0 | 50 | 250 | 1000 | 2500 | nie |
+|---|---|---|---|---|---|---|
+| mittleres ds = Anteil F − Anteil H | **−0.002** | **+0.165** | +0.113 | +0.091 | +0.087 | +0.105 (ds_lin +0.083) |
+| Läufe mit ds > 0 | 2/5 | 5/5 | 5/5 | 5/5 | 5/5 | 5/5 |
+| Top-5-Differenz d (sekundär) | −0.2 | 4.8 | 3.8 | 3.4 | 3.8 | 3.4 |
+| Generalisierungsschritt | 1390 | 2730 | 2780 | 2980 | 3250 | – |
+
+Anker erfüllt (d(0) < 0 nur knapp: −0.002; d(nie) > 0; d_lin(nie) > 0). Spearman über alle 30 Läufe ρ = 0.13,
+Permutations-p = 0.25. **Urteil nach der Vorab-Regel: *Anker ok, Trend n. s.*** Ein Festlegungsintervall wird laut Regel
+nicht angegeben.
+
+**Beschreibend (nicht vorab festgelegt):** Das Muster ist eine **Stufe** zwischen t_s = 0 und t_s = 50, danach ein Plateau,
+das leicht abfällt. Schon 50 Schritte mit linearem Anteil (1 % des Trainings) legen die F-Neigung eines x²-Netzes fest, das
+allein keine F-Neigung hat; sie ist nach 50 Schritten sogar stärker als bei durchgehendem σ_3. Der vorab gewählte
+Rangtest über alle Stufen passt nicht zu einer Stufenfunktion mit Plateau. Das ist ein Fehler im Design, den ich nicht
+nachträglich korrigiere. Die Frage „wann genau“ wird in [[experiments/EXP-032-early-lockin/README|EXP-032]] mit feinerem Raster
+(t_s = 1, 5, 10, 20) und einem dazu passenden Test neu gestellt.
+**Deutung (Spekulation):** AdamW-Schritte (lr 1e-3) sind nach wenigen Dutzend Schritten größer als die Init-Gewichte (≈ 0.007),
+also wachsen in den ersten 50 Schritten die vom linearen Anteil bevorzugten F-Merkmale weit über das Init-Niveau. Ein
+x²-Netz nutzt ein einmal großes F-Merkmal einfach weiter („wer zuerst wächst, gewinnt“, wie im AGF-Bild). Der Preis:
+Die Generalisierung kommt doppelt so spät (≈ 2700 statt 1390 Schritte).
 
 ## Befehle
 

@@ -26,7 +26,7 @@ import torch
 HERE = Path(__file__).resolve().parent
 S16 = HERE.parents[0] / "EXP-016-engineered-split" / "splits"
 P, K, D = 113, 56, 512
-SNAP = (0, 1, 50, 250, 1000, 2000, 3000, 5000)
+SNAP = (0, 1, 5, 10, 20, 50, 250, 1000, 2000, 3000, 5000)   # 5/10/20 added for EXP-032 (logging only)
 
 
 def _fold(pw: np.ndarray) -> np.ndarray:

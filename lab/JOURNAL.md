@@ -855,3 +855,7 @@ Fenster gegen Endpunkt); (2) „Rest“ braucht Mediation. N13 korrigiert (Behau
 ρ(M0, K) 0.235 (fremd 0.008), partiell gegeben W_E bei 250: **0.036**, Δ 10/10, p = 0.001 → *Rest gestützt*. W_E bei 250 sagt K
 auch nach Herausrechnen von M0 stark voraus (0.42). *Deutung:* Die Maske wirkt über den frühen Abdruck auf die Endwahl; der
 Abdruck selbst enthält daneben viel Init-Information.
+
+**Zyklus 8 (09:59, explorativ, negativ): Sagt die Stärke des Abdrucks die Grokking-Zeit voraus?** Seeds 0–9: Spearman(ρ_memo,
+Generalisierungsschritt) = 0.20 (n = 10), kein Hinweis. Nicht weiter verfolgt, keine Bestätigung angesetzt (passt zum
+Befund aus Sitzung 5, dass die M0-Konzentration die Grokking-Zeit nicht vorhersagt).

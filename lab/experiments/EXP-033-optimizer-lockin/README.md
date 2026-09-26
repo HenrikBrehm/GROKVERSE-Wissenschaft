@@ -20,7 +20,7 @@ Das passt zu gleichförmigen Vorzeichen-Schritten. „5 Schritte“ ist also kei
 Schrittgröße. Offen ist, ob die **Festlegung selbst** (ein kleiner früher Vorsprung wird bis zum Ende verstärkt und
 beibehalten) an der Adam-Geometrie hängt oder ob jeder Weg zum gleichen Zustand dasselbe Ergebnis gibt.
 
-## Versuch (vorab festgelegt 2026-09-26 12:20 Berlin, vor jedem EXP-033-Lauf)
+## Versuch (vorab festgelegt 2026-09-26 12:07 Berlin, commit 6bb4557, vor jedem EXP-033-Lauf; **ersetzt durch Nachtrag a**)
 
 | Punkt | Festlegung |
 |---|---|
@@ -40,9 +40,35 @@ beibehalten) an der Adam-Geometrie hängt oder ob jeder Weg zum gleichen Zustand
 | **Grenzen** | Ziel-r ist ein Median über Neuronen, nicht die ganze Verteilung; W_out wächst unter GD anders (berichtet: ‖W_out‖ am Umschaltschritt). Eine Architektur, 5 Splits |
 | **Budget** | Smoke 5 × ≤ 1 min; 15 AR-Läufe ≈ 90 s, 15 GD-Läufe ≈ 2–4 min → ≈ 1–1.5 h |
 
+## Nachtrag a (2026-09-26 12:25 Berlin, nach Codex-Review, vor jedem EXP-033-Lauf): neues Design, gilt allein
+
+Codex (`codex_review_2026-09-26.txt`, „needs-attention“, 6 × high, 1 × medium). Selbst geprüft; übernommen:
+(1) 15 Einheiten aus 5 Splits sind Pseudoreplikation → **Split ist die Einheit**, 10 Splits (10–19), eine Stufe;
+(2) `torch.median` nimmt bei 512 Neuronen den unteren Mittelwert → interpolierter Median wie NumPy, Ziel-r aus dem
+eigenen AdamW-Kontrolllauf, Toleranz ±2 %; (3) Reset des Optimierers → zusätzlich Arm „AdamW behalten“ (EXP-032-Protokoll)
+berichtet; (4) Q ohne Unsicherheit → ankerbereinigte Effekte und Bootstrap-KI; (5) lr-Wahl uneindeutig und am
+Bestätigungs-Split → deterministische Regel an einer Pilot-Init; (6) Queue fail-closed. Teilweise übernommen: Codex'
+Faktorial­design (Optimierer × Aktivierung) und large-ε-Adam nicht; stattdessen ein **Vorzeichen-Arm** (signGD, Schritt 1e-3,
+= Adams erster Schritt wiederholt), der den vermuteten Mechanismus direkt isoliert. Die Unterschiede in ‖W_out‖, r-Verteilung
+und ds am Umschaltschritt sind Teil der Behandlung (verschiedene Wege zu gleicher Amplitude) und werden berichtet, nicht
+als Tor verwendet: Die Frage ist gerade, ob der Weg zählt.
+
+| Punkt | Festlegung (ersetzt die Tabelle oben) |
+|---|---|
+| **Einheiten** | EXP-016-Splits Seeds 10–19, Arm F, Stufe t_s = 10 (EXP-032: ds 0.13, t_s = 5: 0.09) |
+| **Arme (Phase 1, σ_3)** | **AR**: AdamW 10 Schritte (EXP-032), dann frischer AdamW. **GD**: SGD ohne Momentum/Decay bis r ≥ r_AR(Split). **SIGN**: signGD 1e-3 bis r ≥ r_AR (sekundär). **RET**: AdamW durchgehend = EXP-032 (10–14 vorhanden, 15–19 neu; sekundär) |
+| **Phase 2** | x², frischer AdamW, 5000 Schritte (AR, GD, SIGN) |
+| **Anker ds₀** | nur x² ab Init, 5000 Schritte: EXP-026 t_s = 0 (10–14), EXP-027b Breite 512 (15–19) |
+| **Matching** | r = interpolierter Median der Merkmalsamplitude; GD/SIGN gültig nur bei r_switch/r_AR − 1 ∈ [0, 0.02] |
+| **GD-lr** | Pilot Split 10 mit Init-Seed 99 (kein Bestätigungs-Init), nur Phase 1, keine Spektren gespeichert; Ziel r = 0.0167; Kandidaten 0.3, 1, 3, 10, 30; gewählt: größte lr mit Ziel erreicht, endlich, Überschuss ≤ 2 % (`select_lr.py` → `lr.json`) |
+| **Effekte** | Δ_X(s) = ds_X(s) − ds₀(s) am Ende von Phase 2 |
+| **Tor** | Δ_AR > 0 in ≥ 9/10 Splits (die Festlegung repliziert unter Reset), sonst *nicht auswertbar*; alle 10 AR- und GD-Läufe gültig und Test ≥ 0.9, sonst *nicht auswertbar* |
+| **Primär** | k = #Splits mit Δ_GD > 0 (Vorzeichentest, 9/10: p = 0.011); R = mean Δ_GD / mean Δ_AR mit 95-%-Bootstrap-KI über Splits (10 000×, Seed 0) |
+| **Entscheidung** | k ≥ 9 und KI ⊂ [0.5, 2] → ***zustandsbestimmt***; k ≥ 9 und KI-Untergrenze > 2 → ***GD stärker***; k ≥ 9 und KI-Obergrenze < 0.5 → ***AdamW verstärkt, Festlegung schwach vorhanden***; k ≥ 9 sonst → ***GD-Neigung vorhanden, Größenverhältnis offen***; k < 9 und KI-Obergrenze < 0.5 → ***AdamW-gebunden***; k < 9 sonst → ***unklar***. Die Spanne [0.5, 2] ist eine Konvention (Faktor 2), keine physikalisch begründete Grenze |
+| **Sekundär** | Δ_SIGN (liegt SIGN bei AR → Vorzeichen-Mechanismus); ds am Umschaltschritt je Arm; GD-Schritte; ‖W_out‖ und r-Quantile am Umschaltschritt; RET − AR (Wirkung des Optimierer-Resets) |
+| **Budget** | Pilot ≤ 5 × 2 min; 10 AR + 10 GD + 10 SIGN + 5 RET ≈ 35 Läufe ≈ 60–80 min |
+
 ## Befehle
 
-    # Smoke (lr-Wahl, nur Phase 1):
-    for L in 0.3 1 3 10 30; do python lab/tools/guarded_run.py -- python lab/experiments/EXP-033-optimizer-lockin/train_opt.py --seed 10 --opt1 gd --switch-r 0.0290 --gd-lr $L --max-phase1 5000 --phase1-only --out lab/experiments/EXP-033-optimizer-lockin/raw_smoke; done
-    sh lab/experiments/EXP-033-optimizer-lockin/queue.sh <lr>
+    sh lab/experiments/EXP-033-optimizer-lockin/queue.sh      # Pilot + lr.json + alle Läufe, überspringt Fertiges
     python lab/tools/guarded_run.py -- python lab/experiments/EXP-033-optimizer-lockin/analyze.py

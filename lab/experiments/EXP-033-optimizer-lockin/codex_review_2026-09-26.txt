@@ -1,0 +1,53 @@
+(node:18904) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0dd2c-ff5c-7730-9167-4223dc2612f1).
+[codex] Turn started (01a0dd2d-01e6-7360-86ec-d613177e60a6).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’m inspecting the exact diff and tracing the trainin...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git diff --no-ext-...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git diff --no-ext-... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The main risk is now clear: the experiment’s negative...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"sys\\.exit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"sys\\.exit... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files -g AGEN...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files -g AGEN... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"No-ship: the experiment cannot identify Adam’s sign-l...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against 6b5ad3e
+Verdict: needs-attention
+
+No-ship: the experiment cannot identify Adam’s sign-like update as the cause, and its confirmatory statistics can produce an anti-conservative causal verdict from only four or five independent splits.
+
+Findings:
+- [high] The optimizer contrast does not isolate sign-like Adam steps (lab/experiments/EXP-033-optimizer-lockin/train_opt.py:83-100)
+  Phase 1 changes coordinate normalization, momentum, weight decay, and step count simultaneously by comparing AdamW with momentum-free, decay-free SGD. Therefore a difference cannot be attributed specifically to Adam’s sign-like initial update. A GD success only shows that one GD trajectory can create preference; a GD failure does not establish that sign normalization caused EXP-032.
+  Recommendation: Add mechanism-isolating controls such as AdamW with a preregistered large epsilon, signSGD, and SGD with matched decoupled decay. Separate creation of switch-time bias from its subsequent persistence, ideally in an optimizer-by-activation factorial design.
+- [high] Median-r stopping does not create a matched phase-2 state (lab/experiments/EXP-033-optimizer-lockin/train_opt.py:29-107)
+  GD stops at the first unconstrained crossing of one scalar, without an overshoot tolerance. Its W_out, full r distribution, logits, and switch-time spectral bias can all differ from AdamW and are only reported. Additionally, torch.median uses the lower middle value for the even width of 512, whereas EXP-032 targets were produced with NumPy’s averaged median. Since phase 2 receives the complete parameter state, these differences can determine the result independently of optimizer geometry.
+  Recommendation: Use the identical median definition, backtracking/interpolation to enforce a tight target tolerance, and preregister balance gates for the r distribution, W_out/effective logit scale, and switch-time ds. Treat unmatched endpoints as non-evaluable; report a negative GD result as inconclusive otherwise.
+- [high] Resetting Adam discards part of the EXP-032 treatment (lab/experiments/EXP-033-optimizer-lockin/train_opt.py:110-114)
+  EXP-032 continued one AdamW instance across the activation switch, so its first- and second-moment estimates from the sigma_3 phase affected later x² updates. EXP-033 creates a fresh optimizer even for the Adam control. Whether this reset reproduces EXP-032 is only secondary and is not a validity gate, so the primary verdict may describe a different phenomenon from the reported early lock-in.
+  Recommendation: Run both retained-state AdamW and reset-state AdamW arms. Require the retained arm to replicate EXP-032, and use retained-versus-reset as the test of moment-state mediation before interpreting the fresh-optimizer GD comparison.
+- [high] The sign test pseudoreplicates five splits as fifteen independent units (lab/experiments/EXP-033-optimizer-lockin/analyze.py:45-55)
+  The three levels for a seed share the same split, initialization, ds0 anchor, and nested deterministic phase-1 trajectory. Treating them as 15 independent Bernoulli observations makes the reported p≈0.004 anti-conservative. The code also replaces the preregistered 13-of-15 rule with an unregistered n-2 rule when data are missing; with 12 observations it can issue a verdict from only four independent seeds.
+  Recommendation: Use seed/split as the independent unit, with a preregistered within-seed aggregation or cluster-level permutation/bootstrap. Add independent splits if needed for power, require complete seed-level blocks, and remove the adaptive n-2 threshold.
+- [high] Q is not an equivalence test and can mislabel noisy results as state-determined (lab/experiments/EXP-033-optimizer-lockin/analyze.py:51-58)
+  Q divides two raw grand means and applies factor-of-two bounds to a point estimate. It neither subtracts each seed’s ds0 anchor nor quantifies uncertainty, and it has no guard for a small or sign-changing reset-Adam denominator. Thus Q just above 0.5 can produce “state-determined” even when the data are compatible with a negligible GD effect or a materially weaker response.
+  Recommendation: Analyze paired baseline-adjusted effects, ΔGD=dsGD-ds0 and ΔAR=dsAR-ds0, at the seed-cluster level. Preregister a scientifically justified equivalence/noninferiority margin and require its confidence interval—not only a point ratio—to satisfy the decision rule.
+- [high] The GD learning-rate smoke is discretionary and outcome-visible (lab/experiments/EXP-033-optimizer-lockin/README.md:32-48)
+  The rule asks both for the largest acceptable LR and, among acceptable candidates, the smallest reaching the target within 3000 steps; “training accuracy does not jump” has no numeric definition, and the trainer records no phase-1 accuracy trace to evaluate it. The smoke uses confirmatory seed 10 and still saves targets plus the switch spectrum, from which ds can be recovered. Finally, the documented analysis command omits the positional LR required by analyze.py, so it fails and the chosen LR is not durably linked to analysis.
+  Recommendation: Implement a deterministic selector using disjoint pilot seeds, explicit LR ordering, overshoot and accuracy-change thresholds, and outcome-blind smoke output. Persist the selected LR in an immutable run manifest that queue.sh and analyze.py both validate and consume.
+- [medium] Unexpected GD process failures are silently converted into missing experimental units (lab/experiments/EXP-033-optimizer-lockin/queue.sh:18-21)
+  The queue stops only for return codes 3 and 124. Although the comment identifies only code 4 as scientific nonreach/NaN data, all other failures—including ordinary exceptions or an OOM exit—also continue. Because analyze.py accepts as few as 12 GD units, up to three operational failures can be excluded while still producing a confirmatory verdict.
+  Recommendation: Continue only when rc equals 4 and a validated result.json explicitly records the planned nonreach condition; abort on every other nonzero code. Make analysis distinguish scientific nonreach from missing or failed jobs and fail closed on operational failures.
+
+Next steps:
+- Redesign and update the preregistration before collecting EXP-033 data.
+- Base inference on independent split-level clusters and baseline-adjusted paired effects.
+- Automate LR selection and run manifests, then add fail-closed validation for every result consumed by analysis.

@@ -1,10 +1,12 @@
 """EXP-033: is the early lock-in of EXP-032 an AdamW artifact?
 
 Two-hot MLP as EXP-026/train_sigma.py (same init, split, loss, spectra). Phase 1 trains with sigma_3 = 3x + x^2 using
---opt1 (adamw: EXP-032 phase 1; gd: plain full-batch gradient descent, no momentum, no weight decay) until either
---switch-step steps (adamw) or the median feature amplitude r reaches --switch-r (gd). Phase 2 trains the pure x^2 net
+--opt1 (adamw: EXP-032 phase 1; gd: plain full-batch gradient descent, no momentum, no weight decay; sign: sign
+gradient descent with step 1e-3 per parameter, i.e. Adam's first step repeated, no decay) until either --switch-step
+steps (adamw) or the median feature amplitude r reaches --switch-r (gd, sign). Phase 2 trains the pure x^2 net
 with a FRESH AdamW (same hyperparameters as EXP-026) for --after-steps steps. Only phase 1 differs between arms.
---phase1-only stops after phase 1 (lr smoke for gd; outcome is not computed). Definition: README.md.
+--phase1-only stops after phase 1 (lr smoke for gd): outcome-blind, no spectra and no targets are saved.
+Nachtrag a (Codex review): numpy-style median (interpolated), sign arm, --init-seed for the pilot, r quantiles. Definition: README.md.
 Run only through guarded_run.py.
 """
 from __future__ import annotations
@@ -29,13 +31,19 @@ SNAP2 = (0, 250, 1000, 2000, 3000, 5000)   # phase-2 steps (relative to the swit
 def amp_median(W_in: torch.Tensor) -> float:
     """Median over neurons of r_n = sqrt(mean_a(u_n^2 + v_n^2)), identical to spectra()['amp']['median']."""
     with torch.no_grad():
-        return float(torch.sqrt((W_in[:P] ** 2 + W_in[P:] ** 2).mean(0)).median())
+        return float(torch.quantile(torch.sqrt((W_in[:P] ** 2 + W_in[P:] ** 2).mean(0)), 0.5))
+
+
+def amp_quantiles(W_in: torch.Tensor) -> list[float]:
+    with torch.no_grad():
+        r = torch.sqrt((W_in[:P] ** 2 + W_in[P:] ** 2).mean(0))
+        return [float(torch.quantile(r, q)) for q in (0.1, 0.25, 0.5, 0.75, 0.9)]
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--seed", type=int, required=True)
-    ap.add_argument("--opt1", choices=("adamw", "gd"), required=True)
+    ap.add_argument("--opt1", choices=("adamw", "gd", "sign"), required=True)
     ap.add_argument("--switch-step", type=int, default=None, help="adamw: phase-1 length in steps")
     ap.add_argument("--switch-r", type=float, default=None, help="gd: switch when median r >= this")
     ap.add_argument("--gd-lr", type=float, default=1.0)
@@ -43,10 +51,11 @@ def main() -> None:
     ap.add_argument("--after-steps", type=int, default=5000)
     ap.add_argument("--phase1-only", action="store_true")
     ap.add_argument("--tag", default="")
+    ap.add_argument("--init-seed", type=int, default=None, help="pilot only; default --seed")
     ap.add_argument("--out", default=str(HERE / "raw"))
     a = ap.parse_args()
-    if (a.opt1 == "adamw") != (a.switch_step is not None) or (a.opt1 == "gd") != (a.switch_r is not None):
-        ap.error("adamw needs --switch-step, gd needs --switch-r (and not the other)")
+    if (a.opt1 == "adamw") != (a.switch_step is not None) or (a.opt1 != "adamw") != (a.switch_r is not None):
+        ap.error("adamw needs --switch-step, gd/sign need --switch-r (and not the other)")
 
     idx = np.load(S16 / f"split_seed{a.seed}_eps2.0.npy")
     meta = json.loads((S16 / f"split_seed{a.seed}_eps2.0.json").read_text())
@@ -55,7 +64,7 @@ def main() -> None:
     te_a, te_b = torch.tensor(test // P), torch.tensor(test % P)
     tr_y, te_y = (tr_a + tr_b) % P, (te_a + te_b) % P
 
-    torch.manual_seed(a.seed)                     # identical init to EXP-026/032 (same calls, same order)
+    torch.manual_seed(a.seed if a.init_seed is None else a.init_seed)   # identical init to EXP-026/032 (same calls, same order)
     torch.set_num_threads(4)
     W_in = torch.nn.Parameter(torch.randn(2 * P, D) * 0.1 / np.sqrt(2 * P))
     W_out = torch.nn.Parameter(torch.randn(D, P) * 0.1 / np.sqrt(D))
@@ -71,38 +80,47 @@ def main() -> None:
             return ((fwd(tr_a, tr_b).argmax(1) == tr_y).float().mean().item(),
                     (fwd(te_a, te_b).argmax(1) == te_y).float().mean().item())
 
-    lvl = f"t{a.switch_step}" if a.opt1 == "adamw" else f"r{a.switch_r:g}_lr{a.gd_lr:g}"
-    run_id = f"EXP-033_{a.opt1}_{lvl}_seed{a.seed}" + (f"_{a.tag}" if a.tag else "") + ("_p1" if a.phase1_only else "")
+    lvl = (f"t{a.switch_step}" if a.opt1 == "adamw" else f"r{a.switch_r:g}" + (f"_lr{a.gd_lr:g}" if a.opt1 == "gd" else ""))
+    run_id = f"EXP-033_{a.opt1}_{lvl}_seed{a.seed}" + (f"_{a.tag}" if a.tag else "") + ("" if a.init_seed is None else f"_init{a.init_seed}") + ("_p1" if a.phase1_only else "")
     out_dir = Path(a.out) / run_id
     out_dir.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
-    snaps = {"p1_0": spectra(W_in, W_out, "sig")}
-    r_trace, finite = [], True
+    snaps = {} if a.phase1_only else {"p1_0": spectra(W_in, W_out, "sig")}
+    r_trace, acc_trace, finite = [], [], True
 
     # phase 1
     opt1 = (torch.optim.AdamW(params, lr=1e-3, weight_decay=1.0, betas=(0.9, 0.98)) if a.opt1 == "adamw"
-            else torch.optim.SGD(params, lr=a.gd_lr, momentum=0.0, weight_decay=0.0))
+            else torch.optim.SGD(params, lr=a.gd_lr, momentum=0.0, weight_decay=0.0) if a.opt1 == "gd" else None)
     n1, reached = 0, False
     while n1 < a.max_phase1:
         if a.opt1 == "adamw" and n1 == a.switch_step:
             reached = True
             break
-        if a.opt1 == "gd":
+        if a.opt1 != "adamw":
             r = amp_median(W_in)
             if n1 % 10 == 0:
                 r_trace.append([n1, r])
+                acc_trace.append([n1, *accs()])
             if r >= a.switch_r:
                 reached = True
                 break
         loss = torch.nn.functional.cross_entropy(fwd(tr_a, tr_b), tr_y)
-        opt1.zero_grad()
+        for q in params:
+            q.grad = None
         loss.backward()
-        opt1.step()
+        if opt1 is not None:
+            opt1.step()
+        else:
+            with torch.no_grad():
+                for q in params:
+                    q -= 1e-3 * torch.sign(q.grad)
         n1 += 1
         if not (torch.isfinite(W_in).all() and torch.isfinite(W_out).all()):
             finite = False
             break
-    snaps["switch"] = spectra(W_in, W_out, "sig")
+    if not a.phase1_only:
+        snaps["switch"] = spectra(W_in, W_out, "sig")
+    r_q_switch = amp_quantiles(W_in) if finite else None
     wout_norm_switch = float(W_out.detach().norm())
     r_switch = amp_median(W_in) if finite else None
     acc_switch = accs()
@@ -131,9 +149,9 @@ def main() -> None:
             opt2.step()
             n2 = step + 1
     complete = reached and finite and (a.phase1_only or (n2 == a.after_steps and f"p2_{a.after_steps}" in snaps))
-    res = {"run_id": run_id, "args": vars(a), "targets": meta["targets"], "n_train": int(len(idx)),
+    res = {"run_id": run_id, "args": vars(a), "targets": None if a.phase1_only else meta["targets"], "n_train": int(len(idx)),
            "phase1_steps": n1, "reached": reached, "finite": finite, "complete": complete,
-           "r_switch": r_switch, "wout_norm_switch": wout_norm_switch,
+           "r_switch": r_switch, "r_quantiles_switch": r_q_switch, "acc_trace": acc_trace, "wout_norm_switch": wout_norm_switch,
            "acc_switch": acc_switch, "r_trace": r_trace, "gen_step_test95": gen,
            "final_test_acc": curve[-1][2] if curve else None, "final_train_acc": curve[-1][1] if curve else None,
            "curve": curve, "spectra": snaps, "elapsed_s": time.time() - t0, "torch": torch.__version__}

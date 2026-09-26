@@ -618,7 +618,7 @@ einem zufälligen 30-%-Split 0.179, bei Gewichten auf **allen** Paaren 0.986 (di
 gleichverteilt 0.089). **Nutzen:** (1) trennt „welche Paare fehlen“ (samt Komplement-Testmenge) von „wie stark wird gewichtet“, also ein
 direkter Test des Mechanismus hinter K2; (2) eine Steuerung, die keine Daten weglässt. **Vorhersage erster Ordnung:** Gewichte auf dem
 zufälligen Split steuern etwa so stark wie die Auswahl (Δ_pow ähnlich EXP-016). Gegenhypothese: Die Steuerung hängt am Fehlen von Paaren
-(Memorisierungsdruck), dann steuern Gewichte deutlich schwächer. Braucht eine Option  im gemeinsamen Trainer (Review nach 18c)
+(Memorisierungsdruck), dann steuern Gewichte deutlich schwächer. Braucht eine Option `--pair-weights` im gemeinsamen Trainer (Review nach 18c)
 und gehört zu Paket A (Mechanismus von P1). Suche 2026-09-26 („per-example loss weighting controls which Fourier features learned modular
 addition grokking sample weights“): nur Arbeiten zu Init-Lotterie und Weight Decay (He et al. 2026, https://arxiv.org/abs/2602.16849);
 Gewichtssteuerung der Frequenzen nicht gefunden (vorläufig).

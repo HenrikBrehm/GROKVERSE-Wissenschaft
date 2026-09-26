@@ -201,8 +201,14 @@ def run(a: argparse.Namespace) -> dict:
             raise SystemExit("--split-file and --split-seed are exclusive")
         exp_id = "EXP-016" if a.test_file is None else "EXP-018"
         run_id = f"{exp_id}_{a.condition}_seed{a.seed}_thr{a.threads}_{Path(a.split_file).stem}"
-    elif a.test_file is not None:
-        raise SystemExit("--test-file needs --split-file")
+        if a.switch_split_file is not None:      # EXP-020: change the train set once at --switch-step
+            if a.test_file is None or a.switch_step is None or a.switch_step < 1:
+                raise SystemExit("--switch-split-file needs --test-file and --switch-step >= 1")
+            exp_id = "EXP-020"
+            run_id = (f"{exp_id}_{a.condition}_seed{a.seed}_thr{a.threads}_{Path(a.split_file).stem}"
+                      f"_to_{Path(a.switch_split_file).stem}_at{a.switch_step}")
+    elif a.test_file is not None or a.switch_split_file is not None:
+        raise SystemExit("--test-file / --switch-split-file need --split-file")
     out_dir = Path(a.out_root) / run_id
     if (out_dir / "result.json").exists() and not a.force:
         prev = json.loads((out_dir / "result.json").read_text())
@@ -235,6 +241,14 @@ def run(a: argparse.Namespace) -> dict:
         data = {**data, "train_x": data["all_x"][tr], "train_y": data["all_y"][tr],
                 "test_x": data["all_x"][te], "test_y": data["all_y"][te], "train_idx": tr, "test_idx": te}
     trx, try_, tex, tey = data["train_x"], data["train_y"], data["test_x"], data["test_y"]
+    switch_idx = None
+    if a.switch_split_file is not None:
+        rs = np.load(a.switch_split_file)
+        if (rs.ndim != 1 or not np.issubdtype(rs.dtype, np.integer) or len(rs) != len(data["train_idx"])
+                or len(np.unique(rs)) != len(rs) or rs.min() < 0 or rs.max() >= p * p
+                or np.intersect1d(rs, data["test_idx"].numpy()).size):
+            raise SystemExit(f"[exp] invalid switch file {a.switch_split_file}: same size, unique, disjoint from test")
+        switch_idx = torch.from_numpy(rs.astype(np.int64))
     model = build_model(cfg)
     opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay,
                             betas=(cfg.beta1, cfg.beta2))
@@ -268,9 +282,11 @@ def run(a: argparse.Namespace) -> dict:
            "condition": a.condition, "seed": a.seed, "t0": a.t0, "m": a.m,
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
-           "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "max_steps": a.steps,
+           "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
+           "switch_step": a.switch_step, "max_steps": a.steps,
            "config": cfg.to_dict(), "split_hash": split_hash(data["train_idx"]),
            "test_hash": split_hash(data["test_idx"]),
+           "switch_hash": None if switch_idx is None else split_hash(switch_idx),
            "git_commit": git_commit(), "versions": lib_versions(),
            "platform": platform.platform(), "argv": sys.argv,
            "start_utc": datetime.now(timezone.utc).isoformat()}
@@ -335,6 +351,11 @@ def run(a: argparse.Namespace) -> dict:
             if step == ban_from:
                 events["post_ban_acc"] = {"train": evaluate(model, trx, try_, p)[1],
                                           "test": evaluate(model, tex, tey, p)[1]}
+        if switch_idx is not None and step == a.switch_step:     # EXP-020: new train set from the next step on
+            events["switch"] = {"step": step, "train_acc_before": evaluate(model, trx, try_, p)[1],
+                                "new_train_acc_before": evaluate(model, data["all_x"][switch_idx],
+                                                                 data["all_y"][switch_idx], p)[1]}
+            trx, try_ = data["all_x"][switch_idx], data["all_y"][switch_idx]
         dense_eval(step)
         if step % SPECTRUM_EVERY == 0:
             spectrum(step)
@@ -379,6 +400,9 @@ def main() -> None:
                     help="EXP-016: .npy with flat train indices a*p+b (test = complement)")
     ap.add_argument("--test-file", default=None,
                     help="EXP-018: .npy with flat test indices (disjoint from --split-file) instead of the complement")
+    ap.add_argument("--switch-split-file", default=None,
+                    help="EXP-020: .npy train set that replaces --split-file after --switch-step (needs --test-file)")
+    ap.add_argument("--switch-step", type=int, default=None, help="EXP-020: last step trained on --split-file")
     ap.add_argument("--save-model", action="store_true")
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args()

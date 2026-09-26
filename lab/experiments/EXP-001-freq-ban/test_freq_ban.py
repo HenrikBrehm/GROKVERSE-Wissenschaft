@@ -152,6 +152,33 @@ def test_split_speed_sets() -> None:   # EXP-018
     assert meta["arms"]["E"]["top5_power_share"] > 1.4 * meta["arms"]["D"]["top5_power_share"]
 
 
+def test_data_switch_sets() -> None:   # EXP-020
+    import importlib.util
+    saved_path = list(sys.path)                  # make_splits prepends other EXP dirs (with their own analyze.py)
+    try:
+        spec = importlib.util.spec_from_file_location("m20", HERE.parent / "EXP-020-data-switch/make_splits.py")
+        m20 = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m20)
+    finally:
+        sys.path[:] = saved_path
+    sets = m20.build(30)
+    for arm in ("F", "G"):
+        assert len(sets[arm]) == round(0.3 * P * P) and len(np.unique(sets[arm])) == len(sets[arm])
+        assert np.intersect1d(sets[arm], sets["test"]).size == 0
+    assert not np.array_equal(sets["F"], sets["G"])
+    assert np.array_equal(sets["F"], m20.build(30)["F"])                 # deterministic
+
+
+def test_switch_requires_test_file() -> None:   # EXP-020: fail closed on incomplete switch arguments
+    import subprocess
+    r = subprocess.run([sys.executable, str(HERE / "freq_ban.py"), "--seed", "0", "--condition", "baseline",
+                        "--steps", "1", "--split-file", "x.npy", "--switch-split-file", "y.npy",
+                        "--switch-step", "5", "--out-root", str(HERE / "raw_test_never")],
+                       capture_output=True, text=True, timeout=120)
+    assert r.returncode != 0 and "needs --test-file" in (r.stderr + r.stdout)
+    assert not (HERE / "raw_test_never").exists()
+
+
 def test_shrink_matches_top_ban_energy() -> None:              # amendment 2026-09-25b
     B = fb.fourier_basis(P)
     W = np.random.default_rng(2).normal(size=(P, 16))

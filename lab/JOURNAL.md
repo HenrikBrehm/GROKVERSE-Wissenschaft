@@ -1673,3 +1673,11 @@ die c-Häufigkeiten sind in beiden Armen nicht zielverzerrt (28.1 / 27.4). Saube
 GPU, H47a Häufigkeiten / H47b Paarstruktur, Holm über beide), Splits erzeugt, in `queue_gpu_s11.sh` nach EXP-046. Nebenbefund:
 In EXP-016/043 ist der Paar-Zufallsstrom von Seed s derselbe wie der Zielmengen-Strom von Seed s + 1 (seed + Salz + 1); praktisch
 harmlos (verschiedene Verwendung), in EXP-047 mit `SeedSequence` vermieden. Kein Eingriff in laufende/festgelegte Versuche.
+
+**Rückblick nach drei Zyklen (20:22, Auftrag §4).** *Gelernt:* (1) Der Nachtcode hätte Fehler verschluckt und GPU-001 umgehen können
+(behoben); (2) K2 hat eine offene Alternativerklärung (Häufigkeiten), die in 16 Sitzungsstunden niemand geprüft hat, weil jede
+Kontrolle bisher gegen *Zufallssplits* lief. *Wiederholen wir uns?* Nein: EXP-046 ist die erste nicht-zyklische Aufgabe, EXP-047 die
+erste Mechanismus-Kontrolle mit festgehaltenen Randverteilungen. *Messungen geeignet?* K bei festem Schritt 2000 ist robust gegen
+Testmenge/Grokking (EXP-016 Nachtrag a), misst aber die Auswahl vor der Endlösung; EXP-045 misst deshalb zusätzlich bei 10 000.
+*Nächste Annahme, die angegriffen wird:* dass M0 der Wirkweg ist. EXP-047 prüft genau das; bei *Häufigkeiten steuern mit* müssten
+[[BEFUND-split-mechanismus]] und K1/K2 in [[FINDINGS]] umformuliert werden.

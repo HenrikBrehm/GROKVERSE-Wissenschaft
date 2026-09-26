@@ -16,6 +16,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIR
   EXP-034 → queue_s5. Nach jeder Auswertung Ergebnis ins README/JOURNAL/LAB (die Queue schreibt nur `summary.json`).
   Abgeschlossen in Sitzung 9: EXP-020 (*nicht bestätigt*; beschreibend (25, 50] in 5/5), EXP-028 (*teilweise*), EXP-037
   (*gestützt* mit Einschränkung: reproduzierbare, funktionale Konfliktfrequenzen). Befunde: JOURNAL „Abschlussbericht Sitzung 9“.
+  **Vor dem EXP-036-Start (Denkarbeit, 19:49–00:00):** P36b kalibriert neu festlegen (EXP-036 Nachtrag c; Codex-Einwände
+  in `EXP-037-alternation-conflict/codex_conclusion_review_2026-09-26.txt`). EXP-036 steht in queue_s10 erst nach EXP-038.
   Denkarbeit-Ideen: warum 25–50 Schritte (Verbindung zur linearen Modentheorie aus EXP-033), Konfliktfrequenzen theoretisch
   (gemeinsame Unterstützung, P36b), EXP-038-Folgeversuch mit norm-angepasstem Rücksetzen.
 

@@ -92,3 +92,16 @@ nicht.** Ob sie aus der Init stammen, bleibt offen → [[experiments/EXP-036-ini
 d = +1, +1, +1; fremd 34 | 42 | 8, 13, 26, 30 (Init-Ränge 11 | 2 | 4, 18, 25, 8); alle Test-Acc 1.0. Wieder dieselben
 Kernfrequenzen je Seed (in Seed 31 diesmal 42, die fremde Frequenz des Einzelwechsels bei t = 10/50), 26 = fold(2 · 13) ist
 Oberwelle. Ablation: 34, 8, 13 funktional (Δloss 1.7–5.3), 42 dazwischen (0.38), 26 und 30 kaum (0.057, 0.002).
+
+## Nachtrag c (17:15 Berlin, nach Codex-Angriff auf die Schlussfolgerung, `codex_conclusion_review_2026-09-26.txt`)
+
+Die vorab festgelegten Urteile bleiben (*gestützt*, A = 5 und A = 25). **Die Deutung wird eingeengt:**
+1. C_F100 hat 100 ununterbrochene F-Schritte und legt sich deshalb vor dem Wechsel fest; der Kontrast trennt also **wiederholtes
+   Wechseln** von **einem Wechsel nach der Festlegung**, nicht „widersprüchliche Signale“ als Ursache. Richtig ist: *Das
+   Auftreten der fremden Frequenzen hängt vom Wechselplan ab*; konfliktspezifisch ist es nicht gezeigt (dafür bräuchte es
+   Kontrollen mit gleichem Wechselplan und verträglichen Daten, echtes Mischtraining, zufällige Blockfolgen).
+2. „Reproduzierbar“ heißt nur: **über Wechselpläne hinweg innerhalb der drei schon explorierten Seeds** 30–32, keine unabhängige
+   Replikation. An frischen Seeds (33, 34) war das Bild schwächer.
+3. „Funktional“ gilt nur für generalisierende Modelle: 34 (Seed 30), 22 (Seed 31, A = 5), 8 und 13 (Seed 32, A = 25) mit Δloss
+   1.4–5.3; 42 (Seed 31, A = 25) nur 0.38; die Schwelle ist eine beschreibende Konvention, die Zufallskontrollen sind nicht nach
+   spektraler Stärke angeglichen. Die A = 5-Werte von Seed 32 (Test-Acc 0.48) zählen dafür nicht.

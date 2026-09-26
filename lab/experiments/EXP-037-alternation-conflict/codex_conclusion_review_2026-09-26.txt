@@ -1,0 +1,53 @@
+(node:12908) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0de41-b4c1-7ec0-ae31-55cbbf240cbc).
+[codex] Turn started (01a0de41-b667-7e73-b11e-4bddba218e5a).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’m inspecting the requested diff and raw experiment ...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The main causal contrast is weaker than the prose: C_...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import sys, jso...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import sys, jso... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Command py -Er...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Command py -Er... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$n=0; Get-Content ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git log --format='...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git log --format='... (exit 1)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"No-ship: the evidence establishes a schedule-dependen...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against 7c2b5c6
+Verdict: needs-attention
+
+No-ship: the evidence establishes a schedule-dependent association in three reused seeds, not a conflict-specific, independently reproducible mechanism. The init-origin wording is appropriately open, but the functional and shared-support conclusions remain overstated, and P36b is not a calibrated confirmatory test.
+
+Findings:
+- [high] C_F100 does not isolate conflict from temporal schedule (lab/experiments/EXP-037-alternation-conflict/README.md:49-52)
+  C_F100 matches aggregate F/G counts but presents 100 uninterrupted F steps before one switch, whereas A=5/A=25 introduce 39/7 switches and never exceed 5/25 consecutive F steps. The repository's claimed lock-in window is steps 25–50, so C_F100 is expected to lock onto F before switching. Its 0/3 result therefore distinguishes repeated alternation from an already-locked single-switch schedule; it does not identify incompatible F/G signals as the cause. Optimizer momentum, repeated distribution shifts, or absence of an uninterrupted lock-in block remain sufficient explanations.
+  Recommendation: Add controls with the same switch count and block lengths but compatible data signals, plus a genuinely interleaved F/G mixture and randomized block orders. Until then, describe the result as schedule-dependent rather than conflict-specific.
+- [high] The claimed seed reproducibility uses the discovery seeds (lab/experiments/EXP-037-alternation-conflict/README.md:82-88)
+  All EXP-037 runs reuse seeds 30–32, whose foreign frequencies and init ranks were already inspected in EXP-020. The new runs replicate across schedules while holding the discovered init/split fingerprints fixed; A=25 is not an independent seed replication. The only fresh-seed evidence cited elsewhere was weaker: one of seeds 33–34 produced no foreign frequency and the init-rank prediction failed. Calling the current overlap seed-reproducible materially overstates a selected, within-seed consistency result.
+  Recommendation: Freeze an exact per-seed overlap statistic and repeat both alternation arms and C_F100 on untouched seeds and splits. Report the current result only as overlap across schedules in three previously explored seeds.
+- [high] P36b's 5/37 chance comparison is not a fair confirmatory test (lab/experiments/EXP-036-init-conflict/README.md:66-73)
+  P36b pools dependent frequency observations and specifies neither a minimum number of evaluable pairs/frequencies nor a false-positive criterion; the implementation can declare it fulfilled from one rank-≤5 frequency, an event with roughly the stated 14% chance. The 5/37 baseline also assumes foreign frequencies are uniformly exchangeable over candidates, although they are selected as final mixed-run top-5 frequencies using the same F/G data, and A is conditioned on the pure runs' final top-5. Finally, rank(F)+rank(G) does not require support by both runs: one excellent and one poor rank can score well. Pre-registration timing does not repair these design defects.
+  Recommendation: Before running EXP-036, define a pair-level statistic with a minimum valid-pair count and an exact permutation/null that reproduces A and top-5 selection. Require a conjunctive score such as max(rank_F, rank_G), use actual candidate-set sizes, and control the decision error rate.
+- [medium] The functional-use headline exceeds the ablation evidence (lab/experiments/EXP-037-alternation-conflict/ablate_foreign.py:1-8)
+  The functional threshold is a descriptive convention—half the median effect of other top-5 components—not a calibrated test. The quoted random controls are sampled outside K and therefore are not matched for spectral prominence. The outputs also contradict the class-wide wording: core frequency 42 has Δloss 0.379 and is labeled "in-between"; several other foreign frequencies are similarly weak, while the A=5 seed-32 model used to label 8, 13, and 50 has only 0.478 test accuracy. Ablation supports dependence on a subset of components, not that conflict frequencies generally form a functional circuit.
+  Recommendation: Report every foreign frequency and denominator, retain the predeclared labels, and restrict circuit claims to generalizing models. Add energy/norm-matched spectral controls, accuracy as a co-outcome, and replication across fresh seeds.
+- [medium] The data do not establish that shared support is tighter than init rank (lab/JOURNAL.md:1234-1239)
+  Among the seven reported frequencies, shared-support rank is better than init rank for only 4 and worse for 3; the lower median and maximum are driven by a few selected cases, with no paired predictive test or held-out scoring. Moreover, step 250 is after the claimed 25–50 lock-in window and after EXP-037's 200-step conflict phase, so it is a downstream pure-run state rather than evidence of support during selection. P36b only thresholds shared-support rank and never compares it with init rank, so even a positive P36b cannot validate the "tighter predictor" claim.
+  Recommendation: Label this strictly as an exploratory candidate. Pre-register a paired held-out comparison against init rank, measured at a pre-lock-in checkpoint, and evaluate predictive performance per fresh seed rather than on the seven selected frequencies.
+
+Next steps:
+- Narrow EXP-037's conclusion to a schedule association in three reused seeds.
+- Add fresh-seed, switch-matched controls before claiming conflict specificity or reproducibility.
+- Redesign P36b before EXP-036 runs so its unit, null, minimum sample, and init-rank comparison are valid.

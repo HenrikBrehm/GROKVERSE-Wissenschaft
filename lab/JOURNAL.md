@@ -1238,6 +1238,16 @@ Position der 7 Kern-Konfliktfrequenzen unter den Kandidaten außerhalb A (≈ 37
 engere Prädiktor; die Fälle 13 und 38 erklärt nur sie. Exploration an denselben Daten, keine Bestätigung. Prüfung an frischen
 Inits: EXP-036 P36b (vorab festgelegt).
 
+**Zyklus 11 (17:15): Codex greift die Schlussfolgerungen von EXP-037 und P36b an** (`EXP-037-alternation-conflict/codex_conclusion_review_2026-09-26.txt`,
+needs-attention). Übernommen: (1) C_F100 trennt nur Wechselplan von Festlegung, nicht Konflikt als Ursache → „vom Wechselplan
+abhängig“, nicht „konfliktspezifisch“; (2) „reproduzierbar“ nur innerhalb der drei explorierten Seeds; (3) P36b ist kein
+kalibrierter Test → nur beschreibend (EXP-036 Nachtrag c), kalibrierte Fassung vor dem EXP-036-Start nachholen; (4) „funktional“
+nur für generalisierende Modelle (34, 22, 8, 13; 42 schwach); (5) „engerer Prädiktor als der Init-Rang“ ist nur ein
+explorativer Kandidat (je Frequenz 4 besser, 3 schlechter; Schritt 250 liegt nach dem Festlegungsfenster). Nichts verworfen.
+Die vorab festgelegten Urteile bleiben unverändert.
+Nebenbei EXP-035 (1 Lauf, kein Urteil): Seed 30, Wechsel bei t = 50 **mit** Warmup endet auf der G-Seite (K = [23, 33, 36, 46, 47]),
+ohne Warmup war t = 50 schon F-lastig (d = +1). Richtung H35 (Warmup verzögert die Festlegung).
+
 ### Abschlussbericht Sitzung 9 (2026-09-26, 14:49–~17:45 Berlin; geschrieben 17:06)
 
 **Wichtigste Befunde:**
@@ -1251,11 +1261,12 @@ Inits: EXP-036 P36b (vorab festgelegt).
 3. **Negativer Befund (Vorab-Vorhersage):** Die in der Exploration auffällige Init-Herkunft „fremder“ Frequenzen hielt an frischen
    Seeds nicht (EXP-020 Nachtrag d: P-d1 1/2, P-d2 verfehlt).
 4. **[[experiments/EXP-037-alternation-conflict/README|EXP-037]] (neu, vorab festgelegt, nach Codex umgebaut):** *gestützt*
-   (A = 5 und A = 25), mit Einschränkung. Belastbar: Anhaltender F/G-Konflikt in der kritischen Periode erzeugt je Seed
-   **reproduzierbar dieselben „Konfliktfrequenzen“**, die das Netz **funktional nutzt** (Ablation Δloss 1.4–5.3), gleiche
-   Exposition ohne Konflikt (C_F100) in 0/3. Ihre Init-Herkunft ist offen.
-5. **Neue Hypothese (post hoc, vorab für EXP-036 festgelegt, P36b):** Konfliktfrequenzen sind die Frequenzen, die **beide**
-   Datensätze früh als Zweitbeste stützen (7/7 auf Kandidatenplatz ≤ 7 von ≈ 37).
+   (A = 5 und A = 25); nach Codex-Angriff eingeengt (Nachtrag c): Wiederholtes F/G-Wechseln in der kritischen Periode erzeugt in
+   den drei explorierten Seeds über Wechselpläne hinweg dieselben fremden Frequenzen, ein einzelner Wechsel nach der Festlegung
+   (C_F100) nicht; in generalisierenden Modellen sind 34, 22, 8, 13 funktional genutzt. Konfliktspezifität, unabhängige
+   Replikation und Init-Herkunft sind **nicht** gezeigt.
+5. **Explorativer Kandidat (post hoc):** Konfliktfrequenzen könnten die Frequenzen sein, die **beide** Datensätze früh stützen
+   (7/7 auf Kandidatenplatz ≤ 7 von ≈ 37). P36b nach Codex nur beschreibend; kalibrierter Test vor dem EXP-036-Start nachholen.
 
 **Vorbereitet, nicht ausgeführt:** [[experiments/EXP-036-init-conflict/README|EXP-036]] (neue Inits, 7 Paare, Paar-Test; Nachträge a, b),
 [[experiments/EXP-038-where-lockin/README|EXP-038]] (Teil-Rücksetzen nach der Festlegung; Nachtrag a), beide nach Codex umgebaut,
@@ -1264,7 +1275,7 @@ EXP-035 lief ab 17:03 an (Smoke ok, Seed 30 „nur F“ mit Warmup); Rest in `qu
 
 **Offene Grenzen:** Alle Transformer-Befunde an einer Architektur und Splits aus einem Generator; EXP-037 an denselben Seeds wie
 die Exploration; Top-5-Maß anfällig für Oberwellen; Konfliktfrequenzen nur an 5 Seeds beschrieben.
-**Codex:** drei Reviews (EXP-036, EXP-037, EXP-038; alle needs-attention), alle Einwände geprüft, fast alle übernommen (nicht:
+**Codex:** vier Reviews (Design EXP-036, EXP-037, EXP-038; Schlussfolgerung EXP-037/P36b; alle needs-attention), alle Einwände geprüft, fast alle übernommen (nicht:
 Init-Label-Permutation für EXP-036, gewichtetes Mischtraining für EXP-037, norm-angepasste Kontrollen für EXP-038; Gründe in den READMEs).
 **Eigene Fehler:** mehrfach geschätzte statt gemessene Uhrzeiten (korrigiert); zweimal Backticks in ungeschützten Heredocs
 (Journaltext repariert, keine Wirkung); versehentlich `git commit -a` mit den uncommitteten Runner-Dateien des Nutzers

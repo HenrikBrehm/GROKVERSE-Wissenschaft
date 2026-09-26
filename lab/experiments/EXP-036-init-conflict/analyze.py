@@ -10,7 +10,7 @@ Unit of inference = pair. Pair evaluable if all runs valid and F_new non-empty.
 Verdict: m evaluable pairs < 5 -> nicht auswertbar; one-sided sign test over pairs p < 0.05 AND mean J < 0.5 ->
 init-getrieben; share of successes <= 0.5 -> nicht init-getrieben; else unklar.
 Descriptive only: frequency-level pooled counts, symmetric statistic on the fresh-old pairs (33, 34), test accuracies.
-Nachtrag b (secondary prediction P36b, fixed before any EXP-036 run): pooled over all evaluable pairs, >= 75 % of the
+Nachtrag b (secondary prediction P36b, fixed before any EXP-036 run; Nachtrag c: descriptive only): pooled over all evaluable pairs, >= 75 % of the
 distinct new foreign frequencies have shared-support rank <= 5 (rank among candidates outside A by F@250 + G@250 of the
 pure runs of the SAME new init) -> erfuellt; chance ~ 5/37.
 Usage: python analyze.py [--selftest]
@@ -100,7 +100,7 @@ def main() -> None:
     m, k = len(succ), sum(succ)
     ssr = [v for r in rows if r.get("shared_support_rank") for v in r["shared_support_rank"].values() if v]
     p36b = (f"{sum(v <= 5 for v in ssr)}/{len(ssr)} with rank <= 5 -> "
-            + ("erfuellt" if ssr and sum(v <= 5 for v in ssr) / len(ssr) >= 0.75 else "nicht erfuellt")) if ssr else None
+            + "descriptive only (Nachtrag c, no verdict)") if ssr else None
     summary = {"rows": rows, "pairs_evaluable": m, "successes": k, "p_sign_pairs": sign_p(k, m) if m else None,
                "P36b_shared_support_secondary": p36b,
                "mean_J": float(np.mean(jac)) if jac else None, "verdict": verdict(succ, jac),

@@ -72,6 +72,15 @@ verschiedenen neuen fremden Frequenzen einen solchen Unterstützungsrang ≤ 5 (
 neuen Init**) → *erfüllt*; Zufall ≈ 5/37 ≈ 14 %. Code: `shared_support_ranks` in `analyze.py`, geprüft an den
 Explorationsdaten (Seed 30: 34 → 1; Seed 32: 13 → 2, 8 → 4).
 
+## Nachtrag c (17:15 Berlin, nach Codex, **vor jedem EXP-036-Lauf**): P36b nur beschreibend
+
+Codex: P36b ist kein kalibrierter Test (abhängige Frequenzen gepoolt, keine Mindestzahl, Zufallsniveau 5/37 nicht realistisch
+bei der Auswahl über Top-5 und A, Summe der Ränge verlangt keine Unterstützung durch beide, Schritt 250 liegt nach dem
+Festlegungsfenster). **Übernommen:** P36b wird **nur beschreibend** berichtet, ohne Urteil. Eine kalibrierte Fassung (Paar als
+Einheit, Permutations-Null, die A und die Top-5-Auswahl nachbildet, konjunktives Maß wie max(Rang_F, Rang_G), Vergleich mit dem
+Init-Rang, Messung vor dem Festlegungsfenster: dafür wären Spektren alle 10 Schritte nötig) gehört in einen eigenen Nachtrag
+**vor** dem Start von EXP-036. Das Haupturteil zu H36 ist davon unberührt.
+
 ## Reproduktion
 
 ```

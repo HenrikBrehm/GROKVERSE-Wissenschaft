@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-26, 20:44 Berlin (Sitzung 13). Nächster Runner-Start laut runner-state.json: 00:59 Berlin._
+_Zuletzt aktualisiert: 2026-09-26, 21:00 Berlin (Sitzung 13). Nächster Runner-Start laut runner-state.json: 00:59 Berlin._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]]
 
@@ -21,7 +21,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
    `lab/STOP` anlegen → Exit 3 und Kind beendet? **STOP sofort wieder löschen**, im JOURNAL vermerken. Scheitert es: Blocker in LIVE.
 3. Tests: `python lab/tools/guarded_run.py -- python lab/tools/result_loader.py` (Selbsttest) und
    `python lab/tools/guarded_run.py --min-minutes 5 -- python lab/tests/test_freq_ban_fingerprint.py` (Fingerprint, Legacy-Prüfung,
-   Sperre, atomare Arrays, Artefaktprüfung; kleine CPU-Läufe im Temp-Ordner). Scheitert etwas: beheben, bevor Queues starten.
+   Sperre, atomare Arrays, Artefaktprüfung; kleine CPU-Läufe im Temp-Ordner) und
+   `python lab/tools/guarded_run.py -- python lab/tests/test_night_program.py` (Ablaufsteuerung, simulierte Jobs). Scheitert etwas: beheben, bevor Queues starten.
 4. GPU: `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1` im Hintergrund (Plan: `--dry-run`). Beginnt mit GPU-001
    (Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 → 048 → 049 → 044 → 045.
    Wiederaufnahme = derselbe Befehl (Fertiges wird per Fingerprint übersprungen). Status: `lab/runner/logs/night_*/night_status.json`.

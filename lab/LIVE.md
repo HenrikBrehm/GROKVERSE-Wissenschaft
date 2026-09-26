@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 19:59 Berlin (17:59Z, vom Runner)
 - **Deadline:** 2026-09-26 22:59 Berlin (20:59Z)
-- **Zuletzt aktualisiert:** 20:51 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 21:00 Berlin (gemessen)
 - **Run-Fenster:** zu. **Neu (Regel 18, Nutzer 20:30): heute Nacht Läufe erst ab 03:00.** Bis dahin setze ich den Astra-Review als Code um.
 
 ## Gerade
 
-Ich setze den Astra-Review um (Regel 18). Erledigt, aber erst ab 03:00 testbar: eindeutige Fingerabdrücke für Läufe (kein falsches Überspringen mehr), korrekte GPU-Durchsatzmessung, ein gemeinsamer Ergebnislader, ein neues Programm für die GPU-Nacht statt Shell-Skripten, STATE auf eine Seite gekürzt, FINDINGS als Forschungsprogramm A/B/C.
+Die Zweitprüfung der neuen Technik ist durch (kein schwerer Fehler), die Befunde sind eingearbeitet. Tests für das Nachtprogramm sind geschrieben.
 
 ## Als Nächstes
 
-Ein Subagent prüft die neue gemeinsame Technik (Trainer, Ergebnislader, Nachtprogramm). Danach Befunde einarbeiten; bis 03:00 läuft nichts.
+Bis zum Sitzungsende (22:59) Stand sichern. Ab 03:00 übernimmt die nächste Sitzung: erst Wächter-Abnahme und Tests, dann GPU-001, dann die Versuche.
 
 ## Verlauf dieser Sitzung
 
+- 21:00 Zweitprüfung der gemeinsamen Technik: keine Blocker; zwei mittlere Punkte behoben (alte GPU-Prüfläufe würden nach Code-Änderung wiederverwendet; CPU-Last vor der GPU-Abnahme zu hoch bemessen). Tests für das Nachtprogramm ergänzt.
 - 20:51 Nachtprogramm auch für die CPU-Versuche gebaut; die schon fertigen Läufe werden erkannt und nicht wiederholt. Tests für die neuen Sicherungen geschrieben (laufen ab 03:00).
 - 20:45 **Regel 18 entdeckt (Nutzer-Auftrag von 20:30)** und umgesteuert: Plan der Nacht geändert (Läufe erst ab 03:00, vorher Umbau nach dem Astra-Review). Sechs von acht Code-Punkten stehen (ungetestet).
 - 20:33 **EXP-050 verbessert:** Die Prüfung fand eine versteckte Nebenwirkung. Die gleichphasigen Trainingsmengen enthalten viel mehr „Spiegelpaare“ (a+b und b+a), und die lernt ein Netz schneller. Neue Kontrolle „quadlm“ mit gleich vielen Spiegelpaaren gebaut.

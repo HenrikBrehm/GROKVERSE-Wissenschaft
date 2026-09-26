@@ -535,3 +535,11 @@ Die Kohortenaussage aus Zyklus 9 ist damit für den Rang bestätigt, für die Le
 (EXP-019 README). Numerisch exakt bestätigt (≤ 5e-15); bei kommutationssymmetrischen Masken M0c = 2·M0. Der Unterschied
 M0c − M0 misst also nur die Kommutations-Asymmetrie des Splits. Literatur: Symmetrie und Grokking-Tempo bekannt
 (2411.05353), Bezug zur Frequenzwahl nicht gefunden → [[NOVEL_DIRECTIONS]] N8, niedrige Priorität, nicht vorbereitet.
+
+**Zyklus 13 (06:41–06:43, neue Frage): EXP-022 „Ein-Frequenz-Lösung per Datenauswahl?“ vorbereitet.** Frage: Kann die
+Datenauswahl nicht nur vorgeben, **welche**, sondern auch **wie viele** Frequenzen gelernt werden? Literatur: Mehrere
+Frequenzen gelten als Robustheitsmechanismus (He et al. 2026, Mehrheitsabstimmung); ein Eingriff, der eine
+Ein-Frequenz-Lösung erzwingt, wurde nicht gefunden (vorläufig). Beim Bau gefunden und vor jedem Lauf behoben: Mit ε = 2
+und nur einem Ziel erzeugt das Clipping q ≥ 0.05 Harmonische 2k, 3k, 6k im Masken-Spektrum (Seed 42: 14 → 28, 42, 29).
+S1 nutzt deshalb ε = 0.9 ohne Clipping (Top-1-Anteil 0.136–0.158 statt ≈ 0.02). Drei konkurrierende Vorhersagen im README.
+Nicht ausgeführt.

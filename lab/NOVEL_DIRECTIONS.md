@@ -210,3 +210,14 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   Kreuzterm wurde nicht gefunden (vorläufig).
 - **Einordnung:** Mechanismusdetail, niedrige Priorität. Mögliche billige Prüfung: symmetrisierter Split (gleiche
   ungeordnete Paare, beide Reihenfolgen) gegen asymmetrischen, Frequenzwahl und gen vergleichen. Nicht vorbereitet.
+
+## N9: Wie viele Frequenzen? Ein-Frequenz-Lösung per Datenauswahl #neu/kandidat
+
+- **Frage:** Lässt sich über einen spektral auf **eine** Frequenz konzentrierten Split eine Ein-Frequenz-Lösung
+  erzwingen, und generalisiert sie (Robustheitsargument von He et al. 2026)?
+- **Versuch:** [[experiments/EXP-022-single-frequency/README|EXP-022]] (vorbereitet).
+- **Suche 2026-09-26:** „force neural network to learn single Fourier frequency modular arithmetic minimal circuit fewer
+  frequencies generalization data intervention“, „modular addition network number of key frequencies why multiple
+  frequencies single frequency solution sufficient margin robustness grokking“. Nächstverwandt: He et al. 2026
+  (https://arxiv.org/abs/2602.16849, Mehrheitsabstimmung über Frequenzen und Phasen); Nanda et al. 2023 (3–8 Frequenzen).
+  Ein Dateneingriff zur Zahl der Frequenzen wurde nicht gefunden (vorläufig).

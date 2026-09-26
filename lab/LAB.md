@@ -40,3 +40,4 @@ nutzt ([[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]).
 | [[experiments/EXP-019-coherent-mask/README\|EXP-019]] Kohärentes Masken-Spektrum M0c gegen M0 | vorbereitet | Post hoc richtungsgleich (0.280 vs. 0.307; 0.222 vs. 0.277), n. s.; Bestätigung an 12 frischen Seeds ohne eigene Läufe |
 | [[experiments/EXP-020-data-switch/README\|EXP-020]] Datenwechsel F → G: kausale Festlegungszeit der Frequenzwahl | vorbereitet | Seeds 30–34, gleiches G-Budget, Intervallzensur; nach Codex-Review umgebaut; noch kein Lauf |
 | [[experiments/EXP-021-harmonic-misses/README\|EXP-021]] Fehlgriffe = zweite Harmonische der Ziele? (Bestätigung) | vorbereitet | Post hoc 14/14 in EXP-016 Seeds 10–15; Bestätigung an 18 frischen Läufen ohne eigenes Training |
+| [[experiments/EXP-022-single-frequency/README\|EXP-022]] Erzwingt ein Ein-Frequenz-Split eine Ein-Frequenz-Lösung? | vorbereitet | Seeds 40–44, Arme S1/S5/R, feste Testmenge; drei konkurrierende Vorhersagen; noch kein Lauf |

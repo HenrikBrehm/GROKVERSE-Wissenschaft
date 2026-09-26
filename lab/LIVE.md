@@ -5,18 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 14:49 Berlin (12:49Z, vom Runner)
 - **Deadline:** 2026-09-26 17:49 Berlin (15:49Z)
-- **Zuletzt aktualisiert:** 16:22 Berlin
+- **Zuletzt aktualisiert:** 16:50 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-EXP-037 läuft (F und G wechseln sich in den ersten 200 Schritten ab; 9 Läufe, bis ~17:05). Danach EXP-035 bis zur Deadline.
+EXP-037 Nebenarm (A = 25) läuft, 3 Läufe bis ~17:05. Danach startet die Warteschlange EXP-035 (Warmup), soweit die Zeit reicht.
 
 ## Als Nächstes
 
-EXP-037 auswerten, Ablation der fremden Frequenzen, Abschlussbericht (ab ~17:35).
+A = 25 nachtragen, dann Abschlussbericht (ab ~17:35).
 
 ## Verlauf dieser Sitzung
+
+- 16:50 **EXP-037 Ergebnis (vorab festgelegt: gestützt):** Wechseln sich F und G in den ersten 200 Schritten ständig ab, entstehen in allen 3 Seeds „Konfliktfrequenzen“, und zwar jeweils dieselben wie beim frühen Einzelwechsel. Gleiche Datenmenge ohne Wechselspiel: keine. Die Konfliktfrequenzen werden wirklich genutzt (Entfernen kostet so viel wie bei Zielfrequenzen). **Ob sie aus der Initialisierung stammen, bleibt offen.**
+
+- 16:31 **EXP-038 vorbereitet:** Nach der Festlegung wird entweder nur das Embedding oder alles andere zurückgesetzt. Hält das Netz dann an F fest? Codex: 3 Einwände, alle eingebaut.
+- 16:31 EXP-037, erste Läufe: Im Wechselspiel tauchen dieselben fremden Frequenzen auf wie beim Einzelwechsel desselben Seeds (34 bzw. 22).
 
 - 16:22 **EXP-020 abgeschlossen:** In allen 5 Seeds legt sich das Netz zwischen Schritt 25 und 50 fest. Das vorab festgelegte Urteil lautet trotzdem „nicht bestätigt“ (4 von 5), weil eine zu strenge Regel an einer Oberwelle hängen blieb. **Die Init-Deutung der fremden Frequenzen hält an neuen Seeds nicht.** EXP-028: teilweise.
 

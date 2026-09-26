@@ -41,6 +41,26 @@ Ein linearer Warmup über W = 200 Schritte macht die Strecke in den ersten Schri
 **Neuheit:** vorläufig; EXP-020 selbst ist nach der Suche vom 2026-09-26 nicht gefunden, Warmup als Eingriff in die kritische
 Periode der Frequenzwahl ebenso wenig (nicht gezielt gesucht, nachholen).
 
+## Nachtrag a (2026-09-26 13:47 Berlin, nach Codex-Review `codex_review_2026-09-26.txt`, vor jedem EXP-035-Lauf): gilt allein, wo abweichend
+
+Codex: needs-attention, 3 × high, 2 × medium, alle zutreffend und **übernommen**:
+1. *Der Warmup lief nach dem Wechsel weiter*, die G-Phase hätte je nach t ein anderes Lernratenbudget gehabt. → Warmup nur
+   während F; ab dem ersten G-Schritt volle Lernrate. Die G-Phase ist damit in allen Armen gleich (2000 Schritte, lr 1e-3).
+   Referenz t = 0 ist deshalb der EXP-020-Lauf „nur G“ (identisch), kein neuer Lauf.
+2. *Σ lr ist nicht die Parameterstrecke.* → Die Hypothese heißt jetzt nur noch **„die Festlegung hängt am Lernratenplan“**
+   (Richtung H35); zusätzlich wird am Umschaltschritt die gemessene Strecke ‖θ − θ₀‖ (alle Parameter und W_E) gespeichert
+   und beschreibend berichtet. Eine Aussage „folgt der Parameterstrecke“ wird nicht als Urteil vergeben.
+3. *Nicht monotone Kurven oder Kreuzungen nach der Generalisierung konnten mitzählen.* → Ein Seed ist nur auswertbar, wenn
+   beide Kurven (mit und ohne Warmup) monoton sind, gen_F in beiden beobachtet ist und beide Kreuzungen vor gen_F liegen.
+4. *Gitter-Randfall* (Grundlinie (0, 10] gegen Warmup-Gitter ab 25). → t = 10 ins Warmup-Gitter; Einordnung
+   intervallsicher: **verzögert** nur, wenn lo_w ≥ hi_b; **gleich** nur bei identischem Intervall; sonst **unklar**.
+5. *Metadaten ungeprüft.* → Die Auswertung prüft Warmup-Flag (200 bzw. 0), lr/Weight Decay/β und die gemeinsame
+   Init-Prüfsumme aller Läufe eines Seeds, sonst nicht auswertbar.
+Entscheidung neu: ≥ 3 auswertbare Seeds; alle *verzögert* → ***Festlegung hängt am Lernratenplan: Warmup verzögert***;
+alle *gleich* → ***Festlegung folgt der Schrittzahl***; sonst ***unklar***. Gitter mit Warmup: t ∈ {10, 25, 50, 100, 150, 250, ∞}.
+Die Warteschlange beginnt mit einem 60-Schritte-Smoke (Wechsel bei 30), der Wechsel- und Streckenereignis prüft.
+Code-Commit des Nachtrags: b231fc6.
+
 ## Befehle
 
     sh lab/experiments/EXP-035-warmup-lockin/queue.sh 30 31 32

@@ -13,7 +13,7 @@ und MLPs. Die Studie (`RESULTS.md`) ist historisch, neue Befunde stehen nur hier
 - [[NOVEL_DIRECTIONS]]: Kandidaten, die für die Forschung neu sein könnten, mit Literaturprüfung
 - [[BEFUND-split-mechanismus]]: Wie der Trainingssplit die Frequenzen auswählt (Stand Sitzung 5, überwiegend explorativ)
 
-**Lage (2026-09-26, Sitzung 5):** Sitzung 5 lief ohne Training (Start der Warteschlange vom Auto-Mode-Klassifikator abgelehnt, siehe [[STATE]]). Bestätigt ist weiterhin: Das Masken-Spektrum des Trainingssplits sagt die gelernten Frequenzen voraus (EXP-015), und konstruierte Splits geben sie vor (EXP-016, 6/10 Seeds). Neu, post hoc: Mechanismus über Positions-Interferenz im ersten Gradienten (M0c) und 2k-Harmonische als „Fehlgriffe“, siehe [[BEFUND-split-mechanismus]]. Vorbereitet: EXP-018 bis EXP-022, Warteschlange `queue_s5.sh`.
+**Lage (2026-09-26, Sitzung 5):** Nach der Freigabe des Nutzers lief ab 07:30 wieder Training. **EXP-016 ist abgeschlossen: Konstruierte Splits geben die gelernten Frequenzen vor** (10/10 Seeds, Δ̄ +7.7 von 10, p ≈ 0.001; alle Abweichungen sind 2k-Harmonische). Bestätigt ist außerdem: Das Masken-Spektrum des Trainingssplits sagt die gelernten Frequenzen voraus (EXP-015). Neu, post hoc: Mechanismus über Positions-Interferenz im ersten Gradienten (M0c) und 2k-Harmonische als „Fehlgriffe“, siehe [[BEFUND-split-mechanismus]]. Vorbereitet: EXP-018 bis EXP-022, Warteschlange `queue_s5.sh`.
 
 **Lage (2026-09-25, Sitzung 3):** Alle Trainingsversuche sind vorbereitet, aber noch nicht
 gelaufen, weil alle bisherigen Sitzungen außerhalb des Fensters 00:00–13:00 Berlin lagen. Die

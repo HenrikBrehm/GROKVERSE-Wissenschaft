@@ -2443,7 +2443,7 @@ Grokking weiter, ein Abklingen wie bei Zhou et al. zeigt sich nicht. Grenzen: F 
 der eigenen Top-5 in Zufallssplit-Läufen genauso wächst (das wäre ein allgemeines Verdichten durch Weight Decay, keine Besonderheit des Splits). *Entscheidung:* als Randnotiz in
 [[NOVEL_DIRECTIONS]] (Nachprüfung Sitzung 20). Kein neuer Versuch (Regel 15b). Längere Zeitskala liefert EXP-045 (MLP, bis 10 000 Schritte) aus dem Nachtprogramm.
 
-**Zyklus 2 (Kontrolle zu Zyklus 1: Ist das Verdichten nach dem Grokking eine Wirkung des Splits? bis 01:37 gemessen).** *Frage:* Wächst der Leistungsanteil einer festen Top-5-Menge
+**Zyklus 2 (Kontrolle zu Zyklus 1: Ist das Verdichten nach dem Grokking eine Wirkung des Splits? bis 01:34 gemessen).** *Frage:* Wächst der Leistungsanteil einer festen Top-5-Menge
 auch in Läufen mit Zufallssplit nach dem Grokking? *Vorgehen:* `posthoc_postgen_control.py` (EXP-016-Ordner), nur gespeicherte Daten. Zufallsreferenz: Studienläufe Seeds 0–9
 (gleiche Konfiguration, 25 000 Schritte). Menge S = Top-5 beim ersten Messpunkt ≥ gen (verzerrt gegen Wachstum) bzw. am Ende (verzerrt dafür), dasselbe für EXP-016. Anteil bei gen und bei gen + 750/1500.
 *Ergebnis:* Zufallssplit: +0.11 ± 0.03 (+750) bzw. +0.19 ± 0.03 (+1500), 10/10 steigen (S bei gen; S am Ende +0.13/+0.22). EXP-016: +0.23 ± 0.04 bzw. +0.28 ± 0.08, 20/20.

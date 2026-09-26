@@ -12,7 +12,7 @@ und MLPs. Die Studie (`RESULTS.md`) ist historisch, neue Befunde stehen nur hier
 - [[BACKLOG]]: priorisierte Forschungsfragen
 - [[NOVEL_DIRECTIONS]]: Kandidaten, die für die Forschung neu sein könnten, mit Literaturprüfung
 - [[BEFUND-split-mechanismus]]: Wie der Trainingssplit die Frequenzen auswählt (Stand Sitzung 5, überwiegend explorativ)
-- [[FINDINGS]]: **Kernaussagen auf einer Seite** (Synthese mit Belegen, Literatur, größte offene Frage)
+- [[FINDINGS]] · [[LESART-nacht-2026-09-27]]: **Kernaussagen auf einer Seite** (Synthese mit Belegen, Literatur, größte offene Frage)
 - [[BEFUND-festlegung]]: Wann und warum sich die Frequenzwahl festlegt (Stand Sitzung 10, Beobachtungen, Einschränkungen, Hypothesen mit Tests)
 
 **Lage (2026-09-26, Sitzung 11):** Außerhalb des Fensters. Neu: Synthese [[FINDINGS]]; die Grafikkarte ist vorbereitet (Prüfung [[experiments/GPU-001-equivalence/README|GPU-001]] mit vorab festgelegten Kriterien); der erste Verallgemeinerungsversuch [[experiments/EXP-043-generalize-steering/README|EXP-043]] (Steuerung über die Daten bei Addition mod 97 und Multiplikation mod 113, 10 Seeds, GPU) ist festgelegt und läuft nach bestandener GPU-Prüfung.

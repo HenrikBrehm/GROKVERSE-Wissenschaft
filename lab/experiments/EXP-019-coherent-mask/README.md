@@ -44,3 +44,6 @@ Der tatsächliche erste Gradient an W_E folgt M0c deutlich besser als M0: gemitt
 ρ 0.773 gegen 0.571, 10/10; eine Init pro Seed (Seeds 0–17) 0.572 gegen 0.422, 17/18, p 1.1e-5. Fremde Maske ≈ 0.
 Skripte `EXP-015-mask-spectrum/posthoc/coherent_vs_*.py`. Das stützt die Herleitung, sagt aber noch nichts darüber,
 ob M0c die **finalen** Frequenzen besser vorhersagt (das bleibt H19).
+Präzisierung (06:37, nach Codex und direkter Messung `posthoc/positional_gradient.py`): Nicht „kohärent addiert“ im Sinn
+gleicher Phase. Über alle Frequenzen heben sich die Kreuzterme zwischen linker und rechter Position auf; frequenzweise
+folgt der gemessene Kreuzterm dem Masken-Kreuzterm M0c − M0 (ρ 0.50, 18/18 Seeds positiv, fremde Maske −0.09).

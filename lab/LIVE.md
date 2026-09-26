@@ -5,19 +5,24 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 05:49 Berlin (03:49Z, vom Runner)
 - **Deadline:** 2026-09-26 08:49 Berlin (06:49Z)
-- **Zuletzt aktualisiert:** 06:23 Berlin
+- **Zuletzt aktualisiert:** 06:41 Berlin
 - **Run-Fenster:** offen (00:00–13:00 Berlin), Wächter `--check` ok.
 
 ## Gerade
 
-Keine Trainingsläufe (Queue-Start abgelehnt, siehe [[STATE]]). Theorie-Zyklus: Das kohärente Masken-Spektrum M0c
-beschreibt den ersten Gradienten viel besser als M0. Als Nächstes: Herleitung sauber aufschreiben.
+Keine Trainingsläufe (Queue-Start abgelehnt, siehe [[STATE]]). Auswertung an gespeicherten Modellen: Die „Fehlgriffe“
+in EXP-016 sind 2k-Frequenzen der Ziele; sie sind im fertigen Netz nachrangig, aber nicht bedeutungslos.
 
 ## Als Nächstes
 
-Kurze Herleitung M0c aus einem linearisierten Modell (Notiz), dann weitere Literatur (Google Scholar) zu N6.
+STATE sichern; danach Zeitverlauf der 2k-Komponenten an Studien-Checkpoints (gleiche Seeds) oder Theorie-Notiz.
 
 ## Verlauf dieser Sitzung
+
+- 06:38 Ablation an Studienmodellen: 2k-Frequenzen sind die unwichtigsten der Top-5 (8/8), aber nicht null; Phasenkopplung nur teilweise.
+- 06:35 **Direkte Messung:** Linke und rechte Eingabeposition interferieren im ersten Gradienten frequenzweise wie vom Masken-Kreuzterm vorhergesagt (18/18 Seeds). Codex-Angriff auf die Schlussfolgerungen: 5 Befunde, Formulierungen zurückgestuft.
+- 06:26 Alle 14 „Fehlgriffe“ in EXP-016 sind 2k-Harmonische der Zielfrequenzen (post hoc); Sekundärgröße K_h für Seeds 16–19 vorab festgelegt.
+- 06:24 Negativ: Fehlgriffe nicht aus Maske (M0c) und nicht aus dem Init-Spektrum.
 
 - 06:22 **Mechanismus:** Der erste Gradient folgt dem kohärenten Masken-Spektrum M0c (ρ 0.77) deutlich besser als M0 (0.57), 10/10 Seeds.
 - 06:21 Neue Warteschlange `queue_s5.sh` (Priorität: EXP-016 fertig → Baselines → EXP-018/020-Smokes → EXP-018 → EXP-014 → EXP-020).

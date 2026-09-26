@@ -506,3 +506,19 @@ Messzeitpunkt von K beachten.
 5. [medium] *„Oberwellen wachsen spät“ ist ein Kohortenvergleich.* **Übernommen:** zurückgestuft auf „Seeds 0–9 bei 25k
    zeigen häufiger K ≠ K_h als Seeds 10–17 direkt nach dem Grokking“. Ein Zeitverlauf an denselben Seeds steht aus
    (Studien-Checkpoints existieren, reine Auswertung).
+
+**Zyklus 10 (06:37, post hoc, Inferenz an Studienmodellen, kein Training): Oberwelle oder eigenständig genutzte
+Frequenz?** `EXP-016-engineered-split/posthoc_overtone_test.py`, Seeds 0–9 (25k, `model_final.pt`), alle 10 Paare
+(k, fold(2k)) in der W_E-Top-5. (1) **Ablation** (Frequenz aus W_E[:p] herausprojiziert, Testverlust auf dem Studien-
+Testsplit): In allen 8 Paaren, in denen 2k das schwächere Glied ist (Leistungsverhältnis 0.02–0.38), kostet das
+Entfernen von 2k **weniger als das Entfernen jedes anderen Top-5-Glieds** (Δloss 0.0007–0.12, Acc ≥ 0.96; andere
+Top-5-Glieder 0.005–22; k selbst 0.9–8.5). Unter Zufall (je Paar 1 von 4 Kandidaten) wäre 8/8 ≈ 1.5e-5; das Kriterium
+wurde aber erst beim Lesen der Tabelle gewählt, also explorativ. Eine zufällige Nicht-K-Frequenz kostet ≈ 0, 2k also
+etwas mehr als nichts. (2) **Phasenkopplung** über die Embedding-Dimensionen (axiale Resultante von ψ_j − 2φ_j, nur
+Dimensionen mit beiden Amplituden über dem Median): Mittel 0.31 gegen 0.15 in der Kontrolle (k mit anderen Top-5-Gliedern),
+deutlich nur in 3/10 Paaren (0.69, 0.56, 0.39), sonst auf Kontrollniveau.
+**Befund (explorativ, gemischt):** Die schwächeren 2k-Glieder sind funktional nachrangig (am wenigsten wichtig in der
+Top-5), aber nicht bedeutungslos; eine reine Oberwelle einer gemeinsamen Wellenform ist nur in einem Teil der Paare
+nachweisbar. Die Formulierung „nur Oberwelle“ ist zu ersetzen durch: **„nachrangige, teils phasengekoppelte
+2k-Komponente“**. Nebenbefund: Auch nicht-harmonische Top-5-Glieder können fast unwichtig sein (Seed 5, k = 14:
+Δloss 0.002). Die W_E-Top-5 ist also als K-Definition verrauscht; die Studie hat dafür eigene Regeln (`nanda` u. a.).

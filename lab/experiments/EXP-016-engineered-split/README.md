@@ -84,3 +84,6 @@ werden Δ_h analog zu Δ und der Anteil der Nicht-Ziel-Frequenzen in K, die Harm
 Vorschau an Seeds 10–15 (06:28, Regel war vorher festgelegt): Δ_h = 8, 9, 7, 9, 8, 9 (Δ = 8, 7, 7, 7, 8, 9); 14/14
 Nicht-Ziel-Frequenzen sind Harmonische eines Ziels. **Grenze von K_h:** Die Regel entfernt auch echte Ziele, wenn zwei
 Ziele zufällig harmonisch verwandt sind (Seed 14 F: 13 = fold(2·50) wurde entfernt). K_h bleibt deshalb sekundär.
+Korrektur (06:37, nach Codex): Die oben „funktional“ genannten Schlüsselfrequenzen der Studie sind die Regel `nanda`
+(Fourier-Norm von W_L = W_out·W_U mit Schwelle), **keine Ablation**. Die Deutung „2k ist nur Oberwelle“ ist damit noch
+nicht belegt; siehe JOURNAL (Codex-Angriff Sitzung 5) und den Ablationstest danach.

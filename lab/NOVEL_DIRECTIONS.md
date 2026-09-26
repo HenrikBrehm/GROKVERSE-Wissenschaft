@@ -300,6 +300,12 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   schon 50 Schritte mit 3x + x² legen die F-Neigung des danach reinen x²-Netzes fest (5/5, Plateau bis 2500); formal
   *Anker ok, Trend n. s.*, weil der Rangtest nicht zur Stufenform passte. Feinere Auflösung: [[experiments/EXP-032-early-lockin/README|EXP-032]].
   Die ursprüngliche Idee (Umschlagpunkt als Amplitudenuhr) ist **verworfen**, nicht getestet.
+- **Suche 10:48 (Sitzung 7) zur frühen Festlegung:** „early training critical period first steps determine learned features
+  grokking modular arithmetic activation function switch during training“. Nächstverwandt: Achille et al. 2019, *Critical
+  Learning Periods* (https://arxiv.org/abs/1711.08856, frühe Defizite wirken bleibend); Frankle et al. 2020, *The Early Phase
+  of Neural Network Training* (https://arxiv.org/abs/2002.10365). Dass wenige Dutzend Schritte mit einem ungeraden
+  Aktivierungsanteil festlegen, welche Fourier-Frequenzen ein danach rein quadratisches Netz nutzt: **nicht gefunden**
+  (vorläufig). Die allgemeine Aussage „frühe Phase legt fest“ ist bekannt.
 
 ## N13: Memorisierung prägt das Masken-Spektrum ein, Generalisierung verdrängt Teile durch 2k-Oberwellen #neu/kandidat
 

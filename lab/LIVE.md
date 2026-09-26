@@ -5,14 +5,13 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 08:59 Berlin (06:59Z, vom Runner)
 - **Deadline:** 2026-09-26 11:59 Berlin (09:59Z)
-- **Zuletzt aktualisiert:** 10:32 Berlin
+- **Zuletzt aktualisiert:** 10:48 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-**[[experiments/EXP-027-width-selection/README|EXP-027]] läuft** (Breiten 32–256, schnell). Danach von selbst:
-[[experiments/EXP-032-early-lockin/README|EXP-032]] (Wie früh legt sich das Netz fest? 20 Läufe, ~30 min) →
-EXP-027b (frische Splits, ~15 min) → EXP-025 → queue_s5.
+**[[experiments/EXP-032-early-lockin/README|EXP-032]] läuft** (6/20, Ende ~11:10): Wie viele Schritte mit linearem Anteil
+reichen, um die Frequenzwahl festzulegen: 1, 5, 10 oder 20? Danach von selbst EXP-027b (~15 min) → EXP-025.
 
 ## Als Nächstes
 
@@ -20,6 +19,7 @@ Auswertungen in dieser Reihenfolge, sobald die Läufe fertig sind. Sitzungsende 
 
 ## Verlauf dieser Sitzung
 
+- 10:38 EXP-027 *nicht auswertbar* (32er-Netze generalisieren nicht); beschreibend kein Breiten-Trend. Wiederholung EXP-027b mit frischen Splits vorab festgelegt.
 - 10:32 **EXP-026 fertig:** Schon 50 Schritte mit Aktivierung 3x + x² legen die Frequenzwahl eines x²-Netzes fest (5/5, danach ändert sich nichts mehr). Der vorab gewählte Test passte nicht zur Stufenform → formal n. s.; Folgeversuch EXP-032 mit feinem Raster festgelegt.
 - 10:10 EXP-031 zurückgestellt: Codex zeigte, dass der Versuch so nicht trennen kann, ob die Init oder der Split wirkt. Umbau später.
 - 10:02 **Neu: EXP-031 vorab festgelegt:** Eingriff statt Korrelation. Einbettung von Lauf A bei Schritt 500 in Lauf B verpflanzen; folgt die Frequenzwahl A oder B? Codex prüft.

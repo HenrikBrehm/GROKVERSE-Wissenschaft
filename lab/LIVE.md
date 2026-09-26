@@ -1,37 +1,21 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 13 – **Sitzung beendet**
+# LIVE: Laborsitzung 14
 
-- **Sitzungsstart:** 2026-09-26 19:59 Berlin (17:59Z, vom Runner)
-- **Deadline:** 2026-09-26 22:59 Berlin (20:59Z)
-- **Zuletzt aktualisiert:** 21:10 Berlin (gemessen). **Status: Sitzung beendet.** Nächster geplanter Start: **00:59 Berlin** (runner-state.json, 22:59Z).
-- **Run-Fenster:** zu. **Neu (Regel 18, Nutzer 20:30): heute Nacht Läufe erst ab 03:00.** Bis dahin setze ich den Astra-Review als Code um.
+- **Sitzungsstart:** 2026-09-26 21:19 Berlin (19:19Z, vom Runner)
+- **Deadline:** 2026-09-27 00:19 Berlin (22:19Z)
+- **Zuletzt aktualisiert:** 21:22 Berlin (gemessen).
+- **Run-Fenster:** zu. Heute Nacht Läufe erst ab 03:00 (Regel 18). Diese Sitzung: nur Code, Rechnung auf Dateien, Literatur.
 
 ## Gerade
 
-Nichts läuft. Alles ist gesichert und committet. Heute Nacht laufen Versuche erst ab 03:00 (Regel 18).
+Ich lege eine **vorab eingefrorene Vorhersage** an: Für die 20 noch nicht gelaufenen Zufallssplit-Läufe von EXP-043 (Addition mod 97, Multiplikation mod 113) sage ich die gelernten Frequenzen nur aus dem Split voraus (M0, M0c, Häufigkeiten). Die Vorhersage wird vor den Läufen committet. So wird K1 an unberührten Fällen geprüft, ohne zusätzliches Training.
 
 ## Als Nächstes
 
-Nächste Sitzung 00:59: bis 03:00 nur Planung; ab 03:00 Wächter-Abnahme, Tests, dann GPU-Abnahme und die Nachtversuche (Schritte in STATE).
+Vorhersagedatei erzeugen und committen, Auswertung schreiben, unabhängig prüfen lassen.
 
 ## Verlauf dieser Sitzung
 
-- 21:10 Letzte Kontrolle: Nachtprogramm GPU (436 Befehle) und CPU (274) im Probedurchlauf fehlerfrei, alle Dateien vorhanden. Sitzung beendet.
-- 21:10 **Neuer Funktionstest EXP-051** vorbereitet: Nutzt das Netz die gesteuerten Frequenzen wirklich? Wird ohne neues Training an den heute Nacht gespeicherten EXP-047-Modellen geprüft. Die Prüfung fand einen Denkfehler in der Kontrolle (unmöglicher Energieabgleich), vor jedem Lauf behoben.
-- 21:00 Zweitprüfung der gemeinsamen Technik: keine Blocker; zwei mittlere Punkte behoben (alte GPU-Prüfläufe würden nach Code-Änderung wiederverwendet; CPU-Last vor der GPU-Abnahme zu hoch bemessen). Tests für das Nachtprogramm ergänzt.
-- 20:51 Nachtprogramm auch für die CPU-Versuche gebaut; die schon fertigen Läufe werden erkannt und nicht wiederholt. Tests für die neuen Sicherungen geschrieben (laufen ab 03:00).
-- 20:45 **Regel 18 entdeckt (Nutzer-Auftrag von 20:30)** und umgesteuert: Plan der Nacht geändert (Läufe erst ab 03:00, vorher Umbau nach dem Astra-Review). Sechs von acht Code-Punkten stehen (ungetestet).
-- 20:33 **EXP-050 verbessert:** Die Prüfung fand eine versteckte Nebenwirkung. Die gleichphasigen Trainingsmengen enthalten viel mehr „Spiegelpaare“ (a+b und b+a), und die lernt ein Netz schneller. Neue Kontrolle „quadlm“ mit gleich vielen Spiegelpaaren gebaut.
-- 20:28 GPU-001 (Eingangsprüfung der Nacht) unabhängig prüfen lassen: kein Blocker, eine Schwachstelle behoben (abgelehnte Durchsatzläufe gingen unter). Neuer Kausaltest [[experiments/EXP-050-phase-dissociation/README|EXP-050]] vorbereitet.
-- 20:23 Theorie: Eine einfache Rechnung zum ersten Lernschritt erklärt, warum im Transformer eine andere Maskengröße (M0c) passt als im MLP (M0). Vorab festgelegt, wie die sechs Nachtergebnisse zusammen zu lesen sind ([[LESART-nacht-2026-09-27]]).
-- 20:21 Alle sieben Auswertungen der Nacht abgesichert: Ein abgestürzter Lauf (NaN) hätte sonst still ein falsches Urteil erzeugt. Gefunden bei der Prüfung von EXP-049. Werkzeug für den Morgenbericht auf die GPU-Versuche erweitert.
-- 20:17 EXP-048 nach Review verbessert: Die Hauptmessgröße entfernt jetzt vorab den Zahlengeraden-Anteil (der sonst Scheineffekte erzeugt). Dabei einen eigenen fehlerhaften Selbsttest gefunden, der die Nacht-Queue gestoppt hätte. [[experiments/EXP-049-width-steering/README|EXP-049]] (Modellbreite) vorab festgelegt und eingereiht.
-- 20:13 Idee „frühe Festlegung aus Init-Skala und Lernrate vorhersagen“ verworfen: Sie steht schon als Vorhersage in EXP-040 (Nachtrag c). Stattdessen EXP-049 (Modellbreite) begonnen.
-- 20:11 **Neuer Versuch [[experiments/EXP-048-intadd-steering/README|EXP-048]]:** Klappt die Steuerung über die Daten auch bei gewöhnlicher Addition *ohne* Modulo? Dort lernen Netze normalerweise eine Zahlengerade statt einer Uhr. Das ist die erste nicht-modulare Aufgabe. Beim Bau einen Fehler gefunden und behoben (Split-Dateien überschrieben sich). Außerdem fünf Queue-Skripte auf LF-Zeilenenden gebracht.
-- 20:07 **Unabhängige Prüfung von EXP-046/047** (Claude-Subagent statt Codex): kein Blocker. Einschränkung für EXP-046 notiert: Das Ergebnis heißt nur „der Split steuert“, noch nicht „über die Paarstruktur“.
-- 20:05 **Theorie für EXP-047:** Im ersten Lernschritt fallen die bloßen Token-Häufigkeiten exakt heraus. Vorhersage vor dem Lauf: Die Häufigkeitskontrolle zeigt keine Steuerung.
-- 20:04 Codex nicht verfügbar („out of credits“), nicht umgangen.
-- 20:02 Eigene Prüfung von EXP-046/047: Code passt zur Trainingsbibliothek (Konfiguration, Auswertung, Namen der Läufe). Die 40 EXP-047-Splits haben exakt gleiche a/b-Häufigkeiten zwischen „eng“ und „shuf“. Einen Fehler habe ich nicht gefunden.
-- 20:00 Stand gelesen: kein STOP, kein Training aktiv, Fenster zu. Die Zeitangaben in Sitzung 12 nach 19:50 waren geschätzt und liegen in der Zukunft; das korrigiere ich im JOURNAL.
+- 21:20 Stand gelesen: kein STOP, kein Prozess aktiv, Fenster zu (Wächter Exit 3). Nichts Pflichtiges offen.

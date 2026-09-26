@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-26 11:59 Berlin (09:59Z, vom Runner)
 - **Deadline:** 2026-09-26 14:59 Berlin (12:59Z)
-- **Zuletzt aktualisiert:** 13:52 Berlin
+- **Zuletzt aktualisiert:** 14:16 Berlin
 - **Run-Fenster:** offen (heute Ausnahme bis 18:00 Berlin).
 
 ## Gerade
 
-EXP-020 Seed 31, Wechsel-Läufe (fertig ~14:18). Danach kurzer Blick auf Seed 31, gegen 14:35 Warteschlange zwischen zwei Läufen anhalten, Abschlussbericht.
+EXP-020 Seed 32 läuft. Gegen 14:35 halte ich die Warteschlange zwischen zwei Läufen an und schreibe den Abschlussbericht.
 
 ## Als Nächstes
 
@@ -18,6 +18,8 @@ Nächste Sitzung (16:59): `sh lab/experiments/queue_s8.sh`: Rest EXP-020 → EXP
 
 ## Verlauf dieser Sitzung
 
+- 14:16 **EXP-020 Seed 31 wie Seed 30:** Festlegung zwischen Schritt 25 und 50, vor der Memorisierung (Train-Acc 11 %). 2 von 5 Seeds.
+- 13:53 Seed 30: Die Festlegung fällt, bevor das Netz die Trainingsdaten gelernt hat (Train-Acc 10 % bei Schritt 50).
 - 13:52 Sammel-Warteschlange `queue_s8.sh` für die nächsten Sitzungen geschrieben (ein Befehl).
 - 13:51 Gegenprobe mit einem anderen Maß: Mit früher σ_3-Phase nutzt das Endnetz 4,6–4,7 von 5 Zielfrequenzen, ohne sie nur 0,4, egal mit welchem Optimierer. Der Befund ist robust.
 - 13:50 EXP-020 Seed 30: In den Mischzuständen tauchen zwei fremde Frequenzen (34, 39) auf. Herkunft offen, notiert.

@@ -1047,3 +1047,8 @@ Schritt 120–130, Test ≥ 0.95 bei 950. Die Festlegung (25, 50] liegt also **v
 Verlustabfalls, nicht an ihrem Ende. Das passt zum Zwei-Hot-Befund (EXP-032/033: Festlegung bei ≈ 1.25–1.8 × Init-Amplitude,
 lange vor dem Fit) und zu N13 (bei Schritt 250 ist die Zielmenge schon voll eingeprägt). 1 Seed; Bestätigung mit den übrigen
 EXP-020-Seeds (beschreibend, nicht vorab festgelegt: Train-Acc bei hi ≤ 0.5 in allen gültigen Seeds).
+
+**14:16 EXP-020 Seed 31 (beschreibend, 2/5 Seeds):** gültig, d = −2 (t=0), −2 (10), 0 (25), **+3 (50)**, +3 (150…∞), monoton,
+gen_F = 625 → stützt H20, Intervall wieder **(25, 50]**. Ab t = 150 ist K identisch mit „nur F“ ([23, 29, 41, 45, 55]).
+Nachtrag c: Train-Acc „nur F“ bei Schritt 50 = 0.108 ≤ 0.5 → erfüllt (1/1 der vorab festgelegten Seeds 31–34).
+Zwischenstand H20: 2/2 stützen; Urteil erst mit allen Seeds.

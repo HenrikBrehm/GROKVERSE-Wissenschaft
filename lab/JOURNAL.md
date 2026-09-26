@@ -1321,3 +1321,26 @@ gestützt, wenn Test 1 und Test 3 (7/7 bei m = 7) bestehen. Das ist streng; ein 
 vorab in EXP-035 (H35, quantitativ sekundär) festgelegte Erwartung (100, 150] für Seed 30, **keine neue Vorhersage**. Seed 30
 trifft sie: t = 100 noch gemischt ([6, 19, 29, 34, 47]), t = 150 = nur F. *Entscheidung:* nichts nachträglich festlegen; das
 Urteil fällt nach den Seeds 31, 32 mit der vorab festgelegten Regel (Nachtrag a).
+
+**17:45–17:51 EXP-035 Seed 31 (von Hand im Fenster, dieselben Befehle wie die Queue):** t = 50 mit Warmup → K = [4, 8, 36, 42, 46],
+d = −2 (ohne Warmup d(50) = +3); t = 150 → [23, 29, 41, 45, 55], d = +3, identisch mit „nur F“ ohne Warmup. Beschreibend: Auch
+Seed 31 legt sich mit Warmup später fest als ohne; t = 100 und „nur F“ mit Warmup fehlen noch (Queue). Kein Urteil.
+
+**Zyklus 4 (17:44–17:53): EXP-039 „Lernraten-Uhr“ neu vorab festgelegt (Code, Smoke, Codex).** Frage: Fällt die Festlegung bei
+fester aufsummierter Lernrate Λ ∈ (25, 50], auch wenn die Lernrate gleichmäßig skaliert wird (c = 2 → Fenster (12, 25],
+c = 0.5 → (50, 100]) statt per Warmup? Konkurrenz: Schrittuhr (z. B. Adams β2-Horizont von 50 Schritten) → (25, 50] für beide c.
+Literatursuche (WebSearch, 17:44): nächstverwandt He et al. 2026 (Frequenz-Lotterie über Init, https://arxiv.org/abs/2602.16849),
+Tan et al. 2026 (zwei Uhren im Grokking, https://arxiv.org/abs/2606.05863); die konkrete Frage nicht gefunden (vorläufig; N17).
+Code: `freq_ban.py --lr-scale c` (Standard 1.0 = unverändert; Skalierung nur auf F bis Schritt 250), commit 800c4cf.
+Codex (`EXP-039-lr-clock/codex_review_2026-09-26.txt`, needs-attention, 3 × hoch): Gitter nicht intervallsicher (übernommen:
+t = 12 bzw. 25 ergänzt, exakte Intervalle), ergebnisabhängige Ausschlüsse (übernommen: vollständige Zellen zählen immer,
+Einheit = Seed mit beiden Skalierungen), AdamW isoliert Λ nicht (teilweise: Aussage auf AdamW mit diesem Plan beschränkt;
+keine Weight-Decay-Kontrolle, weil der entkoppelte Decay bis Λ = 50 nur ≈ 5 % gleichmäßig über alle Frequenzen schrumpft).
+Smoke im Fenster ok (17:51), Selbsttest nach den Änderungen ok (17:52). *Ergebnis:* vorbereitet, nicht ausgeführt; in
+`queue_s10.sh` nach EXP-036. *Entscheidung:* EXP-036 bleibt vor EXP-039 (offene Hauptfrage aus Sitzung 9).
+
+**Rückblick nach drei Zyklen (Regel §4):** Gelernt: Die Festlegungszeit ist ein messbarer, verschiebbarer Marker (Warmup
+verschiebt sie in 2/2 Seeds bisher). Wiederholen wir uns? Nein, EXP-039 ist ein anderer Eingriff (Form des Plans gleich, Höhe
+anders). Messung geeignet? Das Top-5-Maß ist oberwellenanfällig; bisher haben alle Auswertungen die Oberwellen gesondert
+behandelt. Nächste anzugreifende Annahme: dass „Festlegung“ ein Ereignis im W_E-Spektrum ist. EXP-038 (Teil-Rücksetzen) prüft,
+wo sie sitzt.

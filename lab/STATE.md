@@ -3,12 +3,15 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand
 
-_Zuletzt aktualisiert: 2026-09-26, 17:41 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
+_Zuletzt aktualisiert: 2026-09-26, 17:55 Berlin (Sitzung 10, Deadline 20:29; nächster Runner-Start 22:29 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[JOURNAL]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]]
 
 ## Wiederaufnahme (zuerst lesen)
 
+- **SITZUNG 10 (17:55):** Fenster heute zu. Neu: **EXP-039** (Lernraten-Uhr, vorab festgelegt mit Nachtrag a nach Codex, Smoke
+  und Selbsttest ok), in `queue_s10.sh` nach EXP-036 eingehängt. EXP-035: Seed 30 komplett, Seed 31 t = 50 und 150 fertig
+  (Queue überspringt sie). Nächstes Fenster unverändert: `sh lab/experiments/queue_s10.sh`.
 - **SITZUNG 10 (17:41):** EXP-035 Seed 30 fertig (7 Läufe), Seed 31 t = 50, 150 laufen von Hand bis ~17:52 (Log
   `lab/runner/logs/exp035_s10_manual.log`). `queue_s9.sh` ist beendet. EXP-036 hat **Nachtrag d + e** (kalibriertes P36b mit frühen
   Spektren `--spectra-at`, Smoke vorgeschaltet und von Hand geprüft). **Nächstes Fenster (ab 00:00) unverändert:**

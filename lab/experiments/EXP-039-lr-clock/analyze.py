@@ -1,8 +1,12 @@
 """EXP-039 analysis (pre-registered, README): EXP-020 protocol with a constant lr scale c on the F phase (steps <= 250),
 full lr after the switch. Unit = cell (seed, c). Reuses EXP-020/analyze.py (loader, K, d, interval) with a patched run
 directory and grid, plus fail-closed metadata checks (lr_scale flag, optimizer config, shared init checksum).
-H39 (lambda clock): c = 2 -> interval (10, 25]; c = 0.5 -> (50, 100]. Step clock: c = 2 -> (25, 50]; c = 0.5 -> (0, 50].
-Verdict: >= 4 evaluable cells; all 'lambda' -> Lambda-Uhr gestuetzt; all 'step' -> Schrittuhr; else unklar.
+H39 (lambda clock): c = 2 -> interval (12, 25]; c = 0.5 -> (50, 100]. Step clock: (25, 50] for both c.
+Nachtrag a (Codex, before any run): grid c = 2: 10, 12, 25, 50; c = 0.5: 25, 50, 100, 150. A cell is 'lambda'/'step' only
+if its observed interval equals the predicted one; completed cells that are non-monotone, cross after gen_F or miss the
+endpoints count as 'unclear' (not excluded). Unit = seed with both cells complete: 'lambda' if both lambda, 'step' if
+both step, else 'unclear'. Verdict: >= 3 complete seeds; all lambda -> Lambda-Uhr gestuetzt (AdamW, this schedule);
+all step -> Schrittuhr; else unklar.
 Usage: python analyze.py [--selftest]"""
 from __future__ import annotations
 
@@ -15,19 +19,23 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 LAB = HERE.parents[0]
 SEEDS = (30, 32, 34, 31)
-GRIDS = {2.0: (10, 25, 50), 0.5: (50, 100, 150)}
-MIN_CELLS = 4
+GRIDS = {2.0: (10, 12, 25, 50), 0.5: (25, 50, 100, 150)}
+MIN_SEEDS = 3
 
 
 def classify(c: float, lo: float, hi: float) -> str:
     """Interval-safe: 'lambda' / 'step' only on the discriminating grid points, else 'unclear'."""
-    if c == 2.0:
-        return "lambda" if (lo, hi) == (10, 25) else "step" if (lo, hi) == (25, 50) else "unclear"
-    return "lambda" if (lo, hi) == (50, 100) else "step" if (lo, hi) == (0, 50) else "unclear"
+    lam = (12, 25) if c == 2.0 else (50, 100)
+    return "lambda" if (lo, hi) == lam else "step" if (lo, hi) == (25, 50) else "unclear"
+
+
+def seed_class(a: str, b: str) -> str:
+    return a if a == b and a in ("lambda", "step") else "unclear"
 
 
 def verdict(classes: list[str]) -> str:
-    if len(classes) < MIN_CELLS:
+    """classes: one per complete seed."""
+    if len(classes) < MIN_SEEDS:
         return "nicht auswertbar"
     if all(c == "lambda" for c in classes):
         return "Lambda-Uhr gestuetzt"
@@ -67,17 +75,19 @@ def meta_ok(m, c: float, s: int) -> str | None:
 def cell(m, c: float, s: int) -> dict:
     r = m.row(s)
     out = {"seed": s, "c": c, **{k: r.get(k) for k in ("valid", "d", "K", "lo", "hi", "monotone", "gen_F", "reason")}}
-    why = None if r["valid"] else "invalid run set"
-    why = why or meta_ok(m, c, s)
-    if why is None and not r["monotone"]:
-        why = "non-monotone d(t)"
-    if why is None and not (r["gen_F"] and r["hi"] < r["gen_F"]):
-        why = "crossing not before generalization (or gen_F censored)"
+    reason = r.get("reason") or ""
+    if not r["valid"] and "construction did not steer" not in reason:
+        return out | {"complete": False, "why": reason or "invalid run set"}   # missing/corrupt runs only
+    why = meta_ok(m, c, s)
     if why:
-        return out | {"evaluable": False, "why": why}
+        return out | {"complete": False, "why": why}
+    if not r["valid"]:
+        return out | {"complete": True, "class": "unclear", "why": "endpoints d(0) < 0 < d(inf) not met"}
+    if not r["monotone"] or not (r["gen_F"] and r["hi"] < r["gen_F"]):
+        return out | {"complete": True, "class": "unclear", "why": "non-monotone or crossing not before gen_F"}
     disp = {str(t): json.loads((m.run_dir(s, t) / "result.json").read_text(encoding="utf-8"))["events"]
             .get("displacement_at_switch") for t in GRIDS[c]}
-    return out | {"evaluable": True, "class": classify(c, r["lo"], r["hi"]),
+    return out | {"complete": True, "class": classify(c, r["lo"], r["hi"]),
                   "lambda_interval": [c * r["lo"], c * r["hi"] if r["hi"] != math.inf else None],
                   "displacement_at_switch": disp}
 
@@ -90,9 +100,11 @@ def main() -> None:
             try:
                 rows.append(cell(m, c, s))
             except (OSError, KeyError, ValueError) as e:
-                rows.append({"seed": s, "c": c, "evaluable": False, "why": f"{type(e).__name__}: {e}"})
-    cls = [r["class"] for r in rows if r["evaluable"]]
-    out = {"rows": rows, "n_evaluable": len(cls), "classes": cls, "verdict": verdict(cls)}
+                rows.append({"seed": s, "c": c, "complete": False, "why": f"{type(e).__name__}: {e}"})
+    by = {(r["seed"], r["c"]): r for r in rows}
+    seeds = {s: seed_class(by[(s, 2.0)]["class"], by[(s, 0.5)]["class"]) for s in SEEDS
+             if by[(s, 2.0)]["complete"] and by[(s, 0.5)]["complete"]}
+    out = {"rows": rows, "seed_classes": seeds, "n_seeds": len(seeds), "verdict": verdict(list(seeds.values()))}
     (HERE / "summary.json").write_text(json.dumps(out, indent=1, default=str), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
     for r in rows:
@@ -100,15 +112,18 @@ def main() -> None:
 
 
 def selftest() -> None:
-    assert classify(2.0, 10, 25) == "lambda" and classify(2.0, 25, 50) == "step"
+    assert classify(2.0, 12, 25) == "lambda" and classify(2.0, 25, 50) == "step"
+    assert classify(2.0, 10, 12) == "unclear"                     # crossing at step 11-12: Lambda <= 24, not lambda
     assert classify(2.0, 0, 10) == "unclear" and classify(2.0, 50, math.inf) == "unclear"
-    assert classify(0.5, 50, 100) == "lambda" and classify(0.5, 0, 50) == "step"
-    assert classify(0.5, 100, 150) == "unclear"
-    assert verdict(["lambda"] * 3) == "nicht auswertbar"
-    assert verdict(["lambda"] * 4) == "Lambda-Uhr gestuetzt"
-    assert verdict(["step"] * 5) == "Schrittuhr" and verdict(["lambda"] * 3 + ["unclear"]) == "unklar"
+    assert classify(0.5, 50, 100) == "lambda" and classify(0.5, 25, 50) == "step"
+    assert classify(0.5, 0, 25) == "unclear" and classify(0.5, 100, 150) == "unclear"
+    assert seed_class("lambda", "lambda") == "lambda" and seed_class("lambda", "step") == "unclear"
+    assert seed_class("unclear", "unclear") == "unclear"
+    assert verdict(["lambda"] * 2) == "nicht auswertbar"
+    assert verdict(["lambda"] * 3) == "Lambda-Uhr gestuetzt"
+    assert verdict(["step"] * 4) == "Schrittuhr" and verdict(["lambda"] * 3 + ["unclear"]) == "unklar"
     m = load_mod(2.0)
-    assert m.GRID == (0.0, 10.0, 25.0, 50.0, math.inf)
+    assert m.GRID == (0.0, 10.0, 12.0, 25.0, 50.0, math.inf)
     assert m.run_dir(30, 25).name.endswith("_at25_lrs2") and m.run_dir(30, math.inf).name.endswith("train_F_lrs2")
     assert m.run_dir(30, 0).parent.parent.name == "EXP-020-data-switch"
     m = load_mod(0.5)

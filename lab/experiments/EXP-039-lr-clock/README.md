@@ -42,6 +42,35 @@ Repräsentation polynomiell), nicht die Festlegung der Frequenzwahl; Achille et 
 Zeit“ = aufsummierte Lernrate in Arbeiten zu Skalierungsgesetzen (z. B. https://arxiv.org/abs/2602.06797). Die konkrete Frage
 „fällt die Frequenzwahl bei fester aufsummierter Lernrate?“: **nicht gefunden** (vorläufig; Scholar/OpenReview nicht gezielt).
 
+## Nachtrag a (2026-09-26 17:53 Berlin, nach Codex-Review `codex_review_2026-09-26.txt`, vor jedem EXP-039-Lauf): gilt allein, wo abweichend
+
+Codex: needs-attention, drei hohe Einwände.
+1. **Gitter nicht intervallsicher** (c = 2: eine Kreuzung bei Schritt 11–12 hat Λ ≤ 24 und wäre fälschlich *Λ*; c = 0.5: ohne
+   t = 25 wäre jede Kreuzung in (0, 50] *Schritt*). **Übernommen:** Gitter c = 2: t ∈ {10, **12**, 25, 50}; c = 0.5:
+   t ∈ {**25**, 50, 100, 150}. *Λ* nur bei Intervall (12, 25] bzw. (50, 100] (in ganzen Schritten genau Λ ∈ (25, 50]);
+   *Schritt* nur bei (25, 50]; sonst *unklar*.
+2. **Ergebnisabhängige Ausschlüsse** (nicht monotone oder späte Zellen fielen heraus). **Übernommen:** Vollständige Zellen
+   zählen immer; nicht monoton, Kreuzung nach gen_F oder verfehlte Endpunkte → *unklar*. Nur fehlende/defekte Läufe oder
+   falsche Metadaten machen eine Zelle unvollständig. **Einheit = Seed mit beiden Zellen:** *Λ* nur wenn beide *Λ*, *Schritt*
+   nur wenn beide *Schritt*. **Urteil:** ≥ 3 vollständige Seeds; alle *Λ* → ***Λ-Uhr gestützt (für AdamW mit diesem Plan)***;
+   alle *Schritt* → ***Schrittuhr***; sonst ***unklar***.
+3. **Lernraten-Skalierung in AdamW isoliert Λ nicht** (entkoppelter Weight Decay skaliert mit, Momente/Bias-Korrektur haben
+   bei gleichem Λ verschiedenes Alter). **Teilweise übernommen:** Die Aussage wird auf „AdamW mit diesem Plan“ beschränkt, ein
+   Mechanismus wird nicht behauptet. **Nicht übernommen:** eigene Weight-Decay-Kontrollen. Grund: Der entkoppelte Decay
+   schrumpft W_E bei lr · wd = 1e-3 bis Λ = 50 nur um ≈ 5 % und wirkt als gleichmäßige Multiplikation auf alle Frequenzen,
+   ändert also die Rangfolge im W_E-Spektrum nicht direkt. Die Schrittuhr-Alternative deckt dagegen die Momente ab:
+   β2 = 0.98 hat einen Horizont von 50 Schritten, β1 = 0.9 von 10; hinge die Festlegung an Adams Zeitkonstanten, bliebe
+   das Fenster in Schritten gleich (*Schritt*).
+Budget neu: 10 Läufe je Seed (≈ 50 min), 3 Seeds ≈ 2.5 h. Smoke (`--lr-scale 2`, Wechsel bei 30) im Fenster gelaufen
+(17:51, Strecke am Wechsel W_E 4.90, alle 15.39), Selbsttest der Auswertung nach den Änderungen ok (17:52).
+
 ## Status
 
-Vorab festgelegt, Code folgt (`--lr-scale`), nicht ausgeführt.
+Vorab festgelegt (mit Nachtrag a), Code und Smoke geprüft, nicht ausgeführt. Läuft in `queue_s10.sh` nach EXP-036.
+
+## Reproduktion
+
+```
+sh lab/experiments/EXP-039-lr-clock/queue.sh
+python lab/tools/guarded_run.py -- python lab/experiments/EXP-039-lr-clock/analyze.py
+```

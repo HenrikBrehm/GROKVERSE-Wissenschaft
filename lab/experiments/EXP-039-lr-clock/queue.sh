@@ -1,6 +1,6 @@
 #!/bin/sh
 # EXP-039 queue: EXP-020 protocol with constant lr scale c on the F phase (steps <= 250), full lr after the switch.
-# c = 2: only F + switches t = 25, 10, 50; c = 0.5: only F + t = 50, 100, 150. Seeds 30 32 34 (31 last). One job at a time
+# c = 2: only F + switches t = 25, 12, 10, 50; c = 0.5: only F + t = 50, 25, 100, 150 (Nachtrag a). Seeds 30 32 34 (31 last). One job at a time
 # via guarded_run.py; completed runs are skipped (exit 0); any other exit stops. Resume = rerun.
 F=lab/experiments/EXP-001-freq-ban/freq_ban.py
 S20=lab/experiments/EXP-020-data-switch/splits
@@ -18,7 +18,7 @@ for S in ${*:-30 32 34 31}; do
   for C in 2 0.5; do
     run 19 --seed $S --condition baseline --steps 8000 --stop-after-gen 2000 --split-file $S20/seed${S}_train_F.npy \
       --test-file $S20/seed${S}_test.npy --lr-scale $C
-    if [ "$C" = "2" ]; then TS="25 10 50"; else TS="50 100 150"; fi
+    if [ "$C" = "2" ]; then TS="25 12 10 50"; else TS="50 25 100 150"; fi   # Nachtrag a: t = 12 / 25 added
     for T in $TS; do
       run 9 --seed $S --condition baseline --steps $((T + 2000)) --stop-after-gen 8000 --split-file $S20/seed${S}_train_F.npy \
         --test-file $S20/seed${S}_test.npy --switch-split-file $S20/seed${S}_train_G.npy --switch-step $T --lr-scale $C

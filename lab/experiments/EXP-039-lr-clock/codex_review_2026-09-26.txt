@@ -1,0 +1,52 @@
+(node:10324) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0de65-c805-7d80-9394-ecc33e1ad56d).
+[codex] Turn started (01a0de65-c9a8-7f31-ab5b-4c0c619319e7).
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"I’ll inspect the exact diff, surrounding optimizer/ru...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"The key risk is experimental identifiability, not jus...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"lr_scale|l...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"lr_scale|l... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"freq_ban|N...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"freq_ban|N... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths=@('"'lab/to...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths=@('"'lab/to... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'python lab/experim...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'python lab/experim... (exit 1)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"Two concrete analysis paths can already manufacture a...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command py,pyt...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command py,pyt... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command bash,s...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command bash,s... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'sh -n lab/experime...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'sh -n lab/experime... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"(?:fb|freq...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"(?:fb|freq... (exit 0)
+[codex] Assistant message captured: {"verdict":"needs-attention","summary":"Do not ship: the grid and exclusion rules can produce...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+# Codex Adversarial Review
+
+Target: branch diff against 73fb530
+Verdict: needs-attention
+
+Do not ship: the grid and exclusion rules can produce a false “Lambda clock supported” verdict, while the AdamW intervention does not isolate accumulated learning rate.
+
+Findings:
+- [high] The grid is not interval-safe and can label off-hypothesis crossings (lab/experiments/EXP-039-lr-clock/analyze.py:18-26)
+  For c=2, any transition after step 10 and by 25 is classified as lambda, although transitions at steps 11–12 have accumulated LR at most 24 and lie outside the predicted (25,50] lambda window. For c=0.5, the missing t=25 point makes every transition in (0,50] classify as step, including transitions earlier than the step-clock prediction (25,50]. Thus unrelated timing shifts can receive either named hypothesis label.
+  Recommendation: Add t=12 for c=2 and t=25 for c=0.5, and classify a hypothesis only when the observed censoring interval is contained in its predicted interval; otherwise return unclear.
+- [high] Outcome-dependent exclusions can manufacture unanimous lambda support (lab/experiments/EXP-039-lr-clock/analyze.py:72-95)
+  Completed cells with non-monotone curves or crossings after generalization are marked non-evaluable, then omitted from the verdict. Consequently, four lambda cells plus four adverse/non-monotone cells returns “Lambda-Uhr gestuetzt.” The four cells can also all come from one scale or only two underlying seeds. These exclusions discard precisely the behavior that contradicts a one-dimensional clock.
+  Recommendation: Treat completed non-monotone, late-crossing, and endpoint-failure cells as against/unclear rather than missing. Make the decision unit a seed with both scales valid, and require the preregistered minimum number of paired seeds before supporting the claim.
+- [high] Scaling AdamW's lr does not isolate an accumulated-learning-rate clock (lab/experiments/EXP-001-freq-ban/freq_ban.py:385-389)
+  Changing the parameter-group lr scales both AdamW's adaptive gradient update and its decoupled weight-decay shrinkage. Runs compared at matched c*t also have different numbers of beta1/beta2 updates, bias-correction ages, epsilon-sensitive normalized updates, and parameter-dependent gradient histories. A lambda-looking result could therefore be driven by accumulated decay, while a failure could be caused by moment dynamics rather than refuting the clock. The current verdict nevertheless attributes either outcome directly to lambda versus steps.
+  Recommendation: Add preregistered controls that separate gradient scaling from decay, such as zero decay and fixed per-step shrinkage, and record cumulative actual update norms/moment state. Restrict the claim to this AdamW schedule unless it replicates with optimizer dynamics explicitly controlled.
+
+Next steps:
+- Repair the grid and add adversarial classifier tests for crossings at steps 11, 12, and 25.
+- Rewrite aggregation around paired seed-level outcomes without hypothesis-dependent exclusions.
+- Add optimizer/weight-decay controls before running the expensive queue.

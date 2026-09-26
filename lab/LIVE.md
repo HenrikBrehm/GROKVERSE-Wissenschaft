@@ -1,46 +1,33 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 14
+# LIVE: Laborsitzung 14 – **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-26 21:19 Berlin (19:19Z, vom Runner)
 - **Deadline:** 2026-09-27 00:19 Berlin (22:19Z)
-- **Zuletzt aktualisiert:** 22:03 Berlin (gemessen).
-- **Run-Fenster:** zu. Heute Nacht Läufe erst ab 03:00 (Regel 18). Diese Sitzung: nur Code, Rechnung auf Dateien, Literatur.
+- **Zuletzt aktualisiert:** 22:07 Berlin (gemessen). **Status: Sitzung beendet.** Nächster geplanter Start: **00:54 Berlin** (runner-state.json, 22:54Z).
+- **Run-Fenster:** zu. Heute Nacht Läufe erst ab 03:00 (Regel 18).
 
 ## Gerade
 
-Nächste Frage wählen.
+Nichts läuft. Alles ist gesichert und committet. Ich habe vor der Deadline beendet: Alles Nötige vor 03:00 ist erledigt, und das Nutzungskontingent ist in der Laufnacht wertvoller.
 
 ## Als Nächstes
 
-Ab 03:00 (nächste Sitzung): Wächter-Abnahme, Tests (jetzt auch EXP-052-Selbsttest), Nachtprogramm.
+Sitzung ab 00:54: bis 03:00 nichts Pflichtiges. Ab 03:00: Wächter-Abnahme, Tests (inkl. vier neuer Selbsttests), GPU-Abnahme und Nachtversuche, danach die eingefrorenen Vorhersagen prüfen (Schritte in [[STATE]]).
 
 ## Verlauf dieser Sitzung
 
-- 22:03 **Neue Idee N29:** Man könnte die Frequenzen auch über Gewichte im Fehlermaß steuern, statt Paare wegzulassen. Rechnerisch ist das Signal fast gleich stark, mit allen Paaren sogar viel stärker. Das wäre ein direkter Test, *warum* die Steuerung funktioniert. Umsetzung nach der Nacht.
-
-- 22:00 Für zwei Nachtversuche (Lernrate, anderer Datenwechsel) sind jetzt Zahlen-Vorhersagen eingefroren: Drei Modelle einer „inneren Uhr“ sagen unterschiedliche Werte voraus; die Nacht entscheidet, welches am nächsten liegt.
-
-- 21:58 **Selbstkorrektur nach Gegenprüfung:** Die Kurve für das Festhalten hält. Meine Deutung, Warmup verschiebe sie genau nach der aufsummierten Lernrate, war falsch: Die frühen Punkte konnten das gar nicht unterscheiden. Richtig ist nur: Warmup verzögert, und keine der beiden einfachen „Uhren“ passt.
-
-- 21:53 **Neues Maß für das Festhalten (Paket B):** Aus alten Wechselläufen ergibt sich eine glatte Kurve. Wechselt man nach 10 Schritten, bleiben 15 % der ersten Wahl übrig, nach 50 Schritten 72 %, ab 150 Schritten 100 %. Die Seeds streuen kaum. (Die Aussage zum Warmup habe ich nach Prüfung zurückgenommen, siehe unten.)
+- 22:07 Abschluss: Zwischenbilanz und Abschlussbericht im [[JOURNAL]]. STATE für die Übergabe neu geordnet.
+- 22:05 Literatur: Dass schon der erste Lernschritt Merkmale ausrichtet, ist allgemein bekannt. Eine Formel, die aus der Zusammensetzung der Trainingsmenge die Frequenzen vorhersagt, haben wir nicht gefunden.
+- 22:04 **Designfehler im Plan für Paket B gefunden:** Der geplante Messpunkt (Wechsel nach 150 Schritten) liegt schon an der Decke. Besser ist ein Wechsel nach 25 Schritten.
+- 22:03 **Neue Idee N29:** Frequenzen über Gewichte im Fehlermaß steuern, statt Paare wegzulassen. Rechnerisch fast gleich starkes Signal. Nach der Gegenprüfung gilt: Es braucht dieselbe Häufigkeitskontrolle wie EXP-047.
+- 22:00 Zahlen-Vorhersagen für zwei Nachtversuche eingefroren: drei Modelle einer „inneren Uhr“ (EXP-039) und zwei Erklärungen für das Festhalten (EXP-044).
+- 21:58 **Selbstkorrektur nach Gegenprüfung:** Die Kurve für das Festhalten hält. Meine Deutung, Warmup verschiebe sie genau nach der aufsummierten Lernrate, war falsch.
+- 21:53 **Neues Maß für das Festhalten (Paket B):** Wechsel nach 10 Schritten → 15 % der ersten Wahl bleiben, nach 50 → 72 %, ab 150 → 100 %. Die Seeds streuen kaum.
 - 21:50 Kleine Unterschiede im Datensatz werden im Training stark verstärkt (explorativ).
-
-- 21:49 Auswertung der späteren Bestätigung als Code fertig (nur mit eingefrorenem Plan startbar). Literatur: eine neue Arbeit zu kritischen Zeitfenstern bei Transformern, aber ohne Frequenzen oder Datenwahl.
-
-- 21:47 Werkzeug für die Bestätigungs-Trainingsmengen geprüft: baut exakt die Konstruktion der Pilotversuche nach. Das Tor gegen verfrühtes Erzeugen ist jetzt strenger.
-
-- 21:44 Bestätigungsblock technisch vorbereitet (Trainingsmengen nur mit eingefrorenem Plan). Planungswerkzeug nach Prüfung verbessert. Eigene Fehlannahme korrigiert: Der Vergleich M0c gegen M0 ist doch trennscharf (Simulation).
-
-- 21:39 Neue Nebenfrage: Kann man aus den Gewichten erkennen, auf welcher Teilmenge ein Netz trainiert wurde? Das wird an EXP-052 mitgemessen. Notfallplan steht, falls die Grafikkarte die Abnahme nicht besteht.
-
-- 21:38 Werkzeug für die Stichprobenplanung geschrieben: Nach der Nacht rechnet es aus, wie viele Seeds die Bestätigung braucht. Die Hauptgröße der Bestätigung fehlte in drei Nachtauswertungen.
-- 21:34 Literatur zu Paket B (Lyle et al. 2025, Volltext): Ein vierter Versuchsarm (höhere Lernrate nach dem Wechsel) trennt das dritte Erklärungsmodell ab.
-
-- 21:33 **Paket B vorbereitet ([[experiments/EXP-053-p3-overlap-design/README|EXP-053]]):** Für den Persistenztest muss der zweite Split einen festen Anteil Paare mit dem ersten teilen. Die naheliegende Bauweise hätte dem zweiten Split heimlich die Frequenzen des ersten mitgegeben. Eine faire Bauweise ist gefunden und nachgerechnet.
-- 21:30 EXP-052 um zwei Fälle erweitert: nicht-abelsche Gruppe D₅₉ und gewöhnliche Addition ohne Modulo. Zweite Prüfung ohne Blocker.
-
-- 21:27 **Neuer Test [[experiments/EXP-052-oos-mask-prediction/README|EXP-052]]:** Vorhersagen für 30 noch nicht gelaufene Zufallssplit-Läufe (add 97, mul 113, nicht-abelsche Gruppe D₅₉) aus den Splits berechnet und per Commit eingefroren. Unabhängige Prüfung: kein Blocker.
-
-- 21:20 Stand gelesen: kein STOP, kein Prozess aktiv, Fenster zu (Wächter Exit 3). Nichts Pflichtiges offen.
+- 21:47 Werkzeuge für die spätere Bestätigung gebaut und geprüft: Trainingsmengen für frische Seeds entstehen nur mit eingefrorenem Plan.
+- 21:33 **Paket B vorbereitet ([[experiments/EXP-053-p3-overlap-design/README|EXP-053]]):** faire Bauweise für Splits mit fester Überlappung gefunden. Die naheliegende hätte dem zweiten Split heimlich die Frequenzen des ersten mitgegeben.
+- 21:30 EXP-052 um zwei Fälle erweitert: nicht-abelsche Gruppe D₅₉ und Addition ohne Modulo.
+- 21:27 **Neuer Test [[experiments/EXP-052-oos-mask-prediction/README|EXP-052]]:** 40 Vorhersagen für noch nicht gelaufene Zufallssplit-Läufe aus den Splits berechnet und per Commit eingefroren.
+- 21:20 Stand gelesen: kein STOP, kein Prozess aktiv, Fenster zu (Wächter Exit 3).

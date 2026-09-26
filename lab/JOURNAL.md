@@ -478,3 +478,31 @@ p 0.48; M0 0.294 gegen 0.292. **Befund: negativ**, die Bereinigung ändert die V
 K ≠ K_h in 8/10 Läufen bei 25k Schritten, aber nur in 2/8 direkt nach dem Grokking (gen + 25): Die Oberwellen wachsen
 offenbar spät im Training (passt zur Wellenform-Verschiebung der Studie). Keine Folgeaktion außer: bei Vergleichen den
 Messzeitpunkt von K beachten.
+
+**Codex-Angriff auf die Schlussfolgerungen von Sitzung 5** (`lab/codex_conclusions_s5_2026-09-26.txt`, „needs-attention“),
+5 Befunde, selbst geprüft:
+1. [high] *p = 7.6e-15 für die Oberwellen ist post hoc und nicht kalibriert* (Null ignoriert die Suche nach der
+   Transformation und die (k, 2k)-Neigung innerhalb von K). **Übernommen:** 14/14 ist eine beschreibende Beobachtung,
+   der p-Wert gilt nicht als Beleg. Bestätigung: vorab festgelegte Vorhersage an EXP-016 Seeds 16–19 (Anteil > 50 %,
+   Nachtrag b) und an den E-Armen von EXP-018/EXP-020.
+2. [high] *Die „funktionalen“ Schlüsselfrequenzen sind keine Ablation.* **Stimmt, selbst nachgesehen:** Die Regel
+   `nanda` der Studie ist eine Fourier-Norm von W_L = W_out·W_U über die Neuronen, mit Schwelle (Datei
+   `analysis/key_frequencies/step025000.json`, `score_name`). Mein Wort „Ablation“ war falsch. Korrekt: „ausgangsseitige
+   Schlüsselfrequenzen (W_L)“. Die Bezeichnung „funktional“ aus Sitzung 4 (EXP-015 Nachtrag) meint dieselbe Größe; sie
+   bleibt als historischer Wortlaut stehen, ist aber so zu lesen. Die Aussage „2k ist nur Oberwelle, nicht genutzt“ ist
+   damit **nicht belegt**, nur: Die W_L-Seite zeigt keine (k, 2k)-Anreicherung. Ein kausaler Test (2k-Komponente in W_E
+   abtragen, Verlust messen) steht aus, siehe unten.
+3. [medium] *„M0c ⇒ kohärente Addition“ war ungeprüft.* **Übernommen und sofort direkt gemessen**
+   (`posthoc/positional_gradient.py`, `positional_cross_foreign.py`): Den ersten W_E-Gradienten in den Beitrag der
+   linken (Position 0) und rechten (Position 1) Eingabe zerlegt (Summe = gewöhnlicher Gradient, relativer Fehler 4e-7).
+   Ergebnis: **Über alle Frequenzen summiert** heben sich die Kreuzterme auf (Kohärenz 0.01), **frequenzweise** folgt
+   der gemessene Kreuzterm aber dem Kreuzterm der Maske M0c − M0: ρ 0.50 (Pearson 0.53), positiv in **18/18** Seeds
+   (0.25–0.65), mit fremder Maske −0.09; ohne Diagonalpaare a = b 0.46. Richtige Formulierung also: Die beiden
+   Positionen **interferieren frequenzweise so, wie es der Kreuzterm der Maske vorhersagt**; das ist der Grund, warum
+   M0c die Gradientenleistung besser beschreibt. „Kohärent addiert“ im Sinn gleicher Phase war zu stark.
+4. [medium] *„Fehlgriffe kommen nicht aus Maske/Init“ zu weit.* **Übernommen:** Geprüft sind nur die Rangprädiktoren
+   M0, M0c, E0 und G0 bei Schritt 0. Maske oder Init können über die Trainingsdynamik (Phasen, Richtungen) trotzdem
+   beitragen.
+5. [medium] *„Oberwellen wachsen spät“ ist ein Kohortenvergleich.* **Übernommen:** zurückgestuft auf „Seeds 0–9 bei 25k
+   zeigen häufiger K ≠ K_h als Seeds 10–17 direkt nach dem Grokking“. Ein Zeitverlauf an denselben Seeds steht aus
+   (Studien-Checkpoints existieren, reine Auswertung).

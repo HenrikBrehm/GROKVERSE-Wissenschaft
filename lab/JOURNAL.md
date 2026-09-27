@@ -3363,3 +3363,12 @@ den Split als offen). **K4d eingeschränkt:** In Sprachmodellen stellt ein QK-Re
 nicht neu, unsere Reihenfolge (Wertepfad > QK) ist umgekehrt → als Gegensatz berichten. K4: Khanh 2026 (Frequenzidentität per Gewichtsrichtung, gleicher Modelltyp) und LeDoux §3.4 zitieren;
 Lyle et al. 2025 von „teilweise, deutlich“ auf „teilweise“. Eingearbeitet in [[paper/draft]] (§1, §3.5), [[paper/related_work]] (Nachtrag), [[FINDINGS]] (Literatur). *Entscheidung:*
 Die umgekehrte QK/VO-Reihenfolge ist eine offene Frage für B (verschiedene Aufgaben, Skalen, Protokolle); kein neuer Versuch jetzt.
+
+**Zyklus 4 (Programm C: neue Vorhersage aus der Theorie, bis 14:40).** *Frage:* Steuert ein Split, dessen einzige Struktur die periodisch geformte Häufigkeit des linken Operanden ist,
+die gelernten Frequenzen? (Konkurrenz: „nur Paarstruktur“ nach EXP-047 gegen „erste Ordnung inkl. Fremd-Häufigkeiten“.) *Änderung:* Literatursuche (3 Begriffe, nicht gefunden, vorläufig),
+Offline-Rechnung: ε = 2 bringt alle fünf Ziele in M0 nach oben (Rang 3.0, Anteil 0.191, wie P1), CV links 0.53, rechts 0.14. [[experiments/EXP-077-marginal-steering/README|EXP-077]] als Pilot
+vorab festgelegt (Seeds 770–779, 40 Läufe, Lesart vorab), Splits gebaut, Jobliste, Auswertung (nur `py_compile`), N35 in [[NOVEL_DIRECTIONS]]. *Ergebnis:* vorbereitet, nicht ausgeführt
+(Fenster zu); in STATE als Schritt 6 der Nacht eingetragen (≈ 5 min GPU).
+
+**Zyklus 5 (Paper: Related-Work-Abschnitt, bis 14:40).** Abschnitt 1b im [[paper/draft]] als Fließtext aus [[paper/related_work]] und der Volltextprüfung; nur Aussagen aus der Tabelle bzw.
+dem Volltextbericht; eine eigene Überdehnung (Stander et al. als „beliebig“-Quelle) vor dem Commit korrigiert. Alles für die menschliche Prüfung markiert.

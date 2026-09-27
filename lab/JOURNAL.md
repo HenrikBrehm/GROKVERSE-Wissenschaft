@@ -3119,3 +3119,9 @@ Gleichwertigkeit `--reset-at-switch rest` alter gegen neuer freq_ban-Code (60 Sc
 *Ergebnis:* **Attention-Reset hebt den Ausschluss vollständig auf** (b 4.25 → 0.10, Δb > 1 in 10/10) und das Netz rechnet danach mit den neuen Frequenzen (ohne alte 0.74, ohne neue 0.08). MLP-Reset (doppelte
 Parameterzahl) *unklar* (b 3.14, Funktion bleibt alt), W_U-Reset *nicht nötig* (b 4.50). Meine Erwartung war falsch. *Entscheidung:* Bestätigung N29b an frischen Seeds 2300–2319 (neu reserviert), Funktionsmaß wie N29,
 Kontraste normal − rsattn und rsmlp − rsattn; Codex-Prüfung läuft. [[experiments/EXP-067-exclusion-part/README|EXP-067]]
+
+**Zyklus 14 (N29b festgelegt und eingefroren, 11:01–11:07 gemessen).** `confirm_n29b.py` (Selbsttest ok 11:01), [[confirm/N29b_REGISTRATION|Registrierung]]. **Codex-Aufruf abgebrochen: „workspace is out of credits“**
+(Regel 12: dokumentiert, ohne Codex weiter). Übernommen: Codex' Zwischenbemerkung (H1 belegt keinen Umstieg *auf* die neuen, nur eine Verringerung) → Aussage auf das Getestete eingeschränkt, R(rsattn) nur
+beschreibend. Eigene Prüfung statt Codex (Run-IDs, Reset-Ereignisse, Vorzeichen, alt/neu, Holm). Eingefroren db31564, Smoke (rsattn, Seed 2300) durch den Lader ok, Block 120 Läufe ab 11:06 (7 GPU-Arbeiter).
+**Folge für den Rest der Sitzung:** Keine Codex-Prüfung der N29b-Schlussfolgerung möglich; eine Kernaussage in FINDINGS erst nach einer Codex-Prüfung in einer späteren Sitzung (Regel 18c), bis dahin nur als
+„bestätigt, Schlussfolgerung ungeprüft“ vermerken.

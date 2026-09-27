@@ -40,6 +40,7 @@ Zwei Blocker, beide selbst geprüft und übernommen: (1) Genauigkeitsfilter ist 
 (2) `EXP-056/make_splits.py` wird ausgeführt, war aber nicht im Code-Hash → ergänzt, dazu ein Selbsttest, der alle geladenen lab-Module gegen die Hash-Liste prüft. Weiter übernommen: gemeinsames Urteil
 „Übergang“ nur bei H1 und H2; nicht endliche Verluste/Abstände/Gewichte als technischer Ausfall; SD ausdrücklich benannt; Aussage als Mittel über Richtungen und Seeds.
 Keine Fehler gefunden bei Testmenge, alt/neu je Richtung, Schrittzahl, `--stop-after-gen`, Run-ID.
+Nachprüfung (Codex): 4/5 geschlossen; offen waren die Endlichkeit aller Gewichte (jetzt alle Parameter geprüft) und ein Urteilslabel in der beschreibenden Teilanalyse (entfernt, Selbsttest prüft es).
 
 ```
 python lab/tools/confirm_n29.py --splits lab/confirm/N29_manifest.json

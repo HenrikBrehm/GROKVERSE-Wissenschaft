@@ -160,7 +160,7 @@ def one_run(man: dict, s: int, t: int, first: str, second: str, old: list[int], 
     W = m.W_E.detach().numpy().astype(np.float64)[:P]
     ev = {"base": p2.e55.evaluate(m, None, test), "old": p2.e55.evaluate(m, W - g61().project(W, old), test),
           "new": p2.e55.evaluate(m, W - g61().project(W, new), test)}
-    if not all(np.isfinite(x) for e in ev.values() for x in e.values()) or not np.isfinite(W).all():   # Codex s23 point 4
+    if not all(np.isfinite(x) for e in ev.values() for x in e.values()) or not all(bool(q.isfinite().all()) for q in m.parameters()):   # Codex s23 point 4: every weight
         return f"{tag}: defekt: non-finite loss/margin/weights"
     return {"base": ev["base"]["acc"], "acc_old": ev["old"]["acc"], "acc_new": ev["new"]["acc"],
             "margin": {k: e["margin"] for k, e in ev.items()}}
@@ -213,7 +213,8 @@ def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
     out: dict = {"n": len(rows), "n_technical": 0, "n_generalised": sum(1 for r in rows if r["valid"]), **test_family(rows, rng)}
     out["transition"] = "Übergang bestätigt" if out["H1"]["verdict"] == out["H2"]["verdict"] == "bestätigt" else "Übergang nicht bestätigt"
     ok = [r for r in rows if r["valid"]]
-    out["descriptive_generalised_only"] = test_family(ok, rng) if len(ok) >= 3 else None
+    desc = test_family(ok, rng) if len(ok) >= 3 else None       # descriptive only: no verdict label (Codex recheck s23)
+    out["descriptive_generalised_only"] = {k: {kk: vv for kk, vv in v.items() if kk != "verdict"} for k, v in desc.items()} if desc else None
     return out
 
 
@@ -273,7 +274,8 @@ def selftest() -> None:
     v = verdict([mk(0.25 + 0.01 * i, 0.1, 0.02, 0.95) for i in range(20)], 20, rng)
     assert v["H1"]["verdict"] == "bestätigt" and v["H2"]["verdict"] == "nicht bestätigt" and v["transition"] == "Übergang nicht bestätigt", v
     w = verdict(good[:15] + [mk(0.8, 0.1, 0.02, 0.95, base=0.5)] * 5, 20, rng)     # not generalised: still in the primary sample
-    assert w["n_generalised"] == 15 and w["n"] == 20 and w["H1"]["verdict"] == "bestätigt" and w["descriptive_generalised_only"]
+    assert w["n_generalised"] == 15 and w["n"] == 20 and w["H1"]["verdict"] == "bestätigt"
+    assert w["descriptive_generalised_only"] and all("verdict" not in v for v in w["descriptive_generalised_only"].values())
     w = verdict(good[:15] + [mk(0.1, 0.4, 0.3, 0.3, base=0.5)] * 5, 20, rng)       # low-effect non-generalised seeds count against H2
     assert w["H2"]["mean_diff"] < verdict(good[:15], 15, rng)["H2"]["mean_diff"]
     assert verdict(good[:19], 20, rng)["verdict"] == "nicht auswertbar"

@@ -3505,3 +3505,8 @@ Amplitudenbilds an frischen Seeds, billig und mit zwei gegensätzlich vorhergesa
 **Zyklus 7, Codex (Ergebnis vor 15:41, gemessen).** Codex zu R3: **keine Blocker** (Eingriff genau in den Schritten 1 … t, Run-IDs, Vorzeichen, Joborder, Holm, Power bestätigt). Übernommen: genauere
 Formulierung „Nachtraining gleich spezifiziert“; Gegenerklärungen (Bias-Korrektur, schrittabhängige Momente, Überschießen) in der Registrierung, *Λ-Uhr bestätigt* heißt nur „skaliert wie Λ in
 zwei Zellen“; die Ausgabe von *nicht bestätigt* sagt ausdrücklich, dass das keine Schrittuhr belegt. Code weiter ungetestet.
+
+**Zyklus 8 (Literatur, Nachprüfung des engsten Treffers, 15:42, gemessen).** Den Volltext von Tomàs Bernal et al. 2026 selbst gelesen (WebFetch). *Ergebnis:* Meine und die Agenten-Einordnung („entscheidet nur,
+**ob** generalisiert wird“) war **zu schwach**: Mit absichtlich H-invarianten Splits lernt RFM genau die Untergruppe H, Vorhersage und Ergebnis stimmen zu 100 % überein. Die Trainingsmengen-Struktur wählt
+dort also die gelernte Merkmalsstruktur (Kernel, Symmetrie-Untergruppen, keine Fourier-Analyse, keine Netze). *Folge:* K2 **teilweise eingeschränkt** (konzeptioneller Vorläufer); related_work, Paper §1b und
+FINDINGS korrigiert. *Lehre:* Auch Einordnungen „schränkt nicht ein“ aus Abstracts sind am Volltext zu prüfen, bevor sie ins Paper gehen.

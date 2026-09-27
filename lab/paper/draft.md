@@ -17,8 +17,8 @@ We show that, with fixed one-hot tokens, the *composition of the training set* �
 representations) the embedding of a one-layer transformer learns. In pre-registered, held-out replications with fresh seeds (50 per task), engineered training splits enrich five prescribed
 frequencies in addition mod 113 and 97, multiplication mod 113, and composition in D59. Equal-norm embedding perturbations along the steered frequencies reduce the logit margin more than along control
 frequencies. The choice is made early: 25 training steps on a first split measurably shape the embedding after 2000 further steps on a pair-disjoint second split, and whether the final network relies on
-the old or the new frequencies flips between a switch after 25 and after 50 steps. Resetting the attention's value path at the switch removes this persistence far more than resetting the MLP or the
-attention pattern. We report effect sizes with confidence intervals, the limits of each measurement (notably that functional sensitivity follows spectral energy), and negative results.
+the old or the new frequencies flips between a switch after 25 and after 50 steps. Resetting the attention (weights and optimizer state) at a switch after 50 steps reverses this
+reliance far more than the tested MLP reset, and resetting its value path does so more than an equal-size reset of its query/key weights — a reset sensitivity, not a storage location. We report effect sizes with confidence intervals, the limits of each measurement (notably that functional sensitivity follows spectral energy), and negative results.
 
 ## 1 Introduction (outline)
 
@@ -30,7 +30,7 @@ attention pattern. We report effect sizes with confidence intervals, the limits 
 - Lock-in: critical periods (Achille et al. 2019; Kleinman et al.), primacy bias (Nikishin et al. 2022), warm starting (Ash & Adams 2020) and, closest, grokking under non-stationarity with the
   effective learning rate as explanation (Lyle et al. 2025). Our contribution is a measured lock-in time of the frequency choice (≈ 25–50 steps) against a pair-disjoint switch and its functional flip.
 - The functional measure (K2-function) is a validation of K2 rather than a separate contribution (frequency ablations go back to Nanda et al. 2023), and we state its limit (function follows energy).
-- Contributions: (i) causal steering via split construction, held-out across four tasks incl. a non-abelian group; (ii) a functional sensitivity measure and its limits; (iii) an early, time-dependent
+- Contributions: (i) causal steering via split construction, held-out across four tasks incl. a non-abelian group; (ii) a functional validation (margin sensitivity) with its limits; (iii) an early, time-dependent
   lock-in under a data switch; (iv) reset interventions that localize *sensitivity* (not storage) in the attention value path.
 
 ## 2 Setup

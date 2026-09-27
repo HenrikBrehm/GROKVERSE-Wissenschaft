@@ -40,7 +40,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
    GPU zusammen ≈ 1 h nacheinander; CPU (EXP-040 zuerst) ≈ 3 h. Nicht alle GPU-Queues gleichzeitig starten (≤ 10 Prozesse).
 
 
-6. Nach den Blöcken, falls Zeit (GPU, je ≈ 1–3 min): Selbsttest `confirm_p4.py --selftest`; Repro-Gleichwertigkeit (2 Befehle in [[paper/repro/README]]). P4 selbst erst Nacht 28./29. (nach Einfrieren).
+6. Nach den GPU-Queues: **EXP-077** (Pilot, 40 Läufe ≈ 5 min): `parallel_queue.py lab/experiments/EXP-077-marginal-steering/jobs.txt --workers 8`, dann `analyze.py` über guarded_run.
+7. Nach den Blöcken, falls Zeit (GPU, je ≈ 1–3 min): Selbsttest `confirm_p4.py --selftest`; Repro-Gleichwertigkeit (2 Befehle in [[paper/repro/README]]). P4 selbst erst Nacht 28./29. (nach Einfrieren).
 
 Vorab-Lesart der Nacht (Kombination EXP-040/073/074/075, P2f): [[LESART-nacht-2026-09-28]].
 

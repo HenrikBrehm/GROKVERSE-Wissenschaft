@@ -805,3 +805,10 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
   an einer kleinen Rechnung (AGF-Nutzen erster Stufe mit Paargewichten w(a, b) ausschreiben) und dann an gespeicherten Läufen (Rangfolge der zuerst wachsenden Irreps gegen M0; EXP-015, EXP-046).
 - **Ergebnis (EXP-076, Sitzung 24, 13:38):** *keine Brücke* im einfachsten AGF-Modell (quadratisch, Ein-Frequenz-Ansatz): Der Nutzen erster Stufe sieht die konstruierten Ziele nicht (Treffer = Zufall),
   M0 trifft alle. Neue Kandidatenfrage **N34**: Hängt die Split-Steuerung an einer endlichen (zufälligen) Auslese bei der Init und verschwindet sie im AGF-Bereich sehr kleiner Init? (vorläufig, ungeprüft)
+
+## N35: Frequenzsteuerung allein über die Häufigkeit eines Operanden (Sitzung 25) #neu/kandidat
+
+- **Idee:** Nach der Theorie erster Ordnung fällt im ersten W_E-Gradienten nur die eigene Häufigkeit einer Zeile heraus; die Häufigkeit des *anderen* Operanden erzeugt Leistung p|ρ̂(k)|²
+  bei den Frequenzen von ρ. Dann müsste ein Split, der nur die Häufigkeit des linken Operanden periodisch formt (keine Paarstruktur), die gelernten Frequenzen steuern.
+- **Konkurrenz:** „nur Paarstruktur“ (Lesart nach EXP-047) gegen „erste Ordnung inkl. Fremd-Häufigkeiten“. Test: [[experiments/EXP-077-marginal-steering/README|EXP-077]] (Pilot, vorbereitet).
+- **Suche 2026-09-27** (3 Suchbegriffe, im EXP-077-README): nicht gefunden (vorläufig).

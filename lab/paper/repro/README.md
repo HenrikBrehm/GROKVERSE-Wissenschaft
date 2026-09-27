@@ -77,3 +77,6 @@ Voll (GPU, 300 Läufe): `python lab/tools/guarded_run.py -- C:/Users/henri/Docum
 **K2-Funktion-Skript `repro/k2_function.py` (Sitzung 27, 16:33, ungetestet):** baut die P2d-Splits (`confirm_splits`, Versuchs-ID 4, ε = 2, Seeds 2230–2249), trainiert F/G je 4000 Schritte mit `repro/train.py` und wendet die **eingefrorene** P2d-Messung an
 (Funktionen aus `confirm_p2d.py` nur gelesen importiert). `--compare-p2d` vergleicht das mittlere D mit `P2d_summary.json` (Abnahme ≤ 0.02 Logit-Einheiten). Smoke: `python lab/tools/guarded_run.py -- python lab/paper/repro/k2_function.py --smoke`.
 Voll (GPU, 40 Läufe): `python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/k2_function.py --device cuda --workers 8 --compare-p2d`. Nicht abgedeckt: P2e (mul 113, add 97).
+
+**K2-Funktion mul 113 / add 97, `repro/k2_function_p2e.py` (Sitzung 27, 16:40, ungetestet):** P2e-Splits (Versuchs-ID 5, Seeds 2270–2289), 8000 Schritte mit `repro/train.py`, eingefrorene P2e-Messung und -Auswertung (Holm über beide Aufgaben) aus `confirm_p2e.py` importiert.
+`--compare-p2e` vergleicht das mittlere D je Aufgabe (≤ 0.02). Smoke: `python lab/tools/guarded_run.py -- python lab/paper/repro/k2_function_p2e.py --smoke`. Voll (GPU, 80 Läufe à 8000 Schritte): wie oben mit `--device cuda --workers 8 --compare-p2e`.

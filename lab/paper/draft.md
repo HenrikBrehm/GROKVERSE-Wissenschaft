@@ -325,11 +325,12 @@ Every confirmed number can be regenerated in two ways. (i) From the frozen block
 |---|---|---|---|
 | K2 (add 113, mul 113, add 97) | P1 | `repro/k2.py --task add|mul --p 113|97 --compare-p1` | every seed's Δ_pow within 10⁻³ (strict; may need loosening if GPU runs are not deterministic) |
 | K2-function (add 113) | P2d | `repro/k2_function.py --compare-p2d` | mean D within 0.02 |
+| K2-function (mul 113, add 97) | P2e | `repro/k2_function_p2e.py --compare-p2e` | mean D per task within 0.02, all seeds |
 | K4 (π arms), K4b | N28 | `repro/k4b.py --compare-n28` | mean π per arm within 0.05, all seeds |
 | K4c | N29 | `repro/k4c.py --compare-n29` | mean accuracies within 0.02 |
 | K4d / K4e | N29b / N29c | `repro/k4_resets.py --block n29b|n29c --compare` | mean R per arm and contrasts within 0.05, all seeds |
 
-Not yet covered by a lean script: K2 for D59 (other trainer), K2-function for mul 113 and add 97 (P2e), and the static-trace decomposition of P3. Run times and the outcome of the full runs will be added here; until then, this section describes tooling, not results.
+Not yet covered by a lean script: K2 for D59 (other trainer) and the static-trace decomposition of P3. Run times and the outcome of the full runs will be added here; until then, this section describes tooling, not results.
 
 ## Verification (session 24)
 

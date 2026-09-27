@@ -2988,3 +2988,9 @@ Nächster Schritt: Codex prüft die Schlussfolgerungen, bevor sie als Kernaussag
 (1) Nichtunterlegenheit zeigt Ausgleich auf π, nicht mechanistische Ersetzbarkeit. (2) π ist ein normierter Spektralindex, kein Anteil. (3) Die π(t)-Kurve ist Pilot, frisch nur 25 gegen 50.
 (4, Blocker) a/b zeigen Spektralsignaturen, keine funktionale Koexistenz bzw. keinen funktionalen Ausschluss. (5) Vorhersage während der Erhebung festgelegt: „erfüllte Vorhersage“. (6) Enger Geltungsbereich.
 (7) EXP-063 zu kausal. FINDINGS mit neuem Abschnitt „K4b-bestätigt“ in engem Wortlaut; NOVEL_DIRECTIONS N29, EXP-062/063 ergänzt. Nächster Test für N29: funktional (Ablation am Endmodell).
+
+**Zwischenbilanz Sitzung 22 (§4, 08:37).** *Gelernt:* Die „Adam-Gedächtnis“-Deutung aus Sitzung 21 war zu stark (EXP-059) und ist in der engen Fassung jetzt bestätigt (N28). Neu ist ein
+Zwei-Regime-Bild (Koexistenz bis t ≈ 30, Ausschluss bei 50), dessen Vorhersage an frischen Seeds erfüllt ist. Zwei Mechanismusideen sind verworfen (W_E-Vorsprung, Gradientenverstärkung).
+*Wiederholen wir uns?* Nein: jeder Versuch dieser Sitzung entschied zwischen benannten Konkurrenzmodellen. *Sind die Maße geeignet?* Teilweise: π und a/b sind Spektralmaße in W_E; Codex hat zu Recht
+verlangt, Funktion getrennt zu prüfen (EXP-064 läuft). *Welche Annahme als Nächstes angreifen:* dass „Ausschluss“ ein Kapazitäts- bzw. Weight-Decay-Effekt ist (K1) und welcher Teil des Rests ihn trägt.
+*Eigene Fehler:* P2b-Designfehler (vorzeitiger Trainer-Stopp nicht bedacht), mehrfach geschätzte statt gemessene Uhrzeiten (korrigiert), einmal `git add -u lab` mit Nutzer-Dateien (sofort rückgängig gemacht, nur mein Commit).

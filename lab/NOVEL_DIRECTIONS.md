@@ -429,11 +429,11 @@ letzten Schichten); nicht gefunden (vorläufig): Lokalisierung der Frequenzwahl 
   **nicht gefunden** (vorläufig). Weiter nachholen: „initialization scale feature selection
   timing“, „signal-to-init ratio critical period“, „lazy to rich transition init scale grokking“ (Kumar et al. 2023,
   https://arxiv.org/abs/2310.06110, verbindet Init-Skala mit dem Grokking-Zeitpunkt, nicht mit der Frequenzwahl).
-
 - **Nachtrag Suche 2026-09-27 (Sitzung 24, WebSearch):** „Adam optimizer sign-like updates feature amplitude grows linearly competition early features persist after distribution shift primacy bias theory“.
   Nächstverwandt: Primacy Bias (Nikishin et al. 2022, https://ar5iv.labs.arxiv.org/html/2205.07802), frühe Trainingsphase prägt die Anpassung an Verteilungswechsel (https://arxiv.org/pdf/2403.15210),
   Adam als vorzeichenartiges Verfahren (https://arxiv.org/pdf/2507.06464), Grokking unter Nichtstationarität (Lyle et al. 2025, https://arxiv.org/html/2507.20057). **Weiter nicht gefunden (vorläufig):**
   eine quantitative Festlegungszeit, die aus „Adam-Wachstum ∝ Λ gegen Init-Amplitude der Konkurrenz“ folgt. EXP-040 ist der vorab festgelegte Test; EXP-075 prüft, ob die Festlegung ohne Attention auftritt.
+
 ## N19: Frequenzen „programmieren“ durch einen kurzen Vorlauf auf einer anderen Trainingsmenge #neu/kandidat
 
 - **Idee (Sitzung 10):** Wenn die Wahl nach Λ ≈ 50 festliegt (EXP-020), sollte ein 150-Schritte-Vorlauf auf einem konstruierten

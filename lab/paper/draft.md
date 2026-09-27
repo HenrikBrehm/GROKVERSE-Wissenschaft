@@ -317,6 +317,20 @@ code), operating under written rules set by the human author, who bears responsi
    30 fresh seeds (CIs recomputed from the frozen per-seed values; confirmed points offset by 1.2 steps for visibility).
 5. **done:** `figures/fig5_margin_sensitivity.py` — K2-function D per seed with CI (P2d add 113; P2e mul 113, add 97); different step budgets, compare qualitatively.
 
+## Reproduction (draft, session 27; scripts exist, none has been run end to end yet)
+
+Every confirmed number can be regenerated in two ways. (i) From the frozen blocks: each block's job list, bound runs and frozen analysis (`lab/confirm/<BLOCK>_jobs.txt`, `confirm_<block>.py --analyze`; code hashes are checked against the manifest, so a re-analysis after later code changes needs a checkout of the manifest commit). (ii) From scratch with a lean trainer (`lab/paper/repro/train.py`, same model, data order, optimizer and switch/reset semantics as the lab trainer; equivalence against stored runs is checked first) and one script per claim, each with a smoke mode and a comparison gate against the frozen summary:
+
+| Claim | Block | Script | Gate |
+|---|---|---|---|
+| K2 (add 113) | P1 | `repro/k2.py --compare-p1` | per-seed Δ_pow deviation |
+| K2-function (add 113) | P2d | `repro/k2_function.py --compare-p2d` | mean D within 0.02 |
+| K4, K4b | N28 | `repro/k4b.py --compare-n28` | mean π per arm within 0.05, all seeds |
+| K4c | N29 | `repro/k4c.py --compare-n29` | mean accuracies within 0.02 |
+| K4d / K4e | N29b / N29c | `repro/k4_resets.py --block n29b|n29c --compare` | mean R per arm and contrasts within 0.05, all seeds |
+
+Not yet covered by a lean script: K2 for mul 113, add 97 and D59 (P1 secondary tasks), K2-function for mul 113 and add 97 (P2e), and the static-trace decomposition of P3. Run times and the outcome of the full runs will be added here; until then, this section describes tooling, not results.
+
 ## Verification (session 24)
 
 All numbers in §3 were checked against the frozen summaries by an independent verification agent (≈ 85 claims OK); 15 wording/scope issues were corrected.

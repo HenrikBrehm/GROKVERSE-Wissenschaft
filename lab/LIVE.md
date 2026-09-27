@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 15:59 Berlin (13:59Z, vom Runner)
 - **Deadline:** 2026-09-27 18:59 Berlin (16:59Z)
-- **Zuletzt aktualisiert:** 16:22 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 16:35 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: nur Denk-, Such- und Vorbereitungsarbeit.
 
 ## Gerade
 
-Ein Pruefagent greift den neuen Versuchsentwurf EXP-081 an (welche 'Uhr' legt die Frequenzwahl fest: beta1, beta2 oder Schritte?). Nur Lesen, kein Lauf.
+Paper: Abschnitt zur Reproduktion (welches Skript erzeugt welche Zahl) im Entwurf ergaenzen.
 
 ## Als Naechstes
 
-Befunde einarbeiten; danach weitere Paper-Arbeit.
+Danach Sitzungsbilanz; Nachtplan bleibt wie in STATE (ab 00:00).
 
 ## Verlauf dieser Sitzung
 
+- 16:35 Repro-Paket: k2_function.py (P2d), k4b.py (N28), k4_resets.py (N29b/c) geschrieben und je unabhaengig geprueft; ungetestet, nicht fuer heute Nacht.
+- 16:25 EXP-081 nach Pruefung umgebaut (2 Blocker gefunden und behoben, bevor Code existiert).
 - 16:22 EXP-081 entworfen (Pilot, kein Code, Start fruehestens nach R3): trennt drei Kandidaten fuer die Uhr der Festlegung.
 - 16:19 Literatur: Salah & Yevick, Sweeney, Pracher, Yang, Sevetlidis & Pavlidis geprueft; K4b-Deutung ist bekannt, K2/K4 weiter nicht gefunden.
 - 16:15 R2/R3-Auswertung robuster (Fehler -> defekt statt Absturz, wie N29c).

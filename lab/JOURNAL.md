@@ -2688,3 +2688,22 @@ gemeinsamen Trainer anzufassen? *Änderung:* Wrapper `confirm_p1.py --run` (Prü
 `--analyze` verwirft ungebundene Läufe (Commit feedd8f). *Ergebnis:* Selbsttests `confirm_p1` und `confirm_splits` grün (über den Wächter), inkl. Ende-zu-Ende mit
 Scheintrainer (gebunden → angenommen; geänderte/zusätzliche Datei, falscher Digest/Commit, Exit ≠ 0 → abgelehnt). Unterwegs: Das Patch-Skript schrieb die Datei mit LF,
 die Datei ist CRLF. Ich habe die CRLF-Endungen wiederhergestellt, damit der Diff nur die echte Änderung zeigt. *Entscheidung:* Codex-Nachprüfung (Regel 18c, Änderung am Lader), dann einfrieren.
+
+**Zyklus 3 (Codex prüft B1, 04:25–04:33 gemessen).** *Codex (7 Punkte, 3 als Blocker):* (1) Code wird nur vor und nach dem Lauf geprüft; ändern und zurücknehmen
+während des Laufs bliebe unbemerkt. (2) Die Bindung über `mtime ≥ Start` kann einen übersprungenen, fremden fertigen Lauf binden (z. B. nach Uhrrücksprung).
+(3) Prüfen und Laden sind getrennt (TOCTOU). (4) `--run` nimmt jeden Befehl mit den passenden Flags an. (5) Nur `.py` gehasht, ein untergeschobenes `.pyc` liefe.
+(6) Der Split-Hash sortiert, die Reihenfolge ist nicht gebunden. (7) Der committete Matcher verwechselt Haupt- und Kreuzläufe desselben Splits.
+*Selbst geprüft:* Alle stimmen technisch. (7) hatte ich schon vorher selbst gefunden und behoben (83378f8). (6) ist praktisch folgenlos, weil beide Trainer
+Full-Batch trainieren (Reihenfolge egal). (2), (3), (5) sind eher Angriffsszenarien als Versehen. Weil die Behebung billig ist, habe ich trotzdem **alle übernommen**
+(0d85983, ce7880e): Befehl muss in der eingefrorenen Jobliste stehen; Code-Prüfung alle 2 s während des Laufs (Änderung → Trainer beendet, keine Bindung); frischer
+Bytecode-Cache pro Lauf (`PYTHONPYCACHEPREFIX`); Bindung aus Vorher-/Nachher-Zustand statt Zeitstempeln, gebundener Lauf → übersprungen, fremder fertiger Lauf → abgelehnt,
+erfolgreicher Lauf ohne neues result.json → Exit 4; beim Auswerten Prüfen–Laden–Prüfen und exakte Split-Bytes über `fingerprint_fields.split_file_sha256`.
+Rest (dokumentiert, nicht behoben): Eine Änderung, die kürzer als 2 s besteht, und Bibliotheken außerhalb des Repos (torch) sind nicht gebunden.
+*Eigener Fehler:* Nach dem ersten Fix habe ich mit `… | tail && git commit` committet, und dabei zählte der Exit-Code von `tail`. So kam ein roter Selbsttest in Commit 0d85983,
+ce7880e behebt ihn. Selbsttests `confirm_p1`, `confirm_p2`, `confirm_splits` jetzt grün.
+
+**Zyklus 4 (P2 vorbereiten, 04:26–04:31).** *Frage:* Kann P2 (funktionale Nutzung) zusammen mit P1 eingefroren werden, bevor ein Lauf startet? *Änderung:* Die P1-Hauptläufe
+add/mul speichern `model_final.pt` (5b03b7c; Training und Lauf-ID unverändert). Entwurf [[confirm/P2_REGISTRATION_DRAFT|P2]]: ΔL bei f = 0.5 an den 50 P1-Modellen add 113,
+Vorzeichentest, Holm P1–P3, „bestätigt“ = alle gültig, Holm-p < 0.05, KI-Untergrenze > 0. Auswertecode `confirm_p2.py` (935155b), steht in den eingefrorenen Code-Hashes.
+*Power aus EXP-055 (f = 0.5):* D̄ = 5.9·10⁻⁴, SD 3.6·10⁻⁴, d_z = 1.63. Bootstrap-Power bei α/3 für n = 20: 0.997 bei halbem Effekt. Ein Verhältnis ΔL_own/ΔL_ctrl als
+Mindesteffekt geht nicht, weil ΔL_ctrl im Pilot teils negativ ist. *Stand:* Codex prüft den P2-Entwurf.

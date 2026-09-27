@@ -288,7 +288,7 @@ The derivation in the simplest alternating-gradient-flow model (AGF) does *not* 
 towards prescribed frequencies across three cyclic tasks and a non-abelian group. A first-order argument (§5, post hoc) accounts for part of this through how the training pairs enter the first gradient on the embedding;
 the derivation also says what should *not* matter (a row's own occurrence count) and what should (the arrangement of pairs along the output classes, including the token frequencies of
 the other operand). The last point is a prediction we have not yet tested (pilot EXP-077 prepared); it would test whether marginals alone can steer (against the reading that only
-non-marginal pair structure steers), without by itself isolating the first-order route.
+non-marginal pair structure steers), without by itself isolating the first-order route. *Added session 28 (exploration, §4):* the realized pair spectrum also goes with the *order* within the prescribed set, in every task and architecture we looked at, and in the transformer this order outlasts generalization; but the MLP shows the same M0c > M0 preference, so the architecture-specific form of the derivation does not carry it. Whether a prescribed order is causally imposed is prepared as an intervention (EXP-082, graded target amplitudes); three correlational predictions are registered on blocks that have not yet run (C1–C3).
 
 **How early and where.** The choice becomes persistent within tens of optimizer steps: after a switch at 50 steps, removing the old frequencies from the final network costs more than removing
 the new ones, after a switch at 25 steps the reverse (an ablation contrast that does not separate reliance from energy). Resetting the attention, and within it the value/output path, at

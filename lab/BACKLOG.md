@@ -60,6 +60,8 @@ Priorität: P1 als Nächstes · P2 bald · P3 Idee. Status: offen · vorbereitet
 | GPU-001 | P0 | Liefert die GPU gleichwertige Läufe? Regression der `--device`-Änderung, Durchsatz | Regel 16 | vorbereitet (Sitzung 11) | [[experiments/GPU-001-equivalence/README\|GPU-001]] |
 | (Idee) | P2 | Verallgemeinerung auf andere Architektur (2 Schichten, LayerNorm) und nicht-modulare Aufgabe (z. B. Addition ohne mod, Ausgabe 0..2p−2) | Regel 15c; erst nach EXP-043/044 | Idee (Sitzung 11) | [[FINDINGS]] |
 | TOOL-1 | P2 | Explorer-Ansicht „Spektrum über Zeit mit Eingriffsmarke“ für EXP-001/002 (HTML aus `spectra.npy`) | Macht Verbote und Ausweichfrequenzen sichtbar | offen, erst nach Daten | — |
+| N39/C1–C3 | P2 | Ordnet das realisierte Paarspektrum auch die Rangfolge innerhalb der Zielmenge, über Aufgaben und Architekturen, und bleibt die Ordnung nach einem Wechsel erhalten? | Feinere Vorhersage der Theorie erster Ordnung (Programm C) und feinere Persistenz (Programm B) | vorbereitet: C1 (an R1), C2 (an R2), C3 (an P4) registriert, Auswertung nach den Blöcken | [[confirm/C1_REGISTRATION|C1]], [[confirm/C2_REGISTRATION|C2]], [[confirm/C3_REGISTRATION|C3]], [[NOVEL_DIRECTIONS]] N39 |
+| EXP-082 | P3 | Setzt sich eine vorgegebene Abstufung der Zielstärken in der gelernten Rangfolge durch (Eingriff)? | Macht aus C1 einen Eingriffsbefund | vorbereitet (Pilot, optional) | [[experiments/EXP-082-graded-targets/README|EXP-082]] |
 
 Hinweise: Seeds 3–9 der Primärsplits bleiben für die Bestätigung von EXP-001 unberührt. Die
 `txf_mul_*`-Läufe und ihre Auswertung (`docs/ADD_VS_MUL_EIGENLEISTUNG.md`) gibt es bereits als

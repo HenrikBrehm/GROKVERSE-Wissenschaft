@@ -136,6 +136,8 @@ def selftest() -> None:
 
 CODE_FILES = ("lab/tools/confirm_splits.py", "lab/tools/confirm_p1.py", "lab/tools/result_loader.py", "lab/tools/trainer_guard.py",
               "lab/tools/paket_a_device.py",
+              "lab/tools/confirm_p2.py", "lab/experiments/EXP-051-functional-ablation/analyze.py",
+              "lab/experiments/EXP-055-ablation-dose/analyze.py",
               "lab/experiments/EXP-001-freq-ban/freq_ban.py", "lab/experiments/EXP-043-generalize-steering/make_split.py",
               "lab/experiments/EXP-043-generalize-steering/analyze.py", "lab/experiments/EXP-046-dihedral-steering/make_split.py",
               "lab/experiments/EXP-046-dihedral-steering/group_train.py", "lab/experiments/EXP-046-dihedral-steering/dihedral.py")

@@ -11,6 +11,30 @@ Zurück zu [[LAB]]. **Nachtrag Sitzung 21 (27.09., 04:46): P1 und P2 sind eingef
 2026-09-26 nicht gefunden, vorläufig. **Alle Aussagen gelten bisher nur für eine Aufgabe (Addition mod 113) und im Kern eine
 Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelheiten: [[BEFUND-split-mechanismus]], [[BEFUND-festlegung]].
 
+## BESTÄTIGT (Sitzung 22, 27.09., 08:29 Berlin): N28, Momentum-Reset und Ausgleich durch zusätzliche Vorschritte #befund/positiv
+
+**Kernaussage K4b-bestätigt** (Wortlaut nach Codex-Prüfung der Schlussfolgerung, 08:34): *Nach 25 Schritten auf dem konstruierten Split A und 2000 Schritten auf einem paar-disjunkten Split B
+senkte das Nullsetzen von Adams erstem Moment (exp_avg) beim Wechsel den normierten spektralen Persistenzindex π des End-W_E um 0.151 (0.340 → 0.189; registrierter Mindesteffekt 0.05 überschritten).
+Ein eigener Arm mit 35 statt 25 Vorschritten und demselben Reset lag nicht unter normal@25 (Nichtunterlegenheit, Marge 0.05; 0.410 gegen 0.340). Zehn zusätzliche Vorschritte können den Reset-Effekt
+auf diesem Maß also ausgleichen. Das ist vereinbar mit einer Deutung als verlängerte Exposition, belegt sie aber nicht.* Beschreibend lag normal@50 bei π = 0.998, nahe dem reinen A-Endpunkt dieses Index.
+- **Beleg:** [[confirm/N28_REGISTRATION|N28]] (eingefroren fa154bd, 300 gebundene Läufe, Seeds 2200–2229, alle 30 gültig): H1 Y = Δ − 0.05 = 0.101 [0.077, 0.126], Holm-p 2·10⁻⁸, 29/30;
+  H2 X = 0.120 [0.090, 0.152], Holm-p 3·10⁻⁸, 29/30. Piloten [[experiments/EXP-058-optim-part/README|EXP-058]], [[experiments/EXP-059-momentum-exposure/README|EXP-059]].
+- **Grenzen:** π ist ein unbeschränkter, je Seed affin normierter Index des Log-Energieverhältnisses in W_E, keine Wahrscheinlichkeit und kein Anteil „behaltener“ Wahl.
+  Die mehrstufige π(t)-Kurve (0.01 / 0.19 / 0.30 / 0.56 / 1.05 bei t = 10 / 20 / 25 / 35 / 50) stammt aus dem Piloten an 10 bekannten Seeds; frisch reproduziert ist nur der Kontrast t = 25 gegen 50.
+  Eine Aufgabe (add 113), ω = 0, eine Architektur und ein Optimierer, eine Split-Familie.
+
+**Zwei spektrale Signaturen (Vorhersage an frischen Seeds erfüllt, keine Kernaussage über Funktion):** *Bei t = 25 war die Abweichung des End-W_E von passenden reinen B-Läufen vor allem
+überschüssige Energie der alten Ziele, kaum fehlende Energie der neuen (a = 2.24, b = 0.36; a > b in 29/30 Seeds). Bei t = 50 war das Defizit der neuen Ziele viel größer (b = 3.80; Anstieg 3.44;
+> 0.5 in 30/30).* Wir nennen das koexistenz- bzw. ausschlussartige **Spektralsignaturen**. Ob beide Frequenzmengen funktional genutzt werden oder B funktional nicht gelernt wird, ist **nicht geprüft**.
+Die Regel stammt aus dem Piloten [[experiments/EXP-062-rate-race/README|EXP-062]] (Seeds 400–409) und wurde um 07:51 während der N28-Datenerhebung (seit 07:34) committet, vor jeder Einsicht
+in N28-Ergebnisse; ohne nominale Fehlerrate, deshalb „erfüllte Vorhersage“, nicht „vorregistrierte Bestätigung“.
+*Pilot ([[experiments/EXP-063-exclusion-locus/README|EXP-063]], 10 bekannte Seeds):* Ein Reset des Rests des Netzes oder von W_E beim Wechsel bei t = 50 verkleinerte das Defizit der neuen Ziele
+stark (b 4.25 → 1.05 bzw. 0.44), die überschüssige alte Energie blieb (a 3.10 bzw. 2.51). Das zeigt Reset-Empfindlichkeit und mögliche Koadaptation, keinen lokalisierten oder funktional belegten Mechanismus.
+**Negativ:** [[experiments/EXP-060-early-lead/README|EXP-060]] (der W_E-Vorsprung bei t erklärt die Seed-Streuung von π nicht) und [[experiments/EXP-061-grad-alignment/README|EXP-061]]
+(ein Kosinus des Rohgradienten der neuen Daten zeigt keine Verstärkung der alten Struktur; verworfen ist nur dieses eine Maß).
+
+**P2b abgebrochen** (Designfehler: Trainer-Standard `--stop-after-gen 2000`), ersetzt durch [[confirm/P2c_REGISTRATION|P2c]] (läuft).
+
 ## BESTÄTIGT (Sitzung 21, 27.09., 06:04 Berlin): P3, starke Wirkung einer 25-Schritt-Vorgeschichte gegen paar-disjunktes Weitertraining #befund/positiv
 
 **Kernaussage K4-bestätigt** (Wortlaut nach Codex-Prüfung der Schlussfolgerung, 06:10): *Nach 25 Schritten auf dem ersten konstruierten Split lagen die Wechselmodelle nach 2000 Schritten auf
@@ -28,7 +52,7 @@ Ist die Erhaltung A-spezifisch im Netz, oder steckt sie im Optimiererzustand? N�
 **Erster Hinweis (Pilot [[experiments/EXP-057-optim-reset/README|EXP-057]], 06:21, 10 bekannte Seeds, keine Bestätigung):** Setzt man beim Wechsel nur den AdamW-Zustand zurück (Gewichte bleiben), fällt π von 0.30 auf 0.11, und die Ziele des ersten Splits sinken unter Zufall (7.1 % gegen 8.9 %). Die A-spezifische Erhaltung nach 25 Schritten sitzt demnach vor allem im **Optimiererzustand**. Die gleich lange Referenz ändert nichts (0.304). Formal *teilweise*; eine Bestätigung an frischen Seeds und die Trennung m / v / Schrittzähler stehen aus.
 *Korrektur (Codex, eingearbeitet 06:31):* Nicht identifiziert, ob das Gedächtnis im Zustand sitzt oder ob die vorzeichenartigen Schritte nach dem Reset die kleine Spur überschreiben. Gestützt ist nur: Eine volle Neuinitialisierung des Optimierers senkt die spätere A-Persistenz. „Unter Zufall“ ist nicht signifikant (t = −1.2).
 **Folgepilot [[experiments/EXP-058-optim-part/README|EXP-058]] (06:50, 10 bekannte Seeds):** Nur das erste Moment (m) zu löschen senkt π genauso (0.30 → 0.12) wie der volle Reset (0.11), obwohl die ersten Schritte danach **kleiner** sind (Update-Norm 0.25 gegen 0.27 normal, 0.42 beim vollen Reset). Das Überschreiben erklärt den Abfall also nicht, das **Momentum der ersten 25 Schritte trägt den größten Teil der Persistenz** (Pilot, Bestätigung an frischen Seeds ausstehend). Kandidat [[NOVEL_DIRECTIONS]] N28.
-**Einordnung nach [[experiments/EXP-059-momentum-exposure/README|EXP-059]] (Sitzung 22, 07:22, 10 bekannte Seeds, Pilot):** Der Momentum-Anteil ist **verlängerte Exposition**, kein eigenes Gedächtnis: Mit gelöschtem m und 10 zusätzlichen A-Schritten liegt π mindestens so hoch wie normal bei t = 25 (0.36 gegen 0.30); m zu löschen kostet ≈ 6–10 A-Schritte. Die frühe Festlegung ist **sehr steil**: π_normal = 0.01 / 0.19 / 0.30 / 0.56 / 1.05 bei t = 10 / 20 / 25 / 35 / 50. Größte offene Frage für Programm B bleibt damit, **was** in den ersten ≈ 50 Schritten die Wahl so fest macht (nicht wo sie im Optimierer liegt). Bestätigung der engen Aussage: [[confirm/N28_REGISTRATION|N28]] (Entwurf).
+**Einordnung nach [[experiments/EXP-059-momentum-exposure/README|EXP-059]] (Sitzung 22, 07:22, 10 bekannte Seeds, Pilot):** Der Momentum-Anteil ist **verlängerte Exposition**, kein eigenes Gedächtnis: Mit gelöschtem m und 10 zusätzlichen A-Schritten liegt π mindestens so hoch wie normal bei t = 25 (0.36 gegen 0.30); m zu löschen kostet ≈ 6–10 A-Schritte. Die frühe Festlegung ist **sehr steil**: π_normal = 0.01 / 0.19 / 0.30 / 0.56 / 1.05 bei t = 10 / 20 / 25 / 35 / 50. Größte offene Frage für Programm B bleibt damit, **was** in den ersten ≈ 50 Schritten die Wahl so fest macht (nicht wo sie im Optimierer liegt). Bestätigung der engen Aussage: [[confirm/N28_REGISTRATION|N28]] (Entwurf). *Wortlaut dieses Absatzes zu stark (Codex, 08:34): gilt nur in der engeren Fassung „K4b-bestätigt“ oben.*
 
 ## BESTÄTIGT (Sitzung 21, 27.09., 05:39 Berlin): P1, Steuerung der W_E-Repräsentation durch konstruierte Splits #befund/positiv
 

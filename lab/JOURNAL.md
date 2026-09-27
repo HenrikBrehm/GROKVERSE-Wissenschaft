@@ -2983,3 +2983,8 @@ Geprüft: N28, EXP-058/059/063 sind nicht betroffen (≤ 2050 Schritte, Generali
 **Zyklus 12 (N28 ausgewertet, Vorhersage geprüft, 08:28–08:29 gemessen).** N28-Block 300/300 gebunden, 30/30 gültig. **H1 bestätigt** (Δ_m ≈ 0.15, Y-KI [0.077, 0.126], Holm-p 2·10⁻⁸),
 **H2 bestätigt** (π_m@35 0.41 ≥ π_normal@25 0.34, X-KI [0.090, 0.152]). π_normal@50 = 1.00. **Vorab festgelegte Zwei-Regime-Vorhersage bestätigt** (V1 29/30, V2 30/30), Werte nahe am Piloten.
 Nächster Schritt: Codex prüft die Schlussfolgerungen, bevor sie als Kernaussage in FINDINGS stehen.
+
+**Zyklus 13 (Codex prüft die Schlussfolgerungen, 08:30–08:34 gemessen).** *Codex:* K-B1 nach Präzisierung verwendbar, K-B2 im alten Wortlaut blockiert. Übernommen, alle selbst geprüft:
+(1) Nichtunterlegenheit zeigt Ausgleich auf π, nicht mechanistische Ersetzbarkeit. (2) π ist ein normierter Spektralindex, kein Anteil. (3) Die π(t)-Kurve ist Pilot, frisch nur 25 gegen 50.
+(4, Blocker) a/b zeigen Spektralsignaturen, keine funktionale Koexistenz bzw. keinen funktionalen Ausschluss. (5) Vorhersage während der Erhebung festgelegt: „erfüllte Vorhersage“. (6) Enger Geltungsbereich.
+(7) EXP-063 zu kausal. FINDINGS mit neuem Abschnitt „K4b-bestätigt“ in engem Wortlaut; NOVEL_DIRECTIONS N29, EXP-062/063 ergänzt. Nächster Test für N29: funktional (Ablation am Endmodell).

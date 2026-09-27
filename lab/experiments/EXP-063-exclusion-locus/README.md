@@ -39,3 +39,4 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-063-exclusion-locu
   dass neue Frequenzen nicht mehr entstehen.
 - **Grenzen:** Pilot, n = 10, nur t = 50; ein Reset auf die Init entfernt alles Gelernte des Teils, nicht nur die Ausrichtung; b nach W_E-Reset ist gegen ein reines Y-Modell gemessen, das von derselben Init startet.
 - **Nächste Frage:** Welcher Teil des Rests (Attention, MLP, Unembedding)? Und K1 (Weight Decay) aus dem [[BACKLOG]].
+*Wortlaut nach Codex (08:34):* „hebt auf“ ist zu stark; b sinkt stark, aber nicht auf 0. Beide Resets sind grobe Init-Resets und lokalisieren keinen Mechanismus: Reset-Empfindlichkeit und mögliche Koadaptation, keine funktionale Aussage.

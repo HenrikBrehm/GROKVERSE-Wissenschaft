@@ -271,7 +271,7 @@ two-hot quadratic pilot network with an activation switch (EXP-033, exploratory)
 was always AdamW; one stage tested) still gave a persistent bias towards the split's targets, slightly stronger (ratio 1.26 [1.10, 1.46]); sign-GD reproduced AdamW. Whether this holds for
 the transformer is untested. (ii) It predicts which frequencies the network starts to grow, not which survive: in the engineered splits some early-weak
 targets were displaced by step 2000 by second harmonics fold(2k) of targets of the same arm (EXP-016, post hoc, 14/14 in seeds 10–15; the registered check EXP-021 has not been run). (iii) The isotropy assumption on the Jacobians is not checked beyond the first-gradient
-correlations. (iv) It says nothing about why the early choice persists after a data switch (K4); the lab's amplitude model for that (H40) is prepared as EXP-040, not yet run.
+correlations. (iv) It says nothing about why the early choice persists after a data switch (K4); the lab's amplitude model for that (H40) is prepared as EXP-040, not yet run. Registered R3 separates summed learning rate from step count; a drafted pilot (EXP-081) varies β₁ (momentum tail) and β₂ (a proposed second-moment horizon, for which our scalar model gives no mechanism).
 The derivation in the simplest alternating-gradient-flow model (AGF) does *not* reduce to M0 (EXP-076, negative), so the link to AGF-type theories remains open.
 
 ## 5b Discussion (draft, session 25)
@@ -300,7 +300,7 @@ steering robust to learning rate, weight decay and training fraction (registrati
 One architecture family and optimizer for all persistence claims (add 113 only, generalization pending: EXP-074, EXP-075); engineered splits; functional measures do not separate identity from energy;
 resets localize sensitivity, not mechanism; in the same model class (one-layer transformer, d = 128, full-batch AdamW lr 1e-3, wd 1; p = 59) Khanh (2026, §7, App. A) reports suggestive
 evidence (three pairs per task) that transplanting the weight direction of attention, MLP or unembedding alone each pulls the frequency identity towards the donor, so our weak MLP *reset*
-effect at a 50-step switch must not be read as "the MLP carries no frequency identity"; many design decisions were informed by pilots on known seeds (each registration lists them).
+effect at a 50-step switch must not be read as "the MLP carries no frequency identity"; many design decisions were informed by pilots on known seeds (each registration lists them). All persistence results use AdamW with β = (0.9, 0.98); part of the persistence is carried by the first moment (K4b), so its size is expected to depend on the optimizer and β₁ (untested; a β₁/β₂ pilot is drafted, EXP-081).
 
 ## AI use disclosure (draft wording, to be confirmed by the user)
 

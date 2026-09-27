@@ -3,11 +3,13 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 18:12 Berlin (Sitzung 29, Start 17:59; Run-Fenster wieder ab 00:00)._
+_Zuletzt aktualisiert: 2026-09-27, 18:35 Berlin (Sitzung 30, Start 18:19; Run-Fenster wieder ab 00:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
-## Lage (Sitzungen 24–29)
+## Lage (Sitzungen 24–30)
+
+- **Sitzung 30 (Fenster zu, 18:19–):** Gutachter-Durchgang durch [[paper/draft]]: 10 Textkorrekturen (Umfang, fehlende Armmittel, Werte nur generalisierter Seeds, LeDoux-Abgrenzung), keine Zahl geändert. Neu vorbereitet: [[experiments/EXP-083-reset-displacement/README|EXP-083]] (Verschiebung ‖W(50) − W(0)‖ je Reset-Teil; 80 × 50 Schritte GPU, ≈ 5 min; Nachtschritt 7).
 
 - **Sitzung 29 (Fenster zu, 17:59–):** Nachtplan **unverändert**. Literatur: erste Google-Scholar-Abfrage und Init-Skala-Suche, nichts Einschränkendes zu K2/K4 (neu zur menschlichen Prüfung: Stevinson & Prieto 2026, Kontext K2-Funktion). H40 an EXP-039 vorgeprüft: Festlegung bei ≈ 1/3–2/3 der Init-Amplitude; Invarianzvergleich von EXP-040 nur über die s-Zellen lesen ([[LESART-nacht-2026-09-28]] 11–12). Kandidat N41 (nur Init-Hintergrund skalieren), erst nach EXP-040.
 
@@ -49,7 +51,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 
 6. Nach den GPU-Queues: **EXP-078** (neu, Sitzung 26, Pilot 2-Schicht-Transformer, 20 Läufe ≈ 20 min; erst nach bestandener Gleichwertigkeit von `repro/train.py`, Schritt 7; Befehle in [[experiments/EXP-078-two-layer-steering/README|EXP-078]]) und **EXP-077** (Pilot, 40 Läufe ≈ 5 min): `parallel_queue.py lab/experiments/EXP-077-marginal-steering/jobs.txt --workers 8`, dann `analyze.py` über guarded_run.
-7. Nach den Blöcken, falls Zeit (GPU, je ≈ 1–3 min): Selbsttest `confirm_p4.py --selftest`; Repro-Gleichwertigkeit (2 Befehle in [[paper/repro/README]]); neu: `confirm_r2.py --selftest`, `EXP-078/analyze.py --selftest`, Smoke `repro/k4c.py --smoke`. Dazu **EXP-079** (Sekunden, keine Läufe): `guarded_run.py -- python lab/experiments/EXP-079-head-symmetry/measure.py` (Vorbedingung für N36). EXP-080 ist **zurückgestellt** (Designfehler, siehe README) und wird nicht gerechnet. **Die Gleichwertigkeit vor EXP-078 ziehen.** P4 selbst erst Nacht 28./29. (nach Einfrieren; Entwurf `lab/confirm/P4_manifest_DRAFT.json` mit Seeds liegt bereit: `code_sha256` ergänzen, Feld `note` entfernen, als `P4_manifest.json` committen, `commit` setzen).
+7. Nach den Blöcken, falls Zeit (GPU, je ≈ 1–3 min): Selbsttest `confirm_p4.py --selftest`; Repro-Gleichwertigkeit (2 Befehle in [[paper/repro/README]]); neu: `confirm_r2.py --selftest`, `EXP-078/analyze.py --selftest`, Smoke `repro/k4c.py --smoke`. Dazu **EXP-083** (neu, Sitzung 30; 80 Läufe à 50 Schritte, GPU ≈ 5 min): `parallel_queue.py lab/experiments/EXP-083-reset-displacement/jobs.txt --workers 8`, dann `guarded_run.py -- python lab/experiments/EXP-083-reset-displacement/measure.py` (Tore: Init-Prüfsumme, W_E bei 0/50 = Blockschnappschuss). Dazu **EXP-079** (Sekunden, keine Läufe): `guarded_run.py -- python lab/experiments/EXP-079-head-symmetry/measure.py` (Vorbedingung für N36). EXP-080 ist **zurückgestellt** (Designfehler, siehe README) und wird nicht gerechnet. **Die Gleichwertigkeit vor EXP-078 ziehen.** P4 selbst erst Nacht 28./29. (nach Einfrieren; Entwurf `lab/confirm/P4_manifest_DRAFT.json` mit Seeds liegt bereit: `code_sha256` ergänzen, Feld `note` entfernen, als `P4_manifest.json` committen, `commit` setzen).
 
 8. **Neu (Sitzung 26): Rest der Nacht für die Paper-Bestätigungen nutzen.** Die GPU ist nach 1–7 nur ≈ 1–1.5 h belegt. Wenn 1–7 durch sind, alle Selbsttests grün und bis 13:00 noch ≥ 2.5 h bleiben, in dieser Reihenfolge einfrieren und rechnen, je mit Manifest, Commit und Smoke wie P2f: **R1** (`confirm_r1.py`, 180 Läufe ≈ 30 min), **P4** (`confirm_p4.py`, Entwurf `P4_manifest_DRAFT.json`, ≈ 40 min), **R3** ([[confirm/R3_REGISTRATION_DRAFT|R3]], `confirm_r3.py`, Λ- gegen Schrittuhr, 80 Läufe ≈ 17 min; nur nach eingearbeiteter Codex-Prüfung), **R2** ([[confirm/R2_REGISTRATION_DRAFT|R2]], `confirm_r2.py`, 300 Läufe ≈ 45–60 min; Codex ohne Blocker, Punkte eingearbeitet). GPU-Prozesse wie in Schritt 3 (Thread-Summe ≤ 12). **R1:** Entwurf `lab/confirm/R1_manifest_DRAFT.json` liegt bereit (Seeds 2420–2509 in CELLS-Reihenfolge, 15 je Zelle; ε aus `R1_calibration.json`; `confirm_r1.py` prüft jetzt auch die Obergrenze 2509). Reicht die Zeit nicht: **R1 vor R3 vor P4 vor R2**, Rest in die Nacht 28./29. Jeder Block braucht vorher seinen Selbsttest (grün) und nach dem Einfrieren einen Smoke-Job.
 

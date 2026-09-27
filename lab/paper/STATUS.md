@@ -77,3 +77,9 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 
 - **e:** Lücke „Google Scholar nicht direkt abgefragt“ teilweise geschlossen: vier Scholar-Abfragen (Nachtrag in [[paper/related_work]]); nichts Einschränkendes zu K2/K4. **Neu für die menschliche Prüfung:** Stevinson & Prieto 2026 (ICML-Workshop, Angriffe konzentrieren sich auf genutzte Fourier-Merkmale): Kontext für K2-Funktion, Volltext nicht zugänglich (OpenReview-Anmeldung). Init-Skala/Festlegungszeit (für EXP-040): Khanh et al. 2026 (2606.13753) als Kontext, nichts Einschränkendes.
 - **a (Vorbereitung EXP-040):** H40 an gesehenen EXP-039-Läufen vorgeprüft (Festlegung bei ≈ 1/3–2/3 der Init-Amplitude; Lesehinweis in [[LESART-nacht-2026-09-28]]).
+
+## Nachtrag Sitzung 30 (2026-09-27, ab 18:19, gemessen)
+
+- **d:** Gutachter-Durchgang (unabhängiger Prüfagent, danach selbst an den Dateien geprüft): 10 Textkorrekturen im [[paper/draft]] (Abstract enger: konstruierte Splits, D₅₉ vor dem Grokking, eine Optimierer-Einstellung; fehlende Armmittel und Werte nur über generalisierte Seeds in §3.4/§3.5 aus den eingefrorenen Analysen; LeDoux-Abgrenzung; Grenzen). Keine Zahl geändert. Offen und bewusst verschoben: Strukturumbau (Gliederungen löschen, Lab-IDs in einen Anhang, Schluss und Literaturliste), sobald die Nachtergebnisse feststehen.
+- **a:** Gegen den Einwand „der Attention-Reset nimmt nur mehr Bewegung zurück“: [[experiments/EXP-083-reset-displacement/README|EXP-083]] vorbereitet (Exploration, ≈ 5 min GPU heute Nacht).
+- **Für dich, Gutachtersicht:** Der stärkste verbleibende Einwand ist der Rahmen: Wir zeigen Steuerung durch *konstruierte* Splits, nicht, dass gewöhnliche Zufallssplits die Frequenzwahl entscheiden (Pilot EXP-014 heute Nacht).

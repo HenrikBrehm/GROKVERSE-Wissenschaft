@@ -3148,3 +3148,7 @@ Trainer-Erweiterung `qk|vo` (1c6e480, 18/18 Tests, **ohne Codex**: gleiche Codep
 **Zyklus 19 (EXP-070, Exploration, Läufe 11:42–11:44, Auswertung 11:44 gemessen).** *Frage:* Richtet sich der OV-Kreis im Fenster 25–50 sprunghaft auf die Ziele von A aus? *Ergebnis:* nein, gleichmäßiger Anstieg
 (L 0.08 → 0.30 → 0.47 bei t = 10/25/50; 25→50 stärker nur in 2/10 Seeds). Die OV-Ausrichtung läuft der W_E-Energie voraus. *Entscheidung:* Die einfache Zeitform von N32-(V) ist nicht gestützt; der Reset-Befund
 (EXP-069/N29b) bleibt, seine zeitliche Erklärung ist offen. [[experiments/EXP-070-ov-alignment/README|EXP-070]]
+
+**Zyklus 20 (Codex wieder verfügbar: Nachprüfungen, 11:45–11:55 gemessen).** Test-Aufruf 11:45 ok. (1) *N29b-Schlussfolgerung:* kein Blocker (Run-IDs, Resets, Vorzeichen, Holm nachgerechnet); K4d auf „Reset-Empfindlichkeit“
+eingeengt (Gewichte + AdamW-Zustand gemeinsam, Normen, MLP-Kontrolle nicht angeglichen, nur „stärker als dieser MLP-Reset“). Übernommen in [[FINDINGS]]. (2) *Trainer:* `qk|vo` korrekt, EXP-069 wertet die richtigen Läufe aus;
+`group_train --save-model`: Fingerabdrücke korrekt, aber ein erzwungener Neulauf ließ ein altes `model_final.pt` liegen → behoben (Datei wird beim Start entfernt), mit einem Lauf geprüft.

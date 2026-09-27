@@ -3,12 +3,13 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 15:22 Berlin (Sitzung 26 läuft, Start 15:09, Deadline 18:09; Run-Fenster wieder ab 00:00)._
+_Zuletzt aktualisiert: 2026-09-27, 15:54 Berlin (Sitzung 26 läuft, Start 15:09, Deadline 18:09; Run-Fenster wieder ab 00:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
-## Lage (Sitzungen 24–25)
+## Lage (Sitzungen 24–26)
 
+- **Sitzung 26 (Fenster zu, alles ungetestet bis 00:00):** R2 und R3 registriert (Entwürfe + Werkzeuge, Codex ohne Blocker; R3 = Λ- gegen Schrittuhr), EXP-078 (2 Schichten), EXP-079 (Positionskanäle, Sekunden), `repro/k4c.py`; EXP-080 vor jedem Lauf zurückgestellt (Designfehler). Literatur: Vorwärtszitate; **Tomàs Bernal et al. 2026 schränkt K2 teilweise ein**. Paper-Einleitung als Fließtext (geprüft).
 - **Sitzung 25 (neu, ungetestet bis 00:00):** `lab/tools/confirm_p4.py` (P4: MLP, d512, Integer-Addition; Seeds 2360–2419, ID 7; Codex: 1 Blocker behoben); `lab/paper/repro/train.py` (schlanker Trainer, Gleichwertigkeitsbefehle in [[paper/repro/README]]); Theorie-Abschnitt §5 im [[paper/draft]]; Seeds 2420–2509 für R1 reserviert.
 - **Sitzung 25, Literatur:** Volltextprüfung [[paper/fulltext_check_2026-09-27]]: K4d eingeschränkt (Dong 2026: in Sprachmodellen hilft ein QK-Reset, Value nicht; bei uns umgekehrt), Khanh 2026 Pflichtzitat; K2 weiter nicht gefunden. **EXP-077** (Programm C, Pilot) vorbereitet; `repro/k2.py` geschrieben.
 
@@ -30,7 +31,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 1. `guarded_run.py --check`; kein STOP; Prozesse prüfen.
 2. **Trainer-Tests** (neu, ungetestet: `--rewind-at-switch`, `--lr/--weight-decay/--train-frac`): `python lab/tools/guarded_run.py --min-minutes 5 -- python lab/tests/test_freq_ban_fingerprint.py`.
-   Scheitert `test_rewind`: EXP-073 nicht starten. Danach Selbsttests `confirm_r1.py --selftest` (R1 erst Nacht 28./29.).
+   Scheitert `test_rewind`: EXP-073 nicht starten. Danach Selbsttests `confirm_r1.py`, `confirm_r2.py`, `confirm_r3.py --selftest` (Blöcke laut Schritt 8, wenn Zeit bleibt).
 3. **CPU sofort nach den Tests starten, EXP-040 zuerst** (≈ 3 h; direkter Test des Amplitudenmodells H40 für die offene Frage in FINDINGS):
    `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-040,EXP-042,EXP-014` (im Hintergrund).
 4. **P2f einfrieren und rechnen** (≈ 30 min): `guarded_run.py -- python lab/tools/confirm_p2f.py --selftest` → Manifest `lab/confirm/P2f_manifest.json` wie P2e (Felder aus `REGISTERED`,
@@ -51,7 +52,7 @@ Vorab-Lesart der Nacht (Kombination EXP-040/073/074/075, P2f): [[LESART-nacht-20
 ## Prioritäten (Regel 18c + Regel 19, Veröffentlichung gleichgewichtig)
 
 1. **A** P2f (D₅₉) einfrieren und rechnen; **B** EXP-040/073/074/075 rechnen und auswerten.
-2. **Paper** ([[paper/STATUS]]): außerhalb des Fensters (Tag) Trainer-Optionen `--lr/--weight-decay/--train-frac` für [[paper/robustness_plan]] einbauen + Codex; `confirm_p4.py` nach
+2. **Paper** ([[paper/STATUS]]): R1/R3/P4/R2 rechnen (Schritt 8); Trainer-Optionen sind eingebaut; `confirm_p4.py` nach
    [[confirm/P4_REGISTRATION_DRAFT|P4-Entwurf]]; schlanke Repro-Skripte; Literatur [[paper/related_work]] einarbeiten. Offene Nutzerentscheidungen stehen in STATUS.
 3. **C** ruht (EXP-076: einfachste AGF-Brücke negativ).
 

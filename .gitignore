@@ -17,3 +17,4 @@ lab/experiments/*/raw*/
 lab/experiments/*/.status/
 lab/experiments/*/.failed
 lab/experiments/*/.refused
+lab/confirm/raw/

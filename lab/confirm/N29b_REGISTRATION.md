@@ -47,5 +47,5 @@ Import-Hülle im Selbsttest. **Zusätzliche Grenze:** Die „Größe“ eines Re
 ## EINGEFROREN (Sitzung 23)
 
 Manifest-Commit **db31564**, Splits und Jobs committet. Vor dem Einfrieren kein Lauf mit Seeds 2300–2319. Smoke (Seed 2300, rsattn, A→B) durch den eingefrorenen Lader: Run-ID und Reset-Ereignis passen zum
-echten Trainer, gebunden (zählt als regulärer Lauf; dieser eine Wert ist vor dem Block gesehen: Basis 1.0, ohne alte 1.0, ohne neue 0.01). Block ab 11:07 Berlin, 7 GPU-Arbeiter.
+echten Trainer, gebunden (zählt als regulärer Lauf; dieser eine Wert ist vor dem Block gesehen: Basis 1.0, ohne alte 1.0, ohne neue 0.01). Block ab 11:06 Berlin (Log), 7 GPU-Arbeiter.
 Hinweis: Die Überschrift („verlagert … auf die neuen“) ist weiter als die geprüfte Aussage; maßgeblich ist der Abschnitt „Aussage (genau das Getestete)“.

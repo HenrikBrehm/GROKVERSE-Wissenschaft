@@ -2531,3 +2531,10 @@ Repräsentation vor jedem Lernen. Lesart vorab: „der Split steuert“, Häufig
   Vorhersage an unberührten Fällen**, die trifft (Paket C, Regel 18c). Assoziation, kein Eingriff. Den Eingriff liefern die F/G-Arme.
 - FINDINGS: Pilotnacht-Tabelle um EXP-052 ergänzt. *Einordnung:* Paket A (Verallgemeinerung) und C (Vorhersage) sind im Pilot stark. Der Engpass ist jetzt die **unabhängige
   Bestätigung** (P1 mit Manifest, frische Seeds 1000–1099) und P2 (Funktion mit Loss-Maß).
+
+**Zyklus 10 (Stichprobengröße für P1 aus der Pilotstreuung, 03:25–03:28 gemessen).** `python lab/tools/pilot_power.py` (Summaries von EXP-048/049 stammen aus dieser Nacht, geprüft über die
+Laufzeiten 03:07–03:22). Ergebnis `lab/tools/pilot_power_summary.json`. Mindesteffekt Δ_pow ≥ 1, einseitig, α 0.05/3 (Holm-Worst-Case), Power 80 %, n (normal / Bootstrap / obere SD-Schranke 80 %):
+add 97 8/8/11 · mul 113 29/26/49 · D₅₉ 7/7/7 · add 113 GPU (EXP-047 eng) 27/25/44 · int-add 7/7/7 · add 113 d512 26/25/41. Pilotmittel 2.2–7.8, alle 10/10 positiv.
+*Deutung:* Für den P1-Kern (add 113, Transformer) reichen ≈ 30 Seeds, konservativ ≈ 45. Auf der GPU kostet das Minuten, deshalb **Vorschlag: n = 50 für add 113** (deckt die konservative Schranke).
+*Einschränkung:* Der Mindesteffekt 1 ist auf allen Skalen gleich gesetzt. Bei D₅₉/int-add (Pilotmittel 2–3) ist das streng, bei add (≈ 7–8) sehr lax. Für das Manifest den Mindesteffekt je Aufgabe
+relativ festlegen (z. B. 25 % des Pilotmittels) oder nur add 113 primär führen. Entscheidung beim Einfrieren von P1, **vorher Codex-Prüfung** (Regel 18c). Nächster Schritt: Manifest-Entwurf.

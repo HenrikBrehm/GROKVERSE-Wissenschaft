@@ -1,0 +1,91 @@
+{
+ "min_effect": 1.0,
+ "alpha_per_test": 0.016666666666666666,
+ "power_goal": 0.8,
+ "cases": {
+  "add97 (EXP-043)": {
+   "n_pilot": 10,
+   "mean": 6.639338124672962,
+   "sd": 0.7442846714705287,
+   "n_positive": 10,
+   "ci95_mean": [
+    6.2206176069323655,
+    7.090474195880941
+   ],
+   "sd_upper80": 0.9614977854729077,
+   "n_needed_normal": 8,
+   "n_needed_bootstrap": 8,
+   "n_needed_normal_sd_upper80": 11
+  },
+  "mul113 (EXP-043)": {
+   "n_pilot": 10,
+   "mean": 7.606342252742978,
+   "sd": 1.7073016388052888,
+   "n_positive": 10,
+   "ci95_mean": [
+    6.593927749104072,
+    8.598165234987306
+   ],
+   "sd_upper80": 2.2055630161000193,
+   "n_needed_normal": 29,
+   "n_needed_bootstrap": 26,
+   "n_needed_normal_sd_upper80": 49
+  },
+  "D59 (EXP-046)": {
+   "n_pilot": 10,
+   "mean": 2.7190044891811214,
+   "sd": 0.4512364557208691,
+   "n_positive": 10,
+   "ci95_mean": [
+    2.4541349588770585,
+    2.9774041671967137
+   ],
+   "sd_upper80": 0.5829259549884993,
+   "n_needed_normal": 7,
+   "n_needed_bootstrap": 7,
+   "n_needed_normal_sd_upper80": 7
+  },
+  "add113 GPU eng (EXP-047)": {
+   "n_pilot": 10,
+   "mean": 7.754615299928334,
+   "sd": 1.6288197413751326,
+   "n_positive": 10,
+   "ci95_mean": [
+    6.787907814728524,
+    8.689810322303686
+   ],
+   "sd_upper80": 2.104176848318657,
+   "n_needed_normal": 27,
+   "n_needed_bootstrap": 25,
+   "n_needed_normal_sd_upper80": 44
+  },
+  "intadd detrended (EXP-048)": {
+   "n_pilot": 10,
+   "mean": 2.2325110744617462,
+   "sd": 0.2655553024421739,
+   "n_positive": 10,
+   "ci95_mean": [
+    2.0982376432885657,
+    2.407280456506931
+   ],
+   "sd_upper80": 0.34305534563041007,
+   "n_needed_normal": 7,
+   "n_needed_bootstrap": 7,
+   "n_needed_normal_sd_upper80": 7
+  },
+  "add113 d512 (EXP-049)": {
+   "n_pilot": 10,
+   "mean": 7.823612127237526,
+   "sd": 1.6015155020765306,
+   "n_positive": 10,
+   "ci95_mean": [
+    6.8229595424675,
+    8.73210568752559
+   ],
+   "sd_upper80": 2.0689041003689264,
+   "n_needed_normal": 26,
+   "n_needed_bootstrap": 25,
+   "n_needed_normal_sd_upper80": 41
+  }
+ }
+}

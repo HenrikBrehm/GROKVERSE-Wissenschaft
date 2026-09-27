@@ -76,6 +76,8 @@ def train(a: argparse.Namespace) -> dict:
     p = cfg.p
     if (a.switch_split_file is None) != (a.switch_step is None) or (a.reset_at_switch and a.switch_step is None):
         raise SystemExit("--switch-split-file and --switch-step go together; --reset-at-switch needs a switch")
+    if a.reset_optim_part and (a.switch_step is None or a.reset_at_switch):   # s27: as freq_ban --reset-optim-part m (EXP-058/N28)
+        raise SystemExit("--reset-optim-part needs a switch and excludes --reset-at-switch")
     if a.switch_split_file and not a.test_file:           # as freq_ban: a switch needs an explicit shared test set
         raise SystemExit("--switch-split-file needs --test-file")
     torch.set_num_threads(cfg.threads)
@@ -119,6 +121,9 @@ def train(a: argparse.Namespace) -> dict:
                         if nm in RESET_PARTS[a.reset_at_switch]:
                             q.copy_(init[nm])
                             opt.state.pop(q, None)
+            if a.reset_optim_part == "m":             # s27: zero exp_avg only; exp_avg_sq and the step counters (bias correction) kept
+                for q in model.parameters():
+                    opt.state[q]["exp_avg"].zero_()
         if step % cfg.eval_every_test == 0:
             acc = accuracy(model, tex, tey, p)
             test_curve.append([step, acc])
@@ -136,6 +141,7 @@ def train(a: argparse.Namespace) -> dict:
         torch.save(model.state_dict(), out / "model_final.pt")
     res = {"trainer": "lab/paper/repro/train.py", "argv": sys.argv, "seed": a.seed, "device": a.device, "config": cfg.to_dict(),
            "steps": a.steps, "switch_step": a.switch_step, "reset_at_switch": a.reset_at_switch,
+           "reset_optim_part": a.reset_optim_part,
            "final_acc": {"train": accuracy(model, trx, try_, p), "test": accuracy(model, tex, tey, p)},
            "generalization_step": gen_step, "test_curve": test_curve, "sec_per_step": round((time.perf_counter() - t0) / a.steps, 5),
            "versions": {"python": platform.python_version(), "torch": torch.__version__, "numpy": np.__version__},
@@ -167,6 +173,7 @@ def main() -> None:
     ap.add_argument("--switch-split-file")
     ap.add_argument("--switch-step", type=int)
     ap.add_argument("--reset-at-switch", choices=tuple(RESET_PARTS))
+    ap.add_argument("--reset-optim-part", choices=("m",), help="zero Adam's first moment at the switch (N28 arm m)")
     ap.add_argument("--task", default="add", choices=("add", "mul"))
     ap.add_argument("--p", type=int, default=113)
     ap.add_argument("--steps", type=int, default=2000)

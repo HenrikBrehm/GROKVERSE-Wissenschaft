@@ -25,6 +25,10 @@ lokalisieren keinen Übergang; Einheiten sind 20 richtungsgemittelte Seeds (Läu
 **Post hoc:** Nach 4000 Schritten zeigt auch die W_E-Energie in dieselbe Richtung (38/40 bzw. 40/40). Ablation und Energie sind hier nicht getrennt; die Frage „Funktion ohne Energie?“ bleibt offen.
 Einordnung: Fortsetzung von K4/K4b (Persistenz nach 25 Schritten) auf die Funktion; nach unserer Suche vom 27.09. nicht gefunden (vorläufig, [[NOVEL_DIRECTIONS]] N29 „Zwei Regime“).
 
+**Grenze für K2-Funktion (P2d) und K4c (Sitzung 23, Explorationen EXP-064 post hoc, [[experiments/EXP-068-matched-sensitivity/README|EXP-068]]):** Die gemessene Empfindlichkeit geht in allen
+gesehenen Modellen mit der Energie- bzw. Amplitudenverteilung in W_E einher (Ablation und Energie zeigen immer in dieselbe Richtung; bei gleicher *entfernter Energie* kein Vorteil der dominanten Menge).
+Eine funktionale Nutzung *über die Energie hinaus* ist damit nicht gezeigt, und mit Ablationen am selben Modell kaum zu trennen.
+
 ## BESTÄTIGT (Sitzung 22, 27.09., 09:30 Berlin): P2d, stärkere Margin-Reaktion entlang der gesteuerten Frequenzen #befund/positiv
 
 **Kernaussage K2-Funktion (P2d)** (Wortlaut nach Codex-Prüfung der Schlussfolgerung, 09:31–09:34): *Bei Addition mod 113 nach 4000 Trainingsschritten verringerte eine auf W_E[:113] beschränkte Perturbation

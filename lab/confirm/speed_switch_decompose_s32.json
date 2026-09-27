@@ -19,5 +19,19 @@
   "delta_mem_median": 60.0,
   "delta_gap_median": -260.0
  },
+ "t25_censored_as_bound": {
+  "pairs": 60,
+  "delta_mem_mean": 32.166666666666664,
+  "delta_gap_mean": 389.5,
+  "gap_share": 0.9237154150197628,
+  "n_gap_gt_mem": 49
+ },
+ "t50_censored_as_bound": {
+  "pairs": 60,
+  "delta_mem_mean": 95.0,
+  "delta_gap_mean": -202.5,
+  "gap_share": 1.8837209302325582,
+  "n_gap_gt_mem": 13
+ },
  "prediction_met_t25": true
 }

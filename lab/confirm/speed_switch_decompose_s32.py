@@ -38,6 +38,29 @@ def main() -> None:
         out[f"t{t}"] = {"pairs": len(dm), "delta_mem_mean": float(dm.mean()), "delta_gap_mean": float(dg.mean()),
                         "delta_gen_mean": float((dm + dg).mean()), "gap_share_of_delay": float(dg.mean() / (dm + dg).mean()),
                         "n_gap_gt_mem": int((dg > dm).sum()), "delta_mem_median": float(np.median(dm)), "delta_gap_median": float(np.median(dg))}
+    # added after the first look (source check, same session): censored runs counted with their horizon as a lower bound, all pairs
+    R2: dict = {}
+    for d in (LAB / "confirm/n28_raw").iterdir():
+        m = PAT.search(d.name)
+        if not m or m.group(5):
+            continue
+        s, a, b, t = int(m.group(1)), m.group(2), m.group(3), m.group(4)
+        r = json.loads((d / "result.json").read_text(encoding="utf-8"))
+        tr = r["transitions"]["primary"]
+        g = tr["generalization"]["first_crossing_step"]
+        R2.setdefault(s, {})[a if b is None else (a + b, int(t))] = (tr["memorization"]["first_crossing_step"], g if g is not None else r["steps_completed"])
+    for t in (25, 50):
+        dm, dg = [], []
+        for v in R2.values():
+            for sw, dest in ((("AB", t), "B"), (("BA", t), "A")):
+                (m1, g1), (m0, g0) = v[sw], v[dest]
+                if m1 is None or m0 is None:
+                    continue
+                dm.append(m1 - m0)
+                dg.append((g1 - m1) - (g0 - m0))
+        dm, dg = np.array(dm, float), np.array(dg, float)
+        out[f"t{t}_censored_as_bound"] = {"pairs": len(dm), "delta_mem_mean": float(dm.mean()), "delta_gap_mean": float(dg.mean()),
+                                          "gap_share": float(dg.mean() / (dm + dg).mean()), "n_gap_gt_mem": int((dg > dm).sum())}
     out["prediction_met_t25"] = out["t25"]["delta_gap_mean"] > out["t25"]["delta_mem_mean"] and out["t25"]["n_gap_gt_mem"] > out["t25"]["pairs"] / 2
     (LAB / "confirm/speed_switch_decompose_s32.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps(out, indent=1))

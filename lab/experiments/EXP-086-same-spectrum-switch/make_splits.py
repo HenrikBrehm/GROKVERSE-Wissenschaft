@@ -7,7 +7,7 @@ For seeds 400-409 the EXP-056 omega-0 files give A (targets F) and the common te
       NOT feasible (checked, session 32): the same construction with A's OWN phases. A already holds the high-weight pairs of its
       pattern, the rest of the pool carries the negative image, and the share on F stays at chance (0.083 at eps 80, seed 400).
   R1, R2  two disjoint uniform random subsets of the pool, 3831 pairs each.
-Streams: SeedSequence([86_001, seed, purpose]). Writes splits/seed{s}_{A2,A3,R1,R2}.npy and seed{s}.json; never overwrites; if files
+Streams: SeedSequence([86_001, seed, purpose]). Writes splits/seed{s}_{A2,R1,R2}.npy and seed{s}.json; never overwrites; if files
 exist, checks them bit for bit against a rebuild.   python lab/experiments/EXP-086-same-spectrum-switch/make_splits.py
 """
 from __future__ import annotations

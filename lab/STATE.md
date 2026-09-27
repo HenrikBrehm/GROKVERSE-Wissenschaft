@@ -26,9 +26,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 
 1. `guarded_run.py --check`; kein STOP; Prozesse prüfen; CPU-Programm (oben) neu starten.
 2. **Programm B, Bestätigung des funktionalen Übergangs** (EXP-064 → frisch): Wechsel bei 25 und 50, **sicheres Nachtraining** (z. B. 4000 Schritte nach dem Wechsel, `--stop-after-gen` ≥ Schritte),
-   `--save-model`, Ablation alt/neu am Endmodell, vorab festgelegte Regel für nicht generalisierte Modelle, frischer Seed-Block (2230–2299 frei). Vorher: **ein echter Job bis zum Ende durch den
+   `--save-model`, Ablation alt/neu am Endmodell, vorab festgelegte Regel für nicht generalisierte Modelle, frischer Seed-Block (2250–2299 frei). Vorher: **ein echter Job bis zum Ende durch den
    eingefrorenen Lader** (Lehre aus P2b) und Codex-Prüfung. Infrastruktur: `lab/tools/bound_block.py` (+ Muster `confirm_n28.py`).
-3. **Programm A:** P2d (lokale Empfindlichkeit je gleicher Schrittnorm, Kontrollen gleicher Größe, Logit-Abstand primär; [[BACKLOG]]) als Pilot an bekannten Modellen, dann festlegen.
+3. **Programm A:** [[confirm/P2d_REGISTRATION|P2d]]-Entwurf (Seeds 2230–2249, `confirm_p2d.py`, Selbsttest ok) → Codex, ein echter Job durch den Lader, einfrieren, rechnen (40 Läufe, ≈ 10 min GPU). Pilot EXP-065: eigene ≫ Kontrolle in 80/80.
 4. N29-Ursache ([[BACKLOG]]): welcher Teil des Rests (Attention/MLP/Unembedding), Weight Decay (K1, braucht Trainer-Option + Codex).
 5. CPU-Auswertungen nach den Läufen: EXP-036, EXP-039 (`eval_pi.py`), EXP-040, EXP-042 (`pi_window.py`), EXP-014.
 

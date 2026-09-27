@@ -397,6 +397,7 @@ modular arithmetic where are Fourier features stored“):** arXiv 2609.18078 (Ko
 Beschleunigung vs. Stabilität, laut Abstract keine Frequenzmessung), arXiv 2505.15624 (Rolle des Embeddings beim Grokking,
 seltene Tokens, kein Rücksetzen), He et al. 2026 (Init-Lotterie). Teil-Resets sind aus RL bekannt (Primacy Bias, Resets der
 letzten Schichten); nicht gefunden (vorläufig): Lokalisierung der Frequenzwahl durch Teil-Rücksetzen nach einem Datenwechsel.
+- **Ergebnis (Sitzung 21, 2026-09-27, Pilot n = 5):** *redundant* 5/5. W_E allein oder der Rest allein genügt, und der Rest schreibt die F-Wahl sogar in ein auf die Init zurückgesetztes W_E zurück ([[experiments/EXP-038-where-lockin/README|EXP-038]]). Die Frage „wo sitzt sie“ hat damit die Antwort „nicht an einem Ort“. Schärfere Folgefrage: Welcher Teil des Rests genügt, und gilt das schon bei t = 25?
 
 ## N17: Festlegung der Frequenzwahl auf einer „Lernraten-Uhr“ (aufsummierte Lernrate statt Schrittzahl) #neu/kandidat
 

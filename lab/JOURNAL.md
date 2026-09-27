@@ -3130,3 +3130,8 @@ beschreibend. Eigene Prüfung statt Codex (Run-IDs, Reset-Ereignisse, Vorzeichen
 Λ-Uhr die π-Werte besser (RMSE 0.134 gegen 0.210; Teiluhr γ = 0.65: 0.130). *Lesart:* Festlegung hängt teilweise an der aufsummierten Lernrate.
 EXP-040 brach am Selbsttest ab (10:59, fail-closed, kein Lauf): importierte `seed_class` aus EXP-039 kannte die EXP-040-Etiketten nicht (alter Fehler aus Sitzung 10, nicht meine Trainer-Änderung).
 Nach registrierter Regel behoben (Nachtrag d), Selbsttest ok; EXP-040 läuft in einer späteren Sitzung. Das CPU-Programm arbeitet jetzt EXP-042 ab.
+
+**Zyklus 16 (Neuheitssuche N32, EXP-069 vorab festgelegt, 11:09–11:14 gemessen).** Suche (WebSearch, 27.09.): Plastizitätsverlust in Transformern geht mit Entropiekollaps der Attention einher (Lyle et al.),
+Teil-Resets aus RL/kontinuierlichem Lernen bekannt; ein Attention-Reset nach ≈ 50 Schritten, der den Ausschluss neuer Merkmale aufhebt, während MLP-/W_U-Reset es nicht tun, nicht gefunden → [[NOVEL_DIRECTIONS]] N32 (vorläufig).
+[[experiments/EXP-069-attention-part/README|EXP-069]] festgelegt (Muster W_Q/W_K gegen Werte W_V/W_O, gleich viele Parameter), vor dem N29b-Ergebnis; Trainer-Patch (`qk`, `vo`) liegt bereit und wird erst nach dem
+N29b-Block eingespielt (Code-Hash). STATE neu geschrieben (51 Zeilen).

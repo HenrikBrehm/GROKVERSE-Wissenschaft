@@ -1,0 +1,59 @@
+{
+ "note": "post hoc exploration; times of these blocks never looked at before",
+ "N29_25_vs_50": {
+  "n": 20,
+  "mean": 1.0054157404130437,
+  "median": 1.019461323934435,
+  "pos": 20,
+  "nonzero": 20,
+  "p_one_sided": 9.5367431640625e-07
+ },
+ "N29b_a_attn_vs_normal": {
+  "n": 20,
+  "mean": 0.6437574723454764,
+  "median": 0.7059378643125664,
+  "pos": 16,
+  "nonzero": 20,
+  "p_one_sided": 0.005908966064453125
+ },
+ "N29b_b_attn_vs_mlp": {
+  "n": 20,
+  "mean": 0.15487001988016175,
+  "median": 0.1684889491601016,
+  "pos": 15,
+  "nonzero": 20,
+  "p_one_sided": 0.020694732666015625
+ },
+ "N29b_descr_mlp_vs_normal": {
+  "n": 20,
+  "mean": 0.4888874524653149,
+  "median": 0.44360265085791006,
+  "pos": 16,
+  "nonzero": 20,
+  "p_one_sided": 0.005908966064453125
+ },
+ "N29c_vo_vs_qk": {
+  "n": 20,
+  "mean": 1.3117696570954596,
+  "median": 1.2795349103946916,
+  "pos": 19,
+  "nonzero": 20,
+  "p_one_sided": 2.002716064453125e-05
+ },
+ "N29c_descr_vo_vs_normal": {
+  "n": 20,
+  "mean": 1.617496216095652,
+  "median": 1.650891617187252,
+  "pos": 20,
+  "nonzero": 20,
+  "p_one_sided": 9.5367431640625e-07
+ },
+ "N29c_descr_qk_vs_normal": {
+  "n": 20,
+  "mean": 0.3057265590001924,
+  "median": 0.34435739371778284,
+  "pos": 18,
+  "nonzero": 20,
+  "p_one_sided": 0.00020122528076171875
+ }
+}

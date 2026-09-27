@@ -89,7 +89,7 @@ Unabhängige Prüfung (Claude-Subagent, nur numpy; Codex ohne Guthaben): Herleit
 ## Ergebnis (Sitzung 20, 2026-09-27, Läufe 03:35–03:40 Berlin, GPU)
 
 Befehl: `python lab/tools/night_program.py --experiments GPU-001,EXP-050`; Log `lab/runner/logs/night3_exp050.log`, `lab/runner/logs/night_20260927T013514_874246Z/EXP-050_*`,
-Zahlen `summary.json`. 60 Läufe, device cuda, Commit 5e547d4.
+Zahlen `summary.json`. 60 Läufe, device cuda, Commits 2525efa/5e547d4 (dazwischen nur Dokumente).
 
 | | Wert | Urteil (vorab, Holm über {a, b}) |
 |---|---|---|

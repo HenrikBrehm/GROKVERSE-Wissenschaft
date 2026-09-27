@@ -1,6 +1,6 @@
 ---
 id: P2-registrierung
-status: entwurf
+status: eingefroren
 datum: 2026-09-27
 tags: [lab/bestaetigung]
 verwandt: ["[[FINDINGS]]", "[[confirm/P1_REGISTRATION_DRAFT|P1-Entwurf]]", "[[experiments/EXP-055-ablation-dose/README|EXP-055]]", "[[JOURNAL]]"]
@@ -57,3 +57,12 @@ Codex (gegen Commit 935155b): 3 Blocker, 1 hoch, 3 mittel/niedrig. Selbst geprü
 - Wiederverwendung der P1-Modelle: Codex hält sie für zulässig (Holm erlaubt abhängige p-Werte, keine Auswahl nach P1-Ergebnis).
 
 Power (t-Test, α/3, n = 50, Pilot d_z = 2.3): praktisch 1; auch bei einem Viertel des Pilot-Effekts noch hoch.
+## EINGEFROREN (Sitzung 21, 2026-09-27 04:46 Berlin, gemessen)
+
+P2 ist mit dem Manifest `lab/confirm/P1_manifest.json` eingefroren: **Manifest-Commit 733e829** (enthält `code_sha256` über 60 Dateien, darunter
+`confirm_p1.py` und `confirm_p2.py`), Commit-Feld nachgetragen in 0cd5ee5. Es gelten die Regeln dieses Dokuments einschließlich aller Abschnitte
+„Codex-Prüfung“ und „Änderung vor dem Einfrieren“, jeweils mit ihren Übernahmen. Letzte Codex-Nachprüfung (04:45): zwei Punkte als Restrisiko abgelehnt
+(Ändern und Zurücknehmen innerhalb von 2 s; untergeschobenes .pyc im Cache): Beides setzt absichtliche Manipulation voraus, gegen die ohnehin keine Datei geschützt ist.
+Übernommen: Die Bindung speichert das Urteil des Wrappers, der Trainer bleibt nie verwaist zurück, P2 lädt genau die gebundenen Modellbytes, E = E_own ist erlaubt (d2ac48f).
+Splits (600) und Jobliste (420) in 6babde7. Vor dem Einfrieren wurde **kein** Lauf mit Seeds 1000–1399 gemacht. Danach liefen zwei Jobs der eingefrorenen
+Liste als Smoke (add 113 und D₅₉, Seed 1000 F). Beide sind gebunden und zählen als reguläre Läufe des Blocks.

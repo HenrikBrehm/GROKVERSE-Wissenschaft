@@ -1,6 +1,6 @@
 ---
 id: P1-registrierung
-status: entwurf
+status: eingefroren
 datum: 2026-09-27
 tags: [lab/bestaetigung]
 verwandt: ["[[FINDINGS]]", "[[BACKLOG]]", "[[JOURNAL]]"]
@@ -64,3 +64,12 @@ Lauf in seinem eigenen Laufverzeichnis geschrieben hat). `--analyze` nimmt einen
 erfolgreiche Bindung mit passendem Digest und Commit gedeckt ist. Läufe außerhalb des Wrappers, geänderte oder zusätzliche Dateien → *defekt*.
 Vorteil: `freq_ban.py`/`group_train.py` bleiben unverändert (keine neue Gleichwertigkeitsprüfung nötig). Selbsttest grün (inkl. Ende-zu-Ende mit
 Scheintrainer). Codex-Nachprüfung: siehe unten / [[JOURNAL]] Sitzung 21.
+## EINGEFROREN (Sitzung 21, 2026-09-27 04:46 Berlin, gemessen)
+
+P1 ist mit dem Manifest `lab/confirm/P1_manifest.json` eingefroren: **Manifest-Commit 733e829** (enthält `code_sha256` über 60 Dateien, darunter
+`confirm_p1.py` und `confirm_p2.py`), Commit-Feld nachgetragen in 0cd5ee5. Es gelten die Regeln dieses Dokuments einschließlich aller Abschnitte
+„Codex-Prüfung“ und „Änderung vor dem Einfrieren“, jeweils mit ihren Übernahmen. Letzte Codex-Nachprüfung (04:45): zwei Punkte als Restrisiko abgelehnt
+(Ändern und Zurücknehmen innerhalb von 2 s; untergeschobenes .pyc im Cache): Beides setzt absichtliche Manipulation voraus, gegen die ohnehin keine Datei geschützt ist.
+Übernommen: Die Bindung speichert das Urteil des Wrappers, der Trainer bleibt nie verwaist zurück, P2 lädt genau die gebundenen Modellbytes, E = E_own ist erlaubt (d2ac48f).
+Splits (600) und Jobliste (420) in 6babde7. Vor dem Einfrieren wurde **kein** Lauf mit Seeds 1000–1399 gemacht. Danach liefen zwei Jobs der eingefrorenen
+Liste als Smoke (add 113 und D₅₉, Seed 1000 F). Beide sind gebunden und zählen als reguläre Läufe des Blocks.

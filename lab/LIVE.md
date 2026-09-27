@@ -18,7 +18,7 @@ N29b-Auswertung (ohne Codex, Guthaben leer), EXP-069, Abschlussbericht bis 12:29
 
 ## Verlauf dieser Sitzung
 
-- 11:14 EXP-069 vorab festgelegt; Neuheitssuche zu N32 (Attention haelt die fruehe Wahl): nicht gefunden, vorlaeufig.
+- 11:11 EXP-069 vorab festgelegt; Neuheitssuche zu N32 (Attention haelt die fruehe Wahl): nicht gefunden, vorlaeufig.
 - 11:09 EXP-039 ausgewertet: unklar (Lernraten-Uhr passt besser als Schrittuhr, aber nicht in jedem Seed). EXP-040-Auswertungsfehler vor jedem Lauf behoben.
 - 11:06 N29b eingefroren und gestartet (Codex hat kein Guthaben mehr; eigene Pruefung).
 - 10:58 **EXP-067 (Pilot, 10 Seeds):** Ueberraschung: Setzt man beim Wechsel nur die Attention zurueck, lernt das Netz die neuen Frequenzen doch und rechnet mit ihnen. MLP- oder Ausgabe-Reset tun das nicht.

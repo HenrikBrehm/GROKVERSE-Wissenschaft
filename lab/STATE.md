@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 11:12 Berlin (Sitzung 23, Start 09:39, Deadline 12:39)._
+_Zuletzt aktualisiert: 2026-09-27, 11:10 Berlin (Sitzung 23, Start 09:39, Deadline 12:39)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · Bestätigungen [[confirm/N29_REGISTRATION|N29]] · [[confirm/P2e_REGISTRATION|P2e]] · [[confirm/N29b_REGISTRATION|N29b]]
 

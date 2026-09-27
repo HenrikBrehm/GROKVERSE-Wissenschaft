@@ -20,7 +20,7 @@ Zurück zu [[FINDINGS]] (Programm B, „Zwei spektrale Signaturen“) · Pilot [
   acc_alt (alte entfernt), acc_neu (neue entfernt).
 - **Primär:** X1 = (acc_neu(50) − acc_alt(50)) − 0.3, X2 = (acc_alt(25) − acc_neu(25)) − 0.3. Eine Familie {H1, H2}, Holm, einseitiger t-Test (Mittel > 0), 95-%-Bootstrap-KI.
   **„bestätigt“ = Holm-p < 0.05 und KI-Untergrenze ≥ 0** (die Mindestdifferenz 0.3 steckt im getesteten Kontrast). **„Übergang bestätigt“ nur, wenn H1 und H2 beide bestätigt sind.**
-- **Stichprobe und Ausfälle (nach Codex, 09:55):** **Primär zählen alle 20 Seeds**, auch nicht fertig generalisierte (im Piloten hatten die ausgeschlossenen Seeds kleinere H2-Effekte; ein
+- **Stichprobe und Ausfälle (nach Codex):** **Primär zählen alle 20 Seeds**, auch nicht fertig generalisierte (im Piloten hatten die ausgeschlossenen Seeds kleinere H2-Effekte; ein
   Genauigkeitsfilter würde das Ergebnis also zugunsten von H2 auswählen). Jeder technische Ausfall (fehlend, nicht gebunden, Lader-Fehler, nicht endliche Gewichte, Verluste oder Abstände)
   → *nicht auswertbar*. Wie viele Seeds generalisiert haben (Basis-Genauigkeit ≥ 0.9 in allen vier Läufen), wird berichtet, dazu beschreibend der Test nur an diesen Seeds.
 - **Stichprobe:** Pilot EXP-064 (7 gültige Seeds, 2000 Schritte): acc_alt(25) − acc_neu(25) = 0.66 (SD 0.19; alle 10 Seeds: 0.51), acc_neu(50) − acc_alt(50) ≈ 0.94. Grobe Heuristik aus 7 ausgewählten Seeds mit anderem Budget: Bei n = 20 dürfte die KI-Untergrenze über 0.3 liegen;
@@ -32,9 +32,9 @@ Zurück zu [[FINDINGS]] (Programm B, „Zwei spektrale Signaturen“) · Pilot [
 - **Grenzen:** eine Aufgabe (add 113), eine Architektur, ω = 0; Entfernung aller 5 Frequenzen ist grob (keine Dosis); nur W_E; Genauigkeit statt Logit-Abstand.
 - **Familie:** eigene (nur N29).
 - **Vor dem Einfrieren:** Codex-Prüfung (Regel 18c); ein echter Job bis zum Ende durch den eingefrorenen Lader (Lehre aus P2b); Manifest mit Code-Hashes und Commit.
-- Code: `lab/tools/confirm_n29.py` (Selbsttest ok, Sitzung 23, 09:43; nach Codex geändert, Selbsttest erneut ok 09:57).
+- Code: `lab/tools/confirm_n29.py` (Selbsttest ok, Sitzung 23, 09:43; nach Codex geändert, Selbsttest erneut ok vor 09:54).
 
-## Codex-Prüfung (Sitzung 23, 09:44–09:53 gemessen)
+## Codex-Prüfung (Sitzung 23, Ergebnis vor 09:54 Berlin, gemessen)
 
 Zwei Blocker, beide selbst geprüft und übernommen: (1) Genauigkeitsfilter ist ergebnisabhängig (Pilot: H2 0.66 bei geeigneten, 0.15 bei ausgeschlossenen Seeds) → primär alle Seeds;
 (2) `EXP-056/make_splits.py` wird ausgeführt, war aber nicht im Code-Hash → ergänzt, dazu ein Selbsttest, der alle geladenen lab-Module gegen die Hash-Liste prüft. Weiter übernommen: gemeinsames Urteil

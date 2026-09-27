@@ -1,8 +1,8 @@
 ---
 id: EXP-070
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/negativ]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-069-attention-part/README|EXP-069]]", "[[confirm/N29b_REGISTRATION|N29b]]", "[[NOVEL_DIRECTIONS]]", "[[BACKLOG]]", "[[JOURNAL]]"]
 ---
 # EXP-070: Richtet sich der Wertepfad der Attention zwischen Schritt 25 und 50 auf die Frequenzen des ersten Splits aus? (EXPLORATION)
@@ -22,3 +22,17 @@ Festgelegt 2026-09-27 (Sitzung 23), **vor jedem EXP-070-Lauf**. **Exploration**,
 python lab/tools/parallel_queue.py lab/experiments/EXP-070-ov-alignment/jobs.txt --workers 6
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-070-ov-alignment/analyze.py
 ```
+
+## Ergebnis (Sitzung 23, Läufe 11:42–11:44, Auswertung 11:44 Berlin, gemessen; `summary.json`): Exploration
+
+40/40 kurze Läufe ok; die aus dem Seed neu gebaute Init stimmt in allen 40 Läufen mit dem vom Trainer gespeicherten W_E bei Schritt 0 überein.
+
+| t | 0 | 10 | 25 | 50 | 100 |
+|---|---|---|---|---|---|
+| Median L = log(g_A / g_B) (OV-Verstärkung) | 0.04 | 0.08 | 0.30 | 0.47 | 0.77 |
+| Median E = log(Energie A / B in W_E) | −0.02 | −0.01 | 0.10 | 0.32 | 0.82 |
+
+Anstieg von L: 10 → 25 um 0.22, 25 → 50 um 0.18; stärker zwischen 25 und 50 nur in 2/10 Seeds.
+- **Lesart:** Die vorab genannte Erwartung (ein Sprung der OV-Ausrichtung genau im Fenster 25–50) trifft **nicht** zu; L steigt gleichmäßig. Die zeitliche Form des Ausschlusses (N29) lässt sich damit
+  nicht einfach durch ein plötzliches Ausrichten des Wertepfads erklären. *Beschreibend auffällig:* Die OV-Ausrichtung läuft der W_E-Energie voraus (t = 25: L 0.30 gegen E 0.10).
+- **Grenzen:** eine lineare Größe ohne Attention-Muster; reine A-Läufe; die Wirkung eines Resets (EXP-069) und diese Ausrichtung müssen nicht dasselbe messen.

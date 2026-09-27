@@ -102,3 +102,12 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
   (z. B. 4000 Schritte) oder ein vorab registrierter Konvergenzpunkt auf eigener Validierungsmenge, feste Ablations-Testmenge, geordnetes Nachziehen, bis N gemeinsam generalisierte
   Paare vorliegen (Eignungsrate berichten), N aus einer Simulation gegen den Abstand über log 1.05 (grob 60–80). Für „je Energieeinheit“ Dosen nahe 0 und Steigungen registrieren.
 - **Priorität:** Paket A, nach P3. GPU-Zeit ≈ 1 h für 160 Läufe à 4000 Schritte.
+
+## N28-Bestätigung (Skelett, Sitzung 21, 06:52; nach EXP-057/058, noch nicht festgelegt)
+
+- **Aussage (Kandidat):** Die Persistenz nach 25 Schritten auf A gegen paar-disjunktes Weitertraining auf B hängt am Adam-Momentum. Das Löschen nur von m beim Wechsel senkt π deutlich,
+  obwohl die frühen Updates nicht größer werden.
+- **Design:** frische Seeds (neuen Bereich reservieren, z. B. 2200–2229, n aus Pilot: Δ_m 0.19, SD 0.10 → schon n ≈ 10–15 für α/3; wegen Mindesteffekt und KI eher 30), Splits über EXP-053 mit
+  neuem Salz-Präfix, Arme normal / nur m / voller Reset, `--log-update-norms 10`; primär Δ_m = π_normal − π_rom mit Mindesteffekt (KI-Untergrenze ≥ 0.05), sekundär Update-Normen je Arm
+  (Bedingung: nur m ≤ normal), Richtungsanalyse (Kosinus des ersten B-Updates zu m_A), t = 50 als zweiter Wechselzeitpunkt (beschreibend).
+- **Technik:** eigenes Modul nach dem Muster von `confirm_p3.py` (Bindung, genaue Lauf-IDs, typstrenges Manifest). Codex-Prüfung vor dem Einfrieren.

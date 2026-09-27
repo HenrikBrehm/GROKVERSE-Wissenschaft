@@ -2574,3 +2574,9 @@ der Windows-Pfad in Ordnung. *Selbst geprüft (Code gelesen) und Entscheidung je
 - **Verworfen:** mein eigener Vorschlag „Mindesteffekt relativ zum Pilotmittel“. Codex hat recht: Δ ist ein dimensionsloses Log-Verhältnis, eine Skalierung fällt heraus.
 *Ergebnis:* **Nicht eingefroren.** Reparaturliste im Entwurf `lab/confirm/P1_REGISTRATION_DRAFT.md`. Das ist Code-Arbeit, sie geht auch außerhalb des Fensters. Nach den Korrekturen nur
 die betroffenen Punkte nachprüfen lassen (Regel 18c).
+
+**Zyklus 15 (Reparaturliste P1 umgesetzt, 03:42–03:45 gemessen).** Alle Codex-Punkte am Code umgesetzt, jeweils mit Selbsttest (über den Wächter, alle grün):
+B4/H3 (Commit 48e7afb: alle geplanten Paare nötig, Δ endlich und Zielsummen > 0, „bestätigt“ = Holm-p < 0.05 und KI-Untergrenze ≥ 1), H6 (664b5ac: Split-Indizes/Ziele/Arm/Seed
+gegen `build()` bei `--analyze`), B1 (93586fb: `code_sha256` im Manifest über Trainer, Split-, Analyse- und Ladercode sowie `training/grokverse`, geprüft bei Splits, `--jobs`, `--analyze`),
+B2/H5 (b750fb1: `primary_task` = add 113 in der P1–P3-Familie mit 3 Gliedern, übrige Aufgaben als eigene sekundäre Familie; die Power bei α/3 passt damit). Texte zu H7/M8/M9 und die
+Wiederholungsregel stehen im Entwurf. Beim Selbsttest fiel ein falscher Sollwert auf (Holm ist monoton), korrigiert. Codex prüft nur die geänderten Stellen nach (Regel 18c), das Ergebnis folgt.

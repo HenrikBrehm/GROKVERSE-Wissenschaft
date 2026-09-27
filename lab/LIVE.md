@@ -5,19 +5,24 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 01:29 Berlin (23:29Z, vom Runner)
 - **Deadline:** 2026-09-27 04:29 Berlin (02:29Z)
-- **Zuletzt aktualisiert:** 03:31 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 03:45 Berlin (gemessen)
 - **Run-Fenster:** offen seit 02:25 (Freigabe des Nutzers, 03:00-Sperre aufgehoben), bis Sitzungsende 04:29.
 
 ## Gerade
 
-GPU: EXP-044 (fruehe Festlegung in den neuen Aufgaben) fast fertig, dann EXP-045 (MLP). CPU: Paket-B-Piloten. Codex prueft den Entwurf der P1-Bestaetigung.
+GPU-Programm komplett (inkl. EXP-050). CPU: Paket-B-Piloten laufen weiter. Codex prueft die Korrekturen am Bestaetigungsentwurf nach.
 
 ## Als Naechstes
 
-Beobachten; Urteile je Versuch nach der Lesart-Notiz eintragen. Um ~04:20 Stand sichern (Deadline 04:29 beendet alle Laeufe; Folgesitzung setzt mit denselben Befehlen fort).
+Codex-Ergebnis einarbeiten; ~04:15 Stand sichern (Deadline 04:29 beendet die CPU-Laeufe; Folgesitzung setzt fort und kann P1 einfrieren).
 
 ## Verlauf dieser Sitzung
 
+- 03:45 Alle Codex-Punkte am Bestaetigungscode umgesetzt und getestet.
+- 03:41 Codex prueft P1-Entwurf: 3 Blocker (u. a. Code nicht eingefroren). Selbst bestaetigt; nicht eingefroren.
+- 03:40 **EXP-050: kohaerentes Maskenspektrum waehlt, M0 traegt aber auch** (Theorie erster Ordnung nur halb).
+- 03:33 **EXP-045: Steuerung auch im MLP, bleibt nach dem Grokking** (10/10).
+- 03:31 **EXP-044: fruehe Festlegung auch bei add 97 / mul 113** (10/10).
 - 03:30 Entwurf fuer den Bestaetigungsblock P1 (50 frische Seeds, 4 Aufgaben), noch nicht eingefroren; Codex prueft.
 - 03:28 Stichprobengroesse fuer P1 aus der Pilotstreuung: ~25-45 Seeds fuer add 113.
 - 03:25 **EXP-052: vorab eingefrorene Vorhersage trifft in 4/4 neuen Faellen** (Split sagt Spektrum voraus).

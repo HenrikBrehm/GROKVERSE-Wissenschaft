@@ -40,3 +40,20 @@ Loss > 0; 0 = kein Unterschied). **„bestätigt“ = alle 50 gültig, Holm-p < 
 Das rohe D (Maß von EXP-055) wird sekundär berichtet. Pilot EXP-055 auf R (post hoc, bereits gesehen): R̄ = 0.150 (≈ 16 % mehr Loss), SD 0.065, d_z = 2.3, 10/10 positiv.
 Geometrie (gemessen 04:34): Bei f = 0.5 ist die quadrierte Störungsnorm entlang der Ziele nur ≈ 5 % der Kontrollstörung (Ziele werden um ≈ 2 % skaliert, die Kontrolle um 29 %).
 R > 0 folgt also nicht aus der Eingriffsgeometrie, sondern verlangt eine viel höhere Empfindlichkeit entlang der Ziele. Code: `confirm_p2.py` (Commit nach 935155b).
+## Codex-Prüfung (Sitzung 21, 04:39) und endgültige Regeln (gelten allein, wo abweichend)
+
+Codex (gegen Commit 935155b): 3 Blocker, 1 hoch, 3 mittel/niedrig. Selbst geprüft, übernommen:
+- **Test (Blocker, stimmt):** Eigene Ziele und Kontrolle sind nicht vertauschbar, R ist unter H0 nicht symmetrisch. Der Vorzeichentest ist hier nicht begründet (anders als bei P1,
+  wo Vertauschen von F/G das Vorzeichen von Δ umkehrt). **Primär: einseitiger Ein-Stichproben-t-Test auf R̄ > 0** (n = 50). Der Vorzeichentest wird nur sekundär berichtet.
+- **Multiplizität (Blocker, stimmt als Unklarheit):** Entschieden wird mit **Holm im ungünstigsten Fall** (P1, P3 als p = 1, also 3p). Das ist konservativ, denn das gemeinsame Holm mit den echten p-Werten kann nur kleiner sein.
+  So gilt es auch für P1 (`p_holm_worstcase`).
+- **Einfrieren (Blocker, stimmt für den Text):** Es gibt **kein eigenes P2-Manifest**. `confirm_p2.py` und die übernommenen EXP-051/055-Helfer stehen in den Code-Hashes des P1-Manifests.
+  **P1 und P2 werden gemeinsam eingefroren, bevor irgendein Bestätigungslauf startet.** Damit hat vor der Festlegung niemand Spektren, Energien oder Ablationen dieser Modelle gesehen.
+- **Genau die Seeds 1000–1049** (hoch): im Code erzwungen. „bestätigt“ braucht alle 50 gültig.
+- **Gültigkeit** betrifft die primäre Dosis. Die übrigen Dosen sind beschreibend und werden nur berichtet, wo sie machbar sind (E ≤ E_own).
+- **Machbarkeit** mit `>` statt `>=` (niedrig).
+- **Aussage enger gefasst (mittel):** P2 behauptet die Mehrnutzung **bei dieser endlichen Dosis (f = 0.5) und dieser Kontrollmenge**, keine allgemeine Ableitung
+  „je Energieeinheit“. Für die weitere Fassung bräuchte es Dosen nahe 0 und einen Steigungsvergleich (nicht Teil von P2).
+- Wiederverwendung der P1-Modelle: Codex hält sie für zulässig (Holm erlaubt abhängige p-Werte, keine Auswahl nach P1-Ergebnis).
+
+Power (t-Test, α/3, n = 50, Pilot d_z = 2.3): praktisch 1; auch bei einem Viertel des Pilot-Effekts noch hoch.

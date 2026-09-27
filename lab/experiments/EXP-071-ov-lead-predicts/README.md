@@ -1,8 +1,8 @@
 ---
 id: EXP-071
-status: laufend
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/laufend]
+tags: [exp/abgeschlossen, befund/unklar]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-070-ov-alignment/README|EXP-070]]", "[[experiments/EXP-060-early-lead/README|EXP-060]]", "[[experiments/EXP-059-momentum-exposure/README|EXP-059]]", "[[NOVEL_DIRECTIONS]]", "[[JOURNAL]]"]
 ---
 # EXP-071: Sagt die OV-Ausrichtung beim Wechsel die Persistenz je Seed voraus? (EXPLORATION)
@@ -29,3 +29,21 @@ Zurueck zu [[LAB]] · [[FINDINGS]] (Programm B, offene Frage N32: warum entsteht
 python lab/tools/parallel_queue.py lab/experiments/EXP-071-ov-lead-predicts/jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-071-ov-lead-predicts/analyze.py
 ```
+
+## Ergebnis (Sitzung 24, Laeufe 12:33-12:39, Auswertung 12:39 Berlin, gemessen; `summary.json`): Exploration
+
+110/110 Laeufe ok, 70/70 (Seed, t)-Zellen vollstaendig. (Auswertung: scipy fehlt im globalen Python; Spearman als Pearson auf Raengen nachgebaut, vor dem ersten Ergebnis.)
+
+| t | 10 | 15 | 20 | 25 | 30 | 35 | 50 |
+|---|---|---|---|---|---|---|---|
+| rho(L, pi) je t | 0.21 | 0.36 | 0.48 | 0.49 | 0.44 | 0.16 | 0.20 |
+| rho(E, pi) je t | -0.33 | -0.14 | 0.02 | 0.20 | 0.30 | 0.30 | 0.18 |
+
+- **Vorab-Regel:** Median rho(L) = 0.36 > 0.3, 7/7 positiv -> formal *"L traegt Seed-Information"*. Zum Vergleich W_E-Energie E: Median 0.18.
+- **Einschraenkung (die Vorab-Regel hat sie uebersehen):** Die 7 Korrelationen stammen von denselben 10 Seeds und sind stark abhaengig; "7/7 positiv" ist im Kern **eine** Korrelation auf
+  Seed-Ebene. *Post hoc* (nach dem Ergebnis gewaehlt): je Seed Mittel der z-Werte ueber t, dann Pearson mit Permutationstest (20000): **L r = 0.45, p = 0.09** (einseitig); E r = 0.11, p = 0.40.
+  L und E sind auf Seed-Ebene stark korreliert (0.81).
+- **Gepoolt:** pi haengt ueber alle (Seed, t) an t (rho 0.91) nicht schwaecher als an L (0.89) oder E (0.90): Die OV-Ausrichtung erklaert den **zeitlichen** Verlauf nicht besser als die Schrittzahl.
+- **Lesart:** Schwacher Hinweis, dass Seeds mit staerkerer OV-Ausrichtung beim Wechsel etwas fester an ihrer ersten Wahl haengen, besonders bei t = 15-30; bei n = 10 bekannten Seeds nicht belastbar.
+  Negativ fuer die staerkere Form (L als "Uhr" der Festlegung). **Urteil: unklar (schwacher Hinweis).**
+- **Folge:** Bestaetigung nur lohnend mit frischen Seeds und genug n: fuer r = 0.45 (einseitig, alpha 0.05, Power 0.8) etwa n = 30-40 Seeds. Gegen die offenen Fragen in [[FINDINGS]] priorisieren.

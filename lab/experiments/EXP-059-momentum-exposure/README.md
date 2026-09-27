@@ -1,8 +1,8 @@
 ---
 id: EXP-059
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/negativ]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-058-optim-part/README|EXP-058]]", "[[experiments/EXP-057-optim-reset/README|EXP-057]]", "[[NOVEL_DIRECTIONS]]", "[[BACKLOG]]", "[[JOURNAL]]"]
 ---
 # EXP-059: Ist das Momentum-Gedächtnis nur verlängerte A-Exposition? (Pilot)
@@ -39,3 +39,17 @@ Selbsttest der Auswertung: `guarded_run.py -- python lab/experiments/EXP-059-mom
 python lab/tools/parallel_queue.py lab/experiments/EXP-059-momentum-exposure/jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-059-momentum-exposure/analyze.py
 ```
+
+## Ergebnis (Sitzung 22, Läufe 07:02–07:22, Auswertung 07:22 Berlin; `summary.json`)
+
+200/200 Läufe ok, 10/10 Seeds gültig.
+
+- **Primär:** D = π_rom(35) − π_normal(25) = **+0.059**, SD 0.062, 90-%-KI [0.023, 0.095] → ***verlängerte Exposition genügt*** (M2). 8/10 Seeds D > 0, Minimum −0.012.
+- **π-Kurven (Mittel, SD ≈ 0.1–0.2):** normal t = 10 / 15 / 20 / 25 / 30 / 35 / 50: **0.01 / 0.07 / 0.19 / 0.30 / 0.39 / 0.56 / 1.05**; nur m t = 25 / 30 / 35 / 40 / 50: 0.12 / 0.20 / 0.36 / 0.60 / 0.97.
+- **Verschiebung δ** (wie viele A-Schritte das Löschen von m kostet): 8.1 / 9.6 / 6.5 / 3.8 / 2.4 bei t = 25 / 30 / 35 / 40 / 50. Das passt zu einem Momentum-Schwanz von ≲ 1/(1 − β₁) = 10 Schritten,
+  der mit wachsendem t relativ an Gewicht verliert (π_normal − π_rom: 0.19 bei t = 25 und 35, 0.08 bei t = 50).
+- **Lesart (Pilot, bekannte Seeds):** Der Abfall nach dem Löschen des Momentums (EXP-058) erklärt sich vollständig dadurch, dass dem Netz einige A-Schritte fehlen. Ein eigenes „Gedächtnis im Adam-Zustand“
+  (M1) ist nicht nötig. Die Deutung von N28 wird entsprechend zurückgestuft. Der eigentliche Befund ist die **Steilheit der Festlegung**: π steigt zwischen t = 10 und 50 von ≈ 0 auf ≈ 1,
+  also um ≈ 0.02–0.03 je A-Schritt. Nach 50 A-Schritten ändern 2000 Schritte auf einem paar-disjunkten B die Präferenz im Mittel nicht mehr (π ≈ 1; ein Seed 0.68).
+- **Grenzen:** Pilot, n = 10 bekannte Seeds, eine Aufgabe, ω = 0. δ ist aus Mittelkurven interpoliert.
+- **Folge:** N28-Bestätigung ([[confirm/N28_REGISTRATION|N28]]) mit H1 (m-Reset senkt π) und H2 (Nichtunterlegenheit: m@35 ≥ normal@25 − 0.05) sowie normal@50 beschreibend.

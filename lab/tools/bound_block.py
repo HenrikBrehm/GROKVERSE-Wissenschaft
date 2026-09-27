@@ -127,6 +127,13 @@ class Block:
             raise ValueError(f"{f.name} not bound to the frozen {self.name} code")
         return data
 
+    @staticmethod
+    def _completed(d: Path) -> bool:
+        try:
+            return json.loads((d / "result.json").read_text(encoding="utf-8")).get("status") == "completed"
+        except (OSError, ValueError, AttributeError):
+            return False
+
     def _run_gated(self, man: dict, cmd: list[str], check: bool = True) -> tuple[int, str | None]:
         pyc = str(Path(tempfile.gettempdir()) / f"confirm_pyc_{self.code_digest(man)[:16]}")
         proc = subprocess.Popen(cmd, cwd=ROOT, env={**os.environ, "PYTHONPYCACHEPREFIX": pyc})
@@ -164,7 +171,7 @@ class Block:
             self.check_job(man, cmd)
         d = self.run_dir(cmd)
         if (d / "result.json").exists():
-            if self.unbound(man, d) is None:
+            if self.unbound(man, d) is None and self._completed(d):
                 print(f"{tag} {d.name} already bound, skipped", flush=True)
                 return 0
             try:
@@ -190,6 +197,9 @@ class Block:
                  if rc == 0 and d.exists() else {})
         if rc == 0 and not any(k.endswith("/result.json") for k in files):
             print(f"{tag} {d.name}: no new result.json, nothing usable bound", file=sys.stderr, flush=True)
+            rc = 4
+        if rc == 0 and not self._completed(d):             # Codex s22: bind only runs the trainer marked completed
+            print(f"{tag} {d.name}: result.json not 'completed', nothing bound", file=sys.stderr, flush=True)
             rc = 4
         self.bind.mkdir(parents=True, exist_ok=True)
         rec = {"code_digest": self.code_digest(man), "manifest_commit": man["commit"], "cmd": cmd, "exit": rc, "t0_ns": t0,
@@ -232,7 +242,7 @@ def selftest_binding(block: Block, job_a: str, job_b: str, job_c: str) -> None:
             m2 = {"commit": "c0", "code_sha256": {"a": "1"}}
             mf = Path(tmp) / "m.json"
             mf.write_text(json.dumps(m2))
-            mk = "import pathlib, sys; d = pathlib.Path(sys.argv[1]); d.mkdir(parents=True); (d / 'result.json').write_text('{}')"
+            mk = "import pathlib, sys; d = pathlib.Path(sys.argv[1]); d.mkdir(parents=True); (d / 'result.json').write_text('{\"status\": \"completed\"}')"
             cmd = shlex.split(job_a)
             d = block.run_dir(cmd)
             fake = [sys.executable, "-c", mk, d.as_posix()] + cmd[2:]
@@ -244,6 +254,13 @@ def selftest_binding(block: Block, job_a: str, job_b: str, job_c: str) -> None:
             block._bound.clear()
             assert "result.json" in block.unbound(m2, d) and block.run_bound(mf, fake, gates=False) == 4
             assert block.run_bound(mf, [sys.executable, "-c", "pass"] + shlex.split(job_b)[2:], gates=False) == 4   # no result.json
+            half = "import pathlib, sys; d = pathlib.Path(sys.argv[1]); d.mkdir(parents=True); (d / 'result.json').write_text('{}')"
+            hb = block.run_dir(shlex.split(job_b))
+            assert block.run_bound(mf, [sys.executable, "-c", half, hb.as_posix()] + shlex.split(job_b)[2:], gates=False) == 4   # not completed
+            assert block.unbound(m2, hb) is not None
+            for q in hb.rglob("*"):
+                q.unlink()
+            hb.rmdir()
             last = max(block.bind.glob("*.json"), key=lambda q: int(q.name.split("_")[1]))
             assert json.loads(last.read_text())["exit"] == 4
             left = block.run_dir(shlex.split(job_c))                                    # unfinished leftover -> moved aside

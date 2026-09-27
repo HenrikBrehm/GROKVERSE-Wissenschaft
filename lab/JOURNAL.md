@@ -2919,3 +2919,16 @@ Sitzungsdeadline 07:19, dann beendet es der Wächter. Die Folgesitzung setzt mit
 **Nachtrag 06:56 (gemessen): EXP-041 ausgewertet (CPU-Programm).** Beide Hypothesen ***geprägt***: E → R @150 10/10 (p = 0.001), R → E @150 9/10, 0 umgeschlagen. Ein 150-Schritte-Vorlauf auf einem
 konstruierten Split programmiert die Frequenzwahl auch gegen gewöhnliches Zufallssplit-Training, und ein schwacher Zufallssplit prägt ebenso. Pilot (Regel 15b). Bei t = 150 ist das Momentum abgeklungen,
 die Festlegung sitzt dann in den Gewichten. Folgefrage für N28: Wann geht das Gedächtnis vom Optimierer in die Gewichte über (t = 25 gegen 50 gegen 150)? Seit 06:55 läuft EXP-036 auf der CPU.
+
+## Sitzung 22 (2026-09-27, Start 06:59 Berlin gemessen, Deadline 09:59)
+
+**Zyklus 1 (07:00–07:03 gemessen): EXP-059 festgelegt und gestartet.** CPU-Programm wieder gestartet (EXP-036, 039, 040, 042, 014). *Frage:* Ist das „Momentum-Gedächtnis“
+aus EXP-058 mehr als verlängerte A-Exposition? Der Momentum-Schwanz (β₁ = 0.9) schiebt das Netz nach dem Wechsel noch einige Schritte in A-Richtung. π(t) ist laut EXP-020 steil
+(0.15 / 0.38 / 0.72 bei t = 10 / 25 / 50, andere Splits). M2 (trivial) sagt π_rom(35) ≥ π_normal(25) − 0.05 voraus, M1 (echtes Optimierergedächtnis) sagt einen klar kleineren Wert voraus.
+[[experiments/EXP-059-momentum-exposure/README|EXP-059]] (7d6374e, vor jedem Lauf): π-Kurven normal (t = 10…50) und nur-m (t = 25…50), Seeds 400–409, 200 Läufe auf der GPU. Pilot.
+
+**Zyklus 2 (07:03–07:12 gemessen, während EXP-059 läuft): Bestätigungen vorbereitet.** `lab/tools/bound_block.py`: die Bindungslogik aus confirm_p3 (von Codex geprüft) als parametrisierte
+Klasse, damit neue Blöcke sie nicht ein drittes Mal kopieren. confirm_p1/p3 bleiben eingefroren und unverändert. `confirm_n28.py` (Seeds 2200–2229, Arme normal@25, m@25, m@35) und `confirm_p2b.py`
+(P2-Nachfolger: Seeds 2000–2099, 4000 Schritte, Ausschluss nicht generalisierter Modelle mit Bericht, ≥ 90 % gültig). Beide Selbsttests ok. Power für P2b aus den 47 P2-Werten per Bootstrap
+nachgerechnet: 0.88 bei n = 80, 0.92 bei n = 100 am beobachteten Effekt, ≈ 0.7 bei einem um 0.02 kleineren. Deshalb n = 100. Seed-Blöcke in [[FINDINGS]] reserviert (b0676fb).
+Codex-Prüfung von P2b + bound_block läuft (Vordergrund, als Bash-Hintergrundbefehl).

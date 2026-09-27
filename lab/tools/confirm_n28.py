@@ -41,8 +41,8 @@ SPL = LAB / "confirm" / "n28_splits"
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 CAL = LAB / "experiments/EXP-053-p3-overlap-design/calibration.json"
 BUDGET, ALPHA, MIN_SEP, OMEGA = 2000, 0.05, 2.0, 0.0
-MIN_EFFECT = {"H1": 0.05, "H2": 0.05}
-REGISTERED = {"seeds": list(range(2200, 2230)), "arms": [["normal", 25], ["m", 25], ["m", 35]], "device": "cuda", "threads": 1}
+MIN_EFFECT, NI_MARGIN = {"H1": 0.05, "H2": 0.0}, 0.05
+REGISTERED = {"seeds": list(range(2200, 2230)), "arms": [["normal", 25], ["m", 25], ["m", 35], ["normal", 50]], "device": "cuda", "threads": 1}
 CODE_FILES = ("lab/tools/confirm_n28.py", "lab/tools/confirm_p1.py", "lab/tools/confirm_splits.py", "lab/tools/result_loader.py",
               "lab/tools/paket_a_device.py", "lab/experiments/EXP-001-freq-ban/freq_ban.py",
               "lab/experiments/EXP-053-p3-overlap-design/overlap_split.py", "lab/experiments/EXP-053-p3-overlap-design/calibration.json",
@@ -167,6 +167,23 @@ def load_final(man: dict, s: int, first: str, second: str | None, t: int | None,
     return np.asarray(L.snapshot(steps), dtype=np.float64)
 
 
+def split_mismatch(man: dict, s: int) -> str | None:
+    """Codex s22 (P2b blocker 1, same risk here): rebuild the splits and targets deterministically and compare."""
+    eps = json.loads(CAL.read_text(encoding="utf-8"))["levels"][str(OMEGA)]["eps"]
+    F, G = ov.targets(s)
+    d = ov.build(s, OMEGA, eps)
+    meta_f = SPL / f"n28_seed{s}_w0.json"
+    if not meta_f.exists():
+        return f"seed {s}: split metadata missing"
+    meta = json.loads(meta_f.read_text(encoding="utf-8"))
+    files = {"A": SPL / f"{stem(s, 'A')}.npy", "B": SPL / f"{stem(s, 'B')}.npy", "test": SPL / f"n28_seed{s}_test.npy"}
+    if not all(f.exists() for f in files.values()):
+        return f"seed {s}: split file missing"
+    if not all(np.array_equal(np.load(f), d[k].astype(np.int64)) for k, f in files.items()) or meta.get("targets") != {"A": F, "B": G}:
+        return f"seed {s}: splits differ from the deterministic rebuild"
+    return None
+
+
 def seed_row(man: dict, s: int) -> dict:
     meta = json.loads((SPL / f"n28_seed{s}_w0.json").read_text(encoding="utf-8"))
     F, G = meta["targets"]["A"], meta["targets"]["B"]
@@ -194,8 +211,10 @@ def seed_row(man: dict, s: int) -> dict:
 
 
 def contrasts(pi: dict[str, float]) -> dict[str, float]:
-    """H1: pi_normal(25) - pi_m(25) (zeroing m lowers persistence). H2: see registration (filled in after EXP-059)."""
-    return {"H1": pi["normal25"] - pi["m25"], "H2": pi["normal25"] - pi["m35"]}
+    """H1: pi_normal(25) - pi_m(25) > 0.05 (zeroing m lowers persistence).
+    H2 (after EXP-059, non-inferiority): pi_m(35) - pi_normal(25) + NI_MARGIN > 0, i.e. 10 extra plain A steps with m zeroed reach at
+    least the persistence of the normal switch at 25 minus 0.05 (the momentum tail acts like prolonged exposure)."""
+    return {"H1": pi["normal25"] - pi["m25"], "H2": pi["m35"] - pi["normal25"] + NI_MARGIN}
 
 
 def verdict(X: dict[str, np.ndarray], n_planned: int, rng: np.random.Generator) -> dict:
@@ -215,6 +234,9 @@ def verdict(X: dict[str, np.ndarray], n_planned: int, rng: np.random.Generator) 
 def analyze(manifest: Path) -> None:
     man = json.loads(manifest.read_text(encoding="utf-8"))
     BLOCK.check_manifest(manifest, man)
+    bad = [m for m in (split_mismatch(man, s) for s in man["seeds"]) if m]
+    if bad:
+        raise SystemExit(f"N28 splits differ from the registered construction, confirmation void: {bad[:3]}")
     rows = [seed_row(man, s) for s in man["seeds"]]
     ok = [r for r in rows if r["valid"]]
     X = {k: np.array([contrasts(r["pi"])[k] for r in ok]) for k in MIN_EFFECT}
@@ -234,7 +256,7 @@ def selftest() -> None:
     except SystemExit:
         pass
     BLOCK.check_registered({**man, "seeds": list(range(2200, 2230))})
-    for bad in ({"seeds": [float(x) for x in range(2200, 2230)]}, {"arms": [["normal", 25.0], ["m", 25], ["m", 35]]}, {"threads": True}):
+    for bad in ({"seeds": [float(x) for x in range(2200, 2230)]}, {"arms": [["normal", 25.0], ["m", 25], ["m", 35], ["normal", 50]]}, {"threads": True}):
         try:
             BLOCK.check_registered({**man, "seeds": list(range(2200, 2230)), **bad})
             raise AssertionError(f"type-sloppy manifest accepted: {bad}")
@@ -259,11 +281,12 @@ def selftest() -> None:
         pass
     L = {"A": 2.0, "B": -2.0}
     assert pi_pair(L, 0.0, 0.0) == 0.5 and pi_pair(L, 2.0, -2.0) == 1.0 and pi_pair(L, -2.0, 2.0) == 0.0
-    c = contrasts({"normal25": 0.3, "m25": 0.1, "m35": 0.2})
-    assert abs(c["H1"] - 0.2) < 1e-12 and abs(c["H2"] - 0.1) < 1e-12
+    c = contrasts({"normal25": 0.3, "m25": 0.1, "m35": 0.2, "normal50": 1.0})
+    assert abs(c["H1"] - 0.2) < 1e-12 and abs(c["H2"] - (-0.05)) < 1e-12
+    assert "--steps 2050" in tj[8] and "--reset-optim" not in tj[8] and "at50" in expected_run_id(shlex.split(tj[9]))
     rng = np.random.default_rng(0)
     assert verdict({"H1": np.full(29, 0.3), "H2": np.full(30, 0.3)}, 30, rng)["verdict"] == "nicht auswertbar"
-    v = verdict({"H1": np.linspace(0.1, 0.4, 30), "H2": np.linspace(0.0, 0.06, 30)}, 30, rng)
+    v = verdict({"H1": np.linspace(0.1, 0.4, 30), "H2": np.linspace(-0.03, 0.03, 30)}, 30, rng)
     assert v["H1"]["verdict"] == "bestätigt" and v["H2"]["verdict"] == "nicht bestätigt", v
     assert v["H1"]["p"] < v["H2"]["p"] and abs(v["H1"]["p_holm"] - 3 * v["H1"]["p"]) < 1e-12, v     # worst case with the P2b placeholder
     selftest_binding(BLOCK, tj[4], tj[1], tj[5])

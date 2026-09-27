@@ -36,3 +36,12 @@ python lab/tools/confirm_p2b.py --jobs lab/confirm/P2b_manifest.json > lab/confi
 python lab/tools/parallel_queue.py lab/confirm/P2b_jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/tools/confirm_p2b.py --analyze lab/confirm/P2b_manifest.json
 ```
+
+## Codex-Prüfung (Sitzung 22, gegen b0676fb) und endgültige Regeln (gelten allein, wo abweichend)
+
+Codex: 2 Blocker, 1 hoch, 2 mittel, Rest in Ordnung (Run-IDs und Bindungs-Refaktor bestätigt). Selbst geprüft, alle übernommen:
+- **Herkunft der Splits (Blocker, stimmt):** Die Auswertung baut jeden Split und jede Zielmenge mit `confirm_splits.build` neu und verlangt exakte Gleichheit (Array, Ziele, fremde Ziele, Seed). Bei einer Abweichung ist die ganze Bestätigung ungültig (`split_mismatch`).
+- **Technische Ausfälle (Blocker, stimmt):** *Jeder* technische Ausfall (Lauf fehlt, nicht gebunden, nicht ladbar, nicht endlicher Loss/R/D) macht P2b **nicht auswertbar**. Nur die wissenschaftliche Eignung (Basis-Genauigkeit ≥ 0.9 in beiden Armen) darf Seeds ausschließen. Die Bindung nimmt nur Läufe mit `status == "completed"` an (bound_block, gilt auch für N28). Wiederholung: Ein technisch gescheiterter Lauf darf **einmal** mit derselben Jobzeile neu gestartet werden, bevor irgendein R berechnet ist. Das wird berichtet.
+- **Auswahl über die Machbarkeit (hoch, stimmt):** Die Dosis ist jetzt **E = min(0.5 · E_ctrl, E_own)**, also immer machbar. Die Zahl gekappter Arme wird berichtet. Die Aussage gilt **bedingt auf „beide Modelle generalisiert (≥ 0.9)“**. Als Sensitivitätsanalyse wird R über alle technisch gültigen Seeds (auch nicht generalisierte) mit KI berichtet.
+- **Endlichkeit (mittel, stimmt):** Basis- und Eingriffsverluste, R und D werden geprüft; R = log L_own − log L_ctrl.
+- **Power (mittel, stimmt teilweise):** eingefroren als `lab/confirm/p2b_power.py` (RNG 2022, 400 Simulationen, beide Kriterien, n_eff 90/100, gemessen 07:25): 0.92/0.94 am beobachteten Mittel, 0.80 bei 1.25-facher SD, **0.73 bei einem um 0.02 kleineren Mittel**, 0.41 bei −0.04. Die Pilotwerte sind ausgewählte Überlebende bei Schritt 2000. Diese Empfindlichkeit nehme ich bewusst hin; n bleibt 100 (GPU-Zeit).

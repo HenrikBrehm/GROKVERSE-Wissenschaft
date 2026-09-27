@@ -69,3 +69,11 @@ Zusätzliche Sekundärgröße: r̄(log E0 + log M0c) gegen r̄(M0c), einseitiger
 von W_E des jeweiligen Init-Seeds). Post hoc an Seeds 0–9: 0.252 gegen 0.280 (p 0.098), an 10–17: 0.212 gegen 0.222 (p 0.375)
 (`EXP-015-mask-spectrum/posthoc/combined_predictor.py`). Anlass: Verdrängte Ziele in EXP-016 sind früh schwach, und
 die frühe Schwäche geht teils auf die Maske, teils auf die Init zurück (JOURNAL Zyklus 15).
+
+## Nachtrag c (2026-09-27, Sitzung 35, 23:30 Berlin gemessen, **vor jeder EXP-019-Statistik**; keine Kriterienänderung)
+
+- **Anlass:** EXP-019 stand seit Sitzung 5 als „vorbereitet“ und wurde nie ausgewertet. Die registrierten CPU-Läufe von EXP-018 (`thr4`) gibt es nicht; EXP-018 lief nach seinem Nachtrag c auf der GPU (Sitzung 32, Seeds 20–29, alle drei Arme, `--stop-after-gen 25`, höchstens 8000 Schritte, also dieselbe K-Definition wie hier registriert).
+- **Änderung:** `analyze.py --device cuda` liest `raw/EXP-018_baseline_seed{s}_thr1_seed{s}_train_{arm}_devcuda`, verlangt `device = cuda` in jeder EXP-018-result.json und schreibt `summary_cuda.json`. Die Baselines 18/19 (EXP-003d, CPU) bleiben wie registriert. Primärgröße, Test, Schwellen und Sekundärgrößen sind unverändert. Ohne Argument verhält sich das Skript wie vorher.
+- **Bereits gesehene Daten:** Die EXP-018-Läufe wurden in Sitzung 32 nach Generalisierungszeit und Top-5-Überlappung mit F (`ov_F_*` in `summary_cuda.json`) ausgewertet. Die Arme E und R gab es mit denselben Seeds und Splits schon in EXP-041. Die Vorhersagegüte von M0 gegen M0c an den Endfrequenzen wurde nach unserer JOURNAL-Suche nie berechnet. Die Baselines 18/19 entstanden nach der Registrierung (Start 08:04/08:30 Berlin, Registrierung 06:11).
+- **Gerätemischung:** Die zwölf Einheiten mischen GPU-Läufe (Arm R) und CPU-Läufe (Baselines). Das betrifft nur die Herkunft von K, nicht den Vergleich M0 gegen M0c innerhalb einer Einheit (beide Prädiktoren an derselben Maske und demselben K).
+- **Befehl (im Fenster, Sekunden):** `python lab/tools/guarded_run.py -- python lab/experiments/EXP-019-coherent-mask/analyze.py --device cuda`

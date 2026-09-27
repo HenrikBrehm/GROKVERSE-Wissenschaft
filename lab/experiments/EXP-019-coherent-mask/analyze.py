@@ -1,5 +1,8 @@
 """EXP-019: coherent mask spectrum M0c vs M0 on fresh seeds (EXP-018 arm R 20-29, EXP-003d baselines 18, 19).
 Definition: README.md. No training; reads finished runs only. Run through guarded_run.py (make_dataset is used).
+Nachtrag c (session 35, before any EXP-019 statistic was computed): --device cuda reads the EXP-018 GPU runs
+(raw/EXP-018_baseline_seed{s}_thr1_seed{s}_train_{arm}_devcuda, EXP-018 Nachtrag c) and requires device = cuda in each
+result.json; the registered CPU runs (thr4) were never produced. Statistics unchanged. Output summary_cuda.json.
 """
 from __future__ import annotations
 
@@ -21,6 +24,9 @@ from make_split import mask_from_idx  # noqa: E402
 p12 = ms.p12
 E18 = LAB / "experiments/EXP-018-split-speed"
 MIN_VALID = 10
+DEVICE = "cuda" if sys.argv[1:] == ["--device", "cuda"] else "cpu"
+if sys.argv[1:] not in ([], ["--device", "cuda"]):
+    raise SystemExit("usage: analyze.py [--device cuda]")
 
 
 def run_k(d: Path) -> list[int] | None:
@@ -28,7 +34,11 @@ def run_k(d: Path) -> list[int] | None:
     if not f.exists():
         return None
     res = json.loads(f.read_text(encoding="utf-8"))
-    return res.get("final_top_m_freqs") if res["status"] == "completed" else None
+    if res["status"] != "completed":
+        return None
+    if d.parent.parent == E18 and res.get("device", "cpu") != DEVICE:      # Nachtrag c: EXP-018 runs must match the device
+        raise SystemExit(f"{d.name}: device {res.get('device')!r}, expected {DEVICE}")
+    return res.get("final_top_m_freqs")
 
 
 def combined(s: int, M: np.ndarray, K: list[int]) -> dict:
@@ -40,7 +50,8 @@ def combined(s: int, M: np.ndarray, K: list[int]) -> dict:
 def rows_for(arm: str) -> list[dict]:
     rows = []
     for s in range(20, 30):
-        K = run_k(E18 / f"raw/EXP-018_baseline_seed{s}_thr4_seed{s}_train_{arm}")
+        K = run_k(E18 / (f"raw/EXP-018_baseline_seed{s}_thr4_seed{s}_train_{arm}" if DEVICE == "cpu"
+                         else f"raw/EXP-018_baseline_seed{s}_thr1_seed{s}_train_{arm}_devcuda"))
         if K is not None:
             M = mask_from_idx(np.load(E18 / f"splits/seed{s}_train_{arm}.npy"))
             rows.append({"seed": s, "src": f"EXP-018/{arm}", "K": K})
@@ -74,7 +85,8 @@ def summary(rows: list[dict]) -> dict:
 def main() -> None:
     prim, sec = rows_for("R"), rows_for("D")
     out = {"primary_R_plus_baselines": summary(prim), "secondary_arm_D": summary(sec), "rows": prim + sec}
-    (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    out["device_exp018"] = DEVICE
+    (HERE / ("summary.json" if DEVICE == "cpu" else "summary_cuda.json")).write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
 
 

@@ -41,6 +41,31 @@ reliance far more than the tested MLP reset, and resetting its value path does s
 - Contributions: (i) causal steering via split construction, held-out across four tasks incl. a non-abelian group; (ii) a functional validation (margin sensitivity) with its limits; (iii) an early, time-dependent
   lock-in under a data switch; (iv) reset interventions that localize *sensitivity* (not storage) in the attention value path.
 
+
+## 1b Related work (draft prose, session 25; every entry to be checked by a human against [[paper/related_work]] and [[paper/fulltext_check_2026-09-27]])
+
+**Fourier and irrep circuits.** Networks that grok modular addition compute it with a few Fourier frequencies (Power et al. 2022; Nanda et al. 2023); for finite groups they use irreducible
+representations (Chughtai et al. 2023; coset circuits in S₅/S₆: Stander et al. 2024), and which ones a network uses has been described as arbitrary (Chughtai et al. 2023). Recent theory explains the competition between frequencies by
+the initialization (He et al. 2026a), analyses irrep selection with the full group table as data and names the role of the train–test split as open (He et al. 2026b, §6), and, within
+alternating gradient flow (Kunin et al. 2025), derives the order in which irreps are learned from the Fourier statistics of the input encoding under uniform data (Marchetti et al. 2026;
+with one-hot tokens, irreps of equal dimension tie). LeDoux (2026) shows that the *order* of training examples (minibatches) sets the fundamental frequency, while random subsets do not
+change it (their §4.2.3, §5.3). Our lever is the *set* of training pairs under full-batch training with one-hot tokens, with the targets prescribed in advance through the pair mask.
+More generally, data statistics select among redundant features (Hermann & Lampinen 2020), stage-wise learning follows data spectra in linear networks (Saxe et al. 2014), and neural
+networks fit low frequencies first in continuous input spaces (spectral bias / frequency principle; Rahaman et al. 2019; Xu et al. 2019). These do not address which discrete group
+frequencies a grokking network adopts.
+
+**Early commitment and lock-in.** Critical learning periods (Achille et al. 2019; Kleinman et al. 2023, 2024), the importance of the early phase of training (Frankle et al. 2020), the
+lasting cost of warm starting (Ash & Adams 2020) and the primacy bias (Nikishin et al. 2022) all describe early training that later data cannot fully undo. Closest to our setting,
+Lyle et al. (2025) relate grokking to the overwriting of early features and explain recovery by the effective learning rate; their warm-start experiments use CIFAR and treat modular
+arithmetic as stationary, without frequency analysis, so the effective learning rate is an alternative we must address for K4. LeDoux (2026, §3.4) conjectures a critical period in
+modular arithmetic without a switch experiment. Khanh (2026) uses the same model class and embedding power spectrum as a circuit identity and shows that transplanting another run's
+weight direction overwrites it — a weight-space intervention, whereas we switch the data and measure when the frequency choice becomes persistent.
+
+**Partial resets.** Resetting layers or parameter groups is an established tool to restore plasticity or to probe module criticality (Nikishin et al. 2022; Zhou et al. 2022; Zhang et al.
+2022; Chatterji et al. 2020; Asadi et al. 2023 for optimizer resets). For transformers, Dong (2026) reports in language models up to 1.4B parameters that re-initializing only the
+query–key slices of attention restores the ability to learn a withheld capability, while value slices do nothing. Our reset results (K4d, K4e) concern a different quantity (persistence
+of an early frequency choice) and show the opposite ordering within attention (value path more than query/key); we report this as a contrast, not as a general statement about attention.
+
 ## 2 Setup
 
 - Model: the one-layer transformer of the original GROKVERSE study (preset arch25k, d_model 128, 4 heads, MLP 512), full-batch AdamW (lr 1e-3, wd 1.0, β as in the study), train fraction 0.3,

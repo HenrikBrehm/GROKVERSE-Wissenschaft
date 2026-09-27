@@ -18,8 +18,8 @@ EXP-069 auswerten, dann Abschlussbericht (Sitzung endet 12:39).
 
 ## Verlauf dieser Sitzung
 
-- 11:38 FINDINGS hat oben eine Kurzfassung (Tabelle der Kernaussagen).
-- 11:31 **N29b BESTAETIGT (20/20 frische Seeds):** Setzt man beim Datenwechsel nach 50 Schritten die Attention zurueck, ist das fertige Netz auf die NEUEN Frequenzen angewiesen (40/40 Richtungen); ein gleich grosser MLP-Reset aendert fast nichts. Vorlaeufig, weil Codex kein Guthaben hat.
+- 11:36 FINDINGS hat oben eine Kurzfassung (Tabelle der Kernaussagen).
+- 11:31 **N29b BESTAETIGT (20/20 frische Seeds):** Setzt man beim Datenwechsel nach 50 Schritten die Attention zurueck, ist das fertige Netz auf die NEUEN Frequenzen angewiesen (40/40 Richtungen); ein doppelt so grosser MLP-Reset aendert fast nichts. Vorlaeufig, weil Codex kein Guthaben hat.
 - 11:11 EXP-069 vorab festgelegt; Neuheitssuche zu N32 (Attention haelt die fruehe Wahl): nicht gefunden, vorlaeufig.
 - 11:09 EXP-039 ausgewertet: unklar (Lernraten-Uhr passt besser als Schrittuhr, aber nicht in jedem Seed). EXP-040-Auswertungsfehler vor jedem Lauf behoben.
 - 11:06 N29b eingefroren und gestartet (Codex hat kein Guthaben mehr; eigene Pruefung).

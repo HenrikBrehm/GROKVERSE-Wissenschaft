@@ -1,11 +1,11 @@
 ---
 id: N28-registrierung
-status: entwurf
+status: eingefroren
 datum: 2026-09-27
 tags: [lab/bestaetigung]
 verwandt: ["[[FINDINGS]]", "[[NOVEL_DIRECTIONS]]", "[[experiments/EXP-058-optim-part/README|EXP-058]]", "[[experiments/EXP-059-momentum-exposure/README|EXP-059]]", "[[confirm/P3_REGISTRATION_DRAFT|P3]]", "[[confirm/P2b_REGISTRATION|P2b]]", "[[JOURNAL]]"]
 ---
-# N28-Bestätigung (Programm B, Mechanismus der Persistenz): Registrierung (Sitzung 22). **ENTWURF, nicht eingefroren**
+# N28-Bestätigung (Programm B, Mechanismus der Persistenz): Registrierung (Sitzung 22). **EINGEFROREN**
 
 Zurück zu [[FINDINGS]] · Piloten [[experiments/EXP-058-optim-part/README|EXP-058]], [[experiments/EXP-059-momentum-exposure/README|EXP-059]] · [[NOVEL_DIRECTIONS]] N28 · Familie mit [[confirm/P2b_REGISTRATION|P2b]].
 
@@ -36,3 +36,10 @@ Zurück zu [[FINDINGS]] · Piloten [[experiments/EXP-058-optim-part/README|EXP-0
 Blocker: H1 wurde mit Holm auf Δ > 0 geprüft, die Marge 0.05 stand nur im KI-Tor. Jetzt trägt die getestete Größe die Marge (Y = Δ_m − 0.05), wie bei H2. Hoch: Die Lesart war zu stark;
 jetzt „vereinbar mit / ersetzbar durch verlängerte Exposition“. Mittel: δ und Update-Normen waren versprochen, aber nicht festgelegt, und sind gestrichen. P2b-Korrekturen von Codex als erledigt bestätigt;
 die P2b-Power-Empfindlichkeit bleibt ein offen berichtetes, bewusst hingenommenes Risiko.
+
+## EINGEFROREN (Sitzung 22, 2026-09-27, 07:31–07:34 Berlin, gemessen)
+
+Manifest `lab/confirm/N28_manifest.json`, **Manifest-Commit fa154bd** (Commit-Feld in 888c2d9), Code-Hashes über `confirm_n28.py`, `bound_block.py`, Trainer und Helfer.
+Splits und Jobliste in 37448f6; die Herkunftsprüfung (`split_mismatch`) ist an den geschriebenen Dateien für alle Seeds bestanden. Vor dem Einfrieren wurde kein Lauf mit diesen Seeds gemacht.
+Ein Job der Liste lief um 07:33 als Smoke (Seed 2200, A→B, m@25): Exit 0, 5 Dateien gebunden. Er zählt als regulärer Lauf des Blocks.
+Start des Blocks 07:34 (GPU, `parallel_queue.py lab/confirm/N28_jobs.txt --workers 5`, parallel zum anderen Block der Familie).

@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-27, 07:06 Berlin (Sitzung 22 läuft seit 06:59, Deadline 09:59)._
+_Zuletzt aktualisiert: 2026-09-27, 07:34 Berlin (Sitzung 22 läuft seit 06:59, Deadline 09:59)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · Bestätigungen [[confirm/P1_REGISTRATION_DRAFT|P1]] · [[confirm/P2_REGISTRATION_DRAFT|P2]] · [[confirm/P3_REGISTRATION_DRAFT|P3]]
 
@@ -22,24 +22,23 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 
 - **CPU (Sitzung 22, seit 07:00, 3 × 4 Threads):** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`
   (EXP-035/038/041 fertig). Die Sitzungsdeadline bricht ab (kein Fehler). **Wiederaufnahme: derselbe Befehl.**
-- **GPU (seit 07:02):** [[experiments/EXP-059-momentum-exposure/README|EXP-059]] (Momentum gegen verlängerte Exposition, 200 Läufe, festgelegt 7d6374e):
-  `python lab/tools/parallel_queue.py lab/experiments/EXP-059-momentum-exposure/jobs.txt --workers 8 > lab/runner/logs/exp059.log`. Bei Abbruch: derselbe Befehl
-  (freq_ban überspringt identische fertige Läufe über den Fingerabdruck). Danach `guarded_run.py -- python lab/experiments/EXP-059-momentum-exposure/analyze.py`.
-- **Vorbereitet, ungetestet am echten Lauf:** `lab/tools/confirm_n28.py` (Selbsttest ok), Seeds 2200–2229 für N28 reserviert (noch kein Manifest, keine Splits).
+- **GPU (seit 07:34), Bestätigungsfamilie Sitzung 22, EINGEFROREN (fa154bd/888c2d9, Splits und Jobs 37448f6):**
+  [[confirm/P2b_REGISTRATION|P2b]] `python lab/tools/parallel_queue.py lab/confirm/P2b_jobs.txt --workers 5 > lab/runner/logs/p2b_block.log` (200 Läufe à 4000 Schritte) und
+  [[confirm/N28_REGISTRATION|N28]] `… lab/confirm/N28_jobs.txt --workers 5 > lab/runner/logs/n28_block.log` (300 Läufe). **Wiederaufnahme: dieselben Befehle** (gebundene Läufe werden übersprungen;
+  ein unvollständiger Ordner wird beiseitegelegt und neu gerechnet; bei `run.lock` von Hand prüfen). Regel: technischer Ausfall darf einmal mit derselben Zeile wiederholt werden, bevor ein R berechnet ist.
+- **Auswertung danach:** `python lab/tools/guarded_run.py -- python lab/tools/confirm_n28.py --analyze lab/confirm/N28_manifest.json`, ebenso `confirm_p2b.py … P2b_manifest.json`.
 
 ## Nächste Schritte (in dieser Reihenfolge)
 
-1. `python lab/tools/guarded_run.py --check`; kein STOP; Prozesse prüfen; CPU-Programm (oben) wieder starten.
-2. (erledigt 06:31: Codex hat 5aa8c34 als korrekt bestätigt, die EXP-057-Deutung ist korrigiert.)
-3. **N28 bestätigen (Programm B):** EXP-058-Design (normal / nur m / voller Reset, `--log-update-norms`) als Bestätigung an **frischen** Seeds einfrieren (neuen Seed-Bereich reservieren,
-   z. B. 2200–2299, eigene Splits über EXP-053 `overlap_split`), dazu Richtungsanalyse (Kosinus der Updates) und t = 50/150 als Folgefragen. Vorher Codex (Regel 18c).
-4. **P2-Nachfolger** ([[BACKLOG]] „P2-Nachfolger“): frische Seeds, sicheres Grokking, feste Ablations-Testmenge, N aus der gesehenen Streuung (≈ 60–80).
-5. Auswertungen nach den CPU-Läufen (über den Wächter): EXP-036, EXP-039 (`eval_pi.py`), EXP-040, EXP-042 (`pi_window.py`), EXP-014.
+1. `guarded_run.py --check`; kein STOP; Prozesse prüfen; laufende Blöcke (oben) nicht doppelt starten, sondern mit demselben Befehl fortsetzen.
+2. N28 und P2b auswerten (Befehle oben), Ergebnis in die Registrierungen, FINDINGS, LAB; vor einer Kernaussage in FINDINGS Codex die Schlussfolgerung prüfen lassen.
+3. Programm B weiter: **was** macht die Wahl in ≈ 50 Schritten so fest (EXP-059: π 0 → 1 zwischen t = 10 und 50)? Kandidaten vorab festlegen.
+4. CPU-Auswertungen nach den Läufen: EXP-036, EXP-039 (`eval_pi.py`), EXP-040, EXP-042 (`pi_window.py`), EXP-014.
 
 ## Drei Prioritäten (Regel 18c)
 
-1. **B** Persistenz: N28 (Momentum trägt die frühe Persistenz) an frischen Seeds bestätigen.
-2. **A** Funktion: P2-Nachfolger.
+1. **B** Persistenz: N28 (eng: m-Reset senkt π, 10 A-Schritte gleichen aus; EXP-059) läuft als Bestätigung; danach Ursache der steilen Festlegung.
+2. **A** Funktion: P2b (Nachfolger von P2, 100 frische Seeds, 4000 Schritte) läuft als Bestätigung.
 3. **C** ruht (höchstens zwei Programme aktiv).
 
 ## Blocker / Hinweise

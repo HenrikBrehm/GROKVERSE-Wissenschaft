@@ -1,11 +1,11 @@
 ---
 id: P2b-registrierung
-status: entwurf
+status: eingefroren
 datum: 2026-09-27
 tags: [lab/bestaetigung]
 verwandt: ["[[FINDINGS]]", "[[confirm/P2_REGISTRATION_DRAFT|P2]]", "[[experiments/EXP-055-ablation-dose/README|EXP-055]]", "[[confirm/N28_REGISTRATION|N28]]", "[[JOURNAL]]"]
 ---
-# P2b-Bestätigung (funktionale Nutzung, Nachfolger von P2): Registrierung (Sitzung 22). **ENTWURF, nicht eingefroren**
+# P2b-Bestätigung (funktionale Nutzung, Nachfolger von P2): Registrierung (Sitzung 22). **EINGEFROREN**
 
 Zurück zu [[FINDINGS]] (Programm A) · Vorgänger [[confirm/P2_REGISTRATION_DRAFT|P2]] (nicht auswertbar) · Pilot [[experiments/EXP-055-ablation-dose/README|EXP-055]] · Familie mit [[confirm/N28_REGISTRATION|N28]].
 
@@ -45,3 +45,9 @@ Codex: 2 Blocker, 1 hoch, 2 mittel, Rest in Ordnung (Run-IDs und Bindungs-Refakt
 - **Auswahl über die Machbarkeit (hoch, stimmt):** Die Dosis ist jetzt **E = min(0.5 · E_ctrl, E_own)**, also immer machbar. Die Zahl gekappter Arme wird berichtet. Die Aussage gilt **bedingt auf „beide Modelle generalisiert (≥ 0.9)“**. Als Sensitivitätsanalyse wird R über alle technisch gültigen Seeds (auch nicht generalisierte) mit KI berichtet.
 - **Endlichkeit (mittel, stimmt):** Basis- und Eingriffsverluste, R und D werden geprüft; R = log L_own − log L_ctrl.
 - **Power (mittel, stimmt teilweise):** eingefroren als `lab/confirm/p2b_power.py` (RNG 2022, 400 Simulationen, beide Kriterien, n_eff 90/100, gemessen 07:25): 0.92/0.94 am beobachteten Mittel, 0.80 bei 1.25-facher SD, **0.73 bei einem um 0.02 kleineren Mittel**, 0.41 bei −0.04. Die Pilotwerte sind ausgewählte Überlebende bei Schritt 2000. Diese Empfindlichkeit nehme ich bewusst hin; n bleibt 100 (GPU-Zeit).
+
+## EINGEFROREN (Sitzung 22, 2026-09-27, 07:31–07:34 Berlin, gemessen)
+
+Manifest `lab/confirm/P2b_manifest.json`, **Manifest-Commit fa154bd** (Commit-Feld in 888c2d9), Code-Hashes über `confirm_p2b.py`, `bound_block.py`, Trainer und Helfer.
+Splits und Jobliste in 37448f6; die Herkunftsprüfung (`split_mismatch`) ist an den geschriebenen Dateien für alle Seeds bestanden. Vor dem Einfrieren wurde kein Lauf mit diesen Seeds gemacht.
+Start des Blocks 07:34 (GPU, `parallel_queue.py lab/confirm/P2b_jobs.txt --workers 5`, parallel zum anderen Block der Familie).

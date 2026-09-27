@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 20:29 Berlin (18:29Z, vom Runner)
 - **Deadline:** 2026-09-27 23:29 Berlin (21:29Z)
-- **Zuletzt aktualisiert:** 21:34 Berlin
+- **Zuletzt aktualisiert:** 21:39 Berlin
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests.
 
 ## Gerade
 
-Skeptiker-Punkte eingearbeitet; Kontrollversuch EXP-086 vorbereitet. Als Nächstes: Nachtplan prüfen, dann Abschlussarbeiten.
+Ein Reviewer-Agent prüft die heute geschriebenen, ungetesteten Auswerteskripte statisch, damit die Nacht nicht an ihnen scheitert.
 
 ## Als Nächstes
 
@@ -18,6 +18,9 @@ Ab 00:00 laut [[STATE]]: EXP-018 → EXP-084 (Vorhersage vor dem Lauf) → P2f �
 
 ## Verlauf dieser Sitzung
 
+- 21:39 **Fenster Mo 28.09. bis 18:00** (Freigabe des Nutzers, im Wächter geprüft) → alle Paper-Blöcke in dieser Nacht möglich.
+- 21:38 Zweite Quellenprüfung: Paper-Absatz korrigiert (Optimizer-Anteil ein Viertel bis die Hälfte).
+- 21:35 Nach der Festlegung wird ein neuer Split über feste Merkmale gefittet (Test 0.42 gegen 0.16, 30/30).
 - 21:33 Skeptiker: ernsteste Alternative „jede frühe Änderung kostet“ → Kontrolle [[experiments/EXP-086-same-spectrum-switch/README|EXP-086]] vorbereitet. Adams erstes Moment trägt ≈ die Hälfte der Kosten.
 - 21:27 R2-Zeitkontraste vor dem Lauf festgelegt (andere Hyperparameter).
 - 21:26 STATE auf 67 Zeilen gekürzt; R6 bekommt eine beschreibende Zerlegung (vor dem Lauf).

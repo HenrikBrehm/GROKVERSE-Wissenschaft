@@ -11,6 +11,16 @@ Zurück zu [[LAB]]. **Nachtrag Sitzung 21 (27.09., 04:46): P1 und P2 sind eingef
 2026-09-26 nicht gefunden, vorläufig. **Alle Aussagen gelten bisher nur für eine Aufgabe (Addition mod 113) und im Kern eine
 Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelheiten: [[BEFUND-split-mechanismus]], [[BEFUND-festlegung]].
 
+## BESTÄTIGT, SCHLUSSFOLGERUNG VORLÄUFIG (Sitzung 23, 27.09., 11:31 Berlin): N29b, Attention-Reset beim Wechsel hebt die Abhängigkeit von den alten Frequenzen auf #befund/positiv
+
+**Kernaussage K4d (vorläufig, ohne Codex-Prüfung, Codex ohne Guthaben):** *Bei Addition mod 113 und einem Wechsel zwischen paar-disjunkten konstruierten Splits nach 50 Schritten (4000 weitere Schritte, 20 frische
+Seeds, Mittel über beide Richtungen) senkte das Zurücksetzen der Attention-Parameter (W_Q, W_K, W_V, W_O auf die Init, ihr AdamW-Zustand gelöscht) den Ablationskontrast R = acc(ohne neue) − acc(ohne alte)
+um 1.49 [1.36, 1.61] gegenüber dem normalen Wechsel und um 1.42 [1.28, 1.56] gegenüber einem Reset von W_in, W_out (doppelte Parameterzahl) (je 20/20, Holm-p 5·10⁻¹²). Beschreibend lag R nach dem
+Attention-Reset bei −0.63 [−0.73, −0.52] (40/40 Richtungen < 0), nach MLP-Reset bei 0.79, normal bei 0.86.*
+Belege: [[confirm/N29b_REGISTRATION|Registrierung + Ergebnis]], Manifest db31564, 120 gebundene Läufe; Pilot [[experiments/EXP-067-exclusion-part/README|EXP-067]].
+**Grenzen:** Reset auf die Init entfernt alles Gelernte der Attention (Reset-Empfindlichkeit, kein Mechanismusnachweis); ein Zeitpunkt; Reset-Größe nur über die Parameterzahl kontrolliert; Ablation folgt der Energie (EXP-068).
+Einordnung: [[NOVEL_DIRECTIONS]] N32, nach unserer Suche vom 27.09. nicht gefunden (vorläufig); verwandt: Plastizitätsverlust und Attention-Entropie (Lyle et al.).
+
 ## BESTÄTIGT (Sitzung 23, 27.09., 10:44 Berlin): P2e, P2d-Befund auch bei mul 113 und add 97 #befund/positiv
 
 **Kernaussage K2-Funktion verallgemeinert (P2e)** (Wortlaut nach Codex-Prüfung der Schlussfolgerung, Sitzung 23): *Nach 8000 Trainingsschritten senkte ein einseitiger W_E-Schritt der Norm

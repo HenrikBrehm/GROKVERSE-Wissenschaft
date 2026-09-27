@@ -3135,3 +3135,8 @@ Nach registrierter Regel behoben (Nachtrag d), Selbsttest ok; EXP-040 läuft in 
 Teil-Resets aus RL/kontinuierlichem Lernen bekannt; ein Attention-Reset nach ≈ 50 Schritten, der den Ausschluss neuer Merkmale aufhebt, während MLP-/W_U-Reset es nicht tun, nicht gefunden → [[NOVEL_DIRECTIONS]] N32 (vorläufig).
 [[experiments/EXP-069-attention-part/README|EXP-069]] festgelegt (Muster W_Q/W_K gegen Werte W_V/W_O, gleich viele Parameter), vor dem N29b-Ergebnis; Trainer-Patch (`qk`, `vo`) liegt bereit und wird erst nach dem
 N29b-Block eingespielt (Code-Hash). STATE neu geschrieben (51 Zeilen).
+
+**Zyklus 17 (N29b ausgewertet, 11:30–11:31 gemessen; EXP-069 gestartet 11:35).** ***H1 und H2 bestätigt*** (db31564, 120/120 gebunden, alle 20 Seeds): Attention-Reset beim Wechsel bei t = 50 senkt die Abhängigkeit
+von den alten Frequenzen um 1.49 [1.36, 1.61] gegenüber normal und um 1.42 [1.28, 1.56] gegenüber dem MLP-Reset (je 20/20). Beschreibend R(rsattn) = −0.63 [−0.73, −0.52], < 0 in 40/40 Richtungen: Das Netz ist danach
+auf die neuen Frequenzen angewiesen. R(rsmlp) = 0.79 ≈ normal 0.86. Die Pilotbeobachtung aus EXP-067 hält an frischen Seeds mit 4000 Schritten. *Ohne Codex-Prüfung der Schlussfolgerung (kein Guthaben).*
+Trainer-Erweiterung `qk|vo` (1c6e480, 18/18 Tests, **ohne Codex**: gleiche Codepfade wie `attn`, nur zwei neue Einträge in RESET_PARTS). EXP-069 (40 Läufe) ab 11:35.

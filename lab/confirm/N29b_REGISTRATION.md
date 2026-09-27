@@ -1,8 +1,8 @@
 ---
 id: N29b-registrierung
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-27
-tags: [lab/bestaetigung]
+tags: [lab/bestaetigung, befund/positiv]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-067-exclusion-part/README|EXP-067]]", "[[confirm/N29_REGISTRATION|N29]]", "[[experiments/EXP-063-exclusion-locus/README|EXP-063]]", "[[BACKLOG]]", "[[JOURNAL]]"]
 ---
 # N29b-Bestätigung (Attention-Reset beim Wechsel bei t = 50 verlagert die Abhängigkeit auf die neuen Frequenzen): Registrierung (Sitzung 23). **ENTWURF (vor dem Einfrieren)**
@@ -49,3 +49,16 @@ Import-Hülle im Selbsttest. **Zusätzliche Grenze:** Die „Größe“ eines Re
 Manifest-Commit **db31564**, Splits und Jobs committet. Vor dem Einfrieren kein Lauf mit Seeds 2300–2319. Smoke (Seed 2300, rsattn, A→B) durch den eingefrorenen Lader: Run-ID und Reset-Ereignis passen zum
 echten Trainer, gebunden (zählt als regulärer Lauf; dieser eine Wert ist vor dem Block gesehen: Basis 1.0, ohne alte 1.0, ohne neue 0.01). Block ab 11:06 Berlin (Log), 7 GPU-Arbeiter.
 Hinweis: Die Überschrift („verlagert … auf die neuen“) ist weiter als die geprüfte Aussage; maßgeblich ist der Abschnitt „Aussage (genau das Getestete)“.
+
+## ERGEBNIS (Sitzung 23, Block 11:06–11:30 (Log), Auswertung 11:30–11:31 Berlin; `lab/confirm/N29b_summary.json`): ***H1 und H2 bestätigt***
+
+120/120 Läufe gebunden, 0 technische Ausfälle, 19/20 Seeds generalisiert (primär alle 20).
+
+| | Kontrast | 95-%-KI | Seeds über der Schwelle | Holm-p |
+|---|---|---|---|---|
+| **H1** R(normal) − R(rsattn) | **1.489** | [1.363, 1.613] | 20/20 über 0.5 | 5·10⁻¹² |
+| **H2** R(rsmlp) − R(rsattn) | **1.421** | [1.281, 1.559] | 20/20 über 0.3 | 5·10⁻¹² |
+
+Mittelwerte R (acc_neu − acc_alt): normal **0.86**, rsmlp **0.79**, rsattn **−0.63**. **Beschreibend (nicht Teil des Urteils):** R(rsattn) < 0 in 20/20 Seeds und 40/40 Richtungen, Bootstrap-KI [−0.73, −0.52]:
+Nach dem Attention-Reset ist das Endmodell auf die *neuen* Zielfrequenzen angewiesen.
+**Schlussfolgerung nicht von Codex geprüft** (kein Guthaben seit 11:04); Kernaussage in FINDINGS deshalb vorläufig markiert, Codex-Prüfung in einer späteren Sitzung.

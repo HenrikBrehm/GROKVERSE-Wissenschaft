@@ -148,3 +148,12 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 - **Mechanismus-Messung (ohne Reset):** Ausrichtung von W_V·W_O auf die Fourier-Unterräume der alten/neuen Ziele bei t = 25 gegen 50 (braucht Gewichts-Schnappschüsse am Wechsel; `--save-model` speichert nur das Ende).
   Konkurrenzmodelle vorab: (V) VO-Ausrichtung auf alt steigt zwischen 25 und 50 stark; (G) gleichmäßig, dann ist die Ausrichtung nicht die Ursache.
 - **Offen:** Codex-Prüfung von `--reset-at-switch qk|vo` (1c6e480) und `group_train --save-model`.
+
+
+## Sitzung 24: D₅₉-Funktion (P2f), Zeitabhängigkeit der Festlegung (EXP-073), Reset-Muster anderswo (EXP-074)
+
+- **P2f** ([[confirm/P2f_REGISTRATION|P2f]], Programm A): registriert, Codex ohne Blocker; ab 00:00 Selbsttest → einfrieren → Splits → Smoke → Block (40 Läufe, 12000 Schritte). Grundlage [[experiments/EXP-072-d59-grok/README|EXP-072]].
+- **EXP-073** (Programm B, offene Frage in [[FINDINGS]]): Teil-Zurückspulen beim Wechsel (neues Trainer-Werkzeug, Codex zweimal geprüft), Konkurrenzmodelle W_E / Rest / beide / Redundanz. Vorher Trainer-Tests.
+- **EXP-074** (Programm B, Verallgemeinerung Regel 15c): Attention-/Wertepfad-/Muster-/MLP-Reset bei add 97 und mul 113 (EXP-044-Protokoll).
+- **EXP-071** (unklar): OV-Vorsprung sagt π je Seed höchstens schwach voraus; Bestätigung bräuchte n ≈ 30–40, derzeit nicht priorisiert.
+- Danach je nach Ergebnis: Bestätigung des EXP-073-Musters an frischen Seeds oder Bestätigung „Reset-Muster verallgemeinert“ (EXP-074) mit eigenem Block.

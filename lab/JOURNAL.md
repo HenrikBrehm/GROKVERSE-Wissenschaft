@@ -3242,3 +3242,7 @@ Messgrößen-Versuche (EXP-060, 061, 070, 071), die jeweils eine Zustandsgröße
 die zwischen benannten Modellen entscheiden: EXP-040 (Init-Amplitude skalieren, H40 Amplitudenrennen; seit Sitzung 10 festgelegt, nie gelaufen, weil die CPU-Warteschlange immer spät startete →
 heute Nacht zuerst), EXP-073 (Teil-Zurückspulen), EXP-074 (Reset-Muster an anderen Aufgaben). *Messungen geeignet?* π ist ein Energiemaß; nach EXP-068 folgt auch die Funktion der Energie, für
 Persistenzfragen also vertretbar, für Nutzungsfragen nicht. *Nächste angegriffene Annahme:* „Die Festlegung ist eine Eigenschaft von W_E“ (EXP-073) und „die Init-Amplitude setzt die Uhr“ (EXP-040).
+
+**Zyklus 7 (EXP-075 vorbereitet, 13:28–13:36).** Frage: Ist die frühe Festlegung an die Attention gebunden (die Reset-Befunde K4d/e legen das nahe) oder allgemein (H40)? Entscheidender Gegentest:
+dieselbe π(t)-Kurve in der MLP-Architektur ohne Attention (EXP-045: dort steuerbar, 0.004 s/Schritt). Vorab: Transformer-t½ aus EXP-059 nachgerechnet (33.3, erst geschätzt 34.1, dann aus
+summary.json korrigiert); Lesart t½ ≤ 2 × 33.3 → „ähnlich früh“, > 4× oder π(200) < 0.5 → „deutlich später“. 120 Läufe, wenige Minuten GPU.

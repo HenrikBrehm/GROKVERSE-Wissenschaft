@@ -186,6 +186,7 @@ def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
                                    "split_minus_init": [float(diff.mean()), c1.boot_ci(diff, rng)]}
     out["descriptive"] = desc
     out["generalised_runs"] = int(sum(r["generalised"] for r in rows))
+    out["generalised_share"] = out["generalised_runs"] / (4 * len(rows))          # registration: share of runs with test >= 0.9 at 2000
     return out
 
 
@@ -258,7 +259,7 @@ def selftest() -> None:
     v = verdict(fake_rows(0.0, 1.0), 30, rng)
     assert v["H1"]["verdict"] == "nicht bestätigt" and v["H2"]["verdict"] == "bestätigt", v
     v = verdict(fake_rows(0.0, 0.0), 30, rng)
-    assert v["H1"]["verdict"] == v["H2"]["verdict"] == "nicht bestätigt" and abs(v["H1"]["mean_delta"]) < 0.05, v
+    assert v["H1"]["verdict"] == v["H2"]["verdict"] == "nicht bestätigt" and abs(v["H1"]["mean_delta"]) < 0.1, v   # review s30: noise SD of the mean ~0.04 at n = 30
     assert verdict(fake_rows(1.0, 0.0)[:29], 30, rng)["verdict"] == "nicht auswertbar"
     assert verdict(fake_rows(1.0, 0.0)[:29] + [{"unit": 29, "technical": True}], 30, rng)["verdict"] == "nicht auswertbar"
     x = np.arange(56.0)

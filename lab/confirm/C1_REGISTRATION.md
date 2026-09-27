@@ -27,12 +27,12 @@ Fassung 1 (Commit d330f1c) ist ersetzt; Änderungen unten unter „Änderungen g
 
 Im gleich gewichteten Mittel über die sechs R1-Zellen (add 113; je eine Abweichung in Lernrate, Weight Decay oder Trainingsanteil) folgt die Rangfolge der fünf vorgegebenen Ziele in der
 W_E-Energie nach 2000 Schritten der Rangfolge ihrer Energie im zentrierten kohärenten Masken-Spektrum M0c des Trainingssplits, auch nach Bereinigung um den Frequenzindex k und den Init-Rang.
-Keine Aussage über jede einzelne Zelle; eine Zelle mit Mittel ≤ 0 wird als Grenze berichtet („gilt dort nicht“). Deutung, falls bestätigt: vereinbar mit der Theorie erster Ordnung
-(Entwurf §5), die dann auch die Feinordnung in der Zielmenge trifft; keine direkte Wirkung einzelner Ziele gezeigt (Korrelation).
+Keine Aussage über jede einzelne Zelle; eine Zelle mit Mittel ≤ 0 wird als Grenze berichtet („gilt dort nicht“). Deutung, falls bestätigt: Das realisierte Paarspektrum (M0c) sagt die Feinordnung voraus; das ist **vereinbar** mit der Theorie erster Ordnung (Entwurf §5), aber nicht spezifisch für
+M0c gegenüber dem unzentrierten M0 (beide beschreibend verglichen) und keine direkte Wirkung einzelner Ziele (Korrelation).
 
 ## Daten, Maß, Test (fest)
 
-- **Daten:** alle 180 R1-Läufe, Schritt-2000-Energie über den eingefrorenen R1-Lader (`confirm_r1.power`), W_E bei Schritt 0 über einen vollständigen Ladevorgang desselben Laufs (gleiche Erwartungen + Snapshot 0).
+- **Daten:** alle 180 R1-Läufe, Schritt-2000-Energie über den eingefrorenen R1-Lader (`confirm_r1.power`), W_E bei Schritt 0 über einen vollständigen Ladevorgang desselben Laufs (gleiche Erwartungen + Snapshot 0). Fehlt Schritt 0, ist der Arm technisch ausgefallen (Fassung 2b).
 - **Maß je Arm:** Spearman über die 5 Ziele zwischen M0c(Ziel) (`m0c_add` in `P1_posthoc_within.py`) und W_E-Gruppenenergie. Exakte Bindungen in M0c oder Energie → Arm technisch ausgefallen.
 - **Einheit = Seed:** Mittel der beiden Arme (F und G teilen die Init); ein Seed zählt nur mit zwei gültigen Armen.
 - **Statistik S** = gleich gewichtetes Mittel der sechs Zellmittel.
@@ -47,7 +47,7 @@ Keine Aussage über jede einzelne Zelle; eine Zelle mit Mittel ≤ 0 wird als Gr
 
 ## Umsetzung und Code-Tor
 
-`lab/confirm/C1_analyze.py` (Fassung 2) mit `rank_tools.py` und `P1_posthoc_within.py`; Hashes in `lab/confirm/C1_manifest.json`, von der Auswertung geprüft. Eine vorhandene `C1_summary.json` wird nie überschrieben.
+`lab/confirm/C1_analyze.py` (Fassung 2) mit `rank_tools.py` und `P1_posthoc_within.py`; Hashes in `lab/confirm/C1_manifest.json`, von der Auswertung geprüft; zusätzlich muss der letzte Commit, der `C1_manifest.json` oder diese Registrierung ändert, ein Vorfahr des eingefrorenen R1-Manifest-Commits sein (sonst verweigert). Keine uncommitteten Änderungen an beiden. Eine vorhandene `C1_summary.json` wird nie überschrieben.
 Selbsttest (nur im Fenster): Handwerte der Rangstatistik, synthetische Zellen (bestätigt / nicht bestätigt, wenn die Ordnung k folgt / nicht auswertbar / Fehlschranke), M0c gegen eine unabhängige Brute-Force-Rechnung.
 Wird R1 geändert (Seeds, Schritte, Aufgabe, Zellen), gilt C1 nicht weiter und muss neu registriert werden.
 
@@ -57,3 +57,11 @@ Wird R1 geändert (Seeds, Schritte, Aufgabe, Zellen), gilt C1 nicht weiter und m
 Prädiktor-Diagnosen vor dem Lauf; p mit +1; Zellmindestzahl, gleich gewichtete Zellmittel, geschichtetes Bootstrap, Fehlschranke; Code-Tor und Überschreibschutz; vollständige Offenlegung;
 Selbsttest nicht mehr zirkulär; Bindungen → technisch; Schritt 0 mit vollen Erwartungen. Verworfen: keiner. Nicht übernommen: ein studentisierter Test statt der Vorzeichenpermutation
 (die Symmetrieannahme ist genannt, und Bedingung ii verlangt zusätzlich das Bootstrap-KI).
+
+## Fassung 2b (Codex-Nachprüfung, Sitzung 28, `C1_codex_recheck_s28.txt`, vor jedem R1-Lauf)
+
+Gelöst laut Nachprüfung: Aussage eng, Prädiktor-Diagnosen, Zellgewichtung/Fehlende, Offenlegung. Übernommen: Schritt-0-Ausfall → Arm technisch (statt stillem Ausschluss aus der Bereinigung);
+Code-Tor an die Git-Geschichte gebunden (Vorfahr des R1-Manifest-Commits); Deutung enger (nicht spezifisch für M0c gegenüber M0); Selbsttest um „Arm ohne Schritt 0 wird nicht gezählt“ ergänzt.
+**Mit Begründung nicht übernommen:** (1) Ein bestätigender M0c-gegen-M0-Vergleich: C1 behauptet keine Überlegenheit von M0c; die Aussage ist jetzt entsprechend formuliert. (2) Ersatz der
+Vorzeichenpermutation: Sie ist unter der genannten Symmetrieannahme exakt und dieselbe wie in P1/R1; die Bestätigung verlangt zusätzlich die Bootstrap-Untergrenze ≥ 0.10, die ohne diese Annahme auskommt.
+(3) Ein End-zu-End-Test mit nachgebildeten R1-Läufen: Die R1-Ladekette wird im Pflicht-Smoke von R1 geprüft; C1 läuft erst danach, und jeder Ladefehler wird als technischer Ausfall gezählt, nicht verschluckt.

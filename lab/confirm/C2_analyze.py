@@ -3,10 +3,10 @@ Written BEFORE any R2 run; must not change measure, unit, test or thresholds of 
 
 Per R2 run with switch at t = 50: Spearman over the five OLD targets (first split's targets) between the W_E group power at
 step t and at t + budget, from bound W_E snapshots (R2 binding: hash -> load -> hash; split bytes pinned); ties -> run technical.
-Unit = seed: mean over its valid t = 50 runs (two cells x two directions). Confirmed = (i) sign-flip p < 0.05 and
+Unit = seed: mean over its four t = 50 runs (two cells x two directions); a seed counts only with all four valid. Confirmed = (i) sign-flip p < 0.05 and
 (ii) bootstrap CI (seeds) lower bound of the mean >= 0.10 and (iii) bootstrap CI lower bound of the adjusted coefficient
 (switch ranks | k ranks, second-split M0c ranks; all valid t = 50 runs stacked) > 0. Not evaluable if < 20 seeds have a valid
-t = 50 run. Code gate C2_manifest.json; an existing summary is never overwritten.
+t = 50 run set. Code gate C2_manifest.json; an existing summary is never overwritten.
 
   python lab/confirm/C2_analyze.py --selftest              (window only)
   python lab/confirm/C2_analyze.py lab/confirm/R2_manifest.json
@@ -30,7 +30,7 @@ from analyze import group_power  # noqa: E402
 from P1_posthoc_within import m0c_add  # noqa: E402
 from result_loader import Expect, load_run  # noqa: E402
 
-P, T_PRIMARY, ALPHA, MIN_EFFECT, MIN_SEEDS = 113, 50, 0.05, 0.10, 20
+P, T_PRIMARY, ALPHA, MIN_EFFECT, MIN_SEEDS, N_PRIMARY_RUNS = 113, 50, 0.05, 0.10, 20, 4
 OUT = LAB / "confirm" / "C2_summary.json"
 GATE = LAB / "confirm" / "C2_manifest.json"
 CODE = ("lab/confirm/C2_analyze.py", "lab/confirm/rank_tools.py", "lab/confirm/P1_posthoc_within.py")
@@ -40,11 +40,13 @@ def code_hashes() -> dict[str, str]:
     return {f: hashlib.sha256((ROOT / f).read_bytes()).hexdigest() for f in CODE}
 
 
-def check_gate() -> dict:
+def check_gate(block_commit: str) -> dict:
+    """As C1 (Codex recheck s28): hashes match and the gate + registration were committed before the R2 manifest commit."""
+    from C1_analyze import gate_commit
     g = json.loads(GATE.read_text(encoding="utf-8"))
     if g.get("code_sha256") != code_hashes():
         raise SystemExit("C2: code differs from C2_manifest.json, analysis refused")
-    return g
+    return {**g, "gate_commit": gate_commit([GATE, LAB / "confirm" / "C2_REGISTRATION.md"], block_commit)}
 
 
 def run_block(W_t: np.ndarray, W_end: np.ndarray, old: list[int], new: list[int], sp_first: np.ndarray, sp_second: np.ndarray) -> dict:
@@ -58,6 +60,7 @@ def run_block(W_t: np.ndarray, W_end: np.ndarray, old: list[int], new: list[int]
 def run_stats(b: dict) -> dict:
     """Primary rho first (raises rt.TieError -> run technical); descriptive ones may be None on ties."""
     out = {"rho_old_switch": rt.spearman(b["switch"], b["y"])}
+    rt.cranks(b["k"]), rt.cranks(b["m0c_second"])            # Codex recheck s28: controls must rank too, else run technical
     for name, x, y in (("rho_old_M0c_first", "m0c_first", "y"), ("rho_old_M0c_second", "m0c_second", "y"),
                        ("rho_new_switch", "new_switch", "new_y"), ("rho_new_M0c_second", "new_m0c_second", "new_y")):
         try:
@@ -112,10 +115,10 @@ def load_snaps(r2, man: dict, c: str, s: int, t: int, first: str, second: str) -
 
 def analyze(manifest: Path) -> None:
     import confirm_r2 as r2
-    gate = check_gate()
     if OUT.exists():
         raise SystemExit(f"{OUT.name} exists: never overwritten (move it away deliberately)")
     man = json.loads(manifest.read_text(encoding="utf-8"))
+    gate = check_gate(man["commit"])
     r2.BLOCK.check_manifest(manifest, man)
     rows, bad, units = [], [], []
     for s in man["seeds"]:
@@ -141,7 +144,7 @@ def analyze(manifest: Path) -> None:
                     rows.append({"seed": s, "cell": c, "t": t, "dir": first + second, **st})
                     if t == T_PRIMARY:
                         prim.append((st["rho_old_switch"], b))
-        if prim:
+        if len(prim) == N_PRIMARY_RUNS:                   # Codex recheck s28: both cells x both directions, else seed technical
             units.append({"rho": float(np.mean([r for r, _ in prim])), "blocks": [b for _, b in prim]})
     desc = {}
     for c, cell in man["cells"].items():

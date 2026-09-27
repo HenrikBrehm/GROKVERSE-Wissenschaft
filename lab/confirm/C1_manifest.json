@@ -1,10 +1,10 @@
 {
  "registration": "lab/confirm/C1_REGISTRATION.md",
- "fassung": 2,
+ "fassung": "2b",
  "code_sha256": {
-  "lab/confirm/C1_analyze.py": "a0126ffd1d27e75167d23cd6fc5a79ff68cb215e5b0f872c60a15a3a1c014396",
+  "lab/confirm/C1_analyze.py": "eaa0bb18cac0ffde52c2fd1efa8f470ac7bc57ad7f8b55ca3d810ff5597738d4",
   "lab/confirm/rank_tools.py": "f0f7464ea1a392f68bb537aaeb7d3b1b6c212e1a4073dd159f882736f41f6fbf",
   "lab/confirm/P1_posthoc_within.py": "d62db4c56c2cde725dc5978d9aa5de3c6040e3c284d2d1d1766d040b6da1f57f"
  },
- "note": "code gate written session 28 before any R1/R2 run; the registration commit is the commit that adds this file"
+ "note": "code gate, session 28, before any R1/R2 run; the analysis requires the last commit of this file and the registration to be an ancestor of the block manifest commit"
 }

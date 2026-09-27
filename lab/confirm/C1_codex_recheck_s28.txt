@@ -1,0 +1,84 @@
+(node:12464) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0e366-fcd8-7700-b69d-1183c2cb9568).
+[codex] Turn started (01a0e367-05b2-7df3-a613-7eb1f3f1735b).
+[codex] Assistant message captured: I’ll compare the prior review against the exact `d50e7b0` snapshot and its delta from `d330f1...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --no-ext-...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff --no-ext-... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d50...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d50... (exit 0)
+[codex] Assistant message captured: The registrations do narrow the claims and add the requested gates/adjustments. I’m now check...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$paths = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d50e7b0:l...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d50e7b0:l... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d50e7b0:l...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d50e7b0:l... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d50e7b0:l...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d50e7b0:l... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-FileHash -Algo...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-FileHash -Algo... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d50...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d50... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d50...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d50... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d50e7b0:l...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d50e7b0:l... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d50...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d50... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files -g AGEN...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files -g AGEN... (exit 1)
+[codex] Assistant message captured: Static re-check of `d50e7b0`; no tests or Python executed. ## Earlier BLOCKER/MAJOR points 1....
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+Static re-check of `d50e7b0`; no tests or Python executed.
+
+## Earlier BLOCKER/MAJOR points
+
+1. **RESOLVED — overly broad cross-cell claim.** C1 now explicitly concerns the equally weighted six-cell mean and disclaims per-cell validity. Implemented as equal cell means.  
+   `lab/confirm/C1_REGISTRATION.md:28-31,38`; `lab/confirm/C1_analyze.py:68-74`
+
+2. **NOT RESOLVED — M0c mechanism/isolation.** Adjustment for `k` and initialization was added, but generic M0 remains merely descriptive; no paired M0c-vs-M0 comparison or M0 control is confirmatory. The text still interprets confirmation as first-order theory matching the fine ordering.  
+   `lab/confirm/C1_REGISTRATION.md:29-31,41,44`; `lab/confirm/C1_analyze.py:76-84`
+
+3. **RESOLVED — predictor-only diagnostics.** The frozen design is checked for M0c–`k`; sorted target position is correctly identified as rank-equivalent to `k`.  
+   `lab/confirm/C1_predictor_diag.py:15-30`; `lab/confirm/C1_predictor_diag.json:2-6`; `lab/confirm/C1_REGISTRATION.md:23-24`
+
+4. **NOT RESOLVED — sign-flip inference.** The symmetry assumption and `+1` correction are now stated, but the test remains a sign-flip test of a stronger symmetry/sharp-null assumption, not a test of the general null \(S\le0\). It was not replaced by the requested studentized test or label randomization. C2 inherits this.  
+   `lab/confirm/rank_tools.py:42-50`; `lab/confirm/C1_REGISTRATION.md:39-41`; `lab/confirm/C2_REGISTRATION.md:34-36`
+
+5. **RESOLVED — C1 cell missingness/weighting.** Per-cell minimum, equal cell weighting, cell-stratified seed bootstrap, and the missing-as−1 sensitivity bound are present.  
+   `lab/confirm/C1_REGISTRATION.md:38-43`; `lab/confirm/C1_analyze.py:68-87`
+
+6. **NOT RESOLVED — analysis-code freeze, partially fixed.** Hash checks and exclusive output creation were added, but `C1_manifest.json` contains no immutable registration commit, is not itself checked against Git, and the output records only the R1 commit. Editing code and updating the mutable manifest passes the gate.  
+   `lab/confirm/C1_manifest.json:1-10`; `lab/confirm/C1_analyze.py:45-49,110-115,146-149`
+
+7. **RESOLVED — prior-data disclosure.** Contrary M0/M0c evidence and the gradient/final-frequency distinction are now disclosed.  
+   `lab/confirm/C1_REGISTRATION.md:16-22`
+
+8. **NOT RESOLVED — self-test coverage.** Hand ranks, synthetic aggregates, and an independent-looking M0c loop were added, but there is still no mocked/end-to-end R1 collection test, step-0 failure test, dropped-arm test, or exact small permutation calculation.  
+   `lab/confirm/C1_analyze.py:153-192`; `lab/confirm/rank_tools.py:61-81`
+
+## New BLOCKER/MAJOR findings
+
+- **BLOCKER — C2 can confirm from only one cell/direction.** A seed enters with any one valid t=50 run, and `aggregate` checks only whether 20 seeds exist in one global stratum. Thus all `wd03` or one direction may be absent while C2 still confirms; the missingness bound counts only wholly absent seeds. This contradicts the registered combined lr2/wd03, both-direction estimand.  
+  `lab/confirm/C2_REGISTRATION.md:25-37`; `lab/confirm/C2_analyze.py:70-88,126-145`
+
+- **MAJOR — missing C1 step-0 data is fail-open.** `load_arm` returns a usable primary block when step 0 fails; the seed still counts toward the primary minimum, while it is silently removed from the adjusted analysis. There is no adjusted per-cell minimum, and an empty adjusted stratum can abort resampling.  
+  `lab/confirm/C1_analyze.py:79-81,101-105,129-141`
+
+- **MAJOR — C2 control ties can abort the analysis.** `run_stats` catches an M0c-second tie and retains the run, but `adjusted_coef` later ranks the same tied control without exception handling. The registered “technical run” becomes an uncaught analysis failure.  
+  `lab/confirm/C2_analyze.py:61-66,79-83`; `lab/confirm/rank_tools.py:31-35`
+
+- **MAJOR — C2’s code gate has the same mutable-manifest defect.** No C2 registration commit is stored or verified.  
+  `lab/confirm/C2_manifest.json:1-10`; `lab/confirm/C2_analyze.py:43-47,151-155`
+
+I found no separate BLOCKER/MAJOR error in the normal full-rank arithmetic of `adjusted_coef`, the seed-preserving `strat_boot`, or the M0c brute-force indexing itself.

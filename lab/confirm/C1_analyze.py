@@ -42,11 +42,24 @@ def code_hashes() -> dict[str, str]:
     return {f: hashlib.sha256((ROOT / f).read_bytes()).hexdigest() for f in CODE}
 
 
-def check_gate() -> dict:
+def check_gate(block_commit: str) -> dict:
+    """Codex recheck s28: hashes must match AND the gate (and registration) must be committed, unchanged, in a commit that is an
+    ancestor of the frozen R1 manifest commit, i.e. fixed before the block was opened."""
     g = json.loads(GATE.read_text(encoding="utf-8"))
     if g.get("code_sha256") != code_hashes():
         raise SystemExit("C1: code differs from C1_manifest.json, analysis refused")
-    return g
+    return {**g, "gate_commit": gate_commit([GATE, LAB / "confirm" / "C1_REGISTRATION.md"], block_commit)}
+
+
+def gate_commit(files: list[Path], block_commit: str) -> str:
+    import subprocess
+    rel = [f.relative_to(ROOT).as_posix() for f in files]
+    if subprocess.run(["git", "diff", "--quiet", "HEAD", "--", *rel], cwd=ROOT).returncode != 0:
+        raise SystemExit(f"gate files have uncommitted changes: {rel}")
+    c = subprocess.run(["git", "log", "-1", "--format=%H", "--", *rel], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    if not c or subprocess.run(["git", "merge-base", "--is-ancestor", c, block_commit], cwd=ROOT).returncode != 0:
+        raise SystemExit(f"gate commit {c[:9]} is not an ancestor of the block manifest commit {block_commit}: registered too late")
+    return c
 
 
 def arm_block(idx: np.ndarray, T: list[int], pw: np.ndarray, pw0: np.ndarray | None) -> dict:
@@ -74,16 +87,18 @@ def aggregate(units: dict[str, list[dict]], n_planned: dict[str, int], rng: np.r
     ci = rt.strat_boot(units, lambda u: rt.cell_mean({c: np.array([x["rho"] for x in xs]) for c, xs in u.items()}), rng, n_boot)
 
     def adj(u: dict[str, list[dict]]) -> float:
-        return rt.adjusted_coef([b for xs in u.values() for x in xs for b in x["blocks"] if b["init"] is not None], "m0c", ["k", "init"])
+        return rt.adjusted_coef([b for xs in u.values() for x in xs for b in x["blocks"]], "m0c", ["k", "init"])
 
-    a_units = {c: [x for x in xs if all(b["init"] is not None for b in x["blocks"])] for c, xs in units.items()}
+    if any(b["init"] is None for xs in units.values() for x in xs for b in x["blocks"]):
+        raise ValueError("every counted arm needs its step-0 power (arms without it are technical)")
+    a_units = units
     a = adj(a_units)
     a_ci = rt.strat_boot(a_units, adj, rng, n_boot)
     missing = sum(n_planned.values()) - sum(counts.values())
     worst = rt.cell_mean({c: np.concatenate([vals[c], -np.ones(n_planned[c] - counts[c])]) for c in n_planned})
     ok = p < ALPHA and ci[0] >= MIN_EFFECT and a_ci[0] > 0
     return {"counts": counts, "S": S, "p": p, "ci95": ci, "adjusted_coef": a, "adjusted_ci95": a_ci,
-            "adjusted_seeds": {c: len(x) for c, x in a_units.items()}, "cell_means": {c: float(v.mean()) for c, v in vals.items()},
+"cell_means": {c: float(v.mean()) for c, v in vals.items()},
             "missing_seeds": missing, "S_if_missing_were_minus_1": worst, "verdict": "bestätigt" if ok else "nicht bestätigt"}
 
 
@@ -107,10 +122,10 @@ def load_arm(r1, man: dict, c: str, s: int, a: str) -> tuple[dict, str | None] |
 
 def analyze(manifest: Path) -> None:
     import confirm_r1 as r1
-    gate = check_gate()
     if OUT.exists():
         raise SystemExit(f"{OUT.name} exists: never overwritten (move it away deliberately)")
     man = json.loads(manifest.read_text(encoding="utf-8"))
+    gate = check_gate(man["commit"])
     r1.BLOCK.check_manifest(manifest, man)
     r1.check_design(man)
     units: dict[str, list[dict]] = {c: [] for c in r1.CELLS}
@@ -127,13 +142,14 @@ def analyze(manifest: Path) -> None:
                     notes.append(f"{a}: {res}")
                     continue
                 b, why0 = res
+                if why0:                                  # Codex recheck s28: step-0 failure makes the arm technical (no fail-open)
+                    notes.append(f"{a}: {why0}")
+                    continue
                 try:
                     got[a] = (b, arm_stats(b))
                 except rt.TieError as ex:
                     notes.append(f"{a}: {ex}")
                     continue
-                if why0:
-                    notes.append(f"{a}: {why0}")
             if len(got) != 2:
                 dropped.append({"cell": c, "seed": s, "reason": "; ".join(notes)})
                 continue
@@ -179,6 +195,13 @@ def selftest() -> None:
     u["c0"] = u["c0"][:12]
     r = aggregate(u, cells, rng, 5000, 500)
     assert r["missing_seeds"] == 3 and r["S_if_missing_were_minus_1"] < r["S"]
+    u = synth(1.0, "m0c")
+    u["c1"][0]["blocks"][0]["init"] = None
+    try:
+        aggregate(u, cells, rng, 500, 50)
+        raise AssertionError("an arm without step 0 must not be counted")
+    except ValueError:
+        pass
     # M0c brute force: coherent shared-path signal f_t(c) = m(t, c - t) + m(c - t, t), DFT over t, centred over c, folded k/p-k
     p = 13
     idx = np.sort(rng.choice(p * p, 50, replace=False))

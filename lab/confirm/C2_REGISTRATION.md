@@ -30,11 +30,11 @@ erhält neben der Menge der alten Frequenzen (K4/K4c) auch ihre innere Ordnung; 
 
 - **Daten:** alle R2-Läufe mit Wechsel bei t = 50 (Zellen lr2 und wd03, je 30 Seeds × beide Richtungen = 120 Läufe), W_E-Snapshots bei t und t + 4000 über Bindung und gemeinsamen Lader.
 - **Maß je Lauf:** Spearman über die fünf alten Ziele (Ziele des ersten Splits) zwischen der W_E-Gruppenenergie (`group_power`, add 113) bei Schritt t und bei t + 4000. Exakte Bindungen → Lauf technisch.
-- **Einheit = Seed:** Mittel über alle gültigen t = 50-Läufe des Seeds (bis zu 4; dieselbe Init).
+- **Einheit = Seed:** Mittel über seine vier t = 50-Läufe (zwei Zellen × zwei Richtungen; dieselbe Init). Ein Seed zählt nur, wenn **alle vier** gültig sind (Fassung 2b); Bindungen in Energie, k oder Spektrum des zweiten Splits → Lauf technisch.
 - **Bestätigt**, wenn alle drei gelten: (i) einseitiger Vorzeichen-Permutationstest Mittel > 0 (200 000 Ziehungen, p = (Überschreitungen + 1)/(B + 1); Annahme: unter H0 symmetrisch um 0) < 0.05;
   (ii) Untergrenze des 95-%-Bootstrap-KI über Seeds (10 000) ≥ 0.10; (iii) Untergrenze des 95-%-Bootstrap-KI (Seeds) des bereinigten Koeffizienten > 0: kleinste Quadrate über alle gültigen t = 50-Läufe,
   zentrierte Ränge je Lauf, Endenergie ~ Energie beim Wechsel + k + Spektrum des zweiten Splits. Eigene Familie (Programm B, eine Hypothese), nicht in der R2-Holm-Familie.
-- **Nicht auswertbar**, wenn weniger als 20 Seeds mindestens einen gültigen t = 50-Lauf haben. Fehlende Seeds werden gezählt; zusätzlich das Mittel, als hätten sie ρ = −1 (Schranke, kein Urteil).
+- **Nicht auswertbar**, wenn weniger als 20 Seeds alle vier t = 50-Läufe gültig haben. Fehlende Seeds werden gezählt; zusätzlich das Mittel, als hätten sie ρ = −1 (Schranke, kein Urteil).
 - **Power:** N29-Streuung (SD 0.283 je Seed bei zwei Läufen) bei halbiertem Mittel (0.29): n = 30 → Power ≈ 0.92 (Bootstrap-Simulation); mit vier Läufen je Seed eher höher.
 - **Beschreibend (kein Test):** je Zelle und Wechselzeit (lr2: t = 12, 25, 50; wd03: t = 25, 50): Mittel der Korrelationen alt/Wechsel, alt/erster Split, alt/zweiter Split, neu/Wechsel, neu/zweiter Split.
 - **Was dagegen spräche:** Mittel ≤ 0, KI-Untergrenze < 0.10 oder der bereinigte Koeffizient nicht > 0.
@@ -42,5 +42,10 @@ erhält neben der Menge der alten Frequenzen (K4/K4c) auch ihre innere Ordnung; 
 ## Umsetzung und Code-Tor
 
 Kein neues Training (Snapshots bei t und t + 4000 stehen in den R2-Jobzeilen: `--spectra-at t,t+250,t+2000,t+4000`). `lab/confirm/C2_analyze.py` (Fassung 2) mit `rank_tools.py`, `P1_posthoc_within.py`;
-Hashes in `lab/confirm/C2_manifest.json`, von der Auswertung geprüft; vorhandene `C2_summary.json` wird nie überschrieben. Selbsttest (nur im Fenster): Handwerte, synthetische Seeds (bestätigt /
+Hashes in `lab/confirm/C2_manifest.json`, von der Auswertung geprüft, und der letzte Commit von Code-Tor und Registrierung muss ein Vorfahr des R2-Manifest-Commits sein; vorhandene `C2_summary.json` wird nie überschrieben. Selbsttest (nur im Fenster): Handwerte, synthetische Seeds (bestätigt /
 nicht bestätigt, wenn die Ordnung k folgt / nicht auswertbar), N29-Wert 0.580. Wird R2 geändert, muss C2 neu registriert werden.
+
+## Fassung 2b (Codex-Nachprüfung, Sitzung 28, vor jedem R2-Lauf)
+
+Übernommen: **Blocker** „ein Seed zählt schon mit einem gültigen Lauf, C2 könnte aus einer Zelle/Richtung bestätigen“ → Seed nur mit allen vier t = 50-Läufen; Bindungen in den Kontrollen → Lauf technisch
+(sonst Abbruch in der Bereinigung); Code-Tor an die Git-Geschichte gebunden. Nicht übernommen wie bei C1: Ersatz der Vorzeichenpermutation (Begründung dort).

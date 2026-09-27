@@ -1,11 +1,11 @@
 ---
 id: P2b-registrierung
-status: eingefroren
+status: abgebrochen
 datum: 2026-09-27
 tags: [lab/bestaetigung]
 verwandt: ["[[FINDINGS]]", "[[confirm/P2_REGISTRATION_DRAFT|P2]]", "[[experiments/EXP-055-ablation-dose/README|EXP-055]]", "[[confirm/N28_REGISTRATION|N28]]", "[[JOURNAL]]"]
 ---
-# P2b-Bestätigung (funktionale Nutzung, Nachfolger von P2): Registrierung (Sitzung 22). **EINGEFROREN**
+# P2b-Bestätigung (funktionale Nutzung, Nachfolger von P2): Registrierung (Sitzung 22). **ABGEBROCHEN (Designfehler), ersetzt durch [[confirm/P2c_REGISTRATION|P2c]]**
 
 Zurück zu [[FINDINGS]] (Programm A) · Vorgänger [[confirm/P2_REGISTRATION_DRAFT|P2]] (nicht auswertbar) · Pilot [[experiments/EXP-055-ablation-dose/README|EXP-055]] · Familie mit [[confirm/N28_REGISTRATION|N28]].
 
@@ -51,3 +51,12 @@ Codex: 2 Blocker, 1 hoch, 2 mittel, Rest in Ordnung (Run-IDs und Bindungs-Refakt
 Manifest `lab/confirm/P2b_manifest.json`, **Manifest-Commit fa154bd** (Commit-Feld in 888c2d9), Code-Hashes über `confirm_p2b.py`, `bound_block.py`, Trainer und Helfer.
 Splits und Jobliste in 37448f6; die Herkunftsprüfung (`split_mismatch`) ist an den geschriebenen Dateien für alle Seeds bestanden. Vor dem Einfrieren wurde kein Lauf mit diesen Seeds gemacht.
 Start des Blocks 07:34 (GPU, `parallel_queue.py lab/confirm/P2b_jobs.txt --workers 5`, parallel zum anderen Block der Familie).
+
+## ABGEBROCHEN (Sitzung 22, 08:04–08:06 Berlin, gemessen): Designfehler, nicht auswertbar
+
+Beim Prüfen zweier technischer Ausfälle (Speicher: `bad allocation` bzw. WinError 1455 um 07:53, bei 12 GPU-Prozessen plus CPU-Programm) zeigte ein Log: `EXP-016_baseline_seed2000_…_G completed: steps 2725, gen 725`.
+**Ursache:** `freq_ban.py` beendet einen Lauf standardmäßig 2000 Schritte nach der Generalisierung (`--stop-after-gen 2000`). Die P2b-Jobzeilen haben das nicht überschrieben. Die meisten Läufe enden
+deshalb vor Schritt 4000. Der eingefrorene Lader verlangt aber `steps_completed ≥ 4000` und hätte sie als defekt abgelehnt; nach der eigenen Regel wäre P2b *nicht auswertbar*.
+Das ist **mein Designfehler** (auch in beiden Codex-Prüfungen nicht bemerkt). Der Block wurde nach 113 von 200 Läufen abgebrochen (Prozessbaum beendet, 08:05).
+**Kein Ablationswert, kein R und keine Auswertung** eines P2b-Modells wurde berechnet. Gesehen habe ich nur Trainer-Logzeilen (Generalisierungsschritt, Top-5) einzelner Läufe.
+Die Seeds 2000–2099 gelten als verbraucht. Nachfolger: [[confirm/P2c_REGISTRATION|P2c]] (Seeds 2100–2199, `--stop-after-gen 4000`, Selbsttest prüft volle Schrittzahl).

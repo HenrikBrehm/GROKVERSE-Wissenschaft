@@ -15,7 +15,7 @@ Zurück zu [[FINDINGS]] (K4d, offene Frage „was in der Attention“) · Pilot 
   drei Arme: normal, rsvo (`--reset-at-switch vo`), rsqk (`--reset-at-switch qk`). 120 Läufe, GPU.
 - **Maß, Primär, Ausfälle:** wie [[confirm/N29b_REGISTRATION|N29b]] (Code `lab/tools/confirm_n29c.py` ist `confirm_n29b.py` mit anderen Armen und Seeds). X1 = R(normal) − R(rsvo) − 0.5, X2 = R(rsqk) − R(rsvo) − 0.3;
   Familie {H1, H2}, Holm, einseitiger t-Test, 95-%-Bootstrap-KI; „bestätigt“ = Holm-p < 0.05 und KI-Untergrenze ≥ 0. Primär alle 20 Seeds; jeder technische Ausfall → *nicht auswertbar*.
-- **Pilotwerte (EXP-069, 2000 Schritte, 10 bekannte Seeds):** R(normal) ≈ 0.94, R(rsvo) ≈ 0.17 − 0.14 = 0.02, R(rsqk) ≈ 0.81 − 0.05 = 0.76. Erwartete Kontraste ≈ 0.9 und 0.7.
+- **Pilotwerte (2000 Schritte, 10 bekannte Seeds):** R(normal) ≈ 0.94 (EXP-064), R(rsvo) ≈ 0.165 − 0.141 ≈ 0.023 und R(rsqk) ≈ 0.807 − 0.052 ≈ 0.755 (EXP-069). Erwartete Kontraste ≈ 0.9 und 0.7.
 - **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** EXP-069 (Seeds 400–409: Wahl von vo/qk, Richtung, Schwellen wie N29b und deutlich unter den Pilotwerten); N29b (Protokoll, Maß); EXP-070 (kein Einfluss auf das Design).
 - **Grenzen:** Reset-Empfindlichkeit, kein Speicherort; Gewichte und AdamW-Zustand gemeinsam zurückgesetzt; Normen der OV-Ausgabe und QK-Logits ändern sich mit; rsqk ist größengleich, aber nicht nach
   Verschiebung oder Dynamik angeglichen; im Piloten nutzte das Netz nach rsvo beide Mengen (R ≈ 0), H1/H2 sagen nichts über ein Vorzeichen von R(rsvo).
@@ -28,3 +28,7 @@ python lab/tools/confirm_n29c.py --jobs lab/confirm/N29c_manifest.json > lab/con
 python lab/tools/parallel_queue.py lab/confirm/N29c_jobs.txt --workers 7
 python lab/tools/guarded_run.py -- python lab/tools/confirm_n29c.py --analyze lab/confirm/N29c_manifest.json
 ```
+
+## Codex-Prüfung vor dem Einfrieren (Sitzung 23, Ergebnis 11:59 Berlin)
+
+Kein Blocker (Zuordnung rsvo→vo, rsqk→qk, Run-IDs, Selbsttest-Anpassungen konsistent). Übernommen: Pilotwerte genauer gerundet und R(normal) EXP-064 zugeordnet.

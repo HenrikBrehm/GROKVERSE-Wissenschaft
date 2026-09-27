@@ -3315,3 +3315,9 @@ Aussagen mit Zahlen aus FINDINGS_DETAILS, Methoden-Definitionen, Positionierung 
 (≈ 50 Arbeiten, Suchprotokoll, Prüfgrad je Eintrag; Stichprobe LeDoux selbst geprüft); Abbildungen 1–4 als Skripte aus gespeicherten Läufen/eingefrorenen Zusammenfassungen; [[paper/repro/README]];
 Robustheit: Trainer-Optionen `--lr/--weight-decay/--train-frac` (Codex), [[confirm/R1_REGISTRATION_DRAFT|R1]] + `confirm_r1.py` (Codex, kalibriert); [[confirm/P4_REGISTRATION_DRAFT|P4]]-Entwurf (Code fehlt).
 **Ungetestet bis 00:00:** `--rewind-at-switch`, die Hyperparameter-Optionen, `confirm_p2f.py` nach den Codex-Änderungen, `confirm_r1.py`. **Nächste Aktion unverändert:** [[STATE]] „Nächste Schritte“.
+
+**Zyklus 15 (Zahlenprüfung des Paper-Entwurfs, 14:12–14:16).** Unabhängiger Prüf-Agent (Claude, nur lesend) hat alle Aussagen in [[paper/draft]] gegen die eingefrorenen Zusammenfassungen und Registrierungen
+abgeglichen: alle Zahlen in §3 korrekt (≈ 85 Punkte OK), 15 Formulierungs-/Umfangsprobleme, darunter „flips“ statt „Umkehrung eines Ablationskontrasts“ (Codex hatte das für N29 schon verworfen),
+Wertepfad gegen MLP nie verglichen, EXP-068 nur an N29-Modellen, fehlende Negativergebnisse P2 (nicht auswertbar) und P2b (abgebrochen), Smoke erst ab N28, P2f als „registriert“ statt „vorbereitet“.
+Zwei davon hatte ich vorher selbst gefunden; zwei weitere (P2, Smoke) selbst an den Quellen nachgeprüft. Alle übernommen; Titel enger gefasst („a 25–50-step history persists“ statt „locks in“).
+Lehre: Ein Entwurf aus korrekten Zahlen kann trotzdem überdehnen; die Registrierungs-Wortlaute nach Codex sind die Obergrenze für jede Paper-Formulierung.

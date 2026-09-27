@@ -5,7 +5,7 @@ datum: 2026-09-27
 tags: [lab/paper]
 verwandt: ["[[paper/STATUS]]", "[[FINDINGS]]", "[[FINDINGS_DETAILS]]", "[[paper/related_work]]"]
 ---
-# DRAFT — Training-set composition steers and locks in the Fourier features of grokking transformers
+# DRAFT — Training-set composition steers the Fourier features of grokking transformers, and a 25–50-step history persists under a data switch
 
 *Working draft (session 24, 2026-09-27). Not for circulation. All numbers are copied from the frozen confirmation blocks listed in [[FINDINGS_DETAILS]]; every result section names its registration.
 Explorations are marked as such and are not results. Authorship, venue and submission are open decisions of the user ([[paper/STATUS]]).*
@@ -15,9 +15,9 @@ Explorations are marked as such and are not results. Authorship, venue and submi
 Networks that grok modular arithmetic implement it with a sparse set of Fourier features, and which frequencies a given network uses is usually treated as an arbitrary outcome of initialization.
 We show that, with fixed one-hot tokens, the *composition of the training set* — which input pairs are shown — causally steers which frequencies (for the dihedral group D59: which irreducible
 representations) the embedding of a one-layer transformer learns. In pre-registered, held-out replications with fresh seeds (50 per task), engineered training splits enrich five prescribed
-frequencies in addition mod 113 and 97, multiplication mod 113, and composition in D59. Equal-norm embedding perturbations along the steered frequencies reduce the logit margin more than along control
-frequencies. The choice is made early: 25 training steps on a first split measurably shape the embedding after 2000 further steps on a pair-disjoint second split, and whether the final network relies on
-the old or the new frequencies flips between a switch after 25 and after 50 steps. Resetting the attention (weights and optimizer state) at a switch after 50 steps reverses this
+frequencies in addition mod 113 and 97, multiplication mod 113, and composition in D59. For add 113, add 97 and mul 113 (D59 pending), equal-norm embedding perturbations along the steered
+frequencies reduce the logit margin more than along control frequencies. The choice is made early: 25 training steps on a first split measurably shape the embedding after 2000 further steps on a pair-disjoint second split, and the sign of an ablation contrast
+(old vs new target frequencies removed) reverses between a switch after 25 and after 50 steps. Resetting the attention (weights and optimizer state) at a switch after 50 steps reverses this
 reliance far more than the tested MLP reset, and resetting its value path does so more than an equal-size reset of its query/key weights — a reset sensitivity, not a storage location. We report effect sizes with confidence intervals, the limits of each measurement (notably that functional sensitivity follows spectral energy), and negative results.
 
 ## 1 Introduction (outline)
@@ -28,7 +28,7 @@ reliance far more than the tested MLP reset, and resetting its value path does s
   arithmetic; Marchetti et al. (ICML 2026) derive the irrep order from the Fourier statistics of the input *encoding* under uniform data; He et al. (2026) attribute the competition to initialization.
   Our lever is the complementary one: the *set* of training pairs, full batch, one-hot tokens, predicted in advance by the mask spectrum M0 (we found no AGF-utility bridge for M0, EXP-076).
 - Lock-in: critical periods (Achille et al. 2019; Kleinman et al.), primacy bias (Nikishin et al. 2022), warm starting (Ash & Adams 2020) and, closest, grokking under non-stationarity with the
-  effective learning rate as explanation (Lyle et al. 2025). Our contribution is a measured lock-in time of the frequency choice (≈ 25–50 steps) against a pair-disjoint switch and its functional flip.
+  effective learning rate as explanation (Lyle et al. 2025). Our contribution is a measured lock-in time of the frequency choice (≈ 25–50 steps) against a pair-disjoint switch and the reversal of an ablation contrast.
 - The functional measure (K2-function) is a validation of K2 rather than a separate contribution (frequency ablations go back to Nanda et al. 2023), and we state its limit (function follows energy).
 - Contributions: (i) causal steering via split construction, held-out across four tasks incl. a non-abelian group; (ii) a functional validation (margin sensitivity) with its limits; (iii) an early, time-dependent
   lock-in under a data switch; (iv) reset interventions that localize *sensitivity* (not storage) in the attention value path.
@@ -37,7 +37,7 @@ reliance far more than the tested MLP reset, and resetting its value path does s
 
 - Model: the one-layer transformer of the original GROKVERSE study (preset arch25k, d_model 128, 4 heads, MLP 512), full-batch AdamW (lr 1e-3, wd 1.0, β as in the study), train fraction 0.3,
   inputs (a, b, =). Tasks: add mod 113 / 97, mul mod 113 (frequencies over the discrete-log order, Z_112), D59 (group order 118, irreps from an explicit real basis).
-- Engineered splits: pairs are sampled with weights 1 + ε·wave, where the wave carries five target frequencies with random phases per output; F and G splits of a seed use disjoint target sets.
+- Engineered splits: pairs are sampled with weights 1 + ε·wave, where the wave carries five target frequencies with random phases per output (for D59: random 2×2 coefficient matrices per output); F and G splits of a seed use disjoint target sets.
   Separate random streams (SeedSequence over experiment, task, seed, arm, purpose).
 - Measures (all computed on the number rows X = W_E[:n] in group order; P_k(X) = power of X in the real Fourier (or irrep) subspace of k; for a set S, P(S) = Σ_{k∈S} P_k):
   - **Δ_pow** (K2): for a seed with arms F and G (same init, disjoint target sets T_F, T_G), Δ_pow = log[P_F(T_F)/P_F(T_G)] + log[P_G(T_G)/P_G(T_F)] at step 2000; 0 = no steering.
@@ -47,7 +47,7 @@ reliance far more than the tested MLP reset, and resetting its value path does s
     unbounded index (0 = pure second-split endpoint, 1 = pure first-split endpoint), not a probability.
   - **Ablation contrast R** (K4c–e): accuracy on a held-out test set after projecting W_E onto the complement of the five NEW target subspaces minus after removing the five OLD ones; R > 0 means the
     final model relies on the old frequencies. Averaged over both switch directions per seed.
-- Protocol: every confirmation was registered before its runs, analysis code and manifest frozen by commit hash, a smoke job run through the frozen loader, fresh seeds from a reserved block, Holm
+- Protocol: every confirmation was registered before its runs, analysis code and manifest frozen by commit hash, fresh seeds from a reserved block, (from N28 on) a smoke job run through the frozen loader, Holm
   within a family, bootstrap CIs over seeds. Runs are bound to the manifest by content hashes.
 
 ## 3 Results (confirmed)
@@ -67,10 +67,11 @@ Limits: engineered (not natural) splits; one architecture family; one time point
 
 ### 3.2 Functional sensitivity along the steered frequencies (K2-function; P2d c0cd65f, P2e 3c484ef)
 
-A one-sided W_E step of norm 0.02·‖W_E‖ along the steered frequencies reduced the mean correct-class logit margin on pairs outside both splits more than the mean of four pre-specified control sets:
-add 113 (4000 steps) 0.250 [0.229, 0.270], 20/20 seeds; mul 113 (8000 steps) 0.291 [0.268, 0.308]; add 97 0.294 [0.275, 0.312], each 20/20 (Holm over the two tasks).
-**Limit:** in all models examined, sensitivity follows the energy distribution in W_E; at equal removed energy the dominant set has no advantage (exploration EXP-068). We therefore do not claim use
-beyond energy. The earlier registered variant P2c (loss after removing half the control energy) was *not* confirmed (sign reversed); we report it.
+A one-sided step of norm 0.02·‖X‖_F (X = number rows of W_E) along the steered frequencies reduced the mean correct-class logit margin on pairs outside both splits more than the mean of four pre-specified control sets:
+add 113 (4000 steps) 0.250 [0.229, 0.270], 20/20 seeds; mul 113 (8000 steps) 0.291 [0.268, 0.308]; add 97 (8000 steps) 0.294 [0.275, 0.312], each 20/20 (Holm over the two tasks).
+**Limit:** in the add-113 switch models examined (EXP-064 post hoc, EXP-068; 80 N29 models), sensitivity follows the energy distribution in W_E; at equal removed energy the dominant set has no
+advantage (exploration). P2d/P2e models were not tested with the equal-energy measure. We therefore do not claim use
+beyond energy. Earlier registered functional variants were not evaluable (P2), aborted for a design error (P2b), or not confirmed with the sign reversed (P2c, loss after removing half the control energy); we report all three.
 
 ### 3.3 Early lock-in under a data switch (K4, K4b; P3 f8adf45, N28 fa154bd)
 
@@ -78,28 +79,31 @@ After 25 steps on a first engineered split and 2000 steps on a pair-disjoint sec
 any tested static additive W_E trace was 0.293 [0.263, 0.322] (30 fresh seeds, 30/30). Zeroing Adam's first moment at the switch lowered the persistence index π by 0.151 (0.340 → 0.189); ten extra
 pre-switch steps with the same reset compensated this (non-inferiority, margin 0.05). This is compatible with an "exposure" reading, not a proof of it.
 
-### 3.4 The reliance flips between a switch at 25 and at 50 steps (K4c; N29 087e042)
+### 3.4 An ablation contrast reverses between a switch at 25 and at 50 steps (K4c; N29 087e042)
 
 Removing all five target frequencies from W_E after a switch and 4000 further steps: after a switch at t = 50, removing the **old** targets cost 0.903 more test accuracy than removing the new ones
 (95 % CI 0.846–0.953; 20/20 seeds > 0.3); after a switch at t = 25, removing the **new** targets cost 0.603 more (0.498–0.700; 17/20 > 0.3). Two time points bracket a reversal of this ablation contrast;
-a network-wide or irreversible functional commitment is not shown.
+a network-wide or irreversible functional commitment is not shown. Post hoc, the W_E energy points in the same direction (38/40 and 40/40 directions), so this contrast does not separate reliance
+from energy. 19/20 seeds generalized.
 
 ### 3.5 Reset sensitivity: attention more than the tested MLP reset, value path more than query/key (K4d N29b db31564, K4e N29c 3c9cb63)
 
 At a switch after 50 steps, resetting W_Q, W_K, W_V, W_O to initialization together with their AdamW state lowered the ablation contrast by 1.49 [1.36, 1.61] vs no reset and by 1.42 [1.28, 1.56] vs the
 tested MLP reset (20 paired seeds, Holm-p 4.7·10⁻¹²). Resetting only W_V, W_O lowered it by 0.850 [0.685, 0.998] vs no reset and by 0.752 [0.596, 0.897] vs an equal-size reset of W_Q, W_K
-(Holm-p 2.1·10⁻⁴ and 1.9·10⁻⁵). These show *reset sensitivity*, not a storage location: weights and optimizer state were reset together, and the interventions are matched only in parameter count.
+(Holm-p 2.1·10⁻⁴ and 1.9·10⁻⁵). These show *reset sensitivity*, not a storage location: weights and optimizer state were reset together, the VO and QK resets are matched only in parameter count, and the MLP control resets twice as many parameters and is not matched in displacement or dynamics. Generalized seeds: 19/20 (N29b),
+17/20 (N29c).
 
-### 3.6 Pending: D59 function (P2f, registered) and generalization of the lock-in
+### 3.6 Pending: D59 function (P2f, prepared) and generalization of the lock-in
 
-D59 models generalize only after ≈ 4600 steps (pilot EXP-072, 9/10 runs by 20 000 steps), so K2 for D59 (3.1) concerns the pre-grokking choice. In the pilot the steered irreps carry 0.90–0.99 of the
-embedding energy after grokking (exploration). Confirmation P2f (20 fresh seeds, 12 000 steps) is registered; results will replace this paragraph.
+D59 models generalize after a median of ≈ 4600 steps (pilot EXP-072: range 2875–8150; 9/10 runs by 20 000 steps), so K2 for D59 (3.1) concerns the pre-grokking choice. In the pilot the steered irreps carry 0.90–0.99 of the
+embedding energy after grokking (exploration). Confirmation P2f (20 fresh seeds, 12 000 steps) is prepared (registration drafted and Codex-reviewed) but not yet frozen; results will replace this paragraph.
 
 ## 4 Explorations and negative results (not claims)
 
 - Lock-in is smooth in the number of pre-switch steps (π ≈ 0.01, 0.19, 0.30, 0.56, 1.05 at t = 10, 20, 25, 35, 50; pilot, 10 known seeds); neither the W_E lead nor OV alignment at the switch predicts
   it better than the step count (EXP-060, EXP-070, EXP-071).
-- The mask spectrum M0 predicts the learned frequencies (EXP-015) and equals, to first order, the power of the first W_E gradient ([[BEFUND-split-mechanismus]]); it is *not* the first-stage utility of
+- The mask spectrum M0 predicts the learned frequencies (EXP-015) and is closely related, at first order, to the power of the first W_E gradient (coherent variant M0c for the transformer;
+EXP-050: first order explains only part; [[BEFUND-split-mechanismus]]); it is *not* the first-stage utility of
   the simplest AGF model (EXP-076, negative).
 - Further pilots: steering also in a shared-embedding MLP, at 4× width and for non-modular integer addition (EXP-045, 049, 048) — to be confirmed or reported as pilots (rule 19b).
 
@@ -128,3 +132,7 @@ code), operating under written rules set by the human author, who bears responsi
 4. **done:** `figures/fig4_pi_curve.py` — π(t) pilot curve (EXP-059, 10 known seeds, mean ± SD) with the N28 confirmed points at t = 25 (0.340 [0.302, 0.377]) and 50 (0.998 [0.965, 1.032]),
    30 fresh seeds (CIs recomputed from the frozen per-seed values; confirmed points offset by 1.2 steps for visibility).
 5. **done:** `figures/fig5_margin_sensitivity.py` — K2-function D per seed with CI (P2d add 113; P2e mul 113, add 97); different step budgets, compare qualitatively.
+
+## Verification (session 24)
+
+All numbers in §3 were checked against the frozen summaries by an independent verification agent (≈ 85 claims OK); 15 wording/scope issues were corrected.

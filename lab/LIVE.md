@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 12:29 Berlin (10:29Z, vom Runner)
 - **Deadline:** 2026-09-27 15:29 Berlin (13:29Z)
-- **Zuletzt aktualisiert:** 14:13 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 14:16 Berlin (gemessen)
 - **Run-Fenster:** seit 13:00 zu (wieder ab 00:00): nur Denk- und Vorbereitungsarbeit.
 
 ## Gerade
 
-Ein Pruef-Agent gleicht alle Zahlen im Paper-Entwurf gegen die eingefrorenen Quellen ab. In lab/paper/STATUS.md steht oben eine deutsche Kurzfassung: was das Paper heute tragen wuerde und was vor einer Einreichung fehlt.
+Zahlenpruefung des Paper-Entwurfs abgeschlossen und eingearbeitet. In lab/paper/STATUS.md steht oben eine deutsche Kurzfassung: was das Paper heute tragen wuerde und was vor einer Einreichung fehlt.
 
 ## Als Naechstes
 
@@ -18,6 +18,7 @@ Abweichungen korrigieren, Sitzung beenden. Ab 00:00: Tests, EXP-040, P2f, EXP-07
 
 ## Verlauf dieser Sitzung
 
+- 14:16 Paper-Entwurf unabhaengig geprueft: alle Zahlen stimmen; 15 Formulierungen waren zu weit und sind korrigiert. Vorab-Lesart der Nacht festgelegt ([[LESART-nacht-2026-09-28]]).
 - 14:13 Paper: fuenf Abbildungen als Skripte, Kurzfassung fuer dich in [[paper/STATUS]].
 - 14:08 Robustheitsblock R1 (gilt die Steuerung auch bei anderer Lernrate, anderem Weight Decay, anderem Trainingsanteil?) vorbereitet und von Codex geprueft; rechnen fruehestens in der Nacht 28./29.09.
 - 13:53 Literatur fuer das Paper fertig (lab/paper/related_work.md, ~50 Arbeiten, zur Pruefung durch dich oder eine Fachperson). Abbildungen 1-4 als Skripte; Trainer kann jetzt Lernrate, Weight Decay und Trainingsanteil variieren (Robustheit, ab 00:00 getestet).

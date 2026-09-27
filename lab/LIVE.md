@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 18:19 Berlin (16:19Z, vom Runner)
 - **Deadline:** 2026-09-27 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 19:04 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 19:09 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests.
 
 ## Gerade
@@ -18,6 +18,8 @@ Weitere Gutachterpunkte ohne Rechenfenster; Stand für die Nacht sichern.
 
 ## Verlauf dieser Sitzung
 
+- 19:09 Exploration: Die Steuerung (Δ_pow) wächst nach dem Grokking weiter (20/20 Seeds, drei Aufgaben), getragen von den eigenen Zielen.
+- vor 19:09 Venue-Abgleich der Literaturliste (arXiv-Seiten).
 - 19:04 Abbildung 0 (Masken, M0c, Wechselprotokoll) aus P1-Splitdateien.
 - vor 19:04 Quellenprüfung der Entwurfsänderungen: 4 eigene Fehler gefunden und korrigiert.
 - 19:00 Literaturliste [[paper/references]] erstellt (35 Zitate, Lücken markiert); N42 (Phaseneingriff) nach Überschlag verworfen.

@@ -12,7 +12,7 @@ Zurück: [[LAB]] · [[FINDINGS]] (Beobachtung „konstruierte Splits groken frü
 
 ## Frage und Bezug
 
-Post hoc (Seeds 30–34) generalisieren Splits umso früher, je konzentrierter ihr Paarspektrum ist (ε 1 / 2 / 8). Offen ist die **Form** der Kurve: Wird es mit weiter steigender Konzentration immer schneller, sättigt es, oder kehrt es sich bei extremer Konzentration um (zu wenige „Nicht-Ziel“-Paare, extreme Ziehgewichte)? Das betrifft die Paper-Beobachtung (§4) und die Frage, wie man Trainingsdaten für schnelles Grokking wählt. R5 prüft nur ε 1 gegen 8 (sekundär).
+Post hoc (Seeds 30, 31, 32, 34) generalisieren Splits umso früher, je konzentrierter ihr Paarspektrum ist (ε 1 / 2 / 8). Offen ist die **Form** der Kurve: Wird es mit weiter steigender Konzentration immer schneller, sättigt es, oder kehrt es sich bei extremer Konzentration um (zu wenige „Nicht-Ziel“-Paare, extreme Ziehgewichte)? Das betrifft die Paper-Beobachtung (§4) und die Frage, wie man Trainingsdaten für schnelles Grokking wählt. R5 prüft nur ε 1 gegen 8 (sekundär).
 
 ## Aufbau (vorab festgelegt)
 
@@ -27,7 +27,7 @@ Post hoc (Seeds 30–34) generalisieren Splits umso früher, je konzentrierter i
 | Beschreibend | Median b je Arm, beobachtete Ereignisse, W_E-Zielanteil bei 250, M0-Zielanteil, Endgenauigkeit |
 | Was gegen die Beobachtung spräche | ε 2 < ε 8 nicht in der Mehrheit der Einheiten (dann trägt schon der Befund aus Sitzung 31 nicht) |
 | Budget | 80 Läufe; konstruierte Arme ≈ 500–1000 Schritte, R und kleine ε bis 4000; GPU bei 8–10 parallel ≈ 15 min |
-| Bereits gesehen | EXP-020/042 (Seeds 30–34) für ε 1/2/8; daraus die Wahl des Bereichs. Keine Läufe mit 2780–2789 |
+| Bereits gesehen | EXP-020/042 (Seeds 30, 31, 32, 34) für ε 1/2/8; daraus die Wahl des Bereichs. Keine Läufe mit 2780–2789 |
 
 **Neuheit:** Die Suche vom 2026-09-27 ([[paper/lit_grokking_speed_2026-09-27]]) fand keine Beschleunigung über die Konzentration des Paarspektrums; eine Dosis-Kurve wurde dort ebenfalls nicht gefunden (vorläufig, keine neue Suche).
 

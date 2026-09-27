@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 20:29 Berlin (18:29Z, vom Runner)
 - **Deadline:** 2026-09-27 23:29 Berlin (21:29Z)
-- **Zuletzt aktualisiert:** 21:05 Berlin
+- **Zuletzt aktualisiert:** 21:04 Berlin
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests.
 
 ## Gerade

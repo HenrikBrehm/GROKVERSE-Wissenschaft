@@ -1,0 +1,71 @@
+{
+ "note": "post hoc exploration; P1 seeds already seen",
+ "tasks": {
+  "add113": {
+   "arms": 100,
+   "M0": {
+    "mean_rho": 0.318,
+    "p_two": 0.0,
+    "weakest_is_lowest": 0.36,
+    "pred_cv_within_arm": 0.06551703507069523
+   },
+   "init": {
+    "mean_rho": 0.125,
+    "p_two": 0.0135,
+    "weakest_is_lowest": 0.24,
+    "pred_cv_within_arm": 0.07161952360314539
+   },
+   "M0c": {
+    "mean_rho": 0.43800000000000006,
+    "p_two": 0.0,
+    "weakest_is_lowest": 0.42,
+    "pred_cv_within_arm": 0.09611596623459198
+   }
+  },
+  "mul113": {
+   "arms": 100,
+   "M0": {
+    "mean_rho": 0.21099999999999997,
+    "p_two": 0.0,
+    "weakest_is_lowest": 0.26,
+    "pred_cv_within_arm": 0.0672318409810761
+   },
+   "init": {
+    "mean_rho": 0.083,
+    "p_two": 0.0931,
+    "weakest_is_lowest": 0.24,
+    "pred_cv_within_arm": 0.06751755275137683
+   }
+  },
+  "add97": {
+   "arms": 100,
+   "M0": {
+    "mean_rho": 0.285,
+    "p_two": 0.0,
+    "weakest_is_lowest": 0.33,
+    "pred_cv_within_arm": 0.07691009982753574
+   },
+   "init": {
+    "mean_rho": 0.109,
+    "p_two": 0.0292,
+    "weakest_is_lowest": 0.26,
+    "pred_cv_within_arm": 0.0730914147158826
+   }
+  },
+  "D59": {
+   "arms": 100,
+   "M0": {
+    "mean_rho": 0.4320000000000001,
+    "p_two": 0.0,
+    "weakest_is_lowest": 0.41,
+    "pred_cv_within_arm": 0.05131447525720357
+   },
+   "init": {
+    "mean_rho": 0.14900000000000002,
+    "p_two": 0.0031,
+    "weakest_is_lowest": 0.32,
+    "pred_cv_within_arm": 0.053570392477840845
+   }
+  }
+ }
+}

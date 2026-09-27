@@ -18,7 +18,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Aktive Queue / laufende Jobs
 
-- Keine. CPU-Programm wurde um 12:54 vom Wächter am Fensterende gestoppt (Exit 3, erwartet). EXP-040 und EXP-014 nicht gestartet. **Korrektur Sitzung 31:** EXP-042 war schon vorher vollständig (36/36 ok, `analyze.py` Exit 0 um 12:54); Urteil *unklar*, siehe [[experiments/EXP-042-bias-strength/README|EXP-042]].
+- **Sitzung 32, ab 21:43 (Fenster vorgezogen geöffnet, Freigabe des Nutzers, im Wächter geprüft):** CPU `night_program.py --cpu --cpu-workers 2 --experiments EXP-040,EXP-014` (Log `lab/runner/logs/night_cpu_s32.log`); GPU EXP-018 `jobs_cuda.txt --workers 4` (Log `lab/runner/logs/exp018_s32.log`). Schritt 1 und 2 erledigt: Tests grün, Selbsttests grün **außer C1/C2** (Blocker unten). EXP-042 `pi_window.py` gelaufen. Wiederaufnahme: dieselben Befehle erneut starten; fertige Läufe werden übersprungen.
 
 ## Nächste Schritte (ab 00:00, in dieser Reihenfolge; alles über guarded_run.py)
 
@@ -58,6 +58,8 @@ Vorab-Lesart der Nacht (Kombination EXP-040/073/074/075, P2f): [[LESART-nacht-20
 3. **C** ruht (EXP-076: einfachste AGF-Brücke negativ).
 
 ## Blocker / Hinweise
+
+- **C1/C2-Selbsttest rot (Sitzung 32):** `lab/confirm/rank_tools.py` Z. 72 `rng.permutation(5.0)` → `permutation(5)`. Nur der Selbsttest ist betroffen, aber die Datei hängt am C1/C2-Code-Tor: vor dem Einfrieren von R1/R2 korrigieren, C1/C2-Manifeste neu einfrieren (Commit, `code_sha256`), Selbsttest grün. Sonst C1/C2 nach R1/R2 nicht auswertbar.
 
 - **Statische Prüfung der Nachtbefehle (Sitzung 27, nur Lesen):** behoben: absoluter GPU-Interpreterpfad in [[paper/repro/README]] (Gleichwertigkeitsbefehle); `--jobs` ohne Wächter (s. o.); R1-Seed-Obergrenze; R2/R3 löschen eine alte Zusammenfassung vor `--analyze`. Offen, nur Hinweis: Die Selbsttests von R2/R3 messen kein Zufallsmodell Ende-zu-Ende; ein Fehler in `one_run` zeigt sich erst im Smoke (Pflicht). Die „Voll“-Befehle von `repro/k2.py`/`k4c.py` nennen den venv-Pfad jetzt absolut (Sitzung 28).
 

@@ -3297,3 +3297,9 @@ Literaturrecherche ([[paper/related_work]]) läuft über einen Hintergrund-Agent
 **Zyklus 12 (Regel 19 fortgesetzt, bis 13:47).** Abbildungen 1 und 4 als Skripte (Maske gegen gelerntes Spektrum, EXP-016 Seed 10 F: 4/5 Ziele, 25 durch die Oberwelle 32 ersetzt; π-Pilotkurve mit den
 N28-Punkten, KI aus den eingefrorenen Werten nachgerechnet: 0.340 [0.302, 0.377] und 0.998 [0.965, 1.032]). Reproduktions-README (Umgebung, Zuordnung Abbildung → Block → Befehle, Plan).
 Registrierungsentwurf P4 (MLP, 4× Breite, Integer-Addition an frischen Seeds; Pilot-SD nachgerechnet, n = 15 je Bedingung). STATE-Prioritäten um Regel 19 ergänzt.
+
+**Zyklus 13 (Regel 19: Trainer-Optionen und Literatur, 13:47–13:53).** `freq_ban.py` hat jetzt `--lr`, `--weight-decay`, `--train-frac` (späte Argumente: alte Fingerabdrücke und Run-IDs unverändert).
+Codex (Regel 18c): zwei Blocker, beide selbst bestätigt: `:g` in der Run-ID nicht injektiv (jetzt `repr`), und train_frac ist in `confirm_splits` noch fest 0.3 (Pipeline-Arbeit, im Robustheitsplan vermerkt);
+dazu Schutz gegen leere Splits. Ungetestet bis 00:00 (neuer Test `test_hp_overrides`). **Literatur:** Hintergrund-Agent hat [[paper/related_work]] geschrieben (≈ 50 Arbeiten, Suchprotokoll, Prüfgrad je Eintrag).
+Engste Arbeiten: K2 — LeDoux 2026 (Reihenfolge der Daten setzt die Grundfrequenz; von mir am Abstract geprüft: Reihenfolge, nicht Menge), Marchetti et al. 2026, He et al. 2026; K4 — Lyle et al. 2025,
+kritische Perioden (Achille 2019, Kleinman 2023/24), Primacy Bias; K4d/e — Teil-Resets (Nikishin 2022, Zhou 2022), Modul-Kritikalität. K2-Funktion allein trägt wenig Neuheit (Ablationen seit Nanda 2023).

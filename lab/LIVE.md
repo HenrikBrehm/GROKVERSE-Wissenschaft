@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 12:29 Berlin (10:29Z, vom Runner)
 - **Deadline:** 2026-09-27 15:29 Berlin (13:29Z)
-- **Zuletzt aktualisiert:** 13:44 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 13:53 Berlin (gemessen)
 - **Run-Fenster:** seit 13:00 zu (wieder ab 00:00): nur Denk- und Vorbereitungsarbeit.
 
 ## Gerade
 
-Neuer Auftrag (Regel 19): Veroeffentlichung vorbereiten. Unter lab/paper/ liegen jetzt Stand + offene Entscheidungen fuer dich (STATUS), ein Entwurf, ein Robustheitsplan und zwei Abbildungen. Die Literaturrecherche laeuft noch im Hintergrund.
+Neuer Auftrag (Regel 19): Veroeffentlichung vorbereiten. Unter lab/paper/ liegen jetzt Stand + offene Entscheidungen fuer dich (STATUS), ein Entwurf, ein Robustheitsplan und zwei Abbildungen. Die Literaturrecherche ist fertig.
 
 ## Als Naechstes
 
@@ -18,6 +18,7 @@ Literatur einarbeiten; Sitzung sauber beenden. Ab 00:00: Tests, EXP-040, P2f, EX
 
 ## Verlauf dieser Sitzung
 
+- 13:53 Literatur fuer das Paper fertig (lab/paper/related_work.md, ~50 Arbeiten, zur Pruefung durch dich oder eine Fachperson). Abbildungen 1-4 als Skripte; Trainer kann jetzt Lernrate, Weight Decay und Trainingsanteil variieren (Robustheit, ab 00:00 getestet).
 - 13:44 Preprint-Arbeitsbereich angelegt ([[paper/STATUS]]): Entwurf, Robustheitsplan, Abbildungen 2 und 3; Entscheidungen zu Autorschaft, Einreichung und Venue liegen bei dir.
 - 13:38 EXP-076 (Theorie-Rechnung): Das Maskenspektrum ist nicht der Nutzen im einfachsten AGF-Modell (negativ).
 - 13:35 Literatur: Eine neue ICML-2026-Arbeit (Marchetti, Kunin et al.) erklaert die Irrep-Reihenfolge ueber die Eingabekodierung bei gleichverteilten Daten; unsere Steuerung ueber die Auswahl der Trainingspaare ist dort nicht abgedeckt.

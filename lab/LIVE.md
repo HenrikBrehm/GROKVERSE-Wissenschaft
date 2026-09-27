@@ -18,7 +18,7 @@ Den funktionalen Uebergang (frueh umsteigen, ab 50 Schritten festhalten) an fris
 
 ## Verlauf dieser Sitzung
 
-- 09:30 **P2d BESTAETIGT (20/20 frische Seeds):** Mit gleich grossen Schritten reagiert das Netz entlang der gesteuerten Frequenzen viel staerker als bei Kontrollfrequenzen. Die Funktionsfrage ist damit (lokal) beantwortet.
+- 09:30 **P2d BESTAETIGT (20/20 frische Seeds):** Mit gleich grossen Schritten reagiert das Netz entlang der gesteuerten Frequenzen viel staerker als bei Kontrollfrequenzen. Das ist ein eng umrissener Befund (eine Dosis, nur W_E), keine allgemeine Antwort auf die Funktionsfrage.
 - 09:15 **EXP-065 (Exploration):** Mit gleich grossen Schritten reagiert das Netz entlang der gesteuerten Frequenzen viel staerker als bei Kontrollen (80/80 Modelle). Die P2c-Umkehrung lag wohl am Mass.
 - 09:13 Abschlussbericht im JOURNAL, STATE fuer die naechste Sitzung.
 - 09:06 **EXP-064 (beschreibend):** Nach einem fruehen Wechsel rechnet das Netz mit den NEUEN Frequenzen, nach 50 Schritten nur noch mit den alten. Formal nicht auswertbar (3 Modelle nicht fertig), das Muster ist aber in allen 10 Seeds gleich.

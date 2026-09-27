@@ -3038,4 +3038,8 @@ Maß nach dem Ergebnis gewählt):* Die Umkehrung war sehr wahrscheinlich ein Art
 
 **Zyklus 18 (P2d festgelegt, eingefroren, gerechnet, 09:17–09:30 gemessen).** Codex (gegen 8c66f73): keine Blocker. Eingefroren c0cd65f, Splits/Jobs 3e7019b, ein Smoke bis Schritt 4000 durch den Lader (Lehre aus P2b).
 40 Läufe, 7 Arbeiter. ***bestätigt***: D̄ = 0.250 [0.229, 0.270], 20/20, p = 1.6·10⁻¹⁵. *Deutung:* Bei gleicher Schrittnorm reagiert das Netz entlang der gesteuerten Frequenzen in W_E lokal viel empfindlicher
-als entlang gleich großer Kontrollmengen. Die P2c-Umkehrung lag damit sehr wahrscheinlich an der Dosisgeometrie. Codex-Prüfung der Schlussfolgerung läuft.
+als entlang gleich großer Kontrollmengen. (Wortlaut nach Codex korrigiert, siehe Zyklus 19.)
+
+**Zyklus 19 (Codex prüft die P2d-Schlussfolgerung, 09:31–09:34 gemessen).** Zahlenbefund trägt. Übernommen (selbst geprüft): „P2c-Umkehrung liegt an der Dosisgeometrie“ ist nicht belegt, nur vereinbar;
+„lokal viel empfindlicher“ zu allgemein → „stärkere Margin-Reaktion unter dieser einseitigen Perturbation, dieser Dosis, diesen Kontrollen“; u_S ist amplitudengewichtet (Frequenzidentität und gelernte Norm nicht getrennt);
+Kontrollen nur aus dem P2-Pool; statistische Einheit = seedweiser Kontrast. FINDINGS: neuer Abschnitt „K2-Funktion (P2d)“ im engsten Wortlaut; EXP-065, LIVE und JOURNAL entschärft.

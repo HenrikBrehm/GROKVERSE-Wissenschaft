@@ -22,6 +22,6 @@ Festgelegt 2026-09-27 (Sitzung 22), vor der Rechnung. **Exploration**: kein Urte
 **eigene Ziele im Median 0.25 (Minimum 0.136), Kontrollen (Mittel von 4 gleich großen Mengen) im Median 0.0007 (Spanne −0.006 … 0.037)**. Eigene > Kontrolle in **80/80** Modellen;
 je Seed Differenz 0.254 ± 0.038 (n = 40, Minimum 0.188). Das Log-Verhältnis ist nur für 46/80 definiert (Kontrollabfall sonst ≤ 0), dort 4.45 ± 1.16 (≈ 85-fach).
 - **Lesart (Exploration):** Je Parameterschritt gleicher Größe reagiert das Netz entlang der gesteuerten Frequenzen um Größenordnungen empfindlicher als entlang gleich großer Kontrollmengen.
-  Das spricht dafür, dass die Umkehrung in P2c an der Dosisgeometrie lag (2.4 % gegen 50 % der jeweiligen Energie), nicht an fehlender Nutzung. Belegt ist das erst mit einer vorab festgelegten Bestätigung (P2d).
+  Das ist vereinbar damit, dass die Umkehrung in P2c an der Dosisgeometrie lag (2.4 % gegen 50 % der jeweiligen Energie); die Ursache ist damit nicht bestimmt (Codex, 09:34). P2d hat den Effekt selbst an frischen Seeds bestätigt.
 - **Grenzen:** dieselben Modelle wie P2c (dort schon ausgewertet), Maß nach dem P2c-Ergebnis gewählt, ein δ, lokale Größe (erste Ordnung), Kontrollen zufällig aus der P2-Kontrollmenge.
 - **Für P2d:** Effekt riesig und einheitlich; schon 10–20 frische Seeds reichen für jede sinnvolle Schwelle. Primär z. B. Differenz der Abfälle (immer definiert) statt Log-Verhältnis.

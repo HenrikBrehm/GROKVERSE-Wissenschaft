@@ -40,7 +40,7 @@ SPL = LAB / "confirm" / "r2_splits"
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 CAL = LAB / "experiments/EXP-053-p3-overlap-design/calibration.json"
 BUDGET, ALPHA, OMEGA, ACC_MIN, MIN_DIFF, P = 4000, 0.05, 0.0, 0.9, 0.3, 113
-LR0, WD0 = 1e-3, 1.0                                     # preset values (arch25k), checked in every result.json
+LR0, WD0, FRAC0 = 1e-3, 1.0, 0.3                                     # preset values (arch25k), checked in every result.json
 CELLS = {"lr2": {"hp": {"lr": 0.002}, "ts": [12, 25, 50]},
          "wd03": {"hp": {"weight_decay": 0.3}, "ts": [25, 50]}}
 FLAG = {"lr": "--lr", "weight_decay": "--weight-decay"}
@@ -168,7 +168,7 @@ def one_run(man: dict, c: str, s: int, t: int, first: str, second: str, old: lis
         return f"{tag}: fehlt"
     if (why := BLOCK.unbound(man, d)):
         return f"{tag}: defekt: {why}"
-    hp = {"lr": LR0, "weight_decay": WD0, **cell["hp"]}          # both checked, not only the varied one (as R1)
+    hp = {"lr": LR0, "weight_decay": WD0, "train_frac": FRAC0, **cell["hp"]}   # all three checked, not only the varied one (as R1; Codex s26)
     L = load_run(d, Expect(seed=s, device=man["device"], max_steps=steps, split_file=sp, test_file=te, switch_file=sw,
                            config={"p": P, "task": "add", "arch": "transformer", **hp}, snapshots_at=(steps,), files=("model_final.pt",)))
     if L.status != "ok":
@@ -225,18 +225,20 @@ def test_family(rows: list[dict], rng: np.random.Generator, label: bool = True) 
     out: dict = {}
     for k, v in X.items():
         ci = c1.boot_ci(v, rng)
-        out[k] = {"mean_minus_min": float(v.mean()), "mean_diff": float(v.mean() + MIN_DIFF), "sd": float(v.std(ddof=1)), "t": tt[k]["t"],
-                  "p": tt[k]["p_one_sided"], "p_holm": ph[k], "ci95_minus_min": ci, "n_positive": int((v > 0).sum())}
-        if label:
-            out[k]["verdict"] = "bestätigt" if ph[k] < ALPHA and ci[0] >= 0.0 else "nicht bestätigt"
+        out[k] = {"mean_minus_min": float(v.mean()), "mean_diff": float(v.mean() + MIN_DIFF), "sd": float(v.std(ddof=1)),
+                  "ci95_minus_min": ci, "n_positive": int((v > 0).sum())}
+        if label:                                   # outcome-selected subset: no inferential fields at all (Codex s26)
+            out[k].update({"t": tt[k]["t"], "p": tt[k]["p_one_sided"], "p_holm": ph[k],
+                           "verdict": "bestätigt" if ph[k] < ALPHA and ci[0] >= 0.0 else "nicht bestätigt"})
     return out
 
 
 def timing_secondary(rows: list[dict], rng: np.random.Generator) -> dict:
-    """lr2 at t = 25 (Lambda = 0.05 as at the standard t = 50): D25 = acc_new - acc_old; reading fixed in the registration, no verdict."""
+    """lr2 at t = 25 (Lambda = 0.05 as at the standard t = 50): D25 = acc_new - acc_old; reading fixed in the registration, no verdict.
+    Not diagnostic for the clock (Codex s26): lr 2e-3 also holds after the switch, so faster re-adaptation can favour switching."""
     v = np.array([r["new_lr2_25"] - r["old_lr2_25"] for r in rows])
     ci = c1.boot_ci(v, rng)
-    reading = ("passt zur Λ-Uhr (Festhalten)" if ci[0] > 0 else "passt zur Schrittuhr (Umstieg)" if ci[1] < 0 else "unklar")
+    reading = ("Festhalten bei t = 25" if ci[0] > 0 else "Umstieg bei t = 25" if ci[1] < 0 else "unklar")
     return {"mean": float(v.mean()), "sd": float(v.std(ddof=1)) if len(v) > 1 else None, "ci95": ci, "n_positive": int((v > 0).sum()),
             "reading": reading}
 
@@ -310,12 +312,12 @@ def selftest() -> None:
     good = [mk(o12=0.8 + 0.005 * i, wo25=0.8 + 0.005 * i) for i in range(30)]
     v = verdict(good, 30, rng)
     assert all(v[h]["verdict"] == "bestätigt" for h in PRIMARY) and v["robust"] == {"lr2": "Übergang bestätigt", "wd03": "Übergang bestätigt"}, v
-    assert v["timing_lr2_t25"]["reading"].startswith("passt zur Λ-Uhr"), v["timing_lr2_t25"]
+    assert v["timing_lr2_t25"]["reading"] == "Festhalten bei t = 25", v["timing_lr2_t25"]
     v = verdict([mk(o12=0.8 + 0.005 * i, wo25=0.3 + 0.005 * i, o25=0.8, n25=0.1) for i in range(30)], 30, rng)
     assert v["H2_wd03"]["verdict"] == "nicht bestätigt" and v["robust"]["wd03"] == "Übergang nicht bestätigt" and v["robust"]["lr2"] == "Übergang bestätigt", v
-    assert v["timing_lr2_t25"]["reading"].startswith("passt zur Schrittuhr"), v["timing_lr2_t25"]
+    assert v["timing_lr2_t25"]["reading"] == "Umstieg bei t = 25", v["timing_lr2_t25"]
     w = verdict(good[:25] + [mk(base=0.5)] * 5, 30, rng)
-    assert w["n_generalised"] == 25 and w["n"] == 30 and all("verdict" not in x for x in w["descriptive_generalised_only"].values())
+    assert w["n_generalised"] == 25 and w["n"] == 30 and all(not {"verdict", "p", "p_holm", "t"} & set(x) for x in w["descriptive_generalised_only"].values())
     assert verdict(good[:29], 30, rng)["verdict"] == "nicht auswertbar"
     assert verdict(good[:29] + [{"seed": 1, "valid": False, "technical": True}], 30, rng)["verdict"] == "nicht auswertbar"
     selftest_binding(BLOCK, tj[0], tj[1], tj[2])

@@ -20,6 +20,37 @@ frequencies reduce the logit margin more than along control frequencies. The cho
 (old vs new target frequencies removed) reverses between a switch after 25 and after 50 steps. Resetting the attention (weights and optimizer state) at a switch after 50 steps reverses this
 reliance far more than the tested MLP reset, and resetting its value path does so more than an equal-size reset of its query/key weights — a reset sensitivity, not a storage location. We report effect sizes with confidence intervals, the limits of each measurement (notably that functional sensitivity follows spectral energy), and negative results.
 
+## 1 Introduction (draft prose, session 26; to be checked against the sources like §1b)
+
+Small networks trained on modular arithmetic first memorize their training pairs and only much later generalize ("grokking"; Power et al. 2022). Mechanistic analyses showed that the generalizing
+solution computes with a handful of Fourier frequencies of the group (Nanda et al. 2023) and, for other finite groups, with a few irreducible representations (Chughtai et al. 2023). *Which*
+frequencies a particular network ends up using has been described as arbitrary across runs (Chughtai et al. 2023). Recent theory attributes the competition between frequencies to the initialization
+(He et al. 2026a) and, for training on the full, uniform group table, derives the order in which irreducible representations are learned from the Fourier statistics of the input encoding
+(Marchetti et al. 2026). With one-hot tokens that encoding favours no frequency, and the role of the train–test split has been named as open (He et al. 2026b).
+
+We ask whether the training set itself can decide this choice. In the one-layer transformer of a previous grokking study we construct training splits whose pair mask carries power at five
+prescribed frequencies, and we train with full-batch AdamW and fixed one-hot tokens. The lever differs from the order of examples within an epoch, which LeDoux (2026) showed to set the fundamental
+frequency, and from the encoding statistics of Marchetti et al. (2026): here only *which* pairs are shown changes. In pre-registered replications with fresh seeds, the embedding enriches the
+prescribed frequencies over disjoint comparison frequencies in every one of 50 seeds per task, for addition mod 113 and mod 97, multiplication mod 113 and composition in the dihedral group D59 (§3.1).
+For the three cyclic tasks (D59 pending), the network is also more sensitive to perturbations along the steered frequencies than along control frequencies (§3.2); we show that this sensitivity follows the embedding energy and do not claim
+more.
+
+The choice is made early. After as few as 25 full-batch steps on a first split, a switch to a pair-disjoint second split leaves a measurable trace in the embedding 2000 steps later (§3.3). Between a
+switch after 25 and after 50 steps, the sign of an ablation contrast reverses: after 25 steps the final model loses more accuracy when the new target frequencies are removed, after 50 steps when the
+old ones are removed (§3.4). Early training that later data cannot fully undo is familiar from critical learning periods (Achille et al. 2019), the primacy bias (Nikishin et al. 2022), warm starting
+(Ash & Adams 2020) and, for grokking, the overwriting of early features under non-stationarity (Lyle et al. 2025); LeDoux (2026) conjectures a critical period for the frequency choice. Our
+contribution here is a measured time scale of tens of steps for a specific, prescribed feature choice against a controlled data switch.
+
+Finally, we ask which part of the network this persistence is sensitive to. Resetting the attention weights together with their optimizer state at the switch after 50 steps reverses the
+reliance on the old frequencies, far more than the tested MLP reset, and resetting the value/output path does more than an equal-size reset of the query/key weights (§3.5). Because weights and
+optimizer state are reset together and the controls are matched only in parameter count, we read this as reset sensitivity, not as the place where the choice is stored. In language models, the
+ordering within attention is reversed for restoring the ability to learn a withheld capability (Dong 2026); we discuss this contrast rather than generalize either ordering.
+
+**Contributions.** (i) Causal steering of the learned frequencies (irreps) by the composition of the training set, replicated on held-out seeds across four tasks including a non-abelian group;
+(ii) a functional validation with its limit (sensitivity follows energy); (iii) an early, time-dependent persistence of the choice under a data switch, with a reversal of an ablation contrast
+between 25 and 50 steps; (iv) reset interventions that localize this persistence's sensitivity in the attention value path. A first-order account of the steering (§5) and all explorations and
+negative results (§4) are reported separately from the confirmed results. All claims hold for one model family, one optimizer setting and constructed splits (§6).
+
 ## 1 Introduction (outline)
 
 - Grokking and Fourier circuits (Power et al. 2022; Nanda et al. 2023); which frequencies/irreps are learned is "arbitrary" per network (Chughtai et al. 2023) and has been linked to initialization

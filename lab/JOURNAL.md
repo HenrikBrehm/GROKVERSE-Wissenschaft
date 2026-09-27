@@ -3466,3 +3466,14 @@ gemessen (Verstoß gegen die Laborregel „nur gemessene Zeiten“). Alle durch 
 **Zyklus 4 (Paper, Regel 19c: K4c-Reproduktionsskript, vor 15:22).** `lab/paper/repro/k4c.py`: baut die N29-Splits nach, trainiert mit `repro/train.py`, Ablation und H1/H2 wie N29,
 `--compare-n29` gegen die eingefrorene Zusammenfassung. Ungetestet (nur `py_compile`); ein Claude-Prüfagent vergleicht es mit `confirm_n29.py` (läuft). Die Vorsicht aus Sitzung 25 („kein
 K4-Skript vor der Gleichwertigkeit“) betraf π mit Spurkontrollen; K4c braucht nur Wechsel + Ablation und hängt allein an der Gleichwertigkeit von `train.py`, die heute Nacht geprüft wird.
+
+**Zyklus 3, Codex (Ergebnis vor 15:25, gemessen).** Codex zu R2: **keine Blocker**; Run-IDs, Konfig-Prüfung, alt/neu, Vorzeichen, Joborder, Holm, Power bestätigt. Übernommen: D25 ist durch die
+Lernrate nach dem Wechsel konfundiert (neutrale Etiketten, kein Uhrentest); keine p-Werte in der ergebnisabhängigen Teilmenge; `train_frac` mitprüfen. Vermerkt, nicht geändert: Der
+Modul-Selbsttest ist bei `exec_module` nicht vollständig (wie N29; Codex fand von Hand keine Lücke). Code weiter ungetestet.
+
+**Zyklus 4, Prüfung (vor 15:25).** Claude-Prüfagent zu `repro/k4c.py` gegen `confirm_n29.py`: **keine Blocker** (Splits, alt/neu, Schrittzahl inkl. `--stop-after-gen`, Projektion,
+Genauigkeit, Modellaufbau, Statistik, Bootstrap-Zufallsstrom identisch). Übernommen: Cache nur bei passender result.json; `--compare-n29` nur voll auf cuda; Threads 4 bei der Auswertung wie N29;
+Vergleich über Mittelwerte (Einzelseeds nur berichtet, GPU-Nichtdeterminismus); Zahl generalisierter Seeds. Nicht übernommen: weitere N29-Felder (für die Reproduktion nicht nötig).
+
+**Zyklus 5 (Paper §1 als Fließtext, vor 15:25).** Einleitung ausformuliert (Frage, Hebel gegen LeDoux/Marchetti, Ergebnisse K2–K4e mit Grenzen, Beiträge). Zwei eigene Überdehnungen vor der Prüfung
+korrigiert: K2-Funktion gilt nur für die drei zyklischen Aufgaben; der Attention-Reset „kehrt“ die Abhängigkeit um (nicht „entfernt das meiste“). Unabhängige Quellenprüfung folgt.

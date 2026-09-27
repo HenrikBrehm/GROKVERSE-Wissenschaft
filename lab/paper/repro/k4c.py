@@ -62,12 +62,21 @@ def accuracy(model: torch.nn.Module, W_rows: np.ndarray | None, idx: np.ndarray)
 
 
 def run(a: argparse.Namespace, s: int, t: int, first: Path, second: Path, test: Path, out: Path) -> Path:
-    if not (out / "model_final.pt").exists():
+    if not cached(out, s, t, t + a.budget):
         cmd = [sys.executable, str(HERE / "train.py"), "--seed", str(s), "--split-file", str(first), "--switch-split-file", str(second),
                "--switch-step", str(t), "--test-file", str(test), "--steps", str(t + a.budget), "--device", a.device,
                "--threads", str(a.threads), "--save-model", "--out", str(out)]
         subprocess.run(cmd, check=True)
     return out
+
+
+def cached(out: Path, s: int, t: int, steps: int) -> bool:
+    """Reuse a run only if result.json (written last) exists and matches seed, switch step and length (review s26, point 1)."""
+    f = out / "result.json"
+    if not (f.exists() and (out / "model_final.pt").exists()):
+        return False
+    r = json.loads(f.read_text(encoding="utf-8"))
+    return (r.get("seed"), r.get("switch_step"), r.get("steps")) == (s, t, steps)
 
 
 def ablate(s: int, out: Path, old: list[int], new: list[int], test: np.ndarray) -> dict:
@@ -90,8 +99,10 @@ def main() -> None:
     ap.add_argument("--out", default=str(HERE / "out" / "k4c"))
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--compare-n29", action="store_true")
-    ap.add_argument("--tol", type=float, default=0.02, help="max |acc - N29| per seed and quantity for --compare-n29 (GPU nondeterminism)")
+    ap.add_argument("--tol", type=float, default=0.02, help="max |mean acc - N29 mean| per quantity for --compare-n29 (per-seed deviations only reported)")
     a = ap.parse_args()
+    if a.compare_n29 and (a.smoke or not a.device.startswith("cuda") or a.budget != BUDGET):
+        raise SystemExit("--compare-n29 needs the full budget on cuda (N29 ran on the GPU), not --smoke")
     lo, hi = (int(x) for x in a.seeds.split("-"))
     seeds = list(range(lo, hi + 1))
     if a.smoke:
@@ -116,6 +127,7 @@ def main() -> None:
                 jobs.append((s, t, tag, first, second, files["test"], root / "runs" / f"seed{s}_{tag}_at{t}"))
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
         outs = dict(zip([(s, t, tag) for s, t, tag, *_ in jobs], ex.map(lambda j: run(a, j[0], j[1], j[3], j[4], j[5], j[6]), jobs)))
+    torch.set_num_threads(4)                  # as p2.load_model_bytes in the N29 analysis (review s26, point 4)
     rows = []
     for s in seeds:
         F, G, test = meta[s]["F"], meta[s]["G"], meta[s]["test"]
@@ -126,7 +138,8 @@ def main() -> None:
             r[f"new{t}"] = float(np.mean([ev[(t, k)]["acc_new"] for k in ("AB", "BA")]))
         rows.append(r)
     X = {"H1": np.array([(r["new50"] - r["old50"]) - MIN_DIFF for r in rows]), "H2": np.array([(r["old25"] - r["new25"]) - MIN_DIFF for r in rows])}
-    out: dict = {"budget": a.budget, "device": a.device, "n": len(rows), "min_diff": MIN_DIFF}
+    out: dict = {"budget": a.budget, "device": a.device, "n": len(rows), "min_diff": MIN_DIFF,
+                 "n_generalised": sum(r["base_min"] >= 0.9 for r in rows)}
     if len(rows) >= 3:
         tt = {k: c1.t_test_secondary(v) for k, v in X.items()}
         ph = c1.holm({k: v["p_one_sided"] for k, v in tt.items()})
@@ -139,11 +152,13 @@ def main() -> None:
     out["rows"] = rows
     if a.compare_n29:
         ref = {r["seed"]: r for r in json.loads((LAB / "confirm" / "N29_summary.json").read_text(encoding="utf-8"))["rows"] if not r.get("technical")}
-        diffs = [abs(r[q] - ref[r["seed"]][q]) for r in rows if r["seed"] in ref for q in ("old25", "new25", "old50", "new50")]
-        out["compare_n29"] = {"n_seeds": sum(r["seed"] in ref for r in rows), "max_abs_diff": max(diffs) if diffs else None}
+        qs, both = ("old25", "new25", "old50", "new50"), [r for r in rows if r["seed"] in ref]
+        mean_diff = {q: abs(float(np.mean([r[q] for r in both])) - float(np.mean([ref[r["seed"]][q] for r in both]))) for q in qs} if both else {}
+        out["compare_n29"] = {"n_seeds": len(both), "mean_abs_diff": mean_diff,     # gate: means (GPU nondeterminism moves single seeds, review s26 point 3)
+                              "max_seed_abs_diff": max(abs(r[q] - ref[r["seed"]][q]) for r in both for q in qs) if both else None}
     (root / "k4c_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1), flush=True)
-    if a.compare_n29 and (not out["compare_n29"]["n_seeds"] or out["compare_n29"]["max_abs_diff"] > a.tol):
+    if a.compare_n29 and (not out["compare_n29"]["n_seeds"] or max(out["compare_n29"]["mean_abs_diff"].values()) > a.tol):
         raise SystemExit(f"[k4c] does not reproduce N29 within tol {a.tol}")
 
 

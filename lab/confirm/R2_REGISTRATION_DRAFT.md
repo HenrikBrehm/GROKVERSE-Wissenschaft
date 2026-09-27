@@ -27,8 +27,8 @@ Entwurf 2026-09-27, Sitzung 26, zwischen 15:17 und 15:22 Berlin (gemessen), **vo
   acc_alt = Genauigkeit nach Entfernen der alten Ziele, acc_neu = nach Entfernen der neuen (wie N29). **„Übergang robust“ je Zelle nur, wenn H1 und H2 dieser Zelle bestätigt sind.**
 - **Warum t = 12 für H2 bei lr 2e-3:** Ob die Festlegung in Schritten oder in aufsummierter Lernrate Λ tickt, ist offen (EXP-039: ***unklar***, Λ in 5/8 Zellen). Bei 12 Schritten mit doppelter Lernrate
   ist Λ ≈ 0.024 (Standard: 24 Schritte), also unter beiden Uhren im Umstiegsbereich von N29. So prüft H2_lr2, ob es den Umstieg bei doppelter Lernrate gibt, ohne auf eine der beiden Uhren zu wetten.
-- **Sekundär, ohne Urteil (Zeitverlauf):** Zelle lr2 bei t = 25 (Λ = 0.05 wie der Standard bei t = 50): D25 = acc_neu − acc_alt, Mittel und 95-%-KI. Lesart vorab: KI ganz > 0 → *passt zur Λ-Uhr*
-  (Festhalten wie beim Standard bei 50); KI ganz < 0 → *passt zur Schrittuhr* (Umstieg wie beim Standard bei 25); sonst *unklar*. Nicht in der Holm-Familie; ein Ergebnis hier ist Exploration.
+- **Sekundär, ohne Urteil (Zeitverlauf):** Zelle lr2 bei t = 25 (Λ = 0.05 wie der Standard bei t = 50): D25 = acc_neu − acc_alt, Mittel und 95-%-KI. Lesart vorab (vor Codex): KI ganz > 0 → *passt zur Λ-Uhr*
+  (Festhalten wie beim Standard bei 50); KI ganz < 0 → *passt zur Schrittuhr* (Umstieg wie beim Standard bei 25); sonst *unklar*. Nicht in der Holm-Familie; ein Ergebnis hier ist Exploration. *Nach Codex (s26):* D25 ist **kein Test der Uhren**, weil lr 2e-3 auch nach dem Wechsel gilt (schnellere Anpassung an B begünstigt den Umstieg); die Etiketten heißen deshalb neutral *Festhalten bei t = 25* / *Umstieg bei t = 25* / *unklar*. Ein Uhrentest braucht die Lernrate nur vor dem Wechsel (wie EXP-039).
 - **Stichprobe und Ausfälle:** Primär zählen **alle** Seeds, auch nicht generalisierte (wie N29, Codex s23: ein Genauigkeitsfilter wäre ergebnisabhängig). Jeder technische Ausfall (fehlt, nicht gebunden,
   Lader-Fehler, nicht endlich) → *nicht auswertbar*. Generalisierung (Basis ≥ 0.9 in allen Läufen beider Zellen) wird berichtet, die Teilmenge nur beschreibend ohne Urteil.
 - **Stichprobengröße aus der Pilotstreuung (N29):** H2-Kontrast 0.603 (SD 0.240), H1 0.903 (SD 0.124). Normalnäherung, einseitig, α = 0.05/4: bei unverändertem Effekt Power ≈ 1 schon bei n = 20;
@@ -50,3 +50,7 @@ python lab/tools/confirm_r2.py --jobs lab/confirm/R2_manifest.json > lab/confirm
 python lab/tools/parallel_queue.py lab/confirm/R2_jobs.txt --workers 10
 python lab/tools/guarded_run.py -- python lab/tools/confirm_r2.py --analyze lab/confirm/R2_manifest.json
 ```
+
+## Codex-Prüfung (Sitzung 26, `R2_codex_review_s26.txt`, vor jedem Lauf)
+
+Keine Blocker. Bestätigt: Run-IDs wie `freq_ban.py`, `lr`/`weight_decay` in der result.json geprüft, alt/neu je Richtung, Vorzeichen, Joborder, Holm über 4, Power-Zahlen. Übernommen: (1) D25-Konfundierung (oben); (2) die ergebnisabhängig ausgewählte Teilmenge der generalisierten Seeds enthält keine t-, p- oder Holm-Werte mehr; (3) `train_frac` = 0.3 wird in jeder result.json mitgeprüft. Nur vermerkt: Der Selbsttest über geladene Module erfasst per `exec_module` geladene Dateien nicht vollständig; Codex hat die Ketten von Hand verfolgt und keine Lücke in `CODE_FILES` gefunden (gleiche Einschränkung wie N29). Code danach weiter ungetestet (nur `py_compile`).

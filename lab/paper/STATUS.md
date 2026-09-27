@@ -93,3 +93,8 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 - **a:** EXP-042 (Stärke des zweiten Splits) war seit dem Mittag fertig, aber ungelesen: vorab festgelegtes Urteil *unklar*; nicht fürs Paper.
 - **d (20:16, post hoc):** Die Beschleunigung zeigt sich auch bei mul 113 und add 97 (EXP-043, je 10/10 Seeds, Komplement-Testmengen) und ist in §4 als Beobachtung ergänzt. **a/b:** Bestätigung R5 (Fassung 2 mit Code, zwei Codex-Runden, ungetestet) und Pilot EXP-084 (Kurvenform, frische Seeds) sind vorbereitet. **Für dich:** Falls R5 trägt, wäre „konstruierte Trainingsdaten beschleunigen Grokking abgestuft nach der Konzentration“ eine mögliche dritte Kernaussage. Das entscheidet sich frühestens in der Nacht 28./29.
 
+
+## Nachtrag Sitzung 32 (2026-09-27, ab 20:29, gemessen)
+
+- **Möglicher weiterer Befund fürs Paper (Programm B, bisher Exploration):** Die gespeicherten Wechsel-Blöcke zeigen, dass ein Datenwechsel bei 25 Schritten das Grokking deutlich verzögert (N28: 28/30 Seeds, ≈ ×1.4; Replikation P3: 28/30), ein Wechsel bei 50 dagegen nicht. Das passt zu K4c, wo die Wahl zwischen 25 und 50 umschlägt, und wäre eine *funktionale* Signatur der Festlegung. Bestätigung [[confirm/R6_REGISTRATION_DRAFT|R6]] (30 frische Seeds, Codex zweimal) ist vorbereitet; rechnen frühestens heute Nacht nach R1.
+- **d/e:** EXP-084 hat eine vor dem Lauf festgehaltene Vorhersage (Sättigung nach dem M0-Anteil gegen weitere Beschleunigung nach ε). AlQuabeh et al. 2025: Die Metadaten auf arXiv führen einen zusätzlichen Namenseintrag. **Für dich:** Zitierform bitte am PDF entscheiden.

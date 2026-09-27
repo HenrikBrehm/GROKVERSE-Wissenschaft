@@ -1,0 +1,54 @@
+(node:24672) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0e2b2-07df-7460-825e-9c7bff65c191).
+[codex] Turn started (01a0e2b2-1084-7f73-a3e4-db5a52ecf597).
+[codex] Assistant message captured: I’ll inspect the exact HEAD diff, surrounding trainer/config flow, the new test, and the robu...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git show --stat --...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git show --stat --... (exit 0)
+[codex] Assistant message captured: The main propagation path is present. I’m now checking the less obvious compatibility edges: ...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/experime... (exit 0)
+[codex] Assistant message captured: The override values reach the effective config, optimizer, all three learning-rate schedules,...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import numpy as...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import numpy as... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import numpy as...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@' import numpy as... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$path = Resolve-Pa...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$path = Resolve-Pa... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Item 'lab/expe...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Item 'lab/expe... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$item = Get-Item '...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$item = Get-Item '... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "confirm_spl...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "confirm_spl... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/tools/co...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/tools/co... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/tools/co...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/tools/co... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/tools/co...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$f='"'lab/tools/co... (exit 0)
+[codex] Assistant message captured: Blockers - [freq_ban.py:432](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/experi...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+Blockers
+
+- [freq_ban.py:432](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/experiments/EXP-001-freq-ban/freq_ban.py:432) — `:g` is not injective: distinct floats such as `0.0010000001` and `0.0010000002` both produce `_lr0.001`. Their fingerprints differ, so the second run fails rather than silently skips; `--force` could overwrite the first. `1e-3` versus `0.001` is correctly identical because both parse to the same float.
+
+- [confirm_splits.py:41](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_splits.py:41), [confirm_splits.py:86](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_splits.py:86), [confirm_p1.py:87](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_p1.py:87) — the planned R1 `train_frac` cells are not runnable end-to-end yet. Split generation remains hard-coded to `0.3`, and the confirmation job builder does not forward hyperparameter flags. Thus `0.2`/`0.5` trainer runs reject the generated 3831-element files, exactly as the new negative test demonstrates.
+
+Minor issues
+
+- [freq_ban.py:350](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/experiments/EXP-001-freq-ban/freq_ban.py:350) — `0 < train_frac < 1` still permits fractions that round to zero or all `p²` examples, producing an empty training or test split. This does not affect planned `0.2`/`0.5`.
+
+- [test_freq_ban_fingerprint.py:184](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tests/test_freq_ban_fingerprint.py:184) — the test can pass as written, but it does not cover a successful non-default `train_frac`, its run-id/fingerprint suffix, or the `split_seed` propagation path.
+
+Everything else checks out statically:
+
+- Defaults preserve the old config call, fingerprint, and run ID across `split_seed`, split files, switches, MLP, reset, and rewind paths.
+- Overrides reach AdamW, warmup and both LR-scale paths, split-size validation, and `make_dataset` under `split_seed`.
+- The fixture is `<i8`, shape `(3831,)`, matching `round(0.3 * 113²)`.
+- `Config.to_dict()` includes `lr`, `weight_decay`, and `train_frac`, so the test’s result assertions are valid.
+
+No tests or training were run.

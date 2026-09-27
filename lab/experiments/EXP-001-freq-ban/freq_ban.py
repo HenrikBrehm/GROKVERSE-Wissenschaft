@@ -359,6 +359,8 @@ def run(a: argparse.Namespace) -> dict:
     hp = hp_overrides(a)
     cfg = get_config("arch25k", seed=a.seed, steps=a.steps, threads=a.threads, p=a.p, task=a.task, arch=a.arch, **hp)
     p = cfg.p
+    if not 0 < int(round(cfg.train_frac * p * p)) < p * p:   # Codex s24: a fraction may not round to an empty train or test set
+        raise SystemExit(f"--train-frac {cfg.train_frac} gives an empty train or test set for p = {p}")
     exp_id = EXP_ID_BY_CONDITION.get(a.condition, EXP_ID)
     if a.split_seed is not None:     # EXP-014: data split from another seed, init from --seed
         exp_id = "EXP-014"
@@ -431,7 +433,7 @@ def run(a: argparse.Namespace) -> dict:
         run_id += f"_rw{a.rewind_at_switch}{a.rewind_from}"
     for k, tag in (("lr", "lr"), ("weight_decay", "wd"), ("train_frac", "tf")):   # rule 19a: distinct run ids for overrides
         if k in hp:
-            run_id += f"_{tag}{hp[k]:g}"
+            run_id += f"_{tag}{float(hp[k])!r}"          # Codex s24: repr is injective for floats, :g is not
     if a.log_update_norms and (a.switch_split_file is None or a.log_update_norms < 1):
         raise SystemExit("--log-update-norms needs --switch-split-file and N >= 1")
     if a.split_value:                # EXP-023: position 1 gets its own attention value matrix

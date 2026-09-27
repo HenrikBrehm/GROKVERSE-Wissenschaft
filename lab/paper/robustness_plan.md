@@ -18,5 +18,8 @@ Zurück zu [[paper/STATUS]]. Entwurf Sitzung 24 (2026-09-27), **noch keine Regis
 - **Familie R2 (K4c, Persistenz/Funktion):** N29-Protokoll (Wechsel bei 25 und 50, 4000 Schritte danach, Ablationskontrast), nur die zwei Zellen, die Gutachter am ehesten fragen: lr 2e-3 und wd 0.3.
   Vorhersage aus dem Amplitudenmodell H40 (falls EXP-040 es stützt): bei doppelter Lernrate verschiebt sich der Umschlagpunkt auf etwa halbe Schrittzahl. Deshalb Wechselzeiten je Zelle skaliert
   (lr 2e-3: t ∈ {12, 25}) oder fest (t ∈ {25, 50}); Entscheidung nach EXP-040. n = 20 je Zelle (wie N29), Holm über die Familie.
+- **Stand Trainer (Sitzung 24):** `--lr`, `--weight-decay`, `--train-frac` eingebaut (Fingerabdruck/Run-ID nur bei Angabe, Run-ID mit exakter `repr`-Zahl), Codex-Prüfung
+  `codex_review_hp_s24.txt`: zwei Blocker übernommen (nicht injektive Zahlformatierung; leere Splits). **Noch offen:** `confirm_splits` erzeugt Splits fest mit 0.3 und `confirm_p1` reicht keine
+  Hyperparameter an die Jobzeilen weiter → für die train_frac-Zellen Split-Konstruktion und Job-Erzeugung erweitern (eigenes Werkzeug `confirm_r1.py`), dann erneut Codex.
 - **Seeds:** neuer Block, z. B. 2400–2599 (vor jeder Nutzung in FINDINGS_DETAILS reservieren).
 - **Reihenfolge:** Trainer-Optionen + Tests + Codex → R1 registrieren → Nacht 28./29.09. → R2 nach EXP-040.

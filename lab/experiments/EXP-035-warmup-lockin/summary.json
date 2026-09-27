@@ -21,9 +21,266 @@
     "reason": null
    },
    "wu": {
+    "valid": true,
+    "d": {
+     "0.0": -3,
+     "10.0": -3,
+     "25.0": -3,
+     "50.0": -3,
+     "100.0": 1,
+     "150.0": 3,
+     "250.0": 3,
+     "inf": 3
+    },
+    "lo": 50.0,
+    "hi": 100.0,
+    "monotone": true,
+    "gen_F": 975,
+    "reason": null
+   },
+   "d_h_secondary": {
+    "base": {
+     "0.0": -5,
+     "10.0": -5,
+     "25.0": -1,
+     "50.0": 1,
+     "150.0": 5,
+     "400.0": 5,
+     "1000.0": 5,
+     "inf": 5
+    },
+    "wu": {
+     "0.0": -5,
+     "10.0": -5,
+     "25.0": -5,
+     "50.0": -4,
+     "100.0": 0,
+     "150.0": 5,
+     "250.0": 5,
+     "inf": 4
+    }
+   },
+   "class": "delayed",
+   "lambda_interval_wu": [
+    6.375,
+    25.25
+   ],
+   "lambda_interval_base": [
+    25.0,
+    50.0
+   ],
+   "displacement_at_switch": {
+    "10": {
+     "all": 0.11956057989072531,
+     "W_E": 0.03276531398296356
+    },
+    "25": {
+     "all": 0.6370656593843008,
+     "W_E": 0.18573327362537384
+    },
+    "50": {
+     "all": 2.081161511609413,
+     "W_E": 0.6897887587547302
+    },
+    "100": {
+     "all": 9.384999349107094,
+     "W_E": 2.8403472900390625
+    },
+    "150": {
+     "all": 19.257605563554982,
+     "W_E": 5.504247665405273
+    },
+    "250": {
+     "all": 34.515417409214734,
+     "W_E": 10.125990867614746
+    }
+   },
+   "evaluable": true
+  },
+  {
+   "seed": 31,
+   "base": {
+    "valid": true,
+    "d": {
+     "0.0": -2,
+     "10.0": -2,
+     "25.0": 0,
+     "50.0": 3,
+     "150.0": 3,
+     "400.0": 3,
+     "1000.0": 3,
+     "inf": 3
+    },
+    "lo": 25.0,
+    "hi": 50.0,
+    "monotone": true,
+    "gen_F": 625,
+    "reason": null
+   },
+   "wu": {
+    "valid": true,
+    "d": {
+     "0.0": -2,
+     "10.0": -2,
+     "25.0": -2,
+     "50.0": -2,
+     "100.0": 0,
+     "150.0": 3,
+     "250.0": 3,
+     "inf": 3
+    },
+    "lo": 100.0,
+    "hi": 150.0,
+    "monotone": true,
+    "gen_F": 650,
+    "reason": null
+   },
+   "d_h_secondary": {
+    "base": {
+     "0.0": -4,
+     "10.0": -2,
+     "25.0": 0,
+     "50.0": 4,
+     "150.0": 5,
+     "400.0": 5,
+     "1000.0": 5,
+     "inf": 5
+    },
+    "wu": {
+     "0.0": -4,
+     "10.0": -3,
+     "25.0": -3,
+     "50.0": -2,
+     "100.0": 1,
+     "150.0": 5,
+     "250.0": 5,
+     "inf": 5
+    }
+   },
+   "class": "delayed",
+   "lambda_interval_wu": [
+    25.25,
+    56.625
+   ],
+   "lambda_interval_base": [
+    25.0,
+    50.0
+   ],
+   "displacement_at_switch": {
+    "10": {
+     "all": 0.12144277363566518,
+     "W_E": 0.03283514454960823
+    },
+    "25": {
+     "all": 0.6588431063292708,
+     "W_E": 0.18691639602184296
+    },
+    "50": {
+     "all": 2.177935194369964,
+     "W_E": 0.6961694359779358
+    },
+    "100": {
+     "all": 9.473603757092738,
+     "W_E": 2.850672960281372
+    },
+    "150": {
+     "all": 19.38569584303323,
+     "W_E": 5.537277698516846
+    },
+    "250": {
+     "all": 33.10486073703624,
+     "W_E": 9.52689266204834
+    }
+   },
+   "evaluable": true
+  },
+  {
+   "seed": 32,
+   "base": {
+    "valid": true,
+    "d": {
+     "0.0": -4,
+     "10.0": -4,
+     "25.0": -3,
+     "50.0": 3,
+     "150.0": 3,
+     "400.0": 3,
+     "1000.0": 3,
+     "inf": 3
+    },
+    "lo": 25.0,
+    "hi": 50.0,
+    "monotone": true,
+    "gen_F": 1225,
+    "reason": null
+   },
+   "wu": {
+    "valid": true,
+    "d": {
+     "0.0": -4,
+     "10.0": -4,
+     "25.0": -4,
+     "50.0": -4,
+     "100.0": -1,
+     "150.0": 3,
+     "250.0": 4,
+     "inf": 3
+    },
+    "lo": 100.0,
+    "hi": 150.0,
+    "monotone": false,
+    "gen_F": 1300,
+    "reason": null
+   },
+   "d_h_secondary": {
+    "base": {
+     "0.0": -4,
+     "10.0": -3,
+     "25.0": -3,
+     "50.0": 3,
+     "150.0": 4,
+     "400.0": 4,
+     "1000.0": 4,
+     "inf": 4
+    },
+    "wu": {
+     "0.0": -4,
+     "10.0": -4,
+     "25.0": -4,
+     "50.0": -3,
+     "100.0": -1,
+     "150.0": 4,
+     "250.0": 5,
+     "inf": 4
+    }
+   },
+   "evaluable": false,
+   "why": "non-monotone d(t)"
+  },
+  {
+   "seed": 33,
+   "base": {
+    "valid": true,
+    "d": {
+     "0.0": -4,
+     "10.0": -5,
+     "25.0": -5,
+     "50.0": 2,
+     "150.0": 3,
+     "400.0": 3,
+     "1000.0": 3,
+     "inf": 3
+    },
+    "lo": 25.0,
+    "hi": 50.0,
+    "monotone": false,
+    "gen_F": 1325,
+    "reason": null
+   },
+   "wu": {
     "valid": false,
     "d": {
-     "0.0": -3
+     "0.0": -4
     },
     "lo": null,
     "hi": null,
@@ -31,74 +288,20 @@
     "gen_F": null,
     "reason": "t=10.0: missing"
    },
-   "evaluable": false,
-   "why": "invalid run set"
-  },
-  {
-   "seed": 31,
-   "base": {
-    "valid": false,
-    "d": {},
-    "lo": null,
-    "hi": null,
-    "monotone": null,
-    "gen_F": null,
-    "reason": "t=0.0: status/seed"
-   },
-   "wu": {
-    "valid": false,
-    "d": {},
-    "lo": null,
-    "hi": null,
-    "monotone": null,
-    "gen_F": null,
-    "reason": "t=0.0: status/seed"
-   },
-   "evaluable": false,
-   "why": "invalid run set"
-  },
-  {
-   "seed": 32,
-   "base": {
-    "valid": false,
-    "d": {},
-    "lo": null,
-    "hi": null,
-    "monotone": null,
-    "gen_F": null,
-    "reason": "t=0.0: missing"
-   },
-   "wu": {
-    "valid": false,
-    "d": {},
-    "lo": null,
-    "hi": null,
-    "monotone": null,
-    "gen_F": null,
-    "reason": "t=0.0: missing"
-   },
-   "evaluable": false,
-   "why": "invalid run set"
-  },
-  {
-   "seed": 33,
-   "base": {
-    "valid": false,
-    "d": {},
-    "lo": null,
-    "hi": null,
-    "monotone": null,
-    "gen_F": null,
-    "reason": "t=0.0: missing"
-   },
-   "wu": {
-    "valid": false,
-    "d": {},
-    "lo": null,
-    "hi": null,
-    "monotone": null,
-    "gen_F": null,
-    "reason": "t=0.0: missing"
+   "d_h_secondary": {
+    "base": {
+     "0.0": -4,
+     "10.0": -4,
+     "25.0": -4,
+     "50.0": 2,
+     "150.0": 4,
+     "400.0": 4,
+     "1000.0": 4,
+     "inf": 4
+    },
+    "wu": {
+     "0.0": -4
+    }
    },
    "evaluable": false,
    "why": "invalid run set"
@@ -106,27 +309,106 @@
   {
    "seed": 34,
    "base": {
-    "valid": false,
-    "d": {},
-    "lo": null,
-    "hi": null,
-    "monotone": null,
-    "gen_F": null,
-    "reason": "t=0.0: missing"
+    "valid": true,
+    "d": {
+     "0.0": -4,
+     "10.0": -3,
+     "25.0": -3,
+     "50.0": 3,
+     "150.0": 5,
+     "400.0": 5,
+     "1000.0": 5,
+     "inf": 5
+    },
+    "lo": 25.0,
+    "hi": 50.0,
+    "monotone": true,
+    "gen_F": 650,
+    "reason": null
    },
    "wu": {
-    "valid": false,
-    "d": {},
-    "lo": null,
-    "hi": null,
-    "monotone": null,
-    "gen_F": null,
-    "reason": "t=0.0: missing"
+    "valid": true,
+    "d": {
+     "0.0": -4,
+     "10.0": -3,
+     "25.0": -3,
+     "50.0": -3,
+     "100.0": -1,
+     "150.0": 5,
+     "250.0": 5,
+     "inf": 5
+    },
+    "lo": 100.0,
+    "hi": 150.0,
+    "monotone": true,
+    "gen_F": 775,
+    "reason": null
    },
-   "evaluable": false,
-   "why": "invalid run set"
+   "d_h_secondary": {
+    "base": {
+     "0.0": -4,
+     "10.0": -5,
+     "25.0": -5,
+     "50.0": 3,
+     "150.0": 5,
+     "400.0": 5,
+     "1000.0": 5,
+     "inf": 5
+    },
+    "wu": {
+     "0.0": -4,
+     "10.0": -5,
+     "25.0": -5,
+     "50.0": -5,
+     "100.0": -1,
+     "150.0": 5,
+     "250.0": 5,
+     "inf": 5
+    }
+   },
+   "class": "delayed",
+   "lambda_interval_wu": [
+    25.25,
+    56.625
+   ],
+   "lambda_interval_base": [
+    25.0,
+    50.0
+   ],
+   "displacement_at_switch": {
+    "10": {
+     "all": 0.12177805309220029,
+     "W_E": 0.0327620655298233
+    },
+    "25": {
+     "all": 0.6505236614456907,
+     "W_E": 0.1852187216281891
+    },
+    "50": {
+     "all": 2.111997646426543,
+     "W_E": 0.690266489982605
+    },
+    "100": {
+     "all": 9.466591973878268,
+     "W_E": 2.85967755317688
+    },
+    "150": {
+     "all": 19.400665116122862,
+     "W_E": 5.487061977386475
+    },
+    "250": {
+     "all": 35.63509309324975,
+     "W_E": 10.627613067626953
+    }
+   },
+   "evaluable": true
   }
  ],
- "n_evaluable": 0,
- "verdict": "nicht auswertbar"
+ "n_evaluable": 3,
+ "classes": [
+  "delayed",
+  "delayed",
+  "delayed"
+ ],
+ "verdict": "Festlegung h\u00e4ngt am Lernratenplan: Warmup verz\u00f6gert (H35-Richtung)"
 }

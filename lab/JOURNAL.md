@@ -2667,3 +2667,7 @@ EXP-052 `exp052.py`, EXP-044 `pi_persistence.py`, EXP-055 `analyze.py`, `lab/too
 
 **Runner:** Die geplante Aufgabe „GROKVERSE-Lab-Runner“ ist aktiv. Nächster Start laut `runner-state.json`: 2026-09-27 03:04:44Z = **05:04 Berlin**. Die CPU-Läufe werden um 04:29 vom Wächter beendet
 (Sitzungsdeadline). Die Folgesitzung setzt mit demselben Befehl fort.
+
+**Nachtrag 04:18 (gemessen):** Das CPU-Programm hat EXP-035 abgeschlossen (Auswertung 04:13): formales Urteil „Festlegung hängt am Lernratenplan: Warmup verzögert (H35-Richtung)“, **n_evaluable = 3**.
+**Noch nicht gedeutet und nicht in FINDINGS:** In der Folgesitzung zuerst die README-Lesart und die Mindestzahl prüfen (3 Seeds sind nach Regel 15b kein tragfähiges Urteil). Seit 04:13 läuft EXP-038.
+Die Sitzung endet mit laufenden CPU-Jobs. Der Wächter beendet sie um 04:29 (Sitzungsdeadline), die Folgesitzung setzt mit demselben Befehl fort.

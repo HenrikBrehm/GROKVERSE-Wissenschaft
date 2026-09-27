@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 01:29 Berlin (23:29Z, vom Runner)
 - **Deadline:** 2026-09-27 04:29 Berlin (02:29Z)
-- **Zuletzt aktualisiert:** 04:01 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 04:18 Berlin (gemessen)
 - **Run-Fenster:** offen seit 02:25 (Freigabe des Nutzers, 03:00-Sperre aufgehoben), bis Sitzungsende 04:29.
 
 ## Gerade
 
-Abschlussbericht geschrieben. CPU: Paket-B-Piloten laufen (3 Arbeiter) bis zur Deadline 04:29, danach setzt die naechste Sitzung fort.
+**Sitzung beendet** (04:18). CPU-Laeufe (EXP-038) laufen noch bis 04:29 und werden dann vom Waechter beendet. Naechster geplanter Start: **05:04 Berlin** (runner-state.json).
 
 ## Als Naechstes
 
@@ -18,6 +18,7 @@ Naechste Sitzung (geplant 05:04 Berlin): CPU-Programm neu starten, Trainer an de
 
 ## Verlauf dieser Sitzung
 
+- 04:13 EXP-035 (CPU) ausgewertet, nur 3 Seeds auswertbar, noch nicht gedeutet.
 - 04:01 Abschlussbericht im JOURNAL. LAB-Uebersicht korrigiert (Zeilen waren an falscher Stelle).
 - 03:55 EXP-046: die drei staerksten Irreps sind immer eigene Ziele (10/10).
 - 03:54 Codex-Nachpruefung: 1 Punkt offen (Trainer an eingefrorenen Code binden), P1 bleibt uneingefroren.

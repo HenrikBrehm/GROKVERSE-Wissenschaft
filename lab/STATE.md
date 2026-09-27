@@ -3,13 +3,13 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 22:36 Berlin (Sitzung 33 läuft; Läufe gesperrt bis Mo 28.09. 01:30, dann bis 18:00)._
+_Zuletzt aktualisiert: 2026-09-27, 22:46 Berlin (Sitzung 33 beendet; Läufe gesperrt bis Mo 28.09. 01:30, dann bis 18:00; Checkliste [[NACHT_2026-09-28]])._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
 ## Lage (Sitzungen 24–32)
 
-- **Sitzung 33 (gesperrt bis 01:30, 22:19–):** Nachtbefehle statisch geprüft: keine Laufzeitfehler, drei Hinweise eingearbeitet (Threads, P2f schon eingefroren, Init-Prüfsummen). **Neu:** Bestätigung [[confirm/R7_REGISTRATION_DRAFT|R7]] (K2 in zwei Schichten, Seeds 2900–2929, Fassung 2 nach Codex: symmetrisch, kein Tor, n aus dem EXP-078-Piloten per Regel; Code `confirm_r7.py` ungetestet). Vorab zu EXP-086: A2 zeigt bei F in erster Ordnung zum Teil *gegen* A (cos −0.52, wie B); in N28/P3 zeigt B gegen A (−0.53/−0.54, 30/30) → Paper §2 ergänzt ([[JOURNAL]] Sitzung 33).
+- **Sitzung 33 (gesperrt bis 01:30, 22:19–22:46):** Nachtbefehle statisch geprüft: keine Laufzeitfehler, drei Hinweise eingearbeitet (Threads, P2f schon eingefroren, Init-Prüfsummen). **Neu:** Bestätigung [[confirm/R7_REGISTRATION_DRAFT|R7]] (K2 in zwei Schichten, Seeds 2900–2929, Fassung 2 nach Codex: symmetrisch, kein Tor, n aus dem EXP-078-Piloten per Regel; Code `confirm_r7.py` ungetestet). Vorab zu EXP-086: A2 zeigt bei F in erster Ordnung zum Teil *gegen* A (cos −0.52, wie B); in N28/P3 zeigt B gegen A (−0.53/−0.54, 30/30) → Paper §2 ergänzt ([[JOURNAL]] Sitzung 33).
 - **Sitzung 32 (Fenster zu, 20:29–):** **Neu (Exploration, Programm B):** Ein Datenwechsel bei t = 25 verzögert das Grokking (N28 28/30, P3 28/30, N29 @25 gegen @50 20/20, feine Kurve an den Seeds 400–409 mit Spitze bei 25 und Vorzeichenwechsel, wo π ≈ 1; auch add 97 / mul 113), bei 50 nicht (N43, Paper §4, Abb. 6). Bestätigung [[confirm/R6_REGISTRATION_DRAFT|R6]] registriert (n = 30, Code `confirm_r6.py`, Codex zweimal, ungetestet). Außerdem: EXP-084 bekommt eine Vorhersage vor dem Lauf (M_share: Sättigung, log2(b32/b8) ≈ −0.14; M_eps: −0.82) und wird in der Nacht direkt nach EXP-018 gerechnet. M_share gibt die gesehenen ε-2-Gruppen wieder (±0.13 log2), verfehlt aber ε 1 und die Steigung innerhalb der Stufe ([[JOURNAL]] Sitzung 32).
 
 - **Sitzung 31 (Fenster zu, 19:29–):** EXP-042 war fertig, aber ungelesen → *unklar* (vorab festgelegt); STATE-Fehler korrigiert, EXP-042 aus dem CPU-Befehl gestrichen, `pi_window.py` neu in Schritt 3. Post hoc: Grokking-Tempo abgestuft nach Konzentration (ε 8/2/1, 4/4 Seeds) mit gleich geordnetem frühem W_E-Zielanteil → Vorschlag für R5. R4: Codex-Nachprüfung 2 ohne Blocker. **R5 Fassung 2 mit Code** (`lab/tools/confirm_r5.py`, ungetestet; zwei Codex-Runden eingearbeitet: H-ER eins zu eins, H-dose sekundär, D exakt je Ausgabe abgeglichen).

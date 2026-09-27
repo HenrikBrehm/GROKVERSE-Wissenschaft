@@ -1,23 +1,25 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 30
+# LIVE: Laborsitzung 30 (beendet)
 
 - **Sitzungsstart:** 2026-09-27 18:19 Berlin (16:19Z, vom Runner)
 - **Deadline:** 2026-09-27 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 19:14 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 19:28 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests.
 
 ## Gerade
 
-Gezielte Literatursuche: Hat schon jemand gezeigt, dass die Zusammensetzung der Trainingsmenge das Grokking so stark beschleunigt? (Agent, nur Lesen)
+**Sitzung beendet (19:28).** Nächster geplanter Start laut runner-state.json: **21:54 Berlin** (19:54Z).
 
 ## Als Nächstes
 
-Stand sichern; weitere Gutachterfragen an gespeicherten Daten.
+Ab 00:00 laut [[STATE]]; neu und zuerst auf der GPU: [[experiments/EXP-018-split-speed/README|EXP-018]] (konstruierte Splits groken ≈ 9× früher: Kontrollarm D entscheidet). Für dich: [[paper/STATUS]] (Nachtrag Sitzung 30).
 
 ## Verlauf dieser Sitzung
 
+- 19:28 Sitzung beendet; alles committet.
+- vor 19:28 R5 (Bestätigung der Beschleunigung) als Entwurf, Codex-Designprüfung (4 Blocker notiert), Simulationswerkzeug; EXP-018 in Nachtschritt 5.
 - 19:14 Gespeicherte EXP-041-Läufe: Auch mit gemeinsamer Testmenge generalisiert der konstruierte Arm in 9/10 Seeds, der zufällige in 0/10 (bis 2150 Schritte; post hoc).
 - 19:12 EXP-018 (Grokking-Beschleunigung durch konstruierte Splits) auf GPU umgestellt und in den Nachtplan aufgenommen.
 - 19:09 Exploration: Die Steuerung (Δ_pow) wächst nach dem Grokking weiter (20/20 Seeds, drei Aufgaben), getragen von den eigenen Zielen.

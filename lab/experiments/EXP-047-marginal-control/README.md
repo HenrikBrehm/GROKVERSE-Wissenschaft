@@ -100,3 +100,9 @@ Befehl: `python lab/tools/night_program.py` (Stufe EXP-047); Logs `lab/runner/lo
 - Entspricht der vorab notierten Erwartung erster Ordnung (Nachtrag a: Δ̄_shuf ≈ 0, D̄ ≈ Δ̄_eng > 0). Die Steuerung läuft über die Paarstruktur (M0), die Häufigkeiten tragen allein
   nichts Nachweisbares bei (n. s. heißt aber nicht „genau null“). Pilot mit 10 Seeds, keine unabhängige Bestätigung. Nur Z₁₁₃. Für D₅₉ (EXP-046) bleibt der Confound offen.
 - Die shuf-Modelle generalisieren bis 2000 nicht (Test-Genauigkeit ≈ 0.02–0.05, siehe EXP-051).
+
+## Nachtrag Sitzung 25 (2026-09-27, 14:57 Berlin; reine Nachrechnung, Urteil unverändert)
+
+Nachtrag a verwendete das zentrierte M0 (getrennte Pfade). Für den Transformer passt nach der Herleitung ([[paper/draft]] §5.2) das zentrierte **M0c** (gemeinsamer Pfad). Nachgerechnet
+(`centred_m0c_shared.py`, 0-basierter mittlerer Zielrang, Zufall 27.5): eng 2.0 / Zielanteil 0.191, shuf **26.2 / 0.090**. Die Erwartung „shuf steuert höchstens schwach“ bleibt; Korrektur der
+Begründung: Nicht alle Häufigkeiten fallen heraus, nur die eigene einer Zeile; die Fremd-Häufigkeiten sind hier schwach (CV 0.14), ihr Spektrum aber zielangereichert (Rang 11.6).

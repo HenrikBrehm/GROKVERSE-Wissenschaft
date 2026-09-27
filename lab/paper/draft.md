@@ -29,8 +29,8 @@ reliance far more than the tested MLP reset, and resetting its value path does s
   Our lever is the complementary one: the *set* of training pairs, full batch, one-hot tokens, predicted in advance by the mask spectrum M0 (we found no AGF-utility bridge for M0, EXP-076).
 - Lock-in: critical periods (Achille et al. 2019; Kleinman et al.), primacy bias (Nikishin et al. 2022), warm starting (Ash & Adams 2020) and, closest, grokking under non-stationarity with the
   effective learning rate as explanation (Lyle et al. 2025). Our contribution is a measured lock-in time of the frequency choice (≈ 25–50 steps) against a pair-disjoint switch and the reversal of an ablation contrast.
-  Also to cite (full-text check, session 25, [[paper/fulltext_check_2026-09-27]]): LeDoux (2026) *conjectures* a critical learning period (epochs 3–14, their §3.4/§6.2) without a switch
-  experiment; Khanh (2026, arXiv 2607.06628) uses the same kind of model (1-layer transformer, full-batch AdamW, embedding power spectrum as circuit identity) and shows that transplanting
+  Also to cite (full-text check, session 25, [[paper/fulltext_check_2026-09-27]]): LeDoux (2026) *conjectures* a critical learning period within the first few dozen epochs (fundamental frequency
+  identifiable by epoch 3, significant by epoch 14; their §3.4/§6.2) without a switch experiment; Khanh (2026, arXiv 2607.06628) uses the same kind of model (1-layer transformer, full-batch AdamW, embedding power spectrum as circuit identity) and shows that transplanting
   another run's weight *direction* overwrites a run's frequency identity — a weight-space intervention rather than a data switch; Lyle et al. (2025) run warm-start experiments only on
   CIFAR and treat modular arithmetic as stationary (their §4.2), with no frequency analysis. He et al. (2026b, arXiv 2606.02993, §6) name the analysis of the train–test split as open.
 - The functional measure (K2-function) is a validation of K2 rather than a separate contribution (frequency ablations go back to Nanda et al. 2023), and we state its limit (function follows energy).
@@ -48,8 +48,8 @@ reliance far more than the tested MLP reset, and resetting its value path does s
 representations (Chughtai et al. 2023; coset circuits in S₅/S₆: Stander et al. 2024), and which ones a network uses has been described as arbitrary (Chughtai et al. 2023). Recent theory explains the competition between frequencies by
 the initialization (He et al. 2026a), analyses irrep selection with the full group table as data and names the role of the train–test split as open (He et al. 2026b, §6), and, within
 alternating gradient flow (Kunin et al. 2025), derives the order in which irreps are learned from the Fourier statistics of the input encoding under uniform data (Marchetti et al. 2026;
-with one-hot tokens, irreps of equal dimension tie). LeDoux (2026) shows that the *order* of training examples (minibatches) sets the fundamental frequency, while random subsets do not
-change it (their §4.2.3, §5.3). Our lever is the *set* of training pairs under full-batch training with one-hot tokens, with the targets prescribed in advance through the pair mask.
+with one-hot tokens, irreps of equal dimension tie). LeDoux (2026) shows that the *order* of training examples (minibatches) sets the fundamental frequency, while, under a fixed stride ordering,
+different random subsets of training pairs gave the same frequency (their §4.2.3, §5.3). Our lever is the *set* of training pairs under full-batch training with one-hot tokens, with the targets prescribed in advance through the pair mask.
 More generally, data statistics select among redundant features (Hermann & Lampinen 2020), stage-wise learning follows data spectra in linear networks (Saxe et al. 2014), and neural
 networks fit low frequencies first in continuous input spaces (spectral bias / frequency principle; Rahaman et al. 2019; Xu et al. 2019). These do not address which discrete group
 frequencies a grokking network adopts.
@@ -162,54 +162,59 @@ the same for all pairs. The gradient on embedding row t is then
 - *separate paths* (shared-embedding MLP: a and b enter different halves of W_in, J_L and J_R independent): the cross term averages out,
   E‖ĝ_k‖² ∝ ‖P⊥ℓ̂_k‖² + ‖P⊥r̂_k‖², the *mask spectrum* M0 minus marginal terms.
 
-Here n̂_L(k) = Σ_c ℓ̂_k(c) is the DFT of how often each token occurs as a left operand (likewise n̂_R). The subtracted term is exactly the c-mean of ℓ̂_k(c) + r̂_k(c): P⊥ removes
+Here n̂_L(k) = Σ_c ℓ̂_k(c) is the DFT of how often each token occurs as a left operand (likewise n̂_R). The subtracted term is the power (p·|mean|²) of the c-mean component of ℓ̂_k(c) + r̂_k(c): P⊥ removes
 every component that does not vary along the output c. What cancels exactly is therefore a row's *own* occurrence count (its n_t u term). Token frequencies still enter through the
 *other* operand: for m(a, b) = ρ(a), ℓ̂_k(c) = ρ̂(k) is constant in c and vanishes, but r̂_k(c) = ω^{−kc} ρ̂(k)* is not, and the shared-path power is p |ρ̂(k)|² (checked numerically,
 session 25). **Prediction 1 (quantitative, not "marginals never steer"):** a control that keeps the a/b token frequencies of an engineered split but shuffles its pairs keeps only the
-marginal contribution (plus random pair noise); for the EXP-016 construction the marginals are weak (coefficient of variation 0.14; own-count share of M0 0.9 %; centred M0 of the shuffled splits at chance,
-target rank 26.0 of 56), so such a control is predicted not to steer. A split with strongly structured token frequencies would be predicted to steer towards the frequencies of ρ.
+marginal contribution (plus random pair noise); for the EXP-016 construction the marginals are no more unequal than in a random split (coefficient of variation 0.14), although their spectrum is target-enriched
+(mean target rank 11.6 vs 27.5 by chance); after centring, the first-order spectrum of the shuffled splits is at chance (shared path, recomputed in session 25: mean 0-based target rank
+26.2 vs 27.5, share 0.090 vs 0.191 for the engineered splits), so such a control is predicted to steer at most weakly. A split with strongly structured token frequencies would be predicted to steer towards the frequencies of ρ.
 **Prediction 2 (architecture contrast):** the first gradient of the transformer should follow M0c, that of the shared-embedding MLP M0.
 
 **5.3 Status of the predictions (all exploratory, known seeds).** Prediction 2 matches the measured first gradients (Spearman ρ 0.77 for M0c vs 0.57 for M0 in the transformer; 0.24 vs 0.37 in
-the MLP, 9/10 seeds), measured before the derivation was written, so it is an explanation rather than a test. Prediction 1 was stated before pilot EXP-047: a control with
-exactly matched a/b token frequencies but random pair structure did not steer (Δ 0.3, n. s.), while the pair structure did (6.8, 10/10, p = 0.001); this is a pilot on 10 seeds, not a
-confirmation. For the *final* frequencies M0c is only descriptively better than M0 in the MLP (r̄ 0.351 vs 0.323, 6/10 seeds, p ≈ 0.21).
+the MLP, 9/10 seeds), measured before the derivation was written, so it is an explanation rather than a test. The expected outcome for pilot EXP-047 (no steering by the shuffled control) was noted before its runs, but derived
+from the uncorrected argument that all token frequencies cancel; the corrected quantitative form (§5.2) was written after the result. A control with exactly matched a/b token frequencies
+but random pair structure showed no detectable steering (Δ̄ 0.3 on the top-5 overlap score, p = 0.33), while the pair structure did (D̄ 6.8, 10/10 seeds, p = 0.001); a pilot on 10 seeds,
+not a confirmation. For the *final* frequencies M0c is only descriptively better than M0 in the MLP (r̄ 0.351 vs 0.323, 6/10 seeds, p ≈ 0.21).
 
 **5.4 Limits of the first-order argument.** (i) It describes the gradient at initialization. With AdamW the first update is approximately lr · sign(g) coordinate-wise (bias-corrected
-moments give m̂/√v̂ = g/|g| at step 1), which keeps the dominant frequencies but adds harmonics; the spectrum of the *update* is therefore not exactly the one derived above. In a simulation of the first-order model (isotropic random Jacobian, d = 128, P1 construction on 10 calibration
+moments give m̂/√v̂ = g/|g| at step 1), which keeps the dominant frequencies but can spread some power to other frequencies; the spectrum of the *update* is therefore not exactly the one derived above. In a simulation of the first-order model (isotropic random Jacobian, d = 128, P1 construction on 10 calibration
 seeds × 2 arms, session 25, numpy only) the coordinate-wise sign of the gradient kept all five targets in its top five in every case (target share of the power 0.152 vs 0.191 for
-the gradient itself); this checks only the model, not the network. In the
-two-hot pilot network of EXP-033, plain gradient descent produced a persistent bias at least as strong as AdamW (signGD ≈ AdamW), so the steering is not specific to sign-like steps
-there; whether this holds for the transformer is untested. (ii) It predicts which frequencies the network starts to grow, not which survive: in the engineered splits some weak
-targets are later displaced by second harmonics 2k of other targets (EXP-016, EXP-021). (iii) The isotropy assumption on the Jacobians is not checked beyond the first-gradient
-correlations. (iv) It says nothing about why the early choice persists after a data switch (K4); the lab's amplitude model for that (H40) is tested separately (EXP-040).
+the gradient itself); this checks only the model, not the network. In a
+two-hot quadratic pilot network with an activation switch (EXP-033, exploratory), replacing AdamW by plain gradient descent in the first phase only (to matched amplitude; the second phase
+was always AdamW; one stage tested) still gave a persistent bias towards the split's targets, slightly stronger (ratio 1.26 [1.10, 1.46]); sign-GD reproduced AdamW. Whether this holds for
+the transformer is untested. (ii) It predicts which frequencies the network starts to grow, not which survive: in the engineered splits some early-weak
+targets were displaced by step 2000 by second harmonics fold(2k) of targets of the same arm (EXP-016, post hoc, 14/14 in seeds 10–15; the registered check EXP-021 has not been run). (iii) The isotropy assumption on the Jacobians is not checked beyond the first-gradient
+correlations. (iv) It says nothing about why the early choice persists after a data switch (K4); the lab's amplitude model for that (H40) is prepared as EXP-040, not yet run.
 The derivation in the simplest alternating-gradient-flow model (AGF) does *not* reduce to M0 (EXP-076, negative), so the link to AGF-type theories remains open.
 
 ## 5b Discussion (draft, session 25)
 
 **What the data choose.** Which Fourier features a grokking network uses is not only a matter of initialization: a training set with a prescribed pair structure moves the choice
-towards prescribed frequencies across three cyclic tasks and a non-abelian group. At first order this follows from how the training pairs enter the first gradient on the embedding (§5);
+towards prescribed frequencies across three cyclic tasks and a non-abelian group. A first-order argument (§5, post hoc) accounts for part of this through how the training pairs enter the first gradient on the embedding;
 the derivation also says what should *not* matter (a row's own occurrence count) and what should (the arrangement of pairs along the output classes, including the token frequencies of
-the other operand). The last point is a prediction we have not yet tested (pilot EXP-077 prepared); it would distinguish the first-order account from the reading that only
-non-marginal pair structure steers.
+the other operand). The last point is a prediction we have not yet tested (pilot EXP-077 prepared); it would test whether marginals alone can steer (against the reading that only
+non-marginal pair structure steers), without by itself isolating the first-order route.
 
-**How early and where.** The choice becomes persistent within tens of optimizer steps: after 50 steps on a first split, the final network after a switch still relies more on the old
-frequencies, after 25 steps on the new ones. Resetting the attention, and within it the value/output path, at the switch removes much of this reliance; the tested MLP reset does little.
+**How early and where.** The choice becomes persistent within tens of optimizer steps: after a switch at 50 steps, removing the old frequencies from the final network costs more than removing
+the new ones, after a switch at 25 steps the reverse (an ablation contrast that does not separate reliance from energy). Resetting the attention, and within it the value/output path, at
+the switch reverses much of this contrast; the tested MLP reset does little.
 Two cautions frame this. First, the resets show where the persistence is *sensitive*, not where it is stored: weights and optimizer state were reset together, and in the same model class
-MLP weight directions do carry frequency identity (Khanh 2026). Second, in language models the ordering within attention is reversed for restoring the ability to learn a new capability
+transplanting MLP weight directions alone appears to move frequency identity (Khanh 2026, suggestive, three pairs per task). Second, in language models the ordering within attention is reversed for restoring the ability to learn a new capability
 (query–key rather than value; Dong 2026). One reading, untested, is that the relevant path is the one the new data require to change: our switch keeps the task and the routing and changes
 only the content.
 
 **Open questions.** (i) Which state variable makes the early choice persistent? No measured quantity we tried (W_E lead, OV alignment) explains the time course better than the step count
-(EXP-060, 070, 071); an amplitude-race account is being tested (EXP-040). (ii) Do the persistence results hold beyond add 113 and this architecture (EXP-074, EXP-075 pilots)? (iii) Is the
+(EXP-060, 070, 071); an amplitude-race account is prepared (EXP-040, not yet run). (ii) Do the persistence results hold beyond add 113 and this architecture (EXP-074, EXP-075 pilots, prepared, not yet run)? (iii) Is the
 steering robust to learning rate, weight decay and training fraction (registration R1)? (iv) Can the first-order account be connected to theories of the learning order under uniform data
 (AGF; the simplest bridge failed, EXP-076)?
 
 ## 6 Limitations
 
 One architecture family and optimizer for all persistence claims (add 113 only, generalization pending: EXP-074, EXP-075); engineered splits; functional measures do not separate identity from energy;
-resets localize sensitivity, not mechanism; in the same model class (1-layer, d = 128, AdamW 1e-3/1.0, full batch; p = 59) Khanh (2026, §7, App. A) finds that swapping the weight
-*directions* of attention, MLP or unembedding each moves the frequency identity, so our weak MLP *reset* effect at a 50-step switch must not be read as "the MLP carries no frequency identity"; many design decisions were informed by pilots on known seeds (each registration lists them).
+resets localize sensitivity, not mechanism; in the same model class (one-layer transformer, d = 128, full-batch AdamW lr 1e-3, wd 1; p = 59) Khanh (2026, §7, App. A) reports suggestive
+evidence (three pairs per task) that transplanting the weight direction of attention, MLP or unembedding alone each pulls the frequency identity towards the donor, so our weak MLP *reset*
+effect at a 50-step switch must not be read as "the MLP carries no frequency identity"; many design decisions were informed by pilots on known seeds (each registration lists them).
 
 ## AI use disclosure (draft wording, to be confirmed by the user)
 

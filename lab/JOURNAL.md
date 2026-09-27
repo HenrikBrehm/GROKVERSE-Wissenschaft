@@ -3391,3 +3391,11 @@ Nicht übernommen: Sperren/atomisches Schreiben im schlanken Trainer (bewusst sc
 **Zyklus 8 (Paper: Diskussion, bis 14:51).** Abschnitt 5b im [[paper/draft]] (was die Daten wählen, wie früh und wo, offene Fragen), mit den Einschränkungen aus Khanh 2026 und Dong 2026.
 Bewusst **kein** K4-Repro-Skript heute: π mit Spurkontrollen und EXP-056-Splits wäre ein weiteres großes ungetestetes Werkzeug für eine volle Nacht; erst nach der Gleichwertigkeit.
 Unabhängiger Prüfagent (nur lesend) gleicht die neuen Abschnitte 1b, 5, 5b gegen die Quellen ab (läuft).
+
+**Zyklus 8, Fortsetzung (Zahlenprüfung der neuen Paper-Abschnitte, bis 14:57).** Unabhängiger Prüfagent (nur lesend): Mathematik in §5.2 korrekt; 12 Punkte, alle selbst an den Quellen
+nachgesehen und übernommen, u. a.: Khanh überdehnt (Autoren: „suggestive“, drei Paare; Setup von mir am Volltext belegt und jetzt in related_work vermerkt); **EXP-021 zitiert, obwohl nie
+gerechnet** (jetzt: EXP-016 post hoc 14/14, EXP-021 nicht gelaufen); EXP-033-Aussage ohne ihre Einschränkungen (nur Phase 1, Aktivierungswechsel, eine Stufe); EXP-047-Vorhersage beruhte
+auf dem unkorrigierten Argument; Δ 0.3 ist das Top-5-Maß (p = 0.33); die Randverteilungen sind nicht „schwach“, sondern zielangereichert (Rang 11.6) bei CV 0.14; post-hoc-Erklärung
+nicht als Ergebnis; „relies“ → Ablationskontrast; EXP-077 trennt die Wege nicht; LeDoux-Epochen und Bedingung (feste Stride-Reihenfolge) präzisiert; EXP-040/074/075 „vorbereitet“.
+Die vom Agenten nachgerechnete Zahl (zentriertes M0c der shuf-Splits 26.2 / 0.090) habe ich selbst nachgerechnet (gleich) und im EXP-047-README vermerkt. *Lehre (wie Sitzung 24):*
+Neue Paper-Texte immer gegen die Quellen prüfen lassen; meine Zusammenfassungen überdehnen vor allem Einschränkungen von Piloten.

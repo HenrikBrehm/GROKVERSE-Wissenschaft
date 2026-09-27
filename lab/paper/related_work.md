@@ -448,3 +448,5 @@ Von mir selbst am Abstract geprüft: Dong 2607.27281 und Khanh 2607.06628. Die E
 
 Fazit (vorläufig, Grundlage für die menschliche Prüfung): K2 weiter „nach unserer Suche nicht gefunden“; K4 bleibt, mit Khanh und LeDoux §3.4 zitiert; K4d/K4e neu formuliert und direkt gegen Dong gestellt.
 
+*Ergänzung (14:57, von mir per WebFetch am HTML-Volltext geprüft):* Khanh 2026 (2607.06628), §3: 1-Schicht-Transformer, d = 128, Full-Batch-AdamW lr 1e-3, wd 1.0, β = (0.9, 0.98),
+50 % Split, Addition und Multiplikation mod 59; §7/App. A: Richtungstausch von Attention, MLP oder Unembedding allein verschiebt die Identität jeweils (Autoren: „suggestive“, drei Paare je Aufgabe).

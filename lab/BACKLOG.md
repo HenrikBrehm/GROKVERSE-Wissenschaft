@@ -166,3 +166,11 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 - **P4** Piloten MLP/Breite/Integer bestätigen: [[confirm/P4_REGISTRATION_DRAFT|Entwurf]] mit technischer Bestandsaufnahme; `confirm_p4.py` fehlt (drei Trainer).
 - **Repro-Paket:** schlanke Skripte je Kernaussage ([[paper/repro/README]]); Lizenzfrage beim Nutzer.
 - **Literatur:** [[paper/related_work]] wartet auf menschliche Prüfung; vorrangige Punkte dort in Abschnitt 9.
+
+## Sitzung 25: P4-Code, Programm C wieder mit einer Entscheidungsfrage, Dong-Gegensatz
+
+- **P4** ([[confirm/P4_REGISTRATION_DRAFT|P4]], Regel 19b): `confirm_p4.py` geschrieben, Codex-Blocker behoben; Nacht 28./29.: Selbsttest → Manifest einfrieren → Splits → Smoke → 90 GPU-Läufe.
+- **EXP-077** (Programm C, Konkurrenzmodelle „nur Paarstruktur“ gegen „erste Ordnung inkl. Fremd-Häufigkeiten“): Pilot vorbereitet, ≈ 5 min GPU, heute Nacht nach den Queues.
+  Fällt er positiv aus: Bestätigung an frischen Seeds und Trennung der zwei Wege (Nachtrag a) als eigener Versuch.
+- **N36** (Programm B, nach EXP-074): Hält der Pfad fest, den der Wechsel verlangt (Inhalt → Wertepfad, Leitung → QK)? Gegensatz zu Dong 2026.
+- **Repro:** `repro/train.py` Gleichwertigkeit (2 Befehle) → dann `repro/k2.py` voll; weitere Skripte (K4, K4d/e) erst danach.

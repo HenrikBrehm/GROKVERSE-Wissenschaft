@@ -59,11 +59,11 @@ the confirmed results. All claims hold for one model family, one optimizer setti
 ## 1 Introduction (outline)
 
 - Grokking and Fourier circuits (Power et al. 2022; Nanda et al. 2023); which frequencies/irreps are learned is "arbitrary" per network (Chughtai et al. 2023) and has been linked to initialization
-  (He et al. 2026) and, for uniform data, to the Fourier statistics of the input encoding (Marchetti et al. 2026, AGF).
+  (He et al. 2026a) and, for uniform data, to the Fourier statistics of the input encoding (Marchetti et al. 2026, AGF).
 - Closest work (see [[paper/related_work]], to be checked by a human): LeDoux (2026, arXiv 2603.25047) shows that the *order* of training examples sets the fundamental frequency in modular
-  arithmetic; Marchetti et al. (ICML 2026) derive the irrep order from the Fourier statistics of the input *encoding* under uniform data; He et al. (2026) attribute the competition to initialization.
+  arithmetic; Marchetti et al. (ICML 2026) derive the irrep order from the Fourier statistics of the input *encoding* under uniform data; He et al. (2026a) attribute the competition to initialization.
   Our lever is the complementary one: the *set* of training pairs, full batch, one-hot tokens, predicted in advance by the mask spectrum M0 (we found no AGF-utility bridge for M0, EXP-076).
-- Lock-in: critical periods (Achille et al. 2019; Kleinman et al.), primacy bias (Nikishin et al. 2022), warm starting (Ash & Adams 2020) and, closest, grokking under non-stationarity with the
+- Lock-in: critical periods (Achille et al. 2019; Kleinman et al. 2023, 2024), primacy bias (Nikishin et al. 2022), warm starting (Ash & Adams 2020) and, closest, grokking under non-stationarity with the
   effective learning rate as explanation (Lyle et al. 2025). Our contribution is a measured lock-in time of the frequency choice (≈ 25–50 steps) against a pair-disjoint switch and the reversal of an ablation contrast.
   Also to cite (full-text check, session 25, [[paper/fulltext_check_2026-09-27]]): LeDoux (2026) *conjectures* a critical learning period within the first few dozen epochs (fundamental frequency
   identifiable by epoch 3, significant by epoch 14; their §3.4/§6.2) without a switch experiment; Khanh (2026, arXiv 2607.06628) uses the same kind of model (1-layer transformer, full-batch AdamW, embedding power spectrum as circuit identity) and shows that transplanting
@@ -90,7 +90,7 @@ More generally, data statistics select among redundant features (Hermann & Lampi
 networks fit low frequencies first in continuous input spaces (spectral bias / frequency principle; Rahaman et al. 2019; Xu et al. 2019). These do not address which discrete group
 frequencies a grokking network adopts.
 
-**Early commitment and lock-in.** Critical learning periods (Achille et al. 2019; Kleinman et al. 2023, 2024), the importance of the early phase of training (Frankle et al. 2020), the
+**Early commitment and lock-in.** Critical learning periods (Achille et al. 2019; Kleinman et al. 2023, 2024), the importance of the early phase of training (Frankle, Schwab and Morcos 2020), the
 lasting cost of warm starting (Ash & Adams 2020) and the primacy bias (Nikishin et al. 2022) all describe early training that later data cannot fully undo. Closest to our setting,
 Lyle et al. (2025) relate grokking to the overwriting of early features and explain recovery by the effective learning rate; their warm-start experiments use CIFAR and treat modular
 arithmetic as stationary, without frequency analysis, so the effective learning rate is an alternative we must address for K4. LeDoux (2026, §3.4) conjectures a critical period in

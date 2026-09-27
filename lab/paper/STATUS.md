@@ -23,6 +23,8 @@ Attention, vor allem ihres Wertepfads, hebt dieses Festhalten auf, ein MLP-Reset
 läuft ab 00:00); Persistenz außerhalb von add 113 (EXP-074/075 als Piloten ab 00:00); menschliche Prüfung der Literatur (engste Arbeiten: LeDoux 2026, Marchetti et al. 2026, Lyle et al. 2025);
 ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 
+**Nachtrag zur Kurzfassung (Sitzung 26):** Zu (1) gibt es einen engen Vorläufer auf der Kernel-Seite: Tomàs Bernal, Mallinar, Belkin 2026 (arXiv 2604.00316) zeigen, dass eine absichtlich symmetrische Trainingsmenge bestimmt, welche Gruppenstruktur ein Feature-Learning-Kernel lernt. Unser Beitrag ist damit enger zu formulieren: Auswahl *vorgegebener Fourier-Frequenzen* in *Transformern* über das Spektrum einer Paarmaske ohne eingebaute Symmetrie. Vor jeder Einreichung bitte diese Arbeit selbst lesen. Zu (3)/(4) fand die Suche nach zitierenden Arbeiten (Semantic Scholar, bis 2026-09-23) nichts Einschränkendes.
+
 ## Offen für den Nutzer (nicht vom Labor zu entscheiden)
 
 1. **Autorschaft und Rechte an der ursprünglichen GROKVERSE-Studie** (RESULTS.md, docs/, training/): Wer sind die Autoren? Darf der Trainingscode der Studie im Reproduktionspaket veröffentlicht werden, unter welcher Lizenz?

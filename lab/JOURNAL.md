@@ -3043,3 +3043,10 @@ als entlang gleich großer Kontrollmengen. (Wortlaut nach Codex korrigiert, sieh
 **Zyklus 19 (Codex prüft die P2d-Schlussfolgerung, 09:31–09:34 gemessen).** Zahlenbefund trägt. Übernommen (selbst geprüft): „P2c-Umkehrung liegt an der Dosisgeometrie“ ist nicht belegt, nur vereinbar;
 „lokal viel empfindlicher“ zu allgemein → „stärkere Margin-Reaktion unter dieser einseitigen Perturbation, dieser Dosis, diesen Kontrollen“; u_S ist amplitudengewichtet (Frequenzidentität und gelernte Norm nicht getrennt);
 Kontrollen nur aus dem P2-Pool; statistische Einheit = seedweiser Kontrast. FINDINGS: neuer Abschnitt „K2-Funktion (P2d)“ im engsten Wortlaut; EXP-065, LIVE und JOURNAL entschärft.
+
+**Nachtrag zum Abschlussbericht Sitzung 22 (09:35 Berlin, gemessen).** Nach dem Bericht von 09:13 noch zwei Zyklen: EXP-065 (Exploration: bei gleicher Schrittnorm eigene Ziele ≫ Kontrollen, 80/80) und
+**P2d bestätigt** (eingefroren c0cd65f, 20 frische Seeds, 40 gebundene Läufe, Smoke durch den Lader vor dem Block): D̄ = 0.250 [0.229, 0.270], 20/20, p = 1.6·10⁻¹⁵. Enger Wortlaut nach Codex in
+[[FINDINGS]] („K2-Funktion (P2d)“): stärkere Margin-Reaktion von W_E unter einer einseitigen Perturbation gleicher Norm, bei einer Dosis und diesen Kontrollen; die Ursache der P2c-Umkehrung ist damit nicht bestimmt.
+**Reproduktion:** `python lab/tools/guarded_run.py -- python lab/tools/confirm_p2d.py --analyze lab/confirm/P2d_manifest.json`.
+**Nächste Aktion (unverändert, ergänzt):** CPU-Programm neu starten; funktionalen Übergang (t = 25 gegen 50) bestätigen; P2d auf die anderen P1-Aufgaben übertragen.
+**Runner:** nächster Start laut `runner-state.json` 10:34 Berlin. Keine GPU-Läufe offen; das CPU-Programm läuft bis zur Deadline 09:59.

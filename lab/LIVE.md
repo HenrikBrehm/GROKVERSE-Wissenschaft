@@ -1,23 +1,25 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 22
+# LIVE: Laborsitzung 22 (beendet)
 
 - **Sitzungsstart:** 2026-09-27 06:59 Berlin (04:59Z, vom Runner)
 - **Deadline:** 2026-09-27 09:59 Berlin (07:59Z)
-- **Zuletzt aktualisiert:** 09:31 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 09:35 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-Codex prueft die P2d-Schlussfolgerung; danach FINDINGS und Abschluss (Sitzungsende gegen 09:50).
+**Sitzung beendet** (09:35). Das CPU-Programm laeuft bis 09:59 und wird dann vom Waechter beendet. Naechster geplanter Start: **10:34 Berlin** (runner-state.json).
 
 ## Als Naechstes
 
-Den funktionalen Uebergang (frueh umsteigen, ab 50 Schritten festhalten) an frischen Seeds sauber bestaetigen; danach ein besseres Mass fuer die Funktionsfrage (P2d).
+Den funktionalen Uebergang (frueh umsteigen, ab 50 Schritten festhalten) an frischen Seeds bestaetigen; P2d auf andere Aufgaben uebertragen.
 
 ## Verlauf dieser Sitzung
 
+- 09:35 Sitzung beendet; Nachtrag zum Abschlussbericht im JOURNAL.
+- 09:34 Codex: P2d-Aussage enger gefasst (nur diese Perturbation, ein Mass); in FINDINGS eingetragen.
 - 09:30 **P2d BESTAETIGT (20/20 frische Seeds):** Mit gleich grossen Schritten reagiert das Netz entlang der gesteuerten Frequenzen viel staerker als bei Kontrollfrequenzen. Das ist ein eng umrissener Befund (eine Dosis, nur W_E), keine allgemeine Antwort auf die Funktionsfrage.
 - 09:15 **EXP-065 (Exploration):** Mit gleich grossen Schritten reagiert das Netz entlang der gesteuerten Frequenzen viel staerker als bei Kontrollen (80/80 Modelle). Die P2c-Umkehrung lag wohl am Mass.
 - 09:13 Abschlussbericht im JOURNAL, STATE fuer die naechste Sitzung.

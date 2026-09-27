@@ -1,13 +1,13 @@
 ---
 id: EXP-049
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/positiv]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experiments/EXP-045-mlp-steering/README|EXP-045]]", "[[experiments/EXP-027-width-selection/README|EXP-027]]", "[[experiments/EXP-048-intadd-steering/README|EXP-048]]"]
 ---
 # EXP-049: Hält die Datensteuerung (K2) in einem 4× breiteren Transformer?
 
-**Status:** vorbereitet, **nicht ausgeführt, ungetestet** (Sitzung 13, 2026-09-26, außerhalb des Fensters).
+**Status:** abgeschlossen 2026-09-27 (Sitzung 20, GPU), Ergebnis unten. Ursprünglich: vorbereitet, nicht ausgeführt, ungetestet (Sitzung 13, 2026-09-26, außerhalb des Fensters).
 Festgelegt vor jedem Lauf. Zurück zu [[LAB]] · [[FINDINGS]].
 
 ## Bezug zu [[FINDINGS]]
@@ -62,3 +62,13 @@ Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lau
 
 **Art:** Pilot/Exploration für Paket A. Bestätigung nur im reservierten Block (Seeds 1000–1099, [[FINDINGS]] „Programm“) nach eingefrorenem Analysemanifest.
 **Gesehen:** EXP-016-Kalibrierung von Δ_pow gesehen; Splits der Seeds 170–179 offline (Ziele = M0-Top-5). Keine Läufe mit d_model 512 gesehen.
+
+## Ergebnis (Sitzung 20, 2026-09-27, Läufe 03:13–03:22 Berlin, GPU nach bestandenem GPU-001)
+
+Befehl: `python lab/tools/night_program.py` (Stufe EXP-049); Logs `lab/runner/logs/night_20260927T005025_010314Z/EXP-049_*`, Zahlen `summary.json`. 40 Läufe, device cuda, Commits b9107dc/5e4dcae (dazwischen nur EXP-055-Code und Dokumente, Trainer unverändert).
+
+- **Primär (d = 512): Δ̄_pow 7.82, 10/10 positiv, p 0.00098 → *steuerbar*.**
+- Sekundär: d = 128 (GPU-Replikation von EXP-016 an frischen Seeds 170–179): Δ̄_pow 8.66, 10/10, p 0.00098 (EXP-016: 8.4). Gepaarte Differenz 512 − 128: −0.83
+  (beschreibender Vorzeichentest p 0.003, also etwas kleiner bei 512, wie vorab erwartet. Die Einschränkung aus der Prüfung wirkte eher dagegen). Top-5-Δ 8.1 (128) / 9.3 (512).
+  Effektive Frequenzzahl 8.1 / 10.9. Test-Genauigkeit 1.00 / 1.00.
+- *Lesart:* K2 ist keine Eigenheit knapper Modelle. Das 4× breitere Netz nutzt etwas mehr Frequenzen, wird aber genauso stark gesteuert. Pilot, keine Bestätigung. Nur Breite, keine Tiefe.

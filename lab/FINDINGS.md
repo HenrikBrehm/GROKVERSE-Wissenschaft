@@ -7,9 +7,29 @@ verwandt: ["[[LAB]]", "[[BEFUND-split-mechanismus]]", "[[BEFUND-festlegung]]", "
 ---
 # FINDINGS: Kernaussagen des Labors (eine Seite)
 
-Zurück zu [[LAB]]. Nachtrag Sitzung 14: nur Vorbereitung und Nachrechnung gespeicherter Läufe, keine neuen Läufe, Kernaussagen unverändert. Stand 2026-09-26, Sitzung 13 (nach 48 angelegten Versuchen; Kernaussagen seit Sitzung 11 unverändert, keine neuen Läufe). „Neu“ heißt immer: nach unserer Suche vom
+Zurück zu [[LAB]]. **Nachtrag Sitzung 20: Pilotnacht mit neuen Läufen, siehe Abschnitt unten.** Nachtrag Sitzung 14: nur Vorbereitung und Nachrechnung gespeicherter Läufe, keine neuen Läufe, Kernaussagen unverändert. Stand 2026-09-26, Sitzung 13 (nach 48 angelegten Versuchen; Kernaussagen seit Sitzung 11 unverändert, keine neuen Läufe). „Neu“ heißt immer: nach unserer Suche vom
 2026-09-26 nicht gefunden, vorläufig. **Alle Aussagen gelten bisher nur für eine Aufgabe (Addition mod 113) und im Kern eine
 Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelheiten: [[BEFUND-split-mechanismus]], [[BEFUND-festlegung]].
+
+## Pilotnacht 27.09. (Sitzung 20, Stand 03:23 Berlin): K2 hält außerhalb von Addition mod 113
+
+Alle Urteile vorab festgelegt, GPU nach bestandenem [[experiments/GPU-001-equivalence/README|GPU-001]] (gleichwertig zur CPU, ≈ 17× schneller). **Alles Piloten**, keine unabhängige Bestätigung.
+
+| Fall | Versuch | Δ̄ (Maß) | n positiv | p | Urteil |
+|---|---|---|---|---|---|
+| Addition mod 97 | [[experiments/EXP-043-generalize-steering/README\|EXP-043]] | 7.7 (Top-5-Δ) | 10/10 | 0.001 (Holm) | *steuerbar* |
+| Multiplikation mod 113 (≈ Z₁₁₂ + Null) | EXP-043 | 7.7 | 10/10 | 0.001 (Holm) | *steuerbar* |
+| Diedergruppe D₅₉ (nicht-abelsch, Irreps) | [[experiments/EXP-046-dihedral-steering/README\|EXP-046]] | 9.6 | 10/10 | 0.001 | *steuerbar* |
+| a + b ohne mod | [[experiments/EXP-048-intadd-steering/README\|EXP-048]] | 2.2 (Δ_pow, trendbereinigt) | 10/10 | 0.001 | *steuerbar* |
+| 4× breiter (d = 512) | [[experiments/EXP-049-width-steering/README\|EXP-049]] | 7.8 (Δ_pow); d = 128: 8.7 | 10/10 | 0.001 | *steuerbar* |
+| Mechanismus: Häufigkeiten gegen Paarstruktur (Z₁₁₃) | [[experiments/EXP-047-marginal-control/README\|EXP-047]] | Häufigkeiten 0.3 (n. s.); Paarstruktur 6.8 | 10/10 | 0.001 | *Paarstruktur trägt* |
+| Funktion (P2) | [[experiments/EXP-051-functional-ablation/README\|EXP-051]], [[experiments/EXP-055-ablation-dose/README\|EXP-055]] | Genauigkeit am Boden; ΔL primär n. s., Teildosen 10/10 (post hoc) | – | – | *unklar* |
+
+**Lesart nach [[LESART-nacht-2026-09-27]] Regel 2:** Drei echt andere Aufgaben sind *steuerbar*, gefordert waren zwei. **K2 gilt damit über die gezeigten Aufgaben hinweg** (Pilotstufe):
+anderer Primmodulus, zusammengesetzter Modulus, nicht-abelsche Gruppe, nicht-modulare Addition, 4× Breite. Grenze 4 (Mechanismus) ist für Z₁₁₃ zugunsten der Paarstruktur (M0) entschieden,
+wie die Theorie erster Ordnung vorab vorhersagte. Offen bleiben: Bestätigung an frischen Seeds und Splits (P1), funktionale Nutzung je Energieeinheit (P2; Test-Loss bei Teildosis,
+BACKLOG), Persistenz (K4) in den neuen Aufgaben (EXP-044), andere Architektur (EXP-045 MLP), Häufigkeiten gegen Paarstruktur in D₅₉ und int-add.
+Nebenbefund (post hoc, [[NOVEL_DIRECTIONS]] Nachprüfung s20): Die gepflanzte Wahl klingt nach dem Grokking bis Schritt 2000 nicht ab. Das ist der Unterschied zu Zhou et al. 2024, der nächsten bekannten Vorarbeit.
 
 ## Programm (Regel 18c, festgelegt 2026-09-26 20:45 Berlin; Planungsgrundlage für alle neuen Versuche)
 
@@ -76,7 +96,7 @@ Breitenabhängigkeit der Split-Auswahl verworfen ([[experiments/EXP-027-width-se
 
 ## Größte offene Frage
 
-**Verallgemeinern K2 (Steuerung über die Daten) und K4 (frühe Festlegung) über Addition mod 113 hinaus?** Nächster Test:
+*Stand Sitzung 20: für K2 im Pilot beantwortet (ja, siehe „Pilotnacht“ oben). Neue größte offene Frage: Hält K2 im vorab eingefrorenen Bestätigungsblock, und gilt K4 in den neuen Aufgaben?* **Verallgemeinern K2 (Steuerung über die Daten) und K4 (frühe Festlegung) über Addition mod 113 hinaus?** Nächster Test:
 [[experiments/EXP-043-generalize-steering/README|EXP-043]] (Modulus 97 und Multiplikation mod 113, GPU, 10 Seeds je Aufgabe;
 Multiplikation ist nach Umbenennung der Token fast exakt Addition mod 112, also vor allem ein Test eines *zusammengesetzten*
 Modulus), [[experiments/EXP-044-generalize-lockin/README|EXP-044]] (K4 dort, bei ≈ 62 % neuen Paaren) und

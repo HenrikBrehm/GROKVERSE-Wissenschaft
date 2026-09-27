@@ -104,8 +104,11 @@ def check_manifest(manifest: Path, man: dict) -> None:
 def check_registered(man: dict) -> None:
     """Codex review s21: the manifest must be exactly the registered design."""
     for k, v in REGISTERED.items():
-        if man.get(k) != v:
-            raise SystemExit(f"P3 manifest field {k!r} differs from the registration: {man.get(k)!r} != {v!r}")
+        got = man.get(k)
+        same_types = (type(got) is type(v) and (not isinstance(v, list) or
+                      (len(got) == len(v) and all(type(x) is type(y) for x, y in zip(got, v)))))
+        if got != v or not same_types:            # Codex recheck s21: type-strict (1050.0, 0, True must not pass)
+            raise SystemExit(f"P3 manifest field {k!r} differs from the registration: {got!r} != {v!r}")
 
 
 # ---------------------------------------------------------------- splits and jobs
@@ -251,6 +254,9 @@ def run_bound(manifest: Path, cmd: list[str]) -> int:
         if done:
             print(f"[confirm_p3] {d.name}: completed but not bound; refused", file=sys.stderr, flush=True)
             return 4
+    if (d / "run.lock").exists():                         # Codex recheck s21: a (possibly live) trainer holds this run id
+        print(f"[confirm_p3] {d.name}: run.lock present (live or crashed trainer); refused, check by hand", file=sys.stderr, flush=True)
+        return 4
     if d.exists():                                        # Codex review s21: never bind on top of leftovers, run in a clean dir
         aside = d.with_name(f"{d.name}.stale_{time.time_ns()}")
         d.rename(aside)
@@ -321,11 +327,15 @@ def level_row(man: dict, s: int, om: float) -> dict:
     gp = lambda W: a43().group_power(W, "add", 113)[0]   # noqa: E731
     L = {"A": logratio(gp(sn["A"][BUDGET]), F, G), "B": logratio(gp(sn["B"][BUDGET]), F, G),
          "AB": logratio(gp(sn["AB"][T_SWITCH + BUDGET]), F, G), "BA": logratio(gp(sn["BA"][T_SWITCH + BUDGET]), F, G)}
+    if not all(np.isfinite(v) for v in L.values()):
+        return {"valid": False, "reason": "non-finite L", "L": L}
     if not L["A"] - L["B"] >= MIN_SEP:
         return {"valid": False, "reason": f"L(A) - L(B) < {MIN_SEP}", "L": L}
     tr = lambda c: pi_pair(L, logratio(gp(sn["B"][BUDGET] + c * (sn["AB"][T_SWITCH] - sn["AB"][0])), F, G),   # noqa: E731
                            logratio(gp(sn["A"][BUDGET] + c * (sn["BA"][T_SWITCH] - sn["BA"][0])), F, G))
     grid = {str(c): tr(c) for c in C_GRID}
+    if not all(np.isfinite(v) for v in grid.values()):
+        return {"valid": False, "reason": "non-finite trace", "L": L}
     return {"valid": True, "L": L, "pi": pi_pair(L, L["AB"], L["BA"]), "pi_trace_max": max(grid.values()),
             "pi_trace_c1": grid["1.0"], "pi_trace_decay": tr(C_DECAY), "pi_trace_grid": grid}
 
@@ -373,6 +383,12 @@ def selftest() -> None:
     except SystemExit:
         pass
     check_registered({**man, "seeds": list(range(1050, 1080))})
+    for bad in ({"seeds": [float(x) for x in range(1050, 1080)]}, {"omegas": [0, 0.4]}, {"threads": True}):
+        try:
+            check_registered({**man, "seeds": list(range(1050, 1080)), **bad})
+            raise AssertionError(f"type-sloppy manifest accepted: {bad}")
+        except SystemExit:
+            pass
     assert C_GRID[0] == 0.0 and C_GRID[-1] == 1.0 and len(C_GRID) == 21
     tj = trainer_jobs(man)
     assert len(tj) == 8 and all("p3_raw" in j and "\\" not in j for j in tj)
@@ -431,6 +447,10 @@ def selftest() -> None:
                 assert run_bound(mf, redo) == 0 and list(RAW.glob(left.name + ".stale_*"))
                 _BOUND.clear()
                 assert unbound(m2, left) is None
+                locked = run_dir(shlex.split(tj[5]))                            # run.lock present -> refused, nothing renamed
+                locked.mkdir(parents=True)
+                (locked / "run.lock").write_text("{}")
+                assert run_bound(mf, [sys.executable, "-c", "pass"] + shlex.split(tj[5])[2:]) == 4 and locked.exists()
             finally:
                 g["check_manifest"], g["check_code"], g["check_job"] = gates
     finally:

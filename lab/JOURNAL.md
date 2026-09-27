@@ -3184,5 +3184,4 @@ Block 12:00–12:25, 120/120 gebunden. ***H1 und H2 bestätigt:*** Wertepfad-Res
 (17/20 über 0.3). R: normal 0.81, rsqk 0.72, rsvo −0.04 (beide Mengen genutzt). Die Pilotbeobachtung aus EXP-069 hält an frischen Seeds. Codex-Prüfung der Schlussfolgerung läuft beim Sitzungsende;
 FINDINGS-Eintrag „K4e“ erst danach (nächste Sitzung).
 
-**Nachtrag zum Abschlussbericht (12:26):** zusätzlich **N29c bestätigt** (3c9cb63): Den Reset-Effekt der Attention trägt vor allem der Wertepfad (W_V, W_O), nicht das Muster (W_Q, W_K). Nächste Aktion
-geändert: Codex-Ergebnis zu N29c einarbeiten, K4e in FINDINGS; dann D₅₉ (P2f) und die Zeitfrage (warum 25–50?).
+**Nachtrag zum Abschlussbericht (12:26):** zusätzlich **N29c bestätigt** (3c9cb63): Den Reset-Effekt der Attention trägt vor allem der Wertepfad (W_V, W_O), nicht das Muster (W_Q, W_K). Codex prüfte die Schlussfolgerung noch (12:27, kein Blocker); K4e im engen Wortlaut in FINDINGS. Nächste Aktion: D₅₉ (P2f) und die Zeitfrage (warum 25–50?).

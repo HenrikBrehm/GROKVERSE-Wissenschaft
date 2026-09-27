@@ -19,8 +19,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 
 ## Aktive Queue / laufende Jobs
 
-- **GPU:** frei. **N29c bestätigt** (3c9cb63, 12:25): Wertepfad-Reset 0.85 gegen normal, 0.75 gegen Muster-Reset. **Offen:** Codex-Ergebnis `lab/runner/logs/codex_n29c_conclusion.txt` lesen,
-  engen Wortlaut als „K4e“ in FINDINGS (Kurzfassung + Abschnitt), LAB-Zeile nachziehen.
+- **GPU:** frei. **N29c bestätigt** (3c9cb63, 12:25): Wertepfad-Reset 0.85 gegen normal, 0.75 gegen Muster-Reset. Codex-Prüfung (12:27) eingearbeitet: FINDINGS „K4e“.
 - **CPU:** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-036,EXP-039,EXP-040,EXP-042,EXP-014` (EXP-036/039 fertig, EXP-040 am Selbsttest gescheitert und inzwischen repariert,
   EXP-042 lief ab 10:59). Wiederaufnahme im Fenster: derselbe Befehl, EXP-040 zusätzlich einzeln (`--experiments EXP-040`).
 

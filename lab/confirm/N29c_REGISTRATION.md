@@ -49,4 +49,4 @@ gebundene Läufe bleiben gültig, derselbe Queue-Befehl setzt im nächsten Fenst
 | **H2** R(rsqk) − R(rsvo) | **0.752** | [0.596, 0.897] | 17/20 über 0.3 | 2·10⁻⁵ |
 
 Mittelwerte R: normal **0.81**, rsqk **0.72**, rsvo **−0.04** (beschreibend: nach dem Wertepfad-Reset ist das Netz etwa gleich stark auf alte und neue Frequenzen angewiesen, wie im Piloten).
-Codex-Prüfung der Schlussfolgerung beim Sitzungsende gestartet; Ergebnis in `lab/runner/logs/codex_n29c_conclusion.txt` (nächste Sitzung einarbeiten).
+Codex-Prüfung der Schlussfolgerung (Ergebnis 12:27): kein Blocker; enger Wortlaut übernommen als „K4e“ in [[FINDINGS]] (Reset-Empfindlichkeit, kein Speicherort, nur nach Parameterzahl angeglichen).

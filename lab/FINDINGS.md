@@ -20,7 +20,17 @@ Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelhe
 | **K4 / K4b** | Schon 25 Schritte auf dem ersten Split prägen das Endspektrum nach einem Wechsel; ein gelöschtes Adam-Momentum wirkt wie weniger Vorschritte | P3, N28 | bestätigt |
 | **K4c** | Wechsel nach 25 Schritten: Endmodell auf die neuen Frequenzen angewiesen; nach 50: auf die alten | N29 | bestätigt (Ablationskontrast) |
 | **K4d** | Ein Reset der Attention (Gewichte + AdamW-Zustand) beim Wechsel nach 50 Schritten senkt diesen Kontrast stark, stärker als der geprüfte MLP-Reset; beschreibend danach auf die neuen angewiesen | N29b | bestätigt (Reset-Empfindlichkeit, kein Speicherort) |
-| **Offen** | *Was* in der Attention hält die frühe Wahl fest? Pilot: vor allem der Wertepfad W_V/W_O (EXP-069), aber ohne Sprung der OV-Ausrichtung im Fenster 25–50 (EXP-070). Gilt K2-Funktion bei D₅₉? Hängt die Festlegungszeit an der aufsummierten Lernrate (EXP-039 unklar)? | EXP-069, EXP-070, BACKLOG | laufend |
+| **K4e** | Der Reset des Wertepfads (W_V, W_O) wirkt stärker als der gleich große Reset des Musters (W_Q, W_K); danach beide Mengen genutzt | N29c | bestätigt (Reset-Empfindlichkeit) |
+| **Offen** | *Warum* entsteht die Festlegung gerade zwischen 25 und 50 Schritten, wenn die OV-Ausrichtung gleichmäßig steigt (EXP-070)? Gilt K2-Funktion bei D₅₉? Hängt die Festlegungszeit an der aufsummierten Lernrate (EXP-039 unklar)? | EXP-069, EXP-070, BACKLOG | laufend |
+
+## BESTÄTIGT (Sitzung 23, 27.09., 12:25 Berlin; Wortlaut nach Codex 12:27): N29c, Wertepfad-Reset stärker als Muster-Reset #befund/positiv
+
+**Kernaussage K4e** (Wortlaut nach Codex-Prüfung der Schlussfolgerung): *Bei Addition mod 113 im Protokoll „50 Schritte auf A, Wechsel auf paar-disjunktes B, 4000 weitere Schritte“ senkte das Zurücksetzen von
+W_V und W_O auf die Init zusammen mit dem Löschen ihres AdamW-Zustands den registrierten W_E-Ablationskontrast gegenüber keinem Reset um 0.850 [0.685, 0.998] und gegenüber dem gleich großen Reset von W_Q
+und W_K um 0.752 [0.596, 0.897] (20 gepaarte Seeds; Holm-p 2.1·10⁻⁴ bzw. 1.9·10⁻⁵; 17/20 generalisiert). Das zeigt stärkere Reset-Empfindlichkeit für diesen VO-Eingriff als für den geprüften QK-Eingriff,
+nicht einen Speicherort oder dass der Wertepfad mechanistisch „mehr trägt“: Gewichte und Optimiererzustand wurden gemeinsam zurückgesetzt, und die Eingriffe sind nur nach Parameterzahl, nicht nach
+funktioneller Störung oder Trainingsdynamik angeglichen.* Beschreibend: R nach VO-Reset −0.04 (beide Mengen genutzt), nach QK-Reset 0.72, normal 0.81.
+Belege: [[confirm/N29c_REGISTRATION|Registrierung + Ergebnis]], Manifest 3c9cb63, 120 gebundene Läufe; Pilot [[experiments/EXP-069-attention-part/README|EXP-069]]. Zeitliche Erklärung offen ([[experiments/EXP-070-ov-alignment/README|EXP-070]]).
 
 ## BESTÄTIGT (Sitzung 23, 27.09., 11:31 Berlin; Wortlaut nach Codex 11:53): N29b, Reset der Attention beim Wechsel senkt den Ablationskontrast #befund/positiv
 

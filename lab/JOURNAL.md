@@ -3210,3 +3210,21 @@ Schwelle, pi steigt glatt mit der Zahl der A-Schritte; keine gemessene Zustandsg
 4.7/5 bei Schritt 2000, 3.7/5 am Ende (Zufall 0.86). Nachtrag a (post hoc): Irrep-Form des P2d-Masses D = 0.223 ± 0.024, 5/5 positiv; die eigenen Irreps tragen 0.90-0.99 der W_E-Energie
 (Seed 1000 F: 98.9 % in drei eigenen Irreps; die Plaetze 4-5 der Top-5 sind Rauschen, erst fuer einen Fehler gehalten und nachgeprueft). Entscheidung: P2f registrieren
 (12000 Schritte, 20 frische Seeds, Codex vor dem Einfrieren), im naechsten Fenster rechnen.
+
+**Fensterende:** Das CPU-Programm wurde um 12:54 vom Wächter gestoppt (Exit 3, erwartet; EXP-042 teilweise weiter, EXP-040/014 nicht gestartet). Keine Läufe nach 12:58.
+
+**Zyklus 3 (P2f vorbereitet, 12:48–12:58).** Frage: Hält K2-Funktion bei D59? `lab/tools/confirm_p2f.py` (Port von confirm_p2e auf group_train und die Irrep-Projektion), Selbsttest ok (12:50),
+Registrierung [[confirm/P2f_REGISTRATION|P2f]] (Seeds 2340–2359, Versuchs-ID 6, 12000 Schritte, n = 20). **Codex (Regel 18c):** keine Blocker; Projektion, Elementreihenfolge, Eingabeformat, Run-ID und
+Lader-Felder bestätigt. Übernommen: (1) im Pilot waren bei 12000 Schritten 9/10 Arme ≥ 0.9 (1004 F: 0.23), der Pilotwert D stammt von 20000 Schritten → offengelegt; (2) `--analyze` löscht zuerst eine alte
+Zusammenfassung; (3) Selbsttest prüft den fold(2k)-Ausschluss wirksam. Der geänderte Selbsttest konnte nicht mehr laufen (Fenster zu) → **nicht eingefroren**, Einfrieren ab 00:00.
+
+**Zyklus 4 (FINDINGS auf eine Seite, 12:59–13:00).** Regel 15a verlangte höchstens eine Seite; FINDINGS hatte 250 Zeilen. Die Abschnitte wurden wortgleich nach [[FINDINGS_DETAILS]] verschoben
+(per difflib geprüft: nur Kopf und die angehängte P2f-Reservierung neu), FINDINGS.md neu als Übersicht: Kernaussagen-Tabelle, Explorationen mit Planungsgewicht (EXP-072, EXP-071), Grenzen, Literatur,
+Programm, größte offene Frage (jetzt: was macht die Wahl fest, wenn keine gemessene Zustandsgröße den Zeitverlauf besser erklärt als die Schrittzahl?). Dabei ein Fehler von mir: `sed -i` auf die
+CRLF-Notiz FINDINGS_DETAILS (Zeilenenden wurden LF), sofort auf CRLF zurückgesetzt.
+
+**Zyklus 5 (EXP-073 vorbereitet, 13:01–13:15).** Frage: Welcher Netzteil ist für die Zeitabhängigkeit der Festlegung empfindlich? Neues Trainer-Werkzeug `--rewind-at-switch X --rewind-from R`
+(Teil X samt AdamW-Zustand beim Wechsel auf seinen Stand nach Schritt R zurück). Selbstprüfung: „alles zurückspulen“ muss den Wechsel bei R reproduzieren (neuer Test `test_rewind`, CPU, bitgleich).
+Neuheitssuche (N33): Modul-Zurückspulen ist bekannt (Chatterji et al. 2019, am fertigen Netz); die Anwendung beim Datenwechsel mit Optimiererzustand und Weitertraining nicht gefunden (vorläufig).
+**Codex (Regel 18c, gemeinsamer Trainer):** vier Blocker, alle selbst geprüft und übernommen: Test ohne `--test-file` (wäre gescheitert), Ban-Bedingungen nicht zurückgespult (jetzt nur baseline),
+Chimären-Störung (Lesarten als Empfindlichkeit, Loss-Diagnose im Trainer-Ereignis), Gleichheitsprüfung je Richtung. Trainer-Änderung ungetestet bis 00:00.

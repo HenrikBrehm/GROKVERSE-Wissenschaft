@@ -2488,3 +2488,14 @@ nichts Pflichtiges offen, als Nächstes kommt der Ablauf 18b aus [[STATE]].
   ohne MKL bzw. mit anderer Threadzahl). CPU-Läufe bleiben beim globalen Python.
 - *Entscheidung:* GPU nach Regel 16/Astra 9 für neue Versuche freigegeben, weiter „experimentell“ bis zu einem langen Lauf (EXP-045 10 000 Schritte liefert ihn). Nachtprogramm neu gestartet
   02:50 (`night2.log`). Da `compare.py` geändert wurde, hat sich das Siegel geändert: Komponenten und Regression laufen noch einmal (≈ 2 min), die Gleichwertigkeit wird übersprungen (Urteil mit neuem Siegel), dann Durchsatz J = 1/2/4/8.
+
+**Zyklus 5 (Paket A: Verallgemeinert sich K2? EXP-043 und EXP-046 auf der GPU, 02:53–03:02 gemessen).** Frage und Kriterien in den READMEs, vor den Läufen eingefroren.
+Vor der Deutung [[LESART-nacht-2026-09-27]] gelesen.
+- [[experiments/EXP-043-generalize-steering/README|EXP-043]]: add 97 **steuerbar** (Δ̄ 7.7, 10/10, p 0.00098, Holm), mul 113 **steuerbar** (Δ̄ 7.7, 10/10, p 0.00098). Die Überlappung mit den eigenen Zielen
+  liegt meist schon bei Schritt 50 bei 4–5 von 5. Generalisiert bei 2000: 17/20 bzw. 16/20. Die Steuerung zeigt sich auch in nicht generalisierten Läufen. R-Arme: 0.75/0.55 (Zufall ≈ 0.5).
+- [[experiments/EXP-046-dihedral-steering/README|EXP-046]] (D₅₉, nicht-abelsch, Irreps): Strukturprüfung 18/20, **steuerbar** (Δ̄ 9.6, 10/10, p 0.00098, passend 4.85 / gekreuzt 0.05).
+- *Deutung (vorab festgelegte Lesarten):* K2 hält in allen drei neuen Fällen (anderer Primmodulus, zusammengesetzter Modulus mit Null-Token über den Log, nicht-abelsche Gruppe). Die Effekte sind
+  so groß wie in EXP-016 (D₅₉ sogar größer). Das ist die erste Antwort auf die größte offene Frage in [[FINDINGS]]. **Einschränkungen:** Alles sind Piloten mit Seeds aus den Versuchen,
+  keine unabhängige Bestätigung. Die Frage Häufigkeiten gegen Paarstruktur ist offen (EXP-047 läuft gerade). Alle drei Fälle sind Gruppenoperationen mit Token-Einbettung. Die nicht-modulare Aufgabe (EXP-048) folgt.
+  Eine andere Breite folgt mit EXP-049, eine andere Architektur mit EXP-045.
+- *Entscheidung:* FINDINGS erst nach EXP-047/048 aktualisieren (Lesart-Notiz: Kombination zählt). Beschreibende Zusätze für EXP-046 (Top-3, Δ_pow) als offener Rest.

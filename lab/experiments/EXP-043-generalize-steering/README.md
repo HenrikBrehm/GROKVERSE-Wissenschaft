@@ -102,4 +102,5 @@ Befehl: `python lab/tools/night_program.py` (Stufe EXP-043: Selbsttest, Smoke, 4
   (Z₁₁₂ über den diskreten Logarithmus) mit Null-Token“, nicht „bei einer anderen Rechenart“. Das ist **Exploration/Pilot** (Seeds 70–79 mit den Splits dieses Versuchs), keine
   unabhängige Bestätigung. Die Bestätigung gehört in den reservierten Block ([[FINDINGS]] P1).
 - Grenzen: 2000 Schritte, ein Modell (Transformer der Studie), GPU (GPU-001 gleichwertig), ε = 2. Seed 70/99 wurden früher schon genutzt, aber mit anderem p bzw. anderer Architektur (s. Nachtrag s12).
+- Zufallssplit-Arme R (Seeds 70–79, ε = 0, 02:56–02:58): Überlappung von K_R mit F/G im Mittel add 97 0.75, mul 113 0.55 (Zufall 5·5/48 ≈ 0.52 bzw. 5·5/56 ≈ 0.45), beschreibend.
 - Folgeversuch EXP-044 (K4 in beiden Aufgaben) ist damit auswertbar und steht im Nachtprogramm.

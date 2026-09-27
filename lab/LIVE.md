@@ -5,19 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 01:29 Berlin (23:29Z, vom Runner)
 - **Deadline:** 2026-09-27 04:29 Berlin (02:29Z)
-- **Zuletzt aktualisiert:** 02:36 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 02:58 Berlin (gemessen)
 - **Run-Fenster:** offen seit 02:25 (Freigabe des Nutzers, 03:00-Sperre aufgehoben), bis Sitzungsende 04:29.
 
 ## Gerade
 
-GPU-Nachtprogramm laeuft (seit 02:34): GPU-001 Stufe 0, Vergleich der Einzelbausteine CPU gegen GPU. Ohne PASS keine GPU-Laeufe.
+GPU: EXP-043 Zufallssplit-Arme (fuer EXP-052), danach EXP-046 (Diedergruppe). CPU daneben: Paket-B-Piloten (EXP-035 ff., 1 Arbeiter x 4 Threads).
 
 ## Als Naechstes
 
-GPU-001 beobachten (alle ~5-10 min). Nach dem Urteil das CPU-Programm (Paket-B-Piloten) daneben starten.
+Beobachten; Urteile je Versuch nach der Lesart-Notiz eintragen. Um ~04:20 Stand sichern (Deadline 04:29 beendet alle Laeufe; Folgesitzung setzt mit denselben Befehlen fort).
 
 ## Verlauf dieser Sitzung
 
+- 02:56 **EXP-043: Steuerung ueber die Daten gilt auch bei add 97 und mul 113** (je 10/10 Seeds, p 0.001; Pilot).
+- 02:56 CPU-Programm gestartet (Paket-B-Piloten).
+- 02:53 GPU-001 bestanden: gleichwertig zur CPU, ~17x schneller, 8 Laeufe parallel am besten (~1600 kurze Laeufe/h).
+- 02:49 Diagnoselauf mit venv-torch auf CPU abgebrochen (10x zu langsam), dokumentiert.
 - 02:34 Nachtprogramm neu gestartet: Umgebung ok (torch 2.9.1+rocm, RX 7900 XT erkannt).
 - 02:32 Erster Start scheiterte: Windows fand den venv-Python-Pfad mit / nicht. Behoben (absoluter Pfad).
 - 02:30 Tests: 11/11 gruen, nachdem zwei Fehler im Testaufbau behoben waren (nicht im Code).

@@ -1,13 +1,13 @@
 ---
 id: EXP-046
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experiments/EXP-043-generalize-steering/README|EXP-043]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-046: Datensteuerung der Irreps in einer nicht-abelschen Gruppe (Diedergruppe D₅₉)
 
-**Status:** vorbereitet, **nicht ausgeführt, ungetestet** (Sitzung 12, 2026-09-26 19:35 Berlin, außerhalb des Fensters).
+**Status:** abgeschlossen 2026-09-27 (Sitzung 20, GPU), Ergebnis unten. Ursprünglich: vorbereitet, nicht ausgeführt, ungetestet (Sitzung 12, 2026-09-26 19:35 Berlin, außerhalb des Fensters).
 Festgelegt, bevor ein einziger Lauf auf D₅₉ existierte. Zurück zu [[LAB]] · [[FINDINGS]] · Idee [[NOVEL_DIRECTIONS]] N24.
 
 ## Bezug zu [[FINDINGS]]
@@ -99,3 +99,15 @@ Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lau
 
 **Art:** Pilot/Exploration für Paket A (keine Bestätigung). Bestätigung nur im reservierten Block (Seeds 1000–1099, [[FINDINGS]] „Programm“) nach eingefrorenem Analysemanifest.
 **Gesehen:** Ergebnisse von EXP-016 (Steuerung in Z₁₁₃) motivierten Konstruktion und Richtung von H46; die Zielmengen-/M0-Prüfung und das Häufigkeitsspektrum der 30 D₅₉-Splits wurden offline angesehen (führten zu Nachtrag b). Keine D₅₉-Läufe gesehen.
+
+## Ergebnis (Sitzung 20, 2026-09-27, Läufe 02:58–03:01 Berlin, GPU nach bestandenem GPU-001)
+
+Befehl: `python lab/tools/night_program.py` (Stufe EXP-046); Logs `lab/runner/logs/night_20260927T005025_010314Z/EXP-046_*`, Zahlen `summary.json`.
+Code-Stand laut result.json: Commit 95efe98, device cuda. 20 gesteuerte Läufe + 10 Zufallssplit-Läufe (R).
+
+- **Strukturprüfung bestanden:** 18/20 gesteuerte Läufe halten ≥ 0.342 der nicht-trivialen W_E-Leistung in ihren Top-5-Irreps (nötig ≥ 8).
+- **Primär: *steuerbar*.** 10/10 gültig, Δ̄ 9.6 (von höchstens 10), 10/10 positiv, p 0.00098 (einseitig, exakt). Überlappung passend 4.85, gekreuzt 0.05 von 5.
+- Sekundär: Zufallssplit R gegen F/G im Mittel 0.75 (Zufall ≈ 0.86).
+- **Lesart (vorab, Nachtrag s13):** *steuerbar* heißt nur „der Split steuert die Irreps“. Ob das über die Paarstruktur oder über die a/b-Häufigkeiten läuft, ist hier **nicht** getrennt
+  (Häufigkeits-Confound, Zielrang ≈ 8–10 von 29). Das trennt EXP-047 für Z₁₁₃, für D₅₉ erst ein Mischarm. Grenze aus der Definition: D₅₉ enthält Z₅₉, die Irreps sind auf den Drehungen Frequenzen.
+- Pilot, keine Bestätigung. Die vorab angekündigten beschreibenden Zusätze (Top-3-Δ, Δ_pow) fehlen noch in `analyze.py`. Nachtragen, dabei ausdrücklich nicht vorab festgelegt.

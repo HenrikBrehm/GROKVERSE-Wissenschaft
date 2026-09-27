@@ -121,3 +121,11 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
   K3 *Adam-v*: nur v zurücksetzen (Option fehlt; `moments` setzt m und v) → b50 fällt.
 - **Maß:** b und a wie EXP-062 (exakte Zerlegung), primär b50 gegen normal@50, gepaart.
 - **Priorität:** nach der Auswertung von N28/P2b und der N28-Vorhersage (2bdfdaf). K2 sofort möglich (keine Trainer-Änderung).
+
+## P2d: funktionale Nutzung mit angeglichener Störung (Sitzung 22, nach P2c; Programm A, noch nicht festgelegt)
+
+- **Warum:** P2c nicht bestätigt, Mittel negativ; die feste Dosis 0.5·E_ctrl störte die eigenen Ziele um 2.4 %, die Kontrolle um 50 % ihrer Energie.
+- **Maß (Codex-Vorschlag, 09:08):** lokale Empfindlichkeit je gleicher Parameterschrittnorm: u_S = P_S W_E / ‖P_S W_E‖, gleiche kleine Schritte W_E − δ·u_S, Vergleich der Steigungen nahe 0
+  für eigene Ziele gegen mehrere vorab festgelegte Kontrollen **gleicher Größe** (5 Frequenzen). Primär: Abfall des mittleren Logit-Abstands der richtigen Klasse (vermeidet den CE-Boden bei 1e-4);
+  sekundär CE-Änderung in float64. Getrennt: Kurve bei gleichem Energieanteil (Abhängigkeit im natürlichen Maßstab).
+- **Modelle:** die gebundenen P2c-Modelle sind für eine *neue* Frage (anderes Maß) nutzbar, aber schon gesehen (R). Sauberer: frische Seeds.

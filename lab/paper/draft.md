@@ -84,7 +84,7 @@ Removing all five target frequencies from W_E after a switch and 4000 further st
 (95 % CI 0.846–0.953; 20/20 seeds > 0.3); after a switch at t = 25, removing the **new** targets cost 0.603 more (0.498–0.700; 17/20 > 0.3). Two time points bracket a reversal of this ablation contrast;
 a network-wide or irreversible functional commitment is not shown.
 
-### 3.5 Reset sensitivity is concentrated in the attention value path (K4d N29b db31564, K4e N29c 3c9cb63)
+### 3.5 Reset sensitivity: attention more than the tested MLP reset, value path more than query/key (K4d N29b db31564, K4e N29c 3c9cb63)
 
 At a switch after 50 steps, resetting W_Q, W_K, W_V, W_O to initialization together with their AdamW state lowered the ablation contrast by 1.49 [1.36, 1.61] vs no reset and by 1.42 [1.28, 1.56] vs the
 tested MLP reset (20 paired seeds, Holm-p 4.7·10⁻¹²). Resetting only W_V, W_O lowered it by 0.850 [0.685, 0.998] vs no reset and by 0.752 [0.596, 0.897] vs an equal-size reset of W_Q, W_K

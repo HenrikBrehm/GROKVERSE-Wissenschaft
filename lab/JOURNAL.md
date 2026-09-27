@@ -3185,3 +3185,28 @@ Block 12:00–12:25, 120/120 gebunden. ***H1 und H2 bestätigt:*** Wertepfad-Res
 FINDINGS-Eintrag „K4e“ erst danach (nächste Sitzung).
 
 **Nachtrag zum Abschlussbericht (12:26):** zusätzlich **N29c bestätigt** (3c9cb63): Den Reset-Effekt der Attention trägt vor allem der Wertepfad (W_V, W_O), nicht das Muster (W_Q, W_K). Codex prüfte die Schlussfolgerung noch (12:27, kein Blocker); K4e im engen Wortlaut in FINDINGS. Nächste Aktion: D₅₉ (P2f) und die Zeitfrage (warum 25–50?).
+
+
+## Sitzung 24 (2026-09-27, Start 12:29 Berlin, Deadline 15:29; Run-Fenster bis 13:00)
+
+**Start (12:30, gemessen):** kein STOP, keine Python-Prozesse (das CPU-Programm der Sitzung 23 war mit deren Deadline beendet). CPU-Programm fortgesetzt
+(`night_program.py --cpu --cpu-workers 3 --experiments EXP-042,EXP-040,EXP-014`, Log `lab/runner/logs/np_cpu_s24.log`).
+
+**Zyklus 1 (EXP-071, Exploration, festgelegt 12:33 vor jedem Lauf, 2ddf934).** Frage: EXP-059 zeigt, dass pi(t) glatt steigt (keine Schwelle zwischen 25 und 50). Die Frage
+"warum 25-50" wird damit zu: Welche Zustandsgroesse beim Wechsel bestimmt pi je Seed ueber die Schrittzahl hinaus? EXP-060 fand, dass der W_E-Vorsprung es nicht tut; EXP-071 prueft
+die OV-Ausrichtung (Mass aus EXP-070) an 110 neuen reinen Laeufen (GPU). Laeuft.
+
+**Zyklus 2 (EXP-072, Pilot, festgelegt 12:36 vor jedem Lauf).** Beim Vorbereiten von P2f (D59) gemessen: alle 100 P1-D59-Laeufe haben nach 2000 Schritten Train 1.0 und Test im
+Median 0.03 (0/100 >= 0.9). K2 fuer D59 betrifft also die Irrep-Wahl vor dem Grokking; ein Funktionsmass auf ungesehenen Paaren ergibt an diesen Modellen keinen Sinn. EXP-072 prueft
+mit 10 Laeufen a 20000 Schritten (Seeds 1000-1004, P1-Splits), ob und wann D59 generalisiert. Start 12:37; der Waechter beendet die Laeufe um ~12:57, falls sie nicht fertig sind.
+
+**Zyklus 1, Ergebnis (EXP-071, 12:39):** 110/110 ok. Vorab-Regel formal erfuellt (Median rho(L, pi) je t = 0.36, 7/7 positiv), aber die 7 Korrelationen stammen von denselben 10 Seeds.
+Post hoc auf Seed-Ebene: L r = 0.45, Permutations-p = 0.09; W_E-Energie E r = 0.11. Gepoolt haengt pi an t (0.91) nicht schwaecher als an L (0.89). **Urteil: unklar (schwacher Hinweis).**
+Selbstkritik: Die Vorab-Regel haette die Abhaengigkeit der 7 Korrelationen beruecksichtigen muessen; fuer kuenftige Mehrzeitpunkt-Pilot-Regeln eine Seed-Ebene-Statistik vorab festlegen.
+Entscheidung: nicht sofort bestaetigen (n ~ 30-40 noetig); gegen die offenen Fragen in FINDINGS priorisieren. Die Frage "warum 25-50" ist durch EXP-059 + EXP-071 umgedeutet: Es gibt keine
+Schwelle, pi steigt glatt mit der Zahl der A-Schritte; keine gemessene Zustandsgroesse (W_E-Vorsprung EXP-060, OV-Ausrichtung EXP-070/071) erklaert den Verlauf besser als die Schrittzahl.
+
+**Zyklus 2, Ergebnis (EXP-072, 12:46):** 10/10 ok. **D59 generalisiert** (9/10 Test 1.0 nach 20000 Schritten; erster Test >= 0.9 bei Median 4575, max. 8150). Eigene Ziel-Irreps in den Top-5:
+4.7/5 bei Schritt 2000, 3.7/5 am Ende (Zufall 0.86). Nachtrag a (post hoc): Irrep-Form des P2d-Masses D = 0.223 ± 0.024, 5/5 positiv; die eigenen Irreps tragen 0.90-0.99 der W_E-Energie
+(Seed 1000 F: 98.9 % in drei eigenen Irreps; die Plaetze 4-5 der Top-5 sind Rauschen, erst fuer einen Fehler gehalten und nachgeprueft). Entscheidung: P2f registrieren
+(12000 Schritte, 20 frische Seeds, Codex vor dem Einfrieren), im naechsten Fenster rechnen.

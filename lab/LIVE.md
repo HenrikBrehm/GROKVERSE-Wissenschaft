@@ -1,49 +1,25 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 23 (beendet)
+# LIVE: Laborsitzung 24
 
-- **Sitzungsstart:** 2026-09-27 09:39 Berlin (07:39Z, vom Runner)
-- **Deadline:** 2026-09-27 12:39 Berlin (10:39Z)
-- **Zuletzt aktualisiert:** 12:26 Berlin (gemessen)
-- **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
+- **Sitzungsstart:** 2026-09-27 12:29 Berlin (10:29Z, vom Runner)
+- **Deadline:** 2026-09-27 15:29 Berlin (13:29Z)
+- **Zuletzt aktualisiert:** 12:40 Berlin (gemessen)
+- **Run-Fenster:** offen bis 13:00, danach nur Denk- und Vorbereitungsarbeit.
 
 ## Gerade
 
-**Sitzung endet** (Deadline 12:39). Naechster geplanter Start: **13:14 Berlin** (runner-state.json), ausserhalb des Run-Fensters: dort nur Denk- und Vorbereitungsarbeit bis 00:00.
+Drei Dinge laufen bis zum Fensterende (~12:57): CPU-Programm (EXP-042); **EXP-071** (110 kurze GPU-Laeufe: sagt die Ausrichtung des Attention-Wertepfads beim Datenwechsel voraus, wie fest ein Seed an seiner ersten Wahl haengt?); **EXP-072** (10 lange D59-Laeufe: generalisiert die nicht-abelsche Gruppe ueberhaupt? In P1 nach 2000 Schritten 0/100).
 
 ## Als Naechstes
 
-Codex-Ergebnis zu N29c einarbeiten und als K4e in FINDINGS; D59-Registrierung; Frage, warum die Festlegung gerade zwischen 25 und 50 Schritten entsteht.
+EXP-071 auswerten; EXP-072-Verlauf lesen (auch wenn der Waechter die Laeufe um 12:57 beendet); danach D59-Plan (P2f) je nach Ergebnis.
 
 ## Verlauf dieser Sitzung
 
-- 12:25 **N29c BESTAETIGT (20 frische Seeds):** Den Effekt des Attention-Resets traegt vor allem der Wertepfad (W_V, W_O), nicht das Aufmerksamkeitsmuster (W_Q, W_K).
-- 12:00 N29c eingefroren (Codex: kein Blocker), Probelauf ok, Block gestartet.
-- 11:57 Abschlussbericht im JOURNAL.
-- 11:54 Codex (wieder mit Guthaben) hat N29b geprueft: kein Fehler, Aussage enger gefasst (Reset-Empfindlichkeit, kein Speicherort).
-- 11:44 **EXP-070 (Exploration):** Der Wertepfad richtet sich gleichmaessig auf die ersten Frequenzen aus, ohne Sprung zwischen Schritt 25 und 50. Die Zeitform des Ausschlusses bleibt unerklaert.
-- 11:40 **EXP-069 (Pilot):** Den Ausschluss neuer Frequenzen haelt vor allem der Wertepfad der Attention (W_V, W_O) fest, nicht das Aufmerksamkeitsmuster.
-- 11:36 FINDINGS hat oben eine Kurzfassung (Tabelle der Kernaussagen).
-- 11:31 **N29b BESTAETIGT (20/20 frische Seeds):** Setzt man beim Datenwechsel nach 50 Schritten die Attention zurueck, ist das fertige Netz auf die NEUEN Frequenzen angewiesen (40/40 Richtungen); ein doppelt so grosser MLP-Reset aendert fast nichts. Vorlaeufig, weil Codex kein Guthaben hat.
-- 11:11 EXP-069 vorab festgelegt; Neuheitssuche zu N32 (Attention haelt die fruehe Wahl): nicht gefunden, vorlaeufig.
-- 11:09 EXP-039 ausgewertet: unklar (Lernraten-Uhr passt besser als Schrittuhr, aber nicht in jedem Seed). EXP-040-Auswertungsfehler vor jedem Lauf behoben.
-- 11:06 N29b eingefroren und gestartet (Codex hat kein Guthaben mehr; eigene Pruefung).
-- 10:58 **EXP-067 (Pilot, 10 Seeds):** Ueberraschung: Setzt man beim Wechsel nur die Attention zurueck, lernt das Netz die neuen Frequenzen doch und rechnet mit ihnen. MLP- oder Ausgabe-Reset tun das nicht.
-- 10:54 Vorbereitung D59: Trainer kann jetzt Modelle speichern (alte Laeufe unberuehrt).
-- 10:52 EXP-067 gestartet (Trainer-Option neu, Tests gruen, Codex ok, alter und neuer Code bitgleich).
-- 10:49 FINDINGS: P2e im engen Wortlaut nach Codex.
-- 10:44 **P2e BESTAETIGT:** Der P2d-Befund gilt auch bei Multiplikation mod 113 (0.29) und Addition mod 97 (0.29), je 20/20 frische Seeds. Deutung eng: Empfindlichkeit entlang amplitudenstarker Richtungen.
-- 10:24 **EXP-068 (Exploration):** Bei gleich viel entfernter Energie reagiert das Netz auf die dominante Frequenzmenge NICHT staerker. Die gemessene Funktion folgt der Energie; das ist jetzt als Grenze in FINDINGS vermerkt.
-- 10:21 FINDINGS: N29 als K4c im engen Wortlaut nach Codex eingetragen.
-- 10:17 **N29 bestaetigt:** zwischen 25 und 50 Schritten kippt, auf welche Frequenzen das Netz am Ende angewiesen ist. Nachtraeglich: Die Energie in W_E zeigt dieselbe Richtung.
-- 10:16 N29-Block fertig (80/80); P2e zweite Warteschlange gestartet.
-- 10:09 EXP-067 vorab festgelegt (Pilot).
-- 10:07 P2e eingefroren (zweiter Anlauf) und gestartet.
-- 10:04 P2e-Probelauf deckt einen Klammerfehler in der Auswertung auf; behoben, Selbsttest erweitert.
-- 09:59 N29 eingefroren, Probelauf durch den Lader ok, Block gestartet.
-- 09:54 Codex: zwei Blocker in N29 (Auswahlregel, fehlende Datei im Code-Hash), behoben und nachgeprueft.
-- 09:50 P2e festgelegt (Entwurf, Code getestet): P2d-Mass an frischen Seeds fuer mul 113 und add 97.
-- 09:48 **EXP-066 (Exploration):** Der P2d-Effekt zeigt sich auch bei Multiplikation mod 113 (0.16) und Addition mod 97 (0.22), in allen 100 Seed-Werten positiv.
-- 09:45 N29 festgelegt (Entwurf, Code getestet): Wechsel bei 25 gegen 50 Schritte, 20 frische Seeds, 4000 Schritte Nachtraining.
-- 09:41 CPU-Programm neu gestartet (EXP-039 laeuft weiter).
+- 12:40 EXP-072 Zwischenstand: D59 generalisiert doch, meist zwischen 3000 und 7000 Schritten (5 von 10 Laeufen bei Schritt 6000 schon ueber 0.99).
+- 12:39 **EXP-071 (Exploration): unklar, schwacher Hinweis.** Seeds mit staerker ausgerichtetem Wertepfad beim Wechsel haengen etwas fester an der ersten Wahl (r = 0.45, p = 0.09, n = 10); den zeitlichen Verlauf erklaert das Mass nicht besser als die Schrittzahl.
+- 12:37 EXP-072 festgelegt und gestartet (D59 generalisiert in P1 nie: 0/100 nach 2000 Schritten).
+- 12:33 EXP-071 festgelegt und gestartet.
+- 12:30 Stand gelesen, kein STOP, keine laufenden Prozesse; CPU-Programm gestartet.

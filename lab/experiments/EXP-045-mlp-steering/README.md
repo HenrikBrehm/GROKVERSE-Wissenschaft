@@ -1,8 +1,8 @@
 ---
 id: EXP-045
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/positiv]
 verwandt: ["[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experiments/EXP-043-generalize-steering/README|EXP-043]]", "[[experiments/EXP-024-quadratic-agf-mask/README|EXP-024]]", "[[BEFUND-split-mechanismus]]", "[[FINDINGS]]"]
 ---
 # EXP-045: Steuerung über die Daten in einer anderen Architektur (MLP mit gemeinsamem Embedding)
@@ -58,3 +58,14 @@ Urteilsregeln unverändert.
 ## Nachtrag (Sitzung 13, 2026-09-26 20:20 Berlin, gemessen; vor jedem Lauf): nicht-endliche Läufe ungültig
 
 Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lauf (NaN in W_E) wäre bisher als gültig gezählt worden und hätte still ein falsches K oder sogar das Urteil *widerspricht* mit p = 0 erzeugt (`one_sided_p` mit NaN gibt 0.0). `analyze.py` wertet einen Lauf mit nicht-endlichem Spektrum bzw. W_E jetzt als **ungültig** (zählt gegen die Mindestzahl gültiger Seeds). Urteilsregeln sonst unverändert.
+
+## Ergebnis (Sitzung 20, 2026-09-27, Läufe 03:32–03:33 Berlin, GPU)
+
+Befehl: `python lab/tools/night_program.py` (Stufe EXP-045); Logs `lab/runner/logs/night_20260927T005025_010314Z/EXP-045_*`, Zahlen `summary.json`.
+20 Läufe à 10 000 Schritte, device cuda, Commits e293df6/2525efa (dazwischen nur Dokumente, Trainer unverändert).
+
+- **Primär (Top-5 bei 10 000): Δ̄ 7.9, 10/10 positiv, p 0.00098 → *steuerbar*.** Die Steuerung ist also nicht an den Transformer (geteilter Wertepfad) gebunden.
+- Sekundär: Δ̄ bei Schritt 2000 = **10.0** (Maximum: alle Ziele in K, keine gekreuzten). Alle 20 Läufe generalisieren (gen 3450–7575, Test 1.0).
+  K bei 10 000 liegt also 2400–6500 Schritte **nach** dem Grokking.
+- *Beschreibend, zur Frage aus [[NOVEL_DIRECTIONS]] (Nachprüfung s20, Zhou et al.):* Von 2000 (vor dem Grokking) bis 10 000 (lange danach) sinkt Δ̄ von 10.0 auf 7.9.
+  Die gepflanzte Wahl wird also leicht verwässert, bleibt aber mit 10/10 deutlich erhalten. Kein Abklingen auf Zufall.

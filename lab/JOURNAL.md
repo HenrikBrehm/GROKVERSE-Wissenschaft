@@ -2543,3 +2543,7 @@ relativ festlegen (z. B. 25 % des Pilotmittels) oder nur add 113 primär führen
 (d(150) 3.3 / 3.5, je 10/10, p 0.001 Holm). Die Wahl kippt zwischen t = 25 (d −1.8 / −2.9) und t = 50 (+2.7 / +2.0), wie in EXP-020. π (vorab, beschreibend): 0.37/0.86/1.24 bzw.
 0.22/0.72/1.15 gegen EXP-020 0.41/0.74/≈1. Die vorab notierte **Lesart (i)** trifft zu: Festlegung im Netz, nicht durch geteilte Paare gehalten (hier nur ≈ 38 % geteilt). Confound Aufgabe/Gerät,
 saubere Trennung erst mit EXP-053. *Folge für P3:* Primär t = 25 bleibt richtig (dort ist π am empfindlichsten, 0.2–0.4). FINDINGS-Tabelle und LAB ergänzt.
+
+**Zyklus 12 (andere Architektur: EXP-045 MLP, 03:32–03:35 gemessen).** [[experiments/EXP-045-mlp-steering/README|EXP-045]]: **steuerbar** (Δ̄ 7.9 bei 10 000, 10/10, p 0.001; bei 2000: 10.0).
+Alle Läufe generalisieren (gen 3450–7575). Damit ist auch die Frage aus Zyklus 1/2 auf längerer Zeitskala beantwortet (beschreibend): Die gepflanzte Wahl bleibt 2400–6500 Schritte nach dem
+Grokking erhalten (10/10), leicht verwässert (10.0 → 7.9). GPU-Nachtprogramm damit komplett („all done“ 03:33). Danach EXP-050 (Paket C, 60 Läufe) nachgeschoben: `night3_exp050.log`.

@@ -22,6 +22,7 @@ Alle Urteile vorab festgelegt, GPU nach bestandenem [[experiments/GPU-001-equiva
 | Diedergruppe D₅₉ (nicht-abelsch, Irreps) | [[experiments/EXP-046-dihedral-steering/README\|EXP-046]] | 9.6 | 10/10 | 0.001 | *steuerbar* |
 | a + b ohne mod | [[experiments/EXP-048-intadd-steering/README\|EXP-048]] | 2.2 (Δ_pow, trendbereinigt) | 10/10 | 0.001 | *steuerbar* |
 | 4× breiter (d = 512) | [[experiments/EXP-049-width-steering/README\|EXP-049]] | 7.8 (Δ_pow); d = 128: 8.7 | 10/10 | 0.001 | *steuerbar* |
+| MLP statt Transformer (10 000 Schritte, nach dem Grokking) | [[experiments/EXP-045-mlp-steering/README\|EXP-045]] | 7.9 (Top-5-Δ; bei 2000: 10.0) | 10/10 | 0.001 | *steuerbar* |
 | Mechanismus: Häufigkeiten gegen Paarstruktur (Z₁₁₃) | [[experiments/EXP-047-marginal-control/README\|EXP-047]] | Häufigkeiten 0.3 (n. s.); Paarstruktur 6.8 | 10/10 | 0.001 | *Paarstruktur trägt* |
 | K4 frühe Festlegung (Wechsel F→G, ≈ 38 % geteilt) | [[experiments/EXP-044-generalize-lockin/README\|EXP-044]] | d(150) 3.3 / 3.5; Kipp zwischen t 25 und 50 | 10/10 je Aufgabe | 0.001 (Holm) | *festgelegt* (add 97, mul 113) |
 | K1 an unberührten Fällen (eingefrorene Vorhersage, Paket C) | [[experiments/EXP-052-oos-mask-prediction/README\|EXP-052]] | ρ eigen 0.34–0.45, fremd ≈ 0 | 4/4 Fälle | 0.0002 (Holm) | *K1 gilt hier* (Assoziation) |

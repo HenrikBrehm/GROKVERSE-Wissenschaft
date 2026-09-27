@@ -58,8 +58,17 @@ def cross_spec(man: dict) -> dict | None:
     return {"t": t, "seeds": list(c["seeds"]), "R": int(c["inits_per_seed"])}
 
 
+def interp(man: dict) -> str:
+    """Session 20: Windows CreateProcess cannot find a RELATIVE path with forward slashes (.venv-gpu/Scripts/python.exe);
+    an absolute forward-slash path works and survives parallel_queue's no-backslash rule for job lines."""
+    py = str(man["python"])
+    if ("/" in py or "\\" in py) and not Path(py).is_absolute():
+        return (LAB.parent / py).as_posix()
+    return py
+
+
 def fb_job(man: dict, t: dict, init: int, sp: str) -> str:
-    return (f"{man['python']} {FB} --seed {init} --condition baseline --steps {STEP} --threads {man['threads']} "
+    return (f"{interp(man)} {FB} --seed {init} --condition baseline --steps {STEP} --threads {man['threads']} "
             f"--device {man['device']} --p {t['p']} --task {t['task']} --split-file {sp} "
             f"--spectra-at 250,500,1000,{STEP} --out-root lab/confirm/raw")
 
@@ -71,7 +80,7 @@ def jobs(man: dict) -> list[str]:
             for arm in "FG":
                 sp = f"lab/confirm/splits/{stem(man, t, s, arm)}.npy"
                 if t["task"] == "D":
-                    out.append(f"{man['python']} {GT} --seed {s} --n {t['p']} --steps {STEP} --device {man['device']} --split-file {sp} "
+                    out.append(f"{interp(man)} {GT} --seed {s} --n {t['p']} --steps {STEP} --device {man['device']} --split-file {sp} "
                                f"--out-root lab/confirm/raw")
                 else:
                     out.append(fb_job(man, t, s, sp))

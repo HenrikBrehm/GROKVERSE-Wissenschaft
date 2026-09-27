@@ -138,3 +138,13 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 - **D₅₉ fehlt:** `group_train.py` speichert kein Modell (P1-Läufe haben nur Spektren). Nötig: Option `--save-model` im Trainer (gemeinsamer Trainer → Codex-Prüfung, Regel 18c),
   Maß mit Projektion auf die isotypischen Irrep-Komponenten (`dihedral.irrep_basis`, 4 Spalten je 2-dim Irrep), Kontrollen aus nicht gesteuerten Irreps, sonst wie P2e.
 - **Priorität:** nach dem P2e-Ergebnis; D₅₉ ist die einzige nicht-abelsche Aufgabe und damit der härteste Verallgemeinerungstest für A.
+
+
+## N32: Wertepfad der Attention hält die frühe Frequenzwahl fest (Sitzung 23, Programm B, nächster Schritt)
+
+- **Stand:** [[confirm/N29b_REGISTRATION|N29b]] bestätigt (Attention-Reset bei t = 50 → Netz auf die neuen Frequenzen angewiesen, MLP-Reset nicht; Schlussfolgerung ohne Codex).
+  [[experiments/EXP-069-attention-part/README|EXP-069]] (Pilot): Wertepfad (W_V, W_O) trägt den Ausschluss (b 0.49), Muster (W_Q, W_K) unklar; nach VO-Reset beide Mengen genutzt.
+- **Nächste Bestätigung (festlegen, Codex prüfen, im Fenster rechnen):** frische Seeds, Arme normal / rsvo / rsqk bei t = 50, 4000 Schritte, Funktionsmaß wie N29b; primär R(normal) − R(rsvo) und R(rsqk) − R(rsvo).
+- **Mechanismus-Messung (ohne Reset):** Ausrichtung von W_V·W_O auf die Fourier-Unterräume der alten/neuen Ziele bei t = 25 gegen 50 (braucht Gewichts-Schnappschüsse am Wechsel; `--save-model` speichert nur das Ende).
+  Konkurrenzmodelle vorab: (V) VO-Ausrichtung auf alt steigt zwischen 25 und 50 stark; (G) gleichmäßig, dann ist die Ausrichtung nicht die Ursache.
+- **Offen:** Codex-Prüfung von `--reset-at-switch qk|vo` (1c6e480) und `group_train --save-model`.

@@ -1,8 +1,8 @@
 ---
 id: EXP-056
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/unklar, neu/kandidat]
 verwandt: ["[[FINDINGS]]", "[[BACKLOG]]", "[[experiments/EXP-053-p3-overlap-design/README|EXP-053]]", "[[experiments/EXP-044-generalize-lockin/README|EXP-044]]", "[[experiments/EXP-020-data-switch/README|EXP-020]]", "[[JOURNAL]]"]
 ---
 # EXP-056: Hängt die Persistenz nach einem Datenwechsel an der Überlappung der Splits? (P3-Pilot, Paket B)
@@ -42,3 +42,18 @@ python lab/experiments/EXP-056-overlap-persistence/make_splits.py --jobs > lab/e
 python lab/tools/parallel_queue.py lab/experiments/EXP-056-overlap-persistence/jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-056-overlap-persistence/analyze.py
 ```
+## Ergebnis (Sitzung 21, 2026-09-27, Läufe 04:45–04:56, Auswertung 04:57 Berlin)
+
+120/120 Läufe ok (GPU, 8 parallel, unter CPU-Last). Die erste Auswertung ergab *nicht auswertbar* (n = 0). Grund war ein **Codefehler**: Bei der Korrektur des Suchmusters
+nach dem Smoke hatte ich einen Kommentar mitten in die Zeile gesetzt, und der verschluckte den Wechselteil und das Gerätesuffix. Behoben in db71203, **vor** dem Blick auf
+Ergebnisse, Regeln unverändert. (Meine Prüfung um 04:44 testete feste Muster, nicht die Funktion, deshalb fiel es nicht auf.)
+
+- **Primär:** 10/10 Seeds gültig. b̄ = 0.11, SD 0.51, t = 0.71, p = 0.25; 90-%-KI [−0.18, 0.41] → ***unklar*** (weder (ii) signifikant noch (i) äquivalent).
+- **Beschreibend:** π je ω = 0.30 ± 0.14 (ω = 0), 0.38 ± 0.05 (0.2), 0.35 ± 0.08 (0.4). π_AB 0.34, π_BA 0.34 (symmetrisch).
+  **π(ω = 0) > 0 in 10/10 Seeds** (Minimum 0.04): Auch ohne ein einziges geteiltes Paar hält das Netz nach 25 Schritten auf A etwa ein Drittel der A-Wahl gegen 2000 Schritte auf B.
+- **Lesart (vorsichtig):** Das spricht gegen die reine Form von (ii) („nur geteilte Paare halten die Wahl“), denn dann müsste π(0) ≈ 0 sein. Ob (ii) zusätzlich einen
+  Anteil trägt, bleibt offen: Die Steigungen je Seed streuen stark (SD 0.5). Eine Äquivalenzaussage bräuchte grob n ≈ 30–40.
+- **Alternative Erklärung, nicht ausgeschlossen:** eine bloße Gewichtsspur der 25 A-Schritte. Mit AdamW (lr 1e-3, wd 1) schrumpft sie in 2000 Schritten auf ≈ e⁻² ≈ 14 %
+  (Rechnung, keine Kontrolle). Das wirkt zu klein für π ≈ 0.3, weil die späteren Gewichte viel größer sind als die nach 25 Schritten. Belegt ist das aber erst mit einer Kontrolle.
+  Zusammen mit [[experiments/EXP-038-where-lockin/README|EXP-038]] (der Rest schreibt die Wahl aktiv zurück) spricht mehr für eine aktive Festlegung.
+- **Für P3:** Kandidat (a) „Persistenz ohne geteilte Daten“ (π(ω = 0) > 0) ist trennscharf (d_z ≈ 2.2). Kandidat (b) (Steigung) wäre bei n = 50 schwach.

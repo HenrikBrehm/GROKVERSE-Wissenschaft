@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 15:59 Berlin (13:59Z, vom Runner)
 - **Deadline:** 2026-09-27 18:59 Berlin (16:59Z)
-- **Zuletzt aktualisiert:** 16:15 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 16:22 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: nur Denk-, Such- und Vorbereitungsarbeit.
 
 ## Gerade
 
-Pruefungen eingearbeitet. Naechster Schritt: offene Frage in FINDINGS (welche Uhr legt fest?) und Paper-Arbeit.
+Ein Pruefagent greift den neuen Versuchsentwurf EXP-081 an (welche 'Uhr' legt die Frequenzwahl fest: beta1, beta2 oder Schritte?). Nur Lesen, kein Lauf.
 
 ## Als Naechstes
 
-Paper: Abbildungs-/Tabellenliste gegen die Repro-Skripte pruefen; ggf. Limitations um Optimierer ergaenzen.
+Befunde einarbeiten; danach weitere Paper-Arbeit.
 
 ## Verlauf dieser Sitzung
 
+- 16:22 EXP-081 entworfen (Pilot, kein Code, Start fruehestens nach R3): trennt drei Kandidaten fuer die Uhr der Festlegung.
+- 16:19 Literatur: Salah & Yevick, Sweeney, Pracher, Yang, Sevetlidis & Pavlidis geprueft; K4b-Deutung ist bekannt, K2/K4 weiter nicht gefunden.
 - 16:15 R2/R3-Auswertung robuster (Fehler -> defekt statt Absturz, wie N29c).
 - 16:13 Nacht-Befehle geprueft: 2 sichere Fehler behoben (GPU-Pfad in repro/README; --jobs ohne Waechter), R1-Seed-Obergrenze + Manifest-Entwurf, Thread-Budget (CPU 2 Arbeiter + max. 4 GPU). Agent hat einmal `python -c "1"` ausgefuehrt (No-op, vermerkt).
 - 16:09 Paper Abschnitt 2 nach Quellpruefung korrigiert (9 Punkte).

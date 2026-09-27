@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 15:00 Berlin (Sitzung 25 beendet, Start 14:19, Deadline 17:19; Run-Fenster wieder ab 00:00)._
+_Zuletzt aktualisiert: 2026-09-27, 15:26 Berlin (Sitzung 26 läuft, Start 15:09, Deadline 18:09; Run-Fenster wieder ab 00:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -43,6 +43,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 6. Nach den GPU-Queues: **EXP-077** (Pilot, 40 Läufe ≈ 5 min): `parallel_queue.py lab/experiments/EXP-077-marginal-steering/jobs.txt --workers 8`, dann `analyze.py` über guarded_run.
 7. Nach den Blöcken, falls Zeit (GPU, je ≈ 1–3 min): Selbsttest `confirm_p4.py --selftest`; Repro-Gleichwertigkeit (2 Befehle in [[paper/repro/README]]). P4 selbst erst Nacht 28./29. (nach Einfrieren; Entwurf `lab/confirm/P4_manifest_DRAFT.json` mit Seeds liegt bereit: `code_sha256` ergänzen, Feld `note` entfernen, als `P4_manifest.json` committen, `commit` setzen).
+
+8. **Neu (Sitzung 26): Rest der Nacht für die Paper-Bestätigungen nutzen.** Die GPU ist nach 1–7 nur ≈ 1–1.5 h belegt. Wenn 1–7 durch sind, alle Selbsttests grün und bis 13:00 noch ≥ 2.5 h bleiben, in dieser Reihenfolge einfrieren und rechnen, je mit Manifest, Commit und Smoke wie P2f: **R1** (`confirm_r1.py`, 180 Läufe ≈ 30 min), **P4** (`confirm_p4.py`, Entwurf `P4_manifest_DRAFT.json`, ≈ 40 min), **R2** ([[confirm/R2_REGISTRATION_DRAFT|R2]], `confirm_r2.py`, 300 Läufe ≈ 45–60 min, nur wenn die Codex-Punkte aus Sitzung 26 eingearbeitet sind). Nicht mehr als ≈ 10 GPU-Prozesse gleichzeitig. Reicht die Zeit nicht: R1 vor P4 vor R2, Rest in die Nacht 28./29.
 
 Vorab-Lesart der Nacht (Kombination EXP-040/073/074/075, P2f): [[LESART-nacht-2026-09-28]].
 

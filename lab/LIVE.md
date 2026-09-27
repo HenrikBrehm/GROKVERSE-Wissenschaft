@@ -1,34 +1,23 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 25 (beendet)
+# LIVE: Laborsitzung 26
 
-- **Sitzungsstart:** 2026-09-27 14:19 Berlin (12:19Z, vom Runner)
-- **Deadline:** 2026-09-27 17:19 Berlin (15:19Z)
-- **Zuletzt aktualisiert:** 15:00 Berlin (gemessen)
-- **Run-Fenster:** zu bis 00:00: nur Denk- und Vorbereitungsarbeit.
+- **Sitzungsstart:** 2026-09-27 15:09 Berlin (13:09Z, vom Runner)
+- **Deadline:** 2026-09-27 18:09 Berlin (16:09Z)
+- **Zuletzt aktualisiert:** 15:25 Berlin (gemessen)
+- **Run-Fenster:** zu bis 00:00: nur Denk-, Such- und Vorbereitungsarbeit.
 
 ## Gerade
 
-**Sitzung beendet (15:00).** Naechster geplanter Start laut runner-state.json: **17:54 Berlin** (15:54Z), ausserhalb des Run-Fensters.
+Zwei Pruefungen laufen parallel: Codex greift den neuen Robustheitsversuch R2 an (haelt die Festlegung K4c bei lr 2e-3 und wd 0.3?), ein Hilfsagent sucht ueber Semantic Scholar neue Arbeiten, die unsere Neuheitsaussagen einschraenken koennten.
 
 ## Als Naechstes
 
-Ab 00:00: Tests, CPU mit EXP-040, P2f, EXP-073/074/075, dann EXP-077 (neu) und Selbsttests fuer P4 und den Repro-Trainer. Fuer dich: [[paper/STATUS]] (neu: Dong 2026 schraenkt die Reset-Aussage ein).
+Codex-Befunde pruefen und einarbeiten; Literaturtreffer selbst am Volltext pruefen. Ab 00:00 laut [[STATE]]: Tests, EXP-040 (CPU), P2f, EXP-073/074/075/077 (GPU); neu: danach R1/P4/R2, wenn Zeit bleibt.
 
 ## Verlauf dieser Sitzung
 
-- 15:00 Sitzung beendet; alles committet.
-- 15:00 Nachauswertungen: gemischte Kontrolle aus EXP-047 steuert auch im feinen Mass nicht; staerkeres Maskensignal geht mit staerkerer Steuerung einher (post hoc).
-- 14:58 Zahlenpruefung der neuen Paper-Abschnitte: Mathe korrekt, 12 Formulierungen enger gefasst (u. a. ein zitierter, nie gerechneter Versuch entfernt).
-- 14:51 Paper: Diskussionsabschnitt geschrieben; ein Pruefagent gleicht die neuen Abschnitte gegen die Quellen ab.
-- 14:51 Pruefagent zum schlanken Trainer: keine Blocker, 4 kleinere Punkte behoben.
-- 14:45 P4-Manifest-Entwurf mit Seeds vorbereitet; Paper-Grenzen um Khanh 2026 ergaenzt (gleicher Modelltyp: auch das MLP traegt Frequenzidentitaet).
-- 14:43 Theorie: Adams erster (vorzeichenartiger) Schritt behaelt im Modell die Zielfrequenzen (20/20); K2-Reproduktionsskript geschrieben; ein Pruefagent kontrolliert den schlanken Trainer.
-- 14:40 Paper: Abschnitt zu verwandten Arbeiten als Fliesstext.
-- 14:40 EXP-077 vorbereitet (Pilot fuer heute Nacht, ~5 min): Steuert schon die Haeufigkeit nur eines Operanden die Frequenzen? Die Theorie sagt ja, die bisherige Lesart nein.
-- 14:36 Volltextpruefung eingearbeitet: Eine neue Arbeit (Dong 2026) zeigt in Sprachmodellen, dass ein Attention-Reset hilft (dort Query/Key, bei uns der Wertepfad) - unsere Reset-Aussage ist dadurch enger; Paper und FINDINGS angepasst.
-- 14:36 Theorie-Abschnitt des Papers ausformuliert; eine falsche Aussage (Token-Haeufigkeiten fallen heraus) dabei selbst gefunden und korrigiert.
-- 14:36 Codex zu P4: ein Blocker (Testangabe), behoben.
-- 14:25 P4-Werkzeug geschrieben (`confirm_p4.py`, ungetestet bis 00:00); Seeds 2360-2419 (P4) und 2420-2509 (R1) reserviert; Codex prueft P4 gerade.
-- 14:21 Stand gelesen, kein STOP, keine laufenden Prozesse, Fenster zu (Exit 3, erwartet).
+- 15:20 R2 vorbereitet (Registrierungsentwurf + confirm_r2.py, 300 Laeufe, n = 30 aus der N29-Streuung), Seeds 2510-2539 reserviert; ungetestet bis 00:00.
+- 15:15 Jobdateien fuer heute Nacht (EXP-073/074/075/077, 400 Zeilen) statisch geprueft: alle Optionen bekannt, alle Split-Dateien vorhanden, keine Duplikate.
+- 15:10 Stand gelesen; kein STOP, keine Prozesse, Fenster zu (Exit 3, erwartet).

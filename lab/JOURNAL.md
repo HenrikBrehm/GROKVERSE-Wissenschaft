@@ -3431,3 +3431,23 @@ Holm über die zwei Maße: 0.012 / 0.072. C schwankt kaum (SD 0.07 bzw. 0.11 bei
 **Nächste Aktion:** ab 00:00 laut [[STATE]] „Nächste Schritte“ 1–7 (Tests → CPU EXP-040 → P2f → GPU EXP-073/074/075 → EXP-077 → P4-Selbsttest, Repro-Gleichwertigkeit).
 **Runner:** geplante Aufgabe aktiv; nächster Start laut runner-state.json 2026-09-27 15:54:45Z = **17:54 Berlin**. Freiwillig früher beendet: weitere Arbeit ohne Rechenfenster wäre heute
 Beschäftigung ohne Erkenntnis oder weiteres ungetestetes Werkzeug für eine schon volle Nacht.
+
+## Sitzung 26 (2026-09-27, Start 15:09 Berlin, Deadline 18:09; Run-Fenster zu)
+
+Stand gelesen; kein STOP, keine Python-Prozesse, `--check` Exit 3 (außerhalb des Fensters, erwartet). Die vorige Sitzung endete freiwillig um 15:00; der Runner hat sofort diese gestartet.
+Deshalb arbeite ich bis zur Deadline weiter (Regel 13).
+
+**Zyklus 1 (Nachtvorbereitung, bis 15:15).** *Frage:* Laufen die Jobdateien der Nacht technisch an, oder scheitern Zeilen an Tippfehlern? *Prüfung* (statisch, ohne Ausführung): alle 400 Zeilen
+von EXP-073/074/075/077 gegen die `add_argument`-Optionen von `freq_ban.py` und die Existenz aller `.npy`-Pfade. *Ergebnis:* keine unbekannte Option, keine fehlende Datei, keine doppelte Zeile;
+Eingriffswerte je 20 Zeilen wie registriert (rewind all/attn/rest/vo/we; reset attn/mlp/qk/vo). *Entscheidung:* nichts zu ändern.
+
+**Zyklus 2 (Literatur, Regel 19e, läuft).** *Frage:* Schränkt eine Arbeit seit März 2026 K2 oder K4 ein, die unsere Websuchen nicht gefunden haben? Die dokumentierte Lücke war: keine Vorwärtszitate
+(Google Scholar/Semantic Scholar nicht direkt abgefragt). *Neu:* Die Semantic-Scholar-Graph-API ist über WebFetch erreichbar (Probe: 100 Zitate von Nanda et al. 2023, darunter viele Grokking-Arbeiten
+aus Juli bis September 2026, z. B. 2609.18078 „Component Roles in Grokking Transfer“, 2606.26050 „Natural Ungrokking“, 2607.12735 „Critical Windows in Grokking“). Ein Claude-Hilfsagent (nur lesend)
+geht die Vorwärtszitate von 9 Ausgangsarbeiten durch. Ergebnis folgt.
+
+**Zyklus 3 (Paper, Regel 19a: R2 vorbereitet, 15:20).** *Frage:* Hält K4c (Umstieg bei 25, Festhalten bei 50) auch bei anderen Hyperparametern? Das ist die Robustheitsfrage, die Gutachter
+zu K4 zuerst stellen; im [[paper/robustness_plan]] war R2 nur skizziert („nach EXP-040“). *Änderung:* Registrierungsentwurf [[confirm/R2_REGISTRATION_DRAFT|R2]] und `lab/tools/confirm_r2.py`
+(N29-Protokoll, Zellen lr 2e-3 mit t ∈ {12, 25, 50} und wd 0.3 mit t ∈ {25, 50}, Holm über 4, n = 30 aus der N29-Streuung: Power 0.88 bei halbiertem Abstand; Seeds 2510–2539 in
+[[FINDINGS_DETAILS]] reserviert). *Entscheidung zur Abhängigkeit von EXP-040:* Das Warten auf EXP-040 ist nicht nötig. H2 bei lr 2e-3 liegt mit t = 12 unter beiden Uhren (Schritte, Λ) im
+Umstiegsbereich; die Uhrenfrage wird als Sekundärgröße (t = 25) ohne Urteil mitgemessen. Nur `py_compile`, kein Selbsttest (Fenster zu). Codex prüft (läuft).

@@ -709,3 +709,14 @@ Gruppen und eine nicht-modulare Aufgabe geprüft wird. Das bleibt der Kandidat v
   Skript und Zahlen: `lab/experiments/EXP-016-engineered-split/posthoc_postgen_persistence.py/.json`.
   *Kontrolle (Zyklus 2):* Zufallssplit-Läufe der Studie verdichten nach dem Grokking ebenfalls (+0.11 nach 750 Schritten, 10/10). Der Anstieg ist also allgemein.
   Belastbar ist nur „kein Abklingen“, eine Verstärkung durch den Split ist nicht gezeigt (`posthoc_postgen_control.py/.json`).
+
+## Ergebnisse Sitzung 20 (2026-09-27, Pilotnacht auf der GPU) zu N23–N26
+
+Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden, vorläufig“. Die Versuche sind Piloten mit 10 Seeds, keine Bestätigung.
+- **N23 (Charaktere bei Multiplikation):** [[experiments/EXP-043-generalize-steering/README|EXP-043]] mul 113 *steuerbar* (10/10, p 0.001). Einschränkung: Multiplikation ≈ Z₁₁₂ + Null, also vor allem ein zusammengesetzter Modulus.
+- **N24 (Irreps in D₅₉):** [[experiments/EXP-046-dihedral-steering/README|EXP-046]] *steuerbar* (Δ̄ 9.6, Top-3-Δ 6/6 in 10/10). Häufigkeits-Confound dort nicht getrennt.
+- **N25 (nicht-modulare Addition):** [[experiments/EXP-048-intadd-steering/README|EXP-048]] *steuerbar* (Δ_pow 2.2 trendbereinigt, 10/10), vor jedem Lernen der Aufgabe (Test 0.23).
+- **N26 (M0c gegen M0):** [[experiments/EXP-050-phase-dissociation/README|EXP-050]]: M0c selektiert **und** M0 trägt auch. Die Theorie erster Ordnung stimmt nur halb.
+- **N27 (vorab eingefrorene Masken-Theorie):** [[experiments/EXP-052-oos-mask-prediction/README|EXP-052]] trifft in 4/4 unberührten Fällen (Assoziation).
+- Vor einer Veröffentlichung nötig: gezielte Nachsuche zu „training set composition selects among equivalent Fourier solutions“ (Stand der Suche: Sitzung 17 und 20), und die P1-Bestätigung.
+

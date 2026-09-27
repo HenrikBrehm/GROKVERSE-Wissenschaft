@@ -2547,3 +2547,9 @@ saubere Trennung erst mit EXP-053. *Folge für P3:* Primär t = 25 bleibt richti
 **Zyklus 12 (andere Architektur: EXP-045 MLP, 03:32–03:35 gemessen).** [[experiments/EXP-045-mlp-steering/README|EXP-045]]: **steuerbar** (Δ̄ 7.9 bei 10 000, 10/10, p 0.001; bei 2000: 10.0).
 Alle Läufe generalisieren (gen 3450–7575). Damit ist auch die Frage aus Zyklus 1/2 auf längerer Zeitskala beantwortet (beschreibend): Die gepflanzte Wahl bleibt 2400–6500 Schritte nach dem
 Grokking erhalten (10/10), leicht verwässert (10.0 → 7.9). GPU-Nachtprogramm damit komplett („all done“ 03:33). Danach EXP-050 (Paket C, 60 Läufe) nachgeschoben: `night3_exp050.log`.
+
+**Zyklus 13 (Paket C: M0c gegen M0, EXP-050, 03:35–03:42 gemessen).** [[experiments/EXP-050-phase-dissociation/README|EXP-050]] (GPU frei nach dem Nachtprogramm, wie in STATE vorgesehen):
+a *M0c selektiert* (D̄ 6.51, 10/10, p 0.001), b *anti steuert trotzdem* (Δ̄_anti 1.36, 10/10, p 0.001), Manipulation quadlm 7.88. Die Vorhersage erster Ordnung war „a ja, b nein“.
+Eingetreten ist das vorab benannte Zwischenergebnis „a ja und b ja“: Der Kreuzterm dominiert (≈ 6×), M0 trägt einen kleinen, aber durchgängigen Anteil. **Das ist ein Befund gegen die reine
+Theorie erster Ordnung** (sie sagt anti ≈ 0). Kandidaten: spätere Schritte, MLP-Nichtlinearität. Das passt zu EXP-052 S1 (M0c > M0, aber M0 sagt auch voraus). Folgeversuch MLP mit getrennten W_in-Hälften
+(vorab genannt). FINDINGS und LAB ergänzt.

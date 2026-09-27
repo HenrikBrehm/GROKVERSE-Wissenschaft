@@ -26,6 +26,7 @@ Alle Urteile vorab festgelegt, GPU nach bestandenem [[experiments/GPU-001-equiva
 | Mechanismus: Häufigkeiten gegen Paarstruktur (Z₁₁₃) | [[experiments/EXP-047-marginal-control/README\|EXP-047]] | Häufigkeiten 0.3 (n. s.); Paarstruktur 6.8 | 10/10 | 0.001 | *Paarstruktur trägt* |
 | K4 frühe Festlegung (Wechsel F→G, ≈ 38 % geteilt) | [[experiments/EXP-044-generalize-lockin/README\|EXP-044]] | d(150) 3.3 / 3.5; Kipp zwischen t 25 und 50 | 10/10 je Aufgabe | 0.001 (Holm) | *festgelegt* (add 97, mul 113) |
 | K1 an unberührten Fällen (eingefrorene Vorhersage, Paket C) | [[experiments/EXP-052-oos-mask-prediction/README\|EXP-052]] | ρ eigen 0.34–0.45, fremd ≈ 0 | 4/4 Fälle | 0.0002 (Holm) | *K1 gilt hier* (Assoziation) |
+| Mechanismus: kohärentes M0c gegen M0 (Phasen-Dissoziation, Paket C) | [[experiments/EXP-050-phase-dissociation/README\|EXP-050]] | quadlm − anti 6.5; anti allein 1.4 | 10/10 / 10/10 | 0.001 (Holm) | *M0c selektiert*, aber M0 trägt auch (erste Ordnung nur halb) |
 | Funktion (P2) | [[experiments/EXP-051-functional-ablation/README\|EXP-051]], [[experiments/EXP-055-ablation-dose/README\|EXP-055]] | Genauigkeit am Boden; ΔL primär n. s., Teildosen 10/10 (post hoc) | – | – | *unklar* |
 
 **Lesart nach [[LESART-nacht-2026-09-27]] Regel 2:** Drei echt andere Aufgaben sind *steuerbar*, gefordert waren zwei. **K2 gilt damit über die gezeigten Aufgaben hinweg** (Pilotstufe):

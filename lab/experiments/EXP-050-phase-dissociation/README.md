@@ -1,13 +1,13 @@
 ---
 id: EXP-050
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[FINDINGS]]", "[[BEFUND-split-mechanismus]]", "[[experiments/EXP-019-coherent-mask/README|EXP-019]]", "[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experiments/EXP-047-marginal-control/README|EXP-047]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-050: Wählt der Transformer nach M0c oder nach M0? (Phasen-Dissoziation)
 
-**Status:** vorbereitet, **nicht ausgeführt, ungetestet, nicht in einer Queue** (Sitzung 13, 2026-09-26, außerhalb des Fensters).
+**Status:** abgeschlossen 2026-09-27 (Sitzung 20, GPU), Ergebnis unten. Ursprünglich: vorbereitet, nicht ausgeführt, ungetestet, nicht in einer Queue (Sitzung 13, 2026-09-26, außerhalb des Fensters).
 Festgelegt vor jedem Lauf. Zurück zu [[LAB]] · [[FINDINGS]] · Idee [[NOVEL_DIRECTIONS]] N26.
 
 ## Bezug zu [[FINDINGS]]
@@ -85,3 +85,20 @@ Unabhängige Prüfung (Claude-Subagent, nur numpy; Codex ohne Guthaben): Herleit
 
 **Art:** Paket C (nicht aktiv), Exploration. Bestätigung nur im reservierten Block (Seeds 1000–1099, [[FINDINGS]] „Programm“) nach eingefrorenem Analysemanifest.
 **Gesehen:** Sitzung-5-Messung am ersten Gradienten (M0c beschreibt ihn besser als M0; Transformer 0.77 gegen 0.57, MLP umgekehrt) und EXP-019 (post hoc richtungsgleich) motivierten die Hypothese; die Herleitung erster Ordnung entstand nachträglich zu diesen Messungen. Splits offline (sym/anti/quadlm, Spiegelpaare) angesehen; Nachtrag a folgte daraus. Keine Läufe der Seeds 180–189.
+
+## Ergebnis (Sitzung 20, 2026-09-27, Läufe 03:35–03:40 Berlin, GPU)
+
+Befehl: `python lab/tools/night_program.py --experiments GPU-001,EXP-050`; Log `lab/runner/logs/night3_exp050.log`, `lab/runner/logs/night_20260927T013514_874246Z/EXP-050_*`,
+Zahlen `summary.json`. 60 Läufe, device cuda, Commit 5e547d4.
+
+| | Wert | Urteil (vorab, Holm über {a, b}) |
+|---|---|---|
+| Manipulationsprüfung quadlm | Δ̄_pow 7.88, p 0.00098 | quadlm steuert, a ist deutbar |
+| **a** D = Δ_pow,quadlm − Δ_pow,anti | D̄ 6.51, 10/10, p 0.00098 | ***M0c selektiert (quadlm > anti)*** |
+| **b** Δ_pow,anti | 1.36, 10/10, p 0.00098 | ***anti steuert trotzdem (M0-Anteil)*** |
+| sekundär D_sym = sym − anti | 7.95 (p 0.00098); Δ_pow,sym 9.32 | (durch Spiegelpaarzahl konfundiert) |
+
+- **Lesart (vorab als „Zwischenergebnis a ja und b ja“ benannt):** Der kohärente Kreuzterm (M0c) verstärkt die Steuerung stark, und das nicht kohärente M0 trägt auch.
+  Die **Vorhersage erster Ordnung stimmt nur zur Hälfte**: a ja, aber b nicht nein. anti steuert, schwach (≈ 1/6 von quadlm) und durchgängig (10/10). Mögliche Ursachen laut
+  Gegenhypothese: spätere Schritte mit nicht gleichverteilter Ausgabe oder die MLP-Nichtlinearität. Nicht getrennt.
+- Folgeversuch (vorab genannt): MLP mit getrennten W_in-Hälften (Vorhersage dort umgekehrt). Pilot, 10 Seeds, nur Transformer.

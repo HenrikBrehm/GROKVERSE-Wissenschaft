@@ -3495,3 +3495,9 @@ Init-Gleichheit. *Warum jetzt:* Die GPU ist heute Nacht nach dem Plan nur ≈ 1.
 auch EXP-077 hat (beide vor jedem Lauf): „Δ̄ < 0.5 **oder** p ≥ 0.2 → keine Steuerung“ hätte einen großen, streuenden Mittelwert als „keine Steuerung“ gelesen → jetzt nur Δ̄ < 0.5; EXP-077
 Nachtrag b. Positiv-Regeln unverändert. *Eigener Fehler:* ein Heredoc ohne Anführungszeichen mit Backticks; die Shell wollte Wörter als Befehle ausführen (alle „command not found“, nichts
 geschrieben, nichts ausgeführt). Danach über eine Skriptdatei wiederholt.
+
+**Zyklus 7 (größte offene Frage: Λ- oder Schrittuhr, R3 vorbereitet, vor 15:37, gemessen).** *Frage:* Tickt die Festlegung in aufsummierter Lernrate oder in Schritten? EXP-039 war *unklar*
+(4 bekannte Seeds), R2 kann es nicht klären (Codex: Lernrate auch nach dem Wechsel verändert). *Änderung:* [[confirm/R3_REGISTRATION_DRAFT|R3]] + `confirm_r3.py`: N29-Protokoll mit
+`--lr-scale c` **nur vor dem Wechsel** (Trainer-Option aus EXP-039, keine Trainer-Änderung): lrs2@25 (Λ = 50) und lrs05@50 (Λ = 25). Die Λ-Uhr sagt Festhalten bzw. Umstieg voraus, die Schrittuhr das
+Gegenteil; Holm über 2, n = 20 (Power 0.80 bei halbiertem Umstiegseffekt), Seeds 2540–2559 reserviert, 80 Läufe ≈ 17 min GPU. Codex prüft (läuft). *Warum:* Das ist der direkteste Test des
+Amplitudenbilds an frischen Seeds, billig und mit zwei gegensätzlich vorhergesagten Zellen.

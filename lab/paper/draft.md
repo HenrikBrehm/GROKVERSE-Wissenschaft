@@ -169,6 +169,15 @@ content carries, which passes through the value/output path; a withheld capabili
 D59 models generalize after a median of ≈ 4600 steps (pilot EXP-072: range 2875–8150; 9/10 runs by 20 000 steps), so K2 for D59 (3.1) concerns the pre-grokking choice. In the pilot the steered irreps carry 0.90–0.99 of the
 embedding energy after grokking (exploration). Confirmation P2f (20 fresh seeds, 12 000 steps) is prepared (registration drafted and Codex-reviewed) but not yet frozen; results will replace this paragraph.
 
+### 3.7 Pending robustness blocks (registered drafts, not run; session 26)
+
+- **R1** (K2 vs learning rate 0.5e-3 / 2e-3, weight decay 0.3 / 3, train fraction 0.2 / 0.5; 15 fresh seeds per cell, Holm over 6; [[confirm/R1_REGISTRATION_DRAFT|R1]]).
+- **R2** (K4c at lr 2e-3 and at wd 0.3; 30 fresh seeds, Holm over 4; [[confirm/R2_REGISTRATION_DRAFT|R2]]).
+- **R3** (does the lock-in follow summed learning rate or step count? lr × 2 for 25 steps vs × 0.5 for 50 steps before the switch only; 20 fresh seeds, Holm over 2; [[confirm/R3_REGISTRATION_DRAFT|R3]]).
+- **P4** (K2 in a shared-embedding MLP, at 4× width, and for non-modular integer addition; [[confirm/P4_REGISTRATION_DRAFT|P4]]).
+- Pilot **EXP-078** (K2 in a two-layer transformer; exploration, known seeds).
+Whatever these show, including "holds only in a range", replaces this list; nothing here is a result.
+
 ## 4 Explorations and negative results (not claims)
 
 - Lock-in is smooth in the number of pre-switch steps (π ≈ 0.01, 0.19, 0.30, 0.56, 1.05 at t = 10, 20, 25, 35, 50; pilot, 10 known seeds); neither the W_E lead nor OV alignment at the switch predicts

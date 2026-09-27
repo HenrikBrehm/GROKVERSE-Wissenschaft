@@ -40,6 +40,6 @@ Festgelegt 2026-09-27 (Sitzung 22), während der N28-Block lief und bevor irgend
 python lab/tools/guarded_run.py -- python lab/confirm/n28_regimes.py          # nach dem N28-Block
 ```
 
-## Ergebnis Teil 2 (Sitzung 22, 08:32 Berlin): ***zwei Regime bestätigt (Vorhersage)***
+## Ergebnis Teil 2 (Sitzung 22, 08:29 Berlin): ***zwei Regime bestätigt (Vorhersage)***
 
 An den 30 frischen N28-Seeds: V1 29/30 (a25 − b25 im Mittel 1.87), V2 30/30 (b50 − b25 im Mittel 3.44). Mittelwerte a25 2.24, b25 0.36, a50 3.76, b50 3.80. `lab/confirm/N28_regimes_summary.json`.

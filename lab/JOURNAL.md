@@ -2980,6 +2980,6 @@ Geprüft: N28, EXP-058/059/063 sind nicht betroffen (≤ 2050 Schritte, Generali
 *Deutung (Pilot):* Das Erhalten der alten Wahl ist doppelt vorhanden, der Ausschluss braucht W_E und Rest zusammen. Ein Speicherfehler (Job 2) wurde mit demselben Befehl nachgeholt.
 *Nächste Frage:* welcher Teil des Rests; Weight Decay (K1, braucht Trainer-Option und Codex).
 
-**Zyklus 12 (N28 ausgewertet, Vorhersage geprüft, 08:31–08:32 gemessen).** N28-Block 300/300 gebunden, 30/30 gültig. **H1 bestätigt** (Δ_m ≈ 0.15, Y-KI [0.077, 0.126], Holm-p 2·10⁻⁸),
+**Zyklus 12 (N28 ausgewertet, Vorhersage geprüft, 08:28–08:29 gemessen).** N28-Block 300/300 gebunden, 30/30 gültig. **H1 bestätigt** (Δ_m ≈ 0.15, Y-KI [0.077, 0.126], Holm-p 2·10⁻⁸),
 **H2 bestätigt** (π_m@35 0.41 ≥ π_normal@25 0.34, X-KI [0.090, 0.152]). π_normal@50 = 1.00. **Vorab festgelegte Zwei-Regime-Vorhersage bestätigt** (V1 29/30, V2 30/30), Werte nahe am Piloten.
 Nächster Schritt: Codex prüft die Schlussfolgerungen, bevor sie als Kernaussage in FINDINGS stehen.

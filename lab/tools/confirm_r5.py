@@ -1,30 +1,35 @@
 """R5 confirmation (programme A, paper observation "engineered splits grok earlier"): do spectrally concentrated training splits
 generalise earlier than uniform ones, because of the concentration (not of any structured non-uniformity), and graded with it?
 Session 31, UNTESTED (written outside the run window). Registration: lab/confirm/R5_REGISTRATION_DRAFT.md (version 2, session 31),
-design points from the Codex design review of session 30 (lab/confirm/R5_codex_design_review_s30.txt).
+design points from the Codex design review of session 30 (lab/confirm/R5_codex_design_review_s30.txt); revised after the Codex code review
+of session 31 (lab/confirm/R5_codex_review_s31.txt: H-ER one-to-one, H-dose secondary, D connectivity/coverage, dense validation,
+frozen random init assignment and run order).
 
-Unit u (init seed 2720 + u; reserved 2720-2779): its own streams SeedSequence([R5_TAG, u, ...]), none drawn from the init seed:
+Unit u (init seed 2720 + pi(u), pi a frozen random permutation of 0..59; reserved 2720-2779): its own streams SeedSequence([R5_TAG, u, ...]), none drawn from the init seed:
 common held-out test set T*_u (20 % of all pairs), pool = rest, one uniform key vector for all engineered arms, two target sets A/B
 (5 of k = 1..56, independent of the init). Seven training sets of 3831 pairs, all evaluated on T*_u:
   R      uniform random from the pool
   E2_0   EXP-018 construction (wave over targets A, eps 2, floor 0.05, Efraimidis-Spirakis keys)     E2_1  same with targets B
   D_0    per anti-diagonal c = a + b exactly as many pairs as the REALISED E2_0 mask, positions uniform within c (Codex s30 blocker 1);
          redrawn (substream r = 0..19) until the frozen tolerances vs E2_0 hold (degree CV of a and b, swap share, test swap share
-         within 0.04; target share of M0 <= 0.12)                                                    D_1   same for E2_1
+         within 0.04; test-neighbour coverage within 0.02; a-b graph connected; target share of M0 <= 0.12)   D_1  same for E2_1
   E1_0, E8_0   as E2_0 with eps 1 and 8 (same keys and wave phases): dose arms
 Every run: freq_ban, GPU, --threads 1, 8000 steps, --stop-after-gen 8000 (no early stop: a stop after a transient first crossing would
 censor engineered arms in their favour), W_E spectrum at 250.
 Event (Codex s30 blocker 2): first test evaluation s with test acc >= 0.95 at s, s + 25 and s + 50, and train acc >= 0.99 at some step
 <= s; none within 8000 -> censored at 8000. Bounded time b = min(event, 8000).
-Primary family (Holm over 3 at 0.05; per contrast p = max(p_flip, p_sign), Codex s30 blocker 3):
-  H-ER   L = log2 b(R) - mean_j log2 b(E2_j) > 0          (engineered earlier than uniform)
-  H-ED   L = mean_j [log2 b(D_j) - log2 b(E2_j)] > 0       (earlier than the per-output-matched control: concentration, not marginals)
-  H-dose L = log2 b(E1_0) - log2 b(E8_0) > 0              (graded: weakly concentrated later than strongly concentrated)
-p_flip = one-sided sign-flip permutation p of mean L (Monte Carlo, fixed seed); p_sign = exact one-sided binomial p over the units whose
-order is determined under censoring (aggregates: geometric mean of bounded times, observed only if all parts are observed).
+Primary family (Holm over 2 at 0.05; per contrast p = max(p_flip, p_sign), Codex s30 blocker 3). Null of both tests: within a unit the
+compared arms are exchangeable (sharp randomisation null; this makes L sign-symmetric, Codex s31 blocker 1):
+  H-ER   L = log2 b(R) - log2 b(E2_0) > 0                 (engineered earlier than uniform; one-to-one, E2_1 only in H-ED)
+  H-ED   L = mean_j [log2 b(D_j) - log2 b(E2_j)] > 0       (earlier than the per-output-matched control: the engineered arrangement
+                                                            within anti-diagonals, not the output marginals)
+Secondary (outside the family, own p at 0.05, Codex s31 blocker 2): H-dose L = log2 b(E1_0) - log2 b(E8_0) > 0 (dose of this construction).
+p_flip = one-sided sign-flip permutation p of mean L, (exceedances + 1) / (N + 1) (Monte Carlo, fixed seed); p_sign = exact one-sided
+binomial p over the units whose order is determined under censoring (aggregates: geometric mean of bounded times, observed only if all
+parts are observed; ties within 1e-9 in log2 count as undetermined).
 Effect size (point estimate, Codex s30 blocker 4): 2 ** mean L = geometric mean ratio of bounded times, with a 95 % bootstrap CI.
-Any missing or broken run, an identity violation -> "nicht auswertbar". Descriptive only: W_E target share at 250 per arm, first-crossing
-steps, final test accuracy, share of arms generalised by 2000 / 8000, the matching statistics of D.
+Any missing or broken run, a malformed dense trace, an identity violation -> "nicht auswertbar". Descriptive only: W_E target share at
+250 per arm, first-crossing steps, final test accuracy, share of arms generalised by 2000 / 8000, the matching statistics of D.
 
   python lab/tools/confirm_r5.py --hash-code | --splits M | --jobs M | --run M -- <cmd> | --analyze M | --selftest
 """
@@ -62,7 +67,8 @@ N_UNITS = 20
 REGISTERED = {"units": N_UNITS, "steps": CAP, "device": "cuda", "threads": 1}
 ARMS = ("R", "E2_0", "D_0", "E2_1", "D_1", "E1_0", "E8_0")
 EPS = {"E1_0": 1.0, "E2_0": 2.0, "E8_0": 8.0, "E2_1": 2.0}
-TOL, TSHARE_D_MAX, D_TRIES = 0.04, 0.12, 20
+TOL, TOL_COV, TSHARE_D_MAX, D_TRIES, TIE = 0.04, 0.02, 0.12, 20, 1e-9
+PRIMARY, SECONDARY = ("H-ER", "H-ED"), ("H-dose",)
 CODE_FILES = ("lab/tools/confirm_r5.py", "lab/tools/bound_block.py", "lab/tools/confirm_p1.py", "lab/tools/result_loader.py",
               "lab/tools/confirm_splits.py", "lab/experiments/EXP-043-generalize-steering/make_split.py",
               "lab/experiments/EXP-046-dihedral-steering/make_split.py", "lab/experiments/EXP-046-dihedral-steering/dihedral.py",
@@ -74,8 +80,12 @@ def stream(*key: int) -> np.random.Generator:
     return np.random.default_rng(np.random.SeedSequence([R5_TAG, *key]))
 
 
+INIT_PERM = [int(x) for x in np.random.default_rng(np.random.SeedSequence([R5_TAG, 97])).permutation(SEED_MAX - SEED0 + 1)]
+
+
 def init_seed(u: int) -> int:
-    return SEED0 + u
+    """Frozen random assignment unit -> init seed within the reserved range (Codex s30 major 5)."""
+    return SEED0 + INIT_PERM[u]
 
 
 def targets(u: int, j: int) -> list[int]:
@@ -103,7 +113,26 @@ def match_stats(x: np.ndarray, test: np.ndarray) -> dict[str, float]:
     off, ta, tb = a != b, test // P, test % P
     toff = ta != tb
     return {"cv_a": float(ca.std() / ca.mean()), "cv_b": float(cb.std() / cb.mean()),
-            "swap": float(np.isin(b[off] * P + a[off], x).mean()), "test_swap": float(np.isin(tb[toff] * P + ta[toff], x).mean())}
+            "swap": float(np.isin(b[off] * P + a[off], x).mean()), "test_swap": float(np.isin(tb[toff] * P + ta[toff], x).mean()),
+            "test_cov": float((ca[ta] + cb[tb]).mean() / (2 * N_TRAIN / P))}
+
+
+def components(x: np.ndarray) -> int:
+    """Connected components of the bipartite graph a -- b of the training pairs (226 nodes)."""
+    par = list(range(2 * P))
+
+    def find(i: int) -> int:
+        while par[i] != i:
+            par[i] = par[par[i]]
+            i = par[i]
+        return i
+    for a, b in zip((x // P).tolist(), (x % P).tolist()):
+        par[find(a)] = find(P + b)
+    return len({find(i) for i in range(2 * P)})
+
+
+def matched(sd: dict, se: dict) -> bool:
+    return all(abs(sd[k] - se[k]) <= (TOL_COV if k == "test_cov" else TOL) for k in se)
 
 
 def target_share(x: np.ndarray, tg: list[int]) -> float:
@@ -118,8 +147,7 @@ def matched_d(e: np.ndarray, pool: np.ndarray, test: np.ndarray, tg: list[int], 
     for r in range(D_TRIES):
         rng = stream(u, 5, j, r)
         d = np.sort(np.concatenate([rng.choice(pool[cp == c], size=ce[c], replace=False) for c in range(P)]))
-        sd = match_stats(d, test)
-        if all(abs(sd[k] - se[k]) <= TOL for k in se) and target_share(d, tg) <= TSHARE_D_MAX:
+        if matched(match_stats(d, test), se) and components(d) == 1 and target_share(d, tg) <= TSHARE_D_MAX:
             return d, r
     raise SystemExit(f"R5 unit {u}: no matched D_{j} within {D_TRIES} draws (design failure, before any run)")
 
@@ -168,7 +196,8 @@ def write_splits(man: dict) -> None:
             with open(split_path(u, a), "xb") as f:
                 np.save(f, b["sets"][a])
         with open(SPL / f"r5_u{u}.json", "x", encoding="utf-8") as f:
-            json.dump({**b["meta"], "match": {a: match_stats(b["sets"][a], b["sets"]["test"]) for a in ARMS},
+            json.dump({**b["meta"], "match": {a: {**match_stats(b["sets"][a], b["sets"]["test"]), "components": components(b["sets"][a])}
+                                              for a in ARMS},
                        "target_share_m0": {a: [target_share(b["sets"][a], tg) for tg in arm_targets(u, a)] for a in ARMS}}, f, indent=1)
 
 
@@ -191,7 +220,10 @@ def job(man: dict, u: int, arm: str) -> str:
 
 
 def trainer_jobs(man: dict) -> list[str]:
-    return [job(man, u, a) for u in range(check_units(man)) for a in ARMS]
+    """All runs in a frozen random order (Codex s30 major 5: no arm always first)."""
+    jobs = [job(man, u, a) for u in range(check_units(man)) for a in ARMS]
+    order_ = np.random.default_rng(np.random.SeedSequence([R5_TAG, 96, len(jobs)])).permutation(len(jobs))
+    return [jobs[i] for i in order_]
 
 
 def expected_run_id(cmd: list[str]) -> str:
@@ -210,6 +242,19 @@ BLOCK = Block(name="confirm_r5", raw=RAW, bind=BIND, code_files=CODE_FILES, regi
 
 
 # ---------------------------------------------------------------- event and statistics
+def dense_violation(dense: dict | None) -> str | None:
+    """Codex s31 major 4: a malformed trace is a technical failure, never scientific censoring."""
+    if not isinstance(dense, dict):
+        return "dense missing"
+    for kind, every in (("test", EVAL), ("train", 10)):
+        st, acc = dense.get(f"{kind}_steps"), dense.get(f"{kind}_acc")
+        if not isinstance(st, list) or not isinstance(acc, list) or [int(s) for s in st] != list(range(0, CAP + 1, every)):
+            return f"dense {kind} grid is not 0:{every}:{CAP}"
+        if len(acc) != len(st) or not all(isinstance(v, (int, float)) and math.isfinite(v) and 0.0 <= v <= 1.0 for v in acc):
+            return f"dense {kind} accuracies malformed"
+    return None
+
+
 def event(dense: dict, last: int) -> tuple[int, bool]:
     """(step, observed): first test evaluation s with CONSEC consecutive evaluations >= ACC_TEST (s, s + 25, ...) and train acc >=
     ACC_TRAIN at some step <= s. Not found (or the run ended before step `last`) -> (CAP, False)."""
@@ -237,7 +282,7 @@ def order(early: tuple[float, bool], late: tuple[float, bool]) -> int | None:
     """+1 if `early` is surely earlier than `late`, -1 if surely later, None if tied or undetermined under censoring."""
     (ge, oe), (gl, ol) = early, late
     if oe and ol:
-        return None if ge == gl else (1 if ge < gl else -1)
+        return None if abs(math.log2(ge) - math.log2(gl)) <= TIE else (1 if ge < gl else -1)
     if oe and ge < gl:
         return 1
     if ol and gl < ge:
@@ -245,13 +290,12 @@ def order(early: tuple[float, bool], late: tuple[float, bool]) -> int | None:
     return None
 
 
-CONTRASTS = {"H-ER": ("E2", "R"), "H-ED": ("E2", "D"), "H-dose": ("E8_0", "E1_0")}   # (predicted earlier, predicted later)
+CONTRASTS = {"H-ER": ("E2_0", "R"), "H-ED": ("E2", "D"), "H-dose": ("E8_0", "E1_0")}   # (predicted earlier, predicted later)
 
 
 def contrast(t: dict[str, tuple[int, bool]], h: str) -> tuple[float, int | None]:
     if h == "H-ER":
-        e, x = [t["E2_0"], t["E2_1"]], [t["R"]]
-        return lb(t["R"]) - np.mean([lb(v) for v in e]), order(agg(e), agg(x))
+        return lb(t["R"]) - lb(t["E2_0"]), order(agg([t["E2_0"]]), agg([t["R"]]))
     if h == "H-ED":
         L = float(np.mean([lb(t[f"D_{j}"]) - lb(t[f"E2_{j}"]) for j in (0, 1)]))
         return L, order(agg([t["E2_0"], t["E2_1"]]), agg([t["D_0"], t["D_1"]]))
@@ -260,7 +304,7 @@ def contrast(t: dict[str, tuple[int, bool]], h: str) -> tuple[float, int | None]
 
 def p_flip(L: np.ndarray, rng: np.random.Generator) -> float:
     signs = rng.choice((-1.0, 1.0), size=(N_FLIP, len(L)))
-    return float(((signs * L).mean(axis=1) >= L.mean() - 1e-12).mean())
+    return float((((signs * L).mean(axis=1) >= L.mean() - 1e-12).sum() + 1) / (N_FLIP + 1))
 
 
 def p_sign(k: int, n: int) -> float:
@@ -281,17 +325,21 @@ def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
         ci = c1.boot_ci(L, rng)
         out[h] = {"mean_L": float(L.mean()), "ratio_geo": float(2 ** L.mean()), "ratio_ci95": [float(2 ** ci[0]), float(2 ** ci[1])],
                   "p_flip": pf, "p_sign": pg, "n_determined": len(det), "n_positive_order": sum(1 for o in det if o > 0), "p": ps[h]}
-    ph = c1.holm(ps)
-    for h in CONTRASTS:
+    ph = c1.holm({h: ps[h] for h in PRIMARY})
+    for h in PRIMARY:
         out[h]["p_holm"] = ph[h]
         out[h]["verdict"] = "bestätigt" if ph[h] < ALPHA else "nicht bestätigt"
+    for h in SECONDARY:
+        out[h]["role"] = "sekundär (außerhalb der Familie)"
+        out[h]["verdict"] = "gestützt (sekundär)" if ps[h] < ALPHA else "nicht gestützt (sekundär)"
     desc: dict = {}
     for a in ARMS:
         ev = [r["times"][a] for r in rows]
         desc[a] = {"observed": sum(1 for t in ev if t[1]), "by_2000": sum(1 for t in ev if t[1] and t[0] <= 2000),
                    "median_bounded": float(np.median([min(t[0], CAP) for t in ev])),
                    "we_target_share_250_mean": float(np.mean([r["we_share_250"][a] for r in rows])),
-                   "first_crossing_median": float(np.median([r["first_crossing"][a] or CAP for r in rows]))}
+                   "first_crossing_median": float(np.median([r["first_crossing"][a] or CAP for r in rows])),
+                   "test_final_mean": float(np.mean([r["test_final"][a] for r in rows]))}
     out["descriptive"] = desc
     return out
 
@@ -312,6 +360,8 @@ def one_run(man: dict, u: int, arm: str) -> dict | str:
     if (why := BLOCK.unbound(man, d)):
         return f"{tag}: defekt after load: {why}"
     res = L.res
+    if (why := dense_violation(res.get("dense"))):
+        return f"{tag}: defekt: {why}"
     pw = L.spectrum(250)
     share = float(np.mean([pw[[k - 1 for k in tg]].sum() / pw.sum() for tg in arm_targets(u, arm)]))
     return {"event": event(res["dense"], int(res["steps_completed"])), "init_checksum": res.get("init_checksum_shared"),
@@ -346,7 +396,10 @@ def analyze(manifest: Path) -> None:
     if bad:
         raise SystemExit(f"R5 splits differ from the registered construction, confirmation void: {bad[:3]}")
     rows = [unit_row(man, u) for u in range(n)]
-    out = {"manifest_commit": man["commit"], "n_planned": n, "hypotheses": verdict(rows, n, np.random.default_rng(5)), "rows": rows}
+    meta = [json.loads((SPL / f"r5_u{u}.json").read_text(encoding="utf-8")) for u in range(n)]
+    out = {"manifest_commit": man["commit"], "n_planned": n, "hypotheses": verdict(rows, n, np.random.default_rng(5)),
+           "d_matching": {a: {k: float(np.mean([m["match"][a][k] for m in meta])) for k in meta[0]["match"][a]} for a in ARMS},
+           "d_substreams": [m["d_substream"] for m in meta], "rows": rows}
     (LAB / "confirm" / "R5_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1, ensure_ascii=False))
 
@@ -359,7 +412,7 @@ def _dense(cross: int | None, mem: int = 120, dip: int | None = None) -> dict:
     return {"test_steps": ts, "test_acc": ta, "train_steps": rs, "train_acc": [1.0 if s >= mem else 0.2 for s in rs]}
 
 
-def _fake_rows(rng: np.random.Generator, n: int, speed: dict[str, float]) -> list[dict]:
+def _fake_rows(rng: np.random.Generator, n: int, speed: dict[str, float], d_copies_e: bool = False) -> list[dict]:
     rows = []
     for u in range(n):
         base = rng.normal(0.0, 0.3)
@@ -368,10 +421,12 @@ def _fake_rows(rng: np.random.Generator, n: int, speed: dict[str, float]) -> lis
             s = 2 ** (math.log2(speed[a]) + base + rng.normal(0.0, 0.3))
             s = int(round(s / EVAL)) * EVAL
             t[a] = (s, True) if s < CAP else (CAP, False)
+        if d_copies_e:                                   # exact null for H-ED: D identical to E in every unit
+            t["D_0"], t["D_1"] = t["E2_0"], t["E2_1"]
         Lo = {h: contrast(t, h) for h in CONTRASTS}
         rows.append({"unit": u, "technical": False, "times": t, "L": {h: v[0] for h, v in Lo.items()},
                      "order": {h: v[1] for h, v in Lo.items()}, "first_crossing": {a: t[a][0] for a in ARMS},
-                     "we_share_250": {a: 0.3 for a in ARMS}})
+                     "we_share_250": {a: 0.3 for a in ARMS}, "test_final": {a: 1.0 for a in ARMS}})
     return rows
 
 
@@ -390,27 +445,35 @@ def selftest() -> None:
             raise AssertionError(f"unregistered manifest accepted: {bad}")
         except SystemExit:
             pass
-    # design: determinism, sizes, disjoint test, independent targets, exact per-output match of D, dose arms share keys
-    b0, b1 = build_unit(0), build_unit(1)
-    s = b0["sets"]
+    # design, every planned unit (Codex s31 major 6): determinism, sizes, disjoint test, D exactly matched per anti-diagonal and within
+    # all frozen tolerances, connected, not concentrated; dose arms ordered in target share; frozen random init assignment
+    assert sorted(INIT_PERM) == list(range(SEED_MAX - SEED0 + 1)) and INIT_PERM != sorted(INIT_PERM)
+    assert len({init_seed(u) for u in range(N_UNITS)}) == N_UNITS and all(SEED0 <= init_seed(u) <= SEED_MAX for u in range(N_UNITS))
+    s = build_unit(0)["sets"]
     assert all(np.array_equal(s[a], build_unit(0)["sets"][a]) for a in ("test",) + ARMS)
-    assert len(s["test"]) == N_TEST and all(len(s[a]) == N_TRAIN == len(np.unique(s[a])) for a in ARMS)
-    assert all(np.intersect1d(s[a], s["test"]).size == 0 for a in ARMS)
-    assert not np.array_equal(s["test"], b1["sets"]["test"]) and targets(0, 0) != targets(0, 1)
-    for j in (0, 1):
-        assert np.array_equal(np.bincount(antidiag(s[f"D_{j}"]), minlength=P), np.bincount(antidiag(s[f"E2_{j}"]), minlength=P))
-        me, md = match_stats(s[f"E2_{j}"], s["test"]), match_stats(s[f"D_{j}"], s["test"])
-        assert all(abs(me[k] - md[k]) <= TOL for k in me)
-        assert target_share(s[f"E2_{j}"], targets(0, j)) > 0.15 and target_share(s[f"D_{j}"], targets(0, j)) <= TSHARE_D_MAX
-    sh = [target_share(s[a], targets(0, 0)) for a in ("E1_0", "E2_0", "E8_0")]
-    assert sh[0] < sh[1] < sh[2] and target_share(s["R"], targets(0, 0)) < 0.13, sh
-    assert len({init_seed(u) for u in range(N_UNITS)}) == N_UNITS and init_seed(N_UNITS - 1) <= SEED_MAX
-    # jobs and run ids
+    assert not np.array_equal(s["test"], build_unit(1)["sets"]["test"]) and targets(0, 0) != targets(0, 1)
+    for u in range(N_UNITS):
+        s = build_unit(u)["sets"]
+        assert len(s["test"]) == N_TEST and all(len(s[a]) == N_TRAIN == len(np.unique(s[a])) for a in ARMS), u
+        assert all(np.intersect1d(s[a], s["test"]).size == 0 for a in ARMS), u
+        for j in (0, 1):
+            e, d = s[f"E2_{j}"], s[f"D_{j}"]
+            assert np.array_equal(np.bincount(antidiag(d), minlength=P), np.bincount(antidiag(e), minlength=P)), (u, j)
+            assert matched(match_stats(d, s["test"]), match_stats(e, s["test"])) and components(d) == 1, (u, j)
+            assert target_share(e, targets(u, j)) > 0.15 and target_share(d, targets(u, j)) <= TSHARE_D_MAX, (u, j)
+        sh = [target_share(s[a], targets(u, 0)) for a in ("E1_0", "E2_0", "E8_0")]
+        assert sh[0] < sh[1] < sh[2] and target_share(s["R"], targets(u, 0)) < 0.13, (u, sh)
+    x = np.array([a * P + b for a in range(P) for b in range(P) if (a < 56) == (b < 56)])      # two blocks, no cross pairs
+    assert components(x) == 2 and components(np.arange(P * P)) == 1
+    # jobs and run ids (job order is a frozen permutation, so look jobs up by unit and arm)
     tj = trainer_jobs(man)
     assert len(tj) == len(ARMS) * N_UNITS == len(set(tj)) and all("r5_raw" in j and "\\" not in j and "--stop-after-gen 8000" in j for j in tj)
+    assert tj == trainer_jobs(man) and tj != [job(man, u, a) for u in range(N_UNITS) for a in ARMS]
+    assert sorted(tj) == sorted(job(man, u, a) for u in range(N_UNITS) for a in ARMS)
     assert len({expected_run_id(shlex.split(j)) for j in tj}) == len(tj)
-    assert expected_run_id(shlex.split(tj[0])) == "EXP-018_baseline_seed2720_thr1_r5_u0_R_devcuda", expected_run_id(shlex.split(tj[0]))
-    assert "--test-file lab/confirm/r5_splits/r5_u0_test.npy" in tj[0] and "--spectra-at 250" in tj[0] and "--steps 8000" in tj[0]
+    j0 = job(man, 0, "R")
+    assert expected_run_id(shlex.split(j0)) == f"EXP-018_baseline_seed{init_seed(0)}_thr1_r5_u0_R_devcuda", expected_run_id(shlex.split(j0))
+    assert "--test-file lab/confirm/r5_splits/r5_u0_test.npy" in j0 and "--spectra-at 250" in j0 and "--steps 8000" in j0
     assert all(j.startswith("python lab/tools/confirm_r5.py --run M -- ") for j in BLOCK.jobs(man, "M"))
     BLOCK.check_job(man, shlex.split(tj[0]))
     try:
@@ -418,29 +481,40 @@ def selftest() -> None:
         raise AssertionError("foreign command accepted")
     except SystemExit:
         pass
-    assert run_dir(shlex.split(job(man, 0, "D_1"))) == RAW / "EXP-018_baseline_seed2720_thr1_r5_u0_D_1_devcuda"
-    # event rule
+    assert run_dir(shlex.split(job(man, 0, "D_1"))) == RAW / f"EXP-018_baseline_seed{init_seed(0)}_thr1_r5_u0_D_1_devcuda"
+    # event rule and dense validation (fail closed)
     assert event(_dense(500), CAP) == (500, True) and event(_dense(None), CAP) == (CAP, False)
     assert event(_dense(500, dip=525), CAP) == (550, True)                       # a dip resets the run of 3
     assert event(_dense(100, mem=300), CAP) == (300, True)                        # memorisation must come first
     assert event(_dense(7975), CAP) == (CAP, False) and event(_dense(500), 7000) == (CAP, False)
+    good = _dense(500)
+    assert dense_violation(good) is None and dense_violation(None) is not None
+    for bad in ({"test_steps": good["test_steps"][:-1]}, {"test_acc": good["test_acc"][:-1]}, {"train_steps": good["train_steps"][1:]},
+                {"test_acc": good["test_acc"][:-1] + [float("nan")]}, {"train_acc": good["train_acc"][:-1] + [1.5]}, {"test_acc": None}):
+        assert dense_violation({**good, **bad}) is not None, bad
     # contrasts and censoring
     t = {a: (1000, True) for a in ARMS} | {"R": (CAP, False), "E8_0": (500, True), "E1_0": (2000, True)}
     assert contrast(t, "H-ER")[1] == 1 and abs(contrast(t, "H-ER")[0] - math.log2(8)) < 1e-12
     assert contrast(t, "H-ED") == (0.0, None) and contrast(t, "H-dose") == (2.0, 1)
+    t2 = t | {"E2_1": (CAP, False), "R": (1000, True)}                              # E2_1 must not enter H-ER
+    assert contrast(t2, "H-ER") == (0.0, None)
     assert order((CAP, False), (CAP, False)) is None and order((900.0, True), (700.0, True)) == -1
+    assert order((2 ** 10.0, True), (2 ** (10.0 + 1e-12), True)) is None and order((700.0, True), (CAP, False)) == 1
+    assert order((CAP, False), (700.0, True)) == -1 and order((700.0, False), (900.0, True)) is None
     assert abs(p_sign(9, 9) - 1 / 512) < 1e-12 and p_sign(0, 0) == 1.0
-    # verdict on synthetic studies
     rng = np.random.default_rng(0)
+    assert p_flip(np.zeros(20), rng) == 1.0 and 0.0 < p_flip(np.ones(20), rng) <= 2 / (N_FLIP + 1) + 1e-5
+    # verdict on synthetic studies (deterministic nulls, Codex s31 minor 9)
     fast = {"R": 6000, "D_0": 3000, "D_1": 3000, "E2_0": 800, "E2_1": 800, "E1_0": 2500, "E8_0": 450}
     v = verdict(_fake_rows(rng, 20, fast), 20, rng)
-    assert all(v[h]["verdict"] == "bestätigt" for h in CONTRASTS), v
-    null = {a: 1500 for a in ARMS}
-    v = verdict(_fake_rows(rng, 20, null), 20, rng)
-    assert all(v[h]["verdict"] == "nicht bestätigt" for h in CONTRASTS), v
-    only_marg = {**fast, "D_0": 800, "D_1": 800}                                    # D as fast as E: H-ED must fail
-    v = verdict(_fake_rows(rng, 20, only_marg), 20, rng)
-    assert v["H-ER"]["verdict"] == "bestätigt" and v["H-ED"]["verdict"] == "nicht bestätigt", v
+    assert all(v[h]["verdict"] == "bestätigt" for h in PRIMARY) and v["H-dose"]["verdict"] == "gestützt (sekundär)", v
+    assert "p_holm" not in v["H-dose"] and set(v) >= {"descriptive", "H-ER", "H-ED", "H-dose"}
+    v = verdict(_fake_rows(rng, 20, fast, d_copies_e=True), 20, rng)             # D identical to E: H-ED must fail
+    assert v["H-ER"]["verdict"] == "bestätigt" and v["H-ED"]["verdict"] == "nicht bestätigt" and v["H-ED"]["p"] == 1.0, v
+    same = [{**r, "times": {a: (1500, True) for a in ARMS}, "L": {h: 0.0 for h in CONTRASTS}, "order": {h: None for h in CONTRASTS}}
+            for r in _fake_rows(rng, 20, fast)]
+    v = verdict(same, 20, rng)
+    assert all(v[h]["p"] == 1.0 for h in CONTRASTS) and all(v[h]["verdict"] == "nicht bestätigt" for h in PRIMARY), v
     assert verdict(_fake_rows(rng, 19, fast), 20, rng)["verdict"] == "nicht auswertbar"
     assert verdict(_fake_rows(rng, 19, fast) + [{"unit": 19, "technical": True}], 20, rng)["verdict"] == "nicht auswertbar"
     selftest_binding(BLOCK, tj[0], tj[1], tj[2])

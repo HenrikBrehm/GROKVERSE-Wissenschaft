@@ -7,9 +7,12 @@ Decision rule per contrast X in {R, D} (as in R5_REGISTRATION_DRAFT.md after the
   L_i = log2(min(t_X, CAP) / min(t_E, CAP));  p_L = one-sided sign-flip permutation p of mean L (Monte Carlo);
   p_sign = exact one-sided binomial p over the seeds whose order is determined under censoring;
   p_j = max(p_L, p_sign); Holm over the two contrasts at ALPHA. Power = share of simulated studies with both / each contrast confirmed.
+Session 31 (R5 version 2): matches the primary family exactly in its Holm-over-2 structure (H-ER one-to-one R vs E, H-ED);
+H-dose is secondary and not simulated. Remaining approximations: first crossing instead of the 3-evaluation event, one E/D target set
+per seed (R5 averages two for H-ED, which can only raise power), 2000 instead of 100 000 sign flips.
 Pilot sources (only after EXP-018 has run): EXP-018 summary_cuda.json rows (E, D, R) or, for E vs R only, EXP041_posthoc_speed.json.
 
-  python lab/confirm/R5_power_sim.py --pilot lab/experiments/EXP-018-split-speed/summary_cuda.json --n 20 30 40 60
+  python lab/confirm/R5_power_sim.py --pilot lab/experiments/EXP-018-split-speed/summary_cuda.json --n 20 30 40 50 60
   python lab/confirm/R5_power_sim.py --selftest
 """
 from __future__ import annotations
@@ -38,7 +41,7 @@ def order(te: tuple[int, bool], tx: tuple[int, bool]) -> int | None:
 
 def p_flip(L: np.ndarray, rng: np.random.Generator) -> float:
     signs = rng.choice((-1.0, 1.0), size=(N_FLIP, len(L)))
-    return float(((signs * L).mean(axis=1) >= L.mean() - 1e-12).mean())
+    return float((((signs * L).mean(axis=1) >= L.mean() - 1e-12).sum() + 1) / (N_FLIP + 1))   # +1 correction (Codex s31)
 
 
 def p_binom(k: int, n: int) -> float:
@@ -97,7 +100,7 @@ def selftest() -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--pilot")
-    ap.add_argument("--n", type=int, nargs="+", default=[20, 30, 40, 60])
+    ap.add_argument("--n", type=int, nargs="+", default=[20, 30, 40, 50, 60])
     ap.add_argument("--extra", type=float, nargs="+", default=[0.0], help="additional log2 speed-up of E over the pilot (negative = smaller effect)")
     ap.add_argument("--selftest", action="store_true")
     a = ap.parse_args()

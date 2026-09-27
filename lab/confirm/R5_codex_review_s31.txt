@@ -1,0 +1,94 @@
+(node:7804) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0e3fc-1dbf-7110-b7b7-17736f9dcbdf).
+[codex] Turn started (01a0e3fc-26c3-7461-88c6-d5beabf6da95).
+[codex] Assistant message captured: I’ll do a read-only adversarial audit against the binding “Fassung 2,” trace the implementati...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/co...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/co... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/co...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/co... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/co...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/co... (exit 0)
+[codex] Assistant message captured: I’ve confirmed the draft implements the headline design changes. I’m now checking whether the...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^(def |cl...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "''^(def |cl... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab/to...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab/to... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/bo...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/bo... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/confirm/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/confirm/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/co...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/co... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab/to...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab/to... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/co...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/tools/co... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab/experime... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "if (Test-Path -Lit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "if (Test-Path -Lit... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "def split_h...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "def split_h... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"gen_.*_pri...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"gen_.*_pri... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "N_BOOT|def ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "N_BOOT|def ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg --files lab/con...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg --files lab/con... (exit 1)
+[codex] Assistant message captured: No. The core implementation is substantially improved, but it is not yet safe to freeze. ### ...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+No. The core implementation is substantially improved, but it is not yet safe to freeze.
+
+### BLOCKER
+
+1. **The sign-flip test is not valid for the stated mean estimand without a symmetry assumption.**  
+   `p = max(p_flip, p_sign)` followed by Holm is a sound intersection–union/multiplicity construction *if both component p-values are valid*. But sign-flipping the observed \(L_i\) is exact only under sign symmetry, not merely \(E[L]\le0\); capped, discrete times are likely asymmetric. The registration never states this assumption. The Monte Carlo calculation also lacks the standard \(+1\) correction and can return zero ([registration:75](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:75), [confirm_r5.py:261](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:261)).  
+   **Fix:** either make the exact censoring-aware sign test the sole confirmatory test and keep mean \(L\) descriptive, or preregister a valid bounded-mean test/explicit symmetry model. For Monte Carlo tests use `(exceedances + 1)/(N_FLIP + 1)`.
+
+2. **The n rule does not simulate the frozen decision rule.**  
+   The actual analysis uses Holm over three hypotheses, but the power code uses two. The statement that these are equivalent whenever H-dose has the smallest p-value is false: H-dose must also pass the first \(\alpha/3\) gate. Furthermore, the registered candidate set contains 50, while the script default and example omit it ([registration:77](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:77), [R5_power_sim.py:24](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_power_sim.py:24), [R5_power_sim.py:100](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_power_sim.py:100)). It also uses 2,000 flips versus 100,000 in the analysis.  
+   **Fix:** include 50 and simulate Holm-3, preferably with the actual two-target aggregation and three-evaluation event. Alternatively make H-dose secondary and retain a primary family of two. Freeze the selected n and the power output. The first-crossing/one-target limitations are otherwise honestly disclosed.
+
+3. **s30 blocker 1 is only partly resolved.**  
+   D correctly samples uniformly conditional on the *realized* E anti-diagonal counts, so output counts match exactly. However, the previously required graph connectivity and broader test-neighbour coverage are absent; matching uses only two degree CVs, swap share and transpose-test share ([confirm_r5.py:100](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:100), [confirm_r5.py:114](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:114), [registration:68](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:68)). Thus H-ED isolates the engineered within-anti-diagonal arrangement, not uniquely “spectral concentration”; fine-grained geometry and test difficulty may differ.  
+   **Fix:** implement and freeze the omitted diagnostics/tolerances, or narrow the H-ED interpretation accordingly. Validate them for every planned unit before freezing.
+
+### MAJOR
+
+4. **Malformed dense traces become scientific censoring instead of a technical failure.**  
+   `event()` checks only `steps_completed` and adjacent test-step gaps. It does not require exact `0:25:8000` and `0:10:8000` grids, matching lengths, finite accuracies, or a final evaluation at 8000. The loader does not validate `dense` ([confirm_r5.py:213](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:213), [result_loader.py:87](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/result_loader.py:87)).  
+   **Fix:** validate both dense arrays exactly in `one_run()`/the loader and mark any violation technical/non-evaluable.
+
+5. **s30 major 5 remains partly unresolved.**  
+   RNG namespaces are separated, but split unit `u` is paired deterministically with init `2720+u`; there is no randomized frozen bijection. Job order is also fixed by unit and arm, with R always preceding the engineered arms ([confirm_r5.py:77](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:77), [confirm_r5.py:193](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:193)).  
+   **Fix:** create dedicated seeded permutations for split-to-init assignment and full run order, then record them in frozen metadata.
+
+6. **The self-test does not qualify the complete frozen design.**  
+   Detailed matching assertions cover only unit 0, despite D being allowed to fail after 20 attempts for any later unit. It does not test malformed dense traces or synthetic loader integration with `--test-file` ([confirm_r5.py:394](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:394), [confirm_r5.py:423](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:423)).  
+   **Fix:** build and validate every `u < N_UNITS` in the self-test, including all D criteria, and add fail-closed dense/loader cases.
+
+7. **H-dose remains a construction-dose result, not a concentration mechanism test.**  
+   Changing ε changes pair membership, clipping, weight dispersion and test difficulty along with target spectral share. H-ED at ε=2 does not remove these dose-specific alternatives ([registration:74](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:74), [registration:82](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:82), [confirm_r5.py:136](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:136)).  
+   **Fix:** retain the explicitly limited “dose of this split construction” wording; do not describe H-dose alone as causal evidence for spectral concentration.
+
+### MINOR
+
+8. Aggregate ties use exact floating-point equality and can turn equal geometric means into wins/losses ([confirm_r5.py:236](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:236)). Compare sums of logs with a frozen tolerance, or compare integer products for two-arm aggregates.
+
+9. The synthetic “null must not reject once” assertion is inherently brittle: fixed seeds make it deterministic, but a valid test can reject a fixed null realization ([confirm_r5.py:438](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:438)). No assertion is obviously destined to fail by inspection, but this should test calibration over many simulations or use a constructed exact-zero case.
+
+10. The registered descriptive output promises final accuracy and D matching statistics, but `verdict()` does not aggregate either; D statistics live only in split JSON files ([registration:79](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:79), [confirm_r5.py:171](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:171), [confirm_r5.py:288](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/tools/confirm_r5.py:288)).
+
+The following parts look correct: the three-evaluation event with prior memorization; full 8,000-step execution; contrast directions and conservative aggregate ordering; within-unit averaging over two target sets without pseudoreplication; effect reported without a factor-two decision threshold; `--test-file` hashes and EXP-018 run IDs; and the runtime code-hash import closure. Running all arms to 8000 removes rather than introduces the early-stopping bias. I did not execute the prohibited self-tests or Python code.

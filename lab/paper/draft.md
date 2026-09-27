@@ -223,6 +223,7 @@ embedding energy after grokking (exploration). Confirmation P2f (20 fresh seeds,
 - **R2** (K4c at lr 2e-3 and at wd 0.3; 30 fresh seeds, Holm over 4; [[confirm/R2_REGISTRATION_DRAFT|R2]]).
 - **R3** (does the lock-in follow summed learning rate or step count? lr × 2 for 25 steps vs × 0.5 for 50 steps before the switch only; 20 fresh seeds, Holm over 2; [[confirm/R3_REGISTRATION_DRAFT|R3]]).
 - **P4** (K2 in a shared-embedding MLP, at 4× width, and for non-modular integer addition; [[confirm/P4_REGISTRATION_DRAFT|P4]]).
+- **R4** (does an ordinary *random* 30 % split shape the learned frequencies? crossed design, 2 inits × 2 random splits per unit, 40 units with fresh seeds, split streams independent of the init; Spearman similarity of W_E spectra, same split vs nothing shared; Holm over 2; [[confirm/R4_REGISTRATION_DRAFT|R4]], draft, not frozen).
 - Pilot **EXP-078** (K2 in a two-layer transformer; exploration, known seeds).
 Whatever these show, including "holds only in a range", replaces this list; nothing here is a result.
 
@@ -308,7 +309,7 @@ only the content.
 **Open questions.** (i) Which state variable makes the early choice persistent? No measured quantity we tried (W_E lead, OV alignment) explains the time course better than the step count
 (EXP-060, 070, 071); an amplitude-race account is prepared (EXP-040, not yet run). (ii) Do the persistence results hold beyond add 113 and this architecture (EXP-074, EXP-075 pilots, prepared, not yet run)? (iii) Is the
 steering robust to learning rate, weight decay and training fraction (registration R1)? (iv) Can the first-order account be connected to theories of the learning order under uniform data
-(AGF; the simplest bridge failed, EXP-076)?
+(AGF; the simplest bridge failed, EXP-076)? (v) Does an ordinary random split already shape the choice, or only an engineered one (R4, drafted)?
 
 ## 6 Limitations
 

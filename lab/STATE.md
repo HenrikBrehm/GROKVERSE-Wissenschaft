@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-27, 06:56 Berlin (Sitzung 21 beendet 06:56; nächster Start 07:54 Berlin)._
+_Zuletzt aktualisiert: 2026-09-27, 07:06 Berlin (Sitzung 22 läuft seit 06:59, Deadline 09:59)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · Bestätigungen [[confirm/P1_REGISTRATION_DRAFT|P1]] · [[confirm/P2_REGISTRATION_DRAFT|P2]] · [[confirm/P3_REGISTRATION_DRAFT|P3]]
 
@@ -20,9 +20,12 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 
 ## Aktive Queue / laufende Jobs
 
-- **CPU (seit 04:20, 3 Arbeiter × 4 Threads):** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-035,EXP-038,EXP-041,EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`.
-  EXP-035, EXP-038, EXP-041 fertig (EXP-041: beide *geprägt*, Pilot); seit 06:55 EXP-036, danach 039, 040, 042, 014 (≈ 210 Läufe à ≈ 5 min, mehrere Sitzungen). Die Sitzungsdeadline bricht ab (kein Fehler). **Wiederaufnahme: derselbe Befehl.**
-- **GPU:** frei.
+- **CPU (Sitzung 22, seit 07:00, 3 × 4 Threads):** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`
+  (EXP-035/038/041 fertig). Die Sitzungsdeadline bricht ab (kein Fehler). **Wiederaufnahme: derselbe Befehl.**
+- **GPU (seit 07:02):** [[experiments/EXP-059-momentum-exposure/README|EXP-059]] (Momentum gegen verlängerte Exposition, 200 Läufe, festgelegt 7d6374e):
+  `python lab/tools/parallel_queue.py lab/experiments/EXP-059-momentum-exposure/jobs.txt --workers 8 > lab/runner/logs/exp059.log`. Bei Abbruch: derselbe Befehl
+  (freq_ban überspringt identische fertige Läufe über den Fingerabdruck). Danach `guarded_run.py -- python lab/experiments/EXP-059-momentum-exposure/analyze.py`.
+- **Vorbereitet, ungetestet am echten Lauf:** `lab/tools/confirm_n28.py` (Selbsttest ok), Seeds 2200–2229 für N28 reserviert (noch kein Manifest, keine Splits).
 
 ## Nächste Schritte (in dieser Reihenfolge)
 

@@ -3052,3 +3052,19 @@ Kontrollen nur aus dem P2-Pool; statistische Einheit = seedweiser Kontrast. FIND
 **Runner:** nächster Start laut `runner-state.json` 10:34 Berlin. Keine GPU-Läufe offen; das CPU-Programm läuft bis zur Deadline 09:59.
 
 **Nachtrag 09:36 (CPU-Programm): EXP-036 ausgewertet.** ***init-getrieben*** (5/5 auswertbare Paare, p = 0.031): Die „fremden“ Frequenzen nach frühem Wechsel folgen der Init. P36b kalibriert gestützt (4/5), aber nicht enger als Init oder Einzelarm. Pilot. Im CPU-Programm läuft jetzt EXP-039.
+
+
+## Sitzung 23 (2026-09-27, Start 09:39 Berlin, Deadline 12:39; vom Runner)
+
+**Zyklus 1 (Start, 09:39–09:41 gemessen).** Kein STOP, Fenster offen, keine Python-Prozesse. CPU-Programm (EXP-039 …) mit demselben Befehl neu gestartet.
+
+**Zyklus 2 (N29 festgelegt, Entwurf, 09:41–09:45).** *Frage (Programm B):* Ist der funktionale Übergang aus EXP-064 (Umstieg bei t = 25, Festhalten bei t = 50) an frischen Seeds mit sicherem Nachtraining
+reproduzierbar? *Änderung:* `lab/tools/confirm_n29.py` (Muster N28/P2d, Selbsttest ok) und [[confirm/N29_REGISTRATION|N29-Registrierung]]: Seeds 2250–2269, 4000 Schritte nach dem Wechsel mit
+`--stop-after-gen` = Schritte, H1 (t = 50: Entfernen der alten schadet ≥ 0.3 mehr) und H2 (t = 25: Entfernen der neuen schadet ≥ 0.3 mehr), Holm, ≥ 80 % geeignete Seeds. Codex-Prüfung läuft.
+
+**Zyklus 3 (EXP-066, Exploration, 09:45–09:48 gemessen).** *Frage (Programm A, Regel 15c):* Gilt der P2d-Befund (stärkere Margin-Reaktion entlang der gesteuerten Frequenzen bei gleicher Schrittnorm)
+auch bei mul 113 und add 97? *Änderung:* Maß in Gruppenordnung übertragen, auf die gebundenen P1-Modelle (2000 Schritte) angewandt, vor der Rechnung festgelegt.
+*Ergebnis:* mul 113 D̄ = 0.159 [0.150, 0.168] (43/43 geeignete > 0; alle 50 > 0), add 97 D̄ = 0.218 [0.194, 0.243] (26/26; alle 50 > 0). *Entscheidung:* Bestätigung P2e an frischen Seeds
+(2270–2289, Versuchs-ID 5, 8000 Schritte, Holm über beide Aufgaben) festlegen; [[experiments/EXP-066-p2d-other-tasks/README|EXP-066]].
+
+**Zyklus 4 (P2e festgelegt, Entwurf, 09:48–09:50).** `lab/tools/confirm_p2e.py` (Selbsttest ok), [[confirm/P2e_REGISTRATION|P2e-Registrierung]]. Codex-Prüfung läuft.

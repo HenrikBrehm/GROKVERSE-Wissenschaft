@@ -3,11 +3,14 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 09:35 Berlin (Sitzung 22, Deadline 09:59; nächster Runner-Start laut runner-state.json 10:34 Berlin)._
+_Zuletzt aktualisiert: 2026-09-27, 09:52 Berlin (Sitzung 23, Start 09:39, Deadline 12:39)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · Bestätigungen [[confirm/N28_REGISTRATION|N28]] · [[confirm/P2c_REGISTRATION|P2c]] · [[confirm/P3_REGISTRATION_DRAFT|P3]]
 
-## Lage (Sitzung 22)
+## Lage (Sitzung 23)
+
+- **Sitzung 23:** [[confirm/N29_REGISTRATION|N29]] (funktionaler Übergang, Seeds 2250–2269) und [[confirm/P2e_REGISTRATION|P2e]] (P2d-Maß bei mul 113 / add 97, Seeds 2270–2289, Versuchs-ID 5) als Entwurf mit Code (Selbsttests ok);
+  Codex-Prüfung läuft (`lab/runner/logs/codex_{n29,p2e}_review.txt`). **EXP-066** (Exploration): P2d-Effekt bei mul 113 (0.159) und add 97 (0.218), alle 100 Seed-Werte > 0.
 
 - **N28 bestätigt** (fa154bd, 30/30 frische Seeds): Das Nullsetzen von Adams erstem Moment beim Wechsel senkt den Persistenzindex π um 0.15. Zehn zusätzliche Vorschritte gleichen das aus
   (Nichtunterlegenheit). Enger Wortlaut nach Codex in [[FINDINGS]] („K4b“). Die „Adam-Gedächtnis“-Deutung aus Sitzung 21 ist herabgestuft (EXP-059: verlängerte Exposition genügt).
@@ -25,6 +28,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 ## Nächste Schritte (in dieser Reihenfolge)
 
 1. `guarded_run.py --check`; kein STOP; Prozesse prüfen; CPU-Programm (oben) neu starten.
+1b. **Sitzung 23:** Codex-Befunde zu N29/P2e einarbeiten → Manifeste (Code-Hashes) committen = einfrieren → `--splits`, `--jobs` → ein Smoke-Job durch den Lader → Blöcke (GPU, ≤ 8 Arbeiter) → `--analyze`.
 2. **Programm B, Bestätigung des funktionalen Übergangs** (EXP-064 → frisch): Wechsel bei 25 und 50, **sicheres Nachtraining** (z. B. 4000 Schritte nach dem Wechsel, `--stop-after-gen` ≥ Schritte),
    `--save-model`, Ablation alt/neu am Endmodell, vorab festgelegte Regel für nicht generalisierte Modelle, frischer Seed-Block (2250–2299 frei). Vorher: **ein echter Job bis zum Ende durch den
    eingefrorenen Lader** (Lehre aus P2b) und Codex-Prüfung. Infrastruktur: `lab/tools/bound_block.py` (+ Muster `confirm_n28.py`).

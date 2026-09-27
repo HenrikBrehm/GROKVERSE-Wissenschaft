@@ -722,3 +722,16 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
 - **N27 (vorab eingefrorene Masken-Theorie):** [[experiments/EXP-052-oos-mask-prediction/README|EXP-052]] trifft in 4/4 unberührten Fällen (Assoziation).
 - Vor einer Veröffentlichung nötig: gezielte Nachsuche zu „training set composition selects among equivalent Fourier solutions“ (Stand der Suche: Sitzung 17 und 20), und die P1-Bestätigung.
 
+## N28: Das Gedächtnis der ersten Trainingsschritte für die Frequenzwahl sitzt im Adam-Zustand #neu/kandidat
+
+- **Beobachtung (Sitzung 21, 2026-09-27, Pilot [[experiments/EXP-057-optim-reset/README|EXP-057]], 10 bekannte Seeds):** Nach 25 Schritten auf Split A und 2000 auf einem paar-disjunkten
+  Split B bleibt ohne Eingriff ein Drittel der A-Präferenz erhalten (P3 bestätigt: π 0.35, A-Ziele 20 % der W_E-Leistung). Wird beim Wechsel nur der AdamW-Zustand gelöscht, fällt π auf 0.11,
+  und die A-Ziele liegen unter Zufall (7 %).
+- **Frage:** Trägt m (Richtung) oder v (Skala je Koordinate) das Gedächtnis, oder nur die neu startende Bias-Korrektur? Wann geht das Gedächtnis vom Optimierer in die Gewichte über
+  (t = 25 gegen 150, vgl. EXP-038)?
+- **Alternative Erklärung (vor jedem Anspruch zu prüfen):** Nach dem Reset macht Adam einige vorzeichenartige Schritte von etwa lr je Koordinate. Die könnten die kleine Gewichtsspur
+  der ersten 25 Schritte einfach überschreiben, ohne dass im Zustand ein „Gedächtnis“ steckt. Kontrollen: nur m zurücksetzen, nur v zurücksetzen, Schrittzähler beibehalten.
+- **Suche 2026-09-27 06:22 (WebSearch, „Adam optimizer state moments carry memory of earlier training data after distribution shift reset optimizer state feature persistence“):**
+  nächstverwandt Asadi et al. 2023, Optimizer-Reset in Deep RL (https://arxiv.org/abs/2306.17833); Kontinuierliches Lernen mit weitergeführtem zweitem Moment (https://arxiv.org/abs/2404.02754);
+  Übersicht „Training Memory in Deep Neural Networks“ (https://arxiv.org/abs/2601.21624); SPAM, Momentum-Reset (https://arxiv.org/abs/2501.06842). **Nicht gefunden (vorläufig):**
+  dass die Persistenz einer datengesteuerten Merkmalswahl (Fourier-Frequenzen) nach einem Datenwechsel im Adam-Zustand liegt.

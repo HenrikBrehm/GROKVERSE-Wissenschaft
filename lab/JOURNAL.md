@@ -2499,3 +2499,14 @@ Vor der Deutung [[LESART-nacht-2026-09-27]] gelesen.
   keine unabhängige Bestätigung. Die Frage Häufigkeiten gegen Paarstruktur ist offen (EXP-047 läuft gerade). Alle drei Fälle sind Gruppenoperationen mit Token-Einbettung. Die nicht-modulare Aufgabe (EXP-048) folgt.
   Eine andere Breite folgt mit EXP-049, eine andere Architektur mit EXP-045.
 - *Entscheidung:* FINDINGS erst nach EXP-047/048 aktualisieren (Lesart-Notiz: Kombination zählt). Beschreibende Zusätze für EXP-046 (Top-3, Δ_pow) als offener Rest.
+
+**Zyklus 6 (Mechanismus und Funktion: EXP-047 und EXP-051, 03:02–03:10 gemessen).**
+- [[experiments/EXP-047-marginal-control/README|EXP-047]]: a) Häufigkeiten allein *richtungsgleich, n. s.* (Δ̄_shuf 0.3, p 0.33); b) **Paarstruktur trägt über die Häufigkeiten hinaus**
+  (D̄ 6.8, p 0.00098, Holm). Manipulationsprüfung eng Δ̄ 7.1. Genau die vorab notierte Erwartung erster Ordnung. Damit ist die Grenze 4 in [[FINDINGS]] (K2-Mechanismus nicht eindeutig) für Z₁₁₃
+  weitgehend geklärt: Die Paarstruktur (M0) steuert. Pilot, 10 Seeds.
+- [[experiments/EXP-051-functional-ablation/README|EXP-051]]: formal *nicht mehr genutzt als gleiche Energie anderswo* (D̄ 0.0). **Selbst geprüft:** 40/40 Eingriffe ohne jeden
+  Genauigkeitsverlust, denn X ist nur 3–9 % der Zielenergie (Kontrollfrequenzen tragen ≈ 15× weniger). Bodeneffekt, keine Trennschärfe. Das formale Urteil bleibt stehen (§3B), die README
+  sagt klar „kein Beleg gegen funktionale Nutzung“. Sekundär: Die volle Ablation der eigenen Ziele kostet 0.95–0.99 Testgenauigkeit, die der fremden 0 (10/10). Die Ziele sind notwendig,
+  die Nutzung je Energieeinheit ist offen. shuf-Modelle ungültig (nicht generalisiert).
+- *Entscheidung:* Für P2 einen sauberen Nachfolger mit neuer ID festlegen (kontinuierliches Maß: Test-Loss/Logit-Abstand; Dosis-Wirkungs-Kurve own gegen ctrl über mehrere Energiestufen,
+  an den gespeicherten EXP-047-Modellen, kein Training nötig). *Codex-Hinweis für später:* vor dem Einfrieren von P2 prüfen lassen (Regel 18c).

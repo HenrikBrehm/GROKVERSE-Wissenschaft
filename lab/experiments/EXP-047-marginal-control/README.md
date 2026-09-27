@@ -1,8 +1,8 @@
 ---
 id: EXP-047
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/positiv]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experiments/EXP-015-mask-spectrum/README|EXP-015]]", "[[BEFUND-split-mechanismus]]", "[[experiments/EXP-046-dihedral-steering/README|EXP-046]]"]
 ---
 # EXP-047: Steuern die Token-Häufigkeiten oder die Paarstruktur? (Kontrolle mit gleichen Randverteilungen)
@@ -87,3 +87,16 @@ Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lau
 
 Alle 40 Läufe bekommen `--save-model` (Modell am Ende, Schritt 2000). Das verändert das Training nicht; es liefert die Modelle für den funktionalen Test [[experiments/EXP-051-functional-ablation/README|EXP-051]] (P2). Urteilsregeln hier unverändert.
 
+## Ergebnis (Sitzung 20, 2026-09-27, Läufe 03:02–03:06 Berlin, GPU nach bestandenem GPU-001)
+
+Befehl: `python lab/tools/night_program.py` (Stufe EXP-047); Logs `lab/runner/logs/night_20260927T005025_010314Z/EXP-047_*`, Zahlen `summary.json`. Code-Stand laut result.json: Commits 95efe98 bzw. f34eeb1 (dazwischen nur Dokumente geändert, kein Code), device cuda.
+
+| | Wert | Urteil (vorab) |
+|---|---|---|
+| Manipulationsprüfung eng | Δ̄_eng 7.1, p 0.00098 | Steuerung wie EXP-016 reproduziert |
+| **a** gemischte Kontrolle (gleiche a/b-Häufigkeiten, Paarstruktur zerstört) | Δ̄_shuf 0.3, p 0.33, Holm nein | ***richtungsgleich, n. s.*** |
+| **b** Paarstruktur über die Häufigkeiten hinaus | D̄ 6.8, p 0.00098, Holm ja | ***Paarstruktur trägt über die Häufigkeiten hinaus*** |
+
+- Entspricht der vorab notierten Erwartung erster Ordnung (Nachtrag a: Δ̄_shuf ≈ 0, D̄ ≈ Δ̄_eng > 0). Die Steuerung läuft über die Paarstruktur (M0), die Häufigkeiten tragen allein
+  nichts Nachweisbares bei (n. s. heißt aber nicht „genau null“). Pilot mit 10 Seeds, keine unabhängige Bestätigung. Nur Z₁₁₃. Für D₅₉ (EXP-046) bleibt der Confound offen.
+- Die shuf-Modelle generalisieren bis 2000 nicht (Test-Genauigkeit ≈ 0.02–0.05, siehe EXP-051).

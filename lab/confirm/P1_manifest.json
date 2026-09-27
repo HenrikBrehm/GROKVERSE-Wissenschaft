@@ -152,5 +152,6 @@
  "registration": [
   "lab/confirm/P1_REGISTRATION_DRAFT.md",
   "lab/confirm/P2_REGISTRATION_DRAFT.md"
- ]
+ ],
+ "commit": "733e829"
 }

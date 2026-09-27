@@ -35,6 +35,8 @@ BIND = LAB / "confirm" / "r1_bindings"
 SPL = LAB / "confirm" / "r1_splits"
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 P, STEP, ALPHA, MIN_EFFECT, EPS0, FRAC0 = 113, 2000, 0.05, 1.0, 2.0, 0.3
+N_PER_CELL, SEED_MIN, CAL_TOL = 15, 2420, 0.005        # Codex s24: exact n, fresh block, calibration tolerance
+CAL_FILE = LAB / "confirm" / "R1_calibration.json"
 CAL_SEEDS = tuple(range(900, 910))
 CAL_EXPERIMENT = 98                                      # calibration streams never used for the block itself
 CELLS = {"lr5e-4": {"lr": 5e-4}, "lr2e-3": {"lr": 2e-3}, "wd0.3": {"weight_decay": 0.3}, "wd3": {"weight_decay": 3.0},
@@ -71,21 +73,41 @@ def mean_share(eps: float, frac: float) -> float:
     return float(np.mean([target_share(*build(CAL_EXPERIMENT, s, a, eps, frac)) for s in CAL_SEEDS for a in "FG"]))
 
 
-def calibrate() -> dict[str, float]:
-    """eps per train_frac cell so that the mean M0 target share on calibration seeds equals the standard (bisection, monotone in eps)."""
+def calibrate() -> dict:
+    """eps per train_frac cell: deterministic minimum-error grid search (coarse 0.5..6 step 0.05, then +-0.05 step 0.001) so that the mean
+    M0 target share on calibration seeds equals the standard; the achieved share of the chosen eps is recomputed and must lie within
+    CAL_TOL of the goal, otherwise fail closed (Codex s24: no monotonicity assumption)."""
     goal = mean_share(EPS0, FRAC0)
-    out = {}
+    eps, achieved = {}, {}
     for cell in CELLS:
         f = frac_of(cell)
         if f == FRAC0:
-            out[cell] = EPS0
+            eps[cell], achieved[cell] = EPS0, goal
             continue
-        lo, hi = 0.25, 16.0
-        for _ in range(30):
-            mid = (lo + hi) / 2
-            lo, hi = (mid, hi) if mean_share(mid, f) < goal else (lo, mid)
-        out[cell] = round((lo + hi) / 2, 4)
-    return {"goal_share": goal, "eps": out}
+        grid = np.round(np.arange(0.5, 6.0001, 0.05), 3)
+        best = float(grid[int(np.argmin([abs(mean_share(e, f) - goal) for e in grid]))])
+        fine = np.round(np.arange(max(0.05, best - 0.05), best + 0.0501, 0.001), 3)
+        e = float(fine[int(np.argmin([abs(mean_share(x, f) - goal) for x in fine]))])
+        a = mean_share(e, f)
+        if abs(a - goal) > CAL_TOL:
+            raise SystemExit(f"R1 calibration failed for {cell}: best eps {e} gives share {a:.4f}, goal {goal:.4f}")
+        eps[cell], achieved[cell] = e, a
+    return {"goal_share": goal, "eps": eps, "achieved_share": achieved, "tolerance": CAL_TOL, "cal_seeds": list(CAL_SEEDS),
+            "cal_experiment": CAL_EXPERIMENT}
+
+
+def check_design(man: dict) -> None:
+    """Codex s24: exactly N_PER_CELL integer seeds per cell, all globally distinct and >= SEED_MIN; eps equals the stored calibration."""
+    seeds = man.get("seeds") or {}
+    if set(seeds) != set(CELLS) or any(len(v) != N_PER_CELL or len(set(v)) != N_PER_CELL or not all(isinstance(x, int) for x in v)
+                                       for v in seeds.values()):
+        raise SystemExit(f"R1 manifest: need exactly {N_PER_CELL} distinct integer seeds per cell")
+    flat = [x for v in seeds.values() for x in v]
+    if len(set(flat)) != len(flat) or min(flat) < SEED_MIN:
+        raise SystemExit("R1 manifest: seeds must be globally distinct and from the fresh block")
+    cal = json.loads(CAL_FILE.read_text(encoding="utf-8")) if CAL_FILE.exists() else None
+    if cal is None or man.get("eps") != cal["eps"]:
+        raise SystemExit("R1 manifest: eps must equal lab/confirm/R1_calibration.json")
 
 
 def stem(cell: str, s: int, arm: str) -> str:
@@ -93,6 +115,7 @@ def stem(cell: str, s: int, arm: str) -> str:
 
 
 def write_splits(man: dict) -> None:
+    check_design(man)
     SPL.mkdir(parents=True, exist_ok=True)
     names = [f"{stem(c, s, a)}.npy" for c in CELLS for s in man["seeds"][c] for a in "FG"]
     if any((SPL / n).exists() for n in names):
@@ -164,37 +187,47 @@ def power(man: dict, c: str, s: int, arm: str) -> np.ndarray | str:
         return "fehlt"
     if (why := BLOCK.unbound(man, d)):
         return f"defekt: {why}"
+    hp = {"lr": 1e-3, "weight_decay": 1.0, "train_frac": FRAC0, **CELLS[c]}           # Codex s24: check all three, not only the varied one
     L = load_run(d, Expect(seed=s, device=man["device"], max_steps=man["steps"], split_file=split,
-                           config={"p": P, "task": "add", **CELLS[c]}, at=(man["steps"],)))
+                           config={"p": P, "task": "add", "arch": "transformer", **hp}, at=(man["steps"],)))
     if L.status != "ok":
         return f"{L.status}: {L.reason}"
     if (why := BLOCK.unbound(man, d)) or L.res.get("fingerprint_fields", {}).get("split_file_sha256") != sha(split):
         return f"defekt after load: {why or 'split bytes differ'}"
     pw = np.asarray(L.spectrum(man["steps"]), dtype=np.float64)
-    return pw if pw.shape == (56,) and np.all(np.isfinite(pw)) else "defekt: spectrum shape or values"
+    if pw.shape != (56,) or not np.all(np.isfinite(pw)):
+        return "defekt: spectrum shape or values"
+    fa = L.res.get("final_acc") or {}
+    return {"pw": pw, "test_acc": fa.get("test"), "gen_step": (L.res.get("events") or {}).get("generalization_step")}
 
 
 def seed_row(man: dict, c: str, s: int) -> dict:
     T = {a: json.loads((SPL / f"{stem(c, s, a)}.json").read_text(encoding="utf-8"))["targets"] for a in "FG"}
-    pw = {a: power(man, c, s, a) for a in "FG"}
-    bad = [f"{a}: {v}" for a, v in pw.items() if isinstance(v, str)]
+    runs = {a: power(man, c, s, a) for a in "FG"}
+    bad = [f"{a}: {v}" for a, v in runs.items() if isinstance(v, str)]
     if bad:
         return {"seed": s, "technical": True, "reason": "; ".join(bad)}
-    d = c1.delta_pow_checked(pw["F"], pw["G"], T["F"], T["G"])
-    return {"seed": s, "technical": d is None, "Delta_pow": d} if d is not None else {"seed": s, "technical": True, "reason": "Delta_pow undefined"}
+    d = c1.delta_pow_checked(runs["F"]["pw"], runs["G"]["pw"], T["F"], T["G"])
+    diag = {f"{k}_{a}": runs[a][k] for a in "FG" for k in ("test_acc", "gen_step")}   # descriptive (registration: reported, no verdict)
+    if d is None:
+        return {"seed": s, "technical": True, "reason": "Delta_pow undefined", **diag}
+    return {"seed": s, "technical": False, "Delta_pow": d, **diag}
 
 
 def verdict(rows: dict[str, list[dict]], n_planned: dict[str, int], rng: np.random.Generator) -> dict:
     out, ps = {}, {}
     for c, rs in rows.items():
         n_tech = sum(1 for r in rs if r.get("technical"))
-        if n_tech or len(rs) != n_planned[c] or n_planned[c] < 5:
+        if n_tech or len(rs) != n_planned[c] or n_planned[c] != N_PER_CELL:
             out[c], ps[c] = {"n": len(rs), "n_technical": n_tech, "verdict": "nicht auswertbar"}, 1.0
             continue
         D = np.array([r["Delta_pow"] for r in rs])
         p = c1.sign_flip_p(D, rng)
         out[c] = {"n": len(D), "mean": float(D.mean()), "sd": float(D.std(ddof=1)), "p": p, "ci95": c1.boot_ci(D, rng),
-                  "n_positive": int((D > 0).sum()), "n_technical": 0}
+                  "n_positive": int((D > 0).sum()), "n_technical": 0,
+                  "median_test_acc": float(np.median([r[f"test_acc_{a}"] for r in rs for a in "FG" if r.get(f"test_acc_{a}") is not None]
+                                                     or [np.nan])),
+                  "n_arms_generalised_by_2000": int(sum(r.get(f"gen_step_{a}") is not None for r in rs for a in "FG"))}
         ps[c] = p
     ph = c1.holm(ps)
     for c in out:
@@ -210,6 +243,7 @@ def analyze(manifest: Path) -> None:
         stale.unlink()
     man = json.loads(manifest.read_text(encoding="utf-8"))
     BLOCK.check_manifest(manifest, man)
+    check_design(man)
     bad = [m for c in CELLS for m in (split_mismatch(man, c, s) for s in man["seeds"][c]) if m]
     if bad:
         raise SystemExit(f"R1 splits differ from the registered construction, confirmation void: {bad[:3]}")
@@ -222,6 +256,12 @@ def analyze(manifest: Path) -> None:
 
 def selftest() -> None:
     seeds = {c: list(range(9000 + 20 * i, 9015 + 20 * i)) for i, c in enumerate(CELLS)}   # placeholder, never a registered block
+    for bad in ({**seeds, "wd3": seeds["wd3"][:14]}, {**seeds, "wd3": seeds["lr2e-3"]}, {**seeds, "wd3": [1] * 15}):
+        try:
+            check_design({"seeds": bad, "eps": {}})
+            raise AssertionError("bad seed design accepted")
+        except SystemExit:
+            pass
     man = {**REGISTERED, "python": "PY", "seeds": seeds, "eps": {c: EPS0 for c in CELLS}}
     BLOCK.check_registered(man)
     tj = trainer_jobs(man)
@@ -239,11 +279,13 @@ def selftest() -> None:
     assert mean_share(4.0, 0.5) > mean_share(1.0, 0.5)                                    # monotone in eps (bisection premise)
     # verdict logic
     rng = np.random.default_rng(0)
-    ok = [{"seed": i, "technical": False, "Delta_pow": 5.0 + 0.1 * i} for i in range(15)]
+    ok = [{"seed": i, "technical": False, "Delta_pow": 5.0 + 0.1 * i, "test_acc_F": 1.0, "test_acc_G": 0.5, "gen_step_F": 900,
+           "gen_step_G": None} for i in range(15)]
     v = verdict({c: ok for c in CELLS}, {c: 15 for c in CELLS}, rng)
     assert all(x["verdict"] == "bestätigt" for x in v.values()), v
     v = verdict({**{c: ok for c in CELLS}, "wd3": ok[:14]}, {c: 15 for c in CELLS}, rng)
     assert v["wd3"]["verdict"] == "nicht auswertbar" and v["lr2e-3"]["verdict"] == "bestätigt"
+    assert v["lr2e-3"]["n_arms_generalised_by_2000"] == 15 and v["lr2e-3"]["median_test_acc"] == 0.75, v["lr2e-3"]
     weak = [{"seed": i, "technical": False, "Delta_pow": 0.5 + 0.05 * i} for i in range(15)]
     assert verdict({**{c: ok for c in CELLS}, "tf0.5": weak}, {c: 15 for c in CELLS}, rng)["tf0.5"]["verdict"] == "nicht bestätigt"
     selftest_binding(BLOCK, tj[0], tj[1], tj[2])
@@ -253,6 +295,10 @@ def selftest() -> None:
 
 if __name__ == "__main__":
     if sys.argv[1:] == ["--calibrate"]:
-        print(json.dumps(calibrate(), indent=1))
+        if CAL_FILE.exists():
+            raise SystemExit(f"{CAL_FILE} exists: never overwrite (compare by hand)")
+        cal = calibrate()
+        CAL_FILE.write_text(json.dumps(cal, indent=1), encoding="utf-8")
+        print(json.dumps(cal, indent=1))
     else:
         BLOCK.cli(sys.argv[1:], analyze, write_splits, selftest)

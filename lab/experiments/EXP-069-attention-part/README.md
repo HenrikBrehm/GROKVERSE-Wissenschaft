@@ -41,8 +41,8 @@ Trainer-Option `qk|vo` seit 1c6e480 (18/18 Tests; **ohne Codex-Prüfung**, kein 
 | **rsvo** (W_V, W_O) | 3.08 | **0.49** | ***trägt den Ausschluss mit*** (Δb 1.5 … 4.7, 10/10) | **0.14 / 0.17** |
 
 - **Lesart (Pilot):** Den Ausschluss neuer Frequenzen trägt vor allem der **Wertepfad** der Attention: Setzt man W_V und W_O zurück, werden die neuen Frequenzen gelernt (b 0.49). Funktional stützt sich das Netz
-  danach aber auf **beide** Mengen (Entfernen der alten oder der neuen kostet fast alles). Erst der Reset der ganzen Attention führt zum vollständigen Umstieg. Das Muster (W_Q, W_K) allein ist nicht nötig.
+  danach aber auf **beide** Mengen (Entfernen der alten oder der neuen kostet fast alles). Erst der Reset der ganzen Attention führt zum vollständigen Umstieg. Der Reset nur des Musters (W_Q, W_K) hebt den Ausschluss nicht verlässlich auf (*unklar*, Funktion bleibt alt).
 - **Deutung (Spekulation):** W_V/W_O bilden die W_E-Richtungen auf den Residualstrom ab, den das MLP liest. Sind sie nach 50 Schritten auf die alten Frequenzen ausgerichtet, erhalten neue W_E-Richtungen
-  kaum Gradient. Das Muster (Attention-Gewichte) scheint dagegen die Wahl allein nicht festzuhalten.
+  kaum Gradient. Ob das Muster zusätzlich beiträgt, ist offen (*unklar*).
 - **Grenzen:** Pilot, bekannte Seeds, 2000 Schritte, Reset auf Init; ohne Codex-Prüfung der Trainer-Erweiterung.
 - **Nächster Schritt:** Bestätigung an frischen Seeds (rsvo gegen rsqk und normal, Funktionsmaß wie N29b); Messung, wie stark W_V/W_O bei t = 25 gegen 50 auf die alten Frequenzen ausgerichtet sind.

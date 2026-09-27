@@ -20,7 +20,7 @@ Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelhe
 | **K4 / K4b** | Schon 25 Schritte auf dem ersten Split prägen das Endspektrum nach einem Wechsel; ein gelöschtes Adam-Momentum wirkt wie weniger Vorschritte | P3, N28 | bestätigt |
 | **K4c** | Wechsel nach 25 Schritten: Endmodell auf die neuen Frequenzen angewiesen; nach 50: auf die alten | N29 | bestätigt (Ablationskontrast) |
 | **K4d** | Ein Reset der Attention beim Wechsel nach 50 Schritten kehrt das um (MLP-Reset nicht) | N29b | bestätigt, Schlussfolgerung vorläufig (ohne Codex) |
-| **Offen** | *Was* in der Attention hält die frühe Wahl fest (Muster oder Werte; Entropie)? Gilt K2-Funktion bei D₅₉? Hängt die Festlegungszeit an der aufsummierten Lernrate (EXP-039 unklar)? | EXP-069, BACKLOG | laufend |
+| **Offen** | *Was* in der Attention hält die frühe Wahl fest? Pilot: vor allem der Wertepfad W_V/W_O (EXP-069), aber ohne Sprung der OV-Ausrichtung im Fenster 25–50 (EXP-070). Gilt K2-Funktion bei D₅₉? Hängt die Festlegungszeit an der aufsummierten Lernrate (EXP-039 unklar)? | EXP-069, EXP-070, BACKLOG | laufend |
 
 ## BESTÄTIGT, SCHLUSSFOLGERUNG VORLÄUFIG (Sitzung 23, 27.09., 11:31 Berlin): N29b, Attention-Reset beim Wechsel hebt die Abhängigkeit von den alten Frequenzen auf #befund/positiv
 

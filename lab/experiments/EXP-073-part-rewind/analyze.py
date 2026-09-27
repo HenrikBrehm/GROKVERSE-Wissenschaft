@@ -8,6 +8,7 @@ Per seed q_X = (pi_X - pi_25) / (pi_50 - pi_25); reported: median q over seeds a
 Technical gate (Codex s24: per direction, not averaged): rwall must reproduce ref25 in BOTH directions (|pi_dir(rwall) - pi_dir(ref25)| <= SANITY
 for dir in AB, BA, every valid seed), otherwise the pilot is technically void.
 Diagnostic (descriptive): loss jump on the new split caused by the rewind itself (diag_after - diag_before, from the trainer event).
+Secondary (descriptive, fixed before any run): functional contrast R per arm (EXP-067 function(), see function_R).
 """
 from __future__ import annotations
 
@@ -42,6 +43,32 @@ def arm_pi(s: int, F: list[int], G: list[int], LA: float, LB: float, t: int, par
             jump.append(ev["diag_after"]["new"][0] - ev["diag_before"]["new"][0])
         L[k] = A.logratio(v, F, G)
     return {**A.pi_of(L), "loss_jump_new": float(np.mean(jump)) if jump else 0.0}
+
+
+_x67 = None
+
+
+def function_R(s: int, t: int, part: str | None, F: list[int], G: list[int]) -> float | str:
+    """Descriptive secondary (fixed before any run): R = mean over both directions of (acc with the NEW targets removed from W_E
+    minus acc with the OLD targets removed), held-out EXP-056 test set, EXP-067 function(); R > 0 = the model relies more on the old choice."""
+    global _x67
+    if _x67 is None:
+        spec = importlib.util.spec_from_file_location("exp067", LAB / "experiments/EXP-067-exclusion-part/analyze.py")
+        _x67 = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(_x67)
+    suffix = f"_rw{part}{R}" if part else ""
+    test = np.load(A.SPL / f"seed{s}_test.npy")
+    vals = []
+    for k, old, new in (("AB", F, G), ("BA", G, F)):
+        d = A.find_run(HERE / "raw", f"EXP-0*_baseline_seed{s}_thr*_{A.stem(s, E59.OM, k[0])}_to_{A.stem(s, E59.OM, k[1])}_at{t}{suffix}{A.SUF}")
+        try:
+            f = _x67.function(d, old, new, test) if d is not None else None
+        except Exception as ex:                       # descriptive only: a failure is reported, never an abort
+            return f"{k}{suffix}: {type(ex).__name__}"
+        if f is None:
+            return f"{k}{suffix}: model missing"
+        vals.append(f["acc_new"] - f["acc_old"])
+    return float(np.mean(vals))
 
 
 def classify(q: dict[str, float]) -> str:
@@ -97,6 +124,15 @@ def main() -> None:
         out["loss_jump_new_median"] = {x: float(np.median([r[f"jump_{x}"] for r in ok])) for x in PARTS}
         out["verdict"] = ("technisch ungültig (rwall != ref25)" if out["sanity_max_abs_diff_per_direction"] > SANITY
                           else classify(out["q_median"]))
+        fr = {}                                             # descriptive functional secondary, no verdict
+        for r in ok:
+            meta = json.loads((A.SPL / f"seed{r['seed']}_w0.json").read_text(encoding="utf-8"))
+            F, G = meta["targets"]["A"], meta["targets"]["B"]
+            fr[r["seed"]] = {"25": function_R(r["seed"], R, None, F, G), "50": function_R(r["seed"], T, None, F, G)} |                             {x: function_R(r["seed"], T, x, F, G) for x in PARTS}
+        good = [v for v in fr.values() if not any(isinstance(x, str) for x in v.values())]
+        out["function_R_median"] = {k: float(np.median([v[k] for v in good])) for k in ("25", "50") + PARTS} if good else None
+        out["function_n"] = len(good)
+        out["function_rows"] = fr
     out["rows"] = rows
     (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))

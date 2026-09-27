@@ -25,6 +25,8 @@ Festgelegt 2026-09-27, Sitzung 24, **vor jedem EXP-073-Lauf** (außerhalb des Fe
   q_we ≤ 0.3 und q_rest ≥ 0.7 → *empfindlich nur für W_E-Rückspulen* (stützt 1); q_rest ≤ 0.3 und q_we ≥ 0.7 → *empfindlich nur für Rest-Rückspulen* (stützt 2);
   beide ≤ 0.3 → *empfindlich für beide* (stützt 3); beide ≥ 0.7 → *unempfindlich für beide einzeln* (stützt 4); sonst *gemischt*. Beschreibend: q_attn, q_vo; Loss-Sprung auf dem neuen Split durch das
   Zurückspulen selbst (Trainer-Ereignis `diag_before`/`diag_after`), damit eine reine Störwirkung erkennbar ist.
+- **Zweitgröße Funktion (beschreibend, vor jedem Lauf ergänzt, Sitzung 24):** je Arm R = Mittel beider Richtungen von (Genauigkeit ohne die NEUEN Ziele in W_E − Genauigkeit ohne die ALTEN),
+  gemeinsame EXP-056-Testmenge, `function()` aus EXP-067; R > 0 heißt „stärker auf die alte Wahl angewiesen“. Kein Urteil (Modelle nach 2000 Schritten nicht immer generalisiert).
 - **Gültigkeit:** je Seed alle 14 Läufe über den gemeinsamen Lader ok, Rewind vom Trainer geprüft (`events.rewind_at_switch.check`), L(A) − L(B) ≥ 2, π_50 − π_25 ≥ 0.2; ≥ 8 gültige Seeds.
   **Technisch ungültig**, wenn |π_rwall − π_25| > 0.05 in einer Richtung (A→B oder B→A getrennt, Codex s24) eines gültigen Seeds (dann misst das Werkzeug nicht, was es soll).
 - **Bereits gesehene Daten:** π(t) aus EXP-059 an denselben Seeds (π_25 ≈ 0.30, π_50 ≈ 1.05); Resets auf die Init (EXP-067, N29b, N29c): Attention-/Wertepfad-Reset hebt die Wirkung auf, MLP-Reset kaum.

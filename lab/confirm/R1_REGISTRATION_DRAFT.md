@@ -5,7 +5,7 @@ datum: 2026-09-27
 tags: [lab/bestaetigung, exp/vorbereitet, lab/paper]
 verwandt: ["[[paper/robustness_plan]]", "[[paper/STATUS]]", "[[confirm/P1_REGISTRATION_DRAFT|P1]]", "[[FINDINGS]]"]
 ---
-# R1-Bestätigung (Regel 19a): Gilt K2 bei anderer Lernrate, anderem Weight Decay und anderem Trainingsanteil? **ENTWURF, nicht eingefroren, kein Code**
+# R1-Bestätigung (Regel 19a): Gilt K2 bei anderer Lernrate, anderem Weight Decay und anderem Trainingsanteil? **ENTWURF, nicht eingefroren, Code-Entwurf vorhanden**
 
 Zurück zu [[paper/robustness_plan]] · [[paper/STATUS]]. Entwurf Sitzung 24 (2026-09-27), vor jedem R1-Lauf.
 
@@ -20,7 +20,9 @@ Zurück zu [[paper/robustness_plan]] · [[paper/STATUS]]. Entwurf Sitzung 24 (20
 - **Zusätzlich beschreibend:** Test-Genauigkeit und Generalisierungsschritt je Zelle (lr/wd verändern das Grokking; Δ_pow bei 2000 kann vor oder nach dem Grokking liegen, das wird berichtet).
 - **Splits:** `confirm_splits`-Konstruktion mit eigener Versuchs-ID (8) und frischen Seeds; für die train_frac-Zellen muss die Split-Größe round(f · 113²) sein, und ε muss so gewählt werden, dass der
   M0-Zielanteil dem Standard entspricht (Kalibrierung an Kalibrier-Seeds vor jedem Lauf, wie EXP-053) — sonst wäre eine Abschwächung bei 0.5 nur eine schwächere Steuerung.
-- **Code (fehlt):** `lab/tools/confirm_r1.py` (Muster confirm_p2e: Manifest, Bindung, Selbsttest mit End-zu-End-Maß), Split-Erzeugung mit Anteil als Parameter (ohne `confirm_splits.py` zu ändern,
+- **Kalibrierung (Sitzung 24, `confirm_r1.py --calibrate`, Kalibrier-Seeds 900–909, Versuchs-ID 98, nur numpy):** Ziel-M0-Anteil beim Standard 0.191; ε(train_frac 0.2) = 2.8381,
+  ε(0.5) = 1.4654, sonst 2.0.
+- **Code:** `lab/tools/confirm_r1.py` (Sitzung 24, **ungetestet**; Selbsttest im Fenster, Codex vor dem Einfrieren). Vorher geplant: `lab/tools/confirm_r1.py` (Muster confirm_p2e: Manifest, Bindung, Selbsttest mit End-zu-End-Maß), Split-Erzeugung mit Anteil als Parameter (ohne `confirm_splits.py` zu ändern,
   dessen Hash in eingefrorenen Manifesten steht), Jobzeilen mit `--lr/--weight-decay/--train-frac` (seit Sitzung 24 im Trainer). **Codex-Prüfung vor dem Einfrieren.**
 - **Seeds:** frischer Block, vor der Nutzung in [[FINDINGS_DETAILS]] reservieren.
 - **Bereits gesehene Daten:** P1 (Maß, Mindesteffekt, Streuung). Zu anderen Hyperparametern wurde bisher nichts gemessen.

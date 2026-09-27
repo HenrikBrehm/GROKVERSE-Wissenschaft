@@ -920,7 +920,7 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
 
 - **N6, Nachtrag (Sitzung 32, 22:08, gemessen):** EXP-018 (vorab registriert, Kontrollarm prospektiv): *beschleunigt*, E ≈ 6.5× schneller als D (gleiche Gewichtsverteilung je Antidiagonale), 10/10. EXP-084 (frische Seeds): Vorhersage vor dem Lauf getroffen, die Zeit sättigt mit dem Masken-Zielanteil (M_share). Neuheit weiter „nach unserer Suche nicht gefunden“ (vorläufig).
 
-## N44: Zielmenge als geheimer Schlüssel: Herkunftsnachweis eines Trainingssplits allein über die Paarauswahl (Sitzung 34, 23:15) #neu/bekannt
+## N44: Zielmenge als geheimer Schlüssel: Herkunftsnachweis eines Trainingssplits allein über die Paarauswahl (Sitzung 34, vor 23:03, gemessen) #neu/bekannt
 
 - **Idee:** Ein Datenhalter wählt geheim 5 Zielfrequenzen und veröffentlicht nur einen danach konstruierten Split (keine veränderten Eingaben, nur die *Auswahl* der Paare). Ein darauf trainiertes Modell trüge die Ziele messbar in W_E (K2, P1: großes Δ_pow), die Prüfung wäre ein Test gegen zufällige 5er-Mengen. Anders als N40 (welcher von mehreren gleich gebauten Splits, schwach) ist hier die Zielmenge der Schlüssel.
 - **Einordnung:** Das Konzept ist bekannt als „radioaktive Daten“ (Sablayrolles et al., ICML 2020, https://arxiv.org/abs/2002.00937: unmerklich veränderte Bilder markieren jedes darauf trainierte Modell, Nachweis mit p-Wert). Der Unterschied, nur Teilmengenauswahl statt veränderter Eingaben, ist eine Anwendung von K2 und beantwortet keine offene Frage in [[FINDINGS]]. Suche 2026-09-27: nur diese Arbeit geprüft (WebSearch „Radioactive data: tracing through training Sablayrolles 2020 arXiv“), keine Suche nach Teilmengen-Varianten.

@@ -567,6 +567,6 @@ Suchbegriffe (WebSearch, 2026-09-27): „non-monotonic effect of pretraining dur
 - Schon zitiert und erneut getroffen: 2510.09687 (Auftreten kritischer Perioden), 2507.20057 (Grokking und Nichtstationarität), 2605.04396 / 2606.12966 (kritische Fenster der Regularisierung).
 **Stand:** Weiter nicht gefunden: eine nicht-monotone Zeitkostenkurve eines Datenwechsels mit Maximum im Festlegungsfenster der Merkmale. Das bleibt vorläufig, ohne systematische Zitationsverfolgung.
 
-## Nachtrag Sitzung 34 (2026-09-27, 23:05 Berlin)
+## Nachtrag Sitzung 34 (2026-09-27, vor 23:03 Berlin, gemessen)
 
 - **Offener Vermerk aus Sitzung 33 geklärt:** arXiv 2606.15497 ist laut Abstract (WebFetch) *Yamada, Lange, Lu, Lu, Hu, Foerster, Ha, Clune: „Towards End-to-End Automation of AI Research“* (The AI Scientist) und behandelt kein Grokking. Der Titel „Critical Learning Periods in Grokking“ stammt wohl aus einem dort erzeugten Beispielmanuskript. Eine exakte Titelsuche (WebSearch „"Critical Learning Periods in Grokking"“, 2026-09-27) fand keine eigenständige Arbeit, nur bekannte Treffer (Lyle et al. 2025, 2507.20057, schon im Volltext geprüft; Achille et al. 2019). **Schränkt K4 nicht ein.** Für die menschliche Prüfung: kein Zitat nötig, außer das Beispielmanuskript soll erwähnt werden (Entscheidung beim Nutzer).

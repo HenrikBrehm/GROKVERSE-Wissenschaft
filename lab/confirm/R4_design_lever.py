@@ -15,7 +15,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "tools"))
-from confirm_r4 import MAX_UNITS, P, spearman, split_indices  # noqa: E402
+from confirm_r4 import N_UNITS as MAX_UNITS, P, spearman, split_indices  # noqa: E402
 from P1_posthoc_within import m0c_add  # noqa: E402
 
 

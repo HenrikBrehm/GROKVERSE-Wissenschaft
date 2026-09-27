@@ -3404,3 +3404,11 @@ Neue Paper-Texte immer gegen die Quellen prüfen lassen; meine Zusammenfassungen
 Randverteilungen? *Ergebnis (post hoc, gespeicherte Läufe):* nein, 0.02 ± 0.65 (6/10, p = 0.47); eng 7.75 ± 1.63. *Einordnung:* passt zur korrigierten Theorie (zentriertes M0c der shuf-Splits
 auf Zufallsniveau, 26.2), entscheidet aber EXP-077 nicht vor: dort ist der Anteil erster Ordnung hoch (0.146 bei ε = 2). Die Vorhersage für EXP-077 bleibt damit scharf: erste Ordnung → deutlich
 positiv; „nur Paarstruktur“ → ≈ 0.
+
+**Zyklus 10 (Exploration an eingefrorenen P1-Daten, bis 14:59).** *Frage:* Sagt die Stärke des Maskensignals eines Split-Paars die Stärke der Steuerung je Seed voraus, und welches
+Maß besser: M0 oder das zentrierte M0c (Theorie erster Ordnung, gemeinsamer Pfad)? *Rechnung* (`lab/confirm/P1_posthoc_m0_strength.py`, nur Splits + P1-Zusammenfassung, keine Läufe):
+Kontrast C = log[X_F(F)/X_F(G)] + log[X_G(G)/X_G(F)] je Seed, Spearman gegen Δ_pow (n = 50, add 113). **M0: ρ = 0.39 (Permutations-p 0.006); zentriertes M0c: ρ = 0.26 (p 0.07).**
+Holm über die zwei Maße: 0.012 / 0.072. C schwankt kaum (SD 0.07 bzw. 0.11 bei Mittel 1.76), die Streuung von Δ_pow (SD 1.14) kommt also überwiegend von anderswo (Init).
+*Einordnung:* post hoc, explorativ; die bestätigten P1-Seeds sind hier kein unabhängiger Test. Hinweis, dass für den **Endzustand** M0 mindestens so gut passt wie das M0c des ersten Gradienten
+(im Einklang mit dem früheren, nicht signifikanten Befund zu den finalen Frequenzen, [[BEFUND-split-mechanismus]] Punkt 6): Der erste Gradient erklärt die Richtung, nicht die ganze Stärke.
+*Entscheidung:* kein neuer Versuch; im Paper höchstens als Exploration (§4).

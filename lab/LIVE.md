@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 20:29 Berlin (18:29Z, vom Runner)
 - **Deadline:** 2026-09-27 23:29 Berlin (21:29Z)
-- **Zuletzt aktualisiert:** 21:09 Berlin
+- **Zuletzt aktualisiert:** 21:15 Berlin
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests.
 
 ## Gerade
 
-Finde die nächste Frage; die Linie Wechselkosten ist bis zur Nacht (R6) ausgereizt.
+Wechselkosten-Linie abgeschlossen bis zur Nacht (R6). Nächste Frage wählen.
 
 ## Als Nächstes
 
@@ -18,6 +18,9 @@ Ab 00:00 laut [[STATE]]: EXP-018, dann **EXP-084 direkt danach** (Vorhersage vor
 
 ## Verlauf dieser Sitzung
 
+- 21:14 N29: Wechsel @25 in 20/20 Seeds langsamer als @50; Resets verzögern in der Reihenfolge von K4d/K4e.
+- 21:13 Paper-Abbildung 6 (Kostenkurve und Persistenz).
+- 21:12 Feine Kostenkurve (Seeds 400–409): Spitze bei 25, negativ ab 50, wo π ≈ 1.
 - 21:09 R6 um S2 ergänzt (Kosten verschwinden bei π ≈ 1), Codex ohne Befund.
 - 21:08 Wechselkosten auch in add 97 / mul 113 (EXP-044), Fenster dort bis 50. Paper-Absatz nach Quellenprüfung vorsichtiger gefasst.
 - 21:05 Unentschiedenheit π(25) sagt die Kosten je Seed nicht voraus (negativ).

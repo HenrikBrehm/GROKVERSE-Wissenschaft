@@ -1,0 +1,36 @@
+{
+ "2000": {
+  "arms": 20,
+  "M0": {
+   "mean_rho": 0.46,
+   "p_two": 0.0
+  },
+  "M0c": {
+   "mean_rho": 0.6,
+   "p_two": 0.0
+  },
+  "diff_M0_minus_M0c": {
+   "mean": -0.14,
+   "seeds": 10,
+   "n_pos": 3,
+   "p_one_sided": 0.9214953925230374
+  }
+ },
+ "10000": {
+  "arms": 20,
+  "M0": {
+   "mean_rho": 0.195,
+   "p_two": 0.08345
+  },
+  "M0c": {
+   "mean_rho": 0.17,
+   "p_two": 0.13415
+  },
+  "diff_M0_minus_M0c": {
+   "mean": 0.025,
+   "seeds": 10,
+   "n_pos": 6,
+   "p_one_sided": 0.4052829735851321
+  }
+ }
+}

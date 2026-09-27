@@ -3252,3 +3252,8 @@ Anteil der eigenen Irreps 0.29–0.38 bei Schritt 250 (Zufall 0.17), 0.39–0.59
 Grokking (ρ = −0.75, Permutations-p 0.008, 10 Läufe aus 5 Seeds). Im Geist bekannt (Fortschrittsmaße). Entscheidung: nicht post hoc stehen lassen, sondern als vorab festgelegte Sekundärhypothese S1
 in P2f an 20 frischen Seeds prüfen (keine Zusatzläufe). **Codex** (zwei Nachprüfungen): zuerst zwei Blocker (S1 hätte über den gemeinsamen Lader das primäre Urteil gefährden können; ρ undefiniert bei
 konstanten Rängen), beide selbst bestätigt und behoben; zweite Nachprüfung: keine Blocker. Selbsttest von confirm_p2f ab 00:00 (Pflicht vor dem Einfrieren).
+
+**Zyklus 9 (Literatur zu K2 bei Gruppen, 13:34–13:35).** Frage: Ist die Split-Steuerung der Irrep-Wahl (K2, jetzt auch D₅₉ nach dem Grokking) schon bekannt? Neu gefunden: Marchetti, Kunin et al.
+(ICML 2026, arXiv 2602.03655): Irreps werden einzeln gelernt, Reihenfolge durch die Fourier-Statistik der **Eingabekodierung**, bei **gleichverteilten** Daten, auch D_n. Volltext geprüft: keine
+nicht-uniformen Paarverteilungen, Gradientenfluss ohne Adam/Weight Decay/Grokking; bei One-hot sind dort alle Irreps gleichauf. Einordnung: K2 ergänzt das (die Paarmaske bricht die Gleichheit),
+nach unserer Suche nicht gefunden (vorläufig). FINDINGS-Literaturzeile ergänzt; Brückenfrage (M0 als effektive Kodierungsstatistik im AGF-Rahmen) als Programm-C-Kandidat notiert.

@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 09:39 Berlin (07:39Z, vom Runner)
 - **Deadline:** 2026-09-27 12:39 Berlin (10:39Z)
-- **Zuletzt aktualisiert:** 11:36 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 11:45 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-EXP-069 laeuft (40 Laeufe, seit 11:35): Haelt das Aufmerksamkeitsmuster (W_Q, W_K) oder der Wertepfad (W_V, W_O) die fruehe Frequenzwahl fest?
+Codex hat wieder Guthaben: Es prueft gerade die N29b-Schlussfolgerung und die zwei Trainer-Aenderungen. Danach Abschlussbericht.
 
 ## Als Naechstes
 
-EXP-069 auswerten, dann Abschlussbericht (Sitzung endet 12:39).
+Codex-Ergebnisse einarbeiten, Abschlussbericht, Sitzungsende 12:39.
 
 ## Verlauf dieser Sitzung
 
+- 11:44 **EXP-070 (Exploration):** Der Wertepfad richtet sich gleichmaessig auf die ersten Frequenzen aus, ohne Sprung zwischen Schritt 25 und 50. Die Zeitform des Ausschlusses bleibt unerklaert.
+- 11:40 **EXP-069 (Pilot):** Den Ausschluss neuer Frequenzen haelt vor allem der Wertepfad der Attention (W_V, W_O) fest, nicht das Aufmerksamkeitsmuster.
 - 11:36 FINDINGS hat oben eine Kurzfassung (Tabelle der Kernaussagen).
 - 11:31 **N29b BESTAETIGT (20/20 frische Seeds):** Setzt man beim Datenwechsel nach 50 Schritten die Attention zurueck, ist das fertige Netz auf die NEUEN Frequenzen angewiesen (40/40 Richtungen); ein doppelt so grosser MLP-Reset aendert fast nichts. Vorlaeufig, weil Codex kein Guthaben hat.
 - 11:11 EXP-069 vorab festgelegt; Neuheitssuche zu N32 (Attention haelt die fruehe Wahl): nicht gefunden, vorlaeufig.

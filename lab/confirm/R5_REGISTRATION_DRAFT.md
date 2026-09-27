@@ -4,11 +4,13 @@ status: entwurf
 datum: 2026-09-27
 tags: [lab/confirm, programm/A, paper, exp/vorbereitet, neu/kandidat]
 ---
-# R5: Beschleunigt ein spektral konstruierter Split das Grokking? Bestätigung an frischen Seeds (Registrierungsentwurf, ohne Code)
+# R5: Beschleunigt ein spektral konstruierter Split das Grokking? Bestätigung an frischen Seeds (Registrierungsentwurf, Fassung 2 mit Code)
 
 Zurück: [[LAB]] · [[FINDINGS]] (Programm A, funktionale Wirkung der Split-Steuerung) · Pilot: [[experiments/EXP-018-split-speed/README|EXP-018]] · Literatur: [[paper/lit_grokking_speed_2026-09-27]] · [[JOURNAL]] Sitzung 30, Zyklen 11–12.
 
-**Status:** Entwurf, Sitzung 30 (2026-09-27, bis 19:20 Berlin, gemessen), **vor jedem R5-Lauf, vor dem EXP-018-Kontrollarm D**. Kein Code. Der Code (`lab/tools/confirm_r5.py`, nach dem Muster von `confirm_r4.py`) wird erst nach dem EXP-018-Ergebnis geschrieben, danach folgen Codex-Prüfung, Selbsttest und Einfrieren. Ändert EXP-018 etwas an diesem Entwurf, wird das hier unter „Änderungen nach dem Pilot“ protokolliert, bevor ein R5-Lauf existiert.
+**Status Fassung 2 (Sitzung 31, 19:48):** Code `lab/tools/confirm_r5.py` geschrieben, **ungetestet** (nur Syntaxprüfung; Selbsttest im Fenster). Maßgeblich ist der Abschnitt „Fassung 2“ unten; die Aufbau-Punkte der Fassung 1 gelten nur, soweit Fassung 2 nichts anderes sagt. Einfrieren erst nach EXP-018 (n-Regel), Codex-Prüfung und grünem Selbsttest.
+
+**Status Fassung 1:** Entwurf, Sitzung 30 (2026-09-27, bis 19:20 Berlin, gemessen), **vor jedem R5-Lauf, vor dem EXP-018-Kontrollarm D**. Kein Code. Der Code (`lab/tools/confirm_r5.py`, nach dem Muster von `confirm_r4.py`) wird erst nach dem EXP-018-Ergebnis geschrieben, danach folgen Codex-Prüfung, Selbsttest und Einfrieren. Ändert EXP-018 etwas an diesem Entwurf, wird das hier unter „Änderungen nach dem Pilot“ protokolliert, bevor ein R5-Lauf existiert.
 
 ## Warum
 
@@ -57,4 +59,25 @@ Selbst geprüft und **alle übernommen** (Umsetzung beim Schreiben des Codes, da
 **Vorschlag für die Überarbeitung (nicht übernommen, bis R5 nach EXP-018 neu gefasst wird):** zusätzlich oder statt eines Teils von D eine **Dosis-Wirkungs-Hypothese** über ε ∈ {1, 2, 8} (oder den Zielanteil als stetige Größe) mit derselben Init und Testmenge je Einheit, getestet als Trend (z. B. Page-Test oder Vorzeichentest der Ordnung je Einheit, zensierungsfest). Das trennt „Konzentration wirkt abgestuft“ von „jede Ungleichverteilung reicht“ auf einem zweiten Weg. Eine Grenze gilt dabei: Mit ε ändert sich die Ziehung und damit, welche Paare im Split liegen; ein reiner Dichteeffekt ohne Spektrum ist dadurch nicht ausgeschlossen.
 **Beeinflusst:** Seeds 30–34 sind damit auch für die Geschwindigkeit gesehen (vorher nur für die Festlegung).
 **Ergänzung (19:41, post hoc, gleiche Läufe):** Der W_E-Anteil auf den Zielen bei Schritt 250 ist in 4/4 Seeds gleich geordnet (ε 8 / 2 / 1: 0.49–0.50 / 0.30–0.34 / 0.12–0.15; `posthoc_speed_amplitude.py`). Vorschlag: diese Größe in R5 je Arm beschreibend mitberichten (Frage: Läuft die Beschleunigung über das frühe Zielsignal?), ohne sie zur Hypothese zu machen.
+
+## Fassung 2 (Sitzung 31, 19:48 Berlin, gemessen; vor jedem R5-Lauf und vor dem EXP-018-Ergebnis): Aufbau, der für R5 gilt
+
+**Warum schon jetzt Code:** Die Codex-Designpunkte 1–7 hängen nicht vom Ausgang von EXP-018 ab. Vom Pilot hängen nur n (Regel unten) und die Deutung von H-ED ab; H-ED bleibt in jedem Fall als Test bestehen (wie Fassung 1).
+
+- **Einheit u** (Init-Seed 2720 + u, reserviert **2720–2779**): eigene Zufallsströme `SeedSequence([20261001, u, …])`, keiner aus dem Init-Seed (Regel 18a6). Gemeinsame Testmenge T*_u (20 % aller Paare), Pool = Rest, **ein** Schlüsselvektor für alle konstruierten Arme, **zwei Zielmengen** A/B (je 5 aus k = 1..56, unabhängig von der Init; Codex 6).
+- **Sieben Trainingsmengen** à 3831 Paare, alle auf T*_u ausgewertet: **R** gleichverteilt; **E2_0/E2_1** Konstruktion wie EXP-018 (ε = 2, Ziele A bzw. B); **D_0/D_1** je Antidiagonale c = a + b **genau so viele Paare wie die realisierte E-Maske**, Positionen gleichverteilt innerhalb von c (Codex 1). Neu gezogen (Unterstrom r = 0..19), bis die eingefrorenen Toleranzen gegen E gelten: CV der Grade von a und b, Tauschanteil und Test-Tauschanteil je höchstens 0.04 Abstand, Zielanteil von M0 ≤ 0.12. Gelingt das in 20 Zügen nicht, ist das ein Designfehler vor jedem Lauf. **E1_0/E8_0** wie E2_0 mit ε 1 bzw. 8 (gleiche Schlüssel und Wellenphasen): Dosisarme. Die Prototyp-Rechnung (Einheiten 0–3) ergab CV 0.11–0.16 und Tauschanteile 0.29–0.32 in **allen** Armen; D liegt beim Zielanteil auf Zufallsniveau (0.08–0.09), E1/E2/E8 bei 0.11–0.12 / 0.17–0.19 / 0.35–0.36.
+- **Training:** freq_ban, GPU, `--threads 1`, **8000 Schritte ohne vorzeitigen Stopp** (`--stop-after-gen 8000`). Ein Stopp nach einer vorübergehenden ersten Kreuzung würde konstruierte Arme zu ihren Gunsten zensieren. W_E-Spektrum bei 250.
+- **Ereignis (Codex 2):** erste Testauswertung s mit Test ≥ 0.95 bei s, s + 25 und s + 50 und Train ≥ 0.99 bei einem Schritt ≤ s; sonst zensiert bei 8000. Beschränkte Zeit b = min(Ereignis, 8000). Aussagen gelten nur für diesen Horizont.
+- **Primärfamilie (Holm über 3 bei 0.05; je Kontrast p = max(p_flip, p_Vorzeichen), Codex 3):**
+  - **H-ER:** L = log2 b(R) − Mittel_j log2 b(E2_j) > 0 (konstruiert früher als gleichverteilt).
+  - **H-ED:** L = Mittel_j [log2 b(D_j) − log2 b(E2_j)] > 0 (früher als die je Ausgabe exakt abgeglichene Kontrolle: Konzentration, nicht Ausgaberandverteilung).
+  - **H-dose:** L = log2 b(E1_0) − log2 b(E8_0) > 0 (schwach konzentriert später als stark konzentriert; Anlass: `EXP-042/posthoc_speed_dose.py`, Sitzung 31).
+  - p_flip = einseitiger Vorzeichen-Permutationstest des mittleren L (100 000 Monte-Carlo-Ziehungen, fester Seed); p_Vorzeichen = exakter einseitiger Binomialtest über die Einheiten, deren Reihenfolge unter Zensur feststeht (Aggregate: geometrisches Mittel der beschränkten Zeiten, beobachtet nur, wenn alle Teile beobachtet sind; Gleichstände und unbestimmte Einheiten fallen heraus).
+  - **Effektgröße (Codex 4):** 2^L̄ = geometrisches Mittel des Verhältnisses der beschränkten Zeiten, mit 95-%-Bootstrap-KI, nur als Punktschätzer mit KI. Es gibt keine Schwelle „Faktor 2“ als Urteilskriterium.
+- **n (Regel, vor dem Pilot festgelegt):** kleinstes n aus (20, 30, 40, 50, 60) mit simulierter Power ≥ 0.8 für H-ER und H-ED gemeinsam (`R5_power_sim.py` auf den EXP-018-Zeilen, Einstellung `--extra 0`); sonst 60. Näherungen der Simulation, so berichtet: Sie nutzt die erste Kreuzung statt des Ereignisses mit 3 Auswertungen, je Seed nur eine E/D-Zielmenge und Holm über 2 (gleichwertig zu Holm über 3, wenn H-dose den kleinsten p-Wert hat; die Pilotdaten lassen das erwarten, sind aber für die Dosis gesehen). Der Wert steht dann als `N_UNITS` im Code (Hash-Tor).
+- **Gültigkeit:** alle 7 Läufe einer Einheit gebunden und geladen (gemeinsamer Lader: Seed, Gerät, Schrittbudget, Split- und Test-Hash, Spektrum bei 250 endlich), gleiche Init-Prüfsumme in allen 7 Läufen, Splits bitgleich mit dem Neubau. Sonst ist R5 *nicht auswertbar*.
+- **Beschreibend (kein Urteil):** W_E-Zielanteil bei 250 je Arm (Frage aus Sitzung 31: Läuft die Beschleunigung über das frühe Zielsignal?), erste Kreuzung, Endgenauigkeit, beobachtete Ereignisse je Arm bis 2000/8000, Abgleichstatistik von D.
+- **Budget:** 7 Läufe × 8000 Schritte je Einheit; bei n = 20: 140 Läufe, GPU bei 10 parallel ≈ 0.03 s/Schritt → ≈ 4 min je Lauf → ≈ 1 h.
+- **Bereits gesehen und beeinflusst (zusätzlich zu Fassung 1):** EXP-020/042 (Seeds 30–34) für die Dosisarme und die Wahl ε ∈ (1, 8); P1 (Seeds 1000–1049) für die Einsicht, dass die natürliche Streuung innerhalb einer Stufe kein brauchbarer Hebel ist. Kein Lauf mit R5-Seeds.
+- **Grenzen:** eine Aufgabe (add 113), eine Architektur, AdamW lr 1e-3, wd 1, 30 % Trainingsanteil. Mit ε ändert sich auch, welche Paare gezogen werden; ein Dichteeffekt ohne Spektrum schließt H-dose allein nicht aus. Diese Deutung trägt H-ED.
 

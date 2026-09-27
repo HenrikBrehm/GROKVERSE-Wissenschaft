@@ -36,3 +36,7 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-082-graded-targets
 ```
 
 Splits neu erzeugen (deterministisch, überschreibt nie): `python lab/experiments/EXP-082-graded-targets/make_split.py --write`.
+
+## Möglicher Folgeversuch (nur bei klarem H-weak/H-strong)
+
+Einprägen einer Rangfolge: 50 Schritte auf dem abgestuften Split, dann Wechsel auf einen Zufallssplit (wie EXP-041 E → R, dort bei t = 150 mit gleichstarken Zielen „gehalten“). Frage: Bleibt die vorgegebene Rangfolge erhalten? Erst nach EXP-082 festlegen, nicht vorher.

@@ -53,3 +53,7 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-078-two-layer-stee
 python lab/tools/parallel_queue.py lab/experiments/EXP-078-two-layer-steering/jobs.txt --workers 10
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-078-two-layer-steering/analyze.py
 ```
+
+## Nachtrag a (15:34 Berlin, gemessen; vor jedem Lauf): Codeprüfung und Lesart
+
+Claude-Prüfagent (nur lesend): **keine Blocker** (Modelltausch über den Modulnamen wirkt, Init-Gleichheit stimmt, Vorwärtsrechnung, Spektren bei 2000/10 000, Paarung mit P1, Jobzeilen). Übernommen: (1) **Lesart:** *keine Steuerung* nur bei Δ̄ < 0.5; p ≥ 0.2 allein ergibt *unklar* (vorher hätte ein großer, streuender Mittelwert „keine“ geheißen); (2) Herkunftsprüfung je Arm (Split-Datei in der result.json muss zu Seed und Arm passen); (3) veraltete Dateien: result.json muss jünger sein als spectra.npy; (4) `train2l.py` prüft Optionen über argparse statt exakter Zeichenketten; (5) Selbsttest ruft `make_dataset` wie der Trainer auf. Hinweis: In der result.json beschreiben `trainer` und `config` den schlanken Trainer bzw. das 1-Schicht-Preset; maßgeblich für das Modell ist das Feld `model`.

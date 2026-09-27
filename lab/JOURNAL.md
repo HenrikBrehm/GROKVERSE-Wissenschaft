@@ -3490,3 +3490,8 @@ naheliegende Gutachterfrage.) *Aufbau:* laboreigenes 2-Schicht-Modell (`two_laye
 ist → gepaarter Vergleich mit den eingefrorenen P1-Werten derselben Seeds und Splits (1000–1009). Trainer = `repro/train.py` mit ausgetauschter Modellfabrik. Primär Δ_pow bei 2000, Lesart vorab
 im [[experiments/EXP-078-two-layer-steering/README|README]]. 20 Läufe ≈ 20 min GPU; erst nach der Gleichwertigkeit von `repro/train.py`. Ungetestet (nur `py_compile`), Selbsttest prüft die
 Init-Gleichheit. *Warum jetzt:* Die GPU ist heute Nacht nach dem Plan nur ≈ 1.5 h belegt; ein Pilot zur Tiefe kostet wenig und trifft eine offene Grenze direkt.
+
+**Zyklus 6, Prüfung (Ergebnis vor 15:35, gemessen).** Claude-Prüfagent zu EXP-078: keine Blocker; 5 kleinere Punkte übernommen (README Nachtrag a). Dabei eine Schwäche der Lesart gefunden, die
+auch EXP-077 hat (beide vor jedem Lauf): „Δ̄ < 0.5 **oder** p ≥ 0.2 → keine Steuerung“ hätte einen großen, streuenden Mittelwert als „keine Steuerung“ gelesen → jetzt nur Δ̄ < 0.5; EXP-077
+Nachtrag b. Positiv-Regeln unverändert. *Eigener Fehler:* ein Heredoc ohne Anführungszeichen mit Backticks; die Shell wollte Wörter als Befehle ausführen (alle „command not found“, nichts
+geschrieben, nichts ausgeführt). Danach über eine Skriptdatei wiederholt.

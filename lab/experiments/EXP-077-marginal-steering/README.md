@@ -69,3 +69,7 @@ Häufigkeit ρ(t) moduliert, wie stark Zeile t anfangs aktualisiert wird (Amplit
 Schritten vermutlich schwach). Der Pilot trennt die beiden Wege nicht; die Lesart „stützt erste Ordnung“ gilt deshalb nur im Sinn „stützt die Vorhersage, dass Häufigkeiten allein steuern
 können“, gegen die Lesart „nur Paarstruktur“. Kriterien und Urteile oben unverändert. Eine Trennung (z. B. über die W_E-Zeilennormen gegen ρ(t) aus den gespeicherten Schnappschüssen) wäre
 ein eigener, später festzulegender Schritt.
+
+## Nachtrag b (15:34 Berlin, gemessen; Sitzung 26, vor jedem Lauf): Lesart bei hoher Streuung
+
+Ein Prüfagent fand beim gleich gebauten EXP-078: Die Regel „Δ̄ < 0.5 **oder** p ≥ 0.2 → keine Steuerung“ würde einen großen Mittelwert mit hoher Streuung (z. B. Δ̄ = 3, p = 0.3) als „keine Steuerung“ lesen. Das überdehnt. **Neu:** *keine Steuerung über die Randverteilung* nur bei Δ̄ < 0.5; Δ̄ ≥ 0.5 ohne die Positiv-Regel → *unklar*. Die Positiv-Regel (Δ̄ ≥ 1 und p < 0.05) bleibt unverändert. Kein Lauf und kein Ergebnis gesehen; `analyze.py` entsprechend geändert.

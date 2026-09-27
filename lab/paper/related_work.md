@@ -484,3 +484,4 @@ Nach Abstract als nicht einschlägig eingestuft (keine Paar-Steuerung, keine fr�
 2605.08119 („spectral lock-in“ meint dort Eigenlücken im Update-Spektrum), 2608.25813, 2605.17704, 2605.24057, 2607.29503, 2609.12259, 2607.10116, 2603.07323, 2609.20166.
 **Offen für die menschliche Prüfung:** Zitate aus 2604.00316 und 2609.18078 vor der Übernahme ins Paper am PDF gegenprüfen (das Werkzeug fasst zusammen); Vorwärtszitate von Dong und Khanh nachholen;
 Google Scholar.
+*Nachtrag (15:32, gemessen):* Zweiter Versuch für Dong/Khanh: Semantic Scholar weiter HTTP 429; Websuche nach Titeln und die Pith-Seite von 2607.06628 zeigen keine zitierenden Arbeiten (Pith: keine „cited by“-Liste im Abruf). Bleibt offen für eine spätere Sitzung.

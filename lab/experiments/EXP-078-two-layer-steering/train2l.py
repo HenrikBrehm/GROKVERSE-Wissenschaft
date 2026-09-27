@@ -20,11 +20,16 @@ import train as lean  # noqa: E402  (lab/paper/repro/train.py)
 from two_layer import TwoLayerTransformer  # noqa: E402
 
 if __name__ == "__main__":
-    if any(x in sys.argv for x in ("--switch-split-file", "--switch-step", "--reset-at-switch", "--compare-to")):
+    import argparse
+    pk = argparse.ArgumentParser(add_help=False)          # review s26: catch --opt=value and prefixes, not only exact strings
+    for o in ("--switch-split-file", "--switch-step", "--reset-at-switch", "--compare-to", "--out"):
+        pk.add_argument(o)
+    known, _ = pk.parse_known_args()
+    if known.switch_split_file or known.switch_step or known.reset_at_switch or known.compare_to:
         raise SystemExit("EXP-078: no switch, reset or comparison options")
     lean.build_model = TwoLayerTransformer        # the only change: model factory used inside lean.train()
     lean.main()
-    out = Path(sys.argv[sys.argv.index("--out") + 1]) / "result.json"
+    out = Path(known.out) / "result.json"
     res = json.loads(out.read_text(encoding="utf-8"))
     res["model"] = "EXP-078 TwoLayerTransformer (lab/experiments/EXP-078-two-layer-steering/two_layer.py)"
     out.write_text(json.dumps(res, indent=1), encoding="utf-8")

@@ -24,13 +24,18 @@ SEEDS, STEPS, PRIMARY, SPL = list(range(1000, 1010)), 10000, 2000, LAB / "confir
 MODEL_TAG = "EXP-078 TwoLayerTransformer"
 
 
-def spectrum(run: Path, s: int, step: int) -> np.ndarray | str:
+def spectrum(run: Path, s: int, arm: str, step: int) -> np.ndarray | str:
     f = run / "result.json"
     if not f.exists():
         return "fehlt"
     r = json.loads(f.read_text(encoding="utf-8"))
     if r.get("seed") != s or r.get("steps") != STEPS or r.get("device") != "cuda" or not str(r.get("model", "")).startswith(MODEL_TAG):
         return f"defekt: result.json (seed/steps/device/model) {r.get('seed')}/{r.get('steps')}/{r.get('device')}/{r.get('model')}"
+    argv = r.get("argv", [])                     # review s26: arm provenance (a swapped F/G directory would flip the sign)
+    if "--split-file" not in argv or Path(argv[argv.index("--split-file") + 1]).name != f"confirm_exp1_eps2.0_add113_seed{s}_{arm}.npy":
+        return "defekt: split file in result.json does not match seed/arm"
+    if f.stat().st_mtime < (run / "spectra.npy").stat().st_mtime:   # review s26: result.json is written last; older = stale
+        return "defekt: result.json older than spectra.npy (stale rerun)"
     st = np.load(run / "spectra_steps.npy").tolist()
     if step not in st:
         return f"defekt: no spectrum at {step}"
@@ -50,7 +55,7 @@ def reading(s: dict) -> str:
         return "nicht auswertbar"
     if s["mean"] >= 1.0 and s["p_one_sided"] < 0.05:
         return "Steuerung überträgt sich auf zwei Schichten (Pilot)"
-    if s["mean"] < 0.5 or s["p_one_sided"] >= 0.2:
+    if s["mean"] < 0.5:                          # review s26 (before any run): p >= 0.2 alone is 'unklar', not 'keine'
         return "keine Steuerung in zwei Schichten (Pilot)"
     return "unklar"
 
@@ -63,7 +68,7 @@ def main() -> None:
         T = {a: json.loads((SPL / f"confirm_exp1_eps2.0_add113_seed{s}_{a}.json").read_text(encoding="utf-8"))["targets"] for a in "FG"}
         row: dict = {"seed": s}
         for step in (PRIMARY, STEPS):
-            pw = {a: spectrum(HERE / "raw" / f"seed{s}_{a}", s, step) for a in "FG"}
+            pw = {a: spectrum(HERE / "raw" / f"seed{s}_{a}", s, a, step) for a in "FG"}
             if any(isinstance(v, str) for v in pw.values()):
                 bad.append(f"seed {s} @ {step}: " + "; ".join(f"{a} {v}" for a, v in pw.items() if isinstance(v, str)))
                 row = {}
@@ -96,6 +101,7 @@ def selftest() -> None:
     assert reading(mk(0.1)).startswith("keine"), reading(mk(0.1))
     assert reading(mk(0.8, 0.3)) == "unklar", (mk(0.8, 0.3), reading(mk(0.8, 0.3)))
     assert reading({**mk(3.0), "n": 7}) == "nicht auswertbar"
+    assert reading({"n": 10, "mean": 3.0, "p_one_sided": 0.3}) == "unklar"
     pF, pG = np.ones(56), np.ones(56)
     pF[[k - 1 for k in (1, 2, 3, 4, 5)]] = np.e
     assert abs(delta_pow(pF, pG, [1, 2, 3, 4, 5], [6, 7, 8, 9, 10]) - 1.0) < 1e-12
@@ -106,8 +112,9 @@ def selftest() -> None:
     from grokverse.seed import set_seed
     from two_layer import TwoLayerTransformer
     cfg = get_config("arch25k", seed=1000, steps=10, threads=1)
-    set_seed(1000); m1 = build_model(cfg)
-    set_seed(1000); m2 = TwoLayerTransformer(cfg)
+    from grokverse.data import make_dataset
+    set_seed(1000); make_dataset(cfg); m1 = build_model(cfg)          # same order as the trainer (dataset between seed and init)
+    set_seed(1000); make_dataset(cfg); m2 = TwoLayerTransformer(cfg)
     for nm in ("W_E", "W_pos", "W_Q", "W_K", "W_V", "W_O", "W_in", "W_out", "W_U"):   # same init as the one-layer model
         assert torch.equal(getattr(m1, nm), getattr(m2, nm)), nm
     assert not torch.equal(m2.W_Q, m2.W_Q2) and m2.logits_last(torch.tensor([[1, 2, 113]])).shape == (1, 114)

@@ -37,7 +37,7 @@ def reading(n: int, mean: float, p: float) -> str:
         return "nicht auswertbar"
     if mean >= 1.0 and p < 0.05:
         return "Randverteilung steuert (stützt erste Ordnung inkl. Fremd-Häufigkeiten)"
-    if mean < 0.5 or p >= 0.2:
+    if mean < 0.5:                  # Nachtrag b (session 26, before any run): p >= 0.2 alone is 'unklar'
         return "keine Steuerung über die Randverteilung (stützt 'nur Paarstruktur')"
     return "unklar"
 

@@ -1,11 +1,11 @@
 ---
 id: N29-registrierung
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-27
-tags: [lab/bestaetigung]
+tags: [lab/bestaetigung, befund/positiv]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-064-functional-regimes/README|EXP-064]]", "[[confirm/N28_REGISTRATION|N28]]", "[[NOVEL_DIRECTIONS]]", "[[BACKLOG]]", "[[JOURNAL]]"]
 ---
-# N29-Bestätigung (funktionaler Übergang: Umstieg bei t = 25, Festhalten bei t = 50): Registrierung (Sitzung 23). **ENTWURF**
+# N29-Bestätigung (funktionaler Übergang: Umstieg bei t = 25, Festhalten bei t = 50): Registrierung (Sitzung 23). **EINGEFROREN 087e042, BESTÄTIGT**
 
 Zurück zu [[FINDINGS]] (Programm B, „Zwei spektrale Signaturen“) · Pilot [[experiments/EXP-064-functional-regimes/README|EXP-064]] (nicht auswertbar, 7/10) ·
 [[NOVEL_DIRECTIONS]] „N29: Zwei Regime nach einem frühen Datenwechsel“ (der zweite Eintrag mit dieser Nummer; der ältere N29 zu Loss-Gewichten ist nicht gemeint).
@@ -66,3 +66,8 @@ und passierte den eingefrorenen Lader (gebunden; er zählt als regulärer Lauf).
 Holm-p: H1 7·10⁻¹⁵, H2 1·10⁻⁵. Beschreibend nur an den 19 generalisierten Seeds: 0.898 und 0.591 (gleiches Bild).
 **Post hoc (nach dem Ergebnis, beschreibend, `lab/confirm/n29_posthoc_energy.py`):** Nach 4000 Schritten zeigt auch die W_E-Energie in dieselbe Richtung (t = 25: neue Energie größer in 38/40 Läufen;
 t = 50: alte größer in 40/40). Ablation und Energie sind hier also nicht getrennt: Der Befund sagt, *auf welche Menge das Netz angewiesen ist*, nicht, dass Funktion und Spektrum auseinanderfallen.
+
+## Codex-Prüfung der Schlussfolgerung (Sitzung 23, Ergebnis vor 10:21 Berlin)
+
+Zahlen tragen; „hängt ab“, „kippt“, „funktionale Festlegung“ nicht. Selbst nachgerechnet: bei t = 25 38/40 Richtungen mit erwartetem Vorzeichen, 29/40 über 0.3 (2253 A→B, 2267 B→A umgekehrt), bei t = 50 40/40 und 39/40.
+Übernommen: enger Wortlaut in [[FINDINGS]] („K4c“), Einheiten als richtungsgemittelte Seeds, keine Aussage über Stärke, Umkehrung eines Ablationskontrasts statt Festlegung, fehlende Energiekontrolle als Grenze.

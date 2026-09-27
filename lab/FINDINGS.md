@@ -11,6 +11,20 @@ Zurück zu [[LAB]]. **Nachtrag Sitzung 21 (27.09., 04:46): P1 und P2 sind eingef
 2026-09-26 nicht gefunden, vorläufig. **Alle Aussagen gelten bisher nur für eine Aufgabe (Addition mod 113) und im Kern eine
 Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelheiten: [[BEFUND-split-mechanismus]], [[BEFUND-festlegung]].
 
+## BESTÄTIGT (Sitzung 23, 27.09., 10:17 Berlin): N29, Ablationskontrast kehrt sich zwischen Wechsel bei t = 25 und t = 50 um #befund/positiv
+
+**Kernaussage K4c** (Wortlaut nach Codex-Prüfung der Schlussfolgerung, Sitzung 23, selbst nachgerechnet): *Bei Addition mod 113 (einschichtiger Transformer), nach einem Wechsel zwischen paar-disjunkten
+konstruierten Splits (beide Richtungen) und 4000 weiteren Schritten, hing der Genauigkeitsverlust durch vollständiges Entfernen der Zielfrequenzen aus W_E[:113] vom Wechselzeitpunkt ab.
+Gemittelt über beide Richtungen je Seed (20 frische Seeds) kostete nach einem Wechsel bei t = 50 das Entfernen der **alten** Ziele 0.903 mehr Testgenauigkeit als das der neuen (95-%-KI 0.846–0.953;
+20/20 Seed-Mittel > 0.3), nach einem Wechsel bei t = 25 das Entfernen der **neuen** 0.603 mehr (0.498–0.700; 17/20 > 0.3). Die beiden Zeitpunkte schließen eine Umkehrung dieses Ablationskontrasts ein;
+eine netzweite oder unumkehrbare funktionale Festlegung ist damit nicht gezeigt.*
+Belege: [[confirm/N29_REGISTRATION|Registrierung + Ergebnis]], Manifest 087e042, 80 gebundene Läufe, Holm-p 7·10⁻¹⁵ / 1·10⁻⁵. Pilot [[experiments/EXP-064-functional-regimes/README|EXP-064]].
+**Grenzen (Codex, übernommen):** ein Eingriff (alle 5 Frequenzen auf einmal, nur W_E, nicht energiegleich); Genauigkeit hat Boden und Decke, 0.90 gegen 0.60 ist kein Maß für „Stärke“; zwei Zeitpunkte
+lokalisieren keinen Übergang; Einheiten sind 20 richtungsgemittelte Seeds (Läufe eines Seeds teilen die Init). Bei t = 25 ist die Richtung uneinheitlicher: 38/40 Richtungen mit erwartetem Vorzeichen,
+29/40 über 0.3 (Seeds 2253 A→B und 2267 B→A umgekehrt); bei t = 50 40/40 und 39/40. 19/20 Seeds generalisiert (primär waren alle 20 vorab festgelegt).
+**Post hoc:** Nach 4000 Schritten zeigt auch die W_E-Energie in dieselbe Richtung (38/40 bzw. 40/40). Ablation und Energie sind hier nicht getrennt; die Frage „Funktion ohne Energie?“ bleibt offen.
+Einordnung: Fortsetzung von K4/K4b (Persistenz nach 25 Schritten) auf die Funktion; nach unserer Suche vom 27.09. nicht gefunden (vorläufig, [[NOVEL_DIRECTIONS]] N29 „Zwei Regime“).
+
 ## BESTÄTIGT (Sitzung 22, 27.09., 09:30 Berlin): P2d, stärkere Margin-Reaktion entlang der gesteuerten Frequenzen #befund/positiv
 
 **Kernaussage K2-Funktion (P2d)** (Wortlaut nach Codex-Prüfung der Schlussfolgerung, 09:31–09:34): *Bei Addition mod 113 nach 4000 Trainingsschritten verringerte eine auf W_E[:113] beschränkte Perturbation

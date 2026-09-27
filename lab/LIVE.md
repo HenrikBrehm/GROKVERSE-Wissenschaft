@@ -21,7 +21,7 @@ Codex-Ergebnis einarbeiten, dann FINDINGS. Nach P2e: Auswertung, danach Trainer-
 
 - 10:17 **N29 bestaetigt:** zwischen 25 und 50 Schritten kippt, auf welche Frequenzen das Netz am Ende angewiesen ist. Nachtraeglich: Die Energie in W_E zeigt dieselbe Richtung.
 - 10:16 N29-Block fertig (80/80); P2e zweite Warteschlange gestartet.
-- 10:10 EXP-067 vorab festgelegt (Pilot).
+- 10:09 EXP-067 vorab festgelegt (Pilot).
 - 10:07 P2e eingefroren (zweiter Anlauf) und gestartet.
 - 10:04 P2e-Probelauf deckt einen Klammerfehler in der Auswertung auf; behoben, Selbsttest erweitert.
 - 09:59 N29 eingefroren, Probelauf durch den Lader ok, Block gestartet.

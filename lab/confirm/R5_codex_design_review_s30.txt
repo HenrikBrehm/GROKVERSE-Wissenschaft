@@ -1,0 +1,60 @@
+(node:30684) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0e3e1-cfc6-78a1-a877-54162439a55d).
+[codex] Turn started (01a0e3e1-d904-76c0-a48b-fdffa6791099).
+[codex] Assistant message captured: I’ll inspect the registration, pilot code/results, post-hoc scripts/JSON, and literature note...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files lab/con...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files lab/con... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files lab\\co...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files lab\\co... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files lab\\co...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files lab\\co... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab\\confirm...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab\\confirm... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab\\experim...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab\\experim... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab\\e...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab\\e... (exit 0)
+[codex] Assistant message captured: The core draft is much thinner than the pilot protocol: several pilot diagnostics are mention...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab\\c...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files=@('"'lab\\c... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab\\paper\\...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab\\paper\\... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Lit...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Lit... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"def target...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"def target... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab\\experim...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab\\experim... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab\\experim...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'lab\\experim... (exit 0)
+[codex] Assistant message captured: Verdict: not ready to freeze. The design can confirm an engineered-split package effect, but ...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+Verdict: not ready to freeze. The design can confirm an engineered-split package effect, but not yet attribute it specifically to five-frequency concentration.
+
+### BLOCKER
+
+1. **D does not isolate realized spectral structure.** D matches the *latent sampling-weight* multiset within each output antidiagonal, but training sees only the sampled binary mask; E and D need not have identical realized output counts, operand marginals, swap coverage, or T*-to-train difficulty ([make_splits.py:59](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/experiments/EXP-018-split-speed/make_splits.py:59), [make_splits.py:79](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/experiments/EXP-018-split-speed/make_splits.py:79)). Pilot evidence gives only overlapping aggregate ranges, not within-seed equality ([README.md:78](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/experiments/EXP-018-split-speed/README.md:78)).  
+   **Fix:** construct D by permuting the *realized E membership mask* within antidiagonals, preserving output counts exactly; constrain/rejection-match per-seed `a/b` degrees, train/test swap share, test-neighbour coverage, and graph connectivity. Freeze tolerances, resampling limits, and balance-failure handling.
+
+2. **The endpoint supports only a bounded claim and is vulnerable to transient crossings.** `min(T,8000)` is a valid fully observed restricted outcome—not an uncensored grokking time. Historical random runs reached 11,200 steps ([speed_posthoc_gen_steps.json:17](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/speed_posthoc_gen_steps.json:17)); meanwhile first `test≥.95` plus stopping 25 steps later scarcely establishes persistence ([R5_REGISTRATION_DRAFT.md:19](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:19)).  
+   **Fix:** explicitly call the estimand \(T_{8000}=\min(T,8000)\), restrict conclusions to the 8,000-step horizon, and require ≥3 consecutive qualifying evaluations (`stop-after≥75`). Otherwise extend the cap and use a preregistered censored-time analysis. Require training memorization before calling the event “grokking”; otherwise say “earlier generalization.”
+
+3. **The inferential rule is not defined well enough to control error.** Exact sign-flipping of mean \(L\) assumes symmetric paired differences; that assumption is unstated ([analyze.py:113](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/experiments/EXP-018-split-speed/analyze.py:113)). The censoring sign test targets win probability, not mean log-ratio. “Both after Holm” is ambiguous and can fail FWER control when different component nulls fail for ER versus ED ([R5_REGISTRATION_DRAFT.md:22](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:22)).  
+   **Fix:** name both estimands and one primary test. If both are mandatory, define \(p_j=\max(p_{L,j},p_{\text{sign},j})\), then Holm-adjust these two contrast-level p-values. Freeze tie, double-censoring, missing-run, CI, and resampling rules.
+
+4. **Power and the factor-two claim are mismatched.** Powering a test of \(L=0\) at true \(L=1\) does not give 80% probability that the CI lower bound exceeds 1 ([R5_REGISTRATION_DRAFT.md:23](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:23)). The 10-seed normal-SD rule also ignores cap compression, random determined-case count, the co-condition, and Holm ([R5_REGISTRATION_DRAFT.md:24](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:24)).  
+   **Fix:** either make “2×” a point-estimate descriptor or power a one-sided lower-bound test of \(L>1\) under a larger design alternative. Determine n by simulation of the complete frozen decision rule, including censoring and multiplicity; specify rounding and what the n=60 cap implies for achieved power.
+
+### MAJOR
+
+5. **Split/init independence is not operationalized.** The pilot derives test set, targets, phases, and sampling from the same numeric seed used for initialization ([make_splits.py:69](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/experiments/EXP-018-split-speed/make_splits.py:69)); R5 merely promises an “own key” ([R5_REGISTRATION_DRAFT.md:20](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:20)).  
+   **Fix:** freeze explicit init/test/target/sampling seed lists, independent RNG namespaces, a randomized bijection between split IDs and init IDs, and hashes. State whether inference generalizes over joint init–split draws; preferably cross multiple independent splits with initializations.
+
+6. **Frequency identity and weight-decay interaction remain competing mechanisms.** Only target-overlap is descriptive, while AdamW `wd=1` is fixed ([R5_REGISTRATION_DRAFT.md:19](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/R5_REGISTRATION_DRAFT.md:19)); the literature note specifically flags weight decay pruning non-feature frequencies ([lit_grokking_speed_2026-09-27.md:57](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/paper/lit_grokking_speed_2026-09-27.md:57)).  
+   **Fix:** choose target frequencies independently of initialization and cross at least two target sets per init. Add an E/D×weight-decay replication if claiming a general spectral mechanism; otherwise limit the claim explicitly to `wd=1`.
+
+### MINOR
+
+7. Treat the post-hoc evidence only as hypothesis-generating: most comparisons use complementary test sets ([speed_posthoc_gen_steps.py:1](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/speed_posthoc_gen_steps.py:1)), while EXP-041 leaves every R run censored at 2,150 ([EXP041_posthoc_speed.json:144](/C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/EXP041_posthoc_speed.json:144)). Label \(2^{\bar L}\) as a **geometric mean restricted-time ratio**, and freeze randomized run order plus simultaneous one-sided CIs before execution.

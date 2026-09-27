@@ -37,3 +37,14 @@ EXP-016 und EXP-003d (Seeds 10–19), P1 (Seeds 1000–1049), EXP-047 (Seeds 150
 ## Grenzen (vorab)
 
 Eine Aufgabe, eine Architektur, eine Optimierer-Einstellung, ε = 2, 30 % Trainingsanteil; „schneller“ heißt früherer Testanstieg auf T*, nicht bessere Endgenauigkeit.
+
+## Codex-Designprüfung (Sitzung 30, `lab/confirm/R5_codex_design_review_s30.txt`, vor jedem Lauf): nicht einfrierbar, Punkte für die Überarbeitung nach EXP-018
+
+Selbst geprüft und **alle übernommen** (Umsetzung beim Schreiben des Codes, dann erneute Codex-Prüfung):
+1. **BLOCKER, bestätigt:** D gleicht nur die Zieh-Gewichte je Antidiagonale an, nicht die gezogene Maske. An den EXP-018-Splits (Seeds 20–22) weichen die realisierten Anzahlen je Ausgabe c zwischen E und D im Mittel um 2.8–2.9 Paare ab (höchstens 10 bei ≈ 34 je c); die Streuung ist ähnlich (CV E 0.12–0.13, D 0.13–0.14, R 0.14). → Für R5 D aus der **realisierten E-Maske** bauen, per Permutation innerhalb jeder Antidiagonale (Anzahl je c exakt gleich). Dazu Abgleich je Seed für die Grade von a und b, den Tauschanteil (b, a), die Testnachbarschaft und den Zusammenhang, mit eingefrorenen Toleranzen und Verwerfungsregel.
+2. **BLOCKER:** Schätzgröße ausdrücklich T₈₀₀₀ = min(T, 8000); Aussagen nur für diesen Horizont. Ereignis erst bei ≥ 3 aufeinanderfolgenden Auswertungen mit Test ≥ 0.95 (`--stop-after-gen ≥ 75`) und vorheriger Memorisation (Train ≥ 0.99); sonst „frühere Generalisierung“ statt „Grokking“.
+3. **BLOCKER:** Je Kontrast p_j = max(p_L, p_Vorzeichen), danach Holm über die zwei Kontraste; Regeln für Gleichstand, Doppelzensur, fehlende Läufe und KI festschreiben.
+4. **BLOCKER:** „Faktor 2“ nur als Punktschätzer berichten (geometrisches Mittel des beschränkten Zeitverhältnisses) oder die Power für die Untergrenze L > 1 auslegen. n per **Simulation der vollständigen Entscheidungsregel** (Zensur, Ko-Bedingung, Holm) aus der Pilotverteilung bestimmen, mit festgelegter Rundung und Deckel.
+5. **MAJOR:** Explizite Listen für Init-, Test-, Ziel- und Ziehungs-Seeds in getrennten Namensräumen, zufällige Zuordnung Split-ID ↔ Init-ID, Hashes; vorzugsweise mehrere unabhängige Splits je Init.
+6. **MAJOR:** Zielfrequenzen unabhängig von der Init wählen und mindestens zwei Zielmengen je Init kreuzen; die Aussage auf wd = 1 beschränken (keine Weight-Decay-Replikation geplant).
+7. **MINOR:** Post-hoc-Belege nur als hypothesenbildend; 2^L̄ als geometrisches Mittel des beschränkten Zeitverhältnisses benennen; Laufreihenfolge zufällig und eingefroren.

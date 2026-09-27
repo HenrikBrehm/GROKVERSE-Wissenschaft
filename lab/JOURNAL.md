@@ -2964,3 +2964,14 @@ innerhalb von t erklärt er die Seed-Streuung nicht (ρ 0.02–0.36). Die relati
 *Ergebnis:* zwei Regime. Bis t ≈ 30 **Koexistenz**: a wächst (2.1 bei t = 25), b bleibt klein (0.26), das Netz lernt die neuen Frequenzen fast normal dazu. Bei t = 50 **Ausschluss**: b = 4.25,
 die neuen Frequenzen entstehen kaum. Je Seed 10/10 in beiden Mustern. *Entscheidung:* Vorhersage für die frischen N28-Seeds vorab festgelegt (2bdfdaf, `lab/confirm/n28_regimes.py`, ≥ 24/30 je Muster),
 bevor irgendein N28-Ergebnis angesehen wurde. Auswertung nach dem Block.
+
+**Zyklus 9 (EXP-063 festgelegt und gestartet, 07:53–07:54 gemessen).** *Frage (K2 aus dem BACKLOG):* Sitzt der Ausschluss neuer Frequenzen bei t = 50 im Rest des Netzes? Arme: Reset des Rests bzw. von W_E
+beim Wechsel (vorhandene Option aus EXP-038), 40 Läufe, Pilot. Ergebnis ausstehend.
+
+**Zyklus 10 (P2b abgebrochen, P2c eingefroren, 08:03–08:10 gemessen).** Zwei Starts scheiterten 07:53 am Speicher (`bad allocation`, WinError 1455) bei 12 GPU-Prozessen plus CPU-Programm.
+Beim Lesen der Logs fiel auf: P2b-Läufe enden bei „gen + 2000“ (Seed 2000 G: 2725 Schritte), weil `freq_ban.py` standardmäßig `--stop-after-gen 2000` setzt. Der eingefrorene Lader verlangt
+4000 Schritte → P2b wäre vollständig *nicht auswertbar*. **Mein Designfehler**, von beiden Codex-Prüfungen nicht bemerkt. Block abgebrochen (Prozessbaum beendet, kein R, keine Ablation berechnet),
+Seeds 2000–2099 verbraucht. **P2c** = P2b mit Seeds 2100–2199, Versuchs-ID 3, `--stop-after-gen 4000` und einem Selbsttest, der für jede Zeile volle Schrittzahl verlangt.
+Codex (gezielt): 4000 Schritte garantiert, Lauf-ID korrekt, zwei Kommentarfehler (behoben). Eingefroren e8e0cfa, Splits/Jobs 4aa4544, Start mit 3 Arbeitern (freier virtueller Speicher 3.3 GB).
+Geprüft: N28, EXP-058/059/063 sind nicht betroffen (≤ 2050 Schritte, Generalisierung nie vor Schritt 50).
+*Lehre:* Eine Bestätigung braucht vor dem Einfrieren einen echten Probelauf **bis zum Ende**, dessen Ergebnis den eingefrorenen Lader passiert. Der N28-Smoke hat das geleistet, für P2b fehlte er.

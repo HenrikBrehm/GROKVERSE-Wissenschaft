@@ -5,20 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 06:59 Berlin (04:59Z, vom Runner)
 - **Deadline:** 2026-09-27 09:59 Berlin (07:59Z)
-- **Zuletzt aktualisiert:** 07:51 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 08:10 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-Zwei eingefrorene Bestaetigungen laufen auf der GPU (zusammen 500 Laeufe, ca. 80 min): **N28** (Momentum-Reset) und **P2b** (nutzt das Netz die gesteuerten Frequenzen wirklich?).
-Das CPU-Programm laeuft daneben weiter.
+GPU: N28-Bestaetigung (ca. 160/300), P2c (neu gestartet, ersetzt P2b) und der kleine Pilot EXP-063. CPU-Programm laeuft daneben.
 
 ## Als Naechstes
 
-Laeufe beobachten (P2b 67/200, N28 87/300 um 07:51); Literatur zum Zwei-Regime-Bild suchen; danach N28, die N28-Vorhersage und P2b auswerten.
+N28 auswerten, sobald fertig (ca. 08:35), und die vorab festgelegte Zwei-Regime-Vorhersage an denselben frischen Seeds pruefen. P2c wird erst in der naechsten Sitzung fertig.
 
 ## Verlauf dieser Sitzung
 
+- 08:10 P2c eingefroren und gestartet (Codex-Pruefung ohne Einwaende).
+- 08:05 **P2b abgebrochen, mein Fehler:** Der Trainer hoert standardmaessig 2000 Schritte nach der Generalisierung auf; die Auswertung haette 4000 verlangt und alles abgelehnt. Noch nichts ausgewertet, Seeds verbraucht; Nachfolger P2c mit frischen Seeds.
+- 07:54 EXP-063 gestartet: Sitzt der Ausschluss neuer Frequenzen im Rest des Netzes?
 - 07:51 **EXP-062: Zwei Regime.** Wechselt man frueh (bis ca. 30 Schritte), behaelt das Netz die alten Frequenzen UND lernt die neuen dazu. Wechselt man nach 50 Schritten, entstehen die neuen kaum noch. Vorhersage fuer die frischen N28-Seeds vorab festgelegt.
 - 07:48 EXP-061 verworfen: Der Gradient der neuen Daten baut die alte Wahl eher ab, statt sie zu verstaerken.
 - 07:37 EXP-060: Die alte Wahl ist nicht einfach am Spektrum von W_E ablesbar.

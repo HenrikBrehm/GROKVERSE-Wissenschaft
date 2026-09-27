@@ -30,7 +30,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
   **Wiederaufnahme: dieselben Befehle** (gebundene Läufe werden übersprungen; unvollständige Ordner werden beiseitegelegt; bei `run.lock` von Hand prüfen).
   **Speicher:** höchstens ≈ 8–10 GPU-Prozesse gleichzeitig (07:53 zwei Startfehler bei 12: `bad allocation` / WinError 1455, Auslagerungsdatei).
 - **GPU, Pilot [[experiments/EXP-063-exclusion-locus/README|EXP-063]]** (4ea5d56): `parallel_queue.py lab/experiments/EXP-063-exclusion-locus/jobs.txt --workers 2`; Job 2 scheiterte am Speicher → danach mit demselben Befehl nachholen (freq_ban überspringt fertige).
-- **Vorab festgelegte Vorhersage** an den N28-Seeds (2bdfdaf): `guarded_run.py -- python lab/confirm/n28_regimes.py` nach dem N28-Block.
+- **Zwei-Regime-Vorhersage** an den N28-Seeds: erfüllt (29/30, 30/30), in [[FINDINGS]] eng formuliert (Spektralsignaturen).
+- **GPU, Pilot [[experiments/EXP-064-functional-regimes/README|EXP-064]]** (091b20b, seit 08:39): `parallel_queue.py lab/experiments/EXP-064-functional-regimes/jobs.txt --workers 1 > lab/runner/logs/exp064.log`, danach `guarded_run.py -- python lab/experiments/EXP-064-functional-regimes/analyze.py`. Wiederaufnahme: derselbe Befehl.
 - **Auswertung danach:** `python lab/tools/guarded_run.py -- python lab/tools/confirm_n28.py --analyze lab/confirm/N28_manifest.json`, ebenso `confirm_p2b.py … P2b_manifest.json`.
 
 ## Nächste Schritte (in dieser Reihenfolge)

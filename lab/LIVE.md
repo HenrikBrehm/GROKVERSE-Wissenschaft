@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 06:59 Berlin (04:59Z, vom Runner)
 - **Deadline:** 2026-09-27 09:59 Berlin (07:59Z)
-- **Zuletzt aktualisiert:** 08:30 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 08:39 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-Codex prueft die Schlussfolgerungen aus N28 und der Zwei-Regime-Vorhersage, bevor sie als Kernaussagen in FINDINGS kommen. P2c rechnet auf der GPU (zwei Warteschlangen).
+EXP-064 auf der GPU: Nutzt das fertige Netz nach einem fruehen Wechsel wirklich beide Frequenzmengen, und nach einem spaeten nur die alten? (Test durch Entfernen der Frequenzen.) P2c rechnet daneben.
 
 ## Als Naechstes
 
-FINDINGS aktualisieren (nach Codex), dann Abschlussbericht. P2c wird in der naechsten Sitzung fertig.
+EXP-064 auswerten (ca. 09:10), dann Abschlussbericht vor 09:50.
 
 ## Verlauf dieser Sitzung
 
+- 08:34 Codex prueft die Schlussfolgerungen: Aussagen enger gefasst (Spektrum, nicht Funktion). FINDINGS aktualisiert.
 - 08:29 **N28 BESTAETIGT (30/30 frische Seeds):** Momentum loeschen senkt die Persistenz um 0.15, zehn Extra-Schritte gleichen es aus. **Zwei-Regime-Vorhersage bestaetigt** (29/30 und 30/30): frueh Koexistenz, ab 50 Schritten Ausschluss.
 - 08:17 **EXP-063:** Der Ausschluss braucht W_E und den Rest des Netzes zusammen; das Behalten der alten Wahl nicht.
 - 08:10 P2c eingefroren und gestartet (Codex-Pruefung ohne Einwaende).

@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 06:59 Berlin (04:59Z, vom Runner)
 - **Deadline:** 2026-09-27 09:59 Berlin (07:59Z)
-- **Zuletzt aktualisiert:** 08:10 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 08:31 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-GPU: N28-Bestaetigung (ca. 160/300), P2c (neu gestartet, ersetzt P2b) und der kleine Pilot EXP-063. CPU-Programm laeuft daneben.
+Codex prueft die Schlussfolgerungen aus N28 und der Zwei-Regime-Vorhersage, bevor sie als Kernaussagen in FINDINGS kommen. P2c rechnet auf der GPU (zwei Warteschlangen).
 
 ## Als Naechstes
 
-N28 auswerten, sobald fertig (ca. 08:35), und die vorab festgelegte Zwei-Regime-Vorhersage an denselben frischen Seeds pruefen. P2c wird erst in der naechsten Sitzung fertig.
+FINDINGS aktualisieren (nach Codex), dann Abschlussbericht. P2c wird in der naechsten Sitzung fertig.
 
 ## Verlauf dieser Sitzung
 
+- 08:29 **N28 BESTAETIGT (30/30 frische Seeds):** Momentum loeschen senkt die Persistenz um 0.15, zehn Extra-Schritte gleichen es aus. **Zwei-Regime-Vorhersage bestaetigt** (29/30 und 30/30): frueh Koexistenz, ab 50 Schritten Ausschluss.
+- 08:15 **EXP-063:** Der Ausschluss braucht W_E und den Rest des Netzes zusammen; das Behalten der alten Wahl nicht.
 - 08:10 P2c eingefroren und gestartet (Codex-Pruefung ohne Einwaende).
 - 08:05 **P2b abgebrochen, mein Fehler:** Der Trainer hoert standardmaessig 2000 Schritte nach der Generalisierung auf; die Auswertung haette 4000 verlangt und alles abgelehnt. Noch nichts ausgewertet, Seeds verbraucht; Nachfolger P2c mit frischen Seeds.
 - 07:54 EXP-063 gestartet: Sitzt der Ausschluss neuer Frequenzen im Rest des Netzes?

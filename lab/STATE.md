@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-27, 08:10 Berlin (Sitzung 22 läuft seit 06:59, Deadline 09:59)._
+_Zuletzt aktualisiert: 2026-09-27, 08:31 Berlin (Sitzung 22 läuft seit 06:59, Deadline 09:59)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · Bestätigungen [[confirm/P1_REGISTRATION_DRAFT|P1]] · [[confirm/P2_REGISTRATION_DRAFT|P2]] · [[confirm/P3_REGISTRATION_DRAFT|P3]]
 
@@ -23,8 +23,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 - **CPU (Sitzung 22, seit 07:00, 3 × 4 Threads):** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`
   (EXP-035/038/041 fertig). Die Sitzungsdeadline bricht ab (kein Fehler). **Wiederaufnahme: derselbe Befehl.**
 - **GPU, Bestätigungsfamilie Sitzung 22 (alle EINGEFROREN):**
-  [[confirm/N28_REGISTRATION|N28]] (fa154bd, seit 07:34): `python lab/tools/parallel_queue.py lab/confirm/N28_jobs.txt --workers 5 > lab/runner/logs/n28_block.log` (300 Läufe).
-  [[confirm/P2c_REGISTRATION|P2c]] (e8e0cfa, seit 08:10): `python lab/tools/parallel_queue.py lab/confirm/P2c_jobs.txt --workers 3 > lab/runner/logs/p2c_block.log` (200 Läufe à 4000 Schritte; wird erst in der nächsten Sitzung fertig).
+  [[confirm/N28_REGISTRATION|N28]] **fertig und ausgewertet: H1 und H2 bestätigt** (08:29), Zwei-Regime-Vorhersage bestätigt.
+  [[confirm/P2c_REGISTRATION|P2c]] (e8e0cfa, seit 08:10): zwei Warteschlangen über dieselben Zeilen, `parallel_queue.py lab/confirm/P2c_jobs.txt --workers 3 > lab/runner/logs/p2c_block.log`
+  und (seit 08:30) `… lab/confirm/P2c_jobs_reversed.txt --workers 4 > lab/runner/logs/p2c_block_rev.log`. Die Bindung verhindert Doppelläufe (gebunden → übersprungen, `run.lock` → abgelehnt, Exit 4 ist dann kein Fehler).
   **P2b ABGEBROCHEN** (Designfehler: Trainer-Standard `--stop-after-gen 2000` beendete die Läufe vor 4000; nicht auswertbar, nicht wieder starten).
   **Wiederaufnahme: dieselben Befehle** (gebundene Läufe werden übersprungen; unvollständige Ordner werden beiseitegelegt; bei `run.lock` von Hand prüfen).
   **Speicher:** höchstens ≈ 8–10 GPU-Prozesse gleichzeitig (07:53 zwei Startfehler bei 12: `bad allocation` / WinError 1455, Auslagerungsdatei).
@@ -35,7 +36,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 ## Nächste Schritte (in dieser Reihenfolge)
 
 1. `guarded_run.py --check`; kein STOP; Prozesse prüfen; laufende Blöcke (oben) nicht doppelt starten, sondern mit demselben Befehl fortsetzen.
-2. N28, n28_regimes und (wenn fertig) P2c auswerten (Befehle oben), Ergebnis in die Registrierungen, FINDINGS, LAB; vor einer Kernaussage in FINDINGS Codex die Schlussfolgerung prüfen lassen.
+2. P2c zu Ende rechnen (beide Befehle oben, dann einmal `P2c_jobs.txt` mit 1 Arbeiter zum Nachholen) und auswerten; N28 ist ausgewertet, Ergebnis in die Registrierungen, FINDINGS, LAB; vor einer Kernaussage in FINDINGS Codex die Schlussfolgerung prüfen lassen.
 3. Programm B weiter: **was** macht die Wahl in ≈ 50 Schritten so fest (EXP-059: π 0 → 1 zwischen t = 10 und 50)? Kandidaten vorab festlegen.
 4. CPU-Auswertungen nach den Läufen: EXP-036, EXP-039 (`eval_pi.py`), EXP-040, EXP-042 (`pi_window.py`), EXP-014.
 

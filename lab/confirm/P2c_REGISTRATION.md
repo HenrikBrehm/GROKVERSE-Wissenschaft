@@ -22,3 +22,7 @@ python lab/tools/confirm_p2c.py --jobs lab/confirm/P2c_manifest.json > lab/confi
 python lab/tools/parallel_queue.py lab/confirm/P2c_jobs.txt --workers 5
 python lab/tools/guarded_run.py -- python lab/tools/confirm_p2c.py --analyze lab/confirm/P2c_manifest.json
 ```
+
+## Codex-Prüfung (Sitzung 22, 08:07–08:12)
+
+Gezielte Nachprüfung der Änderungen gegenüber P2b: volle 4000 Schritte garantiert, Lauf-ID und Lader korrekt; zwei Kommentarfehler behoben. Sonst keine Einwände.

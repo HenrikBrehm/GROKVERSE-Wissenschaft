@@ -1,9 +1,9 @@
-"""P2c confirmation (FINDINGS programme A, functional use; replaces P2c, which was stopped: the trainer default --stop-after-gen 2000
+"""P2c confirmation (FINDINGS programme A, functional use; replaces P2b, which was stopped: the trainer default --stop-after-gen 2000
 ended its runs before step 4000, so its frozen loader would have rejected them; see lab/confirm/P2c_REGISTRATION.md): splits, jobs, binding, frozen analysis.
 Session 22, UNTESTED.
 
 Registration: lab/confirm/P2c_REGISTRATION.md. Own manifest (lab/confirm/P2c_manifest.json), fresh seeds, own splits (P1 construction,
-confirm_splits.build with experiment id 2, so no stream is shared with P1), own raw directory and bindings (lab/tools/bound_block.py).
+confirm_splits.build with experiment id 3, so no stream is shared with P1 or P2b), own raw directory and bindings (lab/tools/bound_block.py).
 Per seed s: two models (arms F, G), add 113, 4000 steps (P2 failed because 3/50 G models had not generalised at 2000), model_final.pt saved.
 Measure as P2 (EXP-051/055 helpers through confirm_p2, unchanged): remove E = 0.5 * E_ctrl of W_E energy from the own targets and,
 separately, from the control set; loss on the common test set (pairs in neither split of the seed).

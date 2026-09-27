@@ -2735,3 +2735,9 @@ Neu: (e) Die Bindung speichert Exit 0, obwohl der Wrapper 4 meldet. (f) Andere A
 *Eingefroren 04:46:* Manifest 733e829 (60 Code-Hashes), Commit-Feld 0cd5ee5, `check_manifest` ok. 600 Splits und 420 Jobs (6babde7).
 *Smoke mit zwei echten Jobs (04:48–04:49):* add 113 und D₅₉, Seed 1000 F. Beide Exit 0, beide gebunden (inkl. `model_final.pt`), `unbound` = None, der Matcher findet genau ein Verzeichnis.
 Unter Last (EXP-056 auf der GPU, CPU-Queue) dauert ein Lauf ≈ 60 s. *Nächster Schritt:* Die übrigen 418 Jobs starten, sobald EXP-056 die GPU freigibt.
+
+**Zyklus 8 (EXP-038 einordnen, 04:51 gemessen).** *Frage:* Welcher Teil des Netzes hält die Frequenzwahl nach 150 Schritten fest? *Ergebnis (CPU-Programm, Auswertung 04:46):*
+formal ***redundant***, 5/5. Rücksetzen nur von W_E (RW) oder nur des Rests (RR) → nach 2000 G-Schritten trägt W_E wieder die F-Frequenzen (d_h 4–5), Test-Acc 1.0.
+Bei RW schreibt der Rest die F-Wahl in ein W_E zurück, das auf der Init stand (Train-Acc nach dem Rücksetzen 0.06–0.09). *Deutung (vorsichtig):* Nach 150 Schritten ist die
+Festlegung doppelt vorhanden. Das passt zu EXP-044 Lesart (i) („Festlegung im Netz“) und ist ein Hinweis für EXP-056. *Einordnung:* Pilot (n = 5, bekannte Seeds), keine Kernaussage.
+*Folgefrage (nicht automatisch verfolgen, Regel 15b):* Welcher Teil des Rests genügt (Attention, MLP, W_U)? Und gilt das auch bei t = 25, wo die Persistenz noch nicht an der Decke ist?

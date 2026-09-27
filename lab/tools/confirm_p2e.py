@@ -1,4 +1,4 @@
-"""P2e confirmation (FINDINGS programme A, generalisation of P2d to mul 113 and add 97): splits, jobs, binding, frozen analysis. Session 23, UNTESTED.
+"""P2e confirmation (FINDINGS programme A, generalisation of P2d to mul 113 and add 97): splits, jobs, binding, frozen analysis. Session 23 (selftest ok; revised after Codex review s23).
 
 Registration: lab/confirm/P2e_REGISTRATION.md. As confirm_p2d (experiment id 5, fresh seeds 2270-2289, one split pair F/G per task and seed),
 but for the tasks mul 113 and add 97, STEPS = 8000 with --stop-after-gen 8000 (EXP-066: 24/50 add-97 P1 models below 0.9 at 2000 steps).
@@ -6,8 +6,9 @@ Measure (EXP-066, the P2d measure in the group basis): number rows X of W_E in g
 u_S = P_S X / ||P_S X||, X' = X - delta * u_S, delta = REL_DELTA * ||X|| for every S; drop_S = mean correct-class logit margin on the pairs in
 neither split before minus after. N_CTRL control sets of 5 frequencies (EXP-066 pool, RNG [5, task, p, seed, arm]).
 PRIMARY per task and seed: D_s = mean over the two arms of (drop_own - mean drop_ctrl). One family {mul113, add97}, Holm, one-sided t-test,
-95 % bootstrap CI; per task "bestätigt" = no technical failure, >= 80 % eligible (base accuracy >= 0.9 in both arms), Holm p < 0.05 and
-CI lower bound >= MIN_EFFECT (0.05 logit units).
+95 % bootstrap CI; per task "bestätigt" = no technical failure (incl. load/forward exceptions), Holm p < 0.05 and CI lower bound
+>= MIN_EFFECT (0.05 logit units). Primary sample = ALL planned seeds (as N29, Codex s23: an accuracy gate is outcome-related); the subset with
+base accuracy >= 0.9 in both arms is reported descriptively without a verdict label.
 """
 from __future__ import annotations
 
@@ -32,7 +33,7 @@ BIND = LAB / "confirm" / "p2e_bindings"
 SPL = LAB / "confirm" / "p2e_splits"
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 E66_FILE = "lab/experiments/EXP-066-p2d-other-tasks/analyze.py"
-ACC_MIN, ALPHA, MIN_VALID_FRAC, MIN_EFFECT, REL_DELTA, N_CTRL = 0.9, 0.05, 0.8, 0.05, 0.02, 4
+ACC_MIN, ALPHA, MIN_EFFECT, REL_DELTA, N_CTRL = 0.9, 0.05, 0.05, 0.02, 4
 REGISTERED = {"experiment": 5, "eps": 2.0, "seeds": list(range(2270, 2290)), "tasks": [["mul", 113], ["add", 97]], "steps": 8000,
               "device": "cuda", "threads": 1}
 CODE_FILES = ("lab/tools/confirm_p2e.py", "lab/tools/bound_block.py", "lab/tools/confirm_p1.py", "lab/tools/confirm_splits.py",
@@ -129,9 +130,13 @@ def arm_row(man: dict, task: str, p: int, s: int, arm: str, T: dict, common: np.
     if (why := BLOCK.unbound(man, d)) or L.res.get("fingerprint_fields", {}).get("split_file_sha256") != sha(split):
         return f"defekt after load: {why or 'split bytes differ'}"
     try:
-        m = e66().load_model(task, p, BLOCK.bound_bytes(man, L.path / "model_final.pt"))
-    except ValueError as ex:
-        return f"defekt: {ex}"
+        return measure(task, p, s, arm, T, common, BLOCK.bound_bytes(man, L.path / "model_final.pt"))
+    except Exception as ex:                    # Codex s23 point 1: any load/forward failure is technical, never an abort
+        return f"defekt: {type(ex).__name__}: {ex}"
+
+
+def measure(task: str, p: int, s: int, arm: str, T: dict, common: np.ndarray, data: bytes) -> dict:
+    m = e66().load_model(task, p, data)
     n, elem = e66().group(task, p)
     elem = np.arange(p) if elem is None else elem
     X = m.W_E.detach().numpy().astype(np.float64)[elem]
@@ -151,9 +156,7 @@ def validity(arms: dict) -> dict:
     if not all(np.isfinite(x) for x in vals):
         return {"valid": False, "technical": True, "reason": "non-finite margin"}
     D = float(np.mean([v["drop_own"] - np.mean(v["drop_ctrl"]) for v in arms.values()]))
-    if not all(v["base"]["acc"] >= ACC_MIN for v in arms.values()):
-        return {"valid": False, "technical": False, "reason": f"base accuracy < {ACC_MIN}", "D_all": D}
-    return {"valid": True, "technical": False, "D": D, "D_all": D}
+    return {"valid": True, "technical": False, "D": D, "generalised": all(v["base"]["acc"] >= ACC_MIN for v in arms.values())}
 
 
 def seed_row(man: dict, task: str, p: int, s: int) -> dict:
@@ -170,19 +173,25 @@ def seed_row(man: dict, task: str, p: int, s: int) -> dict:
     return {**r, "arms": arms, **validity(arms)}
 
 
+def stats(D: np.ndarray, rng: np.random.Generator) -> dict:
+    tt = c1.t_test_secondary(D)
+    return {"n": int(len(D)), "mean": float(D.mean()), "sd": float(D.std(ddof=1)), "t": tt["t"], "p": tt["p_one_sided"],
+            "ci95": c1.boot_ci(D, rng), "n_positive": int((D > 0).sum())}
+
+
 def verdict(rows_by_task: dict[str, list[dict]], n_planned: int, rng: np.random.Generator) -> dict:
     out, ps = {}, {}
     for k, rows in rows_by_task.items():
-        D = np.array([r["D"] for r in rows if r["valid"]])
         n_tech = sum(1 for r in rows if r.get("technical"))
-        if n_tech > 0 or len(D) < MIN_VALID_FRAC * n_planned or len(D) < 3:
-            out[k] = {"n_valid": int(len(D)), "n_technical": n_tech, "verdict": "nicht auswertbar"}
+        if n_tech > 0 or len(rows) != n_planned or n_planned < 3:
+            out[k] = {"n": len(rows), "n_technical": n_tech, "verdict": "nicht auswertbar"}
             ps[k] = 1.0                                   # counts in the family as a worst-case placeholder
             continue
-        tt = c1.t_test_secondary(D)
-        out[k] = {"n_valid": int(len(D)), "n_technical": 0, "mean": float(D.mean()), "sd": float(D.std(ddof=1)), "t": tt["t"],
-                  "p": tt["p_one_sided"], "ci95": c1.boot_ci(D, rng), "n_positive": int((D > 0).sum())}
-        ps[k] = tt["p_one_sided"]
+        out[k] = {**stats(np.array([r["D"] for r in rows]), rng), "n_technical": 0}
+        g = np.array([r["D"] for r in rows if r["generalised"]])
+        out[k]["n_generalised"] = int(len(g))
+        out[k]["descriptive_generalised_only"] = stats(g, rng) if len(g) >= 3 else None     # no verdict label
+        ps[k] = out[k]["p"]
     ph = c1.holm(ps)
     for k in out:
         if "p" in out[k]:
@@ -200,8 +209,6 @@ def analyze(manifest: Path) -> None:
     rows = {f"{t}{p}": [seed_row(man, t, p, s) for s in man["seeds"]] for t, p in man["tasks"]}
     out = {"manifest_commit": man["commit"], "min_effect": MIN_EFFECT, "rel_delta": REL_DELTA, "n_planned": len(man["seeds"]),
            "tasks": verdict(rows, len(man["seeds"]), np.random.default_rng(5)),
-           "sensitivity_D_all": {k: {"n": len(v := [r["D_all"] for r in rs if "D_all" in r]), "mean": float(np.mean(v)) if v else None,
-                                     "n_positive": int(sum(x > 0 for x in v))} for k, rs in rows.items()},
            "rows": rows}
     (LAB / "confirm" / "P2e_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
@@ -231,24 +238,38 @@ def selftest() -> None:
     assert cs.target_sets(5, "mul", 113, 2270) != cs.target_sets(5, "add", 113, 2270)
     good = {a: {"base": {"acc": 1.0, "margin": 5.0}, "drop_own": 0.3, "drop_ctrl": [0.0, 0.01, -0.01, 0.0]} for a in "FG"}
     v = validity(good)
-    assert v["valid"] and abs(v["D"] - 0.3) < 1e-12
+    assert v["valid"] and v["generalised"] and abs(v["D"] - 0.3) < 1e-12
     assert validity({**good, "F": {**good["F"], "drop_own": float("nan")}})["technical"]
     ng = validity({**good, "G": {**good["G"], "base": {"acc": 0.5, "margin": 1.0}}})
-    assert not ng["valid"] and not ng["technical"] and abs(ng["D_all"] - 0.3) < 1e-12
+    assert ng["valid"] and not ng["generalised"] and abs(ng["D"] - 0.3) < 1e-12
     rng = np.random.default_rng(0)
-    mk = lambda D, ok=True: {"valid": ok, "technical": False, "D": D}   # noqa: E731
+    mk = lambda D, g=True: {"valid": True, "technical": False, "D": D, "generalised": g}   # noqa: E731
     good_rows = [mk(0.15 + 0.005 * i) for i in range(20)]
     w = verdict({"mul113": good_rows, "add97": good_rows}, 20, rng)
     assert w["mul113"]["verdict"] == "bestätigt" and w["add97"]["verdict"] == "bestätigt", w
-    w = verdict({"mul113": good_rows, "add97": good_rows[:15] + [mk(0.2, False)] * 5}, 20, rng)
+    w = verdict({"mul113": good_rows, "add97": good_rows[:15] + [mk(0.0, False)] * 5}, 20, rng)   # non-generalised seeds stay in
+    assert w["add97"]["n"] == 20 and w["add97"]["n_generalised"] == 15 and "verdict" not in w["add97"]["descriptive_generalised_only"]
+    assert w["add97"]["mean"] < w["add97"]["descriptive_generalised_only"]["mean"]
+    w = verdict({"mul113": good_rows, "add97": good_rows[:19]}, 20, rng)
     assert w["add97"]["verdict"] == "nicht auswertbar" and w["mul113"]["verdict"] == "bestätigt"
     assert abs(w["mul113"]["p_holm"] - min(1.0, 2 * w["mul113"]["p"])) < 1e-12        # placeholder p = 1 keeps the family at two
     w = verdict({"mul113": [mk(0.0 + 0.004 * i) for i in range(20)], "add97": good_rows}, 20, rng)
     assert w["mul113"]["verdict"] == "nicht bestätigt"
     w = verdict({"mul113": good_rows[:19] + [{"seed": 1, "valid": False, "technical": True}], "add97": good_rows}, 20, rng)
     assert w["mul113"]["verdict"] == "nicht auswertbar"
+    # semantics of the imported measure (Codex s23 point 5): discrete-log order, projection, Nyquist-free pool
+    n, elem = e66().group("mul", 113)
+    assert n == 112 and elem[0] == 1 and elem[1] == 3 and sorted(elem.tolist()) == list(range(1, 113))
+    j = np.arange(n)
+    X = np.stack([np.cos(2 * np.pi * 55 * j / n), np.sin(2 * np.pi * 7 * j / n)], 1)
+    assert np.allclose(e66().proj(X, [55]), X * [1, 0], atol=1e-10) and np.allclose(e66().proj(X, [7]), X * [0, 1], atol=1e-10)
+    cs5 = e66().control_sets([1, 2, 3, 4, 5], [6, 7, 8, 9, 10], 112, [5, 1])
+    assert all(max(c) <= 55 and not set(c) & {1, 2, 3, 4, 5, 6, 7, 8, 9, 10} for c in cs5)
     selftest_binding(BLOCK, tj[0], tj[1], tj[2])
     assert set(CODE_FILES) <= set(BLOCK.code_hashes())
+    loaded = {Path(m.__file__).resolve().relative_to(ROOT.resolve()).as_posix() for m in list(sys.modules.values())
+              if getattr(m, "__file__", None) and Path(m.__file__).resolve().is_relative_to((ROOT / "lab").resolve())}
+    assert loaded <= set(CODE_FILES), sorted(loaded - set(CODE_FILES))
     print("[confirm_p2e] selftest ok", flush=True)
 
 

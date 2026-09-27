@@ -1,0 +1,1 @@
+{"targets": [6, 18, 19, 30, 36], "arm": "G", "seed": 1039, "task": "add", "p": 97, "experiment": 1, "eps": 2.0, "n_train": 2823, "M0_target_share": 0.21653824805907765, "manifest_commit": "733e829"}

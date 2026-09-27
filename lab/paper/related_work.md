@@ -503,3 +503,6 @@ Google Scholar.
   *Einordnung:* schränkt die **qualitative** Lesart von K4b ein (erstes Moment trägt die frühe Exposition über den Wechsel), nicht K4/K4c. Zitieren bei K4b. Unsere parameterfreie Größenabschätzung
   (Momentum-Schwanz ≈ 6.5–10.8 Update-Äquivalente gegen gemessene π-Verschiebung 6.5–9.6 Schritte, EXP-059, post hoc; [[NOVEL_DIRECTIONS]] N38) ist dort nicht enthalten.
   Suchbegriffe: siehe N38.
+- **Salah, Yevick 2024** (arXiv 2411.05353, v1 2024-11-08) **am Volltext geprüft (PDF → pdftotext, 16:16)**, bisher [S]. Zweischichtiges MLP mit quadratischer Aktivation, verkettete One-hot-Eingaben, Adam mit Weight Decay, P = 53, TRAIN_FRAC 0.5. §3.5 „Data Dependence“: Die Trainingsmenge wird
+  gezielt eingeschränkt („One symmetry in the dataset is associated with the commutation relation … and can be removed by considering only the values of a + b with a ≥ b“; zusätzlich Ausschluss der Paare mit a − b = 1, 2, 5, 8). Gemessen wird nur, **ob** und wie gut
+  generalisiert wird (z. B. Testgenauigkeit 0.85 bzw. kein Grokking ohne TRAIN_FRAC 0.8), **nicht, welche Frequenzen** gelernt werden. *Einordnung:* schränkt K2 **nicht** ein; zitieren als früheres Beispiel gezielter Trainingsmengen-Wahl bei modularer Addition (Wirkung auf das Ob, nicht auf das Welche).

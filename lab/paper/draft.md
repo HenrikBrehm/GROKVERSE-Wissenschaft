@@ -109,7 +109,8 @@ code), operating under written rules set by the human author, who bears responsi
 
 ## Figures (to be produced by scripts under `lab/paper/figures/`, none yet)
 
-1. Mask spectrum vs learned spectrum for one engineered split (EXP-015/016 data).
+1. **done:** `figures/fig1_mask_vs_learned.py` — mask spectrum M0 vs learned W_E power at step 2000 for EXP-016 seed 10 F (pilot data). Caption must say: four of five targets dominate;
+   target 25 is replaced by 32 = 2·16 (a harmonic of a target, as seen throughout EXP-016).
 2. Δ_pow per task with CIs (P1 summary) — **done:** `figures/fig2_p1_delta_pow.py` → `fig2_p1_delta_pow.png/.svg` (reads `lab/confirm/P1_summary.json`).
 3. **done:** `figures/fig3_ablation_contrast.py` — ablation contrast R per seed for N29 (switch at 25 vs 50) and N29b/N29c (switch at 50, reset arms); blocks use different seeds.
 4. π(t) pilot curve (EXP-059, clearly marked as pilot) — open.

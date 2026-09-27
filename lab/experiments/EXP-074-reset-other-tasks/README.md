@@ -29,3 +29,14 @@ Festgelegt 2026-09-27, Sitzung 24, **vor jedem EXP-074-Lauf** (außerhalb des Fe
 python lab/tools/parallel_queue.py lab/experiments/EXP-074-reset-other-tasks/jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-074-reset-other-tasks/analyze.py
 ```
+
+## Nachtrag Sitzung 32 (21:18 Berlin, gemessen, **vor jedem EXP-074-Lauf**): Zeitkosten der Resets (prospektiv)
+
+Anlass: Post hoc an N29b/N29c (Sitzung 32, Zyklen 12–13) verzögerten Resets bei einem Wechsel nach 50 Schritten die Generalisierung in der Reihenfolge, in der sie die Persistenz senken: VO > QK in 19/20 Seeds, Attention > MLP in 15/20. Unmittelbarer Verlustschaden erklärte das nicht. Hier wird das **vor dem Lauf** an add 97 und mul 113 geprüft (Bezug: [[NOVEL_DIRECTIONS]] N43, [[confirm/R6_REGISTRATION_DRAFT|R6]]). Das Urteil der ursprünglichen Registrierung bleibt unverändert; dies ist eine zusätzliche, explorative Lesart.
+
+- **Maß:** b = min(erste Testgenauigkeit ≥ 0.95, 2000) ab Schritt 0; Einheit = Seed × Aufgabe (20 Einheiten, eine Richtung F→G).
+- **Q1 (primär für diesen Nachtrag):** log2 b(VO) − log2 b(QK) > 0, gepoolt, exakter einseitiger Vorzeichentest. **Q2:** Attention − MLP > 0. **Q3:** Attention − ohne Reset > 0.
+- **Beschreibend:** jeder Arm gegen „nur G“ aus EXP-044 (gleiche Splits und Testmenge), also C(50) mit und ohne Reset je Aufgabe.
+- **Gültigkeit:** alle fünf Arme und der G-Lauf je Einheit, gleiche Test- und Init-Prüfsumme; mindestens 16 Einheiten, sonst *nicht auswertbar*.
+- **Was dagegen spräche:** Q1 nicht in der Mehrheit, dann ist die VO-Verzögerung aus N29c aufgaben- oder blockspezifisch.
+- **Befehle (im Fenster, nach den EXP-074-Läufen):** `python lab/tools/guarded_run.py -- python lab/experiments/EXP-074-reset-other-tasks/time_cost.py --selftest`, dann ohne `--selftest`. Ungetestet (nur Syntaxprüfung).

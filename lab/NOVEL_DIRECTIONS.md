@@ -823,6 +823,16 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
 - **Suche 2026-09-27 15:00** („partial reset attention query key versus value output plasticity task switch routing content transformer reinitialization which weights“): Die Aufteilung
   QK = Leitung, OV = Inhalt ist Standard (Elhage et al. 2021, *A Mathematical Framework for Transformer Circuits*; Kanäle für Inhalt z. B. https://arxiv.org/abs/2606.20678). Eine Vorhersage,
   welcher Teil-Reset je nach Art des Datenwechsels die Plastizität herstellt, wurde nicht gefunden (vorläufig; eine Suche, nur Treffer).
+- **Schärfung (Sitzung 26, 15:45, gemessen; reine Überlegung, ungeprüft):** Ein sauberer Gegensatz „Leitung gegen Inhalt“ lässt sich über die Symmetrie der Aufgabe bauen. Weil W_E für beide Operanden
+  geteilt ist, hängt bei positionssymmetrischer Attention (gleiche Gewichte auf a und b in jedem Kopf) die Attention-Ausgabe nur von W_E[a] + W_E[b] ab (plus Konstanten aus W_pos); das Netz kann dann nur
+  **symmetrische** Funktionen f(a, b) = f(b, a) berechnen. Daraus zwei Wechsel nach einer Vorphase auf a + b (gleiche Paare, nur neue Labels):
+  - **Inhalt:** a + b → a² + b² (mod p): symmetrisch, braucht neue Einbettungsmerkmale (Frequenzen über x ↦ x²), aber keine neue Leitung. N36 sagt: VO-Reset hilft mehr als QK-Reset (wie K4e).
+  - **Leitung:** a + b → a − b: antisymmetrisch, braucht positionsabhängige Verarbeitung (z. B. Köpfe, die getrennt a bzw. b beachten, mit eigenem OV). N36 sagt: QK-Reset hilft mehr als VO-Reset.
+  - Konkurrenz „der Wertepfad hält immer“: VO-Reset hilft in beiden Fällen mehr. Maß: Lerngeschwindigkeit nach dem Wechsel (Verlustfläche über die ersten 1000 Schritte, Trainingsmenge) relativ
+    zu „kein Reset“; Test der **Wechselwirkung** (Nutzen QK − Nutzen VO) zwischen den beiden Aufgaben.
+  - **Vorbedingung, sonst ist der Gegensatz nicht sauber:** Haben die Köpfe nach a + b schon eine Positionsvorliebe (einige Köpfe vor allem auf a, andere auf b), dann braucht a − b keine neue
+    Leitung, sondern nur ein neues Vorzeichen in einem OV. Erst im Fenster an gespeicherten N29-Modellen messen (`attention_pattern`, Anteil auf a gegen b je Kopf); nur bei annähernd symmetrischer
+    Attention den Versuch festlegen. Braucht außerdem einen Aufgabenwechsel im Trainer (neue Labels, gleiche Paare): laboreigenes Skript, Prüfung Pflicht.
 
 ## N37: Liegt das Festlegungsfenster am Horizont von Adams zweitem Moment? (Sitzung 26) #neu/kandidat
 

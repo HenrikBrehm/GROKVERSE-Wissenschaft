@@ -43,3 +43,13 @@ Manifest `lab/confirm/N28_manifest.json`, **Manifest-Commit fa154bd** (Commit-Fe
 Splits und Jobliste in 37448f6; die Herkunftsprüfung (`split_mismatch`) ist an den geschriebenen Dateien für alle Seeds bestanden. Vor dem Einfrieren wurde kein Lauf mit diesen Seeds gemacht.
 Ein Job der Liste lief um 07:33 als Smoke (Seed 2200, A→B, m@25): Exit 0, 5 Dateien gebunden. Er zählt als regulärer Lauf des Blocks.
 Start des Blocks 07:34 (GPU, `parallel_queue.py lab/confirm/N28_jobs.txt --workers 5`, parallel zum anderen Block der Familie).
+
+## ERGEBNIS (Sitzung 22, Block 07:33–08:31, Auswertung 08:31 Berlin; `lab/confirm/N28_summary.json`): H1 und H2 ***bestätigt***
+
+300/300 Läufe gebunden, 30/30 Seeds gültig, Herkunft aller Splits geprüft.
+- **H1 bestätigt:** Y = Δ_m − 0.05 im Mittel 0.101 (95-%-KI [0.077, 0.126]), Holm-p 2·10⁻⁸, 29/30 > 0. Also Δ_m = π_normal@25 − π_m@25 ≈ 0.15 (π 0.340 gegen 0.189).
+- **H2 bestätigt:** X = π_m@35 − π_normal@25 + 0.05 im Mittel 0.120 (KI [0.090, 0.152]), Holm-p 3·10⁻⁸, 29/30 > 0. π_m@35 = 0.410 ≥ π_normal@25 = 0.340.
+- **Beschreibend:** π_normal@50 = 0.998 (volle Festlegung nach 50 Schritten auch an frischen Seeds).
+- **Vorab festgelegte Vorhersage (2bdfdaf, außerhalb der Familie):** ***zwei Regime bestätigt*** — V1 Koexistenz bei t = 25 in 29/30 (a25 2.24 > b25 0.36), V2 Ausschluss bei t = 50 in 30/30
+  (b50 − b25 im Mittel 3.44; b50 = 3.80). `lab/confirm/N28_regimes_summary.json`.
+- Die Familie Sitzung 22 wurde mit P2b/P2c als p = 1 (ungünstigster Fall) ausgewertet; das Urteil hängt davon nicht ab.

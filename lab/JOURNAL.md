@@ -3517,3 +3517,9 @@ FINDINGS korrigiert. *Lehre:* Auch Einordnungen „schränkt nicht ein“ aus Ab
 *Überlegung:* Bei geteiltem W_E und austauschsymmetrischer Attention kann das Netz nur symmetrische f(a, b) rechnen → a + b → a − b verlangt neue Leitung, a + b → a² + b² nur neuen Inhalt; N36
 sagt eine Wechselwirkung der Reset-Wirkung voraus. *Vorbedingung:* Symmetrie der Köpfe nach a + b; Messskript [[experiments/EXP-079-head-symmetry/README|EXP-079]] (nur Vorwärtsrechnung der
 80 N29-Modelle, Lesart vorab). *Außerdem:* Howe 2026a am Volltext: gleiche Modellklasse und Einstellung wie wir, Fenster für einen Hilfsverlust, keine Frequenzanalyse → zitieren, schränkt nicht ein.
+
+**Zyklus 10 (N36-Pilot EXP-080 vorbereitet, bis 15:50, gemessen).** Aufgabenwechsel auf denselben Paaren (a + b → a − b bzw. a² + b²) mit QK-, VO- oder keinem Reset, t ∈ {50, 1000}, Seeds 800–809,
+120 Läufe; primär die Wechselwirkung I der Reset-Nutzen (Lerngeschwindigkeit nach dem Wechsel) bei t = 50, Lesart vorab im README. Startet nur, wenn EXP-079 symmetrische Köpfe zeigt. Eigener
+schlanker Trainer (Reihenfolge wie `repro/train.py`), ungetestet; ein Prüfagent prüft Design und Code (läuft). *Eigene Nachrechnung vorab:* Das Symmetrieargument gilt nicht streng: Über W_pos
+entsteht bei austauschsymmetrischer Attention ein antisymmetrischer Anteil (α_a − α_b) · OV(W_pos[0] − W_pos[1]); er hängt aber an den Attention-Gewichten, also an QK. Die Aussage ist deshalb:
+Antisymmetrie kann nur über das Attention-Muster entstehen, nicht „das Netz kann nur symmetrische Funktionen“. Korrektur nach der Prüfung.

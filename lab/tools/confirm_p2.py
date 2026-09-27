@@ -3,9 +3,12 @@
 Registration: lab/confirm/P2_REGISTRATION_DRAFT.md (frozen together with the P1 manifest; this file is in its code_sha256).
 Per seed s of the P1 manifest and arm a in {F, G}: remove E = 0.5 * E_ctrl of W_E energy from the own targets and, separately, from the
 control set (EXP-051/055 helpers, unchanged), measure the test loss on the pairs in neither split. PRIMARY (scale-free, session 21):
-R_s = mean over the two arms of log(L_after_own / L_after_ctrl). One-sided sign-flip test of mean R > 0 (Monte Carlo as P1), Holm in the
-P1-P3 family (FAMILY = 3, P1 and P3 as p = 1 placeholders here; the joint table is P1_summary + P2_summary). "bestätigt" = all planned seeds
-valid, Holm-p < 0.05 and the lower 95 % bootstrap bound of mean R >= MIN_EFFECT = log(1.05) (5 % more loss). Secondary: the raw
+R_s = mean over the two arms of log(L_after_own / L_after_ctrl). PRIMARY TEST (Codex review s21): one-sided one-sample t-test of mean R > 0
+(own and control sets are not exchangeable, so R is not sign-symmetric under H0 and the sign-flip test is reported secondary only).
+Multiplicity: worst-case Holm in the P1-P3 family (P1 and P3 as p = 1 placeholders, i.e. 3p; conservative: the joint Holm with the real
+P1/P3 p-values can only be smaller). "bestätigt" = exactly the 50 planned seeds valid, worst-case Holm-p < 0.05 and the lower 95 %
+bootstrap bound of mean R >= MIN_EFFECT = log(1.05) (5 % more loss). Validity concerns the primary dose; the other doses are
+descriptive and reported where feasible. Secondary: the raw
 D_s = mean of dL_own - dL_ctrl (EXP-055 scale; dominated by models with high base loss). Runs are accepted only through the P1 loader +
 binding (confirm_p1.post_load_check).
 
@@ -51,7 +54,7 @@ def arm_row(man: dict, s: int, arm: str, other: str, T: dict, common: np.ndarray
     base = e55.evaluate(m, None, common)
     ctrl = e51.control_set(T[arm], T[other])
     e_own, e_ctrl = e51.energy(W, B, T[arm]), e51.energy(W, B, ctrl)
-    if e_own <= F_PRIMARY * e_ctrl:
+    if not e_own > F_PRIMARY * e_ctrl:
         return f"E_own <= {F_PRIMARY} E_ctrl, primary dose infeasible"
     dose = {}
     for f in DOSES:
@@ -101,13 +104,14 @@ def verdict(D: np.ndarray, n_planned: int, rng: np.random.Generator, min_effect:
     """All planned seeds valid (no complete-case deletion, as P1), Holm-p < ALPHA and CI lower bound >= min_effect."""
     if len(D) != n_planned:
         return {"verdict": "nicht auswertbar"}
-    p = c1.sign_flip_p(D, rng)
+    tt = c1.t_test_secondary(D)                        # primary for P2 (see module docstring)
+    p = tt["p_one_sided"]
     ci = c1.boot_ci(D, rng)
     ph = c1.holm({"P2": p, "_P1": 1.0, "_P3": 1.0})["P2"]
     ok = ph < ALPHA and ci[0] >= min_effect
-    return {"p": p, "p_holm_worstcase": ph, "ci95": ci, "mean": float(D.mean()), "sd": float(D.std(ddof=1)),
-            "d_z": float(D.mean() / D.std(ddof=1)) if D.std(ddof=1) > 0 else None,
-            "n_positive": int((D > 0).sum()), "t_test_secondary": c1.t_test_secondary(D),
+    return {"p": p, "t": tt["t"], "df": tt["df"], "p_holm_worstcase": ph, "ci95": ci, "mean": float(D.mean()),
+            "sd": float(D.std(ddof=1)), "d_z": float(D.mean() / D.std(ddof=1)) if D.std(ddof=1) > 0 else None,
+            "n_positive": int((D > 0).sum()), "sign_flip_p_secondary": c1.sign_flip_p(D, rng),
             "verdict": "bestätigt" if ok else "nicht bestätigt"}
 
 
@@ -116,6 +120,8 @@ def analyze(manifest: Path) -> None:
     c1.check_manifest(manifest, man)
     if TASK not in [{"task": t["task"], "p": int(t["p"])} for t in man["tasks"]]:
         raise SystemExit("P2 needs the add 113 task in the P1 manifest")
+    if sorted(man["seeds"]) != list(range(1000, 1050)):
+        raise SystemExit("P2 is registered on exactly the seeds 1000-1049")
     B = e51.basis()
     rows = [seed_row(man, s, B) for s in man["seeds"]]
     R = np.array([r["R"] for r in rows if r["valid"]])
@@ -133,7 +139,7 @@ def selftest() -> None:
     rng = np.random.default_rng(0)
     assert verdict(np.ones(9), 10, rng)["verdict"] == "nicht auswertbar"
     v = verdict(np.linspace(0.5, 1.5, 10), 10, rng)
-    assert v["verdict"] == "bestätigt" and abs(v["p_holm_worstcase"] - 3 / 1024) < 1e-12, v
+    assert v["verdict"] == "bestätigt" and abs(v["p_holm_worstcase"] - 3 * v["p"]) < 1e-12 and v["p"] < 1e-4, v
     assert verdict(np.full(10, 0.03), 10, rng)["verdict"] == "nicht bestätigt"     # significant but below log(1.05)
     assert verdict(-np.linspace(0.5, 1.5, 10), 10, rng)["verdict"] == "nicht bestätigt"
     v = verdict(np.array([1.0, -0.9] * 5), 10, rng)

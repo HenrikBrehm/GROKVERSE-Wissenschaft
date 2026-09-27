@@ -3626,3 +3626,7 @@ Eingetragen in [[experiments/EXP-081-optimizer-clock/README|EXP-081]]. Teil B (�
 
 **Zyklus 10 (Quellprüfung der übrigen neuen Paper-Stellen, bis 16:39, gemessen).** Unabhängiger Agent (nur Lesen, Salah & Yevick selbst im PDF nachgelesen): §1b, §3.3-Zahlen (inflight_adam-Logik, delta_shift 8.056/9.580/6.467), Zitate Xu/Sweeney/Sevetlidis, §6 und die Repro-Tabelle **korrekt**.
 Korrigiert: „Registered R3“ → Entwurf, nicht eingefroren; t = 40/50 „nicht interpretierbar“ statt „nicht möglich“ (die interpolierten Werte existieren); Bereich t = 25–35 und 8.7–8.9 ergänzt; Grammatik; Repro-Zeile „K4 (π-Arme)“ (Kernzahlen von K4 aus P3 nicht abgedeckt); Salah & Yevick präziser.
+
+**Zyklus 11 (Repro P2e, bis 16:42, gemessen).** `repro/k2_function_p2e.py` (mul 113, add 97) mit eingefrorener P2e-Messung und -Auswertung. Prüfung (nur Lesen): Splits bitgenau prüfbar (160 eingefrorene Dateien vorhanden), `train.py` trainiert mul/add 97 wie `freq_ban.py`, Modell lädt,
+Auswertung identisch; kein sicherer Fehler. Übernommen: Vergleich nur mit dem vollen registrierten Seed-Satz (auch in `k2_function.py`). Offen notiert: Die Vergleichsschwellen setzen fast bitgenaue Nachrechnung voraus; sonst vor den vollen Vergleichen aus dem Standardfehler begründen.
+**Stand Repro-Paket:** Skripte für K2 (drei zyklische Aufgaben), K2-Funktion (alle drei), K4c, K4/K4b, K4d/e; fehlt nur D₅₉ (anderer Trainer) und die P3-Spurzerlegung. Alles ungetestet bis zur Gleichwertigkeit von `train.py` (heute Nacht, Schritt 7).

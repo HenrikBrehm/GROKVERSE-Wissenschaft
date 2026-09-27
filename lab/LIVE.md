@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 15:59 Berlin (13:59Z, vom Runner)
 - **Deadline:** 2026-09-27 18:59 Berlin (16:59Z)
-- **Zuletzt aktualisiert:** 16:35 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 16:42 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: nur Denk-, Such- und Vorbereitungsarbeit.
 
 ## Gerade
 
-Paper: Abschnitt zur Reproduktion (welches Skript erzeugt welche Zahl) im Entwurf ergaenzen.
+Zwischenbilanz der Sitzung; danach entscheiden, ob noch ein sinnvoller Zyklus bleibt (kein Beschaeftigungs-Code).
 
 ## Als Naechstes
 
-Danach Sitzungsbilanz; Nachtplan bleibt wie in STATE (ab 00:00).
+Ab 00:00 Nachtplan laut STATE (unveraendert bis auf die korrigierten Befehle).
 
 ## Verlauf dieser Sitzung
 
+- 16:42 Repro-Paket fast vollstaendig (K2, K2-Funktion alle Aufgaben, K4/K4b, K4c, K4d/e); fehlt D59 und P3-Zerlegung; alles ungetestet.
+- 16:39 Neue Paper-Stellen unabhaengig geprueft, 6 Formulierungen korrigiert.
 - 16:35 Repro-Paket: k2_function.py (P2d), k4b.py (N28), k4_resets.py (N29b/c) geschrieben und je unabhaengig geprueft; ungetestet, nicht fuer heute Nacht.
 - 16:25 EXP-081 nach Pruefung umgebaut (2 Blocker gefunden und behoben, bevor Code existiert).
 - 16:22 EXP-081 entworfen (Pilot, kein Code, Start fruehestens nach R3): trennt drei Kandidaten fuer die Uhr der Festlegung.

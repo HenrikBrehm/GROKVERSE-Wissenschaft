@@ -61,7 +61,7 @@ Vorab-Lesart der Nacht (Kombination EXP-040/073/074/075, P2f): [[LESART-nacht-20
 
 ## Blocker / Hinweise
 
-- **C1/C2-Selbsttest rot (Sitzung 32):** `lab/confirm/rank_tools.py` Z. 72 `rng.permutation(5.0)` → `permutation(5)`. Nur der Selbsttest ist betroffen, aber die Datei hängt am C1/C2-Code-Tor: vor dem Einfrieren von R1/R2 korrigieren, C1/C2-Manifeste neu einfrieren (Commit, `code_sha256`), Selbsttest grün. Sonst C1/C2 nach R1/R2 nicht auswertbar.
+- **C1/C2-Selbsttest rot (Sitzung 32):** Ursache `lab/confirm/rank_tools.py` Z. 72/74 `rng.permutation(5.0)` (aktuelles numpy lehnt eine Gleitkommazahl ab), nur im Selbsttest. **`rank_tools.py` NICHT ändern:** Die Datei hängt an den Code-Toren von C1–C4, und C4 ist an das schon eingefrorene P2f gebunden (15539d8). Eine Änderung würde C4 nach P2f verweigern. Stattdessen vor dem Einfrieren von R1/R2: `python lab/tools/guarded_run.py -- python lab/confirm/C12_selftest_wrapper.py`. Der Wrapper korrigiert die Zeile nur im Speicher und ruft die unveränderten C1/C2-Selbsttests auf. Ungetestet (Syntaxprüfung), grün abwarten.
 
 - **Statische Prüfung der Nachtbefehle (Sitzung 27, nur Lesen):** behoben: absoluter GPU-Interpreterpfad in [[paper/repro/README]] (Gleichwertigkeitsbefehle); `--jobs` ohne Wächter (s. o.); R1-Seed-Obergrenze; R2/R3 löschen eine alte Zusammenfassung vor `--analyze`. Offen, nur Hinweis: Die Selbsttests von R2/R3 messen kein Zufallsmodell Ende-zu-Ende; ein Fehler in `one_run` zeigt sich erst im Smoke (Pflicht). Die „Voll“-Befehle von `repro/k2.py`/`k4c.py` nennen den venv-Pfad jetzt absolut (Sitzung 28).
 

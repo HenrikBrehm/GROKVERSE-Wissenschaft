@@ -1,8 +1,8 @@
 ---
 id: EXP-039
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/unklar]
 ---
 # EXP-039: Läuft die Festlegung der Frequenzwahl auf einer „Lernraten-Uhr“?
 
@@ -111,3 +111,10 @@ gespeicherten EXP-035-Warmup-Läufe (RMSE dort 0.34 / 0.12 / 0.08; 1–2 Seeds, 
 Auswertung nach den Läufen: π je Seed (Normierung mit den reinen EXP-018-Läufen des Seeds), RMSE jedes Modells über alle Zellen. **Kein Urteil**,
 das vorab festgelegte Urteil von EXP-039 (Dominanzmaß d) bleibt allein maßgeblich. Grenzen: grobe Kurve zwischen 50 und 150; γ aus 1–2 Seeds;
 bei c = 2 ändert sich auch das Verhältnis lr/Weight Decay.
+
+## Ergebnis (Sitzung 23; Läufe im CPU-Programm 26./27.09., fertig 27.09. vor 10:59 Berlin; Auswertung durch das Programm, `eval_pi.py` 11:08 gemessen): ***unklar***
+
+Alle Läufe gültig. Zellen (Seed × c): **Λ** in 5/8 (30@2, 34@2, 31@2, 34@0.5, 31@0.5), **Schritt** in 2/8 (32@2, 30@0.5), *unklar* 1/8 (32@0.5). Seed-Klassen: 31 und 34 Λ in beiden Skalierungen, 30 und 32 gemischt → Urteil ***unklar*** (Regel: alle Λ oder alle Schritt).
+**Beschreibend (eval_pi.py, vorab eingefrorene Vorhersagen, n = 24 Zellwerte):** RMSE der π-Vorhersage Schrittuhr 0.210, Λ-Uhr 0.134, angepasste Teiluhr γ = 0.65 0.130.
+- **Lesart:** Die Festlegung hängt teilweise an der aufsummierten Lernrate: Die Λ-Uhr passt deutlich besser als die reine Schrittuhr, aber nicht in jedem Seed. Vereinbar mit einer Zwischenform (γ ≈ 0.65).
+- **Grenzen:** 4 Seeds, grobes Gitter (d(t) nur an 3 Punkten je c), Top-5-Maß; c ändert auch lr/Weight-Decay-Verhältnis.

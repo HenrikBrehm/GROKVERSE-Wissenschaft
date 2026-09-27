@@ -12,6 +12,7 @@ Zurück zu [[paper/STATUS]]. Entwurf Sitzung 24 (2026-09-27), **noch keine Regis
 - **Warum:** Gutachter fragen sofort, ob die Befunde nur bei lr 1e-3, wd 1.0, train_frac 0.3 gelten. Ein Ergebnis „gilt nur in einem Bereich“ ist ein Befund und kommt so ins Paper.
 - **Technische Voraussetzung:** `freq_ban.py` hat heute kein `--lr`, `--weight-decay`, `--train-frac` (nur `--lr-scale` für die ersten 250 Schritte). Die drei Optionen müssen als späte Argumente
   (Fingerabdruck nur bei Abweichung vom Standard, wie `LATE_ARGS`) in den gemeinsamen Trainer, `confirm_splits` muss den Trainingsanteil durchreichen → **Codex-Prüfung Pflicht** (Regel 18c).
+- **Registrierungsentwurf:** [[confirm/R1_REGISTRATION_DRAFT|R1]] (Sitzung 24).
 - **Familie R1 (K2, Repräsentation):** P1-Maß Δ_pow bei Schritt 2000, add 113, Einheiten = Seed mit F/G-Paar wie P1. Zellen: lr ∈ {0.5e-3, 2e-3}, wd ∈ {0.3, 3.0}, train_frac ∈ {0.2, 0.5}
   (je eine Abweichung vom Standard, sonst Standard) = 6 Zellen. Je Zelle einseitiger Test Δ_pow > Mindesteffekt 1 (wie P1), Holm über 6. **Stichprobe:** P1-Streuung (SD ≈ 1.1 bei Mittel 8.2) → n = 10
   je Zelle genügt bei ähnlichen Effekten reichlich; wegen möglicher Abschwächung n = 15. 6 × 15 × 2 = 180 Läufe à 2000 Schritte (GPU ≈ 40 s) ≈ 20 min.

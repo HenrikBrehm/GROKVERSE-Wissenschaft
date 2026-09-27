@@ -1,0 +1,38 @@
+---
+id: P2b-registrierung
+status: entwurf
+datum: 2026-09-27
+tags: [lab/bestaetigung]
+verwandt: ["[[FINDINGS]]", "[[confirm/P2_REGISTRATION_DRAFT|P2]]", "[[experiments/EXP-055-ablation-dose/README|EXP-055]]", "[[confirm/N28_REGISTRATION|N28]]", "[[JOURNAL]]"]
+---
+# P2b-Bestätigung (funktionale Nutzung, Nachfolger von P2): Registrierung (Sitzung 22). **ENTWURF, nicht eingefroren**
+
+Zurück zu [[FINDINGS]] (Programm A) · Vorgänger [[confirm/P2_REGISTRATION_DRAFT|P2]] (nicht auswertbar) · Pilot [[experiments/EXP-055-ablation-dose/README|EXP-055]] · Familie mit [[confirm/N28_REGISTRATION|N28]].
+
+- **Aussage P2b:** In Modellen mit konstruiertem Split (add 113) kostet das Entfernen der Energiemenge E = 0.5 · E_ctrl aus den **eigenen Zielfrequenzen** in W_E mehr Test-Loss
+  als das Entfernen derselben Menge aus der Kontrollmenge. Enge Fassung wie P2 (endliche Dosis f = 0.5, diese Kontrollmenge; keine Ableitung „je Energieeinheit“).
+- **Was sich gegenüber P2 ändert (und warum):** P2 scheiterte an der Regel „alle 50 gültig“, weil 3 G-Modelle bei Schritt 2000 nicht generalisiert waren.
+  (1) **4000 statt 2000 Schritte.** (2) Ungültige Seeds (Basis-Genauigkeit < 0.9 auf der gemeinsamen Testmenge, undurchführbare Dosis, nicht endliche Verluste) werden **ausgeschlossen und berichtet**.
+  Das Urteil verlangt ≥ 90 % gültige Seeds, sonst *nicht auswertbar*. Der Ausschluss hängt nur an der Basis-Genauigkeit und der Machbarkeit, nicht an R.
+  (3) **Frische Seeds 2000–2099** und eigene Splits (P1-Konstruktion, `confirm_splits.build` mit Versuchs-ID 2, also kein gemeinsamer Zufallsstrom mit P1).
+  (4) **n = 100 aus der beobachteten Streuung:** Bootstrap-Simulation aus den 47 P2-Werten (gemessen in Sitzung 22): Power 0.88 bei n = 80 und 0.92 bei n = 100 am beobachteten R̄ = 0.122.
+  Ist der wahre Effekt 0.02 kleiner, sinkt sie auf etwa 0.7. Der Pilot-Mittelwert ist womöglich durch die Auswahl verzerrt.
+- **Modelle:** je Seed zwei Läufe (Arme F, G), `freq_ban.py --steps 4000 --save-model`, GPU, `--threads 1`; Datei [[confirm/P2b_manifest.json]] nach dem Einfrieren.
+- **Eingriff und Maß (unverändert aus P2/EXP-055, Code über `confirm_p2` importiert):** gleichmäßiges Herunterskalieren von S in W_E[:113], bis genau E entfernt ist.
+  S = eigene Ziele bzw. Kontrolle (alle k außer eigenen Zielen, fremden Zielen und fold(2t) der eigenen). Loss = mittlere Kreuzentropie (Logits [:113]) auf den Paaren in keinem der beiden Splits.
+- **Primär:** R_s = Mittel über die beiden Arme von log(L_nach,own / L_nach,ctrl). Einseitiger Ein-Stichproben-t-Test auf R̄ > 0.
+  **Familie Sitzung 22** = {N28-H1, N28-H2, P2b}, Holm im ungünstigsten Fall (die anderen als p = 1, also 3p).
+  **„bestätigt“ = ≥ 90 gültige Seeds, Holm-p < 0.05 und untere Grenze des 95-%-Bootstrap-KI von R̄ ≥ log(1.05)** (Mindesteffekt: 5 % mehr Loss). Sonst *nicht bestätigt*.
+- **Sekundär (beschreibend):** rohes D (P2-Maß), Eignungsrate (nicht generalisiert / andere Gründe), d_z, Anteil R > 0.
+- **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** EXP-051/055 (20 Modelle, Seeds 150–159: Maß, Dosis); P2 (50 Modelle, Seeds 1000–1049, R̄ 0.12, SD 0.20, 3 nicht generalisiert):
+  Schrittzahl, Ausschlussregel und n. Keines dieser Modelle zählt als Bestätigung. Vor der Registrierung wurde kein Lauf mit Seeds 2000–2099 gemacht.
+- **Grenzen:** nur add 113, eine Architektur, Eingriff nur in W_E; 4000 Schritte sind ein anderer Trainingsstand als P1 (2000).
+- **Technik:** `lab/tools/confirm_p2b.py` auf `lab/tools/bound_block.py` (Bindungslogik aus confirm_p3, parametrisiert). Selbsttest ok (Sitzung 22), ungetestet am echten Lauf.
+  Vor dem Einfrieren: Codex-Prüfung (Regel 18c), dann Manifest mit `code_sha256` und `commit`.
+
+```
+python lab/tools/confirm_p2b.py --splits lab/confirm/P2b_manifest.json
+python lab/tools/confirm_p2b.py --jobs lab/confirm/P2b_manifest.json > lab/confirm/P2b_jobs.txt
+python lab/tools/parallel_queue.py lab/confirm/P2b_jobs.txt --workers 8
+python lab/tools/guarded_run.py -- python lab/tools/confirm_p2b.py --analyze lab/confirm/P2b_manifest.json
+```

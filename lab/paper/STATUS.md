@@ -59,3 +59,9 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 - **a/b (15:40):** [[confirm/R3_REGISTRATION_DRAFT|R3]] (Λ- gegen Schrittuhr der Festlegung, 80 Läufe) und Pilot [[experiments/EXP-078-two-layer-steering/README|EXP-078]] (K2 mit zwei Schichten) vorbereitet; §3.7 im Entwurf listet alle ausstehenden Robustheitsblöcke.
 - **c/d (15:40):** `repro/k4c.py` (geprüft, keine Blocker); Einleitung als Fließtext, unabhängig gegen die Quellen geprüft (13 Korrekturen).
 - **e (Korrektur, Sitzung 26):** Tomàs Bernal et al. 2026 (arXiv 2604.00316) schränkt K2 **teilweise** ein (Kernel: symmetrische Trainingsmengen wählen die kodierte Untergruppe). Für die menschliche Prüfung neu vorrangig: diese Arbeit im PDF lesen.
+
+## Nachtrag Sitzung 27 (2026-09-27, bis 16:20, gemessen)
+
+- **d:** §2 (Methoden) als Fließtext, unabhängig gegen den Code geprüft (9 Korrekturen). §3.3 um die Größenabschätzung von K4b ergänzt (Momentum-Schwanz, post hoc) und die Vorarbeiten zitiert.
+- **e:** Volltext/Abstract nachgeprüft: Salah & Yevick 2024 (schränkt K2 nicht ein, im Paper zitiert), Sweeney 2026, Pracher et al. 2026, Yang 2026, Xu 2026, Sevetlidis & Pavlidis 2026. **Die Deutung von K4b (erstes Moment trägt die frühe Exposition) ist bekannt**; K2 und K4/K4c bleiben nach unserer Suche nicht gefunden.
+- **a/c:** Nachtbefehle statisch geprüft; zwei Befehlsfehler und vier kleinere Punkte vor der Nacht behoben (Details im JOURNAL).

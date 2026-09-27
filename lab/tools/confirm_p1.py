@@ -3,7 +3,7 @@
 P1: engineered splits raise the target power in W_E, Delta_pow > 0 on fresh seeds and splits, minimum effect Delta_pow >= 1.
 Primary per task in the manifest: mean Delta_pow over seeds, one-sided sign-flip test of mean > 0 (exact for n <= 20, else
 Monte Carlo), 95 % bootstrap CI of the mean; the p-values enter the P1-P3 Holm family (FAMILY = 3, p of missing members = 1).
-"confirmed" for a task needs Holm-p < 0.05 AND the lower CI bound > 0; the minimum effect is reported (CI lower bound >= 1?).
+"confirmed" for a task needs ALL planned pairs valid, Holm-p < 0.05 AND the lower CI bound >= MIN_EFFECT (session 20, Codex B4/H3).
 Runs: transformer of the study (freq_ban.py, add/mul) or group_train.py (D_n), 2000 steps, device from the manifest.
 
   python lab/tools/confirm_p1.py --jobs lab/confirm/P1_manifest.json > lab/confirm/P1_jobs.txt     # for parallel_queue.py
@@ -121,6 +121,22 @@ def delta_pow(pF: np.ndarray, pG: np.ndarray, F: list[int], G: list[int]) -> flo
     return float(np.log(s(pF, F) / s(pF, G)) + np.log(s(pG, G) / s(pG, F)))
 
 
+def delta_pow_checked(pF: np.ndarray, pG: np.ndarray, F: list[int], G: list[int]) -> float | None:
+    """Session 20 (Codex B4): None if a target sum is not positive or the result is not finite (row then invalid)."""
+    sums = [float(pw[[k - 1 for k in S]].sum()) for pw in (pF, pG) for S in (F, G)]
+    if not all(np.isfinite(x) and x > 0 for x in sums):
+        return None
+    d = delta_pow(pF, pG, F, G)
+    return d if np.isfinite(d) else None
+
+
+def task_verdict(v: dict) -> str:
+    """Session 20 (Codex B4/H3): all planned pairs valid, Holm-p < ALPHA AND the CI lower bound >= MIN_EFFECT."""
+    if "p" not in v:
+        return "nicht auswertbar"
+    return "bestätigt" if v["p_holm_worstcase"] < ALPHA and v["ci95"][0] >= MIN_EFFECT else "nicht bestätigt"
+
+
 def sign_flip_p(d: np.ndarray, rng: np.random.Generator) -> float:
     if len(d) <= 20:
         flips = np.array(list(itertools.product((1.0, -1.0), repeat=len(d))))
@@ -202,11 +218,14 @@ def analyze(manifest: Path) -> None:
             T = {a: json.loads((SPLITS / f"{stem(man, t, s, a)}.json").read_text(encoding="utf-8"))["targets"] for a in "FG"}
             pw = {a: power_at(man, t, s, a) for a in "FG"}
             bad = [f"{a}: {v}" for a, v in pw.items() if isinstance(v, str)]
+            dp = None if bad else delta_pow_checked(pw["F"], pw["G"], T["F"], T["G"])
+            if not bad and dp is None:
+                bad = ["Delta_pow not finite or target power <= 0"]
             rows.append({"seed": s, "valid": False, "reason": "; ".join(bad)} if bad else
-                        {"seed": s, "valid": True, "Delta_pow": delta_pow(pw["F"], pw["G"], T["F"], T["G"])})
+                        {"seed": s, "valid": True, "Delta_pow": dp})
         d = np.array([r["Delta_pow"] for r in rows if r["valid"]])
         res: dict = {"rows": rows, "n_valid": int(len(d)), "n_planned": len(man["seeds"])}
-        if len(d) >= max(8, int(0.8 * len(man["seeds"]))):
+        if len(d) == len(man["seeds"]):   # session 20 (Codex B4): every planned pair, no complete-case deletion
             res.update({"mean": float(d.mean()), "sd": float(d.std(ddof=1)), "n_positive": int((d > 0).sum()),
                         "ci95": boot_ci(d, rng), "p": sign_flip_p(d, rng)})
         out["tasks"][f"{t['task']}{t['p']}"] = res
@@ -215,8 +234,7 @@ def analyze(manifest: Path) -> None:
     adj = holm(ps)
     for k, v in out["tasks"].items():
         v["p_holm_worstcase"] = adj[k]
-        v["verdict"] = ("nicht auswertbar" if "p" not in v else
-                        "bestätigt" if v["p_holm_worstcase"] < ALPHA and v["ci95"][0] > 0 else "nicht bestätigt")
+        v["verdict"] = task_verdict(v)
         if "ci95" in v:
             v["min_effect_met"] = v["ci95"][0] >= MIN_EFFECT
     cb = cross_block(man)
@@ -260,6 +278,14 @@ def selftest() -> None:
     assert vc["sigma2_between_unit"] == 0 and abs(vc["sigma2_within_init"] - 2.0) < 1e-12 and vc["icc_unit"] == 0.0
     assert cross_reading(np.full((5, 3), 8.0) + np.linspace(-1, 1, 15).reshape(5, 3)) == "stabil über Inits"
     assert cross_reading(np.array([[8.0, -1.0, 8.0]] * 5)) == "init-abhängig"
+    # session 20 (Codex B4/H3)
+    assert delta_pow_checked(np.array([4.0, 0.0]), np.array([1.0, 4.0]), [1], [2]) is None
+    assert delta_pow_checked(np.array([4.0, np.nan]), np.array([1.0, 4.0]), [1], [2]) is None
+    assert abs(delta_pow_checked(np.array([4.0, 1.0]), np.array([1.0, 4.0]), [1], [2]) - 2 * np.log(4)) < 1e-12
+    assert task_verdict({"n_valid": 49}) == "nicht auswertbar"
+    assert task_verdict({"p": 0.001, "p_holm_worstcase": 0.003, "ci95": [0.5, 2.0]}) == "nicht bestätigt"
+    assert task_verdict({"p": 0.001, "p_holm_worstcase": 0.003, "ci95": [1.2, 2.0]}) == "bestätigt"
+    assert task_verdict({"p": 0.001, "p_holm_worstcase": 0.06, "ci95": [1.2, 2.0]}) == "nicht bestätigt"
     print("[confirm_p1] selftest ok", flush=True)
 
 

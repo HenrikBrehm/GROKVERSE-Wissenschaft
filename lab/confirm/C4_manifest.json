@@ -1,0 +1,10 @@
+{
+ "registration": "lab/confirm/C4_REGISTRATION.md",
+ "code_sha256": {
+  "lab/confirm/C4_analyze.py": "103702e0d5d29f4881ebe2ef7e87d8d3b48446540365ee67f470fd025159c951",
+  "lab/confirm/C1_analyze.py": "cf935f517fecd3a3395ed8535589c3984c14c3e1b14162dabf71a725fd8eb1d6",
+  "lab/confirm/rank_tools.py": "f0f7464ea1a392f68bb537aaeb7d3b1b6c212e1a4073dd159f882736f41f6fbf",
+  "lab/confirm/P1_posthoc_within.py": "d62db4c56c2cde725dc5978d9aa5de3c6040e3c284d2d1d1766d040b6da1f57f"
+ },
+ "note": "code gate, session 28, before any P2f run"
+}

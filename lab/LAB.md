@@ -8,6 +8,7 @@ und MLPs. Die Studie (`RESULTS.md`) ist historisch, neue Befunde stehen nur hier
 
 - [[LIVE]]: was gerade passiert (Sitzungsstatus)
 - [[STATE]]: aktueller Stand, nächste Aktion, Wiederaufnahme
+- [[NACHT_2026-09-28]]: geordnete Checkliste der Nacht 28.09. (Läufe 01:30–18:00)
 - [[JOURNAL]]: Protokoll aller Sitzungen
 - [[BACKLOG]]: priorisierte Forschungsfragen
 - [[NOVEL_DIRECTIONS]]: Kandidaten, die für die Forschung neu sein könnten, mit Literaturprüfung

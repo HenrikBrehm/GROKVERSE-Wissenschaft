@@ -3339,3 +3339,19 @@ Prüfbefehle (P1 Seed 1000 F; N29b Seed 2300 Attention-Reset) in [[paper/repro/R
 Selbst geprüft: Ergebnisfelder echter Pilotläufe (MLP: `events.generalization_step`, `config.arch = mlp`, 10 000 Schritte; d512/intadd: `config.d_model`, `config.p = 225`,
 Spektren (9, 56), `we_final.npy`) passen zu den `Expect`-Angaben. *Mein Fehler:* eine geschätzte Uhrzeit (14:40) im P4-Nachtrag, sofort durch die gemessene ersetzt.
 *Ergebnis:* vorbereitet, **ungetestet** bis 00:00. *Nächster Schritt:* Codex-Prüfung (läuft), dann einarbeiten.
+
+**Zyklus 1, Fortsetzung (Codex zu P4, bis 14:34).** Codex (nur lesend, [[confirm/P4_codex_review_s25.txt]]): *ein Blocker*: Entwurf nennt einen t-Test, der Code den exakten
+Vorzeichen-Permutationstest. Selbst bestätigt (Zeile 14 des Entwurfs); übernommen durch Registrierung des exakten Tests (wie P1) im Nachtrag. Kleinere Punkte übernommen: Vorabprüfung
+auch der `.json`-Splits, Stromvergleich am selben Seed, Exaktheitsprüfung p = 1/2^15, `--save-model`-Erwähnung gestrichen. Verworfen (mit Grund): synthetische Ergebnisordner je Trainer
+(echte Felder bereits geprüft, Smoke vor dem Block). Codex bestätigt ausdrücklich: Run-IDs aller drei Trainer, Lader-Erwartungen, 10 000 MLP-Schritte trotz Stopp-Regel, Split-Konstruktion,
+keine Seed-Überlappung, Statistik intern korrekt.
+
+**Zyklus 2 (Paper §5 Theorie, bis 14:34).** *Frage:* Trägt die Herleitung erster Ordnung (Masken-Spektrum → erster W_E-Gradient) einen ausformulierten Theorie-Abschnitt?
+*Änderung:* §5.1–5.4 im [[paper/draft]] (Aufbau, M0c/M0 für gemeinsamen/getrennten Pfad, Status der Vorhersagen, Grenzen inkl. Adams Vorzeichenschritt). *Ergebnis:* Eine numpy-Prüfung
+der Identitäten (reine Rechnung) hat **einen Fehler in meinem ersten Wortlaut** gefunden, der auch schon in der Skizze aus Sitzung 24 stand: Nicht „die Token-Häufigkeiten fallen heraus“,
+sondern nur die **eigene** Häufigkeit einer Zeile (P⊥ entfernt den c-Mittelwert). Die Häufigkeiten des **anderen** Operanden bleiben: für m(a, b) = ρ(a) ist die Leistung des gemeinsamen
+Pfads exakt p|ρ̂(k)|² (numerisch, relativer Fehler 1e-14). Die EXP-047-Vorhersage bleibt richtig, beruht aber auf den schwachen Randverteilungen der konstruierten Splits (CV 0.14,
+eigener Anteil 0.9 %), nicht auf einem allgemeinen Wegfall. Korrigiert im Entwurf (§5 Skizze und §5.2). FINDINGS_DETAILS Zeile 240 („Häufigkeitsanteil fällt exakt heraus, zentriertes
+M0“) ist im engen Sinn (eigene Häufigkeit) richtig und bleibt. *Neue prüfbare Folgerung:* Ein Split mit stark strukturierten Häufigkeiten nur eines Operanden müsste zu den Frequenzen von ρ
+steuern → Kandidat für Paket C (Entscheidung zwischen „nur Paarstruktur“ und „erste Ordnung inkl. Fremd-Häufigkeiten“), Literatursuche folgt.
+

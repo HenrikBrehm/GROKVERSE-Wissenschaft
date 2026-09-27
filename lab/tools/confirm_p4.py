@@ -120,7 +120,7 @@ def stem(cond: str, s: int, arm: str) -> str:
 def write_splits(man: dict) -> None:
     check_design(man)
     SPL.mkdir(parents=True, exist_ok=True)
-    names = [f"{stem(c, s, a)}.npy" for c in CONDS for s in man["seeds"][c] for a in "FG"]
+    names = [f"{stem(c, s, a)}{ext}" for c in CONDS for s in man["seeds"][c] for a in "FG" for ext in (".npy", ".json")]   # Codex s25
     if any((SPL / n).exists() for n in names):
         raise SystemExit("P4 splits exist already: never overwrite")
     for c in CONDS:
@@ -325,6 +325,9 @@ def selftest() -> None:
     assert int_targets(160, rng_for=ms48.rng_for) == pilot_T
     for a in "FG":
         assert np.array_equal(int_engineered(160, a, pilot_T[a], EPS, rng_for=ms48.rng_for), ms48.engineered(160, a, pilot_T[a], EPS))
+    for s in (160, SEED_MIN + 30):                      # Codex s25: same seed, pilot stream vs P4 stream -> other targets and pairs
+        Tp, Tn = int_targets(s, rng_for=ms48.rng_for), int_targets(s)
+        assert Tp != Tn and not np.array_equal(int_engineered(s, "F", Tn["F"], EPS), int_engineered(s, "F", Tn["F"], EPS, rng_for=ms48.rng_for))
     T = int_targets(SEED_MIN + 30)
     assert T != pilot_T and not set(T["F"]) & set(T["G"]) and all(ms48.KMIN <= k <= ms48.KMAX for k in T["F"] + T["G"])
     idx = int_engineered(SEED_MIN + 30, "F", T["F"], EPS)
@@ -341,7 +344,8 @@ def selftest() -> None:
     base = 0.05 * rng.normal(size=(P, 8))
     d = c1.delta_pow_checked(it.dft_power(a48.detrend(3 * ramp + wF + base)), it.dft_power(a48.detrend(ramp + wG + base)), [9], [40])
     assert d is not None and d > 1, d
-    # verdict logic
+    # verdict logic; exact sign-flip p for n = 15 (Codex s25): all positive -> 1 / 2^15
+    assert c1.sign_flip_p(np.arange(1.0, 16.0), rng) == 1 / 2 ** 15
     ok = [{"seed": i, "technical": False, "Delta_pow": 5.0 + 0.1 * i, "test_acc_F": 1.0, "test_acc_G": 0.5, "gen_step_F": 900,
            "gen_step_G": None, "Delta_pow_secondary": 2.0} for i in range(15)]
     v = verdict({c: ok for c in CONDS}, {c: 15 for c in CONDS}, rng)

@@ -43,3 +43,10 @@ Offene Punkte: Das trendbereinigte Maß aus EXP-048 `analyze.py` wiederverwenden
 - **Pilot-Δ_pow der MLP (post hoc aus den gespeicherten EXP-045-Spektren, Seeds 90–99, Sitzung 25):** bei 10 000 Schritten 7.68 ± 2.51 (Minimum 3.49, 10/10 > 1), bei 2000
   Schritten 2.45 ± 0.15. Standardisierter Abstand zum Mindesteffekt bei 10 000: (7.68 − 1)/2.51 = 2.7 → Power bei n = 15, einseitig α = 0.05/3, praktisch 1. n = 15 bleibt.
 - **Sekundär (nur berichtet):** mlp Δ_pow bei 2000; intadd Δ_pow am rohen Spektrum und lineares R²; Median der Test-Genauigkeit, Anzahl generalisierter Arme.
+
+- **Codex-Prüfung Sitzung 25 ([[confirm/P4_codex_review_s25.txt]]), umgesetzt vor dem Einfrieren:** *Blocker:* Oben steht „einseitiger t-Test“, der Code rechnet wie P1 den **exakten
+  einseitigen Vorzeichen-Permutationstest** (2^15 Vorzeichen). **Registriert wird der exakte Vorzeichentest** (wie P1: unter H0 ist Δ_pow je Seed symmetrisch um 0, weil F und G nur
+  vertauschte Rollen haben; keine Normalverteilungsannahme); die Angabe „t-Test“ oben ist damit ersetzt. Der Code prüft p = 1/2^15 für 15 positive Werte. *Kleinere Punkte:* Kopfzeile
+  „kein Code“ und „Code (fehlt)“ sind durch diesen Nachtrag überholt; `--save-model` (Tabelle, H4a) wird **nicht** gesetzt, P4 braucht kein Modell (width/intadd kennen die Option
+  nicht); die Sperre gegen Überschreiben prüft jetzt `.npy` und `.json` vorab; der Selbsttest vergleicht Pilot- und P4-Strom am selben Seed. Nicht umgesetzt: ein synthetischer
+  Ergebnisordner je Trainer im Selbsttest (die echten Pilot-Ergebnisfelder wurden von mir und Codex gegen `Expect` geprüft; der Smoke vor dem Block prüft den Lader an einem echten Lauf).

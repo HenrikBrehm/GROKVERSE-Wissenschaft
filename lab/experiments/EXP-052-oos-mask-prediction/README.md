@@ -1,8 +1,8 @@
 ---
 id: EXP-052
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/positiv]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-015-mask-spectrum/README|EXP-015]]", "[[experiments/EXP-043-generalize-steering/README|EXP-043]]", "[[BEFUND-split-mechanismus]]"]
 ---
 # EXP-052: Sagt der Split allein das W_E-Spektrum auch bei add mod 97 und mul mod 113 voraus? (eingefrorene Vorhersage)
@@ -165,3 +165,23 @@ Frequenzen abbaut. Grenzen: konstruierte statt Zufallssplits, β von den 5 Ziele
 Simulation (reine numpy-Rechnung, add 97, Kandidaten = zufällige 30-%-Splits, W_E-Rangprofil = M0-Ränge + Rauschen): bei eigenem ρ ≈ 0.65 /
 0.45 / 0.30 Top-1-Treffer unter 10 Kandidaten ≈ 0.98 / 0.92 / 0.77, unter 1000 Kandidaten ≈ 0.98 / 0.47 / 0.12 (Zufall 0.001). Bei ρ ≈ 0.45
 wären also grob 9–10 Bit über die Trainingsteilmenge allein aus dem W_E-Spektrum ablesbar. Vergleich nach den Läufen nur beschreibend.
+
+## Ergebnis (Sitzung 20, 2026-09-27, 03:25 Berlin; Auswertung der R-Läufe von EXP-043/046/048, CPU, 7 s)
+
+Befehl: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-052-oos-mask-prediction/exp052.py` (Code Stand cb72109, unverändert seit dem Einfrieren der Vorhersagen).
+Zahlen: `summary.json`. Alle Gültigkeitsprüfungen (Split-Hash, eingefrorene Spektren = heutige Rechnung) bestanden, 10/10 Läufe je Fall.
+
+| Fall | ρ eigen | ρ fremd | Split-Erkennung Top-1 (Zufall 0.1) | Holm-p (vier) | Urteil |
+|---|---|---|---|---|---|
+| add 97 | 0.42 | 0.02 | 1.0 | 0.0002 | ***K1 gilt hier*** |
+| mul 113 | 0.45 | −0.02 | 0.8 | 0.0002 | ***K1 gilt hier*** |
+| D₅₉ | 0.37 | 0.04 | 0.7 | 0.0002 | ***K1 gilt hier*** |
+| a + b ohne mod (k 6..56, trendbereinigt) | 0.34 | −0.07 | 0.9 | 0.0002 | ***K1 gilt hier*** |
+
+(p = 0.0002 ist die Auflösungsgrenze der Permutation mit 20 000 Ziehungen, Holm × 4.)
+
+- Sekundär, gepoolt: **S1 M0c > M0** ja (Δρ 0.09, 33/40, p < 5·10⁻⁵), die Vorhersage der Rechnung erster Ordnung. **S2 M0 > Init-Spektrum** ja (Δρ 0.11, 22/30, p 0.003).
+  **S3 M0 > Häufigkeiten** ja (Δρ 0.34, 39/40). Alle drei wie erwartet.
+- *Lesart (vorab):* Die aus dem Split allein vorab eingefrorenen Vorhersagen treffen in allen vier unberührten Fällen. Das ist eine **Assoziation** (der Eingriff sind die F/G-Arme
+  der Schwesterversuche, auch dort *steuerbar*). Zusammen mit EXP-047 (Häufigkeiten n. s.) und S3 spricht alles für die Paarstruktur als Träger. S1 stützt die zentrierte Maske M0c
+  als bessere Form, mit begrenzter Trennschärfe (M0 und M0c korrelieren mit ρ 0.69).

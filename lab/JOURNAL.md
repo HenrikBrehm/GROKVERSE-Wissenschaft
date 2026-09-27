@@ -2522,3 +2522,12 @@ und die vorab gewählte Primärdosis war die ungünstigste. *Entscheidung:* P2 f
 Repräsentation vor jedem Lernen. Lesart vorab: „der Split steuert“, Häufigkeiten gegen Paarstruktur hier nicht getrennt. *Zwischenstand Paket A:* K2 hält in 5/5 geprüften neuen Fällen
 (add 97, mul 113, D₅₉, int-add, dazu die Mechanismuskontrolle EXP-047). Nach [[LESART-nacht-2026-09-27]] Regel 2 reicht das für „K2 verallgemeinert sich über die gezeigten Aufgaben“
 (EXP-046, EXP-048 und eine EXP-043-Aufgabe *steuerbar*). FINDINGS aktualisiere ich nach EXP-049 in diesem Zyklus.
+
+**Zyklus 9 (Paket C: eingefrorene Vorhersage EXP-052 und Breite EXP-049, 03:13–03:26 gemessen).**
+- [[experiments/EXP-049-width-steering/README|EXP-049]]: d = 512 **steuerbar** (Δ_pow 7.8, 10/10, p 0.001). d = 128 repliziert EXP-016 an frischen Seeds auf der GPU (8.7, 10/10).
+  512 ist um 0.83 kleiner (beschreibend p 0.003), wie vorab erwartet. Die effektive Frequenzzahl steigt von 8.1 auf 10.9.
+- [[experiments/EXP-052-oos-mask-prediction/README|EXP-052]] (Vorhersagen per Commit vor jedem Lauf eingefroren): **K1 gilt in 4/4 Fällen** (Holm-p 0.0002 je Fall; ρ eigen 0.34–0.45,
+  fremd −0.07 bis 0.04; Split-Erkennung Top-1 0.7–1.0). S1 (M0c > M0), S2 (M0 > Init), S3 (M0 > Häufigkeiten) alle wie vorhergesagt. Das ist die erste **vorab eingefrorene mechanistische
+  Vorhersage an unberührten Fällen**, die trifft (Paket C, Regel 18c). Assoziation, kein Eingriff. Den Eingriff liefern die F/G-Arme.
+- FINDINGS: Pilotnacht-Tabelle um EXP-052 ergänzt. *Einordnung:* Paket A (Verallgemeinerung) und C (Vorhersage) sind im Pilot stark. Der Engpass ist jetzt die **unabhängige
+  Bestätigung** (P1 mit Manifest, frische Seeds 1000–1099) und P2 (Funktion mit Loss-Maß).

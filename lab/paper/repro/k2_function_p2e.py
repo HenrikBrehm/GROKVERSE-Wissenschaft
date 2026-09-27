@@ -70,6 +70,8 @@ def main() -> None:
         raise SystemExit("--compare-p2e needs the full 8000 steps on cuda (P2e ran on the GPU), not --smoke")
     lo, hi = (int(x) for x in a.seeds.split("-"))
     seeds = list(range(lo, hi + 1))
+    if a.compare_p2e and seeds != p2e.REGISTERED["seeds"]:   # s27 review: the gate compares with the frozen mean over all registered seeds
+        raise SystemExit("--compare-p2e needs exactly the registered seeds")
     if a.smoke:
         seeds, a.steps, a.out = seeds[:1], 300, str(Path(a.out).with_name(Path(a.out).name + "_smoke"))
     root = Path(a.out) / f"steps{a.steps}_{a.device.replace(':', '')}_thr{a.threads}_train{TRAINER_SHA}"

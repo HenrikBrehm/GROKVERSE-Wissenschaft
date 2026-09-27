@@ -81,6 +81,8 @@ def main() -> None:
         raise SystemExit("--compare-p2d needs the full 4000 steps on cuda (P2d ran on the GPU), not --smoke")
     lo, hi = (int(x) for x in a.seeds.split("-"))
     seeds = list(range(lo, hi + 1))
+    if a.compare_p2d and seeds != p2d.REGISTERED["seeds"]:   # s27 review: the gate compares with the frozen mean over all registered seeds
+        raise SystemExit("--compare-p2d needs exactly the registered seeds")
     if a.smoke:
         seeds, a.steps, a.out = seeds[:1], 300, str(Path(a.out).with_name(Path(a.out).name + "_smoke"))
     root = Path(a.out) / f"steps{a.steps}_{a.device.replace(':', '')}_thr{a.threads}_train{TRAINER_SHA}"

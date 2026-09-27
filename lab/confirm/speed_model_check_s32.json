@@ -1,0 +1,131 @@
+{
+ "note": "post hoc on seen runs; model parameters frozen in prediction_s32.json (commit 6d0231f) before this check",
+ "params": {
+  "T_inf": 248.51478891042382,
+  "A": 52.18113072395478,
+  "s0": 0.08088775596191117
+ },
+ "groups": {
+  "calib eps2 (EXP-020 G)": {
+   "n": 4,
+   "s_median": 0.18254345175604886,
+   "s_range": [
+    0.18188115289144505,
+    0.18446410828961246
+   ],
+   "n_generalised": 4,
+   "horizon": 2000,
+   "b_pred_at_median_s": 761.8272040812025,
+   "b_obs_median": 775.0,
+   "median_log2_obs_over_pred": 0.01794311202845035,
+   "within_0.35": true
+  },
+  "calib eps8 (EXP-042 G)": {
+   "n": 4,
+   "s_median": 0.3536877082262716,
+   "s_range": [
+    0.3509218628260838,
+    0.3621392773147132
+   ],
+   "n_generalised": 4,
+   "horizon": 2000,
+   "b_pred_at_median_s": 439.7946270879172,
+   "b_obs_median": 437.5,
+   "median_log2_obs_over_pred": -0.0018525209750769427,
+   "within_0.35": true
+  },
+  "seen eps1 (EXP-042 G)": {
+   "n": 4,
+   "s_median": 0.11640416596111842,
+   "s_range": [
+    0.11465677318223688,
+    0.11671441664306234
+   ],
+   "n_generalised": 0,
+   "horizon": 2000,
+   "b_pred_at_median_s": 1717.726646897182
+  },
+  "EXP-016 eng (CPU)": {
+   "n": 20,
+   "s_median": 0.19326895235678138,
+   "s_range": [
+    0.18453792559654716,
+    0.19875324079846585
+   ],
+   "n_generalised": 20,
+   "horizon": 2000,
+   "b_pred_at_median_s": 712.8374015707092,
+   "b_obs_median": 662.5,
+   "median_log2_obs_over_pred": -0.12789706939791226,
+   "within_0.35": true
+  },
+  "EXP-047 eng (GPU)": {
+   "n": 20,
+   "s_median": 0.1922810735797411,
+   "s_range": [
+    0.17566157433546603,
+    0.1978257305767157
+   ],
+   "n_generalised": 20,
+   "horizon": 2000,
+   "b_pred_at_median_s": 716.9551930554792,
+   "b_obs_median": 687.5,
+   "median_log2_obs_over_pred": -0.06268983660182455,
+   "within_0.35": true
+  },
+  "EXP-047 shuf (GPU)": {
+   "n": 20,
+   "s_median": 0.0913237656422238,
+   "s_range": [
+    0.08252042415563314,
+    0.0980883446893622
+   ],
+   "n_generalised": 0,
+   "horizon": 2000,
+   "b_pred_at_median_s": 5248.618499277198,
+   "pred_censored": 20,
+   "pred_censored_and_censored": 20
+  },
+  "EXP-041 E (CPU, common test)": {
+   "n": 10,
+   "s_median": 0.18003241622675661,
+   "s_range": [
+    0.1725271536481352,
+    0.18917874205838572
+   ],
+   "n_generalised": 9,
+   "horizon": 2150,
+   "b_pred_at_median_s": 774.8278609867531,
+   "b_obs_median": 825.0,
+   "median_log2_obs_over_pred": 0.1128557361708261,
+   "within_0.35": true
+  },
+  "EXP-041 R (CPU, common test)": {
+   "n": 10,
+   "s_median": 0.08841550399602639,
+   "s_range": [
+    0.08285806875991747,
+    0.09477055348863744
+   ],
+   "n_generalised": 0,
+   "horizon": 2150,
+   "b_pred_at_median_s": 7180.352901380921,
+   "pred_censored": 10,
+   "pred_censored_and_censored": 10
+  },
+  "P1 F/G (GPU)": {
+   "n": 120,
+   "s_median": 0.1910684522605352,
+   "s_range": [
+    0.1788509251344567,
+    0.20318093278875962
+   ],
+   "n_generalised": 117,
+   "horizon": 2000,
+   "b_pred_at_median_s": 722.1107315474866,
+   "b_obs_median": 725.0,
+   "median_log2_obs_over_pred": 0.03712592958423744,
+   "within_0.35": true
+  }
+ }
+}

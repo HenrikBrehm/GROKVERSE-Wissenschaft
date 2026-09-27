@@ -12,8 +12,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 - **Bestätigungsfamilie gerechnet** (alle vorab eingefroren, Läufe an den Code gebunden, Schlussfolgerungen von Codex geprüft):
   **P1 bestätigt** in 4/4 Aufgaben (je 50/50; add 113 Δ_pow 8.24 [7.92, 8.54]). **P2 nicht auswertbar** (3/50 Modelle bei Schritt 2000 nicht generalisiert).
   **P3 bestätigt** (D̄ 0.293 [0.263, 0.322], 30/30): starke Wirkung einer 25-Schritt-Vorgeschichte gegen paar-disjunktes Weitertraining. „Festlegung im Netz“ ist damit **nicht** identifiziert.
-- Piloten dieser Sitzung: EXP-035 (Warmup verzögert, n = 3), EXP-038 (Festlegung doppelt vorhanden, 5/5), EXP-056 (Persistenz ohne geteilte Paare), **EXP-057 (Adam-Reset beim Wechsel
-  löscht die A-spezifische Erhaltung: π 0.30 → 0.11, A-Ziele unter Zufall; formal „teilweise“)** → neue Idee N28.
+- Piloten dieser Sitzung: EXP-035 (Warmup verzögert, n = 3), EXP-038 (Festlegung doppelt vorhanden, 5/5), EXP-056 (Persistenz ohne geteilte Paare), **EXP-057 (volle Optimierer-Neuinit beim Wechsel
+  senkt die A-Persistenz: π 0.30 → 0.11; formal „teilweise“; nach Codex nicht identifiziert, ob Gedächtnis im Zustand oder Überschreiben der Spur)** → Kandidat N28.
 - **Achtung Reproduktion:** `freq_ban.py` wurde nach dem Einfrieren geändert (5aa8c34, Option `--reset-optim-at-switch`). Eine erneute Auswertung von P1/P2/P3 besteht die Code-Prüfung
   nur aus einem Checkout von 733e829 bzw. f8adf45. Die Ergebnisse sind committet (4f3fc36, e5f55a5).
 
@@ -26,7 +26,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 ## Nächste Schritte (in dieser Reihenfolge)
 
 1. `python lab/tools/guarded_run.py --check`; kein STOP; Prozesse prüfen; CPU-Programm (oben) wieder starten.
-2. Codex-Nachprüfung von 5aa8c34 und EXP-057 (Ergebnis im [[JOURNAL]] Sitzung 21, letzte Zyklen) einarbeiten.
+2. (erledigt 06:31: Codex hat 5aa8c34 als korrekt bestätigt, die EXP-057-Deutung ist korrigiert.)
 3. **EXP-057-Folgeversuch (neu festlegen, Regel 15b):** nur m zurücksetzen (Schrittzähler bleibt), nur v, und derselbe Eingriff bei t = 150. Das trennt „Gedächtnis im Adam-Zustand“ von
    „vorzeichenartige Schritte nach dem Reset überschreiben die Spur“ (N28). Frische Seeds (neuen Bereich reservieren, z. B. 2200–2299), ≥ 10, dann Bestätigung.
 4. **P2-Nachfolger** ([[BACKLOG]] „P2-Nachfolger“): frische Seeds, sicheres Grokking, feste Ablations-Testmenge, N aus der gesehenen Streuung (≈ 60–80).

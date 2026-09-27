@@ -2871,3 +2871,10 @@ einem Checkout der eingefrorenen Commits (733e829 bzw. f8adf45). Die Ergebnisse 
 > 
 > - Sitzung 20 (Piloten, je 10 Seeds, vorab festgelegt): EXP-043 (add 97, mul 113), 046 (D₅₉), 048 (int-add), 049 (d 512), 045 (MLP): *steuerbar*; 047: Paarstruktur trägt;
 >   044: *festgelegt*; 052: K1 4/4; 050: M0c wählt, M0 trägt mit; 051/055: Funktion unklar (Bodeneffekt / Hauptdosis n. s.).
+
+**Zyklus 18 (Codex prüft 5aa8c34 und EXP-057, eingearbeitet 06:31).** *Code:* korrekt. Richtiger Zeitpunkt nach dem Optimiererschritt von Schritt 25; `opt.state.pop` setzt step, m und v
+auf allen Backends vollständig zurück; die Fingerabdrücke bleiben kompatibel. Klein: Kombiniert mit `--reset-at-switch` gilt „Gewichte bleiben“ nicht; einen eigenen Regressionstest gibt es nicht.
+*Deutung:* überzogen, und das stimmt (selbst geprüft). Ein voller Reset startet auch die Bias-Korrektur neu, und die vorzeichenartigen ersten Schritte können die Spur überschreiben.
+„Unter Zufall“ ist nicht signifikant (t = −1.2). „Teilweise“ ist keine additive Zerlegung. *Übernommen:* Korrekturen in EXP-057, N28, FINDINGS, LAB, STATE (gestützt ist nur: Eine volle
+Optimierer-Neuinit senkt die A-Persistenz). *Nächster Versuch:* nur m auf 0 (v und Schrittzähler bleiben) mit protokollierten frühen Update-Normen, dann Momente zurücksetzen bei erhaltenem Schrittzähler,
+und ein voller Reset mit angeglichener Update-Norm. t = 150 erst danach (vermengt Alter, Spurgröße und Phase).

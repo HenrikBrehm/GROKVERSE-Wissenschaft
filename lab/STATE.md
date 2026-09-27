@@ -3,55 +3,49 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 10:53 Berlin (Sitzung 23, Start 09:39, Deadline 12:39)._
+_Zuletzt aktualisiert: 2026-09-27, 11:12 Berlin (Sitzung 23, Start 09:39, Deadline 12:39)._
 
-Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · Bestätigungen [[confirm/N28_REGISTRATION|N28]] · [[confirm/P2c_REGISTRATION|P2c]] · [[confirm/P3_REGISTRATION_DRAFT|P3]]
+Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · Bestätigungen [[confirm/N29_REGISTRATION|N29]] · [[confirm/P2e_REGISTRATION|P2e]] · [[confirm/N29b_REGISTRATION|N29b]]
 
 ## Lage (Sitzung 23)
 
 - **N29 bestätigt** (087e042, 20 frische Seeds): Ablationskontrast kehrt sich zwischen Wechsel bei t = 25 (neue gebraucht, 0.60 [0.50, 0.70]) und t = 50 (alte gebraucht, 0.90 [0.85, 0.95]) um. FINDINGS „K4c“.
 - **P2e bestätigt** (3c484ef): P2d-Maß bei mul 113 (0.291) und add 97 (0.294), je 20/20. FINDINGS, eng: keine Nutzung über die Energie hinaus belegt.
-- **Grenze aller Funktionsbefunde** (EXP-064 post hoc, EXP-068): Ablation folgt der W_E-Energie; bei gleicher entfernter Energie kein Vorteil der dominanten Menge.
-- Trainer: `--reset-at-switch attn|mlp|unembed` (5d84666). Eingefrorene Blöcke reproduzieren am Manifest-Commit (`git worktree`), da `freq_ban.py` im Code-Hash steht.
-- **EXP-067** (Pilot, welcher Teil hält die alten Frequenzen bei t = 50) läuft/fertig: `lab/runner/logs/exp067.log`, dann `analyze.py`.
-
-- **N28 bestätigt** (fa154bd, 30/30 frische Seeds): Das Nullsetzen von Adams erstem Moment beim Wechsel senkt den Persistenzindex π um 0.15. Zehn zusätzliche Vorschritte gleichen das aus
-  (Nichtunterlegenheit). Enger Wortlaut nach Codex in [[FINDINGS]] („K4b“). Die „Adam-Gedächtnis“-Deutung aus Sitzung 21 ist herabgestuft (EXP-059: verlängerte Exposition genügt).
-- **Zwei Spektralsignaturen** (EXP-062): Die Vorhersage an den N28-Seeds ist erfüllt (29/30, 30/30). Bei t = 25 überschüssige alte Energie, bei t = 50 fehlende neue Energie.
-  **Funktional (EXP-064, beschreibend, nicht auswertbar 7/10):** Bei t = 25 rechnet das Netz mit den **neuen** Frequenzen (Umstieg), bei t = 50 nur mit den alten (Festhalten, 10/10).
-- EXP-063 (Pilot): Ein Reset des Rests oder von W_E bei t = 50 verkleinert das Defizit der neuen stark. EXP-060, EXP-061: zwei Mechanismusideen verworfen.
-- **P2b abgebrochen** (mein Designfehler: Trainer-Standard `--stop-after-gen 2000`). **P2c nicht bestätigt** (R̄ −0.108 [−0.149, −0.070], 99/100): Funktionale Nutzung ist mit dem P2-Maß nicht belegt.
+- **Grenze aller Funktionsbefunde** (EXP-064 post hoc, [[experiments/EXP-068-matched-sensitivity/README|EXP-068]]): Ablation folgt der W_E-Energie; bei gleicher entfernter Energie kein Vorteil der dominanten Menge.
+- **EXP-067 (Pilot):** Attention-Reset beim Wechsel bei t = 50 hebt den Ausschluss auf (10/10), MLP unklar, W_U nicht nötig → [[NOVEL_DIRECTIONS]] N32. **N29b** (Bestätigung, db31564, Seeds 2300–2319, 120 Läufe) läuft/fertig.
+- EXP-039 *unklar* (Λ-Uhr passt besser als Schrittuhr). EXP-040: Auswertungsfehler vor jedem Lauf behoben (Nachtrag d), noch nicht gelaufen.
+- **Codex ist ohne Guthaben** (11:04: „workspace is out of credits“). Erst wieder versuchen, dann dokumentieren; nicht umgehen.
 
 ## Aktive Queue / laufende Jobs
 
-- **CPU:** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`
-  (EXP-035/036/038/041 fertig, EXP-039 läuft). Die Sitzungsdeadline bricht ab (kein Fehler). **Wiederaufnahme: derselbe Befehl.**
-- **GPU:** frei. N28, P2c, P2d, EXP-059…065 fertig und ausgewertet.
+- **N29b-Block** (GPU): `python lab/tools/parallel_queue.py lab/confirm/N29b_jobs.txt --workers 7` (Log `lab/runner/logs/n29b_block.log`). Ist er nicht fertig: **nur im Fenster** mit demselben Befehl fortsetzen
+  (fertige Läufe werden übersprungen), dann `python lab/tools/guarded_run.py -- python lab/tools/confirm_n29b.py --analyze lab/confirm/N29b_manifest.json`.
+- **CPU:** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-036,EXP-039,EXP-040,EXP-042,EXP-014` (EXP-036/039 fertig, EXP-040 am Selbsttest gescheitert und inzwischen repariert,
+  EXP-042 lief ab 10:59). Wiederaufnahme im Fenster: derselbe Befehl, EXP-040 zusätzlich einzeln (`--experiments EXP-040`).
 
 ## Nächste Schritte (in dieser Reihenfolge)
 
-1. `guarded_run.py --check`; kein STOP; Prozesse prüfen; CPU-Programm (oben) neu starten.
-1b. Falls EXP-067 nicht ausgewertet: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-067-exclusion-part/analyze.py` (Läufe fertig? sonst dieselbe Queue erneut).
-2. **Programm B, Bestätigung des funktionalen Übergangs** (EXP-064 → frisch): Wechsel bei 25 und 50, **sicheres Nachtraining** (z. B. 4000 Schritte nach dem Wechsel, `--stop-after-gen` ≥ Schritte),
-   `--save-model`, Ablation alt/neu am Endmodell, vorab festgelegte Regel für nicht generalisierte Modelle, frischer Seed-Block (2250–2299 frei). Vorher: **ein echter Job bis zum Ende durch den
-   eingefrorenen Lader** (Lehre aus P2b) und Codex-Prüfung. Infrastruktur: `lab/tools/bound_block.py` (+ Muster `confirm_n28.py`).
-3. **Programm A:** P2d **bestätigt** (D̄ 0.250 [0.229, 0.270], 20/20; Wortlaut nach Codex in [[FINDINGS]]). Nächste Frage: gilt das in anderen Aufgaben (P1-Aufgaben mul 113, add 97, D₅₉)?
-4. N29-Ursache ([[BACKLOG]]): welcher Teil des Rests (Attention/MLP/Unembedding), Weight Decay (K1, braucht Trainer-Option + Codex).
-5. CPU-Auswertungen nach den Läufen (EXP-036 erledigt: init-getrieben): EXP-039 (`eval_pi.py`), EXP-040, EXP-042 (`pi_window.py`), EXP-014.
+1. `guarded_run.py --check`; kein STOP; Prozesse prüfen. **Außerhalb des Fensters (13:00–00:00) keine Läufe.**
+2. Falls N29b ausgewertet: Codex greift die Schlussfolgerung an (sobald Guthaben da), erst danach Kernaussage in FINDINGS (bis dahin „bestätigt, Schlussfolgerung ungeprüft“).
+3. **Programm B, N32 schärfen:** Welcher Teil der Attention? Reset nur W_Q/W_K (Muster) gegen nur W_V/W_O (Werte); Attention-Entropie/Periodizität bei t = 25 gegen 50 (braucht Schnappschüsse bei t, Trainer-Option,
+   Codex). Konkurrenzmodelle vorab festlegen.
+4. **Programm A, D₅₉:** Registrierung „P2f“ (Irrep-Maß, `group_train.py --save-model` vorhanden seit Sitzung 23, noch ohne Codex-Prüfung), frische Seeds (2290–2299 frei oder neuer Block).
+5. FINDINGS straffen (Regel 15a: höchstens eine Seite; derzeit weit darüber): Kernaussagen K2, K2-Funktion (P2d/P2e), K4/K4b/K4c, Grenze „Funktion folgt Energie“, offene Frage N32.
 
 ## Drei Prioritäten (Regel 18c)
 
-1. **B** Persistenz: funktionaler Übergang Umstieg → Festhalten zwischen t = 25 und 50 bestätigen.
-2. **A** Funktion: P2d bestätigt → Verallgemeinerung auf die anderen P1-Aufgaben.
-3. **C** ruht (höchstens zwei Programme aktiv).
+1. **B** Persistenz: Ort des Festhaltens (N29b → N32: Attention).
+2. **A** Verallgemeinerung: D₅₉ (nicht-abelsch) für das Funktionsmaß.
+3. **C** ruht.
 
 ## Blocker / Hinweise
 
-- **Speicher:** höchstens ≈ 8–10 GPU-Prozesse gleichzeitig neben dem CPU-Programm (07:53 zwei Startfehler bei 12: `bad allocation`, WinError 1455; freier virtueller Speicher ≈ 3 GB).
-- `freq_ban.py` stoppt standardmäßig 2000 Schritte nach der Generalisierung: bei `--steps` > gen + 2000 immer `--stop-after-gen` ≥ Schritte setzen.
-- Zwei Warteschlangen über dieselbe Jobliste (vorwärts/rückwärts) funktionieren mit `bound_block` (Exit 4 am Treffpunkt ist erwartet).
-- Codex: direkt `node …/codex-companion.mjs task "<prompt>"` (als Bash-Hintergrundbefehl, wartet auf das Ergebnis).
-- Uncommittete Nutzeränderungen (`guarded_run.py`, `install_task.ps1`, `tick.ps1`, `runner/README.md`, `SESSION_PREAMBLE.md`, `runner-state.json`, `parallel_queue.py`) **nicht committen**;
-  nie `git add -u lab` (Sitzung 22 einmal passiert, sofort mit `reset --soft` zurückgenommen), immer einzelne Pfade.
-- venv-Python nur mit absolutem Pfad. Zeitstempel nur aus `guarded_run.py --check` (Sitzung 22 mehrfach geschätzt, korrigiert). JOURNAL/STATE/LIVE/FINDINGS CRLF.
-- Rohdaten der neuen Blöcke per `lab/confirm/.gitignore` ausgeschlossen; Bindungen werden committet.
+- **Codex ohne Guthaben** (seit 11:04). Kernaussagen in FINDINGS brauchen eine Codex-Prüfung (Regel 18c).
+- `freq_ban.py` hat seit 5d84666 `--reset-at-switch attn|mlp|unembed`. Eingefrorene Blöcke (P1, P2d, N28, N29, P2e) prüfen Code-Hashes: `--analyze` am Manifest-Commit reproduzieren (`git worktree add <dir> <commit>`).
+- Speicher: höchstens ≈ 8–10 GPU-Prozesse gleichzeitig neben dem CPU-Programm.
+- `freq_ban.py` stoppt standardmäßig 2000 Schritte nach der Generalisierung: bei langen Läufen `--stop-after-gen` ≥ Schritte.
+- Smoke durch den eingefrorenen Lader vor jedem Block ist Pflicht (P2b, P2e: zweimal hat er einen Fehler gefunden).
+- Zwei Warteschlangen über dieselbe Liste: Exit 4 am Treffpunkt (`run.lock`) ist erwartet.
+- Uncommittete Nutzeränderungen (`guarded_run.py`, `install_task.ps1`, `tick.ps1`, `runner/README.md`, `SESSION_PREAMBLE.md`, `runner-state.json`, `parallel_queue.py`) **nicht committen**; immer einzelne Pfade.
+- Python `write_text` schreibt unter Windows CRLF: Code-Dateien nach Skript-Änderungen auf LF prüfen (Sitzung 23 einmal passiert, behoben).
+- Uhrzeiten nur gemessen (Sitzung 23 mehrfach geschätzt und korrigiert). venv-Python mit absolutem Pfad. JOURNAL/STATE/FINDINGS CRLF.

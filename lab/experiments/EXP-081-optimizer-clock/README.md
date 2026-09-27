@@ -76,3 +76,7 @@ Primär: gepaarte Differenz π(β₂) − π(0.98) bei t = 33 je Zelle mit Boots
 **Beide Teile:** π gegen reine A-/B-Läufe derselben β-Zelle; `--log-update-norms` bis zum Wechsel in allen Zellen (gemessene Verschiebung statt Modell, Sekundär: fallen alle Zellen auf eine Kurve π(gemessene Verschiebung + Schwanz)?). Gültigkeit wie EXP-059.
 **Umfang:** A: 3 × 2 × 2 × 10 = 120 (+ π_normal bei t = 20/30: 3 × 2 × 2 × 10 = 120) ; B: 3 × 3 × 2 × 10 = 180 (Referenzzelle teilt Läufe mit A bei t = 25); reine Läufe 5 Zellen × 2 × 10 = 100. **≈ 500 Läufe**, nach EXP-059-Durchsatz (200 Läufe ≈ 20 min mit 8 Arbeitern) ≈ 1 h.
 **Unverändert:** kein Code bis nach dem Einfrieren der Nachtblöcke; `--beta1/--beta2` mit Codex; Start nach R3; `analyze.py` vor jedem Lauf.
+
+**Stichprobe Teil A (Sitzung 27, 16:36, gemessen; Simulation aus EXP-059, bekannte Seeds):** Abfall π_normal − π_m bei t = 25 und β₁ = 0.9: Mittel 0.186, SD 0.098 (10 Seeds); Steigung π(20 → 30) 0.0195 je Schritt. Vorhergesagte Abfälle
+(Schwanz × Steigung): β₁ = 0.8 → 0.078–0.088, β₁ = 0.95 → 0.31–0.47; zur Kontrolle β₁ = 0.9 → 0.17–0.21 (gemessen 0.186). Power des einseitigen Vorzeichentests (≥ 9/10) für Δπ(0.95) − Δπ(0.8) > 0 bei gleicher SD je Zelle, unabhängig
+(konservativ): **0.93–1.00** → 10 Seeds reichen für den Piloten. Annahmen: lineare Steigung, gleiche Streuung in allen β₁-Zellen.

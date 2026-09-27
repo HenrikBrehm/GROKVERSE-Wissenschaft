@@ -3620,3 +3620,6 @@ laufen erst nach bestandener Gleichwertigkeit von `train.py` (frühestens Nacht 
 **Zyklus 8 (Repro K2-Funktion, bis 16:35, gemessen).** `repro/k2_function.py` (P2d, add 113) nutzt die eingefrorene P2d-Messung direkt (nur gelesen importiert). Unabhängige Prüfung (nur Lesen): Splits, Training, Maß und Statistik identisch zu P2d, kein sicherer Fehler.
 Übernommen: Konstanten gegen `confirm_p2d.REGISTERED` geprüft, Splits bitgenau gegen die eingefrorenen P2d-Dateien, größte Abweichung je Seed im Vergleich; in allen drei neuen Repro-Skripten Trainer-Hash und Threads im Ausgabepfad
 (sonst würden nach einer Trainer-Änderung alte Modelle still wiederverwendet). `k4c.py` unverändert (läuft heute Nacht im Smoke). Damit fehlen im Paket nur noch P2e (mul 113, add 97) und P3 (statische Spur); alles ungetestet.
+
+**Zyklus 9 (Stichprobe EXP-081 Teil A, bis 16:36, gemessen).** Aus EXP-059: Abfall durch m-Löschen bei t = 25 = 0.186 (SD 0.098), vorhergesagt aus Schwanz × Steigung 0.17–0.21 (passt). Simulierte Power für den β₁-Dosistest (0.95 gegen 0.8, Vorzeichentest, 10 Seeds): 0.93–1.00.
+Eingetragen in [[experiments/EXP-081-optimizer-clock/README|EXP-081]]. Teil B (β₂ bei festem t) braucht keine Power-Rechnung: die vorhergesagten Abstände (≈ ±0.5) sind ein Vielfaches der Streuung.

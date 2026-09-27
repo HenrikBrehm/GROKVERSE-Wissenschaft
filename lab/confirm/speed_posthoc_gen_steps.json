@@ -1,0 +1,69 @@
+{
+ "EXP-016 engineered (CPU)": {
+  "runs": 20,
+  "generalized": 20,
+  "median_gen": 662.5,
+  "range_gen": [
+   450,
+   1100
+  ],
+  "max_steps_completed": 2000,
+  "final_test_range": [
+   0.999,
+   1.0
+  ]
+ },
+ "EXP-003d random (CPU)": {
+  "runs": 10,
+  "generalized": 10,
+  "median_gen": 5975.0,
+  "range_gen": [
+   3525,
+   11200
+  ],
+  "max_steps_completed": 11225,
+  "final_test_range": [
+   0.956,
+   0.966
+  ]
+ },
+ "P1 add113 F/G (GPU)": {
+  "runs": 120,
+  "generalized": 117,
+  "median_gen": 725.0,
+  "range_gen": [
+   400,
+   1800
+  ],
+  "max_steps_completed": 2000,
+  "final_test_range": [
+   0.7,
+   1.0
+  ]
+ },
+ "EXP-047 engineered (GPU)": {
+  "runs": 20,
+  "generalized": 20,
+  "median_gen": 687.5,
+  "range_gen": [
+   475,
+   1175
+  ],
+  "max_steps_completed": 2000,
+  "final_test_range": [
+   1.0,
+   1.0
+  ]
+ },
+ "EXP-047 shuffled (GPU)": {
+  "runs": 20,
+  "generalized": 0,
+  "median_gen": null,
+  "range_gen": null,
+  "max_steps_completed": 2000,
+  "final_test_range": [
+   0.019,
+   0.282
+  ]
+ }
+}

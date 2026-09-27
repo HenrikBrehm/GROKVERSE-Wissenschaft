@@ -1,6 +1,6 @@
 ---
 id: P3-registrierung
-status: entwurf
+status: eingefroren
 datum: 2026-09-27
 tags: [lab/bestaetigung]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-056-overlap-persistence/README|EXP-056]]", "[[confirm/P1_REGISTRATION_DRAFT|P1]]", "[[JOURNAL]]"]
@@ -49,3 +49,11 @@ Codex (gegen 18eb7d3; die Weiterleitung hatte die Prüfung im Hintergrund gestar
 6. `cuda:0`: durch 3 gegenstandslos.
 
 Kein Test-Leck: Die gemeinsame Testmenge ist disjunkt zu beiden Splits (Codex). Der ε-Unterschied zwischen den ω-Stufen trifft nur den sekundären Vergleich, der beschreibend bleibt.
+
+## EINGEFROREN (Sitzung 21, 2026-09-27 05:17 Berlin, gemessen)
+
+Manifest `lab/confirm/P3_manifest.json`, **Commit f8adf45** (58 Code-Hashes einschließlich `confirm_p3.py`, `confirm_p1.py`, `overlap_split.py` und `calibration.json`), Commit-Feld in c0da64e.
+Letzte Codex-Nachprüfung (05:13, im Vordergrund über `codex-companion.mjs task`): Die Punkte 1–4 und 6 sind geschlossen. Neu: Umbenennen trotz `run.lock` und eine nicht typstrenge Manifestprüfung,
+dazu als Härtung nicht-endliche Werte. Alle drei übernommen (6a54652). Es gelten die Regeln dieses Dokuments einschließlich „Codex-Prüfung … endgültige Regeln“.
+Splits (60 Paare + 30 Testmengen) und Jobliste (240) in einem Commit nach c0da64e. Vor dem Einfrieren lief **kein** Lauf mit Seeds 1050–1099.
+Rechnen: `python lab/tools/parallel_queue.py lab/confirm/P3_jobs.txt --workers 8` (GPU), dann `python lab/tools/guarded_run.py -- python lab/tools/confirm_p3.py --analyze lab/confirm/P3_manifest.json`.

@@ -32,3 +32,11 @@ Zurück zu [[FINDINGS]] · Pilot [[experiments/EXP-055-ablation-dose/README|EXP-
   nicht unabhängig, messen aber verschiedene Größen: Repräsentationsenergie gegen Loss nach Eingriff).
 - **Noch zu tun vor dem Einfrieren:** Auswertecode `lab/tools/confirm_p2.py` (übernimmt EXP-055/051-Helfer unverändert, liest die P1-Läufe über Lader + Bindung),
   Selbsttest, Codex-Prüfung (Regel 18c), dann Manifest `P2_manifest.json` mit `code_sha256` und `commit` einfrieren, **bevor** ein Ablationswert berechnet wird.
+## Änderung vor dem Einfrieren (Sitzung 21, 04:35 Berlin): primäres Maß skalenfrei
+
+Beim Nachrechnen des Piloten (04:34) fiel auf, dass das rohe D die Modelle nach ihrem Basis-Loss gewichtet: Seed 157 G hat Basis-Loss 2·10⁻⁷ und trägt praktisch
+nichts bei, Modelle mit höherem Basis-Loss dominieren. **Neu primär:** R_s = Mittel über die zwei Arme von log(L_nach,own / L_nach,ctrl) bei f = 0.5 (immer definiert, da
+Loss > 0; 0 = kein Unterschied). **„bestätigt“ = alle 50 gültig, Holm-p < 0.05 und untere Grenze des 95-%-Bootstrap-KI von R̄ ≥ log(1.05)** (Mindesteffekt: 5 % mehr Loss).
+Das rohe D (Maß von EXP-055) wird sekundär berichtet. Pilot EXP-055 auf R (post hoc, bereits gesehen): R̄ = 0.150 (≈ 16 % mehr Loss), SD 0.065, d_z = 2.3, 10/10 positiv.
+Geometrie (gemessen 04:34): Bei f = 0.5 ist die quadrierte Störungsnorm entlang der Ziele nur ≈ 5 % der Kontrollstörung (Ziele werden um ≈ 2 % skaliert, die Kontrolle um 29 %).
+R > 0 folgt also nicht aus der Eingriffsgeometrie, sondern verlangt eine viel höhere Empfindlichkeit entlang der Ziele. Code: `confirm_p2.py` (Commit nach 935155b).

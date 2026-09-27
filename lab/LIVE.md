@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 09:39 Berlin (07:39Z, vom Runner)
 - **Deadline:** 2026-09-27 12:39 Berlin (10:39Z)
-- **Zuletzt aktualisiert:** 7T10: Berlin (gemessen)
+- **Zuletzt aktualisiert:** 10:25 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade

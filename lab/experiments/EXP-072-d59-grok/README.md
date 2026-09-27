@@ -1,8 +1,8 @@
 ---
 id: EXP-072
-status: laufend
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/laufend]
+tags: [exp/abgeschlossen, befund/positiv]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-046-dihedral-steering/README|EXP-046]]", "[[confirm/P1_REGISTRATION_DRAFT|P1]]", "[[confirm/P2e_REGISTRATION|P2e]]", "[[BACKLOG]]", "[[JOURNAL]]"]
 ---
 # EXP-072: Generalisiert D59 ueberhaupt, und bleibt die gesteuerte Irrep-Wahl dabei erhalten? (PILOT)
@@ -26,3 +26,15 @@ Festgelegt 2026-09-27, Sitzung 24, 12:36 Berlin, **vor jedem EXP-072-Lauf**. **P
 ```
 python lab/tools/parallel_queue.py lab/experiments/EXP-072-d59-grok/jobs.txt --workers 10
 ```
+
+## Ergebnis (Sitzung 24, Laeufe 12:37-12:46, Auswertung 12:46 Berlin, gemessen; `summary.json`): Pilot
+
+10/10 Laeufe `completed` (20000 Schritte, je ~0.03 s/Schritt bei 10 parallel), alle mit `model_final.pt`.
+
+- **(1) D59 generalisiert:** 9/10 am Ende Test 1.0; erster Test >= 0.9 bei Median 4575 Schritten (2875-8150). Ausnahme Seed 1004 F: Test 0.83 nach 20000 Schritten.
+  P1 (2000 Schritte) lag also ganz vor dem Grokking.
+- **(2) Gesteuerte Irreps nach dem Grokking:** eigene Ziele unter den Top-5 der W_E-Irrep-Leistung im Mittel 4.7/5 bei Schritt 2000 und **3.7/5 am Ende** (Zufall: 5 * 5/29 = 0.86).
+  Die Steuerung schwaecht sich beim Grokking ab, bleibt aber weit ueber Zufall; in keinem Lauf unter 3/5.
+- **Lesart vorab erfuellt:** >= 8/10 generalisiert -> P2f mit laengeren Laeufen planen. Vorschlag: 12000 Schritte (max. erster Uebergang 8150 + Reserve), Funktionsmass als
+  Irrep-Variante des P2d-Masses (Projektion auf die isotypischen Komponenten, 4 Spalten je Irrep); Pilot des Masses an diesen 10 Modellen im naechsten Fenster.
+- **Grenzen:** 5 bekannte Seeds (P1-Splits), 10 Laeufe; Top-5-Zaehlung ist grob.

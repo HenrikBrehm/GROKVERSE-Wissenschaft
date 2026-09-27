@@ -1,0 +1,130 @@
+{
+ "n_completed": 10,
+ "n_generalised_final": 9,
+ "first_ge_0.9_median": 4575.0,
+ "first_ge_0.9_max": 8150,
+ "own_top5_2000_mean": 4.7,
+ "own_top5_final_mean": 3.7,
+ "rows": [
+  {
+   "seed": 1000,
+   "arm": "F",
+   "status": "completed",
+   "steps": 20000,
+   "gen_step": 3725,
+   "first_test_ge_0.9": 3650,
+   "final_test": 1.0,
+   "own_top5_2000": 5,
+   "own_top5_final": 3,
+   "model": true
+  },
+  {
+   "seed": 1000,
+   "arm": "G",
+   "status": "completed",
+   "steps": 20000,
+   "gen_step": 4950,
+   "first_test_ge_0.9": 4575,
+   "final_test": 1.0,
+   "own_top5_2000": 5,
+   "own_top5_final": 3,
+   "model": true
+  },
+  {
+   "seed": 1001,
+   "arm": "F",
+   "status": "completed",
+   "steps": 20000,
+   "gen_step": 8275,
+   "first_test_ge_0.9": 8050,
+   "final_test": 1.0,
+   "own_top5_2000": 5,
+   "own_top5_final": 3,
+   "model": true
+  },
+  {
+   "seed": 1001,
+   "arm": "G",
+   "status": "completed",
+   "steps": 20000,
+   "gen_step": 9350,
+   "first_test_ge_0.9": 8150,
+   "final_test": 1.0,
+   "own_top5_2000": 4,
+   "own_top5_final": 4,
+   "model": true
+  },
+  {
+   "seed": 1002,
+   "arm": "F",
+   "status": "completed",
+   "steps": 20000,
+   "gen_step": 6850,
+   "first_test_ge_0.9": 6750,
+   "final_test": 1.0,
+   "own_top5_2000": 4,
+   "own_top5_final": 3,
+   "model": true
+  },
+  {
+   "seed": 1002,
+   "arm": "G",
+   "status": "completed",
+   "steps": 20000,
+   "gen_step": 3850,
+   "first_test_ge_0.9": 3750,
+   "final_test": 1.0,
+   "own_top5_2000": 4,
+   "own_top5_final": 5,
+   "model": true
+  },
+  {
+   "seed": 1003,
+   "arm": "F",
+   "status": "completed",
+   "steps": 20000,
+   "gen_step": 6625,
+   "first_test_ge_0.9": 6500,
+   "final_test": 1.0,
+   "own_top5_2000": 5,
+   "own_top5_final": 3,
+   "model": true
+  },
+  {
+   "seed": 1003,
+   "arm": "G",
+   "status": "completed",
+   "steps": 20000,
+   "gen_step": 2950,
+   "first_test_ge_0.9": 2875,
+   "final_test": 1.0,
+   "own_top5_2000": 5,
+   "own_top5_final": 4,
+   "model": true
+  },
+  {
+   "seed": 1004,
+   "arm": "F",
+   "status": "completed",
+   "steps": 20000,
+   "gen_step": null,
+   "first_test_ge_0.9": null,
+   "final_test": 0.8313327431678772,
+   "own_top5_2000": 5,
+   "own_top5_final": 5,
+   "model": true
+  },
+  {
+   "seed": 1004,
+   "arm": "G",
+   "status": "completed",
+   "steps": 20000,
+   "gen_step": 3725,
+   "first_test_ge_0.9": 3625,
+   "final_test": 1.0,
+   "own_top5_2000": 5,
+   "own_top5_final": 4,
+   "model": true
+  }
+ ]
+}

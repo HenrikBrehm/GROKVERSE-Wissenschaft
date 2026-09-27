@@ -1,0 +1,259 @@
+{
+ "rows": [
+  {
+   "split": 30,
+   "init": 130,
+   "F_new": [
+    20
+   ],
+   "F_old": [
+    34,
+    39
+   ],
+   "foreign_by_t": {
+    "10": [],
+    "25": [
+     20
+    ],
+    "50": [
+     20
+    ]
+   },
+   "test_acc": {
+    "10": 0.8234142661094666,
+    "25": 0.08966327458620071,
+    "50": 0.15544244647026062
+   },
+   "status": "ok",
+   "d": 46.0,
+   "success": true,
+   "J": 0.0,
+   "per_freq": {
+    "20": {
+     "rank_new": 1,
+     "rank_old": 47
+    }
+   },
+   "shared_support_rank": {
+    "20": 1
+   }
+  },
+  {
+   "split": 31,
+   "init": 131,
+   "F_new": [
+    5,
+    20
+   ],
+   "F_old": [
+    22,
+    36,
+    42
+   ],
+   "foreign_by_t": {
+    "10": [
+     5,
+     20
+    ],
+    "25": [
+     5
+    ],
+    "50": [
+     5
+    ]
+   },
+   "test_acc": {
+    "10": 0.39271730184555054,
+    "25": 0.29483163356781006,
+    "50": 0.9996084570884705
+   },
+   "status": "ok",
+   "d": 14.0,
+   "success": true,
+   "J": 0.0,
+   "per_freq": {
+    "5": {
+     "rank_new": 5,
+     "rank_old": 45
+    },
+    "20": {
+     "rank_new": 39,
+     "rank_old": 27
+    }
+   },
+   "shared_support_rank": {
+    "20": 6,
+    "5": 1
+   }
+  },
+  {
+   "split": 32,
+   "init": 132,
+   "F_new": [
+    7
+   ],
+   "F_old": [
+    8,
+    13
+   ],
+   "foreign_by_t": {
+    "10": [],
+    "25": [
+     7
+    ],
+    "50": [
+     7
+    ]
+   },
+   "test_acc": {
+    "10": 1.0,
+    "25": 0.9694596529006958,
+    "50": 1.0
+   },
+   "status": "ok",
+   "d": 28.0,
+   "success": true,
+   "J": 0.0,
+   "per_freq": {
+    "7": {
+     "rank_new": 1,
+     "rank_old": 29
+    }
+   },
+   "shared_support_rank": {
+    "7": 1
+   }
+  },
+  {
+   "split": 33,
+   "init": 133,
+   "F_new": [],
+   "F_old": [
+    38
+   ],
+   "foreign_by_t": {
+    "10": [],
+    "25": [],
+    "50": []
+   },
+   "test_acc": {
+    "10": 0.2141738384962082,
+    "25": 0.15974941849708557,
+    "50": 0.6973375082015991
+   },
+   "status": "no foreign frequency (not evaluable)"
+  },
+  {
+   "split": 34,
+   "init": 134,
+   "F_new": [],
+   "F_old": [],
+   "foreign_by_t": {
+    "10": [],
+    "25": [],
+    "50": []
+   },
+   "test_acc": {
+    "10": 1.0,
+    "25": 0.2306186407804489,
+    "50": 1.0
+   },
+   "status": "no foreign frequency (not evaluable)"
+  },
+  {
+   "split": 30,
+   "init": 230,
+   "F_new": [
+    50
+   ],
+   "F_old": [
+    34,
+    39
+   ],
+   "foreign_by_t": {
+    "10": [
+     50
+    ],
+    "25": [
+     50
+    ],
+    "50": [
+     50
+    ]
+   },
+   "test_acc": {
+    "10": 0.35943618416786194,
+    "25": 0.2873923182487488,
+    "50": 1.0
+   },
+   "status": "ok",
+   "d": 10.0,
+   "success": true,
+   "J": 0.0,
+   "per_freq": {
+    "50": {
+     "rank_new": 20,
+     "rank_old": 30
+    }
+   },
+   "shared_support_rank": {
+    "50": 1
+   }
+  },
+  {
+   "split": 31,
+   "init": 231,
+   "F_new": [
+    17,
+    36
+   ],
+   "F_old": [
+    22,
+    36,
+    42
+   ],
+   "foreign_by_t": {
+    "10": [
+     36
+    ],
+    "25": [
+     17,
+     36
+    ],
+    "50": [
+     36
+    ]
+   },
+   "test_acc": {
+    "10": 1.0,
+    "25": 0.40172278881073,
+    "50": 0.6143304705619812
+   },
+   "status": "ok",
+   "d": 11.5,
+   "success": true,
+   "J": 0.25,
+   "per_freq": {
+    "17": {
+     "rank_new": 21,
+     "rank_old": 46
+    },
+    "36": {
+     "rank_new": 3,
+     "rank_old": 1
+    }
+   },
+   "shared_support_rank": {
+    "17": 8,
+    "36": 1
+   }
+  }
+ ],
+ "pairs_evaluable": 5,
+ "successes": 5,
+ "p_sign_pairs": 0.03125,
+ "P36b_shared_support_secondary": "5/7 with rank <= 5 -> descriptive only (Nachtrag c, no verdict)",
+ "mean_J": 0.05,
+ "verdict": "init-getrieben",
+ "freq_level_descriptive": "5/7 rank_new < rank_old"
+}

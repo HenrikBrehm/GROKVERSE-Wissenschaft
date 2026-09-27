@@ -3050,3 +3050,5 @@ Kontrollen nur aus dem P2-Pool; statistische Einheit = seedweiser Kontrast. FIND
 **Reproduktion:** `python lab/tools/guarded_run.py -- python lab/tools/confirm_p2d.py --analyze lab/confirm/P2d_manifest.json`.
 **Nächste Aktion (unverändert, ergänzt):** CPU-Programm neu starten; funktionalen Übergang (t = 25 gegen 50) bestätigen; P2d auf die anderen P1-Aufgaben übertragen.
 **Runner:** nächster Start laut `runner-state.json` 10:34 Berlin. Keine GPU-Läufe offen; das CPU-Programm läuft bis zur Deadline 09:59.
+
+**Nachtrag 09:36 (CPU-Programm): EXP-036 ausgewertet.** ***init-getrieben*** (5/5 auswertbare Paare, p = 0.031): Die „fremden“ Frequenzen nach frühem Wechsel folgen der Init. P36b kalibriert gestützt (4/5), aber nicht enger als Init oder Einzelarm. Pilot. Im CPU-Programm läuft jetzt EXP-039.

@@ -1,8 +1,8 @@
 ---
 id: EXP-036
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/positiv]
 ---
 # EXP-036: Kommen die „fremden“ Frequenzen der Mischzustände aus der Initialisierung?
 
@@ -138,3 +138,11 @@ python lab/experiments/EXP-036-init-conflict/analyze.py --selftest   # Urteilslo
 ## Status
 
 Vorbereitet (Nachtrag a), nicht ausgeführt. Warteschlange `queue_s9.sh`: nach `queue_s8.sh` (EXP-020 → EXP-035 → EXP-034) bzw. im nächsten Fenster.
+
+## Ergebnis (Sitzung 22; Läufe im CPU-Programm der Sitzungen 21–22, Auswertung durch `night_program.py`, gesehen 09:35 Berlin; `summary.json`, `summary_p36b.json`)
+
+- **H36 (primär, Nachtrag a):** 5 auswertbare Paare, 5/5 Erfolge, Vorzeichentest p = 0.031 → ***init-getrieben***. Die fremden Frequenzen der Mischzustände folgen der Init: Unter neuer Init stehen die
+  neuen fremden Frequenzen im neuen Init-Spektrum höher als im alten (Frequenzebene beschreibend 5/7). Mittlere Überlappung J der fremden Mengen alt/neu 0.05.
+- **P36b kalibriert (Nachtrag d/e, sekundär):** Test 1 4/5, p = 0.016 → *gestützt*; gegen Init allein und gegen den Einzelarm jeweils 2/5 → *nicht enger*; gemeinsame Unterstützung *nicht gezeigt*.
+- **Grenzen:** Pilot, n = 5 Paare (Seeds 30–32 und Nachtrag-a-Paare), CPU; die Aussage betrifft nur die wenigen „fremden“ Frequenzen nach frühem Wechsel.
+- Einordnung: passt zum Zwei-Regime-Bild ([[experiments/EXP-062-rate-race/README|EXP-062]]): Bei frühem Wechsel ist das Netz noch offen, und die Init füllt Lücken.

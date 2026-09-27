@@ -28,7 +28,6 @@ import itertools
 import json
 import os
 import shlex
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -146,28 +145,26 @@ def _state(dirs: list[Path]) -> dict[str, str]:
 
 
 def _run_gated(man: dict, cmd: list[str]) -> tuple[int, str | None]:
-    """Trainer with a fresh bytecode cache (no stale or foreign .pyc can run) and the code gate every POLL_S seconds;
+    """Trainer with its own bytecode cache (PYTHONPYCACHEPREFIX, keyed by the frozen code digest: no .pyc from before the freeze
+    can run; shared by the jobs of this freeze so torch compiles once, not per run) and the code gate every POLL_S seconds;
     a change kills the trainer. Returns (exit code, reason if the code changed)."""
-    pyc = tempfile.mkdtemp(prefix="confirm_pyc_")
-    try:
-        proc = subprocess.Popen(cmd, cwd=LAB.parent, env={**os.environ, "PYTHONPYCACHEPREFIX": pyc})
-        while True:
-            try:
-                rc = proc.wait(timeout=POLL_S)
-                break
-            except subprocess.TimeoutExpired:
-                try:
-                    check_code(man)
-                except SystemExit as ex:
-                    proc.kill()
-                    return proc.wait(), str(ex)
+    pyc = str(Path(tempfile.gettempdir()) / f"confirm_pyc_{code_digest(man)[:16]}")
+    proc = subprocess.Popen(cmd, cwd=LAB.parent, env={**os.environ, "PYTHONPYCACHEPREFIX": pyc})
+    while True:
         try:
-            check_code(man)
-        except SystemExit as ex:
-            return rc, str(ex)
-        return rc, None
-    finally:
-        shutil.rmtree(pyc, ignore_errors=True)
+            rc = proc.wait(timeout=POLL_S)
+            break
+        except subprocess.TimeoutExpired:
+            try:
+                check_code(man)
+            except SystemExit as ex:
+                proc.kill()
+                return proc.wait(), str(ex)
+    try:
+        check_code(man)
+    except SystemExit as ex:
+        return rc, str(ex)
+    return rc, None
 
 
 def run_bound(manifest: Path, cmd: list[str]) -> int:

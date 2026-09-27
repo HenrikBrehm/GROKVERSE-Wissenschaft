@@ -38,6 +38,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
    GPU zusammen ≈ 1 h nacheinander; CPU (EXP-040 zuerst) ≈ 3 h. Nicht alle GPU-Queues gleichzeitig starten (≤ 10 Prozesse).
 
 
+Vorab-Lesart der Nacht (Kombination EXP-040/073/074/075, P2f): [[LESART-nacht-2026-09-28]].
+
 ## Prioritäten (Regel 18c + Regel 19, Veröffentlichung gleichgewichtig)
 
 1. **A** P2f (D₅₉) einfrieren und rechnen; **B** EXP-040/073/074/075 rechnen und auswerten.

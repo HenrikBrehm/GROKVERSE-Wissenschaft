@@ -11,6 +11,26 @@ Zurück zu [[LAB]]. **Nachtrag Sitzung 21 (27.09., 04:46): P1 und P2 sind eingef
 2026-09-26 nicht gefunden, vorläufig. **Alle Aussagen gelten bisher nur für eine Aufgabe (Addition mod 113) und im Kern eine
 Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelheiten: [[BEFUND-split-mechanismus]], [[BEFUND-festlegung]].
 
+## BESTÄTIGT (Sitzung 21, 27.09., 05:39 Berlin): P1, Steuerung der W_E-Repräsentation durch konstruierte Splits #befund/positiv
+
+**Kernaussage K2-bestätigt** (Wortlaut nach Codex-Prüfung der Schlussfolgerung, 05:47): *Bei Schritt 2000 verschiebt eine konstruierte Auswahl der Trainingspaare die relative
+W_E-Energie hin zu fünf vorgegebenen zyklischen Fourier-Frequenzen (bzw. D₅₉-Irreps), gemessen gegen fünf disjunkte Vergleichskomponenten. Das gilt in je 50 vorab registrierten,
+frischen Seed/Split-Paaren für vier nach dem Pilot gewählte Aufgaben mit dem 1-Schicht-Transformer der Studie.* Das ist eine **zurückgehaltene Replikation** (held-out) der
+Repräsentationssteuerung, **kein** Beleg für funktionale Nutzung.
+
+| Aufgabe | Δ_pow (95-%-KI) | positiv | Holm-p (ungünstigster Fall) |
+|---|---|---|---|
+| add 113 (primär) | 8.24 [7.92, 8.54] | 50/50 | 1.5·10⁻⁵ |
+| mul 113 | 8.09 [7.75, 8.43] | 50/50 | 1.5·10⁻⁵ |
+| add 97 | 6.11 [5.79, 6.43] | 50/50 | 1.5·10⁻⁵ |
+| D₅₉ | 2.64 [2.55, 2.73] | 50/50 | 1.5·10⁻⁵ |
+
+Belege: [[confirm/P1_REGISTRATION_DRAFT|Registrierung + Ergebnis]], Manifest 733e829, 420 gebundene Läufe, `lab/confirm/P1_summary.json`. **Grenzen:** keine natürlichen Splits, keine
+unverzerrte Aufgabenpopulation, eine Architekturfamilie, ein Zeitpunkt (2000). Δ_pow misst die relative Anreicherung eigener gegen fremde Ziele, keine Konzentration gegenüber der Init.
+Der Kreuzblock (5 Einheiten × 3 Inits) zeigt „stabil über diese Inits“; der ICC ist bei 5 Einheiten ungenau und enthält die Wechselwirkung Init × Split.
+**P2 (funktionale Nutzung): nicht auswertbar** (3/50 Modelle bei Schritt 2000 nicht generalisiert, Regel „alle gültig“). Beschreibend R̄ = 0.12 über 47, womöglich durch die Auswahl verzerrt.
+Die Funktionsfrage bleibt **offen**; Nachfolger: [[confirm/P2_REGISTRATION_DRAFT|P2]] Ergebnisabschnitt. **P3** (Persistenz ohne geteilte Daten) ist eingefroren und läuft ([[confirm/P3_REGISTRATION_DRAFT|P3]]).
+
 ## Pilotnacht 27.09. (Sitzung 20, Stand 03:23 Berlin): K2 hält außerhalb von Addition mod 113
 
 Alle Urteile vorab festgelegt, GPU nach bestandenem [[experiments/GPU-001-equivalence/README|GPU-001]] (gleichwertig zur CPU, ≈ 17× schneller). **Alles Piloten**, keine unabhängige Bestätigung.

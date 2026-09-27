@@ -3484,3 +3484,9 @@ früh zu haften“ (π steigt glatt, keine Schwelle); „kehrt die Abhängigkeit
 Wertepfad“ → nur Vergleich mit gleich großem QK-Reset; K4-Ergebnisse ausdrücklich nur add 113; „Sensitivität folgt Energie“ nur, wo geprüft (explorativ); D59 bei 2000 vor dem Grokking;
 Lyle et al. und Marchetti et al. genauer; Howe 2026a und Jia 2026 am Abstract korrigiert; **Zhou, Zhang, Xu 2024 fehlte im Entwurf** (in related_work als nächste Vorarbeit markiert) → ergänzt.
 Abstract an zwei Stellen gleich angepasst. *Lehre (dritte Sitzung in Folge):* Meine erste Fassung überdehnt zuverlässig; die unabhängige Prüfung ist nötig, nicht optional.
+
+**Zyklus 6 (Verallgemeinerung, Regel 15c/19b: EXP-078 vorbereitet, vor 15:31, gemessen).** *Frage:* Gilt K2 auch mit zwei Schichten? (FINDINGS Grenze 3: keine tiefere Architektur geprüft; im Paper eine
+naheliegende Gutachterfrage.) *Aufbau:* laboreigenes 2-Schicht-Modell (`two_layer.py`, Rezept der Studie), dessen W_E-, Schicht-1- und W_U-Init bei gleichem Seed identisch mit dem 1-Schicht-Modell
+ist → gepaarter Vergleich mit den eingefrorenen P1-Werten derselben Seeds und Splits (1000–1009). Trainer = `repro/train.py` mit ausgetauschter Modellfabrik. Primär Δ_pow bei 2000, Lesart vorab
+im [[experiments/EXP-078-two-layer-steering/README|README]]. 20 Läufe ≈ 20 min GPU; erst nach der Gleichwertigkeit von `repro/train.py`. Ungetestet (nur `py_compile`), Selbsttest prüft die
+Init-Gleichheit. *Warum jetzt:* Die GPU ist heute Nacht nach dem Plan nur ≈ 1.5 h belegt; ein Pilot zur Tiefe kostet wenig und trifft eine offene Grenze direkt.

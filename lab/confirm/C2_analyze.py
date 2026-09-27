@@ -5,7 +5,8 @@ Per R2 run with switch at t = 50: Spearman over the five OLD targets (first spli
 step t and at t + budget, from bound W_E snapshots (R2 binding: hash -> load -> hash; split bytes pinned); ties -> run technical.
 Unit = seed: mean over its four t = 50 runs (two cells x two directions); a seed counts only with all four valid. Confirmed = (i) sign-flip p < 0.05 and
 (ii) bootstrap CI (seeds) lower bound of the mean >= 0.10 and (iii) bootstrap CI lower bound of the adjusted coefficient
-(switch ranks | k ranks, second-split M0c ranks; all valid t = 50 runs stacked) > 0. Not evaluable if < 20 seeds have a valid
+(switch ranks | k ranks, second-split M0c ranks; all valid t = 50 runs stacked) > 0 and (iv, Fassung 3) bootstrap CI lower bound
+of the mean excess over the non-target control (same measure over random 5-sets of non-target frequencies) > 0. Not evaluable if < 20 seeds have a valid
 t = 50 run set. Code gate C2_manifest.json; an existing summary is never overwritten.
 
   python lab/confirm/C2_analyze.py --selftest              (window only)
@@ -49,17 +50,40 @@ def check_gate(block_commit: str) -> dict:
     return {**g, "gate_commit": gate_commit([GATE, LAB / "confirm" / "C2_REGISTRATION.md"], block_commit)}
 
 
-def run_block(W_t: np.ndarray, W_end: np.ndarray, old: list[int], new: list[int], sp_first: np.ndarray, sp_second: np.ndarray) -> dict:
+N_CTRL = 200
+
+
+def control_rho(pt: np.ndarray, pe: np.ndarray, old: list[int], new: list[int], rng: np.random.Generator) -> float:
+    """Fassung 3: the same order measure over 5 frequencies drawn from those that are neither old nor new targets (N_CTRL draws,
+    mean; draws with exact ties are skipped). Baseline for generic persistence of W_E structure."""
+    rest = np.array([k - 1 for k in range(1, 57) if k not in old and k not in new])
+    vals = []
+    for _ in range(N_CTRL):
+        sel = rng.choice(rest, 5, replace=False)
+        try:
+            vals.append(rt.spearman(pt[sel], pe[sel]))
+        except rt.TieError:
+            continue
+    return float(np.mean(vals))
+
+
+def run_block(W_t: np.ndarray, W_end: np.ndarray, old: list[int], new: list[int], sp_first: np.ndarray, sp_second: np.ndarray,
+              rng: np.random.Generator) -> dict:
     pt, pe = group_power(W_t, "add", P)[0], group_power(W_end, "add", P)[0]
     mf, ms = m0c_add(sp_first, P), m0c_add(sp_second, P)
     o, n = [k - 1 for k in old], [k - 1 for k in new]
     return {"y": pe[o], "switch": pt[o], "k": np.array(old, dtype=np.float64), "m0c_first": mf[o], "m0c_second": ms[o],
-            "new_y": pe[n], "new_switch": pt[n], "new_m0c_second": ms[n]}
+            "new_y": pe[n], "new_switch": pt[n], "new_m0c_second": ms[n], "ctrl": control_rho(pt, pe, old, new, rng)}
+
+
+def ctrl_rng(s: int, cell: str, t: int, direction: str) -> np.random.Generator:
+    """Deterministic per run (seed, cell, t, direction)."""
+    return np.random.default_rng([s, sum(map(ord, cell)), t, sum(map(ord, direction))])
 
 
 def run_stats(b: dict) -> dict:
     """Primary rho first (raises rt.TieError -> run technical); descriptive ones may be None on ties."""
-    out = {"rho_old_switch": rt.spearman(b["switch"], b["y"])}
+    out = {"rho_old_switch": rt.spearman(b["switch"], b["y"]), "rho_ctrl": b["ctrl"]}
     rt.cranks(b["k"]), rt.cranks(b["m0c_second"])            # Codex recheck s28: controls must rank too, else run technical
     for name, x, y in (("rho_old_M0c_first", "m0c_first", "y"), ("rho_old_M0c_second", "m0c_second", "y"),
                        ("rho_new_switch", "new_switch", "new_y"), ("rho_new_M0c_second", "new_m0c_second", "new_y")):
@@ -84,8 +108,11 @@ def aggregate(units: list[dict], n_planned: int, rng: np.random.Generator, n_fli
 
     a = adj({"all": units})
     a_ci = rt.strat_boot({"all": units}, adj, rng, n_boot)
-    ok = p < ALPHA and ci[0] >= MIN_EFFECT and a_ci[0] > 0
-    return {"n": len(units), "n_planned": n_planned, "mean": m, "sd": float(vals["all"].std(ddof=1)), "n_positive": int((vals["all"] > 0).sum()),
+    ex = np.array([u["rho"] - u["ctrl"] for u in units])                     # Fassung 3: excess over the non-target control
+    ex_ci = rt.strat_boot({"all": units}, lambda u: float(np.mean([x["rho"] - x["ctrl"] for x in u["all"]])), rng, n_boot)
+    ok = p < ALPHA and ci[0] >= MIN_EFFECT and a_ci[0] > 0 and ex_ci[0] > 0
+    return {"n": len(units), "n_planned": n_planned, "mean": m, "mean_ctrl": float(np.mean([u["ctrl"] for u in units])),
+            "excess_over_ctrl": float(ex.mean()), "excess_ci95": ex_ci, "sd": float(vals["all"].std(ddof=1)), "n_positive": int((vals["all"] > 0).sum()),
             "p": p, "ci95": ci, "adjusted_coef": a, "adjusted_ci95": a_ci,
             "mean_if_missing_were_minus_1": float((vals["all"].sum() - (n_planned - len(units))) / n_planned),
             "verdict": "bestätigt" if ok else "nicht bestätigt"}
@@ -135,7 +162,7 @@ def analyze(manifest: Path) -> None:
                         bad.append(f"{s} {c} {first}{second}@{t}: {snaps}")
                         continue
                     sp1, sp2 = (np.load(r2.SPL / f"{r2.stem(s, a)}.npy") for a in (first, second))
-                    b = run_block(*snaps, T[first], T[second], sp1, sp2)
+                    b = run_block(*snaps, T[first], T[second], sp1, sp2, ctrl_rng(s, c, t, first + second))
                     try:
                         st = run_stats(b)
                     except rt.TieError as ex:
@@ -145,7 +172,8 @@ def analyze(manifest: Path) -> None:
                     if t == T_PRIMARY:
                         prim.append((st["rho_old_switch"], b))
         if len(prim) == N_PRIMARY_RUNS:                   # Codex recheck s28: both cells x both directions, else seed technical
-            units.append({"rho": float(np.mean([r for r, _ in prim])), "blocks": [b for _, b in prim]})
+            units.append({"rho": float(np.mean([r for r, _ in prim])), "ctrl": float(np.mean([b["ctrl"] for _, b in prim])),
+                          "blocks": [b for _, b in prim]})
     desc = {}
     for c, cell in man["cells"].items():
         for t in cell["ts"]:
@@ -172,13 +200,17 @@ def selftest() -> None:
             for _r in range(4):
                 sw, k, m2 = rng.permutation(5.0), rng.permutation(5.0), rng.permutation(5.0)
                 bl.append({"y": {"switch": sw, "k": k}[follow] + rng.standard_normal(5), "switch": sw, "k": k, "m0c_second": m2})
-            us.append({"rho": float(np.mean([rt.spearman(b["switch"], b["y"]) for b in bl])), "blocks": bl})
+            us.append({"rho": float(np.mean([rt.spearman(b["switch"], b["y"]) for b in bl])), "ctrl": float(rng.normal(0, 0.05)), "blocks": bl})
         return us
 
     assert aggregate(synth("switch"), 30, rng, 5000, 500)["verdict"] == "bestätigt"
     r = aggregate(synth("k"), 30, rng, 5000, 500)
     assert r["verdict"] == "nicht bestätigt" and abs(r["adjusted_coef"]) < 0.15, r
     assert aggregate(synth("switch", 19), 30, rng, 5000, 500)["verdict"] == "nicht auswertbar"
+    u = synth("switch")
+    for x in u:
+        x["ctrl"] = x["rho"] + 0.05                        # control as strong as the old targets: must not confirm (Fassung 3)
+    assert aggregate(u, 30, rng, 5000, 500)["verdict"] == "nicht bestätigt"
     raw, spl = LAB / "confirm/n29_raw", LAB / "confirm/n29_splits"
     by: dict[int, list[float]] = {}
     for d in sorted(raw.glob("*_at50_devcuda")):
@@ -187,7 +219,7 @@ def selftest() -> None:
         T = json.loads((spl / f"n29_seed{s}_w0.json").read_text(encoding="utf-8"))["targets"]
         st, W = list(np.load(d / "we_snapshot_steps.npy")), np.load(d / "we_snapshots.npy").astype(np.float64)
         b = run_block(W[st.index(50)], W[st.index(4050)], T[first], T[second],
-                      *(np.load(spl / f"n29_seed{s}_w0_{a}.npy") for a in (first, second)))
+                      *(np.load(spl / f"n29_seed{s}_w0_{a}.npy") for a in (first, second)), np.random.default_rng(0))
         by.setdefault(s, []).append(run_stats(b)["rho_old_switch"])
     u = float(np.mean([np.mean(v) for v in by.values()]))
     assert len(by) == 20 and abs(u - 0.580) < 0.0015, u

@@ -1,10 +1,10 @@
 {
  "registration": "lab/confirm/C2_REGISTRATION.md",
- "fassung": "2b",
+ "fassung": "3",
  "code_sha256": {
-  "lab/confirm/C2_analyze.py": "79da78484891efafd47811ac4001070d681d17a5be02d00e5789efe204e97d7c",
+  "lab/confirm/C2_analyze.py": "4cc3cbcc32b716a4122c9de0825f0bd86eb70a55453e2ff3ff5e323e38447654",
   "lab/confirm/rank_tools.py": "f0f7464ea1a392f68bb537aaeb7d3b1b6c212e1a4073dd159f882736f41f6fbf",
   "lab/confirm/P1_posthoc_within.py": "d62db4c56c2cde725dc5978d9aa5de3c6040e3c284d2d1d1766d040b6da1f57f"
  },
- "note": "code gate, session 28, before any R1/R2 run; the analysis requires the last commit of this file and the registration to be an ancestor of the block manifest commit"
+ "note": "code gate, session 28, before any R2 run; the analysis requires the last commit of this file and the registration to be an ancestor of the R2 manifest commit"
 }

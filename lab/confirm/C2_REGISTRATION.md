@@ -37,7 +37,8 @@ erhält neben der Menge der alten Frequenzen (K4/K4c) auch ihre innere Ordnung; 
 - **Nicht auswertbar**, wenn weniger als 20 Seeds alle vier t = 50-Läufe gültig haben. Fehlende Seeds werden gezählt; zusätzlich das Mittel, als hätten sie ρ = −1 (Schranke, kein Urteil).
 - **Power:** N29-Streuung (SD 0.283 je Seed bei zwei Läufen) bei halbiertem Mittel (0.29): n = 30 → Power ≈ 0.92 (Bootstrap-Simulation); mit vier Läufen je Seed eher höher.
 - **Beschreibend (kein Test):** je Zelle und Wechselzeit (lr2: t = 12, 25, 50; wd03: t = 25, 50): Mittel der Korrelationen alt/Wechsel, alt/erster Split, alt/zweiter Split, neu/Wechsel, neu/zweiter Split.
-- **Was dagegen spräche:** Mittel ≤ 0, KI-Untergrenze < 0.10 oder der bereinigte Koeffizient nicht > 0.
+- **(iv) Fassung 3, zusätzliche Bedingung:** Die Untergrenze des 95-%-Bootstrap-KI (Seeds) des mittleren Überschusses über die **Nicht-Ziel-Kontrolle** ist > 0. Kontrolle je Lauf: dasselbe Maß über 5 Frequenzen, zufällig aus denen gezogen, die weder alte noch neue Ziele sind (200 Ziehungen, Mittel; Zufallsstrom fest je Seed/Zelle/t/Richtung). Einheit Seed wie oben.
+- **Was dagegen spräche:** Mittel ≤ 0, KI-Untergrenze < 0.10, der bereinigte Koeffizient nicht > 0 oder kein Überschuss über die Nicht-Ziel-Kontrolle (dann wäre die Rangerhaltung allgemeine Erhaltung der W_E-Struktur, nichts Besonderes an den alten Zielen).
 
 ## Umsetzung und Code-Tor
 
@@ -49,3 +50,9 @@ nicht bestätigt, wenn die Ordnung k folgt / nicht auswertbar), N29-Wert 0.580. 
 
 Übernommen: **Blocker** „ein Seed zählt schon mit einem gültigen Lauf, C2 könnte aus einer Zelle/Richtung bestätigen“ → Seed nur mit allen vier t = 50-Läufen; Bindungen in den Kontrollen → Lauf technisch
 (sonst Abbruch in der Bereinigung); Code-Tor an die Git-Geschichte gebunden. Nicht übernommen wie bei C1: Ersatz der Vorzeichenpermutation (Begründung dort).
+
+## Fassung 3 (Sitzung 28, vor jedem R2-Lauf): Nicht-Ziel-Kontrolle
+
+**Anlass (gesehen, `lab/confirm/order_control.py` → `order_control.json`):** Dieselbe Rangerhaltung über zufällige Nicht-Ziel-Frequenzen liegt nicht bei 0: EXP-059 (Budget 2000) 0.09–0.17 für t = 10…50, N29 (Budget 4000) 0.06 (t = 25) bzw. −0.04 (t = 50); die alten Ziele 0.19–0.58. Mit der Schwelle 0.10 allein könnte C2 daher allgemeine Erhaltung der W_E-Struktur bestätigen. Deshalb Bedingung (iv).
+Nebenbefund (Exploration, `EXP059_posthoc_order_clock.py`): Die Rangerhaltung der alten Ziele liegt schon bei t = 10–25 bei 0.19–0.29 (π dort 0.01–0.30), über der Kontrolle um ≈ 0.1, und steigt ab t = 30 auf 0.41–0.58 (Überschuss 0.26–0.43). Das Zurücksetzen des ersten Moments (rom) senkt π, die Rangerhaltung kaum (t = 25: 0.34 gegen 0.19 normal).
+Code: `C2_analyze.py` (Kontrolle `control_rho`, Bedingung iv, Selbsttest „Kontrolle so stark wie die alten Ziele → nicht bestätigt“); Code-Tor erneuert. **Ungetestet.**

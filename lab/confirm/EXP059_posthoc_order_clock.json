@@ -1,0 +1,86 @@
+{
+ "normal@10": {
+  "n": 20,
+  "mean_rho_order": 0.225,
+  "sd": 0.474,
+  "pi_mean": 0.010217567932940059
+ },
+ "normal@15": {
+  "n": 20,
+  "mean_rho_order": 0.29,
+  "sd": 0.506,
+  "pi_mean": 0.06902654149680032
+ },
+ "normal@20": {
+  "n": 20,
+  "mean_rho_order": 0.225,
+  "sd": 0.515,
+  "pi_mean": 0.191791499368171
+ },
+ "normal@25": {
+  "n": 20,
+  "mean_rho_order": 0.19,
+  "sd": 0.472,
+  "pi_mean": 0.3029533400579485
+ },
+ "normal@30": {
+  "n": 20,
+  "mean_rho_order": 0.405,
+  "sd": 0.433,
+  "pi_mean": 0.38663039422371787
+ },
+ "normal@35": {
+  "n": 20,
+  "mean_rho_order": 0.415,
+  "sd": 0.421,
+  "pi_mean": 0.559333526768956
+ },
+ "normal@50": {
+  "n": 20,
+  "mean_rho_order": 0.575,
+  "sd": 0.431,
+  "pi_mean": 1.050873952966831
+ },
+ "ro@25": {
+  "n": 20,
+  "mean_rho_order": 0.26,
+  "sd": 0.526,
+  "pi_mean": null
+ },
+ "rom@25": {
+  "n": 20,
+  "mean_rho_order": 0.335,
+  "sd": 0.427,
+  "pi_mean": 0.11675963955009885
+ },
+ "rom@30": {
+  "n": 20,
+  "mean_rho_order": 0.315,
+  "sd": 0.444,
+  "pi_mean": 0.2011272742456088
+ },
+ "rom@35": {
+  "n": 20,
+  "mean_rho_order": 0.39,
+  "sd": 0.391,
+  "pi_mean": 0.36208435728919103
+ },
+ "rom@40": {
+  "n": 20,
+  "mean_rho_order": 0.4,
+  "sd": 0.441,
+  "pi_mean": 0.5986391470988469
+ },
+ "rom@50": {
+  "n": 20,
+  "mean_rho_order": 0.56,
+  "sd": 0.391,
+  "pi_mean": 0.9735620308283132
+ },
+ "romoments@25": {
+  "n": 20,
+  "mean_rho_order": 0.27,
+  "sd": 0.525,
+  "pi_mean": null
+ }
+}

@@ -18,8 +18,8 @@ Statistik wie [[confirm/C1_REGISTRATION|C1]] Fassung 2b (Codex-geprüft; gleiche
 
 ## Aussage C4 (eng)
 
-Bei D₅₉ (Ein-Schicht-Transformer, 12 000 Schritte, also nach dem Grokking der meisten Läufe) folgt die Rangfolge der fünf vorgegebenen Ziel-Irreps in der W_E-Energie der Rangfolge ihrer Energie im
-Masken-Spektrum des Splits, auch nach Bereinigung um den Irrep-Index und den Init-Rang. Korrelation, kein Mechanismus.
+Bei D₅₉ (Ein-Schicht-Transformer) folgt **bei Schritt 12 000** die Rangfolge der fünf vorgegebenen Ziel-Irreps in der W_E-Energie der Rangfolge ihrer Energie im
+Masken-Spektrum des Splits, auch nach Bereinigung um den Irrep-Index und den Init-Rang. Korrelation, kein Mechanismus. Ob die Läufe dann generalisiert haben, ist **keine Bedingung**; die Zahl der generalisierten Arme (`generalization_step` ≤ 12 000) wird beschreibend berichtet, und nur wenn die Mehrheit generalisiert hat, wird das Ergebnis im Paper als „nach dem Grokking“ bezeichnet.
 
 ## Daten, Maß, Test (fest)
 
@@ -34,3 +34,7 @@ Masken-Spektrum des Splits, auch nach Bereinigung um den Irrep-Index und den Ini
 
 `lab/confirm/C4_analyze.py` (nutzt `C1_analyze.aggregate`, `rank_tools.py`); Hashes in `C4_manifest.json`; letzter Commit von Tor und Registrierung muss ein Vorfahr des P2f-Manifest-Commits sein.
 Selbsttest (nur im Fenster): reproduziert den EXP-072-Wert bei Schritt 10 000 (0.58) über dieselbe Blockfunktion. **Ungetestet.** Wird P2f geändert, muss C4 neu registriert werden.
+
+## Codex-Prüfung (Sitzung 28, `C4_codex_review_s28.txt`)
+
+Kein Blocker. Übernommen: MAJOR (Aussage „nach dem Grokking der meisten Läufe“ ungeprüft) → Aussage auf Schritt 12 000 beschränkt, Generalisierung beschreibend berichtet (siehe oben). MINOR (Selbsttest umgeht Lader und Bindung) als bekannte Grenze dokumentiert: Die Ladekette prüft der Pflicht-Smoke von P2f, Ladefehler zählen als technisch. Bestätigt: Schritt 0/12 000 im Spektrum, gleiche Irrep-Indizierung wie `mask_power` und die Ziele, `Expect` passt zum P2f-Lauf, Aggregation mit einer Zelle.

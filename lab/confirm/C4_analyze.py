@@ -66,7 +66,8 @@ def load_arm(p2f, man: dict, s: int, a: str) -> dict | str:
     if sp.shape[1] != cs.n_targets_pool("D", N) or not np.all(np.isfinite(sp)):
         return "defekt: spectrum shape or values"
     T = json.loads((p2f.SPL / f"{p2f.stem(s, a)}.json").read_text(encoding="utf-8"))["targets"]
-    return arm_block(np.load(split), T, sp, [0, STEP])
+    gen = L.res.get("generalization_step")                 # Codex s28: reported (descriptive), never a condition
+    return {**arm_block(np.load(split), T, sp, [0, STEP]), "generalized": gen is not None and int(gen) <= STEP}
 
 
 def analyze(manifest: Path) -> None:
@@ -96,10 +97,12 @@ def analyze(manifest: Path) -> None:
             continue
         rho = (got["F"][1] + got["G"][1]) / 2
         units["all"].append({"rho": rho, "blocks": [got[a][0] for a in "FG"]})
-        rows.append({"seed": s, "unit_rho": rho, "rho_init_F": got["F"][2], "rho_init_G": got["G"][2]})
+        rows.append({"seed": s, "unit_rho": rho, "rho_init_F": got["F"][2], "rho_init_G": got["G"][2],
+                     "generalized_arms": int(got["F"][0]["generalized"]) + int(got["G"][0]["generalized"])})
     res = aggregate(units, {"all": len(man["seeds"])}, np.random.default_rng(2026_09_28_6))
     out = {"registration": "lab/confirm/C4_REGISTRATION.md", "gate": gate, "p2f_manifest_commit": man["commit"], "code_sha256": code_hashes(),
-           "primary": res, "dropped": dropped, "rows": rows}
+           "primary": res, "descriptive_generalized_arms": sum(r["generalized_arms"] for r in rows), "descriptive_counted_arms": 2 * len(rows),
+           "dropped": dropped, "rows": rows}
     with open(OUT, "x", encoding="utf-8") as f:
         json.dump(out, f, indent=1, ensure_ascii=False)
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1, ensure_ascii=False))
@@ -107,7 +110,8 @@ def analyze(manifest: Path) -> None:
 
 def selftest() -> None:
     """arm_block on the EXP-072 pilot reproduces its stored late-step value (mean rho over 10 arms at step 10 000: 0.58, the
-    pilot ran 20 000 steps; this checks the D59 mask spectrum, target indexing and the rank code, not the P2f loader)."""
+    pilot ran 20 000 steps; this checks the D59 mask spectrum, target indexing and the rank code, NOT load_arm / the P2f binding
+    (Codex s28 MINOR: that path is exercised only by the mandatory P2f smoke and a technical failure there is counted, not hidden))."""
     e72 = next((LAB / "experiments").glob("EXP-072*"))
     ref = json.loads((LAB / "confirm/EXP072_posthoc_time.json").read_text(encoding="utf-8"))["mean_rho_M0"]["10000"]
     r = []

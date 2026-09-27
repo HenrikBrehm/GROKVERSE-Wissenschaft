@@ -1,16 +1,19 @@
-"""C2 analysis (registration lab/confirm/C2_REGISTRATION.md, session 28). Written BEFORE any R2 run; must not change measure,
-unit, test or thresholds of the registration.
+"""C2 analysis, version 2 (registration lab/confirm/C2_REGISTRATION.md, "Fassung 2", session 28, Codex points of C1 applied).
+Written BEFORE any R2 run; must not change measure, unit, test or thresholds of the registration.
 
-Per R2 run: Spearman over the five OLD targets (first split's targets) between the W_E group power at the switch step t and at
-t + budget, from the bound W_E snapshots (R2 binding: hash -> load -> hash; split bytes pinned). Unit = seed: mean over its valid
-t = 50 runs (two cells x two directions). Primary: one-sided sign-flip test mean > 0 (200 000 draws), 95 % bootstrap CI over
-seeds (10 000); confirmed = p < 0.05 and CI lower bound >= 0.10; not evaluable if < 20 seeds have a valid t = 50 run.
+Per R2 run with switch at t = 50: Spearman over the five OLD targets (first split's targets) between the W_E group power at
+step t and at t + budget, from bound W_E snapshots (R2 binding: hash -> load -> hash; split bytes pinned); ties -> run technical.
+Unit = seed: mean over its valid t = 50 runs (two cells x two directions). Confirmed = (i) sign-flip p < 0.05 and
+(ii) bootstrap CI (seeds) lower bound of the mean >= 0.10 and (iii) bootstrap CI lower bound of the adjusted coefficient
+(switch ranks | k ranks, second-split M0c ranks; all valid t = 50 runs stacked) > 0. Not evaluable if < 20 seeds have a valid
+t = 50 run. Code gate C2_manifest.json; an existing summary is never overwritten.
 
-  python lab/confirm/C2_analyze.py --selftest              (window only: reproduces the N29 exploration, t = 50, 0.580)
+  python lab/confirm/C2_analyze.py --selftest              (window only)
   python lab/confirm/C2_analyze.py lab/confirm/R2_manifest.json
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -18,34 +21,71 @@ from pathlib import Path
 import numpy as np
 
 LAB = Path(__file__).resolve().parents[1]
+ROOT = LAB.parent
 sys.path.insert(0, str(LAB / "tools"))
 sys.path.insert(0, str(LAB / "confirm"))
 sys.path.insert(0, str(LAB / "experiments/EXP-043-generalize-steering"))
+import rank_tools as rt  # noqa: E402
 from analyze import group_power  # noqa: E402
-from C1_analyze import primary as _primary, spearman5  # noqa: E402
 from P1_posthoc_within import m0c_add  # noqa: E402
 from result_loader import Expect, load_run  # noqa: E402
 
-P, T_PRIMARY, MIN_SEEDS = 113, 50, 20
+P, T_PRIMARY, ALPHA, MIN_EFFECT, MIN_SEEDS = 113, 50, 0.05, 0.10, 20
 OUT = LAB / "confirm" / "C2_summary.json"
+GATE = LAB / "confirm" / "C2_manifest.json"
+CODE = ("lab/confirm/C2_analyze.py", "lab/confirm/rank_tools.py", "lab/confirm/P1_posthoc_within.py")
 
 
-def primary(d: np.ndarray, rng: np.random.Generator) -> dict:
-    """C1's test with C2's minimum number of seeds (C1: 60)."""
-    import C1_analyze
-    old, C1_analyze.MIN_SEEDS = C1_analyze.MIN_SEEDS, MIN_SEEDS
-    try:
-        return _primary(d, rng)
-    finally:
-        C1_analyze.MIN_SEEDS = old
+def code_hashes() -> dict[str, str]:
+    return {f: hashlib.sha256((ROOT / f).read_bytes()).hexdigest() for f in CODE}
 
 
-def run_values(W_t: np.ndarray, W_end: np.ndarray, old: list[int], new: list[int], sp_first: np.ndarray, sp_second: np.ndarray) -> dict:
+def check_gate() -> dict:
+    g = json.loads(GATE.read_text(encoding="utf-8"))
+    if g.get("code_sha256") != code_hashes():
+        raise SystemExit("C2: code differs from C2_manifest.json, analysis refused")
+    return g
+
+
+def run_block(W_t: np.ndarray, W_end: np.ndarray, old: list[int], new: list[int], sp_first: np.ndarray, sp_second: np.ndarray) -> dict:
     pt, pe = group_power(W_t, "add", P)[0], group_power(W_end, "add", P)[0]
     mf, ms = m0c_add(sp_first, P), m0c_add(sp_second, P)
     o, n = [k - 1 for k in old], [k - 1 for k in new]
-    return {"rho_old_switch": spearman5(pt[o], pe[o]), "rho_old_M0c_first": spearman5(mf[o], pe[o]), "rho_old_M0c_second": spearman5(ms[o], pe[o]),
-            "rho_new_switch": spearman5(pt[n], pe[n]), "rho_new_M0c_second": spearman5(ms[n], pe[n])}
+    return {"y": pe[o], "switch": pt[o], "k": np.array(old, dtype=np.float64), "m0c_first": mf[o], "m0c_second": ms[o],
+            "new_y": pe[n], "new_switch": pt[n], "new_m0c_second": ms[n]}
+
+
+def run_stats(b: dict) -> dict:
+    """Primary rho first (raises rt.TieError -> run technical); descriptive ones may be None on ties."""
+    out = {"rho_old_switch": rt.spearman(b["switch"], b["y"])}
+    for name, x, y in (("rho_old_M0c_first", "m0c_first", "y"), ("rho_old_M0c_second", "m0c_second", "y"),
+                       ("rho_new_switch", "new_switch", "new_y"), ("rho_new_M0c_second", "new_m0c_second", "new_y")):
+        try:
+            out[name] = rt.spearman(b[x], b[y])
+        except rt.TieError:
+            out[name] = None
+    return out
+
+
+def aggregate(units: list[dict], n_planned: int, rng: np.random.Generator, n_flip: int = 200_000, n_boot: int = 10_000) -> dict:
+    """units: one per seed {"rho": mean over its valid t = 50 runs, "blocks": [run blocks]}; single stratum."""
+    if len(units) < MIN_SEEDS:
+        return {"n": len(units), "verdict": "nicht auswertbar"}
+    vals = {"all": np.array([u["rho"] for u in units])}
+    m = rt.cell_mean(vals)
+    p = rt.sign_flip_p(vals, rng, n_flip)
+    ci = rt.strat_boot({"all": units}, lambda u: float(np.mean([x["rho"] for x in u["all"]])), rng, n_boot)
+
+    def adj(u: dict[str, list[dict]]) -> float:
+        return rt.adjusted_coef([b for x in u["all"] for b in x["blocks"]], "switch", ["k", "m0c_second"])
+
+    a = adj({"all": units})
+    a_ci = rt.strat_boot({"all": units}, adj, rng, n_boot)
+    ok = p < ALPHA and ci[0] >= MIN_EFFECT and a_ci[0] > 0
+    return {"n": len(units), "n_planned": n_planned, "mean": m, "sd": float(vals["all"].std(ddof=1)), "n_positive": int((vals["all"] > 0).sum()),
+            "p": p, "ci95": ci, "adjusted_coef": a, "adjusted_ci95": a_ci,
+            "mean_if_missing_were_minus_1": float((vals["all"].sum() - (n_planned - len(units))) / n_planned),
+            "verdict": "bestätigt" if ok else "nicht bestätigt"}
 
 
 def load_snaps(r2, man: dict, c: str, s: int, t: int, first: str, second: str) -> tuple[np.ndarray, np.ndarray] | str:
@@ -72,14 +112,18 @@ def load_snaps(r2, man: dict, c: str, s: int, t: int, first: str, second: str) -
 
 def analyze(manifest: Path) -> None:
     import confirm_r2 as r2
+    gate = check_gate()
+    if OUT.exists():
+        raise SystemExit(f"{OUT.name} exists: never overwritten (move it away deliberately)")
     man = json.loads(manifest.read_text(encoding="utf-8"))
     r2.BLOCK.check_manifest(manifest, man)
-    rows, bad = [], []
+    rows, bad, units = [], [], []
     for s in man["seeds"]:
         if (m := r2.split_mismatch(man, s)):
             bad.append(f"{s}: {m}")
             continue
         T = json.loads((r2.SPL / f"r2_seed{s}_w0.json").read_text(encoding="utf-8"))["targets"]
+        prim = []
         for c, cell in man["cells"].items():
             for t in cell["ts"]:
                 for first, second in (("A", "B"), ("B", "A")):
@@ -88,31 +132,50 @@ def analyze(manifest: Path) -> None:
                         bad.append(f"{s} {c} {first}{second}@{t}: {snaps}")
                         continue
                     sp1, sp2 = (np.load(r2.SPL / f"{r2.stem(s, a)}.npy") for a in (first, second))
-                    rows.append({"seed": s, "cell": c, "t": t, "dir": first + second,
-                                 **run_values(*snaps, T[first], T[second], sp1, sp2)})
-    by: dict[int, list[float]] = {}
-    for r in rows:
-        if r["t"] == T_PRIMARY:
-            by.setdefault(r["seed"], []).append(r["rho_old_switch"])
-    d = np.array([np.mean(v) for v in by.values()])
+                    b = run_block(*snaps, T[first], T[second], sp1, sp2)
+                    try:
+                        st = run_stats(b)
+                    except rt.TieError as ex:
+                        bad.append(f"{s} {c} {first}{second}@{t}: {ex}")
+                        continue
+                    rows.append({"seed": s, "cell": c, "t": t, "dir": first + second, **st})
+                    if t == T_PRIMARY:
+                        prim.append((st["rho_old_switch"], b))
+        if prim:
+            units.append({"rho": float(np.mean([r for r, _ in prim])), "blocks": [b for _, b in prim]})
     desc = {}
     for c, cell in man["cells"].items():
         for t in cell["ts"]:
             sel = [r for r in rows if r["cell"] == c and r["t"] == t]
-            desc[f"{c}@{t}"] = {k: float(np.mean([r[k] for r in sel])) for k in sel[0] if k.startswith("rho_")} if sel else None
-    out = {"registration": "lab/confirm/C2_REGISTRATION.md", "manifest_commit": man["commit"],
-           "primary": primary(d, np.random.default_rng(2026_09_28_4)), "descriptive_per_run_means": desc, "bad": bad, "rows": rows}
-    OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False), encoding="utf-8")
+            desc[f"{c}@{t}"] = {k: float(np.mean([r[k] for r in sel if r[k] is not None])) for k in sel[0] if k.startswith("rho_")} if sel else None
+    out = {"registration": "lab/confirm/C2_REGISTRATION.md (Fassung 2)", "gate": gate, "r2_manifest_commit": man["commit"],
+           "code_sha256": code_hashes(), "primary": aggregate(units, len(man["seeds"]), np.random.default_rng(2026_09_28_4)),
+           "descriptive_per_run_means": desc, "bad": bad, "rows": rows}
+    with open(OUT, "x", encoding="utf-8") as f:
+        json.dump(out, f, indent=1, ensure_ascii=False)
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1, ensure_ascii=False))
 
 
 def selftest() -> None:
-    """(1) primary() uses MIN_SEEDS = 20 here and restores C1's value; (2) the N29 exploration value at t = 50 (0.580) is
-    reproduced through run_values on the stored N29 snapshots."""
-    import C1_analyze
+    """rank_tools hand values; aggregate() on synthetic seeds (confirms when y follows the switch ranks, not when it follows k,
+    not evaluable below 20 seeds); the N29 exploration value at t = 50 (0.580) through run_block/run_stats."""
+    rt.selftest()
     rng = np.random.default_rng(0)
-    assert primary(rng.normal(0.5, 0.3, 20), rng)["verdict"] == "bestätigt" and C1_analyze.MIN_SEEDS == 60
-    assert primary(rng.normal(0.5, 0.3, 19), rng)["verdict"] == "nicht auswertbar"
+
+    def synth(follow: str, n: int = 30) -> list[dict]:
+        us = []
+        for _ in range(n):
+            bl = []
+            for _r in range(4):
+                sw, k, m2 = rng.permutation(5.0), rng.permutation(5.0), rng.permutation(5.0)
+                bl.append({"y": {"switch": sw, "k": k}[follow] + rng.standard_normal(5), "switch": sw, "k": k, "m0c_second": m2})
+            us.append({"rho": float(np.mean([rt.spearman(b["switch"], b["y"]) for b in bl])), "blocks": bl})
+        return us
+
+    assert aggregate(synth("switch"), 30, rng, 5000, 500)["verdict"] == "bestätigt"
+    r = aggregate(synth("k"), 30, rng, 5000, 500)
+    assert r["verdict"] == "nicht bestätigt" and abs(r["adjusted_coef"]) < 0.15, r
+    assert aggregate(synth("switch", 19), 30, rng, 5000, 500)["verdict"] == "nicht auswertbar"
     raw, spl = LAB / "confirm/n29_raw", LAB / "confirm/n29_splits"
     by: dict[int, list[float]] = {}
     for d in sorted(raw.glob("*_at50_devcuda")):
@@ -120,9 +183,9 @@ def selftest() -> None:
         first, second = ("A", "B") if f"w0_A_to_n29_seed{s}_w0_B" in d.name else ("B", "A")
         T = json.loads((spl / f"n29_seed{s}_w0.json").read_text(encoding="utf-8"))["targets"]
         st, W = list(np.load(d / "we_snapshot_steps.npy")), np.load(d / "we_snapshots.npy").astype(np.float64)
-        v = run_values(W[st.index(50)], W[st.index(4050)], T[first], T[second],
-                       *(np.load(spl / f"n29_seed{s}_w0_{a}.npy") for a in (first, second)))
-        by.setdefault(s, []).append(v["rho_old_switch"])
+        b = run_block(W[st.index(50)], W[st.index(4050)], T[first], T[second],
+                      *(np.load(spl / f"n29_seed{s}_w0_{a}.npy") for a in (first, second)))
+        by.setdefault(s, []).append(run_stats(b)["rho_old_switch"])
     u = float(np.mean([np.mean(v) for v in by.values()]))
     assert len(by) == 20 and abs(u - 0.580) < 0.0015, u
     print("C2 selftest ok", round(u, 4))

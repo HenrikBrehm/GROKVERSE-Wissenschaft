@@ -1,0 +1,62 @@
+(node:23384) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0e35d-3915-7632-855d-788f01484c3d).
+[codex] Turn started (01a0e35d-426f-7412-9386-7ccb9c0399c0).
+[codex] Assistant message captured: Ich prüfe den registrierten Commit strikt read-only und gleiche Registrierung, Analysecode, P...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git status --short... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d330f1c:l...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d330f1c:l... (exit 0)
+[codex] Assistant message captured: Der zentrale Risikopunkt ist klar: Der Split wird gerade durch zielabhängige Gewichte erzeugt...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "we_snapshot...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "we_snapshot... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d330f1c:l...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show d330f1c:l... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git log --oneline ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git log --oneline ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git grep -n -I -E ...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git grep -n -I -E ... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d33...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d33... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "def freq_po...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "def freq_po... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d33...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d33... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d33...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$i=0; git show d33... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "def check_m...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'rg -n "def check_m... (exit 0)
+[codex] Assistant message captured: ## BLOCKER - `lab/confirm/C1_REGISTRATION.md:23-24,33-38` — The claim is robustness across LR...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+## BLOCKER
+
+- `lab/confirm/C1_REGISTRATION.md:23-24,33-38` — The claim is robustness across LR/WD/train-fraction, but the primary test estimates only the pooled average. It can confirm while one or more cells fail; those failures are explicitly called merely descriptive. **Fix:** either narrow C1 to “positive on average across the six equally weighted R1 cells,” or require cell/factor-level confirmation with multiplicity control; a cell collapse must contradict the broad claim.
+
+- `lab/confirm/C1_analyze.py:38-43,95-98` — Raw \(\rho(M0c,W_E)\) does not isolate the proposed M0c mechanism. Both ranks could follow absolute frequency `k`, initialization, or generic M0; M0/init are only descriptive, and `k` is absent. **Fix:** preregister an adjusted target-level rank analysis controlling flexibly for `k` and step-0 rank, plus a paired M0c-vs-M0 comparison; otherwise remove the first-order-mechanism interpretation and call it unadjusted prediction only.
+
+## MAJOR
+
+- `lab/tools/confirm_splits.py:57-67,80-92` — No fixed target order is hard-coded: targets are uniformly permuted, each receives equal weight and IID phases, and sampling keys use a separate stream. However, targets are sorted before IID phase rows are assigned, and the finite registered design is never audited for correlations of M0c with `k` or list position. **Fix:** before training, freeze predictor-only diagnostics `rho(M0c,k)` and `rho(M0c,target_position)` over all R1 splits; retain the adjusted analysis above.
+
+- `lab/confirm/C1_analyze.py:46-52` — Sign-flipping seed statistics tests symmetry about zero, not the general null “mean rho ≤ 0” or target-label independence. `abs(d)` is distributionally equivalent to flipping `d`, but the symmetry assumption is unstated. **Fix:** use a preregistered stratified, studentized seed-level bootstrap/test, or an appropriate within-arm label randomization after handling `k`; use `(exceedances+1)/(B+1)`.
+
+- `lab/confirm/C1_REGISTRATION.md:35`; `lab/confirm/C1_analyze.py:71-100` — Up to 30/90 seeds may be dropped without cell minima. Failures may depend on hyperparameter or learning behavior, and dropout changes cell weights; the pooled bootstrap then treats fixed cells as if randomly sampled. **Fix:** require all R1-valid pairs, or set per-cell minima, equal-weight cell means, stratified resampling, and a missingness sensitivity bound.
+
+- `lab/confirm/C1_analyze.py:25,65-69,99-101`; `lab/tools/confirm_r1.py:49-52` — The R1 manifest gate does not freeze `C1_analyze.py` or `P1_posthoc_within.py`, which supplies `m0c_add`. The output records only the R1 commit and is silently overwritten. **Fix:** add a C1 manifest/hash gate covering both files, record commit and hashes in the output, and refuse to overwrite an existing summary.
+
+- `lab/confirm/C1_REGISTRATION.md:13-19`; `lab/confirm/P1_posthoc_m0_strength.py:1-27` — Disclosure is incomplete. It reports the directly motivating within-target result, but omits the already-seen P1 analysis where aggregate steering strength favored M0 over M0c (`ρ=.39, p=.006` versus `.26, p=.07`) and earlier M0/M0c final-frequency/gradient analyses. **Fix:** enumerate these related and partly contrary analyses and distinguish first-gradient evidence from step-2000 evidence.
+
+- `lab/confirm/C1_analyze.py:105-125` — The self-test is largely circular: it reuses the same `m0c_add` and `arm_values`, and the overall mean `0.438` is identical whether arms or seed means are used. It never exercises R1 loading, step-0 loading, dropped-arm handling, or cell stratification. **Fix:** add independent hand-calculated spectra/ranks, an exact small permutation case, and a synthetic/mocked end-to-end R1 collection test; assert seed-level SD/counts, not only the mean.
+
+## MINOR
+
+- `lab/confirm/C1_analyze.py:58-62,95-97` — Step-0 is reloaded with weaker expectations and missing snapshots silently become `None`. **Fix:** reuse a fully validated load requesting step 2000 and snapshot 0 together, and report missing-init counts/reasons.
+
+- `lab/confirm/C1_analyze.py:32-35` — `argsort(argsort())` assigns arbitrary ordinal ranks to ties, although binary-mask spectra can tie. **Fix:** use average ranks or fail explicitly on ties.
+
+The basic plumbing is otherwise correct: F/G correlations are averaged to the seed unit, R1 enforces globally distinct seeds, step-2000 power uses the frozen R1 loader, the CI threshold is implemented as registered, and the `run` variable at line 88 is always assigned—there is no actual scoping bug there.

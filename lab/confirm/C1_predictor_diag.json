@@ -1,0 +1,9 @@
+{
+ "r1_arms": 180,
+ "mean_rho_M0c_k": 0.05,
+ "sd_rho_M0c_k": 0.5259203159899318,
+ "ties": 0,
+ "median_M0c_max_over_min": 1.2977675467454204,
+ "p1_add113_adjusted_coef_M0c_given_k_init": 0.4329101803329044,
+ "p1_add113_unadjusted_mean_rho": 0.43800000000000006
+}

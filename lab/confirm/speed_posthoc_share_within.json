@@ -1,0 +1,868 @@
+{
+ "n": 120,
+ "n_censored": 3,
+ "share_mean": 0.19115931629723215,
+ "share_sd": 0.005088313240044817,
+ "gen_median": 725.0,
+ "gen_iqr": [
+  575.0,
+  925.0
+ ],
+ "spearman_share_gen": -0.3150913257865129,
+ "p_one_sided_perm": 0.0003,
+ "rows": [
+  {
+   "seed": 1000,
+   "init": 1000,
+   "arm": "F",
+   "share": 0.1907,
+   "gen": 975
+  },
+  {
+   "seed": 1000,
+   "init": 1000,
+   "arm": "G",
+   "share": 0.1815,
+   "gen": 1275
+  },
+  {
+   "seed": 1001,
+   "init": 1001,
+   "arm": "F",
+   "share": 0.1945,
+   "gen": 625
+  },
+  {
+   "seed": 1001,
+   "init": 1001,
+   "arm": "G",
+   "share": 0.1957,
+   "gen": 675
+  },
+  {
+   "seed": 1002,
+   "init": 1002,
+   "arm": "F",
+   "share": 0.193,
+   "gen": 950
+  },
+  {
+   "seed": 1002,
+   "init": 1002,
+   "arm": "G",
+   "share": 0.1852,
+   "gen": 450
+  },
+  {
+   "seed": 1003,
+   "init": 1003,
+   "arm": "F",
+   "share": 0.1951,
+   "gen": 425
+  },
+  {
+   "seed": 1003,
+   "init": 1003,
+   "arm": "G",
+   "share": 0.1973,
+   "gen": 525
+  },
+  {
+   "seed": 1004,
+   "init": 1004,
+   "arm": "F",
+   "share": 0.1891,
+   "gen": 925
+  },
+  {
+   "seed": 1004,
+   "init": 1004,
+   "arm": "G",
+   "share": 0.1908,
+   "gen": 975
+  },
+  {
+   "seed": 1005,
+   "init": 1005,
+   "arm": "F",
+   "share": 0.1951,
+   "gen": 575
+  },
+  {
+   "seed": 1005,
+   "init": 1005,
+   "arm": "G",
+   "share": 0.1935,
+   "gen": 700
+  },
+  {
+   "seed": 1006,
+   "init": 1006,
+   "arm": "F",
+   "share": 0.1869,
+   "gen": 650
+  },
+  {
+   "seed": 1006,
+   "init": 1006,
+   "arm": "G",
+   "share": 0.1856,
+   "gen": 650
+  },
+  {
+   "seed": 1007,
+   "init": 1007,
+   "arm": "F",
+   "share": 0.1845,
+   "gen": 1500
+  },
+  {
+   "seed": 1007,
+   "init": 1007,
+   "arm": "G",
+   "share": 0.1872,
+   "gen": 825
+  },
+  {
+   "seed": 1008,
+   "init": 1008,
+   "arm": "F",
+   "share": 0.1823,
+   "gen": 500
+  },
+  {
+   "seed": 1008,
+   "init": 1008,
+   "arm": "G",
+   "share": 0.1838,
+   "gen": null
+  },
+  {
+   "seed": 1009,
+   "init": 1009,
+   "arm": "F",
+   "share": 0.186,
+   "gen": 800
+  },
+  {
+   "seed": 1009,
+   "init": 1009,
+   "arm": "G",
+   "share": 0.1917,
+   "gen": 775
+  },
+  {
+   "seed": 1010,
+   "init": 1010,
+   "arm": "F",
+   "share": 0.1947,
+   "gen": 950
+  },
+  {
+   "seed": 1010,
+   "init": 1010,
+   "arm": "G",
+   "share": 0.1907,
+   "gen": 800
+  },
+  {
+   "seed": 1011,
+   "init": 1011,
+   "arm": "F",
+   "share": 0.1903,
+   "gen": 575
+  },
+  {
+   "seed": 1011,
+   "init": 1011,
+   "arm": "G",
+   "share": 0.2032,
+   "gen": 600
+  },
+  {
+   "seed": 1012,
+   "init": 1012,
+   "arm": "F",
+   "share": 0.1948,
+   "gen": 825
+  },
+  {
+   "seed": 1012,
+   "init": 1012,
+   "arm": "G",
+   "share": 0.1857,
+   "gen": 500
+  },
+  {
+   "seed": 1013,
+   "init": 1013,
+   "arm": "F",
+   "share": 0.1868,
+   "gen": 950
+  },
+  {
+   "seed": 1013,
+   "init": 1013,
+   "arm": "G",
+   "share": 0.1895,
+   "gen": 650
+  },
+  {
+   "seed": 1014,
+   "init": 1014,
+   "arm": "F",
+   "share": 0.1927,
+   "gen": 600
+  },
+  {
+   "seed": 1014,
+   "init": 1014,
+   "arm": "G",
+   "share": 0.189,
+   "gen": 925
+  },
+  {
+   "seed": 1015,
+   "init": 1015,
+   "arm": "F",
+   "share": 0.1887,
+   "gen": 825
+  },
+  {
+   "seed": 1015,
+   "init": 1015,
+   "arm": "G",
+   "share": 0.1855,
+   "gen": 675
+  },
+  {
+   "seed": 1016,
+   "init": 1016,
+   "arm": "F",
+   "share": 0.1902,
+   "gen": 725
+  },
+  {
+   "seed": 1016,
+   "init": 1016,
+   "arm": "G",
+   "share": 0.1961,
+   "gen": 550
+  },
+  {
+   "seed": 1017,
+   "init": 1017,
+   "arm": "F",
+   "share": 0.1957,
+   "gen": 1175
+  },
+  {
+   "seed": 1017,
+   "init": 1017,
+   "arm": "G",
+   "share": 0.1909,
+   "gen": 1425
+  },
+  {
+   "seed": 1018,
+   "init": 1018,
+   "arm": "F",
+   "share": 0.1924,
+   "gen": 575
+  },
+  {
+   "seed": 1018,
+   "init": 1018,
+   "arm": "G",
+   "share": 0.1986,
+   "gen": 550
+  },
+  {
+   "seed": 1019,
+   "init": 1019,
+   "arm": "F",
+   "share": 0.1969,
+   "gen": 950
+  },
+  {
+   "seed": 1019,
+   "init": 1019,
+   "arm": "G",
+   "share": 0.188,
+   "gen": 675
+  },
+  {
+   "seed": 1020,
+   "init": 1020,
+   "arm": "F",
+   "share": 0.1846,
+   "gen": 650
+  },
+  {
+   "seed": 1020,
+   "init": 1020,
+   "arm": "G",
+   "share": 0.1919,
+   "gen": 475
+  },
+  {
+   "seed": 1021,
+   "init": 1021,
+   "arm": "F",
+   "share": 0.1922,
+   "gen": 1800
+  },
+  {
+   "seed": 1021,
+   "init": 1021,
+   "arm": "G",
+   "share": 0.1789,
+   "gen": 1500
+  },
+  {
+   "seed": 1022,
+   "init": 1022,
+   "arm": "F",
+   "share": 0.1905,
+   "gen": 1150
+  },
+  {
+   "seed": 1022,
+   "init": 1022,
+   "arm": "G",
+   "share": 0.1981,
+   "gen": 400
+  },
+  {
+   "seed": 1023,
+   "init": 1023,
+   "arm": "F",
+   "share": 0.1867,
+   "gen": 800
+  },
+  {
+   "seed": 1023,
+   "init": 1023,
+   "arm": "G",
+   "share": 0.1822,
+   "gen": 1025
+  },
+  {
+   "seed": 1024,
+   "init": 1024,
+   "arm": "F",
+   "share": 0.203,
+   "gen": 725
+  },
+  {
+   "seed": 1024,
+   "init": 1024,
+   "arm": "G",
+   "share": 0.1925,
+   "gen": 550
+  },
+  {
+   "seed": 1025,
+   "init": 1025,
+   "arm": "F",
+   "share": 0.1897,
+   "gen": 1225
+  },
+  {
+   "seed": 1025,
+   "init": 1025,
+   "arm": "G",
+   "share": 0.1935,
+   "gen": 650
+  },
+  {
+   "seed": 1026,
+   "init": 1026,
+   "arm": "F",
+   "share": 0.1816,
+   "gen": 900
+  },
+  {
+   "seed": 1026,
+   "init": 1026,
+   "arm": "G",
+   "share": 0.1864,
+   "gen": null
+  },
+  {
+   "seed": 1027,
+   "init": 1027,
+   "arm": "F",
+   "share": 0.1877,
+   "gen": 900
+  },
+  {
+   "seed": 1027,
+   "init": 1027,
+   "arm": "G",
+   "share": 0.192,
+   "gen": 1250
+  },
+  {
+   "seed": 1028,
+   "init": 1028,
+   "arm": "F",
+   "share": 0.1891,
+   "gen": 1025
+  },
+  {
+   "seed": 1028,
+   "init": 1028,
+   "arm": "G",
+   "share": 0.1867,
+   "gen": null
+  },
+  {
+   "seed": 1029,
+   "init": 1029,
+   "arm": "F",
+   "share": 0.1953,
+   "gen": 900
+  },
+  {
+   "seed": 1029,
+   "init": 1029,
+   "arm": "G",
+   "share": 0.1988,
+   "gen": 650
+  },
+  {
+   "seed": 1030,
+   "init": 1030,
+   "arm": "F",
+   "share": 0.1938,
+   "gen": 700
+  },
+  {
+   "seed": 1030,
+   "init": 1030,
+   "arm": "G",
+   "share": 0.1946,
+   "gen": 550
+  },
+  {
+   "seed": 1031,
+   "init": 1031,
+   "arm": "F",
+   "share": 0.185,
+   "gen": 1325
+  },
+  {
+   "seed": 1031,
+   "init": 1031,
+   "arm": "G",
+   "share": 0.1917,
+   "gen": 925
+  },
+  {
+   "seed": 1032,
+   "init": 1032,
+   "arm": "F",
+   "share": 0.198,
+   "gen": 425
+  },
+  {
+   "seed": 1032,
+   "init": 1032,
+   "arm": "G",
+   "share": 0.1949,
+   "gen": 675
+  },
+  {
+   "seed": 1033,
+   "init": 1033,
+   "arm": "F",
+   "share": 0.1905,
+   "gen": 625
+  },
+  {
+   "seed": 1033,
+   "init": 1033,
+   "arm": "G",
+   "share": 0.1819,
+   "gen": 1000
+  },
+  {
+   "seed": 1034,
+   "init": 1034,
+   "arm": "F",
+   "share": 0.1957,
+   "gen": 600
+  },
+  {
+   "seed": 1034,
+   "init": 1034,
+   "arm": "G",
+   "share": 0.1868,
+   "gen": 550
+  },
+  {
+   "seed": 1035,
+   "init": 1035,
+   "arm": "F",
+   "share": 0.1899,
+   "gen": 900
+  },
+  {
+   "seed": 1035,
+   "init": 1035,
+   "arm": "G",
+   "share": 0.1961,
+   "gen": 475
+  },
+  {
+   "seed": 1036,
+   "init": 1036,
+   "arm": "F",
+   "share": 0.1947,
+   "gen": 850
+  },
+  {
+   "seed": 1036,
+   "init": 1036,
+   "arm": "G",
+   "share": 0.1858,
+   "gen": 1475
+  },
+  {
+   "seed": 1037,
+   "init": 1037,
+   "arm": "F",
+   "share": 0.1807,
+   "gen": 875
+  },
+  {
+   "seed": 1037,
+   "init": 1037,
+   "arm": "G",
+   "share": 0.1876,
+   "gen": 1075
+  },
+  {
+   "seed": 1038,
+   "init": 1038,
+   "arm": "F",
+   "share": 0.1987,
+   "gen": 750
+  },
+  {
+   "seed": 1038,
+   "init": 1038,
+   "arm": "G",
+   "share": 0.1907,
+   "gen": 650
+  },
+  {
+   "seed": 1039,
+   "init": 1039,
+   "arm": "F",
+   "share": 0.1989,
+   "gen": 1100
+  },
+  {
+   "seed": 1039,
+   "init": 1039,
+   "arm": "G",
+   "share": 0.1923,
+   "gen": 700
+  },
+  {
+   "seed": 1040,
+   "init": 1040,
+   "arm": "F",
+   "share": 0.1906,
+   "gen": 525
+  },
+  {
+   "seed": 1040,
+   "init": 1040,
+   "arm": "G",
+   "share": 0.2021,
+   "gen": 775
+  },
+  {
+   "seed": 1041,
+   "init": 1041,
+   "arm": "F",
+   "share": 0.195,
+   "gen": 750
+  },
+  {
+   "seed": 1041,
+   "init": 1041,
+   "arm": "G",
+   "share": 0.1934,
+   "gen": 625
+  },
+  {
+   "seed": 1042,
+   "init": 1042,
+   "arm": "F",
+   "share": 0.1865,
+   "gen": 900
+  },
+  {
+   "seed": 1042,
+   "init": 1042,
+   "arm": "G",
+   "share": 0.1965,
+   "gen": 775
+  },
+  {
+   "seed": 1043,
+   "init": 1043,
+   "arm": "F",
+   "share": 0.1937,
+   "gen": 550
+  },
+  {
+   "seed": 1043,
+   "init": 1043,
+   "arm": "G",
+   "share": 0.1915,
+   "gen": 825
+  },
+  {
+   "seed": 1044,
+   "init": 1044,
+   "arm": "F",
+   "share": 0.1936,
+   "gen": 1000
+  },
+  {
+   "seed": 1044,
+   "init": 1044,
+   "arm": "G",
+   "share": 0.1887,
+   "gen": 625
+  },
+  {
+   "seed": 1045,
+   "init": 1045,
+   "arm": "F",
+   "share": 0.1947,
+   "gen": 575
+  },
+  {
+   "seed": 1045,
+   "init": 1045,
+   "arm": "G",
+   "share": 0.1878,
+   "gen": 600
+  },
+  {
+   "seed": 1046,
+   "init": 1046,
+   "arm": "F",
+   "share": 0.184,
+   "gen": 950
+  },
+  {
+   "seed": 1046,
+   "init": 1046,
+   "arm": "G",
+   "share": 0.191,
+   "gen": 500
+  },
+  {
+   "seed": 1047,
+   "init": 1047,
+   "arm": "F",
+   "share": 0.1878,
+   "gen": 925
+  },
+  {
+   "seed": 1047,
+   "init": 1047,
+   "arm": "G",
+   "share": 0.1959,
+   "gen": 525
+  },
+  {
+   "seed": 1048,
+   "init": 1048,
+   "arm": "F",
+   "share": 0.1911,
+   "gen": 575
+  },
+  {
+   "seed": 1048,
+   "init": 1048,
+   "arm": "G",
+   "share": 0.2009,
+   "gen": 675
+  },
+  {
+   "seed": 1049,
+   "init": 1049,
+   "arm": "F",
+   "share": 0.1926,
+   "gen": 900
+  },
+  {
+   "seed": 1049,
+   "init": 1049,
+   "arm": "G",
+   "share": 0.1961,
+   "gen": 850
+  },
+  {
+   "seed": 1000,
+   "init": 1200,
+   "arm": "F",
+   "share": 0.1907,
+   "gen": 550
+  },
+  {
+   "seed": 1000,
+   "init": 1200,
+   "arm": "G",
+   "share": 0.1815,
+   "gen": 825
+  },
+  {
+   "seed": 1001,
+   "init": 1201,
+   "arm": "F",
+   "share": 0.1945,
+   "gen": 500
+  },
+  {
+   "seed": 1001,
+   "init": 1201,
+   "arm": "G",
+   "share": 0.1957,
+   "gen": 625
+  },
+  {
+   "seed": 1002,
+   "init": 1202,
+   "arm": "F",
+   "share": 0.193,
+   "gen": 575
+  },
+  {
+   "seed": 1002,
+   "init": 1202,
+   "arm": "G",
+   "share": 0.1852,
+   "gen": 500
+  },
+  {
+   "seed": 1003,
+   "init": 1203,
+   "arm": "F",
+   "share": 0.1951,
+   "gen": 500
+  },
+  {
+   "seed": 1003,
+   "init": 1203,
+   "arm": "G",
+   "share": 0.1973,
+   "gen": 725
+  },
+  {
+   "seed": 1004,
+   "init": 1204,
+   "arm": "F",
+   "share": 0.1891,
+   "gen": 750
+  },
+  {
+   "seed": 1004,
+   "init": 1204,
+   "arm": "G",
+   "share": 0.1908,
+   "gen": 1175
+  },
+  {
+   "seed": 1000,
+   "init": 1300,
+   "arm": "F",
+   "share": 0.1907,
+   "gen": 750
+  },
+  {
+   "seed": 1000,
+   "init": 1300,
+   "arm": "G",
+   "share": 0.1815,
+   "gen": 750
+  },
+  {
+   "seed": 1001,
+   "init": 1301,
+   "arm": "F",
+   "share": 0.1945,
+   "gen": 750
+  },
+  {
+   "seed": 1001,
+   "init": 1301,
+   "arm": "G",
+   "share": 0.1957,
+   "gen": 950
+  },
+  {
+   "seed": 1002,
+   "init": 1302,
+   "arm": "F",
+   "share": 0.193,
+   "gen": 550
+  },
+  {
+   "seed": 1002,
+   "init": 1302,
+   "arm": "G",
+   "share": 0.1852,
+   "gen": 550
+  },
+  {
+   "seed": 1003,
+   "init": 1303,
+   "arm": "F",
+   "share": 0.1951,
+   "gen": 525
+  },
+  {
+   "seed": 1003,
+   "init": 1303,
+   "arm": "G",
+   "share": 0.1973,
+   "gen": 625
+  },
+  {
+   "seed": 1004,
+   "init": 1304,
+   "arm": "F",
+   "share": 0.1891,
+   "gen": 750
+  },
+  {
+   "seed": 1004,
+   "init": 1304,
+   "arm": "G",
+   "share": 0.1908,
+   "gen": 1300
+  }
+ ],
+ "note": "post hoc exploration on seen P1 runs; not a confirmation",
+ "paired_within_init": {
+  "pairs": 60,
+  "higher_share_earlier": 28,
+  "later": 29,
+  "ties": 3,
+  "p_one_sided_sign": 0.6043167861104097
+ },
+ "between_seed": {
+  "n": 50,
+  "spearman": -0.5751260504201681,
+  "p_one_sided_perm": 0.0
+ }
+}

@@ -39,6 +39,14 @@ attention pattern. We report effect sizes with confidence intervals, the limits 
   inputs (a, b, =). Tasks: add mod 113 / 97, mul mod 113 (frequencies over the discrete-log order, Z_112), D59 (group order 118, irreps from an explicit real basis).
 - Engineered splits: pairs are sampled with weights 1 + ε·wave, where the wave carries five target frequencies with random phases per output; F and G splits of a seed use disjoint target sets.
   Separate random streams (SeedSequence over experiment, task, seed, arm, purpose).
+- Measures (all computed on the number rows X = W_E[:n] in group order; P_k(X) = power of X in the real Fourier (or irrep) subspace of k; for a set S, P(S) = Σ_{k∈S} P_k):
+  - **Δ_pow** (K2): for a seed with arms F and G (same init, disjoint target sets T_F, T_G), Δ_pow = log[P_F(T_F)/P_F(T_G)] + log[P_G(T_G)/P_G(T_F)] at step 2000; 0 = no steering.
+  - **Margin sensitivity D** (K2-function): u_S = P_S X / ‖P_S X‖, X' = X − δ u_S with δ = 0.02 ‖X‖; drop_S = mean correct-class logit margin on pairs outside both splits, before minus after;
+    D = drop_own − mean over four control sets of five frequencies (drawn from a restricted pool excluding own, other targets and their 2k harmonics), averaged over the two arms.
+  - **Persistence index π** (K4, K4b): L = log[P(T_A)/P(T_B)] of the final W_E; π = (L_switch − L_pureB)/(L_pureA − L_pureB), averaged over both switch directions; an affine,
+    unbounded index (0 = pure second-split endpoint, 1 = pure first-split endpoint), not a probability.
+  - **Ablation contrast R** (K4c–e): accuracy on a held-out test set after projecting W_E onto the complement of the five NEW target subspaces minus after removing the five OLD ones; R > 0 means the
+    final model relies on the old frequencies. Averaged over both switch directions per seed.
 - Protocol: every confirmation was registered before its runs, analysis code and manifest frozen by commit hash, a smoke job run through the frozen loader, fresh seeds from a reserved block, Holm
   within a family, bootstrap CIs over seeds. Runs are bound to the manifest by content hashes.
 

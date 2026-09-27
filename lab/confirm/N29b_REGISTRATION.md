@@ -43,3 +43,9 @@ H1 belegt keinen Umstieg *auf* die neuen Frequenzen, nur eine Verringerung um > 
 **Eigene Prüfung** (statt Codex; Punkte aus den Codex-Prüfungen von N29 übernommen): Run-IDs (`_rs<teil>` vor `_devcuda`, wie freq_ban; wird im Smoke gegen den echten Trainer geprüft), Reset-Ereignis
 (normal: keins; rsattn/rsmlp: `which` und `check`), alt/neu je Richtung (A→B: alt = Ziele von A), Vorzeichen (R > 0 = auf alte angewiesen; H1 = R(normal) − R(rsattn)), Holm über zwei, alle Seeds primär,
 Import-Hülle im Selbsttest. **Zusätzliche Grenze:** Die „Größe“ eines Resets ist nur über die Parameterzahl kontrolliert; die Verschiebung der Teile von ihrer Init bis t = 50 ist nicht angeglichen.
+
+## EINGEFROREN (Sitzung 23)
+
+Manifest-Commit **db31564**, Splits und Jobs committet. Vor dem Einfrieren kein Lauf mit Seeds 2300–2319. Smoke (Seed 2300, rsattn, A→B) durch den eingefrorenen Lader: Run-ID und Reset-Ereignis passen zum
+echten Trainer, gebunden (zählt als regulärer Lauf; dieser eine Wert ist vor dem Block gesehen: Basis 1.0, ohne alte 1.0, ohne neue 0.01). Block ab 11:07 Berlin, 7 GPU-Arbeiter.
+Hinweis: Die Überschrift („verlagert … auf die neuen“) ist weiter als die geprüfte Aussage; maßgeblich ist der Abschnitt „Aussage (genau das Getestete)“.

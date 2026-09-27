@@ -752,3 +752,15 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
   bestimmter, datengesteuerter Merkmale innerhalb der ersten ≈ 50 Schritte, vor jeder Memorisierung, mit exakter Zerlegung in erhaltene alte und fehlende neue Merkmalsenergie.
 - **Nach N28 und Codex (Sitzung 22, 08:34):** Die Vorhersage ist an 30 frischen Seeds erfüllt (29/30, 30/30). Wortlaut enger: koexistenz- bzw. ausschlussartige *Spektralsignaturen* in W_E; funktionale Koexistenz bzw. funktionaler Ausschluss ist nicht geprüft. Nächster Schritt für einen Neuheitsanspruch: funktionaler Test (Ablation der alten bzw. neuen Frequenzen am Endmodell).
 - **EXP-064 (Sitzung 22, 09:06, beschreibend, nicht auswertbar 7/10):** Funktional rechnet das Netz nach einem Wechsel bei t = 25 überwiegend mit den **neuen** Frequenzen, bei t = 50 nur mit den alten (10/10). Schärfere Kandidatenfrage: *Innerhalb von ≈ 25 Schritten kippt die funktionale Wahl von „umsteigen“ zu „festhalten“, während alte Spektralenergie in beiden Fällen bleibt.*
+
+
+## N32: Die Attention hält nach ≈ 50 Schritten die frühe Frequenzwahl fest (Sitzung 23) #neu/kandidat
+
+- **Beobachtung (Pilot [[experiments/EXP-067-exclusion-part/README|EXP-067]], 10 bekannte Seeds):** Setzt man beim Datenwechsel nach 50 Schritten nur W_Q, W_K, W_V, W_O auf ihre Init zurück, lernt das Netz die
+  neuen Frequenzen und rechnet mit ihnen; ein MLP-Reset (doppelte Parameterzahl) oder W_U-Reset tun das nicht. Bestätigung [[confirm/N29b_REGISTRATION|N29b]] läuft.
+- **Hypothese (ungeprüft):** Die Attention ist nach wenigen Schritten auf die Frequenzen der ersten Daten eingestellt (in diesem Modell ist die Attention periodisch in a und b, Nanda et al. 2023) und leitet
+  neue Richtungen in W_E nicht weiter. Prüfbar: Entropie/Periodizität der Attention bei t = 50; Reset nur von W_Q/W_K (Muster) gegen W_V/W_O (Werte).
+- **Suche 2026-09-27 (Sitzung 23, WebSearch):** „resetting attention layers restores plasticity transformer loss of plasticity which layer reset“, „grokking modular addition attention layer re-initialization new
+  features data distribution shift early training“. Nächstverwandt: Plastizitätsverlust in Transformern geht mit einem Entropiekollaps der Attention einher (Lyle et al., https://clarelyle.com/posts/2025-09-06-plasticity-survey.html;
+  Übersicht https://arxiv.org/pdf/2411.04832); Resets einzelner Schichten aus RL/kontinuierlichem Lernen (https://arxiv.org/html/2410.20098v3). Nanda et al. 2023 (https://arxiv.org/abs/2301.05217) zum Mechanismus.
+  **Nicht gefunden (vorläufig):** dass ein Attention-Reset schon nach ≈ 50 Schritten den Ausschluss neuer Merkmale bei einem Datenwechsel aufhebt, während MLP- und Unembedding-Reset es nicht tun.

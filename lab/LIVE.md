@@ -1,23 +1,24 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 26
+# LIVE: Laborsitzung 26 (beendet)
 
 - **Sitzungsstart:** 2026-09-27 15:09 Berlin (13:09Z, vom Runner)
 - **Deadline:** 2026-09-27 18:09 Berlin (16:09Z)
-- **Zuletzt aktualisiert:** 15:54 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 15:57 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: nur Denk-, Such- und Vorbereitungsarbeit.
 
 ## Gerade
 
-Nachtplan in STATE nachgezogen. EXP-080 ist vor jedem Lauf zurueckgestellt: Die Pruefung zeigte, dass der Aufgabengegensatz QK und Wertepfad nicht trennt. EXP-079 misst stattdessen die Kanaele, ueber die Positionsinformation ankommt.
+**Sitzung beendet (15:57).** Naechster geplanter Start laut runner-state.json: **18:44 Berlin** (16:44Z), ausserhalb des Run-Fensters.
 
 ## Als Naechstes
 
-Pruefpunkte einarbeiten. Ab 00:00 laut [[STATE]]: Tests, EXP-040 (CPU), P2f, EXP-073/074/075, Gleichwertigkeit repro, EXP-078, EXP-077, EXP-079 (-> ggf. EXP-080), dann R1, R3, P4, R2.
+Ab 00:00 laut [[STATE]]: Tests, EXP-040 (CPU), P2f, EXP-073/074/075, Gleichwertigkeit repro, EXP-078, EXP-077, EXP-079, dann R1, R3, P4, R2. Fuer dich: [[paper/STATUS]] (neu: ein Kernel-Vorlaeufer schraenkt K2 teilweise ein).
 
 ## Verlauf dieser Sitzung
 
+- 15:57 Sitzung beendet; alles committet.
 - 15:54 EXP-080 zurueckgestellt (Designfehler vor dem Lauf gefunden); EXP-079 erweitert; STATE aktualisiert.
 - 15:51 EXP-080 vorbereitet (N36-Pilot) und EXP-079 (Symmetrie der Koepfe, Sekunden); Registrierungstabelle fuers Paper automatisch aus den Manifesten erzeugt.
 - 15:44 Zwei weitere Literatur-Einordnungen am Volltext bestaetigt (schraenken nicht ein).

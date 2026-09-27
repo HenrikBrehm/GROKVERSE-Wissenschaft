@@ -3538,3 +3538,22 @@ ja (R3 mit gegensätzlichen Vorhersagen); für N36 noch nicht (Kanäle erst mess
 dann N37). *Folge für den Rest der Sitzung:* nur noch Paper-Arbeit und Literatur, keine neuen Registrierungen.
 
 **Prüfung (15:55, gemessen):** Die Lesart-Schwäche aus EXP-077/078 („p ≥ 0.2 allein → keine Wirkung“) steckt nicht in den anderen Auswertungen der Nacht (EXP-040/073/074/075, P2f, P4, R1–R3; grep nach den Mustern, EXP-074 liest über Mediane der Effektgrößen). Nichts geändert.
+
+### Abschlussbericht Sitzung 26 (2026-09-27, 15:09–15:57 Berlin, gemessen; Run-Fenster die ganze Zeit zu, kein Training, kein Test)
+
+**Wichtigste Ergebnisse:**
+1. **Literatur (Regel 19e):** Vorwärtszitate von 9 Ausgangsarbeiten über die Semantic-Scholar-API (≈ 330 Titel ab März 2026) und 5 Volltexte. **K2 ist teilweise eingeschränkt:** Tomàs Bernal
+   et al. 2026 zeigen für Feature-Learning-Kernel, dass eine symmetrische Trainingsmenge die gelernte Gruppenstruktur wählt (zuerst zu schwach eingeordnet, am Volltext korrigiert). K2 bleibt
+   in der engeren Form (vorgegebene Fourier-Frequenzen in Transformern über das Maskenspektrum) nach unserer Suche nicht gefunden; K4–K4e weiter nicht gefunden.
+2. **Registriert (Entwürfe, ungetestet, Codex ohne Blocker):** R2 (K4c bei lr 2e-3 / wd 0.3, n = 30), **R3 (Λ- gegen Schrittuhr, Lernrate nur vor dem Wechsel skaliert, n = 20)**; Seeds 2510–2559 reserviert.
+3. **Piloten vorbereitet:** EXP-078 (K2 mit zwei Schichten, gepaart mit P1), EXP-079 (Positionskanäle, Sekunden). **EXP-080 vor jedem Lauf zurückgestellt** (Designfehler, von der Prüfung gefunden).
+4. **Paper:** Einleitung als Fließtext (13 Korrekturen nach unabhängiger Prüfung), §3.7 ausstehende Blöcke, Registrierungstabelle aus den Manifesten, `repro/k4c.py` (geprüft).
+5. **Vor dem Lauf korrigiert:** Lesart von EXP-077/078 (hoher Mittelwert mit Streuung hieß „keine Wirkung“). Neu: N37 (Fenster = β₂-Horizont von 50 Schritten?).
+
+**Offene Grenzen:** Alles Neue ist ungetestet; die Nacht ist voll (Reihenfolge in [[STATE]] verbindlich, R1 vor R3 vor P4 vor R2); N36 braucht ein neues Design nach EXP-079.
+**Meine Fehler:** geschätzte statt gemessene Uhrzeiten (korrigiert, Memory ergänzt); ein ungeschützter Heredoc mit Backticks (nichts ausgeführt); zwei Überdehnungen in eigenem Text vor der Prüfung
+(Einleitung, Tomàs-Bernal-Einordnung).
+**Reproduktion:** `python lab/paper/figures/table_registrations.py` (reine Dateilesung); alle anderen neuen Skripte erst ab 00:00 (Befehle in den READMEs und in [[STATE]]).
+**Nächste Aktion:** ab 00:00 laut [[STATE]] „Nächste Schritte“ 1–8.
+**Runner:** geplante Aufgabe aktiv; next_start_utc laut runner-state.json 2026-09-27T16:44:45Z = **18:44 Berlin** (der Runner startet erfahrungsgemäß schon kurz nach Sitzungsende neu).
+Früher beendet als die Deadline 18:09, weil weitere Arbeit ohne Rechenfenster jetzt nur neue ungetestete Blöcke für eine volle Nacht oder Beschäftigung wäre (Zwischenbilanz oben).

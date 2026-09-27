@@ -27,7 +27,7 @@ import numpy as np
 
 LAB = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(LAB / "tools"))
-from confirm_splits import OUT as SPLITS, check_manifest  # noqa: E402
+from confirm_splits import OUT as SPLITS, build, check_manifest  # noqa: E402
 from result_loader import Expect, find_run, load_run  # noqa: E402
 
 STEP, ALPHA, FAMILY, MIN_EFFECT, N_BOOT, N_MC = 2000, 0.05, 3, 1.0, 10_000, 200_000
@@ -130,6 +130,18 @@ def delta_pow_checked(pF: np.ndarray, pG: np.ndarray, F: list[int], G: list[int]
     return d if np.isfinite(d) else None
 
 
+def split_mismatch(man: dict, t: dict, s: int, arm: str) -> str | None:
+    """Session 20 (Codex H6): rebuild the split deterministically and require exact equality of indices and targets."""
+    st = stem(man, t, s, arm)
+    idx, T = build(int(man["experiment"]), t["task"], t["p"], s, arm, float(man["eps"]))
+    meta = json.loads((SPLITS / f"{st}.json").read_text(encoding="utf-8"))
+    if not np.array_equal(np.load(SPLITS / f"{st}.npy"), idx):
+        return f"{arm}: split indices differ from build()"
+    if list(meta["targets"]) != list(T) or meta.get("arm") != arm or int(meta.get("seed", -1)) != s:
+        return f"{arm}: split metadata differs from build()"
+    return None
+
+
 def task_verdict(v: dict) -> str:
     """Session 20 (Codex B4/H3): all planned pairs valid, Holm-p < ALPHA AND the CI lower bound >= MIN_EFFECT."""
     if "p" not in v:
@@ -218,6 +230,7 @@ def analyze(manifest: Path) -> None:
             T = {a: json.loads((SPLITS / f"{stem(man, t, s, a)}.json").read_text(encoding="utf-8"))["targets"] for a in "FG"}
             pw = {a: power_at(man, t, s, a) for a in "FG"}
             bad = [f"{a}: {v}" for a, v in pw.items() if isinstance(v, str)]
+            bad += [m for m in (split_mismatch(man, t, s, a) for a in "FG") if m]
             dp = None if bad else delta_pow_checked(pw["F"], pw["G"], T["F"], T["G"])
             if not bad and dp is None:
                 bad = ["Delta_pow not finite or target power <= 0"]
@@ -282,6 +295,24 @@ def selftest() -> None:
     assert delta_pow_checked(np.array([4.0, 0.0]), np.array([1.0, 4.0]), [1], [2]) is None
     assert delta_pow_checked(np.array([4.0, np.nan]), np.array([1.0, 4.0]), [1], [2]) is None
     assert abs(delta_pow_checked(np.array([4.0, 1.0]), np.array([1.0, 4.0]), [1], [2]) - 2 * np.log(4)) < 1e-12
+    import tempfile                                      # session 20 (Codex H6): split re-validation
+    global SPLITS
+    keep = SPLITS
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            SPLITS = Path(tmp)
+            m1, t1 = {"experiment": 1, "eps": 2.0}, {"task": "add", "p": 113}
+            idx, T = build(1, "add", 113, 1000, "F", 2.0)
+            st = stem(m1, t1, 1000, "F")
+            np.save(SPLITS / f"{st}.npy", idx)
+            (SPLITS / f"{st}.json").write_text(json.dumps({"targets": T, "arm": "F", "seed": 1000}), encoding="utf-8")
+            assert split_mismatch(m1, t1, 1000, "F") is None
+            (SPLITS / f"{st}.json").write_text(json.dumps({"targets": T[::-1] if T != T[::-1] else [0], "arm": "F", "seed": 1000}), encoding="utf-8")
+            assert "metadata" in split_mismatch(m1, t1, 1000, "F")
+            np.save(SPLITS / f"{st}.npy", idx[1:])
+            assert "indices" in split_mismatch(m1, t1, 1000, "F")
+    finally:
+        SPLITS = keep
     assert task_verdict({"n_valid": 49}) == "nicht auswertbar"
     assert task_verdict({"p": 0.001, "p_holm_worstcase": 0.003, "ci95": [0.5, 2.0]}) == "nicht bestätigt"
     assert task_verdict({"p": 0.001, "p_holm_worstcase": 0.003, "ci95": [1.2, 2.0]}) == "bestätigt"

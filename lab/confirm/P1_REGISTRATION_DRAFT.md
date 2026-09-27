@@ -29,7 +29,7 @@ Zurück zu [[FINDINGS]]. Eingefroren ist erst eine Fassung `P1_manifest.json` mi
 - [x] (H3, Sitzung 20 umgesetzt, Selbsttest grün) „bestätigt“ = Holm-p < 0.05 **und** KI-Untergrenze ≥ 1 (Mindesteffekt Teil der Aussage)
 - [x] (B4, Sitzung 20 umgesetzt, Selbsttest grün; Wiederholungsregel für Infrastrukturfehler noch in die Registrierung schreiben) alle 50 Paare verlangen; nicht-endliches Δ / Zielsumme ≤ 0 → ungültig; sonst *nicht auswertbar*
 - [ ] (H5) Power mit der endgültigen Familie und dem endgültigen Test neu rechnen (bei B2: α/3)
-- [ ] (H6) bei `--analyze` Split-Indizes und Ziele aus `build()` neu erzeugen und exakt vergleichen
+- [x] (H6, Sitzung 20 umgesetzt, Selbsttest grün) bei `--analyze` Split-Indizes und Ziele aus `build()` neu erzeugen und exakt vergleichen
 - [ ] (H7) Symmetrie-Annahme des Vorzeichentests ausdrücklich registrieren; t-Test sekundär berichten
 - [ ] (M8/M9) Design als seed-gepaart beschreiben; P1 als Replikation in pilotgewählten Fällen formulieren
 - verworfen: Mindesteffekt relativ zum Pilotmittel (Δ ist dimensionslos)

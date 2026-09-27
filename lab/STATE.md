@@ -25,6 +25,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Nächste Schritte (ab 00:00, in dieser Reihenfolge; alles über guarded_run.py)
 
+**Kurzfassung als geordnete Checkliste (Sitzung 33): [[NACHT_2026-09-28]].** Bei Widerspruch gilt dieser Abschnitt.
+
 **Fenster am Mo 28.09. bis 18:00 Berlin** (Freigabe des Nutzers 27.09. 21:20; in `guarded_run.py` als `WINDOW_END_OVERRIDES` geprüft, Sitzung 32). Das ergibt ≈ 18 h: Nach den Schritten 1–7 alle Blöcke aus Schritt 8 in dieser Nacht rechnen (R1 → R6 → R3 → P4 → R2 → **R4**, R4 ≈ 1.6 h), statt Teile auf die Nacht 28./29. zu verschieben. Ab 29.09. wieder 00:00–13:00.
 Zusatzlast aus Sitzung 32: EXP-084 (80 Läufe ≈ 15 min), EXP-085 (120 ≈ 10 min), EXP-086 (90 ≈ 25 min), R6 (480 ≈ 50 min), zusammen ≈ 1 h 40 min GPU.
 

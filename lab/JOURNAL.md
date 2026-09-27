@@ -3100,3 +3100,13 @@ oder unumkehrbare Festlegung), Einheiten richtungsgemittelte Seeds, fehlende Ene
 gebunden (auch eine Phasenverschiebung: ‖ΔW‖² = 2(1 − cos φ)·E_k). Die Frage „Funktion über die Energie hinaus“ ist mit Ablationen am selben Modell deshalb kaum sauber zu stellen; möglich wäre nur
 ein Vergleich von Frequenzen gleicher Energie mit unterschiedlicher Herkunft (Ziel gegen Nicht-Ziel), falls es solche Paare gibt. *Entscheidung:* In FINDINGS als Grenze von K2-Funktion und K4c
 festhalten; keine weitere Ablations-Variante ohne diese Trennung.
+
+**Zyklus 10 (P2e ausgewertet, 10:42–10:44 gemessen).** *Frage (Programm A, Regel 15c):* Gilt P2d bei mul 113 und add 97? *Ergebnis:* ***bestätigt*** in beiden Aufgaben (eingefroren 3c484ef, 80/80 gebunden,
+alle 20 Seeds primär): mul 113 D̄ = 0.291 [0.268, 0.308], add 97 D̄ = 0.294 [0.275, 0.312], je 20/20 > 0. Deutung wie vor dem Ergebnis festgelegt nur „Empfindlichkeit entlang amplitudentragender Richtungen“.
+Die zwei Ablehnungen je Warteschlange am Treffpunkt (`run.lock`) sind erwartet; alle 80 Läufe sind gebunden.
+
+**Zyklus 11 (Trainer-Option für EXP-067, 10:44–10:47 gemessen).** `freq_ban.py --reset-at-switch attn|mlp|unembed` (Auswahl über Parameternamen, sonst der EXP-038-Pfad), Test `test_reset_parts`;
+18/18 Tests grün (10:44–10:46). Der Patch wurde vor dem Ende von N29/P2e vorbereitet, aber erst danach eingespielt (`freq_ban.py` steht in deren Code-Hash). Ein Zwischenstand hatte durch `write_text`
+CRLF-Zeilenenden (sofort auf LF zurückgesetzt, Diff 28 Zeilen). *Folge für eingefrorene Blöcke:* Deren `--analyze` prüft die Code-Hashes; nach dieser Änderung wird am jeweiligen Manifest-Commit
+reproduziert (`git worktree add <dir> <commit>`), wie schon nach den EXP-057/058-Änderungen für P1. Das laufende CPU-Programm startet neue Läufe jetzt mit dem geänderten Trainer; für ihre Argumente ist das
+Verhalten unverändert (kein `--reset-at-switch`). Codex-Prüfung der Änderung läuft.

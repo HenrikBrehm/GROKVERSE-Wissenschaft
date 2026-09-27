@@ -1,11 +1,11 @@
 ---
 id: P2e-registrierung
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-27
-tags: [lab/bestaetigung]
+tags: [lab/bestaetigung, befund/positiv]
 verwandt: ["[[FINDINGS]]", "[[confirm/P2d_REGISTRATION|P2d]]", "[[experiments/EXP-066-p2d-other-tasks/README|EXP-066]]", "[[confirm/P1_REGISTRATION_DRAFT|P1]]", "[[BACKLOG]]", "[[JOURNAL]]"]
 ---
-# P2e-Bestätigung (P2d-Maß bei mul 113 und add 97): Registrierung (Sitzung 23). **ENTWURF**
+# P2e-Bestätigung (P2d-Maß bei mul 113 und add 97): Registrierung (Sitzung 23). **EINGEFROREN 3c484ef, BESTÄTIGT (beide Aufgaben)**
 
 Zurück zu [[FINDINGS]] (Programm A, „K2-Funktion (P2d)“; Regel 15c: Verallgemeinerung) · Pilot [[experiments/EXP-066-p2d-other-tasks/README|EXP-066]] · Vorgänger [[confirm/P2d_REGISTRATION|P2d]] (add 113, bestätigt).
 
@@ -55,3 +55,15 @@ Manifest-Commit). Splits unverändert (deterministisch, gleiche Bytes; das Feld 
 Nach [[experiments/EXP-068-matched-sensitivity/README|EXP-068]] folgt die Empfindlichkeit bei gleicher Schrittnorm der Amplitudenverteilung in W_E. Ein „bestätigt“ in P2e heißt deshalb nur: Auch bei mul 113 und
 add 97 reagiert der Logit-Abstand stärker auf gleich große Schritte entlang der gesteuerten Frequenzen als entlang der Kontrollen. Das ist mit „die gesteuerten Frequenzen tragen mehr Amplitude, entlang derer
 das Netz empfindlich ist“ vereinbar und belegt keine Nutzung über die Energie hinaus.
+
+## ERGEBNIS (Sitzung 23, Block 10:07–10:42 (Log), Auswertung 10:42–10:44 Berlin; `lab/confirm/P2e_summary.json`): ***bestätigt*** (mul 113 und add 97)
+
+80/80 Läufe gebunden (zwei Warteschlangen über dieselbe Liste; je 2 Ablehnungen am Treffpunkt wegen `run.lock` der anderen Schlange, erwartet), 0 technische Ausfälle.
+
+| Aufgabe | n | D̄ | SD | 95-%-KI | > 0 | Holm-p | generalisiert | nur generalisierte (beschreibend) |
+|---|---|---|---|---|---|---|---|---|
+| mul 113 | 20 | **0.291** | 0.048 | [0.268, 0.308] | 20/20 | 5·10⁻¹⁷ | 19/20 | 0.300 |
+| add 97 | 20 | **0.294** | 0.044 | [0.275, 0.312] | 20/20 | 2·10⁻¹⁷ | 20/20 | 0.294 |
+
+Deutung nur im vorab eingeschränkten Sinn (Abschnitt oben): Die stärkere Margin-Reaktion bei gleicher Schrittnorm entlang der gesteuerten Frequenzen zeigt sich auch bei mul 113 und add 97, in ähnlicher Größe
+wie bei add 113 (P2d: 0.250 nach 4000 Schritten; Schrittzahlen verschieden).

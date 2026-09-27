@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 18:19 Berlin (16:19Z, vom Runner)
 - **Deadline:** 2026-09-27 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 19:09 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 19:12 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests.
 
 ## Gerade
 
-Abbildung 0 (Aufbau) fertig; ich wähle den nächsten Schritt.
+Auffällige Beobachtung in gespeicherten Läufen: Konstruierte Splits groken etwa 9× früher als zufällige. Der vorab registrierte Test dafür ([[experiments/EXP-018-split-speed/README|EXP-018]]) war nie gelaufen; jetzt ist er für heute Nacht auf der GPU eingeplant (≈ 15 min).
 
 ## Als Nächstes
 
-Weitere Gutachterpunkte ohne Rechenfenster; Stand für die Nacht sichern.
+Stand sichern; weitere Gutachterfragen an gespeicherten Daten.
 
 ## Verlauf dieser Sitzung
 
+- 19:12 EXP-018 (Grokking-Beschleunigung durch konstruierte Splits) auf GPU umgestellt und in den Nachtplan aufgenommen.
 - 19:09 Exploration: Die Steuerung (Δ_pow) wächst nach dem Grokking weiter (20/20 Seeds, drei Aufgaben), getragen von den eigenen Zielen.
 - vor 19:09 Venue-Abgleich der Literaturliste (arXiv-Seiten).
 - 19:04 Abbildung 0 (Masken, M0c, Wechselprotokoll) aus P1-Splitdateien.

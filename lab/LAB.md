@@ -12,7 +12,7 @@ und MLPs. Die Studie (`RESULTS.md`) ist historisch, neue Befunde stehen nur hier
 - [[BACKLOG]]: priorisierte Forschungsfragen
 - [[NOVEL_DIRECTIONS]]: Kandidaten, die für die Forschung neu sein könnten, mit Literaturprüfung
 - [[BEFUND-split-mechanismus]]: Wie der Trainingssplit die Frequenzen auswählt (Stand Sitzung 5, überwiegend explorativ)
-- [[paper/STATUS|Preprint (Regel 19)]]: Stand, offene Entscheidungen des Nutzers, [[paper/draft|Entwurf]], [[paper/related_work|Literatur]], [[paper/robustness_plan|Robustheitsplan]]
+- [[paper/STATUS|Preprint (Regel 19)]]: Stand, offene Entscheidungen des Nutzers, [[paper/draft|Entwurf]], [[paper/related_work|Literatur]], [[paper/fulltext_check_2026-09-27|Volltextprüfung]], [[paper/robustness_plan|Robustheitsplan]]
 - [[FINDINGS]] · [[LESART-nacht-2026-09-27]]: **Kernaussagen auf einer Seite** (Synthese mit Belegen, Literatur, größte offene Frage) · Einzelheiten: [[FINDINGS_DETAILS]]
 - [[reviews/ASTRA_2026-09-26|Astra-Review]]: Prüfung des ganzen Labors (18 Punkte) mit Tabelle „Umsetzung“ (Regel 18)
 - Werkzeuge: `lab/tools/night_program.py` (Nachtprogramm GPU und `--cpu`), `lab/tools/result_loader.py` (gemeinsamer Ergebnislader), `lab/tools/night_report.py` (Morgenbericht), Tests in `lab/tests/`

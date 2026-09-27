@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 14:19 Berlin (12:19Z, vom Runner)
 - **Deadline:** 2026-09-27 17:19 Berlin (15:19Z)
-- **Zuletzt aktualisiert:** 14:43 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 14:45 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: nur Denk- und Vorbereitungsarbeit.
 
 ## Gerade
@@ -18,6 +18,7 @@ Stand sichern; ab 00:00 laeuft die Nacht laut [[STATE]].
 
 ## Verlauf dieser Sitzung
 
+- 14:45 P4-Manifest-Entwurf mit Seeds vorbereitet; Paper-Grenzen um Khanh 2026 ergaenzt (gleicher Modelltyp: auch das MLP traegt Frequenzidentitaet).
 - 14:43 Theorie: Adams erster (vorzeichenartiger) Schritt behaelt im Modell die Zielfrequenzen (20/20); K2-Reproduktionsskript geschrieben; ein Pruefagent kontrolliert den schlanken Trainer.
 - 14:40 Paper: Abschnitt zu verwandten Arbeiten als Fliesstext.
 - 14:40 EXP-077 vorbereitet (Pilot fuer heute Nacht, ~5 min): Steuert schon die Haeufigkeit nur eines Operanden die Frequenzen? Die Theorie sagt ja, die bisherige Lesart nein.

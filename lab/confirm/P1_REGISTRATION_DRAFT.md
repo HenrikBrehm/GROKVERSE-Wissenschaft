@@ -5,7 +5,7 @@ datum: 2026-09-27
 tags: [lab/bestaetigung]
 verwandt: ["[[FINDINGS]]", "[[BACKLOG]]", "[[JOURNAL]]"]
 ---
-# P1-Bestätigung: Registrierungsentwurf (Sitzung 20, 2026-09-27 ≈ 03:35 Berlin). **NICHT eingefroren**
+# P1-Bestätigung: Registrierungsentwurf (Sitzung 20, 2026-09-27 03:30 Berlin, gemessen). **NICHT eingefroren**
 
 Zurück zu [[FINDINGS]]. Eingefroren ist erst eine Fassung `P1_manifest.json` mit Feld `commit`, die unverändert in diesem Commit liegt
 (`confirm_splits.check_manifest`). Vorher: Codex-Prüfung (Regel 18c), Befunde selbst prüfen, dann einfrieren.

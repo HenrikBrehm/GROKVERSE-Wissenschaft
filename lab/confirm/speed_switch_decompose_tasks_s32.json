@@ -1,0 +1,44 @@
+{
+ "add97_t25": {
+  "pairs": 1,
+  "delta_mem": 20.0,
+  "delta_gap": 855.0,
+  "delta_gen": 875.0,
+  "gap_share": 0.9771428571428571
+ },
+ "add97_t50": {
+  "pairs": 3,
+  "delta_mem": 26.666666666666668,
+  "delta_gap": 415.0,
+  "delta_gen": 441.6666666666667,
+  "gap_share": 0.939622641509434
+ },
+ "add97_t150": {
+  "pairs": 6,
+  "delta_mem": 1.6666666666666667,
+  "delta_gap": -476.6666666666667,
+  "delta_gen": -475.0,
+  "gap_share": 1.0035087719298246
+ },
+ "mul113_t25": {
+  "pairs": 8,
+  "delta_mem": 11.25,
+  "delta_gap": 185.625,
+  "delta_gen": 196.875,
+  "gap_share": 0.9428571428571428
+ },
+ "mul113_t50": {
+  "pairs": 9,
+  "delta_mem": 33.333333333333336,
+  "delta_gap": 250.0,
+  "delta_gen": 283.3333333333333,
+  "gap_share": 0.8823529411764707
+ },
+ "mul113_t150": {
+  "pairs": 10,
+  "delta_mem": 5.0,
+  "delta_gap": -440.0,
+  "delta_gen": -435.0,
+  "gap_share": 1.0114942528735633
+ }
+}

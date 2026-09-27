@@ -1,0 +1,27 @@
+{
+ "plain": {
+  "mean": 0.5682830004900953,
+  "pos": 8,
+  "neg": 2,
+  "n": 10
+ },
+ "rom": {
+  "mean": 0.2620700762851923,
+  "pos": 8,
+  "neg": 2,
+  "n": 10
+ },
+ "romoments": {
+  "mean": 0.24554927961166664,
+  "pos": 8,
+  "neg": 2,
+  "n": 10
+ },
+ "ro": {
+  "mean": 0.2798081092336001,
+  "pos": 8,
+  "neg": 2,
+  "n": 10
+ },
+ "prediction_representation_account": true
+}

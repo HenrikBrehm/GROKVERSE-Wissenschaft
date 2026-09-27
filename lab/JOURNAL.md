@@ -2725,3 +2725,13 @@ entscheidet zwischen zwei benannten Konkurrenzmodellen (Regel 18c); (c) FINDINGS
 Äquivalenzgrenze |b| ≤ 0.25 (Δπ ≤ 0.1). *Splits (04:43):* Steuerstärke je Stufe 0.18, Kreuzanteile auf Zufallsniveau, wie in der Kalibrierung. *Smoke (04:44):* Der Lauf ging,
 aber mein Suchmuster war falsch: freq_ban benennt reine Läufe mit Testdatei `EXP-018_…` und Wechselläufe `EXP-020_…`, nicht nach dem Ausgabeordner. Muster vor jedem echten
 Lauf korrigiert (`EXP-0*`), an beiden Namensformen geprüft. *Start 04:45:* 120 Läufe, 8 parallel auf der GPU (`lab/runner/logs/exp056_queue.log`).
+
+**Zyklus 7 (Codex-Nachprüfung, Einfrieren P1+P2, 04:45–04:50 gemessen).** *Codex (Nachprüfung):* Die Befunde 2, 4, 6, 7 und P2-1…5 sind geschlossen. `_betainc` stimmt im
+Bereich df = 49 mit einer unabhängigen Quadratur überein. `shlex` erzeugt dieselbe Argumentliste wie die echten Jobzeilen. Beide Trainer schreiben `split_file_sha256`.
+Offen nach Codex: (a) Ändern und Zurücknehmen innerhalb von 2 s, (b) untergeschobenes .pyc im Cache, (c) P2 lädt das Modell nach dem letzten Hash (TOCTOU), (d) E = E_own abgelehnt.
+Neu: (e) Die Bindung speichert Exit 0, obwohl der Wrapper 4 meldet. (f) Andere Ausnahmen lassen den Trainer verwaist laufen.
+*Entscheidung:* (a) und (b) **verworfen** (Begründung: beides verlangt absichtliche Manipulation, gegen die ohnehin keine Datei geschützt ist; als Restrisiko in der Registrierung).
+(c)–(f) **übernommen** (d2ac48f). P2 lädt jetzt genau die gebundenen Bytes; der neue Lader ist an einem EXP-047-Modell tensorgleich zum alten. Selbsttests grün.
+*Eingefroren 04:46:* Manifest 733e829 (60 Code-Hashes), Commit-Feld 0cd5ee5, `check_manifest` ok. 600 Splits und 420 Jobs (6babde7).
+*Smoke mit zwei echten Jobs (04:48–04:49):* add 113 und D₅₉, Seed 1000 F. Beide Exit 0, beide gebunden (inkl. `model_final.pt`), `unbound` = None, der Matcher findet genau ein Verzeichnis.
+Unter Last (EXP-056 auf der GPU, CPU-Queue) dauert ein Lauf ≈ 60 s. *Nächster Schritt:* Die übrigen 418 Jobs starten, sobald EXP-056 die GPU freigibt.

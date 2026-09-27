@@ -2716,3 +2716,12 @@ alles ab, was die Registrierung verspricht? *Ergebnisse:* (a) Das rohe D gewicht
 einen Tabellenwert geprüft; meine erste Testerwartung 1/27 war falsch, der Code war richtig). (d) Der frische Bytecode-Cache pro Lauf hätte torch in jedem der 420 Läufe neu
 übersetzt. Jetzt nutzen alle Jobs eines Einfrierens einen Cache, der an den Code-Digest gebunden ist (5290b63). (e) `lab/confirm/raw/` stand nicht in .gitignore, ergänzt.
 GPU bereit (RX 7900 XT, 21 GB frei). Die Jobliste aus dem Entwurf hat 420 Zeilen, keine Backslashes.
+
+**Zyklus 6 (P3-Pilot EXP-056 festgelegt und gestartet, 04:40–04:45 gemessen).** *Frage:* Hält das Netz die Frequenzwahl nach einem frühen Wechsel (t = 25) fest, weil es sich
+festgelegt hat (i), oder nur, soweit die Splits Paare teilen (ii)? Die Frage stand seit Sitzung 13/14 im [[BACKLOG]] („Entwurf P3“), die Konstruktion (EXP-053) war fertig, aber ungenutzt.
+*Vergleich der nächsten Schritte:* (a) warten, bis Codex P1/P2 freigibt, bei leerer GPU; (b) P3-Pilot jetzt festlegen und rechnen, denn er liefert die Streuung für P3 und
+entscheidet zwischen zwei benannten Konkurrenzmodellen (Regel 18c); (c) FINDINGS nachführen. (b) gewählt. *Festlegung:* [[experiments/EXP-056-overlap-persistence/README|EXP-056]]
+(04:43, vor jedem Split und Lauf): ω ∈ {0, 0.2, 0.4}, Seeds 400–409 (nie benutzt), 4 Arme je Stufe, π je Stufe, primär die Steigung b von π über ω (t-Test).
+Äquivalenzgrenze |b| ≤ 0.25 (Δπ ≤ 0.1). *Splits (04:43):* Steuerstärke je Stufe 0.18, Kreuzanteile auf Zufallsniveau, wie in der Kalibrierung. *Smoke (04:44):* Der Lauf ging,
+aber mein Suchmuster war falsch: freq_ban benennt reine Läufe mit Testdatei `EXP-018_…` und Wechselläufe `EXP-020_…`, nicht nach dem Ausgabeordner. Muster vor jedem echten
+Lauf korrigiert (`EXP-0*`), an beiden Namensformen geprüft. *Start 04:45:* 120 Läufe, 8 parallel auf der GPU (`lab/runner/logs/exp056_queue.log`).

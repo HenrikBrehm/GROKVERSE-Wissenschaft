@@ -1,0 +1,41 @@
+(node:14884) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[codex] Starting Codex task thread.
+[codex] Thread ready (01a0e37d-6f7c-7be0-9597-7b196c283e8b).
+[codex] Turn started (01a0e37d-784c-74d2-a4c0-a82153ff8fbd).
+[codex] Assistant message captured: I’ll inspect exactly the requested commit and parent diff with read-only Git commands, then t...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show --stat --...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show --stat --... (exit 0)
+[codex] Assistant message captured: The main control is paired at the seed level as intended. I’m checking two edge cases now: wh...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$files = @('"'lab/... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Write-Output 'RANK...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Write-Output 'RANK... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show 3bed847:l...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show 3bed847:l... (exit 0)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git grep -n \"def ...
+[codex] Command failed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git grep -n \"def ... (exit 1)
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show 3bed847:l...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git show 3bed847:l... (exit 0)
+[codex] Assistant message captured: So far I see one verdict-level edge-case defect and one deterministic-key collision. I’m doin...
+[codex] Running command: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git status --short...
+[codex] Command completed: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git status --short... (exit 0)
+[codex] Assistant message captured: ## BLOCKER None. ## MAJOR - [C2_analyze.py:63](C:/Users/henri/Documents/Brain/GROKVERSE_Wisse...
+[codex] Turn completion inferred after the main thread finished and subagent work drained.
+## BLOCKER
+
+None.
+
+## MAJOR
+
+- [C2_analyze.py:63](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/C2_analyze.py:63): Tied control draws are silently skipped, so the registered 200-draw mean may use fewer than 200 draws. If all draws tie, `np.mean([])` produces `NaN`; the run and seed are nevertheless counted as valid, potentially yielding “nicht bestätigt” instead of “nicht auswertbar.” This conflicts with the technical-run tie rule in [C2_REGISTRATION.md:32](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/C2_REGISTRATION.md:32).
+
+## MINOR
+
+- [C2_analyze.py:81](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/C2_analyze.py:81): `sum(map(ord, direction))` cannot distinguish `"AB"` from `"BA"`, so both directions receive the same RNG stream. List-based `default_rng` seeding is otherwise deterministic.
+
+- [C2_analyze.py:210](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/C2_analyze.py:210): The new selftest does not first establish that this same synthetic sample passes conditions (i)–(iii). Its final verdict could therefore be negative for an unrelated reason, allowing a broken or removed condition (iv) to pass the test.
+
+- [C2_REGISTRATION.md:11](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/C2_REGISTRATION.md:11), [C2_REGISTRATION.md:34](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/C2_REGISTRATION.md:34), [C2_analyze.py:182](C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/lab/confirm/C2_analyze.py:182): Stale Fassung-2 metadata remains, and the registration still says “alle drei” conditions. Generated output will identify the registration as Fassung 2 despite manifest Fassung 3.
+
+Verified correct: frequencies 1–56 excluding both disjoint target sets, `k-1` indexing, same-run pairing of `rho` and control across the four primary runs, and the paired seed-bootstrap of `rho - ctrl`. No existing C2 test thresholds or unit definitions changed; the only C2 files touched were registration, analyzer, and the expected gate-manifest update. No tests or Python scripts were run.

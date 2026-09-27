@@ -8,7 +8,7 @@ verwandt: ["[[FINDINGS]]", "[[confirm/R2_REGISTRATION_DRAFT|R2]]", "[[confirm/C1
 # C2: Behalten die alten Ziele nach einem Wechsel bei t = 50 ihre Rangfolge vom Wechselzeitpunkt? (Programm B, feine Persistenz)
 
 Zurück zu [[FINDINGS]] (Programm B) · Datenquelle: [[confirm/R2_REGISTRATION_DRAFT|R2]] (frische Seeds 2510–2539, noch **kein** Lauf).
-**Fassung 2 (gilt)**, Sitzung 28, 2026-09-27, vor jedem R2-Lauf; die Codex-Punkte zu C1 (`C1_codex_review_s28.txt`) sind sinngemäß übernommen. Gilt mit dem Commit dieser Datei und dem Code-Tor `C2_manifest.json`.
+**Fassung 3 (gilt; Fassung 2/2b siehe unten)**, Sitzung 28, 2026-09-27, vor jedem R2-Lauf; die Codex-Punkte zu C1 (`C1_codex_review_s28.txt`) sind sinngemäß übernommen. Gilt mit dem Commit dieser Datei und dem Code-Tor `C2_manifest.json`.
 Fassung 1 (Commit 6e634da) ist ersetzt.
 
 ## Bereits gesehene Daten und davon beeinflusste Entscheidungen
@@ -31,7 +31,7 @@ erhält neben der Menge der alten Frequenzen (K4/K4c) auch ihre innere Ordnung; 
 - **Daten:** alle R2-Läufe mit Wechsel bei t = 50 (Zellen lr2 und wd03, je 30 Seeds × beide Richtungen = 120 Läufe), W_E-Snapshots bei t und t + 4000 über Bindung und gemeinsamen Lader.
 - **Maß je Lauf:** Spearman über die fünf alten Ziele (Ziele des ersten Splits) zwischen der W_E-Gruppenenergie (`group_power`, add 113) bei Schritt t und bei t + 4000. Exakte Bindungen → Lauf technisch.
 - **Einheit = Seed:** Mittel über seine vier t = 50-Läufe (zwei Zellen × zwei Richtungen; dieselbe Init). Ein Seed zählt nur, wenn **alle vier** gültig sind (Fassung 2b); Bindungen in Energie, k oder Spektrum des zweiten Splits → Lauf technisch.
-- **Bestätigt**, wenn alle drei gelten: (i) einseitiger Vorzeichen-Permutationstest Mittel > 0 (200 000 Ziehungen, p = (Überschreitungen + 1)/(B + 1); Annahme: unter H0 symmetrisch um 0) < 0.05;
+- **Bestätigt**, wenn alle vier gelten (iv siehe unten): (i) einseitiger Vorzeichen-Permutationstest Mittel > 0 (200 000 Ziehungen, p = (Überschreitungen + 1)/(B + 1); Annahme: unter H0 symmetrisch um 0) < 0.05;
   (ii) Untergrenze des 95-%-Bootstrap-KI über Seeds (10 000) ≥ 0.10; (iii) Untergrenze des 95-%-Bootstrap-KI (Seeds) des bereinigten Koeffizienten > 0: kleinste Quadrate über alle gültigen t = 50-Läufe,
   zentrierte Ränge je Lauf, Endenergie ~ Energie beim Wechsel + k + Spektrum des zweiten Splits. Eigene Familie (Programm B, eine Hypothese), nicht in der R2-Holm-Familie.
 - **Nicht auswertbar**, wenn weniger als 20 Seeds alle vier t = 50-Läufe gültig haben. Fehlende Seeds werden gezählt; zusätzlich das Mittel, als hätten sie ρ = −1 (Schranke, kein Urteil).
@@ -42,7 +42,7 @@ erhält neben der Menge der alten Frequenzen (K4/K4c) auch ihre innere Ordnung; 
 
 ## Umsetzung und Code-Tor
 
-Kein neues Training (Snapshots bei t und t + 4000 stehen in den R2-Jobzeilen: `--spectra-at t,t+250,t+2000,t+4000`). `lab/confirm/C2_analyze.py` (Fassung 2) mit `rank_tools.py`, `P1_posthoc_within.py`;
+Kein neues Training (Snapshots bei t und t + 4000 stehen in den R2-Jobzeilen: `--spectra-at t,t+250,t+2000,t+4000`). `lab/confirm/C2_analyze.py` (Fassung 3) mit `rank_tools.py`, `P1_posthoc_within.py`;
 Hashes in `lab/confirm/C2_manifest.json`, von der Auswertung geprüft, und der letzte Commit von Code-Tor und Registrierung muss ein Vorfahr des R2-Manifest-Commits sein; vorhandene `C2_summary.json` wird nie überschrieben. Selbsttest (nur im Fenster): Handwerte, synthetische Seeds (bestätigt /
 nicht bestätigt, wenn die Ordnung k folgt / nicht auswertbar), N29-Wert 0.580. Wird R2 geändert, muss C2 neu registriert werden.
 
@@ -56,3 +56,5 @@ nicht bestätigt, wenn die Ordnung k folgt / nicht auswertbar), N29-Wert 0.580. 
 **Anlass (gesehen, `lab/confirm/order_control.py` → `order_control.json`):** Dieselbe Rangerhaltung über zufällige Nicht-Ziel-Frequenzen liegt nicht bei 0: EXP-059 (Budget 2000) 0.09–0.17 für t = 10…50, N29 (Budget 4000) 0.06 (t = 25) bzw. −0.04 (t = 50); die alten Ziele 0.19–0.58. Mit der Schwelle 0.10 allein könnte C2 daher allgemeine Erhaltung der W_E-Struktur bestätigen. Deshalb Bedingung (iv).
 Nebenbefund (Exploration, `EXP059_posthoc_order_clock.py`): Die Rangerhaltung der alten Ziele liegt schon bei t = 10–25 bei 0.19–0.29 (π dort 0.01–0.30), über der Kontrolle um ≈ 0.1, und steigt ab t = 30 auf 0.41–0.58 (Überschuss 0.26–0.43). Das Zurücksetzen des ersten Moments (rom) senkt π, die Rangerhaltung kaum (t = 25: 0.34 gegen 0.19 normal).
 Code: `C2_analyze.py` (Kontrolle `control_rho`, Bedingung iv, Selbsttest „Kontrolle so stark wie die alten Ziele → nicht bestätigt“); Code-Tor erneuert. **Ungetestet.**
+
+Codex-Nachprüfung der Fassung 3 (`C2_codex_recheck_s28.txt`): kein Blocker. Übernommen: Kontrolle mit weniger als 150 von 200 bindungsfreien Ziehungen → Lauf technisch (vorher mögliches NaN); eigener Zufallsstrom je Richtung (AB/BA waren gleich); Selbsttest zeigt, dass dieselbe Stichprobe (i)–(iv) besteht und nur an (iv) scheitert, wenn die Kontrolle gleich stark ist; veraltete Angaben „Fassung 2“/„alle drei“ korrigiert. Bestätigt von Codex: Frequenzmenge, k − 1-Indizierung, Paarung von ρ und Kontrolle je Lauf, gepaartes Bootstrap.

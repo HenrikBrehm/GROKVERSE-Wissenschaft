@@ -1,4 +1,4 @@
-"""C2 analysis, version 2 (registration lab/confirm/C2_REGISTRATION.md, "Fassung 2", session 28, Codex points of C1 applied).
+"""C2 analysis, version 3 (registration lab/confirm/C2_REGISTRATION.md, "Fassung 3", session 28, Codex points of C1 applied).
 Written BEFORE any R2 run; must not change measure, unit, test or thresholds of the registration.
 
 Per R2 run with switch at t = 50: Spearman over the five OLD targets (first split's targets) between the W_E group power at
@@ -50,12 +50,14 @@ def check_gate(block_commit: str) -> dict:
     return {**g, "gate_commit": gate_commit([GATE, LAB / "confirm" / "C2_REGISTRATION.md"], block_commit)}
 
 
-N_CTRL = 200
+N_CTRL, MIN_CTRL = 200, 150
+DIR_CODE = {"AB": 1, "BA": 2}
 
 
 def control_rho(pt: np.ndarray, pe: np.ndarray, old: list[int], new: list[int], rng: np.random.Generator) -> float:
     """Fassung 3: the same order measure over 5 frequencies drawn from those that are neither old nor new targets (N_CTRL draws,
-    mean; draws with exact ties are skipped). Baseline for generic persistence of W_E structure."""
+    mean; draws with exact ties are skipped). Baseline for generic persistence of W_E structure. Fewer than MIN_CTRL valid draws
+    -> rt.TieError (run technical; Codex recheck s28)."""
     rest = np.array([k - 1 for k in range(1, 57) if k not in old and k not in new])
     vals = []
     for _ in range(N_CTRL):
@@ -64,6 +66,8 @@ def control_rho(pt: np.ndarray, pe: np.ndarray, old: list[int], new: list[int], 
             vals.append(rt.spearman(pt[sel], pe[sel]))
         except rt.TieError:
             continue
+    if len(vals) < MIN_CTRL:
+        raise rt.TieError(f"control: only {len(vals)} of {N_CTRL} draws without ties")
     return float(np.mean(vals))
 
 
@@ -78,7 +82,7 @@ def run_block(W_t: np.ndarray, W_end: np.ndarray, old: list[int], new: list[int]
 
 def ctrl_rng(s: int, cell: str, t: int, direction: str) -> np.random.Generator:
     """Deterministic per run (seed, cell, t, direction)."""
-    return np.random.default_rng([s, sum(map(ord, cell)), t, sum(map(ord, direction))])
+    return np.random.default_rng([s, sum(map(ord, cell)), t, DIR_CODE[direction]])
 
 
 def run_stats(b: dict) -> dict:
@@ -162,8 +166,8 @@ def analyze(manifest: Path) -> None:
                         bad.append(f"{s} {c} {first}{second}@{t}: {snaps}")
                         continue
                     sp1, sp2 = (np.load(r2.SPL / f"{r2.stem(s, a)}.npy") for a in (first, second))
-                    b = run_block(*snaps, T[first], T[second], sp1, sp2, ctrl_rng(s, c, t, first + second))
                     try:
+                        b = run_block(*snaps, T[first], T[second], sp1, sp2, ctrl_rng(s, c, t, first + second))
                         st = run_stats(b)
                     except rt.TieError as ex:
                         bad.append(f"{s} {c} {first}{second}@{t}: {ex}")
@@ -179,7 +183,7 @@ def analyze(manifest: Path) -> None:
         for t in cell["ts"]:
             sel = [r for r in rows if r["cell"] == c and r["t"] == t]
             desc[f"{c}@{t}"] = {k: float(np.mean([r[k] for r in sel if r[k] is not None])) for k in sel[0] if k.startswith("rho_")} if sel else None
-    out = {"registration": "lab/confirm/C2_REGISTRATION.md (Fassung 2)", "gate": gate, "r2_manifest_commit": man["commit"],
+    out = {"registration": "lab/confirm/C2_REGISTRATION.md (Fassung 3)", "gate": gate, "r2_manifest_commit": man["commit"],
            "code_sha256": code_hashes(), "primary": aggregate(units, len(man["seeds"]), np.random.default_rng(2026_09_28_4)),
            "descriptive_per_run_means": desc, "bad": bad, "rows": rows}
     with open(OUT, "x", encoding="utf-8") as f:
@@ -208,9 +212,17 @@ def selftest() -> None:
     assert r["verdict"] == "nicht bestätigt" and abs(r["adjusted_coef"]) < 0.15, r
     assert aggregate(synth("switch", 19), 30, rng, 5000, 500)["verdict"] == "nicht auswertbar"
     u = synth("switch")
+    assert aggregate(u, 30, rng, 5000, 500)["verdict"] == "bestätigt"          # the same sample passes (i)-(iv) ...
     for x in u:
-        x["ctrl"] = x["rho"] + 0.05                        # control as strong as the old targets: must not confirm (Fassung 3)
-    assert aggregate(u, 30, rng, 5000, 500)["verdict"] == "nicht bestätigt"
+        x["ctrl"] = x["rho"] + 0.05                        # ... and fails only through (iv) once the control is as strong
+    r = aggregate(u, 30, rng, 5000, 500)
+    assert r["verdict"] == "nicht bestätigt" and r["ci95"][0] >= MIN_EFFECT and r["adjusted_ci95"][0] > 0 and r["excess_ci95"][0] < 0, r
+    assert ctrl_rng(1, "lr2", 50, "AB").random() != ctrl_rng(1, "lr2", 50, "BA").random()
+    try:
+        control_rho(np.ones(56), np.ones(56), [1, 2, 3, 4, 5], [6, 7, 8, 9, 10], rng)
+        raise AssertionError("all-tie control must be technical")
+    except rt.TieError:
+        pass
     raw, spl = LAB / "confirm/n29_raw", LAB / "confirm/n29_splits"
     by: dict[int, list[float]] = {}
     for d in sorted(raw.glob("*_at50_devcuda")):

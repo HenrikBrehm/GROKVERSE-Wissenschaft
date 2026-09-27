@@ -76,7 +76,7 @@ Liste als Smoke (add 113 und D₅₉, Seed 1000 F). Beide sind gebunden und zäh
 
 ## ERGEBNIS (Sitzung 21, Block 04:48–05:39, Auswertung 05:39 Berlin; `P1_summary.json`)
 
-420/420 Läufe mit Exit 0, alle an den eingefrorenen Code gebunden (`lab/confirm/bindings/`). Frozen analysis, **no deviation from the registration**.
+420/420 Läufe mit Exit 0, alle an den eingefrorenen Code gebunden (`lab/confirm/bindings/`). Auswertung wie eingefroren, **keine Abweichung von der Registrierung**.
 
 | Aufgabe | n gültig | Δ_pow Mittel | 95-%-KI | positiv | Holm-p (ungünstigster Fall) | t-Test (sekundär) | Urteil |
 |---|---|---|---|---|---|---|---|

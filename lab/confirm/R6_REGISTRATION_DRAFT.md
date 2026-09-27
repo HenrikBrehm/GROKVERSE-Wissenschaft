@@ -32,6 +32,7 @@ Post hoc (Sitzung 32) habe ich zum ersten Mal die Generalisierungszeiten gespeic
 ## Sekundär (außerhalb der Familie, „gestützt“ / „nicht gestützt“)
 
 - **S1 (Lage der Spitze):** Alle t aus dem Raster mit dem größten mittleren C (Gleichstand ≤ 1e-9) liegen höchstens 10 Schritte neben t_π. *Nicht auswertbar*, wenn weniger als 10 Seeds ein π haben, wenn der Median von π schon am ersten Rasterpunkt ≥ 0.5 ist (linkszensiert) oder 0.5 nie erreicht. t_π ist der erste Wechselzeitpunkt, an dem der Median der Persistenz π(t) (N28-Definition, End-W_E, nur Seeds mit L(A) − L(B) ≥ 2) den Wert 0.5 erreicht, linear interpoliert. Das verknüpft die Zeitkosten mit der gemessenen Festlegung.
+- **S2 (Schwelle der Persistenz; ergänzt in Sitzung 32 vor dem Einfrieren, Anlass: Blockebene post hoc, JOURNAL Zyklus 10):** „Gestützt“, wenn mittleres C(t) ≤ 0 für jedes t mit Median-π(t) ≥ 0.9 **und** mittleres C(t) > 0 für jedes t mit 0.2 ≤ Median-π(t) ≤ 0.8. π < 0.2 ist vorab ausgenommen, weil C für t → 0 gegen 0 gehen muss. Es braucht mindestens einen Rasterpunkt je Klasse und mindestens 10 Seeds mit π, sonst *nicht auswertbar*.
 - **Beschreibend:** Mittel und Median von C(t) für alle t, Ereignisanteile je Arm, π(t).
 
 ## Stichprobe

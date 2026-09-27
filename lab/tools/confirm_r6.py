@@ -250,7 +250,21 @@ def secondary(rows: list[dict], ts: list[int]) -> dict:
         s1 = "gestützt" if all(abs(t - t_pi) <= 10 for t in t_star) else "nicht gestützt"
     return {"mean_C": {str(t): mc[t] for t in ts}, "median_C": {str(t): float(np.median([r["C"][str(t)] for r in rows])) for t in ts},
             "t_star": t_star, "n_with_pi": len(with_pi), "median_pi": dict(zip(map(str, ts), med_pi)), "t_pi": t_pi,
-            "t_pi_left_censored": left_cens, "S1": s1}
+            "t_pi_left_censored": left_cens, "S1": s1, "S2": s2_rule(ts, mc, med_pi, len(with_pi))}
+
+
+def s2_rule(ts: list[int], mc: dict[int, float], med_pi: list[float], n_pi: int) -> str:
+    """S2 (added before freezing, session 32, from the post hoc block-level picture): the delay vanishes once the choice has
+    persisted. 'gestützt' if mean C(t) <= 0 for every grid t with median pi(t) >= 0.9 AND mean C(t) > 0 for every grid t with
+    0.2 <= median pi(t) <= 0.8 (pi < 0.2 excluded a priori: C must go to 0 as t -> 0); needs >= 1 grid point in each class and
+    >= MIN_PI_SEEDS seeds with pi, else 'nicht auswertbar'."""
+    if n_pi < MIN_PI_SEEDS:
+        return "nicht auswertbar"
+    hi = [t for t, v in zip(ts, med_pi) if v >= 0.9]
+    mid = [t for t, v in zip(ts, med_pi) if 0.2 <= v <= 0.8]
+    if not hi or not mid:
+        return "nicht auswertbar"
+    return "gestützt" if all(mc[t] <= 0 for t in hi) and all(mc[t] > 0 for t in mid) else "nicht gestützt"
 
 
 def analyze(manifest: Path) -> None:
@@ -314,6 +328,10 @@ def selftest() -> None:
     rows = [{"C": {"10": 0.1, "25": 0.6, "50": -0.3}, "pi": {"10": 0.1, "25": 0.4, "50": 0.9}} for _ in range(10)]
     sec = secondary(rows, [10, 25, 50])
     assert sec["t_star"] == [25] and abs(sec["t_pi"] - 30.0) < 1e-9 and sec["S1"] == "gestützt", sec
+    assert sec["S2"] == "gestützt", sec                    # pi 0.1 (excluded), 0.4 -> C 0.6 > 0, 0.9 -> C -0.3 <= 0
+    assert s2_rule([10, 25, 50], {10: 0.1, 25: 0.6, 50: 0.1}, [0.1, 0.4, 0.9], 10) == "nicht gestützt"
+    assert s2_rule([10, 25, 50], {10: 0.1, 25: 0.6, 50: -0.1}, [0.1, 0.4, 0.85], 10) == "nicht auswertbar"   # no pi >= 0.9
+    assert s2_rule([10, 25, 50], {10: 0.1, 25: 0.6, 50: -0.1}, [0.1, 0.4, 0.95], 9) == "nicht auswertbar"
     assert secondary(rows[:9], [10, 25, 50])["S1"] == "nicht auswertbar"                       # too few pi seeds
     left = [{"C": r["C"], "pi": {"10": 0.6, "25": 0.8, "50": 0.9}} for r in rows]
     assert secondary(left, [10, 25, 50])["S1"] == "nicht auswertbar"                           # left-censored t_pi

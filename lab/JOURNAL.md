@@ -2639,3 +2639,31 @@ Ziele des eigenen Arms. Δ_pow 2.72 ± 0.45 (aus `pilot_power`). Keine Änderung
 die EXP-044/045-Zeilen außerhalb der Tabelle, und die Aktualisierungen für EXP-048/049/050 hatten den Lage-Absatz aus Sitzung 13 überschrieben (Regel 10 verletzt: bestehende Inhalte nicht
 umschreiben). LAB.md aus dem Stand vor der Sitzung (fa7507e) neu aufgebaut: alter Absatz wörtlich wiederhergestellt, nur Tabellenzeilen aktualisiert, neue Zeilen EXP-044/045/055, neuer Lage-Absatz
 Sitzung 20. Die übrigen Dateien (READMEs, FINDINGS, BACKLOG, JOURNAL) wurden nur mit eindeutig geprüften Zeichenketten geändert (assert count == 1), also nicht betroffen.
+
+**Rückblick nach Regel 4 (Zyklen 1–17):** *Gelernt:* Ja, viel. Das ist die erste Nacht mit Läufen seit Sitzung 10, und alle Verallgemeinerungsfragen aus FINDINGS haben jetzt ein Pilot-Urteil.
+*Wiederholen wir uns?* Nein. Die Versuche waren vorab festgelegt und liefen mit ≥ 10 Seeds. *Messungen geeignet?* Für Repräsentation ja (Δ, Δ_pow, π). Für Funktion **nein**: Die Genauigkeit liegt
+am Boden, der Loss braucht eine vorab gewählte Teildosis. *Nächste Annahme, die wir gezielt angreifen:* dass die Pilotergebnisse an frischen Seeds und Splits halten (P1-Bestätigung), und die
+Theorie erster Ordnung (EXP-050 zeigt schon eine Lücke: M0 trägt mit).
+
+### Abschlussbericht Sitzung 20 (Stand 04:02 Berlin, gemessen; Auftrag §10)
+
+**Wichtigste Befunde (alle Pilot, je 10 Seeds, Urteile vorab festgelegt, GPU nach bestandenem GPU-001):**
+- K2 (Steuerung der Frequenzwahl über die Daten) hält außerhalb von add 113: add 97, mul 113, D₅₉ (nicht-abelsch), nicht-modulare Addition, 4× Breite, MLP. Jeweils 10/10, p 0.001.
+- Mechanismus: Die Paarstruktur trägt, die Häufigkeiten allein nicht (EXP-047). Das kohärente M0c wählt, aber M0 trägt mit (EXP-050, Theorie erster Ordnung nur halb). Die eingefrorene
+  Masken-Vorhersage trifft 4/4 unberührte Fälle (EXP-052).
+- K4 (frühe Festlegung) hält bei add 97/mul 113 mit nur ≈ 38 % geteilten Paaren. Der Kipp liegt zwischen t 25 und 50 (EXP-044, Lesart (i)).
+- Die gepflanzte Wahl klingt nach dem Grokking nicht ab (EXP-016 post hoc bis 2000; EXP-045 MLP bis 10 000: 10.0 → 7.9). Das ist der Unterschied zu Zhou et al. 2024.
+- Funktion (P2) unklar: EXP-051 Bodeneffekt, EXP-055 Hauptdosis n. s., Teildosen 10/10 (post hoc).
+- Technik: GPU gleichwertig und ≈ 17× schneller, J = 8 am besten. Behoben: venv-Pfad (CreateProcess), `compare.py` bei abgebrochener Diagnose, Stale-Lock bei deutscher `tasklist`-Ausgabe,
+  zwei Testaufbau-Fehler, dazu (vom Nutzer-Assistenten) das Job-Objekt im Wächter. Die CPU-torch der venv ist 10× zu langsam.
+
+**Offene Grenzen:** alles Pilot, keine Bestätigung. P1 nicht eingefroren (Codex: B1-Trainerbindung offen). Häufigkeits-Confound in D₅₉/int-add. Nur 2000 Schritte (außer MLP). CPU-Piloten
+Paket B (EXP-035–042) laufen noch.
+
+**Reproduktion:** GPU-Nacht: `python lab/tools/night_program.py` (+ `--experiments GPU-001,EXP-050`); Auswertungen `python lab/tools/guarded_run.py -- python lab/experiments/<EXP>/analyze.py`,
+EXP-052 `exp052.py`, EXP-044 `pi_persistence.py`, EXP-055 `analyze.py`, `lab/tools/pilot_power.py`; Logs `lab/runner/logs/night_20260927T005025_010314Z/`, `night_20260927T013514_874246Z/`.
+
+**Nächste Aktion:** CPU-Programm neu starten (Befehl in [[STATE]]), dann B1 (Trainer-Bindung an `code_sha256`, mit Codex-Prüfung), dann P1 einfrieren und auf der GPU rechnen.
+
+**Runner:** Die geplante Aufgabe „GROKVERSE-Lab-Runner“ ist aktiv. Nächster Start laut `runner-state.json`: 2026-09-27 03:04:44Z = **05:04 Berlin**. Die CPU-Läufe werden um 04:29 vom Wächter beendet
+(Sitzungsdeadline). Die Folgesitzung setzt mit demselben Befehl fort.

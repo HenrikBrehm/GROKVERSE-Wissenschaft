@@ -3231,18 +3231,18 @@ Chimären-Störung (Lesarten als Empfindlichkeit, Loss-Diagnose im Trainer-Ereig
 
 **Zyklus 5, Nachtrag (13:16):** Codex-Nachprüfung der vier Korrekturen: keine verbleibenden Blocker, keine neuen Fehler (`EXP-073-part-rewind/codex_recheck_s24.txt`).
 
-**Zyklus 6 (EXP-074 vorbereitet, 13:16–13:21).** Frage: Gilt das Reset-Muster aus K4d/K4e auch bei anderen Aufgaben (FINDINGS-Grenze 2, Regel 15c)? Zuerst die add-113-Referenz im Maß π aus gespeicherten
+**Zyklus 6 (EXP-074 vorbereitet, 13:16–13:20).** Frage: Gilt das Reset-Muster aus K4d/K4e auch bei anderen Aufgaben (FINDINGS-Grenze 2, Regel 15c)? Zuerst die add-113-Referenz im Maß π aus gespeicherten
 Läufen nachgerechnet (post hoc, nur numpy, bekannte Seeds 400–409): Median π normal 1.04; Δπ Attention 0.84 (10/10 > 0.3), Wertepfad 0.57 (9/10), Muster 0.13, MLP 0.15, Unembedding −0.04. Das ist die
 spektrale Entsprechung der Ablationsbefunde N29b/c. Pilot EXP-074 im EXP-044-Protokoll (Seeds 80–89, F→G bei t = 50, add 97 und mul 113, 100 Läufe) mit vorab festgelegter Lesart (Schwellen etwa die
 Hälfte der add-113-Effekte). Beim Schreiben der Auswertung die Reihenfolge der Suffixe im Run-Namen erst angenommen, dann am Code geprüft und korrigiert (`_at50_add97_rsattn_devcuda`).
 
-**Rückblick nach sechs Zyklen (Auftrag §4, 13:26).** *Gelernt:* D₅₉ groks und behält die Steuerung (EXP-072), das eröffnet Programm A die einzige nicht-abelsche Bestätigung (P2f). Für Programm B:
+**Rückblick nach sechs Zyklen (Auftrag §4, zwischen 13:20 und 13:23 gemessen).** *Gelernt:* D₅₉ groks und behält die Steuerung (EXP-072), das eröffnet Programm A die einzige nicht-abelsche Bestätigung (P2f). Für Programm B:
 Die Festlegung ist keine Schwelle; weder W_E-Vorsprung noch OV-Ausrichtung erklären ihren Zeitverlauf (EXP-060/070/071). *Wiederholen wir uns?* Ja, teilweise: Seit Sitzung 22 kamen mehrere
 Messgrößen-Versuche (EXP-060, 061, 070, 071), die jeweils eine Zustandsgröße gegen π stellten, alle ohne klares Ergebnis. *Angepasste Strategie:* keine weiteren Korrelationsmaße, sondern Eingriffe,
 die zwischen benannten Modellen entscheiden: EXP-040 (Init-Amplitude skalieren, H40 Amplitudenrennen; seit Sitzung 10 festgelegt, nie gelaufen, weil die CPU-Warteschlange immer spät startete →
 heute Nacht zuerst), EXP-073 (Teil-Zurückspulen), EXP-074 (Reset-Muster an anderen Aufgaben). *Messungen geeignet?* π ist ein Energiemaß; nach EXP-068 folgt auch die Funktion der Energie, für
 Persistenzfragen also vertretbar, für Nutzungsfragen nicht. *Nächste angegriffene Annahme:* „Die Festlegung ist eine Eigenschaft von W_E“ (EXP-073) und „die Init-Amplitude setzt die Uhr“ (EXP-040).
 
-**Zyklus 7 (EXP-075 vorbereitet, 13:28–13:36).** Frage: Ist die frühe Festlegung an die Attention gebunden (die Reset-Befunde K4d/e legen das nahe) oder allgemein (H40)? Entscheidender Gegentest:
+**Zyklus 7 (EXP-075 vorbereitet, bis 13:23 gemessen).** Frage: Ist die frühe Festlegung an die Attention gebunden (die Reset-Befunde K4d/e legen das nahe) oder allgemein (H40)? Entscheidender Gegentest:
 dieselbe π(t)-Kurve in der MLP-Architektur ohne Attention (EXP-045: dort steuerbar, 0.004 s/Schritt). Vorab: Transformer-t½ aus EXP-059 nachgerechnet (33.3, erst geschätzt 34.1, dann aus
 summary.json korrigiert); Lesart t½ ≤ 2 × 33.3 → „ähnlich früh“, > 4× oder π(200) < 0.5 → „deutlich später“. 120 Läufe, wenige Minuten GPU.

@@ -20,8 +20,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 
 - **CPU:** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`
   (EXP-035/038/041 fertig, EXP-036 läuft). Die Sitzungsdeadline bricht ab (kein Fehler). **Wiederaufnahme: derselbe Befehl.**
-- **GPU (seit 09:22):** [[confirm/P2d_REGISTRATION|P2d]] EINGEFROREN (c0cd65f): `python lab/tools/parallel_queue.py lab/confirm/P2d_jobs.txt --workers 7 > lab/runner/logs/p2d_block.log`.
-  **Wiederaufnahme: derselbe Befehl**, danach `guarded_run.py -- python lab/tools/confirm_p2d.py --analyze lab/confirm/P2d_manifest.json`. N28, P2c, EXP-059…065 fertig.
+- **GPU:** frei. N28, P2c, P2d, EXP-059…065 fertig und ausgewertet.
 
 ## Nächste Schritte (in dieser Reihenfolge)
 
@@ -29,14 +28,14 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 2. **Programm B, Bestätigung des funktionalen Übergangs** (EXP-064 → frisch): Wechsel bei 25 und 50, **sicheres Nachtraining** (z. B. 4000 Schritte nach dem Wechsel, `--stop-after-gen` ≥ Schritte),
    `--save-model`, Ablation alt/neu am Endmodell, vorab festgelegte Regel für nicht generalisierte Modelle, frischer Seed-Block (2250–2299 frei). Vorher: **ein echter Job bis zum Ende durch den
    eingefrorenen Lader** (Lehre aus P2b) und Codex-Prüfung. Infrastruktur: `lab/tools/bound_block.py` (+ Muster `confirm_n28.py`).
-3. **Programm A:** [[confirm/P2d_REGISTRATION|P2d]]-Entwurf (Seeds 2230–2249, `confirm_p2d.py`, Selbsttest ok) → Codex, ein echter Job durch den Lader, einfrieren, rechnen (40 Läufe, ≈ 10 min GPU). Pilot EXP-065: eigene ≫ Kontrolle in 80/80.
+3. **Programm A:** P2d **bestätigt** (D̄ 0.250 [0.229, 0.270], 20/20; Wortlaut nach Codex in [[FINDINGS]]). Nächste Frage: gilt das in anderen Aufgaben (P1-Aufgaben mul 113, add 97, D₅₉)?
 4. N29-Ursache ([[BACKLOG]]): welcher Teil des Rests (Attention/MLP/Unembedding), Weight Decay (K1, braucht Trainer-Option + Codex).
 5. CPU-Auswertungen nach den Läufen: EXP-036, EXP-039 (`eval_pi.py`), EXP-040, EXP-042 (`pi_window.py`), EXP-014.
 
 ## Drei Prioritäten (Regel 18c)
 
 1. **B** Persistenz: funktionaler Übergang Umstieg → Festhalten zwischen t = 25 und 50 bestätigen.
-2. **A** Funktion: P2d (Maß mit angeglichener Störung).
+2. **A** Funktion: P2d bestätigt → Verallgemeinerung auf die anderen P1-Aufgaben.
 3. **C** ruht (höchstens zwei Programme aktiv).
 
 ## Blocker / Hinweise

@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 06:59 Berlin (04:59Z, vom Runner)
 - **Deadline:** 2026-09-27 09:59 Berlin (07:59Z)
-- **Zuletzt aktualisiert:** 09:17 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 09:32 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-Codex prueft den P2d-Entwurf (besseres Mass fuer die Funktionsfrage). Wenn ohne Einwaende: einfrieren und 40 kurze Laeufe bis zur Deadline.
+Codex prueft die P2d-Schlussfolgerung; danach FINDINGS und Abschluss (Sitzungsende gegen 09:50).
 
 ## Als Naechstes
 
@@ -18,6 +18,7 @@ Den funktionalen Uebergang (frueh umsteigen, ab 50 Schritten festhalten) an fris
 
 ## Verlauf dieser Sitzung
 
+- 09:30 **P2d BESTAETIGT (20/20 frische Seeds):** Mit gleich grossen Schritten reagiert das Netz entlang der gesteuerten Frequenzen viel staerker als bei Kontrollfrequenzen. Die Funktionsfrage ist damit (lokal) beantwortet.
 - 09:15 **EXP-065 (Exploration):** Mit gleich grossen Schritten reagiert das Netz entlang der gesteuerten Frequenzen viel staerker als bei Kontrollen (80/80 Modelle). Die P2c-Umkehrung lag wohl am Mass.
 - 09:13 Abschlussbericht im JOURNAL, STATE fuer die naechste Sitzung.
 - 09:06 **EXP-064 (beschreibend):** Nach einem fruehen Wechsel rechnet das Netz mit den NEUEN Frequenzen, nach 50 Schritten nur noch mit den alten. Formal nicht auswertbar (3 Modelle nicht fertig), das Muster ist aber in allen 10 Seeds gleich.

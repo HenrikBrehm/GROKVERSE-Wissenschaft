@@ -42,3 +42,10 @@ python lab/tools/guarded_run.py -- python lab/tools/confirm_p2e.py --analyze lab
 Keine Fehler in der Übertragung (Log-Ordnung g = 3, Zeile 0 ausgenommen, Etiketten, Testmenge, Nyquist ausgeschlossen, Versuchs-ID-5-Ströme, Run-IDs, Holm mit Platzhalter). Übernommen, selbst geprüft:
 (1) Lade- und Rechenfehler werden als technischer Ausfall erfasst statt die Auswertung abzubrechen; (2) + (3) primär alle Seeds statt Genauigkeitsfilter mit 80 %-Regel (auch Konsistenz mit N29);
 (4) „erster Ordnung“ → „lokale endliche Störung“, Power-Aussage bedingt formuliert; (5) Selbsttest prüft Log-Ordnung, Projektion bei n = 112 (k = 55), Kontrollpool ohne Nyquist und alle geladenen lab-Module gegen die Hash-Liste.
+
+## Einfrieren (Sitzung 23)
+
+Erstes Einfrieren 2510c92. Der Smoke-Job (Seed 2270, mul 113, F) lief durch, aber `measure` scheiterte beim Laden am eingefrorenen Code: Klammerfehler (`dict | dict.items()`),
+als technischer Ausfall erfasst (die neue Fehlerbehandlung griff). Korrigiert, Selbsttest um einen End-zu-End-Durchlauf von `measure` an einem Zufallsmodell ergänzt, **neu eingefroren** (siehe
+Manifest-Commit). Splits unverändert (deterministisch, gleiche Bytes; das Feld `manifest_commit` in den Split-JSONs nennt 2510c92). Der Smoke-Lauf unter dem alten Code wurde beiseitegelegt
+(`*.stale_s23`), nicht ausgewertet, und wird unter dem neuen Manifest neu gerechnet. Keine Auswertung von P2e-Ergebnissen vor dem neuen Einfrieren.

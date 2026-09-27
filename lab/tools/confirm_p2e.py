@@ -145,7 +145,7 @@ def measure(task: str, p: int, s: int, arm: str, T: dict, common: np.ndarray, da
     base = e66().evaluate(m, task, p, None, elem, common)
     delta = REL_DELTA * float(np.linalg.norm(X))
     dr = {}
-    for k, S in {"own": T[arm]} | {f"c{i}": c for i, c in enumerate(ctrl)}.items():
+    for k, S in ({"own": T[arm]} | {f"c{i}": c for i, c in enumerate(ctrl)}).items():
         PS = e66().proj(X, S)
         dr[k] = base["margin"] - e66().evaluate(m, task, p, X - delta * PS / np.linalg.norm(PS), elem, common)["margin"]
     return {"base": base, "drop_own": dr["own"], "drop_ctrl": [dr[f"c{i}"] for i in range(N_CTRL)], "ctrl_sets": ctrl}
@@ -265,6 +265,16 @@ def selftest() -> None:
     assert np.allclose(e66().proj(X, [55]), X * [1, 0], atol=1e-10) and np.allclose(e66().proj(X, [7]), X * [0, 1], atol=1e-10)
     cs5 = e66().control_sets([1, 2, 3, 4, 5], [6, 7, 8, 9, 10], 112, [5, 1])
     assert all(max(c) <= 55 and not set(c) & {1, 2, 3, 4, 5, 6, 7, 8, 9, 10} for c in cs5)
+    import io                                               # end-to-end measure() on a random model (smoke found a bug here, s23)
+    import torch
+    from grokverse.config import get_config
+    from grokverse.models import build_model
+    for task, p in REGISTERED["tasks"]:
+        buf = io.BytesIO()
+        torch.save(build_model(get_config("arch25k", seed=0, steps=c1.STEP, threads=1, p=p, task=task)).state_dict(), buf)
+        T = cs.target_sets(5, task, p, 2270)
+        r = measure(task, p, 2270, "F", T, np.arange(0, p * p, 7), buf.getvalue())
+        assert len(r["drop_ctrl"]) == N_CTRL and all(np.isfinite([r["drop_own"], *r["drop_ctrl"]])), r
     selftest_binding(BLOCK, tj[0], tj[1], tj[2])
     assert set(CODE_FILES) <= set(BLOCK.code_hashes())
     loaded = {Path(m.__file__).resolve().relative_to(ROOT.resolve()).as_posix() for m in list(sys.modules.values())

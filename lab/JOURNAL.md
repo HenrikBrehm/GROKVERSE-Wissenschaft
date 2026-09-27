@@ -2787,3 +2787,11 @@ Holm-p (ungünstigster Fall) 1.5·10⁻⁵. Kreuzblock stabil über Inits (ICC 0
 noch nicht generalisiert: 0.82/0.70/0.73). Beschreibend R̄ = 0.12 (SD 0.20, 43/47), deutlich schwächer als der Pilot. *Entscheidung:* P1 geht nach der Codex-Prüfung der Schlussfolgerung
 als Kernaussage in FINDINGS. P2 wird ehrlich als *nicht auswertbar* berichtet. Die strenge Gültigkeitsregel bei nur 2000 Schritten war mein Designfehler.
 Ein Nachfolger braucht sicheres Grokking und eine Stichprobe aus der jetzt gesehenen Streuung. *Parallel:* P3-Block läuft (54/240 um 05:46).
+
+**Zyklus 15 (Codex greift die P1-Schlussfolgerung an, 05:45–05:51 gemessen).** *Codex:* Nichts im Code oder Datenfluss erzwingt Δ_pow > 0. Bei gemeinsamer Init heben sich beide log-Verhältnisse
+anfangs exakt auf, die Paarung senkt also nur die Varianz. Die Konstruktion ist ein gezielter Eingriff in genau der gemessenen Basis, aber kein Leck, denn der Trainer sieht nur Indizes.
+Wortlaut: „zurückgehaltene Replikation“ statt „unabhängig“, relative Anreicherung statt Konzentration, Kreuzblock nur „stabil über diese drei Inits“ (ICC ungenau, enthält Init × Split).
+P2: „nicht auswertbar, nur beschreibend“ ist richtig, und der Wert aus 47 Seeds kann durch die Auswahl verzerrt sein. Nachfolger: frische Seeds, längeres festes Training oder ein vorab
+registrierter Konvergenzpunkt auf eigener Validierungsmenge, feste Ablations-Testmenge, geordnetes Nachziehen bis zu einer festen Zahl gemeinsam generalisierter Paare, Eignungsrate berichten,
+Power gegen den Abstand über log 1.05 (≈ 0.37 SD → grob 60–80 Paare); für „je Energieeinheit“ Dosen nahe 0.
+*Selbst geprüft und übernommen:* Wortlaut und Grenzen in [[FINDINGS]] (Abschnitt „BESTÄTIGT“), der Nachfolgeplan in [[BACKLOG]]. Verworfen: nichts.

@@ -18,7 +18,14 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 LAB = HERE.parents[0]
 sys.path.insert(0, str(LAB / "EXP-039-lr-clock"))
-from analyze import classify, seed_class  # noqa: E402  (EXP-039)
+from analyze import classify  # noqa: E402  (EXP-039)
+
+
+def seed_class(a: str, b: str) -> str:
+    """Nachtrag d (session 23, before any EXP-040 run): EXP-039's seed_class only knows its own labels (lambda/step), so the import
+    turned every EXP-040 seed into 'unclear' (selftest failed closed). Registered rule (README): a seed is h40 / unchanged only if
+    both scales agree, else unclear."""
+    return a if a == b and a in ("h40", "unchanged") else "unclear"
 
 SEEDS = (30, 32, 34, 31)
 EQUIV = {0.5: 2.0, 2.0: 0.5}          # s -> lr scale c with the same predicted interval under H40

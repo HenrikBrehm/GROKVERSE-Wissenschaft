@@ -103,3 +103,9 @@ Queue (fail-closed). In `queue_s10.sh` nach EXP-039.
 sh lab/experiments/EXP-040-we-init-scale/queue.sh
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-040-we-init-scale/analyze.py
 ```
+
+## Nachtrag d (2026-09-27, Sitzung 23, vor jedem EXP-040-Lauf): Fehler in der Seed-Klassifikation behoben
+
+Das CPU-Programm brach EXP-040 um 10:59 Berlin am Selbsttest ab (fail-closed, kein Lauf gestartet). Ursache: `analyze.py` importierte `seed_class` aus EXP-039, die nur deren Etiketten (lambda/step)
+kennt; jeder EXP-040-Seed wäre „unklar“ geworden. Behoben durch eine eigene `seed_class` nach der registrierten Regel (Urteilszeile oben: Seed = H40 bzw. unverändert nur, wenn beide Skalen übereinstimmen).
+Selbsttest danach ok. Urteilsregel unverändert. EXP-040 läuft in einer späteren Sitzung (`night_program.py --cpu --experiments EXP-040`).

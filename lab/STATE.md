@@ -22,6 +22,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Nächste Schritte (ab 00:00, in dieser Reihenfolge; alles über guarded_run.py)
 
+**Fenster am Mo 28.09. bis 18:00 Berlin** (Freigabe des Nutzers 27.09. 21:20; in `guarded_run.py` als `WINDOW_END_OVERRIDES` geprüft, Sitzung 32). Das ergibt ≈ 18 h: Nach den Schritten 1–7 alle Blöcke aus Schritt 8 in dieser Nacht rechnen (R1 → R6 → R3 → P4 → R2 → **R4**, R4 ≈ 1.6 h), statt Teile auf die Nacht 28./29. zu verschieben. Ab 29.09. wieder 00:00–13:00.
+
 1. `guarded_run.py --check`; kein STOP; Prozesse prüfen.
 2. **Trainer-Tests** (neu, ungetestet: `--rewind-at-switch`, `--lr/--weight-decay/--train-frac`): `python lab/tools/guarded_run.py --min-minutes 5 -- python lab/tests/test_freq_ban_fingerprint.py`.
    Scheitert `test_rewind`: EXP-073 nicht starten. Danach Selbsttests `confirm_r1.py`, `confirm_r2.py`, `confirm_r3.py --selftest` (Blöcke laut Schritt 8, wenn Zeit bleibt).

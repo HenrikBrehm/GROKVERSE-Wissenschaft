@@ -782,3 +782,20 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
   (https://arxiv.org/abs/2310.07996).
 - **Nicht gefunden (vorläufig):** das Zurückspulen eines Teils *samt Optimiererzustand* zum Zeitpunkt eines Datenwechsels mit anschließendem Weitertraining, um zu messen, welcher Teil die
   Zeitabhängigkeit einer Festlegung trägt; dazu die Selbstprüfung „alles zurückspulen = früher wechseln“. Einordnung: neue Anwendung eines bekannten Werkzeugs, keine neue Methode.
+
+
+## Literatur-Nachtrag zu K2 (Split-Steuerung der Frequenz-/Irrep-Wahl), Sitzung 24, 2026-09-27 #neu/kandidat
+
+- **Suche (WebSearch/WebFetch):** „which irreducible representations are learned group composition neural network depends on training data distribution Chughtai toy model of universality follow-up dihedral“.
+- **Nächstverwandt, neu gefunden:** Marchetti, Kunin, Myers, Acosta, Miolane, *Sequential Group Composition* (ICML 2026, https://arxiv.org/abs/2602.03655): Zwei-Schicht-Netze lernen die Aufgabe
+  „eine Irrep nach der anderen, in einer Reihenfolge, die die Fourier-Statistik der **Kodierung** bestimmt“ (laut Abstract). Das verbindet Datenstatistik und Irrep-Wahl, aber über die Eingabekodierung,
+  nicht über die Auswahl der Trainingspaare. He, Wang, Zhang, Chen, Yang (2026, https://arxiv.org/abs/2606.02993): Neuronen konvergieren zu je einer Irrep, *welche* wird nicht vorhergesagt,
+  keine Split-Abhängigkeit (laut Abstract). Chughtai et al. 2023 (https://arxiv.org/abs/2302.03025): welche Irreps gelernt werden, ist je Netz „beliebig“.
+- **Einordnung (vorläufig):** Dass Datenstatistik die Reihenfolge/Wahl der Irreps bestimmt, ist theoretisch für die Kodierung gezeigt (Marchetti et al.). **Nicht gefunden:** dass bei festen One-hot-Token
+  allein die **Zusammensetzung der Trainingspaare** (Masken-Spektrum M0) steuert, welche Irreps gelernt werden, auch bei D₅₉ und über das Grokking hinaus (P1, EXP-072). Nächster Schritt: Volltext von
+  Marchetti et al. prüfen, ob eine nicht-uniforme Paarverteilung dort als Spezialfall der „Kodierungsstatistik“ abgedeckt ist (dann wäre K2 eine Bestätigung ihrer Theorie in einem Transformer, nicht neu).
+- **Volltext geprüft (gleiche Sitzung, WebFetch https://arxiv.org/html/2602.03655):** Training **gleichverteilt über alle Sequenzen** („1/2|G|^k ∑_{g∈G^k} …“), keine Teilmengen oder Splits; die
+  Reihenfolge folgt der Operatornorm der Fourier-Koeffizienten des festen Kodierungsvektors x (bei One-hot, x = e₁, sind alle Irreps gleichauf); Gradientenfluss mit verschwindender Init, MSE, kein Adam,
+  kein Weight Decay, kein Grokking; Gruppen C_p, D_n, C_n × C_n. **Ergebnis:** Eine nicht-uniforme Paarverteilung ist dort nicht abgedeckt. K2 bleibt nach unserer Suche nicht gefunden (vorläufig) und
+  ist eine Ergänzung: Bei One-hot-Token, wo die Kodierung keine Irrep bevorzugt, bricht in unseren Versuchen die Zusammensetzung der Trainingspaare (M0) die Gleichheit. Offene Brückenfrage:
+  Lässt sich M0 in ihrem AGF-Rahmen als effektive „Kodierungsstatistik“ schreiben (theoretische Arbeit, Programm C)?

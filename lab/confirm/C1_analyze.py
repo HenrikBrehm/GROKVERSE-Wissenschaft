@@ -159,7 +159,7 @@ def analyze(manifest: Path) -> None:
     res = aggregate(units, {c: len(man["seeds"][c]) for c in r1.CELLS}, np.random.default_rng(2026_09_28_1))
     desc = {k: float(np.mean([r[f"{k}_{a}"] for r in rows for a in "FG" if r[f"{k}_{a}"] is not None])) if rows else None
             for k in ("rho_M0", "rho_init", "weakest_is_lowest_M0c")}
-    out = {"registration": "lab/confirm/C1_REGISTRATION.md (Fassung 2)", "gate": gate, "r1_manifest_commit": man["commit"],
+    out = {"registration": "lab/confirm/C1_REGISTRATION.md (Fassung 2b)", "gate": gate, "r1_manifest_commit": man["commit"],
            "code_sha256": code_hashes(), "primary": res, "descriptive": desc, "dropped": dropped, "rows": rows}
     with open(OUT, "x", encoding="utf-8") as f:
         json.dump(out, f, indent=1, ensure_ascii=False)

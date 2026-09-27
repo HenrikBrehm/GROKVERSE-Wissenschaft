@@ -3536,3 +3536,5 @@ dem Lauf gezeigt. *Wiederholen wir uns?* Nein, aber die Zahl vorbereiteter, unge
 liegt bei den Nachtsitzungen (Einfrieren, Smokes). Deshalb **keine weiteren Versuche für diese Nacht**; die Reihenfolge in [[STATE]] ist verbindlich priorisiert. *Messungen geeignet?* Für die Uhrfrage
 ja (R3 mit gegensätzlichen Vorhersagen); für N36 noch nicht (Kanäle erst messen). *Nächste anzugreifende Annahme:* dass die Festlegung eine einzige Uhr hat (R3 kann „keine der beiden“ ergeben;
 dann N37). *Folge für den Rest der Sitzung:* nur noch Paper-Arbeit und Literatur, keine neuen Registrierungen.
+
+**Prüfung (15:55, gemessen):** Die Lesart-Schwäche aus EXP-077/078 („p ≥ 0.2 allein → keine Wirkung“) steckt nicht in den anderen Auswertungen der Nacht (EXP-040/073/074/075, P2f, P4, R1–R3; grep nach den Mustern, EXP-074 liest über Mediane der Effektgrößen). Nichts geändert.

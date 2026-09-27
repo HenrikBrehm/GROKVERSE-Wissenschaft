@@ -31,3 +31,16 @@ Gezielte Nachprüfung der Änderungen gegenüber P2b: volle 4000 Schritte garant
 
 Manifest-Commit **e8e0cfa** (Commit-Feld b7dfa94), Splits und Jobs 4aa4544, Herkunftsprüfung für alle 100 Seeds bestanden. Vor dem Einfrieren kein Lauf mit Seeds 2100–2199.
 Start 08:10 mit 3 Arbeitern (freier virtueller Speicher nur 3.3 GB).
+
+## ERGEBNIS (Sitzung 22, Block 08:10–09:02, Auswertung 09:03 Berlin; `lab/confirm/P2c_summary.json`): ***nicht bestätigt***, Vorzeichen umgekehrt
+
+200/200 Läufe gebunden (zwei Warteschlangen über dieselben Zeilen; die Exit-4-Meldungen am Treffpunkt sind die vorgesehenen `run.lock`-Ablehnungen), 0 technische Ausfälle,
+99/100 Seeds geeignet (1 nicht generalisiert), 0 gekappte Arme.
+- **Primär:** R̄ = **−0.108**, SD 0.202, 95-%-KI **[−0.149, −0.070]**, 30/99 > 0, d_z −0.54 → ***nicht bestätigt***. Die Aussage P2 („das Entfernen aus den eigenen Zielen kostet bei f = 0.5 mehr Loss“)
+  gilt nach 4000 Schritten **nicht**; das Gegenteil ist hier deutlich.
+- Sekundär: rohes D −9·10⁻⁵ [−2.5·10⁻⁴, −1·10⁻⁶]. Sensitivität über alle 100 Seeds: R̄ −0.112 [−0.153, −0.073].
+- **Beschreibend, nach dem Ergebnis angesehen (keine Deutung mit Beweiskraft):** Median E_own/E_ctrl je Modell 20.5 (P2 bei 2000 Schritten: 12.2), Median-Basis-Loss 8.9·10⁻⁵ (P2: 4.1·10⁻³).
+  Die feste Dosis 0.5·E_ctrl ist für die eigenen Ziele also eine sehr kleine relative Störung (≈ 2.5 % ihrer Energie), für die Kontrollmenge 50 %. „Je Energieeinheit“ war nie Teil der Aussage;
+  ob die Umkehrung an der Dosis-Geometrie, am späteren Trainingsstand (2000 statt 4000 Schritte) oder an den Seeds liegt, ist offen.
+- **Folge für Programm A:** Die funktionale Nutzung der gesteuerten Frequenzen ist mit diesem Maß **nicht** belegt. Ein Nachfolger bräuchte ein Maß, das die relative Störung angleicht
+  (z. B. gleicher Anteil der jeweiligen Energie) oder eine Dosis-Kurve, vorab festgelegt; vor jeder weiteren Aussage Codex-Prüfung der Schlussfolgerung.

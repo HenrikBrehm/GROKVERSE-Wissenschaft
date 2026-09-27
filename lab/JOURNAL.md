@@ -2994,3 +2994,8 @@ Zwei-Regime-Bild (Koexistenz bis t ≈ 30, Ausschluss bei 50), dessen Vorhersage
 *Wiederholen wir uns?* Nein: jeder Versuch dieser Sitzung entschied zwischen benannten Konkurrenzmodellen. *Sind die Maße geeignet?* Teilweise: π und a/b sind Spektralmaße in W_E; Codex hat zu Recht
 verlangt, Funktion getrennt zu prüfen (EXP-064 läuft). *Welche Annahme als Nächstes angreifen:* dass „Ausschluss“ ein Kapazitäts- bzw. Weight-Decay-Effekt ist (K1) und welcher Teil des Rests ihn trägt.
 *Eigene Fehler:* P2b-Designfehler (vorzeitiger Trainer-Stopp nicht bedacht), mehrfach geschätzte statt gemessene Uhrzeiten (korrigiert), einmal `git add -u lab` mit Nutzer-Dateien (sofort rückgängig gemacht, nur mein Commit).
+
+**Zyklus 14 (P2c ausgewertet, 09:03 gemessen).** 200/200 gebunden, 99/100 geeignet. ***nicht bestätigt***, mit umgekehrtem Vorzeichen: R̄ = −0.108 [−0.149, −0.070], 30/99 > 0.
+Beschreibend (nach dem Ergebnis): Die eigenen Ziele tragen bei 4000 Schritten noch mehr W_E-Energie (Median-Verhältnis 20.5 statt 12.2), die Dosis 0.5·E_ctrl stört sie also nur um ≈ 2.5 %,
+die Kontrolle um 50 %. Deutung offen, nicht verteidigt. *Entscheidung:* Programm A („funktionale Nutzung“) ist mit dem P2-Maß nicht belegt; ein Nachfolger bräuchte ein vorab festgelegtes Maß mit
+angeglichener relativer Störung oder eine Dosis-Kurve. Codex-Prüfung dieser Schlussfolgerung in der nächsten Sitzung.

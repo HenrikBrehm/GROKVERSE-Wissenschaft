@@ -1,0 +1,23 @@
+{
+ "t25": {
+  "pairs": 47,
+  "delta_mem_mean": 31.914893617021278,
+  "delta_gap_mean": 282.97872340425533,
+  "delta_gen_mean": 314.8936170212766,
+  "gap_share_of_delay": 0.8986486486486487,
+  "n_gap_gt_mem": 37,
+  "delta_mem_median": 30.0,
+  "delta_gap_median": 320.0
+ },
+ "t50": {
+  "pairs": 57,
+  "delta_mem_mean": 91.57894736842105,
+  "delta_gap_mean": -236.75438596491227,
+  "delta_gen_mean": -145.17543859649123,
+  "gap_share_of_delay": 1.6308157099697884,
+  "n_gap_gt_mem": 11,
+  "delta_mem_median": 60.0,
+  "delta_gap_median": -260.0
+ },
+ "prediction_met_t25": true
+}

@@ -1,6 +1,6 @@
 ---
 id: EXP-042
-status: abgeschlossen (Hauptlauf); π-Lesart offen
+status: abgeschlossen (Hauptlauf und π-Lesart, gemischt)
 datum: 2026-09-26
 tags: [exp/abgeschlossen, befund/unklar, neu/kandidat]
 ---
@@ -117,3 +117,7 @@ python lab/experiments/EXP-042-bias-strength/make_splits.py        # reine Rechn
 sh lab/experiments/EXP-042-bias-strength/queue.sh   # tatsächlich gelaufen über: python lab/tools/night_program.py --cpu ... --experiments EXP-042,...
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-042-bias-strength/analyze.py
 ```
+
+## Nachtrag d (Sitzung 32, 21:46 Berlin, gemessen): π-Lesart gerechnet
+
+`pi_window.py` (Selbsttest grün, dann Auswertung, beide über den Wächter): **ε 8:** π = 0.05 / 0.66 / 1.01 / 1.01 bei t = 25 / 50 / 100 / 150. Das ist bei 25 um 0.32 und bei 50 um 0.07 **unter** der Taktkurve min(1, t/69), das O-Kriterium ist für diese Zelle also erfüllt. **ε 1:** π = 0.09 / 0.24 / 0.61 bei t = 10 / 25 / 50, Abweichung −0.05 / −0.12 / −0.11. Das liegt ebenfalls *unter* der Kurve statt darüber, damit gilt dort „weder C noch O“. **Gesamtlesart: gemischt.** Die vorhergesagte Verschiebung nach oben für den schwachen zweiten Split fehlt; nur der starke zweite Split verschiebt das Fenster erkennbar. Grenzen nach Nachtrag c: n = 4 Seeds, und eine sättigende Abbildung kann ein O ohne G-abhängiges Fenster erzeugen. Das Urteil des Hauptlaufs (*unklar*) bleibt. Für die größte offene Frage in [[FINDINGS]] ist das ein schwacher Hinweis, dass die Stärke des zweiten Splits mitbestimmt, *wann* die alte Wahl kippt; ein reiner Takt reicht nicht ganz.

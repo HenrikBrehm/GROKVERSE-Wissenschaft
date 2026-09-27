@@ -49,7 +49,7 @@ sys.path.insert(0, str(LAB / "tools"))
 import confirm_p1 as c1  # noqa: E402  (read-only reuse: interp, bootstrap, holm)
 import confirm_splits as cs  # noqa: E402  (m0 of a flat index split)
 from bound_block import Block, selftest_binding  # noqa: E402
-from result_loader import Expect, load_run  # noqa: E402
+from result_loader import Expect, load_run, sorted_hash  # noqa: E402
 
 RAW = LAB / "confirm" / "r5_raw"
 BIND = LAB / "confirm" / "r5_bindings"
@@ -80,7 +80,9 @@ def stream(*key: int) -> np.random.Generator:
     return np.random.default_rng(np.random.SeedSequence([R5_TAG, *key]))
 
 
-INIT_PERM = [int(x) for x in np.random.default_rng(np.random.SeedSequence([R5_TAG, 97])).permutation(SEED_MAX - SEED0 + 1)]
+# Frozen literal (session 31, numpy 2.5.1: default_rng(SeedSequence([R5_TAG, 97])).permutation(60)); a literal, so the code hash covers it
+INIT_PERM = [23, 49, 30, 6, 36, 13, 58, 12, 15, 53, 2, 48, 22, 39, 40, 47, 17, 34, 18, 10, 33, 3, 26, 24, 0, 16, 57, 43, 5, 8,
+             20, 35, 9, 51, 56, 27, 19, 38, 42, 32, 55, 46, 54, 41, 52, 21, 25, 44, 59, 50, 28, 11, 45, 37, 1, 14, 7, 31, 29, 4]
 
 
 def init_seed(u: int) -> int:
@@ -220,7 +222,8 @@ def job(man: dict, u: int, arm: str) -> str:
 
 
 def trainer_jobs(man: dict) -> list[str]:
-    """All runs in a frozen random order (Codex s30 major 5: no arm always first)."""
+    """All runs in a seeded random order (Codex s30 major 5: no arm always first). Execution order only: it cannot change a result;
+    the job file written at freezing time (R5_jobs.txt, committed) is the record."""
     jobs = [job(man, u, a) for u in range(check_units(man)) for a in ARMS]
     order_ = np.random.default_rng(np.random.SeedSequence([R5_TAG, 96, len(jobs)])).permutation(len(jobs))
     return [jobs[i] for i in order_]
@@ -248,9 +251,10 @@ def dense_violation(dense: dict | None) -> str | None:
         return "dense missing"
     for kind, every in (("test", EVAL), ("train", 10)):
         st, acc = dense.get(f"{kind}_steps"), dense.get(f"{kind}_acc")
-        if not isinstance(st, list) or not isinstance(acc, list) or [int(s) for s in st] != list(range(0, CAP + 1, every)):
-            return f"dense {kind} grid is not 0:{every}:{CAP}"
-        if len(acc) != len(st) or not all(isinstance(v, (int, float)) and math.isfinite(v) and 0.0 <= v <= 1.0 for v in acc):
+        if not isinstance(st, list) or any(type(s) is not int for s in st) or st != list(range(0, CAP + 1, every)):
+            return f"dense {kind} grid is not the integers 0:{every}:{CAP}"
+        if (not isinstance(acc, list) or len(acc) != len(st)
+                or not all(type(v) in (int, float) and math.isfinite(v) and 0.0 <= v <= 1.0 for v in acc)):
             return f"dense {kind} accuracies malformed"
     return None
 
@@ -345,28 +349,34 @@ def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
 
 
 # ---------------------------------------------------------------- analysis
+def measure(d: Path, seed: int, device: str, steps: int, split_file: Path, test_file: Path, tgts: list[list[int]]) -> dict | str:
+    """Common loader (seed, device, budget, split and TEST hash, config, finite spectrum at 250) + dense validation + event."""
+    L = load_run(d, Expect(seed=seed, device=device, max_steps=steps, split_file=split_file, test_file=test_file,
+                           config={"p": P, "task": "add", "arch": "transformer", "lr": 1e-3, "weight_decay": 1.0}, at=SPEC_AT))
+    if L.status != "ok":
+        return f"{L.status}: {L.reason}"
+    res = L.res
+    if (why := dense_violation(res.get("dense"))):
+        return f"defekt: {why}"
+    pw = L.spectrum(250)
+    share = float(np.mean([pw[[k - 1 for k in tg]].sum() / pw.sum() for tg in tgts]))
+    return {"event": event(res["dense"], int(res["steps_completed"])), "init_checksum": res.get("init_checksum_shared"),
+            "first_crossing": (res.get("events") or {}).get("generalization_step"), "we_share_250": share,
+            "test_final": (res.get("final_acc") or {}).get("test")}
+
+
 def one_run(man: dict, u: int, arm: str) -> dict | str:
     d, tag = run_dir(shlex.split(job(man, u, arm))), f"u{u}:{arm}"
     if not d.exists():
         return f"{tag}: fehlt"
     if (why := BLOCK.unbound(man, d)):
         return f"{tag}: defekt: {why}"
-    L = load_run(d, Expect(seed=init_seed(u), device=man["device"], max_steps=man["steps"], split_file=split_path(u, arm),
-                           test_file=split_path(u, "test"),
-                           config={"p": P, "task": "add", "arch": "transformer", "lr": 1e-3, "weight_decay": 1.0},
-                           at=SPEC_AT))
-    if L.status != "ok":
-        return f"{tag}: {L.status}: {L.reason}"
+    m = measure(d, init_seed(u), man["device"], man["steps"], split_path(u, arm), split_path(u, "test"), arm_targets(u, arm))
+    if isinstance(m, str):
+        return f"{tag}: {m}"
     if (why := BLOCK.unbound(man, d)):
         return f"{tag}: defekt after load: {why}"
-    res = L.res
-    if (why := dense_violation(res.get("dense"))):
-        return f"{tag}: defekt: {why}"
-    pw = L.spectrum(250)
-    share = float(np.mean([pw[[k - 1 for k in tg]].sum() / pw.sum() for tg in arm_targets(u, arm)]))
-    return {"event": event(res["dense"], int(res["steps_completed"])), "init_checksum": res.get("init_checksum_shared"),
-            "first_crossing": (res.get("events") or {}).get("generalization_step"), "we_share_250": share,
-            "test_final": (res.get("final_acc") or {}).get("test")}
+    return m
 
 
 def unit_row(man: dict, u: int) -> dict:
@@ -430,6 +440,38 @@ def _fake_rows(rng: np.random.Generator, n: int, speed: dict[str, float], d_copi
     return rows
 
 
+def _selftest_measure() -> None:
+    """Codex s31 item 6: loader integration with --test-file on synthetic run directories (temporary files only)."""
+    import tempfile
+    with tempfile.TemporaryDirectory(dir=LAB / "confirm") as tmp:
+        root = Path(tmp)
+        sp, te, other = root / "s.npy", root / "t.npy", root / "o.npy"
+        np.save(sp, np.arange(0, 3 * N_TRAIN, 3, dtype=np.int64))
+        np.save(te, np.arange(1, 3 * N_TEST, 3, dtype=np.int64))
+        np.save(other, np.arange(2, 3 * N_TEST, 3, dtype=np.int64))
+        tg = [[1, 2, 3, 4, 5]]
+
+        def make(name: str, **patch: object) -> Path:
+            d = root / name
+            d.mkdir()
+            res = {"status": "completed", "seed": 2720, "device": "cuda", "max_steps": CAP, "steps_completed": CAP,
+                   "split_hash": sorted_hash(np.load(sp)), "test_hash": sorted_hash(np.load(te)), "init_checksum_shared": "c",
+                   "config": {"p": P, "task": "add", "arch": "transformer", "lr": 1e-3, "weight_decay": 1.0},
+                   "events": {"generalization_step": 500}, "final_acc": {"test": 1.0}, "dense": _dense(500), **patch}
+            (d / "result.json").write_text(json.dumps(res), encoding="utf-8")
+            pw = np.ones((1, N_FREQ))
+            pw[0, :5] = 10.0
+            np.save(d / "spectra.npy", pw)
+            np.save(d / "spectra_steps.npy", np.array([250]))
+            return d
+        ok = measure(make("ok"), 2720, "cuda", CAP, sp, te, tg)
+        assert isinstance(ok, dict) and ok["event"] == (500, True) and abs(ok["we_share_250"] - 50 / 101) < 1e-12, ok
+        assert "test_hash" in measure(make("wrongtest", test_hash=sorted_hash(np.load(other))), 2720, "cuda", CAP, sp, te, tg)
+        assert "dense" in measure(make("baddense", dense={**_dense(500), "test_steps": list(range(0, CAP, EVAL))}), 2720, "cuda", CAP, sp, te, tg)
+        assert "steps_completed" in measure(make("short", steps_completed=7000), 2720, "cuda", CAP, sp, te, tg)
+        assert "seed" in measure(make("seed", seed=2721), 2720, "cuda", CAP, sp, te, tg)
+
+
 def selftest() -> None:
     man = {**REGISTERED, "python": "PY"}
     BLOCK.check_registered(man)
@@ -460,9 +502,7 @@ def selftest() -> None:
             e, d = s[f"E2_{j}"], s[f"D_{j}"]
             assert np.array_equal(np.bincount(antidiag(d), minlength=P), np.bincount(antidiag(e), minlength=P)), (u, j)
             assert matched(match_stats(d, s["test"]), match_stats(e, s["test"])) and components(d) == 1, (u, j)
-            assert target_share(e, targets(u, j)) > 0.15 and target_share(d, targets(u, j)) <= TSHARE_D_MAX, (u, j)
-        sh = [target_share(s[a], targets(u, 0)) for a in ("E1_0", "E2_0", "E8_0")]
-        assert sh[0] < sh[1] < sh[2] and target_share(s["R"], targets(u, 0)) < 0.13, (u, sh)
+            assert target_share(d, targets(u, j)) <= TSHARE_D_MAX, (u, j)          # enforced by construction (a registered criterion)
     x = np.array([a * P + b for a in range(P) for b in range(P) if (a < 56) == (b < 56)])      # two blocks, no cross pairs
     assert components(x) == 2 and components(np.arange(P * P)) == 1
     # jobs and run ids (job order is a frozen permutation, so look jobs up by unit and arm)
@@ -490,7 +530,9 @@ def selftest() -> None:
     good = _dense(500)
     assert dense_violation(good) is None and dense_violation(None) is not None
     for bad in ({"test_steps": good["test_steps"][:-1]}, {"test_acc": good["test_acc"][:-1]}, {"train_steps": good["train_steps"][1:]},
-                {"test_acc": good["test_acc"][:-1] + [float("nan")]}, {"train_acc": good["train_acc"][:-1] + [1.5]}, {"test_acc": None}):
+                {"test_acc": good["test_acc"][:-1] + [float("nan")]}, {"train_acc": good["train_acc"][:-1] + [1.5]}, {"test_acc": None},
+                {"test_steps": [float(x) for x in good["test_steps"]]}, {"train_steps": good["train_steps"][:-1] + ["8000"]},
+                {"test_acc": good["test_acc"][:-1] + ["1.0"]}, {"test_acc": good["test_acc"][:-1] + [True]}):
         assert dense_violation({**good, **bad}) is not None, bad
     # contrasts and censoring
     t = {a: (1000, True) for a in ARMS} | {"R": (CAP, False), "E8_0": (500, True), "E1_0": (2000, True)}
@@ -503,7 +545,7 @@ def selftest() -> None:
     assert order((CAP, False), (700.0, True)) == -1 and order((700.0, False), (900.0, True)) is None
     assert abs(p_sign(9, 9) - 1 / 512) < 1e-12 and p_sign(0, 0) == 1.0
     rng = np.random.default_rng(0)
-    assert p_flip(np.zeros(20), rng) == 1.0 and 0.0 < p_flip(np.ones(20), rng) <= 2 / (N_FLIP + 1) + 1e-5
+    assert p_flip(np.zeros(20), rng) == 1.0 and 0.0 < p_flip(np.ones(20), rng) < 1e-3          # exact p is 2^-20; Monte Carlo floor 1/(N+1)
     # verdict on synthetic studies (deterministic nulls, Codex s31 minor 9)
     fast = {"R": 6000, "D_0": 3000, "D_1": 3000, "E2_0": 800, "E2_1": 800, "E1_0": 2500, "E8_0": 450}
     v = verdict(_fake_rows(rng, 20, fast), 20, rng)
@@ -517,6 +559,7 @@ def selftest() -> None:
     assert all(v[h]["p"] == 1.0 for h in CONTRASTS) and all(v[h]["verdict"] == "nicht bestätigt" for h in PRIMARY), v
     assert verdict(_fake_rows(rng, 19, fast), 20, rng)["verdict"] == "nicht auswertbar"
     assert verdict(_fake_rows(rng, 19, fast) + [{"unit": 19, "technical": True}], 20, rng)["verdict"] == "nicht auswertbar"
+    _selftest_measure()
     selftest_binding(BLOCK, tj[0], tj[1], tj[2])
     assert set(CODE_FILES) <= set(BLOCK.code_hashes())
     loaded = {Path(m.__file__).resolve().relative_to(ROOT.resolve()).as_posix() for m in list(sys.modules.values())

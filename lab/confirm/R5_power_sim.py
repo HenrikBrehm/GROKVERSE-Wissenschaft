@@ -9,7 +9,7 @@ Decision rule per contrast X in {R, D} (as in R5_REGISTRATION_DRAFT.md after the
   p_j = max(p_L, p_sign); Holm over the two contrasts at ALPHA. Power = share of simulated studies with both / each contrast confirmed.
 Session 31 (R5 version 2): matches the primary family exactly in its Holm-over-2 structure (H-ER one-to-one R vs E, H-ED);
 H-dose is secondary and not simulated. Remaining approximations: first crossing instead of the 3-evaluation event, one E/D target set
-per seed (R5 averages two for H-ED, which can only raise power), 2000 instead of 100 000 sign flips.
+per seed (R5 averages two for H-ED; the effect on power can go either way), 2000 instead of 100 000 sign flips.
 Pilot sources (only after EXP-018 has run): EXP-018 summary_cuda.json rows (E, D, R) or, for E vs R only, EXP041_posthoc_speed.json.
 
   python lab/confirm/R5_power_sim.py --pilot lab/experiments/EXP-018-split-speed/summary_cuda.json --n 20 30 40 50 60

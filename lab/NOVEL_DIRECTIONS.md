@@ -198,6 +198,8 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   2024). Ein Bericht müsste N3 als Übertragung auf Z_p-Fourier-Merkmale und als kausale Steuerung einordnen, nicht als
   neue Grundidee. #neu/bekannt (teilweise)
 
+- **Nachtrag Sitzung 30 (19:12):** Post-hoc-Beobachtung an EXP-047: 20/20 konstruierte gegen 0/20 gemischte Arme (gleiche Token-Häufigkeiten, gleiche Init) generalisieren innerhalb von 2000 Schritten, Testmengen sind Komplemente. EXP-018 auf die GPU gestellt (Nachtrag c), rechnet in der Nacht 27./28. Nachsuche (1 Anfrage, s. JOURNAL Sitzung 30): nichts Einschränkendes.
+
 ## N8: Kommutationssymmetrie des Splits und Frequenzwahl #neu/kandidat (schwach)
 
 - **Befund (Rechnung, Sitzung 5; korrigiert 07:28):** M0c − M0 ist ein Kommutations-**Symmetrie**-Term des Splits (maximal = M0 bei symmetrischen Splits, ≈ 0 im Mittel bei Zufallssplits); vorher fälschlich „hängt nur an der Asymmetrie“ (Herleitung in

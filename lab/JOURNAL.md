@@ -2625,3 +2625,9 @@ Wiederholungsregel stehen im Entwurf. Beim Selbsttest fiel ein falscher Sollwert
    Gekreuzter Split×Init-Block (Astra 5) ist entschieden (Sitzung 16): ins Manifest `"cross": {"task": "add", "p": 113, "seeds": [erste 5], "inits_per_seed": 2}`
    (20 Zusatzläufe, sekundär; Lesart in `confirm_p1.py`). EXP-014 bleibt Exploration.
 
+
+**Zyklus 16 (Codex-Nachprüfung der P1-Korrekturen, 03:46–03:54 gemessen).** *Codex:* B2, B4/H3 und H6 sind im Code richtig. Der Registrierungstext und der Docstring beschrieben noch die alten Regeln
+(das stimmt, selbst gelesen), jetzt nachgezogen. `paket_a_device.py` fehlte in den Code-Hashes (wird über EXP-043 `analyze.py` importiert, stimmt), jetzt ergänzt. Die Starter `parallel_queue`/`guarded_run` sind
+bewusst ausgenommen (kein Rechencode, Dateien des Nutzers). **B1 bleibt ein Blocker:** Die Trainer prüfen den eingefrorenen Code nicht selbst, und der Lader bindet die Läufe nicht an den Digest.
+Das berührt den gemeinsamen Trainer, deshalb in der nächsten Sitzung mit Codex-Prüfung. Selbsttests grün. **P1 bleibt uneingefroren.**
+Nebenbei: CPU-Programm mit 3 Arbeitern neu gestartet (03:47), dabei einen Fehler behoben: `take_lock` stürzte bei verwaister Sperre ab, weil die deutsche `tasklist`-Ausgabe (Umlaut) nicht dekodiert wurde und stdout None blieb (Commit 1b0e94f).

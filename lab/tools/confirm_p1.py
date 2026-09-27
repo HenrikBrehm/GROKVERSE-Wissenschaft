@@ -2,7 +2,8 @@
 
 P1: engineered splits raise the target power in W_E, Delta_pow > 0 on fresh seeds and splits, minimum effect Delta_pow >= 1.
 Primary per task in the manifest: mean Delta_pow over seeds, one-sided sign-flip test of mean > 0 (exact for n <= 20, else
-Monte Carlo), 95 % bootstrap CI of the mean; the p-values enter the P1-P3 Holm family (FAMILY = 3, p of missing members = 1).
+Monte Carlo), 95 % bootstrap CI of the mean; with manifest 'primary_task' only that task enters the P1-P3 Holm family (FAMILY = 3,
+missing members p = 1) and the other tasks form a secondary Holm family (session 20, Codex B2; see family_adjust).
 "confirmed" for a task needs ALL planned pairs valid, Holm-p < 0.05 AND the lower CI bound >= MIN_EFFECT (session 20, Codex B4/H3).
 Runs: transformer of the study (freq_ban.py, add/mul) or group_train.py (D_n), 2000 steps, device from the manifest.
 

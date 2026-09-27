@@ -2813,7 +2813,7 @@ Neue Idee N28, Suche ohne Treffer (vorläufig). *Alternative:* Die vorzeichenart
 die Option ist ohne Flag wirkungslos. Die Prüfung läuft jetzt nachträglich. Wegen der geänderten Datei `freq_ban.py` besteht eine erneute Auswertung von P1/P2/P3 die Code-Prüfung nur noch aus
 einem Checkout der eingefrorenen Commits (733e829 bzw. f8adf45). Die Ergebnisse sind berechnet und committet; das ist so gewollt.
 
-### STATE-Archiv Sitzung 21 (Stand 05:18, wörtlich, ersetzt um 06:25)
+### STATE-Archiv Sitzung 21 (Stand 05:18, wörtlich, ersetzt um 06:23)
 
 > # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 > 

@@ -823,3 +823,15 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
 - **Suche 2026-09-27 15:00** („partial reset attention query key versus value output plasticity task switch routing content transformer reinitialization which weights“): Die Aufteilung
   QK = Leitung, OV = Inhalt ist Standard (Elhage et al. 2021, *A Mathematical Framework for Transformer Circuits*; Kanäle für Inhalt z. B. https://arxiv.org/abs/2606.20678). Eine Vorhersage,
   welcher Teil-Reset je nach Art des Datenwechsels die Plastizität herstellt, wurde nicht gefunden (vorläufig; eine Suche, nur Treffer).
+
+## N37: Liegt das Festlegungsfenster am Horizont von Adams zweitem Moment? (Sitzung 26) #neu/kandidat
+
+- **Beobachtung (Rechnung, keine Läufe):** Der Umschlag der Festlegung liegt zwischen 25 und 50 Schritten (N29); der Horizont des zweiten Moments ist 1/(1 − β₂) = 50 Schritte (β₂ = 0.98 im Preset),
+  die Bias-Korrektur-Masse 1 − β₂ᵗ ist 0.40 bei t = 25 und 0.64 bei t = 50. Zufall oder Ursache?
+- **Konkurrenzmodelle:** *β₂-Schrittuhr* (festgelegt, sobald v̂ die Gradientengrößen der ersten Daten „kennt“; danach sind Schritte entlang neuer Richtungen relativ klein) gegen *Λ-Uhr*
+  (Amplitudenrennen, H40). R3 ([[confirm/R3_REGISTRATION_DRAFT|R3]]) trennt Λ gegen Schritte, aber nicht β₂ gegen andere Schrittmechanismen.
+- **Möglicher Test (Skizze, nicht festgelegt):** β₂ ∈ {0.95, 0.995} (Horizont 20 bzw. 200 Schritte) bei sonst gleichem N29-Protokoll; die β₂-Uhr sagt eine Verschiebung des Fensters proportional zum
+  Horizont voraus, die Λ-Uhr keine. Braucht eine Trainer-Option `--beta2` (Codex-Pflicht). Erst nach R3 entscheiden: Bestätigt R3 die Λ-Uhr, ist N37 in dieser Form unwahrscheinlich.
+- **Suche 15:38** (WebSearch: „Adam beta2 horizon critical period early training feature lock-in data switch second moment bias correction first steps determine features“): Treffer zu kritischen
+  Perioden allgemein (https://arxiv.org/abs/2506.15954), zur Stabilität von Adam in Abhängigkeit von β₂ und zu Konvergenzbedingungen (https://arxiv.org/abs/2603.02092), LeDoux 2026; **keine Arbeit,
+  die ein Festlegungsfenster an den β₂-Horizont bindet** (eine Suche, nur Treffer; vorläufig).

@@ -16,6 +16,7 @@ N29 zeigt einen Umschlag zwischen einem Wechsel nach 25 und nach 50 Schritten (S
 - **Λ-Uhr:** Die Festlegung hängt an der aufsummierten Lernrate Λ = Σ lr (in Einheiten von 1e-3: Λ = c · t). Das passt zum Amplitudenbild (unter Adam wachsen die Zielamplituden ≈ linear in Λ;
   [[experiments/EXP-040-we-init-scale/README|EXP-040]] H40) und zu EXP-059 („Momentum = Vorschritte“).
 - **Schrittuhr:** Die Festlegung hängt an der Zahl der Schritte (z. B. über Adams Momentenhorizonte), unabhängig von der Lernrate.
+  *Konkreter Kandidat (Sitzung 26, Rechnung ohne Läufe):* Der Horizont des zweiten Moments ist 1/(1 − β₂) = **50 Schritte** (β₂ = 0.98 im Preset); die Bias-Korrektur-Masse 1 − β₂ᵗ ist 0.40 bei t = 25 und 0.64 bei t = 50. Dass das Umschlagfenster (25, 50] genau darunter liegt, macht eine β₂-gebundene Schrittuhr zu einem ernsthaften Konkurrenten.
 EXP-039 (Pilot, 4 bekannte Seeds, Dominanzmaß d) fand Λ in 5/8 Zellen → ***unklar***. R2 kann die Frage nicht klären, weil dort die Lernrate auch nach dem Wechsel verändert ist (Codex s26).
 
 ## Aufbau
@@ -42,6 +43,7 @@ EXP-039 (Pilot, 4 bekannte Seeds, Dominanzmaß d) fand Λ in 5/8 Zellen → ***u
   GPU, 1 Thread; nach N29 ≈ 17 min mit 7 Arbeitern.
 - **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** N29 (Maß, Mindestdifferenz 0.3, Budget, Streuung); EXP-039 (Seeds 30–34; Idee und Faktor 2 bzw. 0.5); EXP-059 (π-Kurve,
   Seeds 400–409); R2-Entwurf und Codex-Einwand (Anlass, keine Daten). Keine Läufe dieser Seeds.
+- **Weight Decay ist über Λ angeglichen (Rechnung):** Der Zerfallsfaktor vor dem Wechsel ist (1 − 0.002)²⁵ = 0.95118 bei lrs2@25 und (1 − 0.001)⁵⁰ = 0.95121 beim Standard bei 50, bzw. (1 − 0.0005)⁵⁰ = 0.97530 bei lrs05@50 und (1 − 0.001)²⁵ = 0.97530 beim Standard bei 25. Der Decay-Anteil folgt also derselben Uhr wie die Gradientenschritte.
 - **Grenzen:** eine Aufgabe (add 113), eine Architektur, ω = 0; c ändert mit der Lernrate auch den Weight-Decay-Schritt (AdamW entkoppelt: lr · wd) und die Größe der Adam-Schritte, nicht die
   Momentenhorizonte; „Λ“ ist deshalb eine Sammelgröße (Lernrate × Schritte), kein Mechanismus. Zwei Zellen, keine Kurve.
 - **Familie:** eigene (nur R3).

@@ -3,11 +3,13 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 17:56 Berlin (Sitzung 28 beendet, Start 16:49; Run-Fenster wieder ab 00:00)._
+_Zuletzt aktualisiert: 2026-09-27, 18:55 Berlin (Sitzung 29, Start 17:59; Run-Fenster wieder ab 00:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
-## Lage (Sitzungen 24–28)
+## Lage (Sitzungen 24–29)
+
+- **Sitzung 29 (Fenster zu, 17:59–):** Nachtplan **unverändert**. Literatur: erste Google-Scholar-Abfrage und Init-Skala-Suche, nichts Einschränkendes zu K2/K4 (neu zur menschlichen Prüfung: Stevinson & Prieto 2026, Kontext K2-Funktion). H40 an EXP-039 vorgeprüft: Festlegung bei ≈ 1/3–2/3 der Init-Amplitude; Invarianzvergleich von EXP-040 nur über die s-Zellen lesen ([[LESART-nacht-2026-09-28]] 11–12). Kandidat N41 (nur Init-Hintergrund skalieren), erst nach EXP-040.
 
 - **Sitzung 28 (Fenster zu, 16:49–):** Aus gespeicherten P1-Läufen: K2 absolut (80 % der W_E-Energie auf den Zielen, add 113); Maskenspektrum ordnet die Ziele innerhalb eines Splits (alle 4 Aufgaben) → **C1** registriert (an R1); nach Wechsel bei t = 50 bleibt die Rangfolge der alten Ziele erhalten (N29) → **C2** registriert (an R2). Beides Exploration an gesehenen Seeds; Auswerteskripte ungetestet. Auch bei 4× Breite, Integer-Addition, MLP → **C3** (an P4). Architekturkontrast der Theorie (MLP folgt M0) für die Feinordnung widerlegt (Pilot). Dazu **C4** (an P2f, D₅₉ bei 12 000 Schritten) und Pilot **EXP-082** (Eingriff: vorgegebene Zielstärken, optional). Momentum trägt nach dem Wechsel die Menge, nicht die Ordnung (Exploration). Alle C-Registrierungen Codex-geprüft; eigener Fund: `repro/k2.py` maß mul in der falschen Basis (behoben).
 

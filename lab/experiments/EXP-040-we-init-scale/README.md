@@ -117,3 +117,19 @@ Die im Abschnitt „Neuheit“ offen gelassene gezielte Suche ist nachgeholt ([[
 ## Literatur zur Init-Skala (2026-09-27, Sitzung 29, 18:05 Berlin, gemessen; ändert keine Regel)
 
 Die im Abschnitt „Neuheit“ offen gelassene gezielte Suche ist nachgeholt ([[paper/related_work]], Nachtrag Sitzung 29): kein Treffer, der die Verschiebung eines Festlegungsfensters durch die Init-Skala prüft. Neu als Kontext: Khanh et al. 2026 (arXiv 2606.13753) finden eine Grokking-Verzögerung ∝ exp(7.5 ρ) bei geklemmter Gewichtsnorm ρ; das stützt den schon notierten Ausfallgrund (s = 2 → gen_F später → Zelle *unklar*). Das Urteil hängt davon nicht ab; wird s = 2 mehrheitlich *unklar*, ist das als erwarteter Ausfall, nicht als Befund gegen H40 zu lesen.
+
+## Literatur zur Init-Skala (2026-09-27, Sitzung 29, 18:05 Berlin, gemessen; ändert keine Regel)
+
+Die im Abschnitt „Neuheit“ offen gelassene gezielte Suche ist nachgeholt ([[paper/related_work]], Nachtrag Sitzung 29): kein Treffer, der die Verschiebung eines Festlegungsfensters durch die Init-Skala prüft. Neu als Kontext: Khanh et al. 2026 (arXiv 2606.13753) finden eine Grokking-Verzögerung ∝ exp(7.5 ρ) bei geklemmter Gewichtsnorm ρ; das stützt den schon notierten Ausfallgrund (s = 2 → gen_F später → Zelle *unklar*). Das Urteil hängt davon nicht ab; wird s = 2 mehrheitlich *unklar*, ist das als erwarteter Ausfall, nicht als Befund gegen H40 zu lesen.
+
+## Literatur zur Init-Skala (2026-09-27, Sitzung 29, 18:05 Berlin, gemessen; ändert keine Regel)
+
+Die im Abschnitt „Neuheit“ offen gelassene gezielte Suche ist nachgeholt ([[paper/related_work]], Nachtrag Sitzung 29): kein Treffer, der die Verschiebung eines Festlegungsfensters durch die Init-Skala prüft. Neu als Kontext: Khanh et al. 2026 (arXiv 2606.13753) finden eine Grokking-Verzögerung ∝ exp(7.5 ρ) bei geklemmter Gewichtsnorm ρ; das stützt den schon notierten Ausfallgrund (s = 2 → gen_F später → Zelle *unklar*). Das Urteil hängt davon nicht ab; wird s = 2 mehrheitlich *unklar*, ist das als erwarteter Ausfall, nicht als Befund gegen H40 zu lesen.
+
+## Literatur zur Init-Skala (2026-09-27, Sitzung 29, 18:05 Berlin, gemessen; ändert keine Regel)
+
+Die im Abschnitt „Neuheit“ offen gelassene gezielte Suche ist nachgeholt ([[paper/related_work]], Nachtrag Sitzung 29): kein Treffer, der die Verschiebung eines Festlegungsfensters durch die Init-Skala prüft. Neu als Kontext: Khanh et al. 2026 (arXiv 2606.13753) finden eine Grokking-Verzögerung ∝ exp(7.5 ρ) bei geklemmter Gewichtsnorm ρ; das stützt den schon notierten Ausfallgrund (s = 2 → gen_F später → Zelle *unklar*). Das Urteil hängt davon nicht ab; wird s = 2 mehrheitlich *unklar*, ist das als erwarteter Ausfall, nicht als Befund gegen H40 zu lesen.
+
+## Literatur zur Init-Skala (2026-09-27, Sitzung 29, 18:05 Berlin, gemessen; ändert keine Regel)
+
+Die im Abschnitt „Neuheit“ offen gelassene gezielte Suche ist nachgeholt ([[paper/related_work]], Nachtrag Sitzung 29): kein Treffer, der die Verschiebung eines Festlegungsfensters durch die Init-Skala prüft. Neu als Kontext: Khanh et al. 2026 (arXiv 2606.13753) finden eine Grokking-Verzögerung ∝ exp(7.5 ρ) bei geklemmter Gewichtsnorm ρ; das stützt den schon notierten Ausfallgrund (s = 2 → gen_F später → Zelle *unklar*). Das Urteil hängt davon nicht ab; wird s = 2 mehrheitlich *unklar*, ist das als erwarteter Ausfall, nicht als Befund gegen H40 zu lesen.

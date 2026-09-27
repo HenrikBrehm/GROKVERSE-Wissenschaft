@@ -275,3 +275,16 @@ if __name__ == "__main__":
             t()
         print(f"ok  {t.__name__}")
     print(f"{len(tests)} passed")
+
+def test_partial_optimizer_reset_arguments() -> None:   # EXP-058 (session 21): fail closed on invalid combinations
+    import subprocess
+    base = [sys.executable, str(HERE / "freq_ban.py"), "--seed", "0", "--condition", "baseline", "--steps", "1",
+            "--out-root", str(HERE / "raw_test_never")]
+    for extra, msg in ((["--reset-optim-part", "m"], "needs --switch-split-file"),
+                       (["--log-update-norms", "5"], "needs --switch-split-file")):
+        r = subprocess.run(base + ["--split-file", "x.npy", "--test-file", "t.npy"] + extra, capture_output=True, text=True, timeout=120)
+        assert r.returncode != 0 and msg in (r.stderr + r.stdout), (extra, r.stderr[-300:])
+    r = subprocess.run(base + ["--split-file", "x.npy", "--test-file", "t.npy", "--switch-split-file", "y.npy", "--switch-step", "5",
+                               "--reset-optim-part", "m", "--reset-optim-at-switch"], capture_output=True, text=True, timeout=120)
+    assert r.returncode != 0 and "excludes the other reset options" in (r.stderr + r.stdout)
+    assert not (HERE / "raw_test_never").exists()

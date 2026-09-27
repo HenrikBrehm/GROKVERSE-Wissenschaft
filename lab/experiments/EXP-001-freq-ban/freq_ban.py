@@ -80,7 +80,7 @@ FINGERPRINT_ARGS = ("seed", "condition", "t0", "m", "steps", "stop_after_gen", "
                     "split_value", "warmup", "alternate_every", "reset_at_switch", "lr_scale", "we_init_scale",
                     "spectra_at", "p", "task", "arch", "device", "save_model")
 FINGERPRINT_FILES = ("split_file", "test_file", "switch_split_file")
-LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False}   # name -> default; in the fingerprint only if != default (s18, s21)
+LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "reset_optim_part": None, "log_update_norms": 0}   # name -> default; in the fingerprint only if != default (s18, s21)
 LOCK_NAME = "run.lock"
 
 
@@ -399,6 +399,12 @@ def run(a: argparse.Namespace) -> dict:
         if a.switch_split_file is None:
             raise SystemExit("--reset-optim-at-switch needs --switch-split-file")
         run_id += "_ro"
+    if a.reset_optim_part:           # EXP-058 (session 21): zero only exp_avg ("m") or exp_avg and exp_avg_sq ("moments"); step kept
+        if a.switch_split_file is None or a.reset_optim_at_switch or a.reset_at_switch:
+            raise SystemExit("--reset-optim-part needs --switch-split-file and excludes the other reset options")
+        run_id += f"_ro{a.reset_optim_part}"
+    if a.log_update_norms and (a.switch_split_file is None or a.log_update_norms < 1):
+        raise SystemExit("--log-update-norms needs --switch-split-file and N >= 1")
     if a.split_value:                # EXP-023: position 1 gets its own attention value matrix
         exp_id = "EXP-023"
         run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_sv{a.split_value}"
@@ -597,7 +603,15 @@ def run(a: argparse.Namespace) -> dict:
         if a.lr_scale_after_switch != 1.0:   # P3 ELR arm: c * lr for switch_step < step <= switch_step + 500
             for g in opt.param_groups:
                 g["lr"] = cfg.lr * lr_mult_after_switch(step, a.switch_step, a.lr_scale_after_switch)
+        log_un = bool(a.log_update_norms and a.switch_step - 4 <= step <= a.switch_step + a.log_update_norms)
+        if log_un:                       # EXP-058: size of the actual parameter update around the switch
+            before = [q.detach().clone() for q in model.parameters()]
         opt.step()
+        if log_un:
+            with torch.no_grad():
+                d2 = [float(((q - q0) ** 2).sum()) for q, q0 in zip(model.parameters(), before)]
+            wi = next(i for i, q in enumerate(model.parameters()) if q is model.W_E)   # we_idx is only set with keep_init
+            events.setdefault("update_norms", []).append([step, sum(d2) ** 0.5, d2[wi] ** 0.5])
         if (a.warmup or a.lr_scale != 1.0 or a.we_init_scale != 1.0) and switch_idx is not None and step == a.switch_step:   # EXP-035 Nachtrag a: displacement at the switch
             with torch.no_grad():
                 d_all = sum(float(((q - q0) ** 2).sum()) for q, q0 in zip(model.parameters(), init_params)) ** 0.5
@@ -668,6 +682,21 @@ def run(a: argparse.Namespace) -> dict:
                 events["reset_optim_at_switch"] = {"n_params": sum(q.numel() for q in params), "check": check}
                 if not check:
                     raise SystemExit("[exp] EXP-057 optimizer reset check failed")
+            if a.reset_optim_part:        # EXP-058: partial reset, per-parameter step counters (bias correction) kept
+                params = list(model.parameters())
+                snap = [q.detach().clone() for q in params]
+                steps_before = [float(opt.state[q]["step"]) for q in params]
+                for q in params:
+                    opt.state[q]["exp_avg"].zero_()
+                    if a.reset_optim_part == "moments":
+                        opt.state[q]["exp_avg_sq"].zero_()
+                check = all(torch.equal(q, s0) and not opt.state[q]["exp_avg"].any()
+                            and (a.reset_optim_part == "m" or not opt.state[q]["exp_avg_sq"].any())
+                            and float(opt.state[q]["step"]) == st0
+                            for q, s0, st0 in zip(params, snap, steps_before))
+                events["reset_optim_part"] = {"part": a.reset_optim_part, "step_kept": steps_before[0], "check": check}
+                if not check:
+                    raise SystemExit("[exp] EXP-058 partial optimizer reset check failed")
             # session 18, P3 model (iii): ELR = lr / ||theta|| at the switch (read-only, additive field); after a reset,
             # so it describes the parameters the post-switch updates act on (Codex s18)
             events["switch"]["param_norm"] = float(sum(float((q.detach() ** 2).sum()) for q in model.parameters()) ** 0.5)
@@ -734,6 +763,10 @@ def main() -> None:
     ap.add_argument("--warmup", type=int, default=0, help="EXP-035: linear lr warmup over this many steps (0 = off)")
     ap.add_argument("--alternate-every", type=int, default=0,
                     help="EXP-037: alternate F/G in blocks of this many steps until --switch-step (0 = off)")
+    ap.add_argument("--reset-optim-part", choices=("m", "moments"), default=None,
+                    help="EXP-058: at --switch-step zero AdamW exp_avg ('m') or exp_avg and exp_avg_sq ('moments'); step counters kept")
+    ap.add_argument("--log-update-norms", type=int, default=0,
+                    help="EXP-058: log the parameter update norm (all, W_E) for steps switch-4 .. switch+N")
     ap.add_argument("--reset-optim-at-switch", action="store_true",
                     help="EXP-057: at --switch-step clear the AdamW state of all parameters (weights unchanged)")
     ap.add_argument("--reset-at-switch", choices=("we", "rest"), default=None,

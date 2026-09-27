@@ -1,0 +1,30 @@
+{
+ "t25": {
+  "n_seeds": 30,
+  "mean_diff": 0.055057425936684015,
+  "pos": 25,
+  "nonzero": 30,
+  "p_one_sided": 0.00016245711594820023,
+  "test_at_mem_switch_median": 0.1303837150335312,
+  "test_at_mem_dest_median": 0.0691072829067707,
+  "same_step_control": {
+   "mean_diff": -0.0046985117408136524,
+   "pos": 15,
+   "n": 30
+  }
+ },
+ "t50": {
+  "n_seeds": 30,
+  "mean_diff": 0.35027407933957877,
+  "pos": 30,
+  "nonzero": 30,
+  "p_one_sided": 9.313225746154785e-10,
+  "test_at_mem_switch_median": 0.41973376274108887,
+  "test_at_mem_dest_median": 0.0691072829067707,
+  "same_step_control": {
+   "mean_diff": 0.25033281175419686,
+   "pos": 30,
+   "n": 30
+  }
+ }
+}

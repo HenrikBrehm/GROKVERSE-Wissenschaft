@@ -5,19 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 04:19 Berlin (02:19Z, vom Runner)
 - **Deadline:** 2026-09-27 07:19 Berlin (05:19Z)
-- **Zuletzt aktualisiert:** 06:24 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 06:52 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-Codex prueft nachtraeglich die neue Trainer-Option (Adam-Reset) und greift die EXP-057-Deutung an. GPU frei. CPU: Paket-B-Piloten laufen weiter.
+**Sitzung beendet** (06:52). Die CPU-Laeufe (EXP-041 ...) laufen bis 07:19 weiter und werden dann vom Waechter beendet. Naechster geplanter Start: **07:54 Berlin** (runner-state.json).
 
 ## Als Naechstes
 
-Codex-Befunde einarbeiten, STATE + Abschlussbericht (Deadline 07:19).
+Naechste Sitzung: CPU-Programm neu starten; die Momentum-Frage (N28) als Bestaetigung an frischen Seeds festlegen und rechnen; danach den P2-Nachfolger.
 
 ## Verlauf dieser Sitzung
 
+- 06:52 Abschlussbericht im JOURNAL.
+- 06:50 **EXP-058: Nur das Adam-Momentum zu loeschen reicht, damit das Netz die fruehe Wahl vergisst** (0.30 -> 0.12), obwohl die Schritte danach kleiner sind. Das Gedaechtnis steckt im Momentum (Pilot).
+- 06:38 EXP-058 gestartet (Folgeversuch mit sauberer Kontrolle, Codex ohne Einwaende).
+- 06:31 Codex: Adam-Reset-Code korrekt, EXP-057-Deutung ueberzogen, korrigiert.
 - 06:21 **EXP-057 (Pilot): Setzt man nur den Adam-Zustand zurueck, verschwindet das Gedaechtnis der ersten 25 Schritte fast ganz.** Ueberraschend; erst Kontrollen, dann Bestaetigung.
 - 06:13 Zerlegung: Die fruehen Ziele tragen 20 % der Leistung (Zufall 9 %). Es gibt also echtes Erhalten plus langsameres Umlernen.
 - 06:10 Codex: P3 gilt statistisch; "Festlegung im Netz" ist damit aber noch nicht bewiesen (enge Formulierung uebernommen).

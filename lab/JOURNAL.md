@@ -3152,3 +3152,29 @@ Trainer-Erweiterung `qk|vo` (1c6e480, 18/18 Tests, **ohne Codex**: gleiche Codep
 **Zyklus 20 (Codex wieder verfügbar: Nachprüfungen, 11:45–11:54 gemessen).** Test-Aufruf 11:45 ok. (1) *N29b-Schlussfolgerung:* kein Blocker (Run-IDs, Resets, Vorzeichen, Holm nachgerechnet); K4d auf „Reset-Empfindlichkeit“
 eingeengt (Gewichte + AdamW-Zustand gemeinsam, Normen, MLP-Kontrolle nicht angeglichen, nur „stärker als dieser MLP-Reset“). Übernommen in [[FINDINGS]]. (2) *Trainer:* `qk|vo` korrekt, EXP-069 wertet die richtigen Läufe aus;
 `group_train --save-model`: Fingerabdrücke korrekt, aber ein erzwungener Neulauf ließ ein altes `model_final.pt` liegen → behoben (Datei wird beim Start entfernt), mit einem Lauf geprüft.
+
+### Abschlussbericht Sitzung 23 (Stand 11:57 Berlin, gemessen; Auftrag §10)
+
+**Wichtigste Befunde (alle an frischen Seeds, eingefroren, gebunden, Schlussfolgerung von Codex geprüft):**
+- **N29 bestätigt** (087e042): Nach einem Datenwechsel bei t = 50 ist das Endmodell auf die **alten** Zielfrequenzen angewiesen (Ablationskontrast 0.90 [0.85, 0.95], 20/20), bei t = 25 auf die **neuen**
+  (0.60 [0.50, 0.70], 17/20 über 0.3). FINDINGS „K4c“ (Umkehrung eines Ablationskontrasts, keine netzweite Festlegung).
+- **P2e bestätigt** (3c484ef): Das P2d-Maß gilt auch bei mul 113 (0.291 [0.268, 0.308]) und add 97 (0.294 [0.275, 0.312]), je 20/20. Eng: keine Nutzung über die Energie hinaus belegt.
+- **N29b bestätigt** (db31564): Ein Reset der Attention (Gewichte + AdamW-Zustand) beim Wechsel bei t = 50 senkt den Kontrast um 1.49 [1.36, 1.61], stärker als ein doppelt so großer MLP-Reset (1.42 [1.28, 1.56]);
+  beschreibend ist das Netz danach auf die neuen Frequenzen angewiesen (40/40 Richtungen). FINDINGS „K4d“ (Reset-Empfindlichkeit, kein Speicherort).
+- **Explorationen/Piloten:** EXP-066 (P2d-Maß an P1-Modellen), EXP-067 (Attention, nicht MLP/W_U), EXP-069 (Wertepfad W_V/W_O trägt den Ausschluss, Muster unklar), EXP-068 und EXP-064 post hoc
+  (**Funktion folgt der Energie**: bei gleicher entfernter Energie kein Vorteil der dominanten Menge), EXP-070 (OV-Ausrichtung steigt gleichmäßig, kein Sprung bei 25–50; negativ für die einfache Zeitform).
+- EXP-039 (CPU) *unklar*: Λ-Uhr passt π besser als die Schrittuhr, aber nicht in jedem Seed. Neuer Kandidat [[NOVEL_DIRECTIONS]] N32 (Suche 27.09.: nicht gefunden, vorläufig).
+
+**Offene Grenzen:** eine Architektur, add 113 für alle Persistenz-/Reset-Befunde; Ablationen trennen Funktion nicht von Energie; Reset-Befunde zeigen Empfindlichkeit, keinen Mechanismus; D₅₉ für das Funktionsmaß fehlt;
+EXP-040 noch nicht gelaufen (Auswertungsfehler vor jedem Lauf behoben).
+**Meine Fehler:** mehrfach geschätzte statt gemessene Uhrzeiten (alle korrigiert); zweimal CRLF durch `write_text` in Code-Dateien (sofort behoben); ein Klammerfehler in `confirm_p2e.measure`, den erst der
+Smoke fand (behoben, neu eingefroren); die Import-Hülle der Hash-Liste war in N29 (und rückwirkend P2d, dort ohne Folgen) unvollständig (behoben, jetzt im Selbsttest geprüft).
+**Codex:** 11:04–11:45 ohne Guthaben (N29b vor dem Einfrieren nur selbst geprüft, dokumentiert); danach alle offenen Prüfungen nachgeholt.
+
+**Reproduktion (alle über guarded_run.py):** `confirm_n29.py --analyze lab/confirm/N29_manifest.json`, `confirm_p2e.py --analyze lab/confirm/P2e_manifest.json`, `confirm_n29b.py --analyze lab/confirm/N29b_manifest.json`
+(nach Trainer-Änderungen am jeweiligen Manifest-Commit, `git worktree`); Blöcke `parallel_queue.py lab/confirm/{N29,P2e,N29b}_jobs.txt`; Piloten `parallel_queue.py lab/experiments/EXP-0{67,69,70}-*/jobs.txt`, dann `analyze.py`;
+EXP-066/068 nur `analyze.py`; `lab/confirm/n29_posthoc_energy.py`, `lab/experiments/EXP-064-functional-regimes/posthoc_energy.py`.
+
+**Nächste Aktion:** N29c (Wertepfad gegen Muster, Seeds 2320–2339) nach Codex einfrieren und im nächsten Fenster (ab 00:00) rechnen; D₅₉-Registrierung (P2f); EXP-040 im CPU-Programm; FINDINGS straffen.
+**Runner:** geplante Aufgabe „GROKVERSE-Lab-Runner“ aktiv; laut `runner-state.json` nächster Start 2026-09-27 11:14:45Z = **13:14 Berlin** (außerhalb des Run-Fensters: nur Denk- und Vorbereitungsarbeit bis 00:00).
+Das CPU-Programm (EXP-042) läuft bis zur Deadline 12:39 und wird dann vom Wächter beendet (kein Fehler; derselbe Befehl setzt fort).

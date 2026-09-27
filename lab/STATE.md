@@ -24,16 +24,14 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 
 ## Nächste Schritte (in dieser Reihenfolge)
 
-1. `python lab/tools/guarded_run.py --check`; kein STOP; laufende Prozesse prüfen (`ps -ef | grep -E "night_program|guarded_run"`); dann das CPU-Programm (oben) wieder starten.
-2. **P1 + P2 zusammen einfrieren** ([[confirm/P1_REGISTRATION_DRAFT|P1]], [[confirm/P2_REGISTRATION_DRAFT|P2]]): B1 gelöst (Wrapper `confirm_p1.py --run`, Bindungen, Codex-Review übernommen, Sitzung 21).
-   P2 = log-Loss-Verhältnis bei f = 0.5 an den P1-Modellen add 113 (`confirm_p2.py`); Codex-Prüfung P2 lief in Sitzung 21 (siehe [[JOURNAL]]).
-   Dann: `python lab/tools/confirm_splits.py --hash-code` → Feld `code_sha256` in `lab/confirm/P1_manifest.json` (aus dem Entwurf, `primary_task` add113, Seeds 1000–1049),
-   committen, `commit` eintragen, wieder committen; `confirm_splits.py --manifest …`; `confirm_p1.py --jobs … > lab/confirm/P1_jobs.txt`; `parallel_queue.py lab/confirm/P1_jobs.txt --workers 8`
-   (GPU, ≈ 400 Läufe, Minuten); `confirm_p1.py --analyze …`. Vorher lesen: „bereits gesehen“ im Entwurf.
-3. **P2** nach EXP-051/055: Registrierung mit ΔL bei Teildosis f = 0.5 an frischen Modellen ([[BACKLOG]] „P2-Maß“), Seeds 1050–1099 oder neue Pilot-Seeds.
+1. `python lab/tools/guarded_run.py --check`; kein STOP; laufende Prozesse prüfen; CPU-Programm (oben) wieder starten.
+2. **P1+P2-Block rechnen (eingefroren 733e829, Sitzung 21):** `python lab/tools/parallel_queue.py lab/confirm/P1_jobs.txt --workers 8` (Hintergrund, GPU).
+   Fertig Gebundenes wird übersprungen („already bound“), also **Wiederaufnahme = derselbe Befehl**. Ein fremder fertiger Lauf wird abgelehnt (Exit 4); nie von Hand in `lab/confirm/raw` schreiben.
+   Danach `python lab/tools/guarded_run.py -- python lab/tools/confirm_p1.py --analyze lab/confirm/P1_manifest.json` und dasselbe mit `confirm_p2.py`.
+   Ergebnis erst nach Codex-Prüfung als Kernaussage in FINDINGS (Regel 18c). Bindungen `lab/confirm/bindings/` mitcommitten.
+3. **EXP-056** (P3-Pilot, GPU) auswerten: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-056-overlap-persistence/analyze.py`; dann P3 registrieren (Seeds 1050–1099).
 4. Auswertungen nach den CPU-Läufen (eingefroren, über den Wächter): EXP-039 `eval_pi.py`; EXP-054 `n30_window.py` (nach EXP-036); EXP-042 `pi_window.py` (je erst `--selftest`).
-5. P3 schärfen (t = 25 primär, π, Überlappung EXP-053). EXP-044 stützt Lesart (i): Festlegung im Netz.
-6. Offene Reste: EXP-046 beschreibende Zusätze (Top-3, Δ_pow); Folgeversuch EXP-050 (MLP mit getrennten W_in-Hälften); D₅₉/int-add Häufigkeits-Mischarm.
+5. Offene Reste: EXP-038-Folgefrage (welcher Teil des Rests genügt; t = 25); Folgeversuch EXP-050 (MLP mit getrennten W_in-Hälften); D₅₉/int-add Häufigkeits-Mischarm.
 
 ## Drei Prioritäten (Regel 18c: Programm A/B/C)
 

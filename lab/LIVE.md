@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 01:29 Berlin (23:29Z, vom Runner)
 - **Deadline:** 2026-09-27 04:29 Berlin (02:29Z)
-- **Zuletzt aktualisiert:** 02:58 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 03:09 Berlin (gemessen)
 - **Run-Fenster:** offen seit 02:25 (Freigabe des Nutzers, 03:00-Sperre aufgehoben), bis Sitzungsende 04:29.
 
 ## Gerade
 
-GPU: EXP-043 Zufallssplit-Arme (fuer EXP-052), danach EXP-046 (Diedergruppe). CPU daneben: Paket-B-Piloten (EXP-035 ff., 1 Arbeiter x 4 Threads).
+GPU: EXP-048 (nicht-modulare Addition) laeuft. CPU: Paket-B-Piloten (EXP-035). Ich lege derweil den Nachfolger fuer den Funktionstest EXP-051 fest.
 
 ## Als Naechstes
 
@@ -18,6 +18,9 @@ Beobachten; Urteile je Versuch nach der Lesart-Notiz eintragen. Um ~04:20 Stand 
 
 ## Verlauf dieser Sitzung
 
+- 03:06 EXP-051: formal "nicht genutzt", aber Bodeneffekt (Eingriff zu klein, alle Verluste 0). Kein Beleg; Nachfolger noetig.
+- 03:06 **EXP-047: Die Paarstruktur steuert, nicht die Token-Haeufigkeiten** (wie vorab aus der Theorie erwartet).
+- 03:01 **EXP-046: Steuerung gilt auch in der Diedergruppe D59** (nicht-abelsch; 10/10, p 0.001).
 - 02:56 **EXP-043: Steuerung ueber die Daten gilt auch bei add 97 und mul 113** (je 10/10 Seeds, p 0.001; Pilot).
 - 02:56 CPU-Programm gestartet (Paket-B-Piloten).
 - 02:53 GPU-001 bestanden: gleichwertig zur CPU, ~17x schneller, 8 Laeufe parallel am besten (~1600 kurze Laeufe/h).

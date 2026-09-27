@@ -83,3 +83,5 @@ Codex bestätigte als korrekt: Jobzahl und -reihenfolge, Run-IDs, Lader-Hashes, 
 **Codex-Nachprüfung 2 (Sitzung 32, 21:09, `R6_codex_recheck2_s32.txt`, nur S2):** keine Befunde. `s2_rule` entspricht dem Text, die Selbsttest-Arithmetik stimmt; eine als post hoc gekennzeichnete Sekundärhypothese vor dem Einfrieren ist zulässig.
 
 **Robustheit der Ereignisdefinition (Sitzung 32, 21:21, post hoc an N28, keine Änderung an R6):** Mit der strengen R5-Definition (drei Auswertungen ≥ 0.95, vorher Train ≥ 0.99) statt der ersten Kreuzung: C(25) 0.537 (28/30), C(25) − C(50) 0.888 (27/30); unter der ersten Kreuzung 0.537 (28/30) bzw. 0.897 (27/30). `lab/confirm/speed_switch_cost_strict_s32.py`.
+
+**Beschreibender Zusatz (Sitzung 32, vor jedem R6-Lauf, außerhalb der Familie):** Zerlegung der Verzögerung bei t = 25 in Memorisation und Lücke bis zur Generalisierung (`lab/confirm/R6_decompose.py`, nach `--analyze` bei vollständigem Block). Vorhersage aus N28 (post hoc: 90 % in der Lücke): Lückenanteil > 0.5 und Lücke > Memorisation in der Mehrheit der Richtungspaare.

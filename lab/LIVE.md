@@ -5,18 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 16:49 Berlin (14:49Z, vom Runner)
 - **Deadline:** 2026-09-27 19:49 Berlin (17:49Z)
-- **Zuletzt aktualisiert:** 17:19 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 17:27 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests; nur Auswertung gespeicherter Läufe, Denk- und Schreibarbeit.
 
 ## Gerade
 
-Codex prüft die neue Registrierung [[confirm/C3_REGISTRATION|C3]]: Gilt die Feinordnung auch im MLP, bei 4× Breite und bei der Integer-Addition (an den P4-Seeds)?
+Denkarbeit ohne Rechenfenster. Die Feinordnung der Zielfrequenzen (N39) ist jetzt an allen gespeicherten Daten geprüft und für die Nacht an drei Blöcken vorab registriert (C1–C3).
 
 ## Als Nächstes
 
-Codex-Nachprüfung einarbeiten; danach weitere Denkarbeit (siehe STATE, Programm B/C).
+Stand sichern (STATE); danach eine weitere offene Frage aus FINDINGS angehen oder die Nacht-Befehle für C1–C3 gegenprüfen.
 
 ## Verlauf dieser Sitzung
+
+- 17:27 D₅₉ und P2d/P2e: Die Feinordnung überdauert im Transformer das Grokking; im MLP verblasst sie.
+- 17:26 Eigener Messfehler (mul-Basis) gefunden → dabei echten Fehler in `repro/k2.py` behoben.
+- 17:21 C3 nach Codex korrigiert (kein Blocker).
 
 - 17:19 C3 registriert (b199107): In den Piloten zeigt sich die Feinordnung überall (ρ 0.29–0.60, Init ≈ 0).
 - 17:15 Negativ: Die Theorie sagt fürs MLP „M0 statt M0c“ voraus; für die Feinordnung stimmt das nicht (M0c 0.60 > M0 0.46). Paper korrigiert.

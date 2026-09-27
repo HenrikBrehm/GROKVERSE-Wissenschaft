@@ -1,6 +1,7 @@
 """R4 null calibration (session 30, before any R4 run): similarity of W_E power spectra between study runs that share neither init nor split
 (seeds 0-9 of training/runs/txf_add_p113_wd1.0_frac0.3_seed{s}_arch25k, 45 pairs) at steps 0, 2000, 8000, with the R4 measures.
-Sets the R4 MDEs (about 1/3 of the null SD) and the choice of cosine only after grokking. Only loads stored checkpoints (no training).
+Motivates the R4 MDEs (about 1/3 resp. 1/2 of the i.i.d.-cell surrogate unit SD; session 31, Codex recheck 2: the surrogate does not keep
+the crossed shared-init/shared-split dependence) and the choice of cosine only after grokking. Only loads stored checkpoints (no training).
 
   python lab/confirm/R4_null_calibration.py
 """

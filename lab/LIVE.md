@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 20:29 Berlin (18:29Z, vom Runner)
 - **Deadline:** 2026-09-27 23:29 Berlin (21:29Z)
-- **Zuletzt aktualisiert:** 21:26 Berlin
+- **Zuletzt aktualisiert:** 21:34 Berlin
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests.
 
 ## Gerade
 
-Ein Skeptiker-Agent greift die Deutung der Wechselkosten an (Alternativerklärungen, trennende Prüfungen an gespeicherten Daten).
+Skeptiker-Punkte eingearbeitet; Kontrollversuch EXP-086 vorbereitet. Als Nächstes: Nachtplan prüfen, dann Abschlussarbeiten.
 
 ## Als Nächstes
 
-Ab 00:00 laut [[STATE]]: EXP-018, dann **EXP-084 direkt danach** (Vorhersage vor dem Lauf, Commit 6d0231f); R6-Selbsttest; R6 nach R1 einfrieren und rechnen.
+Ab 00:00 laut [[STATE]]: EXP-018 → EXP-084 (Vorhersage vor dem Lauf) → P2f → EXP-073/074 (+ Zeitkosten)/075 → **EXP-086** → **EXP-085** … → R1 → **R6** → R3/P4/R2 (+ R2-Zeitkontraste).
 
 ## Verlauf dieser Sitzung
 
+- 21:33 Skeptiker: ernsteste Alternative „jede frühe Änderung kostet“ → Kontrolle [[experiments/EXP-086-same-spectrum-switch/README|EXP-086]] vorbereitet. Adams erstes Moment trägt ≈ die Hälfte der Kosten.
+- 21:27 R2-Zeitkontraste vor dem Lauf festgelegt (andere Hyperparameter).
 - 21:26 STATE auf 67 Zeilen gekürzt; R6 bekommt eine beschreibende Zerlegung (vor dem Lauf).
 - 21:24 Verzögerung = Plateau vor der Generalisierung (90 % in der Lücke nach der Memorisation), keine Rückschläge.
 - 21:22 Streuung der Kosten: kritisches Verlangsamen nicht belegt (unklar).

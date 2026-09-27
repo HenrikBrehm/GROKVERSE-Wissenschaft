@@ -48,3 +48,21 @@ python lab/tools/confirm_n29.py --jobs lab/confirm/N29_manifest.json > lab/confi
 python lab/tools/parallel_queue.py lab/confirm/N29_jobs.txt --workers 7
 python lab/tools/guarded_run.py -- python lab/tools/confirm_n29.py --analyze lab/confirm/N29_manifest.json
 ```
+
+## EINGEFROREN (Sitzung 23)
+
+Manifest-Commit **087e042** (Code nach Codex und Nachprüfung), Splits und Jobs committet. Vor dem Einfrieren kein Lauf mit Seeds 2250–2269. Ein echter Job (Seed 2250, A→B bei 25) lief 09:58–09:59 als Smoke
+und passierte den eingefrorenen Lader (gebunden; er zählt als regulärer Lauf). Block 09:59–10:16 (Log), 7 GPU-Arbeiter, 80/80 ok.
+
+## ERGEBNIS (Sitzung 23, Auswertung 10:16–10:17 Berlin; `lab/confirm/N29_summary.json`): ***Übergang bestätigt***
+
+80/80 Läufe gebunden, 0 technische Ausfälle, 19/20 Seeds generalisiert (Basis ≥ 0.9 in allen vier Läufen); primär alle 20.
+
+| | Mittel acc_alt (alte entfernt) | Mittel acc_neu (neue entfernt) | Kontrast | 95-%-KI des Kontrasts | Seeds über 0.3 |
+|---|---|---|---|---|---|
+| **H1**, Wechsel bei t = 50 | 0.035 | 0.938 | acc_neu − acc_alt = **0.903** (SD 0.124) | [0.846, 0.953] | 20/20 |
+| **H2**, Wechsel bei t = 25 | 0.703 | 0.101 | acc_alt − acc_neu = **0.603** (SD 0.240) | [0.498, 0.700] | 17/20 |
+
+Holm-p: H1 7·10⁻¹⁵, H2 1·10⁻⁵. Beschreibend nur an den 19 generalisierten Seeds: 0.898 und 0.591 (gleiches Bild).
+**Post hoc (nach dem Ergebnis, beschreibend, `lab/confirm/n29_posthoc_energy.py`):** Nach 4000 Schritten zeigt auch die W_E-Energie in dieselbe Richtung (t = 25: neue Energie größer in 38/40 Läufen;
+t = 50: alte größer in 40/40). Ablation und Energie sind hier also nicht getrennt: Der Befund sagt, *auf welche Menge das Netz angewiesen ist*, nicht, dass Funktion und Spektrum auseinanderfallen.

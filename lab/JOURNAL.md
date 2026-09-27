@@ -3083,3 +3083,8 @@ Eingefroren 087e042, Splits und Jobs committet, Smoke (Seed 2250, A→B bei 25) 
 Eingefroren 2510c92; der Smoke-Job zeigte über den Lader einen **Klammerfehler in `measure`** (`dict | dict.items()`), den der Selbsttest nicht abdeckte. Behoben, Selbsttest um einen End-zu-End-Durchlauf
 ergänzt, **neu eingefroren 3c484ef**, Smoke unter altem Code beiseitegelegt und neu gerechnet: gebunden, Basis 1.0, drop_eigen 0.244, Kontrollen −0.004 … 0.002 (dieser eine Wert ist damit vor dem
 Block gesehen). *Lehre:* Der Smoke durch den Lader ist unverzichtbar (zweites Mal nach P2b). Block gestartet 10:07 (Log): vorwärts 2 Arbeiter neben N29, rückwärts folgt nach N29.
+
+**Zyklus 7 (N29 ausgewertet, 10:16–10:17 gemessen).** *Frage:* Funktionaler Übergang zwischen t = 25 und 50 an frischen Seeds? *Ergebnis:* ***Übergang bestätigt*** (eingefroren 087e042, 80/80 gebunden,
+alle 20 Seeds primär): H1 (t = 50) acc_neu − acc_alt = 0.903 [0.846, 0.953], 20/20 über 0.3; H2 (t = 25) acc_alt − acc_neu = 0.603 [0.498, 0.700], 17/20 über 0.3. Holm-p 7·10⁻¹⁵ bzw. 1·10⁻⁵.
+*Post hoc:* Nach 4000 Schritten folgt auch die W_E-Energie derselben Richtung (38/40 bzw. 40/40); anders als bei 2000 Schritten in EXP-062 (dort bei t = 25 noch viel alte Energie). Die Ablation trennt Funktion
+und Energie hier also nicht. *Entscheidung:* Codex greift die Schlussfolgerung an, bevor sie in FINDINGS steht. P2e läuft (2 + 5 GPU-Arbeiter).

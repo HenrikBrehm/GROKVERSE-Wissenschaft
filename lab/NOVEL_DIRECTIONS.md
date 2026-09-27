@@ -799,3 +799,7 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
   kein Weight Decay, kein Grokking; Gruppen C_p, D_n, C_n × C_n. **Ergebnis:** Eine nicht-uniforme Paarverteilung ist dort nicht abgedeckt. K2 bleibt nach unserer Suche nicht gefunden (vorläufig) und
   ist eine Ergänzung: Bei One-hot-Token, wo die Kodierung keine Irrep bevorzugt, bricht in unseren Versuchen die Zusammensetzung der Trainingspaare (M0) die Gleichheit. Offene Brückenfrage:
   Lässt sich M0 in ihrem AGF-Rahmen als effektive „Kodierungsstatistik“ schreiben (theoretische Arbeit, Programm C)?
+- **Skizze (Sitzung 24, ungeprüft, keine Behauptung):** In AGF wird die nächste Irrep über ihren „Nutzen“ am Sattel gewählt, bei kleiner Init also über die Korrelation des ersten Gradienten mit dem
+  Irrep-Unterraum. Unsere Herleitung erster Ordnung ([[BEFUND-split-mechanismus]], Sitzung 13) zeigt, dass die Leistung des ersten W_E-Gradienten je Frequenz bei One-hot-Token gerade M0c (Transformer)
+  bzw. M0 (MLP) ist. Vermutung: Bei nicht-uniformer Paarverteilung tritt M0 (bzw. `dihedral.mask_power` für D_n) an die Stelle von ‖x̂[ρ]‖ in der Auswahlregel von Marchetti et al. Prüfbar ohne neue Läufe
+  an einer kleinen Rechnung (AGF-Nutzen erster Stufe mit Paargewichten w(a, b) ausschreiben) und dann an gespeicherten Läufen (Rangfolge der zuerst wachsenden Irreps gegen M0; EXP-015, EXP-046).

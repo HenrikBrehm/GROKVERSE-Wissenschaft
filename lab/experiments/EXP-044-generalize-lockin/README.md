@@ -1,8 +1,8 @@
 ---
 id: EXP-044
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[experiments/EXP-020-data-switch/README|EXP-020]]", "[[experiments/EXP-043-generalize-steering/README|EXP-043]]", "[[experiments/EXP-041-imprint/README|EXP-041]]", "[[BEFUND-festlegung]]", "[[FINDINGS]]"]
 ---
 # EXP-044: Frühe Festlegung (K4) bei anderen Aufgaben, mit fast vollständigem Datenwechsel
@@ -69,3 +69,21 @@ EXP-043) auf den F- gegen die G-Ziele am Laufende, normiert zwischen „nur G“
 (ii) **geteilte Paare halten die Wahl:** π_044(t) deutlich unter π_020(t) bei jedem t (hier nur ≈ 38 % geteilt), insbesondere π(150) < 0.9.
 Confound: andere Aufgabe (add 97 / mul 113) und Gerät (GPU); eine saubere Trennung von (i) und (ii) leistet erst
 [[experiments/EXP-053-p3-overlap-design/README|EXP-053]] (gleiche Aufgabe, gestufte Überlappung). Kein Urteil.
+
+## Ergebnis (Sitzung 20, 2026-09-27, Läufe 03:23–03:31 Berlin, GPU)
+
+Befehl: `python lab/tools/night_program.py` (Stufe EXP-044, 100 Läufe); Logs `lab/runner/logs/night_20260927T005025_010314Z/EXP-044_*`, Zahlen `summary.json`,
+`pi_persistence.json`. device cuda. Die Läufe tragen mehrere Commit-IDs (5e4dcae … 4cd81ad), weil während der Queue Dokumente committet wurden. Trainer und Auswertung
+blieben unverändert (`git diff 5e4dcae HEAD -- EXP-001-freq-ban EXP-044 training trainer_guard night_program` leer).
+
+| Aufgabe | gültig | d(150) je Seed | Mittel d(25) / d(50) / d(150) | p | Urteil |
+|---|---|---|---|---|---|
+| add 97 | 10/10 | 2,4,4,4,4,3,4,3,4,1 | −1.8 / 2.7 / 3.3 | 0.00098 (Holm) | ***festgelegt*** |
+| mul 113 | 10/10 | 4,4,2,4,3,4,4,4,3,3 | −2.9 / 2.0 / 3.5 | 0.00098 (Holm) | ***festgelegt*** |
+
+- Wie in EXP-020 kippt die Wahl zwischen t = 25 (der zweite Split setzt sich durch) und t = 50 (der erste bleibt), und das bei nur ≈ 38 % geteilten Paaren (EXP-020: 73 %).
+- *π (Nachtrag Sitzung 14, beschreibend):* add 97: π(25) 0.37, π(50) 0.86, π(150) 1.24; mul 113: 0.22 / 0.72 / 1.15 (EXP-020: 0.41 / 0.74 / ≈ 1.0).
+  π > 1 heißt: nach dem Wechsel ist die F-Neigung stärker als im reinen F-Lauf (Normierung, keine Grenze bei 1). **Vorab notierte Lesart (i) trifft zu:** π(150) ≥ 0.9 in beiden Aufgaben,
+  π(t) nahe an EXP-020 trotz halb so vieler geteilter Paare, also Festlegung im Netz und nicht durch geteilte Paare gehalten. Confound laut Nachtrag: andere Aufgabe und Gerät.
+  Die saubere Trennung leistet EXP-053 (gestufte Überlappung, gleiche Aufgabe).
+- K4 verallgemeinert sich damit (Pilot) auf add 97 und mul 113. Keine Bestätigung.

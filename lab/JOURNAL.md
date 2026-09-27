@@ -2538,3 +2538,8 @@ add 97 8/8/11 · mul 113 29/26/49 · D₅₉ 7/7/7 · add 113 GPU (EXP-047 eng) 
 *Deutung:* Für den P1-Kern (add 113, Transformer) reichen ≈ 30 Seeds, konservativ ≈ 45. Auf der GPU kostet das Minuten, deshalb **Vorschlag: n = 50 für add 113** (deckt die konservative Schranke).
 *Einschränkung:* Der Mindesteffekt 1 ist auf allen Skalen gleich gesetzt. Bei D₅₉/int-add (Pilotmittel 2–3) ist das streng, bei add (≈ 7–8) sehr lax. Für das Manifest den Mindesteffekt je Aufgabe
 relativ festlegen (z. B. 25 % des Pilotmittels) oder nur add 113 primär führen. Entscheidung beim Einfrieren von P1, **vorher Codex-Prüfung** (Regel 18c). Nächster Schritt: Manifest-Entwurf.
+
+**Zyklus 11 (Paket B: K4 in den neuen Aufgaben, EXP-044 + π, 03:23–03:32 gemessen).** [[experiments/EXP-044-generalize-lockin/README|EXP-044]]: add 97 und mul 113 **festgelegt**
+(d(150) 3.3 / 3.5, je 10/10, p 0.001 Holm). Die Wahl kippt zwischen t = 25 (d −1.8 / −2.9) und t = 50 (+2.7 / +2.0), wie in EXP-020. π (vorab, beschreibend): 0.37/0.86/1.24 bzw.
+0.22/0.72/1.15 gegen EXP-020 0.41/0.74/≈1. Die vorab notierte **Lesart (i)** trifft zu: Festlegung im Netz, nicht durch geteilte Paare gehalten (hier nur ≈ 38 % geteilt). Confound Aufgabe/Gerät,
+saubere Trennung erst mit EXP-053. *Folge für P3:* Primär t = 25 bleibt richtig (dort ist π am empfindlichsten, 0.2–0.4). FINDINGS-Tabelle und LAB ergänzt.

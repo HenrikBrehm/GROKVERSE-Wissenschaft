@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 01:29 Berlin (23:29Z, vom Runner)
 - **Deadline:** 2026-09-27 04:29 Berlin (02:29Z)
-- **Zuletzt aktualisiert:** 03:12 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 03:31 Berlin (gemessen)
 - **Run-Fenster:** offen seit 02:25 (Freigabe des Nutzers, 03:00-Sperre aufgehoben), bis Sitzungsende 04:29.
 
 ## Gerade
 
-GPU: EXP-049 (Modellbreite 128/512) laeuft. CPU: Paket-B-Piloten (EXP-035, ~7 min je Lauf).
+GPU: EXP-044 (fruehe Festlegung in den neuen Aufgaben) fast fertig, dann EXP-045 (MLP). CPU: Paket-B-Piloten. Codex prueft den Entwurf der P1-Bestaetigung.
 
 ## Als Naechstes
 
@@ -18,6 +18,10 @@ Beobachten; Urteile je Versuch nach der Lesart-Notiz eintragen. Um ~04:20 Stand 
 
 ## Verlauf dieser Sitzung
 
+- 03:30 Entwurf fuer den Bestaetigungsblock P1 (50 frische Seeds, 4 Aufgaben), noch nicht eingefroren; Codex prueft.
+- 03:28 Stichprobengroesse fuer P1 aus der Pilotstreuung: ~25-45 Seeds fuer add 113.
+- 03:25 **EXP-052: vorab eingefrorene Vorhersage trifft in 4/4 neuen Faellen** (Split sagt Spektrum voraus).
+- 03:22 **EXP-049: Steuerung auch im 4x breiteren Netz** (10/10).
 - 03:10 **EXP-048: Steuerung auch bei nicht-modularer Addition** (10/10, p 0.001; Aufgabe selbst noch nicht gelernt).
 - 03:10 EXP-055 (Nachfolger Funktionstest): Hauptdosis n. s.; bei Teildosen nutzen die Modelle die Zielfrequenzen staerker (10/10, nachtraeglich). Plan fuer saubere Bestaetigung notiert.
 - 03:06 EXP-051: formal "nicht genutzt", aber Bodeneffekt (Eingriff zu klein, alle Verluste 0). Kein Beleg; Nachfolger noetig.

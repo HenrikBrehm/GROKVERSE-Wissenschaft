@@ -225,6 +225,7 @@ embedding energy after grokking (exploration). Confirmation P2f (20 fresh seeds,
 - **P4** (K2 in a shared-embedding MLP, at 4× width, and for non-modular integer addition; [[confirm/P4_REGISTRATION_DRAFT|P4]]).
 - **R4** (does an ordinary *random* 30 % split shape the learned frequencies? crossed design, 2 inits × 2 random splits per unit, 60 units = 240 runs of 8000 steps with fresh seeds, split streams independent of the init; H1a rank signature (Spearman of W_E spectra, step 2000) and H1b learned choice (energy-weighted cosine, step 8000), same split vs nothing shared; Holm over 2; low power for small effects; [[confirm/R4_REGISTRATION_DRAFT|R4]], draft, not frozen).
 - Pilot **EXP-078** (K2 in a two-layer transformer; exploration, known seeds).
+- Exploration **EXP-083** (how much each reset at the 50-step switch undoes: ‖W(50) − W(0)‖ per reset part on the N29b/N29c seeds, gated against the stored step-50 embeddings; addresses whether the stronger reset simply removes more displacement).
 Whatever these show, including "holds only in a range", replaces this list; nothing here is a result.
 
 ## 4 Explorations and negative results (not claims)

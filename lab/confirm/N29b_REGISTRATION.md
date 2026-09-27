@@ -61,4 +61,10 @@ Hinweis: Die Überschrift („verlagert … auf die neuen“) ist weiter als die
 
 Mittelwerte R (acc_neu − acc_alt): normal **0.86**, rsmlp **0.79**, rsattn **−0.63**. **Beschreibend (nicht Teil des Urteils):** R(rsattn) < 0 in 20/20 Seeds und 40/40 Richtungen, Bootstrap-KI [−0.73, −0.52]:
 Nach dem Attention-Reset ist das Endmodell auf die *neuen* Zielfrequenzen angewiesen.
-**Schlussfolgerung nicht von Codex geprüft** (kein Guthaben seit 11:04); Kernaussage in FINDINGS deshalb vorläufig markiert, Codex-Prüfung in einer späteren Sitzung.
+Schlussfolgerung zunächst ohne Codex (kein Guthaben 11:04); **Codex-Prüfung um 11:53 nachgeholt** (unten).
+
+## Codex-Prüfung (Sitzung 23, nachgeholt, Ergebnis 11:53 Berlin)
+
+**Kein Blocker:** Run-IDs (120 eindeutige, alle gebunden), Reset-Prüfungen (alle Ereignisse mit 65 536 bzw. 131 072 Parametern), Vorzeichen, Holm (nachgerechnet) korrekt. Das ausgelassene Codex-Review vor dem Einfrieren
+ist eine dokumentierte Verfahrensabweichung ohne datenabhängige Änderung. Die beschreibende R(rsattn)-KI ist aus den Zeilen reproduzierbar, aber nicht vom eingefrorenen Code ausgegeben.
+**Übernommen:** enger Wortlaut K4d in [[FINDINGS]] (Reset-Empfindlichkeit, Gewichte + AdamW-Zustand gemeinsam, Normen, MLP-Kontrolle nicht angeglichen, „stärker als dieser MLP-Reset“).

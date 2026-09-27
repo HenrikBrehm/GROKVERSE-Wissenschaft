@@ -71,6 +71,9 @@ def run(a: argparse.Namespace) -> dict:
     if should_skip(rj, fingerprint, a.steps, a.force, "g", run_id):
         raise SystemExit(0)
     out_dir.mkdir(parents=True, exist_ok=True)
+    stale = out_dir / "model_final.pt"                     # Codex s23: a (forced) rerun must not leave an older model behind
+    if stale.exists():
+        stale.unlink()
 
     torch.set_num_threads(cfg.threads)
     set_seed(cfg.seed)

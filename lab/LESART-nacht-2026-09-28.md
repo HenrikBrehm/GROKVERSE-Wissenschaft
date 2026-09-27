@@ -39,3 +39,11 @@ Die Einzelurteile regeln die READMEs bzw. die Registrierung; hier steht nur, was
 8. **EXP-077 positiv** (Δ̄ ≥ 1, p < 0.05): „Häufigkeiten allein können steuern“ – nur als Pilot; die Lesart von EXP-047 („nur Paarstruktur“) wird in FINDINGS **nicht** sofort umgeschrieben,
    sondern ein Bestätigungsblock mit Trennung der zwei Wege (EXP-077 Nachtrag a) geplant. **Negativ:** Die Theorie erster Ordnung ist für den Fremd-Häufigkeitsanteil falsch → §5.2 im
    Paper entsprechend einschränken. **Unklar:** keine Folgerung, höchstens n erhöhen.
+
+## Ergänzung Sitzung 26 (15:40, vor jedem Lauf): EXP-078, R3 und die Verbindung zu EXP-040
+
+9. **EXP-078** (2 Schichten): *überträgt sich* → im Paper nur als Pilot (§4), Bestätigung an frischen Seeds in P4-Art planen; *keine Steuerung* → wichtige Grenze, sofort als solche in FINDINGS
+   (Grenze 3) und Paper §6; *unklar* → n erhöhen, nichts folgern.
+10. **R3 und EXP-040 zusammen** (falls R3 schon heute Nacht läuft): R3 *Λ-Uhr bestätigt* **und** EXP-040 *H40 gestützt* → Amplitudenrennen ist die führende Erklärung (weiter: welcher Teil setzt die
+    Amplitude, EXP-073). R3 *Λ-Uhr bestätigt*, EXP-040 *unverändert* → Uhr in Λ, aber nicht über die W_E-Init-Amplitude; andere Amplitude (Wertepfad?) prüfen. R3 *nicht bestätigt* und
+    Sekundär *passt zur Schrittuhr* → N37 (β₂-Horizont) als nächster Test. Kein Satz in FINDINGS über einen Mechanismus, bevor R3 ausgewertet ist.

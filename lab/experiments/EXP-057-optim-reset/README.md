@@ -1,8 +1,8 @@
 ---
 id: EXP-057
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[FINDINGS]]", "[[confirm/P3_REGISTRATION_DRAFT|P3]]", "[[experiments/EXP-056-overlap-persistence/README|EXP-056]]", "[[experiments/EXP-038-where-lockin/README|EXP-038]]", "[[JOURNAL]]"]
 ---
 # EXP-057: Sitzt die Persistenz nach einem frühen Wechsel im AdamW-Zustand oder in den Gewichten? (Pilot)
@@ -31,3 +31,19 @@ P3-Zerlegung (Ziele des ersten Splits 20 % gegen Zufall 8.9 %), Codex-Einwand (O
 python lab/tools/parallel_queue.py lab/experiments/EXP-057-optim-reset/jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-057-optim-reset/analyze.py
 ```
+
+## Ergebnis (Sitzung 21, Läufe 06:17–06:21, Auswertung 06:21 Berlin; `summary.json`)
+
+40/40 neue Läufe ok, 10/10 Seeds gültig, Reset in jedem Lauf protokolliert (`check = true`).
+
+- **Primär:** Δ̄ = π_normal − π_ro = **0.195**, SD 0.112, t = 5.5, p = 0.0002, 90-%-KI [0.13, 0.26]; π̄_ro = **0.108** (knapp über der Schwelle 0.1) → formal
+  ***teilweise: Optimiererzustand trägt einen Teil, Gewichte den Rest***.
+- π_normal 0.303; mit gleich langen Referenzen (2025 Schritte) 0.304. Die Schrittzahl spielt also keine Rolle.
+- **Beschreibend, entscheidend für die Lesart:** Mit Reset tragen die Ziele des ersten Splits nur **7.1 %** der W_E-Leistung (Zufall 8.9 %; über Zufall nur in 3/10 Seeds).
+  Ohne Reset sind es 20 % (P3, 48/60 Richtungen über Zufall). π_ro je Seed −0.25 … 0.26.
+- **Lesart (vorsichtig, Pilot, bekannte Seeds):** Die **A-spezifische** Erhaltung nach 25 Schritten verschwindet mit dem AdamW-Zustand fast ganz. Was von π übrig bleibt (≈ 0.1),
+  passt eher zu einer unspezifisch verlangsamten Anpassung als zu erhaltener A-Präferenz, denn die A-Ziele liegen dann unter Zufall. Das Gedächtnis der ersten 25 Schritte sitzt demnach
+  vor allem in den **Adam-Momenten** (bzw. im Schrittzähler/der Bias-Korrektur), nicht in den Gewichten. Das widerspricht meiner Erwartung aus EXP-038. EXP-038 lag aber bei t = 150,
+  und dort behielt der jeweils nicht zurückgesetzte Teil seinen AdamW-Zustand.
+- **Offen:** Momente (m) gegen zweite Momente (v) gegen Schrittzähler trennen; derselbe Eingriff bei t = 50/150 (wann geht das Gedächtnis vom Optimierer in die Gewichte über?);
+  eine Bestätigung an frischen Seeds.

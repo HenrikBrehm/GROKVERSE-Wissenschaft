@@ -33,3 +33,9 @@ Die Einzelurteile regeln die READMEs bzw. die Registrierung; hier steht nur, was
 5. **EXP-073 technisch ungültig** (rwall ≠ ref25 in einer Richtung): Werkzeug reparieren (höchstens drei Versuche), keine Deutung der übrigen Arme.
 6. **EXP-074 unklar oder nur bei einer Aufgabe verallgemeinert:** K4d/e bleibt ausdrücklich add-113-spezifisch; keine Ausweitung in FINDINGS oder im Paper.
 7. Paper ([[paper/STATUS]]): Piloten gehen nur in den Abschnitt „Explorations“, egal wie deutlich.
+
+## Ergänzung Sitzung 25 (14:58, vor jedem Lauf): EXP-077
+
+8. **EXP-077 positiv** (Δ̄ ≥ 1, p < 0.05): „Häufigkeiten allein können steuern“ – nur als Pilot; die Lesart von EXP-047 („nur Paarstruktur“) wird in FINDINGS **nicht** sofort umgeschrieben,
+   sondern ein Bestätigungsblock mit Trennung der zwei Wege (EXP-077 Nachtrag a) geplant. **Negativ:** Die Theorie erster Ordnung ist für den Fremd-Häufigkeitsanteil falsch → §5.2 im
+   Paper entsprechend einschränken. **Unklar:** keine Folgerung, höchstens n erhöhen.

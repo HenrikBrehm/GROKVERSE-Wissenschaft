@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 14:19 Berlin (12:19Z, vom Runner)
 - **Deadline:** 2026-09-27 17:19 Berlin (15:19Z)
-- **Zuletzt aktualisiert:** 14:51 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 14:58 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: nur Denk- und Vorbereitungsarbeit.
 
 ## Gerade
 
-Warte auf die Zahlenpruefung der neuen Paper-Abschnitte (Related Work, Theorie, Diskussion).
+Stand sichern; Vorab-Lesart fuer EXP-077 in [[LESART-nacht-2026-09-28]] ergaenzt.
 
 ## Als Naechstes
 
@@ -18,6 +18,7 @@ Stand sichern; ab 00:00 laeuft die Nacht laut [[STATE]].
 
 ## Verlauf dieser Sitzung
 
+- 14:58 Zahlenpruefung der neuen Paper-Abschnitte: Mathe korrekt, 12 Formulierungen enger gefasst (u. a. ein zitierter, nie gerechneter Versuch entfernt).
 - 14:51 Paper: Diskussionsabschnitt geschrieben; ein Pruefagent gleicht die neuen Abschnitte gegen die Quellen ab.
 - 14:51 Pruefagent zum schlanken Trainer: keine Blocker, 4 kleinere Punkte behoben.
 - 14:45 P4-Manifest-Entwurf mit Seeds vorbereitet; Paper-Grenzen um Khanh 2026 ergaenzt (gleicher Modelltyp: auch das MLP traegt Frequenzidentitaet).

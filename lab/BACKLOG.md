@@ -111,3 +111,13 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
   neuem Salz-Präfix, Arme normal / nur m / voller Reset, `--log-update-norms 10`; primär Δ_m = π_normal − π_rom mit Mindesteffekt (KI-Untergrenze ≥ 0.05), sekundär Update-Normen je Arm
   (Bedingung: nur m ≤ normal), Richtungsanalyse (Kosinus des ersten B-Updates zu m_A), t = 50 als zweiter Wechselzeitpunkt (beschreibend).
 - **Technik:** eigenes Modul nach dem Muster von `confirm_p3.py` (Bindung, genaue Lauf-IDs, typstrenges Manifest). Codex-Prüfung vor dem Einfrieren.
+
+## N29-Ursache: Was schließt die neuen Frequenzen nach ≈ 50 Schritten aus? (Sitzung 22, Programm B/C, noch nicht festgelegt)
+
+- **Ausgang:** [[experiments/EXP-062-rate-race/README|EXP-062]] (Koexistenz bis t ≈ 30, Ausschluss bei t = 50), [[experiments/EXP-061-grad-alignment/README|EXP-061]] (kein Verstärken über den neuen Gradienten).
+- **Konkurrenzmodelle, je mit billigem Eingriff beim Wechsel an t = 50 (Seeds 400–409 als Pilot, dann frisch):**
+  K1 *Kapazität unter Weight Decay*: wd nach dem Wechsel auf 0 → Ausschluss verschwindet (b50 fällt stark). Braucht Trainer-Option `--wd-after-switch` (Codex-Prüfung, Regel 18c).
+  K2 *nachgelagerte Ausrichtung*: Rest des Netzes beim Wechsel neu initialisieren, W_E behalten (`--reset-at-switch rest`, vorhanden seit EXP-038) → b50 fällt; W_E neu (`we`) → b50 bleibt.
+  K3 *Adam-v*: nur v zurücksetzen (Option fehlt; `moments` setzt m und v) → b50 fällt.
+- **Maß:** b und a wie EXP-062 (exakte Zerlegung), primär b50 gegen normal@50, gepaart.
+- **Priorität:** nach der Auswertung von N28/P2b und der N28-Vorhersage (2bdfdaf). K2 sofort möglich (keine Trainer-Änderung).

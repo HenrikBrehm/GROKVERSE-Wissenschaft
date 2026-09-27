@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 20:29 Berlin (18:29Z, vom Runner)
 - **Deadline:** 2026-09-27 23:29 Berlin (21:29Z)
-- **Zuletzt aktualisiert:** 21:22 Berlin
+- **Zuletzt aktualisiert:** 21:26 Berlin
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests.
 
 ## Gerade
 
-Prüfe die Wechselkosten-Befunde auf Robustheit und bereite prospektive Tests für die Nacht vor (EXP-074-Zeitkosten, EXP-085 MLP).
+Ein Skeptiker-Agent greift die Deutung der Wechselkosten an (Alternativerklärungen, trennende Prüfungen an gespeicherten Daten).
 
 ## Als Nächstes
 
@@ -18,6 +18,8 @@ Ab 00:00 laut [[STATE]]: EXP-018, dann **EXP-084 direkt danach** (Vorhersage vor
 
 ## Verlauf dieser Sitzung
 
+- 21:26 STATE auf 67 Zeilen gekürzt; R6 bekommt eine beschreibende Zerlegung (vor dem Lauf).
+- 21:24 Verzögerung = Plateau vor der Generalisierung (90 % in der Lücke nach der Memorisation), keine Rückschläge.
 - 21:22 Streuung der Kosten: kritisches Verlangsamen nicht belegt (unklar).
 - 21:21 Befund hängt nicht an der Ereignisdefinition (strenge Definition praktisch gleich).
 - 21:20 [[experiments/EXP-085-mlp-switch-cost/README|EXP-085]] vorbereitet (Wechselkosten im MLP, Nachtschritt 5).

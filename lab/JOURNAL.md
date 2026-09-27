@@ -3068,3 +3068,18 @@ auch bei mul 113 und add 97? *Änderung:* Maß in Gruppenordnung übertragen, au
 (2270–2289, Versuchs-ID 5, 8000 Schritte, Holm über beide Aufgaben) festlegen; [[experiments/EXP-066-p2d-other-tasks/README|EXP-066]].
 
 **Zyklus 4 (P2e festgelegt, Entwurf, 09:48–09:50).** `lab/tools/confirm_p2e.py` (Selbsttest ok), [[confirm/P2e_REGISTRATION|P2e-Registrierung]]. Codex-Prüfung läuft.
+
+
+**Zyklus 5 (Codex prüft N29, dann Nachprüfung; eingefroren; Block gestartet, 09:44–09:59 gemessen).** *Codex:* zwei Blocker. (1) Der Genauigkeitsfilter ist ergebnisabhängig: Im Piloten hatten die
+ausgeschlossenen Seeds H2 ≈ 0.15, die eingeschlossenen 0.66. (2) `EXP-056/make_splits.py` wird ausgeführt, war aber nicht im Code-Hash. Dazu: kein gemeinsames Urteil, Endlichkeit nicht durchgesetzt,
+EXP-064-Wortlaut zu stark (Seed 406: acc_neu(50) = 0.73). *Selbst geprüft und übernommen:* primär alle Seeds, Import-Prüfung im Selbsttest, „Übergang bestätigt“ nur bei H1 und H2, alle Gewichte und Verluste endlich,
+Korrektur in EXP-064. Nachprüfung: 4/5 geschlossen, zwei kleine Reste (Endlichkeit aller Parameter, Urteilslabel in der beschreibenden Teilanalyse) behoben.
+*Nebenbefund:* Die gleiche Lücke hatte P2d (`EXP-056/make_splits.py`, `EXP-053/overlap_split.py` nicht im Hash). Beide Dateien sind seit dem P2d-Einfrieren c0cd65f unverändert (`git log` leer),
+das P2d-Ergebnis ist davon also nicht berührt. Neue Blöcke prüfen die Import-Hülle im Selbsttest.
+Eingefroren 087e042, Splits und Jobs committet, Smoke (Seed 2250, A→B bei 25) durch den Lader: gebunden, Basis 1.0, acc_alt 1.0, acc_neu 0.13. Block 80 Läufe, 7 GPU-Arbeiter, Start 09:59.
+
+**Zyklus 6 (Codex prüft P2e; eingefroren; Smoke findet Fehler; neu eingefroren, 09:50–10:05).** *Codex:* keine Fehler in der Übertragung auf mul/add 97 (Log-Ordnung, Nyquist, Run-IDs, Holm).
+Übernommen: Lade-/Rechenfehler als technischer Ausfall, primär alle Seeds (wie N29), „lokale endliche Störung“, bedingte Power-Aussage, Semantik-Selbsttest.
+Eingefroren 2510c92; der Smoke-Job zeigte über den Lader einen **Klammerfehler in `measure`** (`dict | dict.items()`), den der Selbsttest nicht abdeckte. Behoben, Selbsttest um einen End-zu-End-Durchlauf
+ergänzt, **neu eingefroren 3c484ef**, Smoke unter altem Code beiseitegelegt und neu gerechnet: gebunden, Basis 1.0, drop_eigen 0.244, Kontrollen −0.004 … 0.002 (dieser eine Wert ist damit vor dem
+Block gesehen). *Lehre:* Der Smoke durch den Lader ist unverzichtbar (zweites Mal nach P2b). Block gestartet: vorwärts 2 Arbeiter neben N29, rückwärts folgt nach N29.

@@ -3078,8 +3078,8 @@ Korrektur in EXP-064. Nachprüfung: 4/5 geschlossen, zwei kleine Reste (Endlichk
 das P2d-Ergebnis ist davon also nicht berührt. Neue Blöcke prüfen die Import-Hülle im Selbsttest.
 Eingefroren 087e042, Splits und Jobs committet, Smoke (Seed 2250, A→B bei 25) durch den Lader: gebunden, Basis 1.0, acc_alt 1.0, acc_neu 0.13. Block 80 Läufe, 7 GPU-Arbeiter, Start 09:59.
 
-**Zyklus 6 (Codex prüft P2e; eingefroren; Smoke findet Fehler; neu eingefroren, 09:50–10:05).** *Codex:* keine Fehler in der Übertragung auf mul/add 97 (Log-Ordnung, Nyquist, Run-IDs, Holm).
+**Zyklus 6 (Codex prüft P2e; eingefroren; Smoke findet Fehler; neu eingefroren, 09:50–10:08 gemessen).** *Codex:* keine Fehler in der Übertragung auf mul/add 97 (Log-Ordnung, Nyquist, Run-IDs, Holm).
 Übernommen: Lade-/Rechenfehler als technischer Ausfall, primär alle Seeds (wie N29), „lokale endliche Störung“, bedingte Power-Aussage, Semantik-Selbsttest.
 Eingefroren 2510c92; der Smoke-Job zeigte über den Lader einen **Klammerfehler in `measure`** (`dict | dict.items()`), den der Selbsttest nicht abdeckte. Behoben, Selbsttest um einen End-zu-End-Durchlauf
 ergänzt, **neu eingefroren 3c484ef**, Smoke unter altem Code beiseitegelegt und neu gerechnet: gebunden, Basis 1.0, drop_eigen 0.244, Kontrollen −0.004 … 0.002 (dieser eine Wert ist damit vor dem
-Block gesehen). *Lehre:* Der Smoke durch den Lader ist unverzichtbar (zweites Mal nach P2b). Block gestartet: vorwärts 2 Arbeiter neben N29, rückwärts folgt nach N29.
+Block gesehen). *Lehre:* Der Smoke durch den Lader ist unverzichtbar (zweites Mal nach P2b). Block gestartet 10:07 (Log): vorwärts 2 Arbeiter neben N29, rückwärts folgt nach N29.

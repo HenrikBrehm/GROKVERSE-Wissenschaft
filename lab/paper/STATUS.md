@@ -66,3 +66,9 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 - **e:** Volltext/Abstract nachgeprüft: Salah & Yevick 2024 (schränkt K2 nicht ein, im Paper zitiert), Sweeney 2026, Pracher et al. 2026, Yang 2026, Xu 2026, Sevetlidis & Pavlidis 2026. **Die Deutung von K4b (erstes Moment trägt die frühe Exposition) ist bekannt**; K2 und K4/K4c bleiben nach unserer Suche nicht gefunden.
 - **c:** neue Repro-Skripte `repro/k4_resets.py` (K4d/K4e) und `repro/k4b.py` (K4/K4b), je unabhängig gegen die eingefrorenen Auswertungen gelesen; ungetestet. Fehlt noch: K2-Funktion (P2d/P2e).
 - **a/c:** Nachtbefehle statisch geprüft; zwei Befehlsfehler und vier kleinere Punkte vor der Nacht behoben (Details im JOURNAL).
+
+## Nachtrag Sitzung 28 (2026-09-27, ab 16:49, gemessen)
+
+- **d:** §3.1 um absolute Anteile ergänzt (add 113: 80 % der W_E-Energie auf den 5 Zielen, Init 8.9 %); §4 und §5.3: Das Paarspektrum ordnet auch die Ziele innerhalb der Menge (Exploration, alle Aufgaben, Breite, MLP), aber nicht architekturspezifisch wie in Vorhersage 2 hergeleitet.
+- **a/b:** Drei kleine Zusatzregistrierungen auf noch nicht gelaufenen Blöcken, ohne zusätzliches Training: [[confirm/C1_REGISTRATION|C1]] (an R1), [[confirm/C2_REGISTRATION|C2]] (an R2, feine Persistenz nach dem Wechsel), [[confirm/C3_REGISTRATION|C3]] (an P4). Codex-geprüft; Auswertungen ungetestet.
+- **e:** Suche zu N39 ohne einschränkenden Treffer; Abgrenzung zu He et al. 2026a in [[paper/related_work]].

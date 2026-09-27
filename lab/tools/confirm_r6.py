@@ -47,7 +47,7 @@ FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 CAL = LAB / "experiments/EXP-053-p3-overlap-design/calibration.json"
 BUDGET, CAP, ALPHA, OMEGA, MIN_SEP = 2000, 2000, 0.05, 0.0, 2.0
 N_FLIP, TIE = 100_000, 1e-9
-REGISTERED = {"seeds": list(range(2800, 2820)), "switch_steps": [10, 20, 25, 30, 40, 50, 75], "device": "cuda", "threads": 1}
+REGISTERED = {"seeds": list(range(2800, 2830)), "switch_steps": [10, 20, 25, 30, 40, 50, 75], "device": "cuda", "threads": 1}
 CODE_FILES = ("lab/tools/confirm_r6.py", "lab/tools/confirm_n28.py", "lab/tools/confirm_p1.py", "lab/tools/confirm_splits.py",
               "lab/tools/result_loader.py", "lab/tools/paket_a_device.py", "lab/experiments/EXP-001-freq-ban/freq_ban.py",
               "lab/experiments/EXP-053-p3-overlap-design/overlap_split.py", "lab/experiments/EXP-053-p3-overlap-design/calibration.json",
@@ -89,10 +89,10 @@ def trainer_jobs(man: dict) -> list[str]:
                 f"--test-file lab/confirm/r6_splits/r6_seed{s}_test.npy --out-root lab/confirm/r6_raw")
         a, b = (f"lab/confirm/r6_splits/{stem(s, x)}.npy" for x in "AB")
         for first in (a, b):
-            out.append(f"{base} --steps {BUDGET} --split-file {first} --spectra-at 50,250,{BUDGET}")
+            out.append(f"{base} --steps {BUDGET} --stop-after-gen {BUDGET} --split-file {first} --spectra-at 50,250,{BUDGET}")
         for t in man["switch_steps"]:
             for first, second in ((a, b), (b, a)):
-                out.append(f"{base} --steps {t + BUDGET} --split-file {first} --switch-split-file {second} --switch-step {t} "
+                out.append(f"{base} --steps {t + BUDGET} --stop-after-gen {t + BUDGET} --split-file {first} --switch-split-file {second} --switch-step {t} "
                            f"--spectra-at {t},{t + 250},{t + BUDGET}")
     return out
 
@@ -131,8 +131,8 @@ def load_one(man: dict, s: int, first: str, second: str | None, t: int | None) -
         return f"{tag}: {L.status}: {L.reason}"
     if (why := BLOCK.unbound(man, d)) or L.res.get("fingerprint_fields", {}).get("split_file_sha256") != sha(split):
         return f"{tag}: defekt after load: {why or 'split bytes differ'}"
-    if L.res["steps_completed"] < CAP:
-        return f"{tag}: defekt: stopped at {L.res['steps_completed']} < {CAP}"
+    if L.res["steps_completed"] != steps:                       # Codex s32: full end step (pi snapshot), not only the cap
+        return f"{tag}: defekt: stopped at {L.res['steps_completed']} != {steps}"
     g = (L.res.get("events") or {}).get("generalization_step")
     if g is not None and not (isinstance(g, int) and 0 < g):
         return f"{tag}: defekt: generalization_step {g!r}"
@@ -190,7 +190,15 @@ def p_sign(d: np.ndarray) -> float:
 
 
 def p_flip(d: np.ndarray, rng: np.random.Generator) -> float:
-    s = rng.choice(np.array([-1.0, 1.0]), size=(N_FLIP, len(d)))
+    """One-sided sign-flip test of the mean. Exact over all 2^n sign vectors for n <= 22 (Codex s32), else Monte Carlo."""
+    n = len(d)
+    if n <= 22:
+        hits, bits = 0, np.arange(n)[None, :]
+        for lo in range(0, 2 ** n, 2 ** 16):                    # chunks keep memory small (2^20 x 20 at once ~ 170 MB)
+            idx = np.arange(lo, min(lo + 2 ** 16, 2 ** n))[:, None]
+            hits += int((((1.0 - 2.0 * ((idx >> bits) & 1)) @ d) >= d.sum() - 1e-12).sum())
+        return hits / 2 ** n
+    s = rng.choice(np.array([-1.0, 1.0]), size=(N_FLIP, n))
     return float(((s * d).mean(axis=1) >= d.mean() - 1e-12).sum() + 1) / (N_FLIP + 1)
 
 
@@ -215,15 +223,27 @@ def t_at_half(ts: list[int], med_pi: list[float]) -> float | None:
     return None
 
 
+MIN_PI_SEEDS = 10
+
+
 def secondary(rows: list[dict], ts: list[int]) -> dict:
+    """S1 edge rules (Codex s32, fixed before any run): all grid points tied for the largest mean C (|diff| <= 1e-9) must lie within
+    10 steps of t_pi; t_pi left-censored (median pi >= 0.5 already at the first grid point) or never reached -> 'nicht auswertbar';
+    fewer than MIN_PI_SEEDS seeds with a defined pi -> 'nicht auswertbar'."""
     mc = {t: float(np.mean([r["C"][str(t)] for r in rows])) for t in ts}
-    t_star = max(ts, key=lambda t: mc[t])
+    top = max(mc.values())
+    t_star = [t for t in ts if mc[t] >= top - TIE]
     with_pi = [r for r in rows if "pi" in r]
     med_pi = [float(np.median([r["pi"][str(t)] for r in with_pi])) for t in ts] if with_pi else []
     t_pi = t_at_half(ts, med_pi) if with_pi else None
+    left_cens = bool(med_pi) and med_pi[0] >= 0.5
+    if len(with_pi) < MIN_PI_SEEDS or t_pi is None or left_cens:
+        s1 = "nicht auswertbar"
+    else:
+        s1 = "gestützt" if all(abs(t - t_pi) <= 10 for t in t_star) else "nicht gestützt"
     return {"mean_C": {str(t): mc[t] for t in ts}, "median_C": {str(t): float(np.median([r["C"][str(t)] for r in rows])) for t in ts},
             "t_star": t_star, "n_with_pi": len(with_pi), "median_pi": dict(zip(map(str, ts), med_pi)), "t_pi": t_pi,
-            "S1": ("nicht auswertbar" if t_pi is None else ("gestützt" if abs(t_star - t_pi) <= 10 else "nicht gestützt"))}
+            "t_pi_left_censored": left_cens, "S1": s1}
 
 
 def analyze(manifest: Path) -> None:
@@ -248,21 +268,22 @@ def analyze(manifest: Path) -> None:
 def selftest() -> None:
     man = {**REGISTERED, "python": "PY"}
     BLOCK.check_registered(man)
-    for bad in ({"seeds": list(range(2800, 2819))}, {"switch_steps": [10, 20, 25.0, 30, 40, 50, 75]}, {"threads": True}):
+    for bad in ({"seeds": list(range(2800, 2829))}, {"switch_steps": [10, 20, 25.0, 30, 40, 50, 75]}, {"threads": True}):
         try:
             BLOCK.check_registered({**man, **bad})
             raise AssertionError(f"type-sloppy or unregistered manifest accepted: {bad}")
         except SystemExit:
             pass
     tj = trainer_jobs(man)
-    assert len(tj) == 20 * (2 + 2 * 7) and all("r6_raw" in j and "\\" not in j for j in tj)
+    assert len(tj) == 30 * (2 + 2 * 7) and all("r6_raw" in j and "\\" not in j for j in tj)
     assert all(j.startswith("python lab/tools/confirm_r6.py --run M -- ") for j in BLOCK.jobs(man, "M"))
     ids = [expected_run_id(shlex.split(j)) for j in tj]
     assert ids[0] == "EXP-018_baseline_seed2800_thr1_r6_seed2800_w0_A_devcuda", ids[0]
     assert ids[2] == "EXP-020_baseline_seed2800_thr1_r6_seed2800_w0_A_to_r6_seed2800_w0_B_at10_devcuda", ids[2]
     assert ids[7] == "EXP-020_baseline_seed2800_thr1_r6_seed2800_w0_B_to_r6_seed2800_w0_A_at25_devcuda", ids[7]
     assert len(set(ids)) == len(ids)
-    assert "--steps 2025" in tj[6] and "--spectra-at 25,275,2025" in tj[6] and "--reset-optim" not in tj[6]
+    assert "--steps 2025 --stop-after-gen 2025" in tj[6] and "--spectra-at 25,275,2025" in tj[6] and "--reset-optim" not in tj[6]
+    assert "--steps 2000 --stop-after-gen 2000" in tj[0]
     BLOCK.check_job(man, shlex.split(tj[0]))
     try:
         BLOCK.check_job(man, shlex.split(tj[0]) + ["--force"])
@@ -283,9 +304,17 @@ def selftest() -> None:
     assert v["H1"]["p_flip_sign_max"] >= p_sign(pos)
     assert t_at_half([10, 20, 30], [0.1, 0.3, 0.7]) == 25.0 and t_at_half([10, 20], [0.1, 0.2]) is None
     assert t_at_half([10, 20], [0.6, 0.9]) == 10.0
-    rows = [{"C": {"10": 0.1, "25": 0.6, "50": -0.3}, "pi": {"10": 0.1, "25": 0.4, "50": 0.9}} for _ in range(3)]
+    rows = [{"C": {"10": 0.1, "25": 0.6, "50": -0.3}, "pi": {"10": 0.1, "25": 0.4, "50": 0.9}} for _ in range(10)]
     sec = secondary(rows, [10, 25, 50])
-    assert sec["t_star"] == 25 and abs(sec["t_pi"] - 25 - 0.1 / 0.5 * 25) < 1e-9 and sec["S1"] == "gestützt", sec
+    assert sec["t_star"] == [25] and abs(sec["t_pi"] - 30.0) < 1e-9 and sec["S1"] == "gestützt", sec
+    assert secondary(rows[:9], [10, 25, 50])["S1"] == "nicht auswertbar"                       # too few pi seeds
+    left = [{"C": r["C"], "pi": {"10": 0.6, "25": 0.8, "50": 0.9}} for r in rows]
+    assert secondary(left, [10, 25, 50])["S1"] == "nicht auswertbar"                           # left-censored t_pi
+    tied = [{"C": {"10": 0.6, "25": 0.6, "50": -0.3}, "pi": r["pi"]} for r in rows]
+    s_t = secondary(tied, [10, 25, 50])
+    assert s_t["t_star"] == [10, 25] and s_t["S1"] == "nicht gestützt", s_t                    # 10 is 20 steps from t_pi = 30
+    d = np.array([0.5, -0.2, 0.3])                                                             # exact flip p by hand: sums >= 0.6
+    assert abs(p_flip(d, rng) - 2 / 8) < 1e-12, p_flip(d, rng)
     selftest_binding(BLOCK, tj[4], tj[1], tj[5])
     assert set(CODE_FILES) <= set(BLOCK.code_hashes())
     print("[confirm_r6] selftest ok", flush=True)

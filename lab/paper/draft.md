@@ -110,8 +110,43 @@ EXP-050: first order explains only part; [[BEFUND-split-mechanismus]]); it is *n
 ## 5 Theory (first order, outline)
 
 Under near-uniform initial outputs, the first gradient on embedding row t is a sum over the training pairs containing t, mapped through the initial Jacobian; its Fourier power at k is the coherent
-mask spectrum M0c for the transformer (shared path for both positions) and M0 for the MLP (independent halves). Token-frequency (marginal) contributions cancel exactly, predicting that frequency-matched
-controls do not steer (consistent with pilot EXP-047, not a confirmation). Derivation and its limits: [[BEFUND-split-mechanismus]].
+mask spectrum M0c for the transformer (shared path for both positions) and M0 for the MLP (independent halves). A row's own occurrence count cancels exactly; the other operand's token frequencies do not (corrected in session 25, see 5.2), so the prediction for a frequency-matched
+control with shuffled pairs (no steering) rests on the weak marginals of the engineered splits (consistent with pilot EXP-047, not a confirmation). Derivation and its limits: [[BEFUND-split-mechanismus]].
+
+**5.1 Setting (draft text, session 25; post hoc explanation, not an independent test).** Let m(a, b) ∈ {0, 1} mark the training pairs, N = Σ m, and c = a + b mod p. At
+initialization the logits are small, so the softmax output is close to uniform, s ≈ 𝟙/p, and the cross-entropy gradient with respect to the logits of pair (a, b) is
+s − e_c ≈ −P⊥ e_c with P⊥ = I − 𝟙𝟙ᵀ/p. Write J_L, J_R for the Jacobians of the logits with respect to the embedding of the left and right operand, assumed at first order to be
+the same for all pairs. The gradient on embedding row t is then
+
+  g_t ≈ −(1/N) [ J_Lᵀ P⊥ ℓ_t + J_Rᵀ P⊥ r_t ],  ℓ_t(c) = m(t, c − t),  r_t(c) = m(c − t, t).
+
+**5.2 Frequency content.** Taking the DFT over the token index t (ℓ̂_k(c) = Σ_t ℓ_t(c) ω^{−kt}, ω = e^{2πi/p}) and assuming isotropic random Jacobians at initialization,
+
+- *shared path* (transformer: at initialization the nearly uniform attention mixes both positions into the same value/output path, J_L ≈ J_R):
+  E‖ĝ_k‖² ∝ ‖P⊥(ℓ̂_k + r̂_k)‖² = Σ_c |ℓ̂_k(c) + r̂_k(c)|² − |n̂_L(k) + n̂_R(k)|²/p, the *coherent mask spectrum* M0c minus a marginal term;
+- *separate paths* (shared-embedding MLP: a and b enter different halves of W_in, J_L and J_R independent): the cross term averages out,
+  E‖ĝ_k‖² ∝ ‖P⊥ℓ̂_k‖² + ‖P⊥r̂_k‖², the *mask spectrum* M0 minus marginal terms.
+
+Here n̂_L(k) = Σ_c ℓ̂_k(c) is the DFT of how often each token occurs as a left operand (likewise n̂_R). The subtracted term is exactly the c-mean of ℓ̂_k(c) + r̂_k(c): P⊥ removes
+every component that does not vary along the output c. What cancels exactly is therefore a row's *own* occurrence count (its n_t u term). Token frequencies still enter through the
+*other* operand: for m(a, b) = ρ(a), ℓ̂_k(c) = ρ̂(k) is constant in c and vanishes, but r̂_k(c) = ω^{−kc} ρ̂(k)* is not, and the shared-path power is p |ρ̂(k)|² (checked numerically,
+session 25). **Prediction 1 (quantitative, not "marginals never steer"):** a control that keeps the a/b token frequencies of an engineered split but shuffles its pairs keeps only the
+marginal contribution (plus random pair noise); for the EXP-016 construction the marginals are weak (coefficient of variation 0.14; own-count share of M0 0.9 %; centred M0 of the shuffled splits at chance,
+target rank 26.0 of 56), so such a control is predicted not to steer. A split with strongly structured token frequencies would be predicted to steer towards the frequencies of ρ.
+**Prediction 2 (architecture contrast):** the first gradient of the transformer should follow M0c, that of the shared-embedding MLP M0.
+
+**5.3 Status of the predictions (all exploratory, known seeds).** Prediction 2 matches the measured first gradients (Spearman ρ 0.77 for M0c vs 0.57 for M0 in the transformer; 0.24 vs 0.37 in
+the MLP, 9/10 seeds), measured before the derivation was written, so it is an explanation rather than a test. Prediction 1 was stated before pilot EXP-047: a control with
+exactly matched a/b token frequencies but random pair structure did not steer (Δ 0.3, n. s.), while the pair structure did (6.8, 10/10, p = 0.001); this is a pilot on 10 seeds, not a
+confirmation. For the *final* frequencies M0c is only descriptively better than M0 in the MLP (r̄ 0.351 vs 0.323, 6/10 seeds, p ≈ 0.21).
+
+**5.4 Limits of the first-order argument.** (i) It describes the gradient at initialization. With AdamW the first update is approximately lr · sign(g) coordinate-wise (bias-corrected
+moments give m̂/√v̂ = g/|g| at step 1), which keeps the dominant frequencies but adds harmonics; the spectrum of the *update* is therefore not exactly the one derived above. In the
+two-hot pilot network of EXP-033, plain gradient descent produced a persistent bias at least as strong as AdamW (signGD ≈ AdamW), so the steering is not specific to sign-like steps
+there; whether this holds for the transformer is untested. (ii) It predicts which frequencies the network starts to grow, not which survive: in the engineered splits some weak
+targets are later displaced by second harmonics 2k of other targets (EXP-016, EXP-021). (iii) The isotropy assumption on the Jacobians is not checked beyond the first-gradient
+correlations. (iv) It says nothing about why the early choice persists after a data switch (K4); the lab's amplitude model for that (H40) is tested separately (EXP-040).
+The derivation in the simplest alternating-gradient-flow model (AGF) does *not* reduce to M0 (EXP-076, negative), so the link to AGF-type theories remains open.
 
 ## 6 Limitations
 

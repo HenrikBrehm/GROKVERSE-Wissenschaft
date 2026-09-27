@@ -24,3 +24,4 @@ Zurück zu [[paper/STATUS]]. Entwurf Sitzung 24 (2026-09-27), **noch keine Regis
   Hyperparameter an die Jobzeilen weiter → für die train_frac-Zellen Split-Konstruktion und Job-Erzeugung erweitern (eigenes Werkzeug `confirm_r1.py`), dann erneut Codex.
 - **Seeds:** neuer Block, z. B. 2400–2599 (vor jeder Nutzung in FINDINGS_DETAILS reservieren).
 - **Reihenfolge:** Trainer-Optionen + Tests + Codex → R1 registrieren → Nacht 28./29.09. → R2 nach EXP-040.
+- **Nachtrag Sitzung 25 (Seeds, vor jeder Nutzung):** Der Vorschlag „2400–2599“ oben war keine Reservierung. Tatsächlich reserviert in [[FINDINGS_DETAILS]]: **2360–2419 P4**, **2420–2509 R1** (wie `confirm_r1.py`, `SEED_MIN = 2420`, 6 × 15). R2 bekommt einen eigenen Block ab 2510.

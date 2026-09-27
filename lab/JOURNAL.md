@@ -3512,3 +3512,8 @@ dort also die gelernte Merkmalsstruktur (Kernel, Symmetrie-Untergruppen, keine F
 FINDINGS korrigiert. *Lehre:* Auch Einordnungen „schränkt nicht ein“ aus Abstracts sind am Volltext zu prüfen, bevor sie ins Paper gehen.
 
 **Zyklus 8, Fortsetzung (15:44, gemessen).** Zwei weitere Abstract-Einordnungen am Volltext geprüft: Li & Sreedhar 2026 (Regel überlebt oder nicht, keine Wahl zwischen gleich richtigen Lösungen) und Swaroop 2026 (Struktur bei Memorisierung kodiert, keine Schrittangabe, kein Datenwechsel): beide schränken nicht ein, Einordnung bestätigt.
+
+**Zyklus 9 (N36 geschärft, EXP-079 vorbereitet, bis 15:46, gemessen).** *Frage:* Lässt sich der Dong-Gegensatz (QK gegen Wertepfad) in unserem Modell sauber als „Leitung gegen Inhalt“ testen?
+*Überlegung:* Bei geteiltem W_E und austauschsymmetrischer Attention kann das Netz nur symmetrische f(a, b) rechnen → a + b → a − b verlangt neue Leitung, a + b → a² + b² nur neuen Inhalt; N36
+sagt eine Wechselwirkung der Reset-Wirkung voraus. *Vorbedingung:* Symmetrie der Köpfe nach a + b; Messskript [[experiments/EXP-079-head-symmetry/README|EXP-079]] (nur Vorwärtsrechnung der
+80 N29-Modelle, Lesart vorab). *Außerdem:* Howe 2026a am Volltext: gleiche Modellklasse und Einstellung wie wir, Fenster für einen Hilfsverlust, keine Frequenzanalyse → zitieren, schränkt nicht ein.

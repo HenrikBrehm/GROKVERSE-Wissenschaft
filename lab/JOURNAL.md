@@ -2779,3 +2779,11 @@ Ein eigener Testfehler (Prüfung an die falsche Stelle eingefügt, „letzte Bin
 Neu und übernommen (6a54652): Umbenennen trotz `run.lock` (jetzt Ablehnung), typstrenge Manifestprüfung, nicht-endliche L/Spur → ungültig. Selbsttest grün, Pilotvalidierung unverändert.
 **Eingefroren 05:17:** Manifest f8adf45 (58 Code-Hashes), Commit-Feld c0da64e, Splits 60 Paare + 30 Testmengen (Steuerstärke 0.185/0.184 je Stufe wie kalibriert), 240 Jobs.
 Die P3-Warteschlange startet automatisch nach dem P1-Block (`lab/runner/logs/p3_block.log`). P1-Block um 05:18: 203/420, keine Fehler.
+
+**Zyklus 14 (P1- und P2-Block ausgewertet, 05:39–05:46 gemessen).** *Frage:* Hält die Steuerung der Frequenzwahl durch konstruierte Splits an 50 frischen Seeds und Splits je Aufgabe,
+und nutzen die Modelle die Zielfrequenzen stärker? *Block:* 420/420 Läufe Exit 0, alle gebunden (04:48–05:39, GPU, 8 parallel, unter CPU-Last). *P1 (eingefroren ausgewertet):*
+***bestätigt in 4/4 Aufgaben***: add 113 Δ_pow 8.24 [7.92, 8.54], mul 113 8.09 [7.75, 8.43], add 97 6.11 [5.79, 6.43], D₅₉ 2.64 [2.55, 2.73], jeweils 50/50 positiv,
+Holm-p (ungünstigster Fall) 1.5·10⁻⁵. Kreuzblock stabil über Inits (ICC 0.77). *P2:* ***nicht auswertbar***. 3/50 Seeds verletzen „Basis-Genauigkeit ≥ 0.9“ (G-Arm bei Schritt 2000
+noch nicht generalisiert: 0.82/0.70/0.73). Beschreibend R̄ = 0.12 (SD 0.20, 43/47), deutlich schwächer als der Pilot. *Entscheidung:* P1 geht nach der Codex-Prüfung der Schlussfolgerung
+als Kernaussage in FINDINGS. P2 wird ehrlich als *nicht auswertbar* berichtet. Die strenge Gültigkeitsregel bei nur 2000 Schritten war mein Designfehler.
+Ein Nachfolger braucht sicheres Grokking und eine Stichprobe aus der jetzt gesehenen Streuung. *Parallel:* P3-Block läuft (54/240 um 05:46).

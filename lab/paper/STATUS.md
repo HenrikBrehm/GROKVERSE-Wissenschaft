@@ -86,3 +86,8 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 - **Für dich, Gutachtersicht:** Der stärkste verbleibende Einwand ist der Rahmen: Wir zeigen Steuerung durch *konstruierte* Splits, nicht, dass gewöhnliche Zufallssplits die Frequenzwahl entscheiden (Pilot EXP-014 heute Nacht).
 - **d/e (19:07):** Literaturliste [[paper/references]] (35 Zitate, aus related_work erzeugt) und Venue-Abgleich [[paper/references_venues_check]] (arXiv-Seiten). Abbildung 0 (Aufbau) `figures/fig0_setup.py`. Unabhängige Quellenprüfung aller heutigen Entwurfsänderungen: 4 Fehler gefunden und korrigiert. **Für dich:** Namensform „Tomàs Bernal“ vs. arXiv „Bernal, Marcel Tomàs“ und „Gharda“ Sokar (Lyle et al. 2025) bitte selbst entscheiden.
 - **Kurz für dich (Sitzung 30):** Möglicher dritter Befund fürs Paper: Konstruierte Splits groken ≈ 9× früher (bisher post hoc; EXP-018 heute Nacht, Bestätigung R5 danach). Der Rahmen des Entwurfs ist enger gefasst („konstruierte Splits“). Ob gewöhnliche Zufallssplits die Wahl mitbestimmen, klärt R4.
+
+## Nachtrag Sitzung 31 (2026-09-27, ab 19:29, gemessen)
+
+- **d (Beobachtung, post hoc):** Die Beschleunigung ist abgestuft: bei gleicher Init, Testmenge und Größe generalisieren Splits umso früher, je konzentrierter sie sind (ε 8 / 2 / 1: 425–450 / 700–900 / nicht bis 2000 Schritte, 4/4 Seeds). In §4 des Entwurfs als Beobachtung ergänzt; Vorschlag für die Bestätigung R5 (Dosis-Trend). Innerhalb einer Stufe (P1) unklar.
+- **a:** EXP-042 (Stärke des zweiten Splits) war seit dem Mittag fertig, aber ungelesen: vorab festgelegtes Urteil *unklar*; nicht fürs Paper.

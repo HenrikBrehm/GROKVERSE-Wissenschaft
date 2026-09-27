@@ -1,0 +1,11 @@
+{
+ "units": 60,
+ "steps": 8000,
+ "device": "cuda",
+ "threads": 1,
+ "python": ".venv-gpu/Scripts/python.exe",
+ "registration": [
+  "lab/confirm/R4_REGISTRATION_DRAFT.md"
+ ],
+ "note": "DRAFT (session 30, after two Codex rounds): before freezing run `guarded_run.py -- python lab/tools/confirm_r4.py --selftest` (green), remove this note, add code_sha256 (--hash-code), commit as R4_manifest.json, set commit, commit again; then --splits, --jobs > R4_jobs.txt (without the guard), smoke = first job line through parallel_queue, then the block (240 runs, ~1.6 h GPU at 10 parallel)."
+}

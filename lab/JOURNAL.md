@@ -3293,3 +3293,7 @@ Angelegt: [[paper/STATUS]] (Punkte a–f, „Offen für den Nutzer“: Autorscha
 [[paper/draft]] (Gerüst, alle bestätigten Kernaussagen mit Zahlen wörtlich aus FINDINGS_DETAILS, Explorationen getrennt, KI-Offenlegung als Entwurf), [[paper/robustness_plan]] (R1 lr/wd/train_frac
 für K2, R2 für K4c; braucht neue Trainer-Optionen + Codex), Abbildungen 2 und 3 als Skripte aus den eingefrorenen Zusammenfassungen (Mittelwerte gegen die registrierten Werte geprüft). Die gründliche
 Literaturrecherche ([[paper/related_work]]) läuft über einen Hintergrund-Agenten mit Suchprotokoll. Fehler von mir: eine Ersetzung im Abbildungsskript hat Docstring-Text mitverändert (korrigiert).
+
+**Zyklus 12 (Regel 19 fortgesetzt, bis 13:47).** Abbildungen 1 und 4 als Skripte (Maske gegen gelerntes Spektrum, EXP-016 Seed 10 F: 4/5 Ziele, 25 durch die Oberwelle 32 ersetzt; π-Pilotkurve mit den
+N28-Punkten, KI aus den eingefrorenen Werten nachgerechnet: 0.340 [0.302, 0.377] und 0.998 [0.965, 1.032]). Reproduktions-README (Umgebung, Zuordnung Abbildung → Block → Befehle, Plan).
+Registrierungsentwurf P4 (MLP, 4× Breite, Integer-Addition an frischen Seeds; Pilot-SD nachgerechnet, n = 15 je Bedingung). STATE-Prioritäten um Regel 19 ergänzt.

@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 13:40 Berlin (Sitzung 24, Start 12:29, Deadline 15:29; Run-Fenster wieder ab 00:00)._
+_Zuletzt aktualisiert: 2026-09-27, 13:47 Berlin (Sitzung 24, Start 12:29, Deadline 15:29; Run-Fenster wieder ab 00:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -36,11 +36,12 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
    dann ihre `analyze.py`. Zusammen erwartet ≈ 45 min GPU.
 
 
-## Drei Prioritäten (Regel 18c)
+## Prioritäten (Regel 18c + Regel 19, Veröffentlichung gleichgewichtig)
 
-1. **A** P2f (D₅₉) einfrieren und rechnen.
-2. **B** Mechanismus der glatten Festlegung: Konkurrenzmodelle festlegen.
-3. **C** ruht.
+1. **A** P2f (D₅₉) einfrieren und rechnen; **B** EXP-040/073/074/075 rechnen und auswerten.
+2. **Paper** ([[paper/STATUS]]): außerhalb des Fensters (Tag) Trainer-Optionen `--lr/--weight-decay/--train-frac` für [[paper/robustness_plan]] einbauen + Codex; `confirm_p4.py` nach
+   [[confirm/P4_REGISTRATION_DRAFT|P4-Entwurf]]; schlanke Repro-Skripte; Literatur [[paper/related_work]] einarbeiten. Offene Nutzerentscheidungen stehen in STATUS.
+3. **C** ruht (EXP-076: einfachste AGF-Brücke negativ).
 
 ## Blocker / Hinweise
 

@@ -2455,3 +2455,22 @@ eingeschränkt. Kein neuer Versuch.
 *Nachtrag Zyklus 1:* Zhou et al. 2024 ist in [[NOVEL_DIRECTIONS]] N6 schon seit Sitzung 5 ausführlich eingeordnet (dort: #neu/bekannt (teilweise) für die Grundidee von N3).
 Die Literaturprüfung von heute ist daher nur eine Bestätigung. Neu ist allein die Nachrechnung „kein Abklingen nach dem Grokking“. Zyklen 1+2 sind damit abgeschlossen. Bis 03:00 bleibt
 nichts Pflichtiges offen, als Nächstes kommt der Ablauf 18b aus [[STATE]].
+
+**Fenster früher offen (02:25 gemessen).** Die interaktive Sitzung des Nutzer-Assistenten meldet eine Freigabe des Nutzers: Die 03:00-Sperre ist aufgehoben (`WINDOW_START_OVERRIDES` leer,
+`--check` allowed: true). Das habe ich im Wächter nachgeprüft und dann den Ablauf 18b begonnen.
+
+**Zyklus 3 (18b: Wächter-Abnahme, Tests, Start des Nachtprogramms, 02:25–02:34 gemessen).**
+- *Wächter-Abnahme* `accept_guard.ps1`: A (STOP → Exit 3, Kind beendet, STOP gelöscht), B (Wächter hart beendet, System-Python) und C (dasselbe mit venv-Python) **alle PASS**.
+  STOP ist wieder gelöscht und wurde nur von der Probe angelegt. **Aber:** jeder Wächterstart meldete „job object not applied (OverflowError: int too long to convert)“. Ursache
+  (selbst gefunden): `GetCurrentProcess()` liefert das Pseudo-Handle −1, `AssignProcessToJobObject` hatte keine `argtypes`. Da B/C bestanden, beendet ein anderer Pfad das Kind.
+  Ich habe `guarded_run.py` nicht geändert (unversionierte Datei des Nutzers) und die Sitzung des Nutzer-Assistenten benachrichtigt. Diese hat um ≈ 02:35 argtypes/restype ergänzt.
+  Danach gab es bei neuen Wächterstarts keine Warnung mehr (gesehen im pilot_power-Lauf 02:28 und bei den Nachtjobs). Die Abnahme lief also mit der alten Fassung. B/C mit Job-Objekt sind noch nicht eigens nachgeprüft.
+- *Tests* (`parallel_queue.py lab/runner/tests_s19.txt --workers 3`): 9/11 ok. Zwei Fehlschläge, beide im Testaufbau: (1) `test_freq_ban.py`: Der eigene Testrunner rief den
+  pytest-artigen Test `test_previous_status_tolerates_truncated_result(tmp_path)` ohne Argument auf. Behoben: Der Runner übergibt einen Temp-Ordner. (2) `pilot_power.py --selftest`: Die
+  „verrauschte“ Stichprobe normal(0.2, 6) hatte zufällig den Mittelwert 1.10 ≥ Mindesteffekt, also fehlte die Warnung zu Recht. Behoben: Mittelwert fest auf 0.2 zentriert.
+  Beide danach grün (16 passed; selftest ok, n 11 / None). Der Code von freq_ban und pilot_power ist unverändert.
+- *Nachtprogramm, erster Start 02:30:* GPU-001 scheiterte sofort bei `gpu001_env`: `FileNotFoundError` für `.venv-gpu/Scripts/python.exe`. Windows `CreateProcess` findet den relativen
+  Pfad mit Schrägstrichen nicht, mit Backslashes schon (direkt geprüft). `night_program.py` nutzt jetzt `str(ROOT / ".venv-gpu" / "Scripts" / "python.exe")` (Listen, kein shlex).
+  `test_night_program.py` ist grün. **Offen:** `confirm_p1.py` schreibt `.venv-gpu/Scripts/python.exe` in Jobzeilen. Das scheitert genauso, und Backslashes lehnt `parallel_queue` in Zeilen ab.
+  Vor der Nutzung des Bestätigungsblocks lösen (z. B. `guarded_run` normalisiert cmd[0], das entscheidet der Nutzer, oder absoluter Pfad mit Schrägstrichen testen).
+- *Zweiter Start 02:34:* `gpu001_env` ok, dann `gpu001_components` (Stufe 0, Astra 9). Wiederaufnahme: `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1`.

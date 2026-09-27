@@ -3,13 +3,13 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-27, 01:22 Berlin (Sitzung 19, läuft bis 04:09; macht ab 03:00 die Schritte 1–5 und startet das Nachtprogramm; wird um 04:09 vom Wächter angehalten, die Folgesitzung setzt mit demselben Befehl fort)._
+_Zuletzt aktualisiert: 2026-09-27, 02:36 Berlin (Sitzung 20, Deadline 04:29). Fenster seit 02:25 offen (Nutzer). Schritte 1–3 erledigt, GPU-Nachtprogramm läuft seit 02:34; Wiederaufnahme = derselbe Befehl (Schritt 4)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]]
 
 ## Verbindlich jetzt: Regel 18 (Astra-Review umsetzen), Nacht 26./27.09.
 
-- **Keine Läufe (Training oder Tests) vor 03:00 Berlin** (Wächter: `WINDOW_START_OVERRIDES`). Davor nur Code/Doku/Rechnung auf Dateien.
+- **NUTZER 27.09. 02:25: Läufe ab SOFORT erlaubt, nicht erst 03:00** (Sperre im Wächter entfernt; `--check` zeigt `allowed: true`). Schritte unten sofort beginnen.
 - 18a vollständig (Punkte 3, 10, 16, 11, 17, 5; 18c Programm A/B/C), alles **ungetestet** bis 03:00. Offen: EXP-034-Port (nach P3-Design).
 - **Nächste Sitzung ab 03:14 (Sitzung 16 hat den Kreuzblock ergänzt, sonst nichts offen):** bis 03:00 nichts Pflichtiges offen (Sitzung 15: N30-Fenstermodell, EXP-054 und Lesarten für EXP-041/042 vor den Läufen eingefroren). Ab 03:00 Schritte unten.
 - Stand je Punkt: Tabelle „Umsetzung“ am Ende von [[reviews/ASTRA_2026-09-26]].
@@ -51,7 +51,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 
 ## Aktive Queue / laufende Jobs
 
-- Keine (Stand 22:05, Sitzung 14). Vorbereitet, ungetestet: GPU-001, EXP-043–049 (in `night_program.py`), EXP-050 (optional), CPU: `night_program.py --cpu`.
+- **Sitzung 20, 02:34:** `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1` (GPU, beginnt mit GPU-001). Status: `lab/runner/logs/night_20260927T003426_351801Z/night_status.json`. Abnahme und Tests bestanden (JOURNAL s20 Z3). CPU-Programm (Schritt 5) startet nach dem GPU-001-Urteil. Vorher: Keine (Stand 22:05, Sitzung 14). Vorbereitet, ungetestet: GPU-001, EXP-043–049 (in `night_program.py`), EXP-050 (optional), CPU: `night_program.py --cpu`.
 
 ## Drei Prioritäten (Regel 18c: Programm A/B/C)
 
@@ -73,7 +73,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
   jetzt wie eine Ablehnung (Programm stoppt mit Exit 3, Status „refused by guard“) statt als Fehlschlag; GPU-001 überspringt bestandene Stufen.
   Also: ein „refused“/Exit 3 am Sitzungsende ist **kein** Fehler, einfach denselben Befehl neu starten. Nachtprogramm früh in einer frischen Sitzung starten.
   Die STOP-Probe ist während einer Sitzung sicher (Aufgabe `IgnoreNew`, kein Tick), STOP aber vor Sitzungsende löschen.
-- Für den Nutzer (nicht von mir zu ändern): `guarded_run.py` bindet `.venv-gpu`-Prozesse evtl. zu spät ans Job-Objekt;
+- **Behoben (Assistent des Nutzers, 27.09. ≈ 01:30):** `guarded_run.py` tritt jetzt selbst VOR dem Start des Kinds dem Job-Objekt bei, alle Nachkommen (auch hinter dem venv-Starter) erben es; Fallback wie bisher. In der Wächter-Abnahme (Probe C) prüfen. Früherer Hinweis: `guarded_run.py` band `.venv-gpu`-Prozesse evtl. zu spät ans Job-Objekt;
   `parallel_queue.py` ist unversioniert, `night_program.py` hängt davon ab.
 
 ## Letzte abgeschlossene Versuche (Details [[LAB]], [[FINDINGS]])

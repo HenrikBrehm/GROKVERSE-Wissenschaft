@@ -11,7 +11,7 @@ Zurück zu [[LAB]] · [[FINDINGS]] (größte offene Frage aus P3) · Vorgänger 
 Festgelegt 2026-09-27 06:36 Berlin (Sitzung 21), **vor jedem EXP-058-Lauf** (nur Smokes an Seed 400 mit 60 Schritten). **Pilot**, bekannte Seeds 400–409.
 
 **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** EXP-056/057 an diesen Seeds (π_normal 0.30, voller Reset 0.11), Codex-Einwand (voller Reset = Zustand weg **und**
-vorzeichenartige Schritte). Smokes (Seed 400, 60 Schritte, 06:34): mittlere Update-Norm der Schritte 31–36 normal 0.27–0.34, voller Reset 0.48–0.38, nur m 0.18–0.36, m + v 0.25–0.41.
+vorzeichenartige Schritte). Smokes (Seed 400, 60 Schritte, vor 06:35): mittlere Update-Norm der Schritte 31–36 normal 0.27–0.34, voller Reset 0.48–0.38, nur m 0.18–0.36, m + v 0.25–0.41.
 
 | | |
 |---|---|

@@ -1,0 +1,29 @@
+{
+ "note": "post hoc replication, hypothesis fixed from N28 before looking",
+ "w0": {
+  "n_seeds": 30,
+  "later": 28,
+  "nonzero": 30,
+  "p_one_sided": 4.33996319770813e-07,
+  "median_log2": 0.5330387216021837,
+  "events": {
+   "A": 28,
+   "B": 25,
+   "AB": 23,
+   "BA": 23
+  }
+ },
+ "w400": {
+  "n_seeds": 30,
+  "later": 30,
+  "nonzero": 30,
+  "p_one_sided": 9.313225746154785e-10,
+  "median_log2": 1.0956563370454027,
+  "events": {
+   "A": 30,
+   "B": 28,
+   "AB": 9,
+   "BA": 10
+  }
+ }
+}

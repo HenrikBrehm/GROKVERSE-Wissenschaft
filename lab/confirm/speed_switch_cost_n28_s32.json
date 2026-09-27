@@ -1,0 +1,54 @@
+{
+ "note": "post hoc exploration on the N28 block (seeds seen for the frequency analysis, gen never looked at)",
+ "n_seeds": 30,
+ "per_arm": {
+  "A": {
+   "n": 30,
+   "with_event": 30,
+   "median_gen": 875.0
+  },
+  "B": {
+   "n": 30,
+   "with_event": 29,
+   "median_gen": 850.0
+  },
+  "AB@25": {
+   "n": 30,
+   "with_event": 26,
+   "median_gen": 1175.0
+  },
+  "BA@25": {
+   "n": 30,
+   "with_event": 22,
+   "median_gen": 1500.0
+  },
+  "AB@50": {
+   "n": 30,
+   "with_event": 30,
+   "median_gen": 562.5
+  },
+  "BA@50": {
+   "n": 30,
+   "with_event": 28,
+   "median_gen": 612.5
+  }
+ },
+ "Q_a_at25_vs_destination": {
+  "later": 51,
+  "earlier": 9,
+  "undetermined_or_tie": 0,
+  "p_one_sided": 1.542517804719451e-08
+ },
+ "descr_at50_vs_destination": {
+  "later": 22,
+  "earlier": 38,
+  "undetermined_or_tie": 0,
+  "p_one_sided": 0.9863299330659611
+ },
+ "Q_b_at25_vs_at50": {
+  "later": 46,
+  "earlier": 12,
+  "undetermined_or_tie": 2,
+  "p_one_sided": 4.1098319816662565e-06
+ }
+}

@@ -1,8 +1,8 @@
 ---
 id: EXP-018
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat]
 verwandt: ["[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experiments/EXP-015-mask-spectrum/README|EXP-015]]", "[[NOVEL_DIRECTIONS]]", "[[BACKLOG]]"]
 ---
 # EXP-018: Beschleunigt ein spektral konzentrierter Split das Grokking?
@@ -113,3 +113,7 @@ Siehe [[NOVEL_DIRECTIONS]] N6.
   `python lab/tools/guarded_run.py -- python lab/experiments/EXP-018-split-speed/analyze.py --device cuda`.
 - **Korrektur zu „Bereits gesehene Daten“ (19:14, gemessen, vor jedem EXP-018-Hauptlauf):** Die Seeds 20–29 und die EXP-018-Splits sind **nicht mehr unberührt**. [[experiments/EXP-041-imprint/README|EXP-041]] hat die reinen Arme **E und R** mit genau diesen Seeds, Splits und der gemeinsamen Testmenge T* gerechnet (CPU, 4 Threads, 2150 Schritte; Hashes von Split und Testmenge in 20/20 Läufen geprüft). Ergebnis, damals nicht als Geschwindigkeitsfrage ausgewertet: E generalisierte (Test ≥ 0.95) in 9/10 Seeds bei 425–1775 Schritten, R in 0/10 (Test 0.007–0.15 bei 2150). Außerdem nutzte [[experiments/EXP-020-data-switch/README|EXP-020]] die Splits E/R für Wechselläufe. Folgen: (1) Der Sekundärvergleich E gegen R ist gesehen und keine unabhängige Bestätigung mehr. (2) Der **Primärvergleich E gegen D** bleibt prospektiv, denn Arm D lief nie. Der E-Arm ist allerdings in seinem Verlauf bis 2150 bekannt (CPU); auf der GPU wird er neu gerechnet. (3) Entscheidungsregel und Test bleiben unverändert. Im Paper wird EXP-018 als „vorab registriert, Kontrollarm prospektiv, E/R teilweise vorher gesehen“ berichtet.
 - **Lesehinweis (19:26, keine Kriterienänderung):** Die Codex-Designprüfung von R5 zeigt eine Grenze von Arm D: Er gleicht die Zieh-Gewichte je Antidiagonale an, nicht die realisierte Maske. An den Seeds 20–22 weichen die Anzahlen je Ausgabe zwischen E und D im Mittel um ≈ 3 von ≈ 34 ab. Ein Ergebnis „E schneller als D“ spricht deshalb für die Anordnung, schließt aber kleine Unterschiede der realisierten Abdeckung nicht aus. Bei der Bestätigung (R5) wird das behoben.
+
+## Ergebnis (Sitzung 32, 21:54 Berlin, gemessen)
+
+30/30 Läufe ok (GPU). **Urteil: *beschleunigt*.** L_DE = 2.69 log2 (SD 0.85, ≈ ×6.5), 10/10 Seeds, p = 0.001; L_RE 2.86 (10/10); L_RD 0.17 (n. s.). Zensiert bei 8000: E 0, D 3, R 4. Die Kontrolle D (Ziehgewichte innerhalb der Antidiagonalen permutiert) groks etwa so langsam wie R. Die Beschleunigung braucht die konstruierte Paaranordnung, die Ausgaberandverteilung allein reicht nicht. D war prospektiv, E/R waren gesehen (EXP-041). Zusammenfassung: `summary_cuda.json`. R5-Power aus diesem Pilot: n = 20. Siehe [[JOURNAL]] Sitzung 32, Zyklus 25.

@@ -534,3 +534,10 @@ Suchbegriffe (WebSearch, 2026-09-27): „initialization scale critical period fe
 - Nichts gefunden, das prüft, ob die Init-Skala das **Festlegungsfenster gegen einen Datenwechsel** verschiebt (H40). He et al. 2026a (2602.16849, schon zitiert) behandeln die Init-Lotterie ohne Datenwechsel. EXP-040 bleibt „nach unserer Suche nicht gefunden“ (vorläufig).
 
 ### Nachtrag Sitzung 29 (2026-09-27, vor 18:10 Berlin, gemessen): erste direkte Google-Scholar-Abfrage (Lücke aus Sitzung 24)
+
+## Nachtrag Sitzung 30 (2026-09-27, 18:37 Berlin gemessen): Zufallssplit gegen Init (für [[confirm/R4_REGISTRATION_DRAFT|R4]])
+
+Suchbegriffe (WebSearch, 2026-09-27): `grokking modular addition which Fourier frequencies learned depends on initialization or training split random seed`; `arXiv 2026 grokking "training set" subset determines key frequencies seed dependence modular arithmetic transformer`.
+- **He et al. 2026a** (arXiv 2602.16849, schon zitiert): Init entscheidet den Frequenz-Wettbewerb (Lotterie); volle Daten, kein Split-Faktor. Bleibt die Vergleichsgröße zu H2 in R4.
+- **Ootani 2026** (arXiv 2607.05104, *Grokking Is Conditional and Fragile*, [A]+HTML gelesen): Mehr-Seed-Grokking-Raten; Testmenge mit festem Seed, Split nicht unabhängig von der Init variiert; misst die Konzentration des Spektrums, nicht die Identität der Frequenzen. Schränkt R4 nicht ein.
+- Ergebnis: Kein Treffer, der Init- und Split-Seed für die **Identität** der gelernten Frequenzen gekreuzt trennt; nächstverwandt bleibt LeDoux 2026 (Zufalls-Teilmengen ändern die Frequenz unter Stride-Reihenfolge nicht). Einordnung: nach unserer Suche vom 2026-09-27 nicht gefunden (vorläufig, zwei Suchanfragen, keine Zitationsverfolgung).

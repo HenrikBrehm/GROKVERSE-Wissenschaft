@@ -128,8 +128,14 @@ the pilot level (0.185; ε ≈ 2.23 at ω = 0). P3 additionally ran ω = 0.4 (40
 steps in N29–N29c); each seed is run in both directions (A→B, B→A). Reset arms re-initialize the named parameter tensors to their values at initialization and clear their AdamW state at the switch.
 
 **Measures.** All spectral measures use the n group-element rows X of W_E in group order (for mul 113: W_E[g^i], g = 3, i = 0, …, 111). P_k(X) is the power of X in the real two-dimensional Fourier subspace of k (for D59: the four-dimensional span of the matrix coefficients of irrep k),
-and P(S) = Σ_{k∈S} P_k for a set S. The definitions of Δ_pow (K2), the margin sensitivity D (K2-function), the persistence index π (K4) and the ablation contrast R (K4c–e) are given in the
-outline below and in the frozen registrations.
+and P(S) = Σ_{k∈S} P_k for a set S. *Steering* (K2): for a seed with arms F and G (same initialization, disjoint target sets T_F, T_G),
+Δ_pow = log[P_F(T_F)/P_F(T_G)] + log[P_G(T_G)/P_G(T_F)] at step 2000, where P_F is measured in arm F's embedding; Δ_pow = 0 means no steering. *Margin sensitivity* (K2-function): with the unit direction
+u_S = P_S X / ‖P_S X‖ and X' = X − δ u_S, δ = 0.02 ‖X‖, drop_S is the mean correct-class logit margin on pairs outside both splits before minus after the perturbation; D = drop_own − the mean
+drop over four control sets of five frequencies (drawn from a restricted pool that excludes the own and the other targets and their second harmonics 2k), averaged over the two arms.
+*Persistence index* (K4, K4b): with L = log[P(T_A)/P(T_B)] of the final embedding, π = (L_switch − L_pureB)/(L_pureA − L_pureB), averaged over both switch directions; π is an affine,
+unbounded index (0 = the pure second-split endpoint, 1 = the pure first-split endpoint), not a probability. *Ablation contrast* (K4c–e): R = accuracy on the held-out test set after projecting
+W_E onto the orthogonal complement of the five *new* target subspaces minus the accuracy after removing the five *old* ones, averaged over both switch directions per seed; R > 0 means that removing
+the old frequencies costs more. Each measure is fixed in the frozen registration of its block.
 
 **Protocol.** Each confirmation block was registered before any of its runs: hypotheses, primary measure, minimum effect, family and Holm correction, sample size (from pilot variance), a
 reserved block of fresh seeds, and a list of previously seen data and the decisions they influenced. The manifest was committed and names its commit; it stores SHA-256 hashes of the analysis, split and training code;
@@ -137,7 +143,7 @@ every run was started through a wrapper that checks the code hashes before, duri
 one job of the frozen list was first run as a smoke test and counted as a regular run (from N28 on also through the frozen loader); P2c and P3 had none. Confidence intervals are percentile bootstrap intervals over seeds. Pilots on other seeds are reported
 separately as explorations (§4).
 
-## 2 Setup (outline)
+## 2 Setup (outline; superseded by the prose above since session 30, kept until the restructuring after the night blocks)
 
 - Model: the one-layer transformer of the original GROKVERSE study (preset arch25k, d_model 128, 4 heads, MLP 512), full-batch AdamW (lr 1e-3, wd 1.0, β as in the study), train fraction 0.3,
   inputs (a, b, =). Tasks: add mod 113 / 97, mul mod 113 (frequencies over the discrete-log order, Z_112), D59 (group order 118, irreps from an explicit real basis).

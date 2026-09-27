@@ -3623,3 +3623,6 @@ laufen erst nach bestandener Gleichwertigkeit von `train.py` (frühestens Nacht 
 
 **Zyklus 9 (Stichprobe EXP-081 Teil A, bis 16:36, gemessen).** Aus EXP-059: Abfall durch m-Löschen bei t = 25 = 0.186 (SD 0.098), vorhergesagt aus Schwanz × Steigung 0.17–0.21 (passt). Simulierte Power für den β₁-Dosistest (0.95 gegen 0.8, Vorzeichentest, 10 Seeds): 0.93–1.00.
 Eingetragen in [[experiments/EXP-081-optimizer-clock/README|EXP-081]]. Teil B (β₂ bei festem t) braucht keine Power-Rechnung: die vorhergesagten Abstände (≈ ±0.5) sind ein Vielfaches der Streuung.
+
+**Zyklus 10 (Quellprüfung der übrigen neuen Paper-Stellen, bis 16:39, gemessen).** Unabhängiger Agent (nur Lesen, Salah & Yevick selbst im PDF nachgelesen): §1b, §3.3-Zahlen (inflight_adam-Logik, delta_shift 8.056/9.580/6.467), Zitate Xu/Sweeney/Sevetlidis, §6 und die Repro-Tabelle **korrekt**.
+Korrigiert: „Registered R3“ → Entwurf, nicht eingefroren; t = 40/50 „nicht interpretierbar“ statt „nicht möglich“ (die interpolierten Werte existieren); Bereich t = 25–35 und 8.7–8.9 ergänzt; Grammatik; Repro-Zeile „K4 (π-Arme)“ (Kernzahlen von K4 aus P3 nicht abgedeckt); Salah & Yevick präziser.

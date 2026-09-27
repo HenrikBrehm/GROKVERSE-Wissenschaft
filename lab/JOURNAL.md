@@ -2580,3 +2580,48 @@ B4/H3 (Commit 48e7afb: alle geplanten Paare nötig, Δ endlich und Zielsummen > 
 gegen `build()` bei `--analyze`), B1 (93586fb: `code_sha256` im Manifest über Trainer, Split-, Analyse- und Ladercode sowie `training/grokverse`, geprüft bei Splits, `--jobs`, `--analyze`),
 B2/H5 (b750fb1: `primary_task` = add 113 in der P1–P3-Familie mit 3 Gliedern, übrige Aufgaben als eigene sekundäre Familie; die Power bei α/3 passt damit). Texte zu H7/M8/M9 und die
 Wiederholungsregel stehen im Entwurf. Beim Selbsttest fiel ein falscher Sollwert auf (Holm ist monoton), korrigiert. Codex prüft nur die geänderten Stellen nach (Regel 18c), das Ergebnis folgt.
+
+### STATE-Archiv (Sitzung 20, 03:46): Ablauf 18b der Nacht 26./27.09., erledigt
+
+## Verbindlich jetzt: Regel 18 (Astra-Review umsetzen), Nacht 26./27.09.
+
+- **NUTZER 27.09. 02:25: Läufe ab SOFORT erlaubt, nicht erst 03:00** (Sperre im Wächter entfernt; `--check` zeigt `allowed: true`). Schritte unten sofort beginnen.
+- 18a vollständig (Punkte 3, 10, 16, 11, 17, 5; 18c Programm A/B/C), alles **ungetestet** bis 03:00. Offen: EXP-034-Port (nach P3-Design).
+- **Nächste Sitzung ab 03:14 (Sitzung 16 hat den Kreuzblock ergänzt, sonst nichts offen):** bis 03:00 nichts Pflichtiges offen (Sitzung 15: N30-Fenstermodell, EXP-054 und Lesarten für EXP-041/042 vor den Läufen eingefroren). Ab 03:00 Schritte unten.
+- Stand je Punkt: Tabelle „Umsetzung“ am Ende von [[reviews/ASTRA_2026-09-26]].
+
+## Wiederaufnahme ab 03:00 (18b), genau in dieser Reihenfolge
+
+1. `python lab/tools/guarded_run.py --check` → `allowed: true`. Keine andere Queue aktiv (`ps -ef | grep -E "night_program|queue|guarded_run" | grep -v grep`).
+2. Wächter-Abnahme **(Sitzung 18: als Skript)**: `powershell -ExecutionPolicy Bypass -File lab/tools/accept_guard.ps1` (≈ 1 min; Proben A STOP, B/C Wächter hart beendet mit System- bzw. venv-Python; Ergebnis `lab/runner/logs/accept_guard.json`; löscht STOP selbst). Von Hand wie bisher: `python lab/tools/guarded_run.py -- python -c "import time; time.sleep(60)"` im Hintergrund, währenddessen
+   `lab/STOP` anlegen → Exit 3 und Kind beendet? **STOP sofort wieder löschen**, im JOURNAL vermerken. Scheitert es: Blocker in LIVE.
+3. Tests **(Sitzung 19: alle in einer Liste, nach Schritt 2, nie gleichzeitig mit accept_guard):** `python lab/tools/parallel_queue.py lab/runner/tests_s19.txt --workers 3 --min-minutes 5`.
+   Einzeln wie bisher, je `python lab/tools/guarded_run.py [--min-minutes 5] -- python <datei> [arg]`: `lab/experiments/EXP-001-freq-ban/test_freq_ban.py` (Sitzung 18 ergänzt); `lab/tools/result_loader.py`;
+   `lab/tests/test_freq_ban_fingerprint.py` (--min-minutes 5; kleine CPU-Läufe im Temp-Ordner); `lab/tests/test_night_program.py`;
+   **neu (Sitzung 14):** `lab/experiments/EXP-052-oos-mask-prediction/exp052.py --selftest`, `lab/tools/pilot_power.py --selftest`,
+   `lab/tools/confirm_splits.py --selftest`, `lab/tools/confirm_p1.py --selftest`, **neu (Sitzung 19):** `lab/tools/trainer_guard.py --selftest`. Scheitert etwas: beheben, bevor Queues starten
+   (die vier neuen blockieren die Nachtqueues nicht, nur ihre eigene spätere Auswertung).
+4. GPU: `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1` im Hintergrund (Plan: `--dry-run`). Beginnt mit GPU-001
+   (**Sitzung 18: Stufe 0 `components`, Astra 9** → Regression → Gleichwertigkeit → Durchsatz); ohne PASS keine GPU-Läufe. Danach EXP-043 → 046 → 047 (+ EXP-051) → 048 → 049 → 044 → 045.
+   Wiederaufnahme = derselbe Befehl (Fertiges wird per Fingerprint übersprungen). Status: `lab/runner/logs/night_*/night_status.json`.
+   Ist das GPU-Programm vor ≈ 11:00 fertig (GPU-001 bestanden): EXP-050 nachschieben (`--experiments GPU-001,EXP-050`, Paket C, 60 Läufe).
+5. CPU **erst nach GPU-001**, **Sitzung 19: EXP-014 ans Ende** (Exploration, ≈ 5,5 Worker-Stunden, blockierte sonst die Paket-B-Piloten für P3):
+   `python lab/tools/night_program.py --cpu --experiments EXP-035,EXP-038,EXP-041,EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1` (alte Standardfolge: EXP-014 → 035 → 038 → 041 → 036 →
+   039 → 040 → 042). Nicht portiert: 034 (nach P3-Design); 018/022/023/010 zurückgestellt ([[BACKLOG]] „Sichtung nach Regel 18c“).
+   **Wenn GPU-001 scheitert:** kein GPU-Lauf; sofort `--cpu --cpu-workers 3` (Zahl **explizit** angeben: ohne Throughput-PASS nimmt der Code sonst 1 Worker, Sitzung 17). Paket A danach auf der CPU (Sitzung 15, geprüft, ungetestet):
+   `python lab/tools/night_program.py --paket-a-cpu --experiments EXP-043,... [--cpu-workers N]` (≈ 300 Läufe, mehrere Fenster;
+   neben `--cpu` Threadsumme ≤ 12). Auswertungen von Hand dann mit `LAB_PAKET_A_DEVICE=cpu`.
+6. Beobachten (Regel 14). GPU-001-Verdikte ins JOURNAL (Gleichwertigkeit, s/Schritt, J). Punkt 9: GPU bleibt experimentell.
+7. Auswerten: `python lab/tools/night_report.py`; **vor jeder Deutung** [[LESART-nacht-2026-09-27]] lesen.
+8. **Eingefrorene Vorhersagen (Sitzung 14), nach den jeweiligen Läufen, alle über den Wächter:**
+   - EXP-052 (Paket C): `lab/experiments/EXP-052-oos-mask-prediction/exp052.py`, sobald die R-Arme von EXP-043, 046, 048 fertig sind (Holm fest über vier).
+   - EXP-039 (CPU): `lab/experiments/EXP-039-lr-clock/eval_pi.py` (π gegen drei Uhren, `predictions_pi.json`, nur beschreibend).
+   - EXP-044 (GPU): `lab/experiments/EXP-044-generalize-lockin/pi_persistence.py` (π gegen EXP-020, Lesarten (i)/(ii) in der README).
+   - **Neu (Sitzung 15):** EXP-054 nach EXP-036: `lab/experiments/EXP-054-window-oos/n30_window.py` (erst `--selftest`); EXP-042 nach dessen
+     Hauptauswertung: `lab/experiments/EXP-042-bias-strength/pi_window.py` (erst `--selftest`, EXP-020-Regression). Beide nur beschreibend.
+9. **Vor dem Einfrieren von P1:** `lab/tools/pilot_power.py` (Δ_pow-Pilotstreuung, n für Power 80 %; vorher prüfen, dass die summary.json von
+   EXP-048/049 aus dieser Nacht stammt). Bestätigungsblock dann mit `confirm_splits.py --manifest …` und `confirm_p1.py --jobs/--analyze …`
+   (nur mit committetem Manifest; Seeds 1000–1099). P3 vorher schärfen: primär Wechsel bei t = 25 (Decke bei 150), Maß π, Überlappung nach EXP-053.
+   Gekreuzter Split×Init-Block (Astra 5) ist entschieden (Sitzung 16): ins Manifest `"cross": {"task": "add", "p": 113, "seeds": [erste 5], "inits_per_seed": 2}`
+   (20 Zusatzläufe, sekundär; Lesart in `confirm_p1.py`). EXP-014 bleibt Exploration.
+

@@ -3,7 +3,7 @@
 Hypothesis fixed from the N28 analysis (speed_switch_cost_n28_s32.py, same session) BEFORE looking at any P3 generalisation step:
   Q-a' a switch at 25 delays grokking against the destination-only run; unit = seed, statistic = mean over both directions of
        log2(bounded time switch) - log2(bounded time destination-only) (bounded = min(gen, horizon)); exact one-sided sign test
-       over seeds, primary for overlap level w0 (like N28), w400 (split pair sharing 400 more pairs) descriptive.
+       over seeds, primary for overlap level w0 (like N28), w400 (omega = 0.4: 40 % of the train pairs shared, drawn uniformly) descriptive.
   python lab/confirm/speed_switch_cost_p3_s32.py
 """
 import json

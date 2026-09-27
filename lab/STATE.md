@@ -20,6 +20,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
   ≈ 5 min je Lauf, noch mehrere Fenster. Die Sitzungsdeadline bricht ab (Exit 124/3 = Ablehnung, kein Fehler). **Wiederaufnahme: derselbe Befehl** (Fertiges wird übersprungen).
   Mit freier GPU kann der Arbeiter mehr Threads bekommen: `--cpu-workers 3` (Threadsumme ≤ 12). Nicht mischen (Regel 16d): Die CPU-Versuche bleiben auf der CPU.
 - **GPU:** frei. Kein offenes GPU-Programm.
+- Achtung: `EXP-035-warmup-lockin/summary.json` stammt vom 26.09. 15:43 (alt, „nicht auswertbar“). `night_report.py` zeigt es an, es ist **kein** Ergebnis dieser Nacht. Die Auswertung kommt erst nach den CPU-Läufen.
 
 ## Nächste Schritte (in dieser Reihenfolge)
 

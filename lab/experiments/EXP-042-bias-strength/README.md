@@ -1,8 +1,8 @@
 ---
 id: EXP-042
-status: vorbereitet
+status: abgeschlossen (Hauptlauf); π-Lesart offen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/unklar, neu/kandidat]
 ---
 # EXP-042: Verzögert ein stärker konzentrierter zweiter Split die Festlegung? (H42: Vorsprung gegen Split-Neigung)
 
@@ -77,10 +77,43 @@ Die Schwellen aus Nachtrag b bleiben unverändert.
 
 Vorab festgelegt, Splits erzeugt (reine Rechnung), Code **ungetestet** (Fenster geschlossen). Noch in keiner Queue.
 
+**Nachtrag Sitzung 31 (2026-09-27, 19:32 Berlin, gemessen):** Der Hauptlauf lief am 2026-09-27 zwischen ≈ 12:30 und 12:54 Berlin vollständig
+im CPU-Nachtprogramm (`night_program.py`, 36/36 Läufe ok, `analyze.py` über den Wächter, Exit 0; Log
+`lab/runner/logs/night_cpu_20260927T103013_598505Z/EXP-042_main*`). STATE hatte ihn fälschlich als „teilweise“ geführt; das Ergebnis war bis
+Sitzung 31 ungelesen. Die π-Lesart (`pi_window.py`, Nachtrag b/c) ist **noch nicht gerechnet** (Selbsttest im Fenster).
+
+## Ergebnis (Hauptlauf, vorab festgelegtes Urteil)
+
+d = |K ∩ F| − |K ∩ G| (Top-5 von W_E am Ende), Seeds 30, 31, 32, 34, alle vollständig und gültig (`summary.json`):
+
+| eps_G | Seed | d(0) | d(10) | d(25) | d(50) | d(100) | d(150) | d(∞) | Kreuzung | Klasse |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 8 | 30 | −4 | | −4 | 1 | 3 | 3 | 3 | (25, 50] | gleich |
+| 8 | 31 | −3 | | −4 | 1 | 3 | 3 | 3 | (25, 50] | unklar (nicht monoton) |
+| 8 | 32 | −5 | | −4 | 0 | 4 | 3 | 3 | (50, 100] | unklar (nicht monoton) |
+| 8 | 34 | −4 | | −5 | 2 | 5 | 5 | 5 | (25, 50] | unklar (nicht monoton) |
+| 1 | 30 | −2 | −1 | 1 | 1 | | | 3 | (10, 25] | früher |
+| 1 | 31 | −2 | 1 | 1 | 3 | | | 3 | (0, 10] | früher |
+| 1 | 32 | −3 | −1 | 1 | 2 | | | 3 | (10, 25] | früher |
+| 1 | 34 | −2 | −1 | 0 | 4 | | | 5 | (25, 50] | gleich |
+
+- **Vorab festgelegtes Urteil (eps 8): *unklar*** (1 × gleich, 3 × unklar). Die drei unklaren Seeds sind nicht monoton, um genau eine Einheit
+  (31, 34: d(25) eine Einheit unter d(0); 32: d(150) eine Einheit unter d(100)) bzw. mit Gleichstand d(50) = 0 (Seed 32). Keine Zelle ist *später*.
+- **eps 1 (nur beschreibend):** 3/4 *früher*, 1/4 *gleich*.
+- **Beschreibend gegen eps 2 (EXP-020, gleiche Seeds 30, 31, 32, 34, anderer Code-Stand):** mittleres d bei t = 25: eps 1 **0.75**, eps 2 **−1.75**,
+  eps 8 **−4.25**; bei t = 50: eps 1 2.5, eps 2 2.5, eps 8 **1.0**. Je stärker G, desto später kippt die Top-5-Menge (bei t = 25 streng geordnet, bei t = 50 liegt nur eps 8 tiefer; n = 4).
+- **Gegen die vorab eingefrorene Takt-Vorhersage** (Nachtrag b, Commit e9a9c56 vom 2026-09-26 22:45, vor jedem Lauf; erster Schritt mit d > 0
+  unter reinem Takt): Log-Zug eps 8 → 48, 46, 48, 47 (beobachtetes Intervall getroffen in 3/4; Seed 32 knapp: d(50) = 0), linearer Zug
+  52, 52, 54, 51 (1/4); eps 1: log 18, 24, 21, 16 und linear 15, 19, 19, 14 (je 2/4; Seed 31 kippt früher, Seed 34 später als vorhergesagt).
+  Die Richtung der Verschiebung sagt der reine Takt ohne eine an EXP-042 angepasste Größe richtig voraus.
+- **Lesart:** Die Stärke des zweiten Splits verschiebt die Top-5-Kreuzung, und zwar etwa so weit, wie ein reiner Takt mit linearer
+  Überlagerung es ohnehin vorhersagt. Das Top-5-Maß trennt H42 deshalb nicht vom Takt (wie in Nachtrag b erwartet). Entscheiden kann
+  nur die π-Lesart (C/O), die noch aussteht. Urteil: ***unklar*** (#befund/unklar); n = 4, Gitter grob, Explorationsniveau.
+
 ## Reproduktion
 
 ```
 python lab/experiments/EXP-042-bias-strength/make_splits.py        # reine Rechnung, prüft F/Test gegen EXP-020
-sh lab/experiments/EXP-042-bias-strength/queue.sh
+sh lab/experiments/EXP-042-bias-strength/queue.sh   # tatsächlich gelaufen über: python lab/tools/night_program.py --cpu ... --experiments EXP-042,...
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-042-bias-strength/analyze.py
 ```

@@ -1,34 +1,21 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 30 (beendet)
+# LIVE: Laborsitzung 31
 
-- **Sitzungsstart:** 2026-09-27 18:19 Berlin (16:19Z, vom Runner)
-- **Deadline:** 2026-09-27 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 19:28 Berlin (gemessen)
+- **Sitzungsstart:** 2026-09-27 19:29 Berlin (17:29Z, vom Runner)
+- **Deadline:** 2026-09-27 22:29 Berlin (20:29Z)
+- **Zuletzt aktualisiert:** 19:34 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests.
 
 ## Gerade
 
-**Sitzung beendet (19:28).** Nächster geplanter Start laut runner-state.json: **21:54 Berlin** (19:54Z).
+EXP-042 ist fertig gewesen, aber ungelesen: Ergebnis eingetragen (*unklar*; stärkerer zweiter Split kippt später, etwa wie ein reiner Takt vorhersagt). Jetzt: nächste Denkarbeit wählen.
 
 ## Als Nächstes
 
-Ab 00:00 laut [[STATE]]; neu und zuerst auf der GPU: [[experiments/EXP-018-split-speed/README|EXP-018]] (konstruierte Splits groken ≈ 9× früher: Kontrollarm D entscheidet). Für dich: [[paper/STATUS]] (Nachtrag Sitzung 30).
+Codex-Nachprüfung der letzten R4-Änderungen (Einfrieren in der Nacht 28./29.) oder Vorbereitung der π-Auswertung.
 
 ## Verlauf dieser Sitzung
 
-- 19:28 Sitzung beendet; alles committet.
-- vor 19:28 R5 (Bestätigung der Beschleunigung) als Entwurf, Codex-Designprüfung (4 Blocker notiert), Simulationswerkzeug; EXP-018 in Nachtschritt 5.
-- 19:14 Gespeicherte EXP-041-Läufe: Auch mit gemeinsamer Testmenge generalisiert der konstruierte Arm in 9/10 Seeds, der zufällige in 0/10 (bis 2150 Schritte; post hoc).
-- 19:12 EXP-018 (Grokking-Beschleunigung durch konstruierte Splits) auf GPU umgestellt und in den Nachtplan aufgenommen.
-- 19:09 Exploration: Die Steuerung (Δ_pow) wächst nach dem Grokking weiter (20/20 Seeds, drei Aufgaben), getragen von den eigenen Zielen.
-- vor 19:09 Venue-Abgleich der Literaturliste (arXiv-Seiten).
-- 19:04 Abbildung 0 (Masken, M0c, Wechselprotokoll) aus P1-Splitdateien.
-- vor 19:04 Quellenprüfung der Entwurfsänderungen: 4 eigene Fehler gefunden und korrigiert.
-- 19:00 Literaturliste [[paper/references]] erstellt (35 Zitate, Lücken markiert); N42 (Phaseneingriff) nach Überschlag verworfen.
-- 18:56 R4 nach zwei Codex-Runden überarbeitet (1 Blocker, 5 Major eingearbeitet; 60 Einheiten, zwei Zeitpunkte, Null-SD nachgerechnet).
-- 18:36 R4 entworfen (160 GPU-Läufe, fest 40 Einheiten), Code ungetestet; im Entwurf §4 die Zufallssplit-Assoziation aus EXP-015 mit Seed-Vorbehalt.
-- vor 18:35 EXP-083 vorbereitet (Verschiebung je Reset-Teil); Code-Prüfung fand einen Fehler (Thread-Zahl), behoben.
-- vor 18:30 Gutachter-Durchgang: 10 Textkorrekturen im Paper-Entwurf, keine Zahl geändert.
-- 18:20 Start: kein STOP, keine Python-Prozesse, Fenster zu.
+- 19:33 [[experiments/EXP-042-bias-strength/README|EXP-042]] ausgewertet (lag seit 12:54 fertig vor): eps 8 *unklar*, eps 1 3/4 früher; STATE korrigiert.

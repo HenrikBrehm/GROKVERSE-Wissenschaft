@@ -33,7 +33,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Aktive Queue / laufende Jobs
 
-- Keine. CPU-Programm wurde um 12:54 vom Wächter am Fensterende gestoppt (Exit 3, erwartet). EXP-042 teilweise, EXP-040 und EXP-014 nicht gestartet.
+- Keine. CPU-Programm wurde um 12:54 vom Wächter am Fensterende gestoppt (Exit 3, erwartet). EXP-040 und EXP-014 nicht gestartet. **Korrektur Sitzung 31:** EXP-042 war schon vorher vollständig (36/36 ok, `analyze.py` Exit 0 um 12:54); Urteil *unklar*, siehe [[experiments/EXP-042-bias-strength/README|EXP-042]].
 
 ## Nächste Schritte (ab 00:00, in dieser Reihenfolge; alles über guarded_run.py)
 
@@ -41,7 +41,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 2. **Trainer-Tests** (neu, ungetestet: `--rewind-at-switch`, `--lr/--weight-decay/--train-frac`): `python lab/tools/guarded_run.py --min-minutes 5 -- python lab/tests/test_freq_ban_fingerprint.py`.
    Scheitert `test_rewind`: EXP-073 nicht starten. Danach Selbsttests `confirm_r1.py`, `confirm_r2.py`, `confirm_r3.py --selftest` (Blöcke laut Schritt 8, wenn Zeit bleibt).
 3. **CPU sofort nach den Tests starten, EXP-040 zuerst** (≈ 3 h; direkter Test des Amplitudenmodells H40 für die offene Frage in FINDINGS):
-   `python lab/tools/night_program.py --cpu --cpu-workers 2 --experiments EXP-040,EXP-042,EXP-014` (im Hintergrund). **Threads (Prüfung Sitzung 27, Regel 17: Summe ≤ 12):** CPU 2 × 4 = 8 Threads, daneben **höchstens 4 GPU-Prozesse** (je 1 Thread); frühere Nächte liefen mit 12 CPU-Threads plus bis zu 10 GPU-Prozessen. Mehr GPU-Prozesse nur, wenn gemessen (Last, s/Schritt) nichts langsamer wird, und im JOURNAL festhalten.
+   `python lab/tools/night_program.py --cpu --cpu-workers 2 --experiments EXP-040,EXP-014` (im Hintergrund; EXP-042 ist fertig, Sitzung 31). **Dazu (Sekunden, nur Auswertung, vor dem CPU-Start):** `guarded_run.py -- python lab/experiments/EXP-042-bias-strength/pi_window.py --selftest`, dann ohne `--selftest` (π-Lesart C/O, Nachtrag b/c; entscheidet Takt gegen H42). **Threads (Prüfung Sitzung 27, Regel 17: Summe ≤ 12):** CPU 2 × 4 = 8 Threads, daneben **höchstens 4 GPU-Prozesse** (je 1 Thread); frühere Nächte liefen mit 12 CPU-Threads plus bis zu 10 GPU-Prozessen. Mehr GPU-Prozesse nur, wenn gemessen (Last, s/Schritt) nichts langsamer wird, und im JOURNAL festhalten.
 4. **P2f einfrieren und rechnen** (≈ 30 min): `guarded_run.py -- python lab/tools/confirm_p2f.py --selftest` → Manifest `lab/confirm/P2f_manifest.json` wie P2e (Felder aus `REGISTERED`,
    `python`, `registration`, `code_sha256` aus `--hash-code`), committen, Commit-ID ins Feld `commit`, erneut committen → `--splits` → `python lab/tools/confirm_p2f.py --jobs lab/confirm/P2f_manifest.json > lab/confirm/P2f_jobs.txt` (**ohne** guarded_run: reiner Druckmodus wie bei P2e; über den Wächter landeten dessen `[guard]`-Zeilen in der Jobdatei; erste Zeile muss mit `python lab/tools/confirm_p2f.py --run` beginnen; gleiches Muster für R1/R2/R3/P4) → Smoke: erste Jobzeile allein über
    `parallel_queue` und `--analyze` (Wert nicht ansehen, nur Lader prüfen) → Block `parallel_queue.py lab/confirm/P2f_jobs.txt --workers 10` (12000 Schritte) → `--analyze`.

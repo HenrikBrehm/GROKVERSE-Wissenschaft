@@ -1,23 +1,24 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 24
+# LIVE: Laborsitzung 24 (beendet)
 
 - **Sitzungsstart:** 2026-09-27 12:29 Berlin (10:29Z, vom Runner)
 - **Deadline:** 2026-09-27 15:29 Berlin (13:29Z)
-- **Zuletzt aktualisiert:** 14:16 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 14:17 Berlin (gemessen)
 - **Run-Fenster:** seit 13:00 zu (wieder ab 00:00): nur Denk- und Vorbereitungsarbeit.
 
 ## Gerade
 
-Zahlenpruefung des Paper-Entwurfs abgeschlossen und eingearbeitet. In lab/paper/STATUS.md steht oben eine deutsche Kurzfassung: was das Paper heute tragen wuerde und was vor einer Einreichung fehlt.
+**Sitzung beendet.** Naechster geplanter Start laut runner-state.json: **16:04 Berlin** (14:04Z), ausserhalb des Run-Fensters (nur Denk- und Vorbereitungsarbeit bis 00:00).
 
 ## Als Naechstes
 
-Abweichungen korrigieren, Sitzung beenden. Ab 00:00: Tests, EXP-040, P2f, EXP-073/074/075 (siehe [[STATE]]).
+Ab 00:00 (spaetere Sitzung): Tests der neuen Werkzeuge, CPU mit EXP-040 zuerst, P2f einfrieren und rechnen, EXP-073/074/075 auf der GPU; Lesart vorab in [[LESART-nacht-2026-09-28]]. Fuer dich: [[paper/STATUS]] (Kurzfassung und offene Entscheidungen).
 
 ## Verlauf dieser Sitzung
 
+- 14:17 Sitzung beendet; alles committet.
 - 14:16 Paper-Entwurf unabhaengig geprueft: alle Zahlen stimmen; 15 Formulierungen waren zu weit und sind korrigiert. Vorab-Lesart der Nacht festgelegt ([[LESART-nacht-2026-09-28]]).
 - 14:13 Paper: fuenf Abbildungen als Skripte, Kurzfassung fuer dich in [[paper/STATUS]].
 - 14:08 Robustheitsblock R1 (gilt die Steuerung auch bei anderer Lernrate, anderem Weight Decay, anderem Trainingsanteil?) vorbereitet und von Codex geprueft; rechnen fruehestens in der Nacht 28./29.09.

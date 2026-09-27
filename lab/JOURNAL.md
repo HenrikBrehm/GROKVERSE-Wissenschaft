@@ -3321,3 +3321,8 @@ abgeglichen: alle Zahlen in §3 korrekt (≈ 85 Punkte OK), 15 Formulierungs-/Um
 Wertepfad gegen MLP nie verglichen, EXP-068 nur an N29-Modellen, fehlende Negativergebnisse P2 (nicht auswertbar) und P2b (abgebrochen), Smoke erst ab N28, P2f als „registriert“ statt „vorbereitet“.
 Zwei davon hatte ich vorher selbst gefunden; zwei weitere (P2, Smoke) selbst an den Quellen nachgeprüft. Alle übernommen; Titel enger gefasst („a 25–50-step history persists“ statt „locks in“).
 Lehre: Ein Entwurf aus korrekten Zahlen kann trotzdem überdehnen; die Registrierungs-Wortlaute nach Codex sind die Obergrenze für jede Paper-Formulierung.
+
+**Sitzungsende (14:17, gemessen, Deadline 15:29).** P4-Code bewusst nicht mehr begonnen: Für die Nacht liegen schon drei ungetestete Trainer-Funktionen (`--rewind-at-switch`, `--lr/--weight-decay/--train-frac`)
+und zwei ungetestete Werkzeuge (`confirm_p2f.py` nach Änderungen, `confirm_r1.py`) an; ein drittes, in einer Stunde geschriebenes Bestätigungswerkzeug für drei verschiedene Trainer würde mehr Risiko
+als Nutzen bringen. Bausteine sind im [[confirm/P4_REGISTRATION_DRAFT|P4-Entwurf]] inventarisiert. Alle Änderungen dieser Sitzung sind committet (einzelne Pfade; Nutzerdateien des Runners unberührt).
+Gedächtnis ergänzt: Codex-Aufträge müssen Lesen erlauben; Backslashes in Heredoc-Python brechen.

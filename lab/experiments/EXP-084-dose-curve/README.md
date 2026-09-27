@@ -1,8 +1,8 @@
 ---
 id: EXP-084
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet, programm/A, paper, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, programm/A, paper, neu/kandidat]
 ---
 # EXP-084: Dosis-Kurve der Grokking-Beschleunigung: sättigt sie oder kehrt sie bei extremer Konzentration um? (Exploration, frische Seeds)
 
@@ -66,3 +66,7 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-084-dose-curve/smoke.txt 
 python lab/tools/parallel_queue.py lab/experiments/EXP-084-dose-curve/jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-084-dose-curve/analyze.py
 ```
+
+## Ergebnis (Sitzung 32, 22:04 Berlin, gemessen)
+
+80/80 Läufe ok. **Vorhersage getroffen (M_share):** V1 Median log2(b32/b8) = −0.112 (vorhergesagt −0.14; M_eps −0.82). V2 Median b(ε 4) = 450 (Band [450, 575], Grenzfall). V3 ε 0.5 wie R (2/10 bzw. 0/10 bis 4000). Mediane b: R 4000, ε 0.5 4000, ε 1 4000, ε 2 800, ε 4 450, ε 8 400, ε 16 412.5, ε 32 412.5. **Verfehlt:** ε 1 (vorhergesagt ≈ 1900, beobachtet 1/10 bis 4000); das untere Ende ist steiler als die Hyperbel. Lesarten: Sättigung ja, Umkehr nein, monoton knapp nein (7/10). `summary.json`. [[JOURNAL]] Sitzung 32, Zyklus 27.

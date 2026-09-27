@@ -2759,3 +2759,10 @@ prüfte, was lief (Exit-Code von `tail`, feste Muster statt der Funktion, relati
 *Methode:* π ist ein reines W_E-Maß, gleiche Init je Seed → Vorhersage der passiven Spur rechnen: W_E(reiner zweiter Lauf) + c·(W_E^A(25) − W_E(0)). *Ergebnis:* π_Spur = 0.003 (c = 0.135)
 bzw. 0.063 (c = 1, obere Grenze), beobachtet 0.34. *Entscheidung:* Die passive Spur ist als Erklärung ausgeschlossen (beschreibend, aber der Abstand ist groß). Die Rechnung wird
 als vorab festgelegte Kontrolle in P3 übernommen. Das Bild aus EXP-038, EXP-056 und diesem Befund: Das Netz verstärkt eine sehr frühe Wahl aktiv, und die Wahl ist im Netz verteilt.
+
+**Zyklus 11 (P3 vorbereiten, 05:00–05:04 gemessen).** *Frage:* Lässt sich „Persistenz ohne geteilte Daten, über eine passive Spur hinaus“ als Bestätigung festlegen?
+*Entwurf:* [[confirm/P3_REGISTRATION_DRAFT|P3]]: D = π(ω = 0) − π_Spur(c = 1), 30 Seeds (1050–1079), t-Test, Holm im ungünstigsten Fall, Mindesteffekt 0.05 (KI-Untergrenze).
+Die Wahl 0.05 statt 0.1 folgt aus der Bootstrap-Power am Piloten (bei n = 30 und 60 % des Pilot-Effekts nur 0.56 für 0.1). *Technik:* eigenes Modul `confirm_p3.py`
+(18eb7d3), denn der laufende P1-Block ist an die Hashes von `confirm_p1.py` gebunden, und jede Änderung dort würde ihn stoppen. Die Laufverzeichnisse werden exakt aus dem Befehl
+bestimmt (Wechselläufe tragen beide Stämme). *Prüfung:* Selbsttest grün. Der Auswertepfad lief an echten EXP-056-Daten (drei Seeds, zwei Stufen, unter P3-Namen kopiert):
+π und beide Spurvarianten stimmen auf 6 Stellen mit EXP-056 überein. Normierungsspanne L(A) − L(B) im Piloten 5.7–9.9, π also stabil. *Stand:* Codex prüft P3.

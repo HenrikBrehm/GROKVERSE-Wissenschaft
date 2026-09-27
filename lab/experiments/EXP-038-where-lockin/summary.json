@@ -1,0 +1,197 @@
+{
+ "rows": [
+  {
+   "seed": 30,
+   "d_h_ref": 5,
+   "RW": {
+    "K": [
+     6,
+     12,
+     29,
+     42,
+     55
+    ],
+    "d_h": 5,
+    "test_acc": 1.0,
+    "train_acc_after_reset": 0.0647350549697876,
+    "displacement_before": {
+     "W_E": 10.092141151428223,
+     "rest": 33.25135691462558
+    }
+   },
+   "RR": {
+    "K": [
+     6,
+     12,
+     18,
+     29,
+     55
+    ],
+    "d_h": 4,
+    "test_acc": 1.0,
+    "train_acc_after_reset": 0.012529365718364716,
+    "displacement_before": {
+     "W_E": 10.092141151428223,
+     "rest": 33.25135691462558
+    }
+   },
+   "pattern": "redundant"
+  },
+  {
+   "seed": 31,
+   "d_h_ref": 5,
+   "RW": {
+    "K": [
+     23,
+     29,
+     41,
+     45,
+     55
+    ],
+    "d_h": 5,
+    "test_acc": 1.0,
+    "train_acc_after_reset": 0.06160271540284157,
+    "displacement_before": {
+     "W_E": 9.64552116394043,
+     "rest": 32.35475722906117
+    }
+   },
+   "RR": {
+    "K": [
+     26,
+     29,
+     31,
+     41,
+     55
+    ],
+    "d_h": 4,
+    "test_acc": 1.0,
+    "train_acc_after_reset": 0.01200730912387371,
+    "displacement_before": {
+     "W_E": 9.64552116394043,
+     "rest": 32.35475722906117
+    }
+   },
+   "pattern": "redundant"
+  },
+  {
+   "seed": 32,
+   "d_h_ref": 4,
+   "RW": {
+    "K": [
+     5,
+     11,
+     20,
+     22,
+     48
+    ],
+    "d_h": 4,
+    "test_acc": 1.0,
+    "train_acc_after_reset": 0.07569824904203415,
+    "displacement_before": {
+     "W_E": 10.75040340423584,
+     "rest": 34.81363845449839
+    }
+   },
+   "RR": {
+    "K": [
+     5,
+     10,
+     11,
+     20,
+     40
+    ],
+    "d_h": 5,
+    "test_acc": 1.0,
+    "train_acc_after_reset": 0.011746279895305634,
+    "displacement_before": {
+     "W_E": 10.75040340423584,
+     "rest": 34.81363845449839
+    }
+   },
+   "pattern": "redundant"
+  },
+  {
+   "seed": 33,
+   "d_h_ref": 4,
+   "RW": {
+    "K": [
+     1,
+     23,
+     45,
+     48,
+     56
+    ],
+    "d_h": 4,
+    "test_acc": 1.0,
+    "train_acc_after_reset": 0.08222395926713943,
+    "displacement_before": {
+     "W_E": 10.610532760620117,
+     "rest": 34.61234391526159
+    }
+   },
+   "RR": {
+    "K": [
+     1,
+     17,
+     31,
+     48,
+     56
+    ],
+    "d_h": 5,
+    "test_acc": 1.0,
+    "train_acc_after_reset": 0.010702166706323624,
+    "displacement_before": {
+     "W_E": 10.610532760620117,
+     "rest": 34.61234391526159
+    }
+   },
+   "pattern": "redundant"
+  },
+  {
+   "seed": 34,
+   "d_h_ref": 5,
+   "RW": {
+    "K": [
+     9,
+     18,
+     35,
+     45,
+     55
+    ],
+    "d_h": 5,
+    "test_acc": 1.0,
+    "train_acc_after_reset": 0.08509527891874313,
+    "displacement_before": {
+     "W_E": 10.506037712097168,
+     "rest": 34.120231111798624
+    }
+   },
+   "RR": {
+    "K": [
+     3,
+     9,
+     18,
+     35,
+     55
+    ],
+    "d_h": 5,
+    "test_acc": 1.0,
+    "train_acc_after_reset": 0.00965805258601904,
+    "displacement_before": {
+     "W_E": 10.506037712097168,
+     "rest": 34.120231111798624
+    }
+   },
+   "pattern": "redundant"
+  }
+ ],
+ "patterns": [
+  "redundant",
+  "redundant",
+  "redundant",
+  "redundant",
+  "redundant"
+ ],
+ "verdict": "redundant"
+}

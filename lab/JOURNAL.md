@@ -3501,3 +3501,7 @@ geschrieben, nichts ausgeführt). Danach über eine Skriptdatei wiederholt.
 `--lr-scale c` **nur vor dem Wechsel** (Trainer-Option aus EXP-039, keine Trainer-Änderung): lrs2@25 (Λ = 50) und lrs05@50 (Λ = 25). Die Λ-Uhr sagt Festhalten bzw. Umstieg voraus, die Schrittuhr das
 Gegenteil; Holm über 2, n = 20 (Power 0.80 bei halbiertem Umstiegseffekt), Seeds 2540–2559 reserviert, 80 Läufe ≈ 17 min GPU. Codex prüft (läuft). *Warum:* Das ist der direkteste Test des
 Amplitudenbilds an frischen Seeds, billig und mit zwei gegensätzlich vorhergesagten Zellen.
+
+**Zyklus 7, Codex (Ergebnis vor 15:41, gemessen).** Codex zu R3: **keine Blocker** (Eingriff genau in den Schritten 1 … t, Run-IDs, Vorzeichen, Joborder, Holm, Power bestätigt). Übernommen: genauere
+Formulierung „Nachtraining gleich spezifiziert“; Gegenerklärungen (Bias-Korrektur, schrittabhängige Momente, Überschießen) in der Registrierung, *Λ-Uhr bestätigt* heißt nur „skaliert wie Λ in
+zwei Zellen“; die Ausgabe von *nicht bestätigt* sagt ausdrücklich, dass das keine Schrittuhr belegt. Code weiter ungetestet.

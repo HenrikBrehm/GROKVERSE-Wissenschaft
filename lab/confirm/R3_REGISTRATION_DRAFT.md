@@ -24,7 +24,7 @@ EXP-039 (Pilot, 4 bekannte Seeds, Dominanzmaß d) fand Λ in 5/8 Zellen → ***u
 - **Protokoll:** genau wie N29 (ω = 0, EXP-053-Splits über `overlap_split.build`, beide Richtungen, 4000 Schritte nach dem Wechsel, `--stop-after-gen` ≥ Schritte, `--save-model`, Ablation der
   5 alten bzw. 5 neuen Zielfrequenzen aus W_E[:113], Genauigkeit auf der zurückgehaltenen Testmenge, je Seed Mittel über beide Richtungen).
 - **Eingriff:** `freq_ban.py --lr-scale c` (EXP-039-Option): Lernrate c · 1e-3 in den Schritten 1 … t auf dem ersten Split, **ab dem Wechsel die Standard-Lernrate** (Code: `on_first` und
-  `step <= LR_SCALE_UNTIL = 250`; der Selbsttest prüft, dass beides im eingefrorenen Trainer steht). Das Nachtraining ist damit in allen Zellen gleich.
+  `step <= LR_SCALE_UNTIL = 250`; der Selbsttest prüft, dass beides im eingefrorenen Trainer steht). Das Nachtraining ist damit in allen Zellen gleich spezifiziert (Split, Lernrate, Budget), abgesehen vom getragenen Modell- und Optimiererzustand.
 
 | Zelle | c | t | Λ (in 1e-3-Schritten) | Λ-Uhr sagt | Schrittuhr sagt |
 |---|---|---|---|---|---|
@@ -58,3 +58,7 @@ python lab/tools/confirm_r3.py --jobs lab/confirm/R3_manifest.json > lab/confirm
 python lab/tools/parallel_queue.py lab/confirm/R3_jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/tools/confirm_r3.py --analyze lab/confirm/R3_manifest.json
 ```
+
+## Codex-Prüfung (Sitzung 26, Ergebnis vor 15:41, `R3_codex_review_s26.txt`, vor jedem Lauf)
+
+Keine Blocker. Bestätigt: `--lr-scale` wirkt genau in den Schritten 1 … t, ab t + 1 Standard-Lernrate, kein Reset; Run-IDs, Vorzeichen, Joborder, Holm über 2, Power-Zahlen, keine Lücke in `CODE_FILES` (Modul-Selbsttest bleibt wie bei R2 nicht vollständig). Übernommen: (1) „Nachtraining gleich“ → „gleich spezifiziert, abgesehen vom getragenen Zustand“; (2) **weitere Gegenerklärungen**, die das Zwei-Zellen-Muster der Λ-Uhr ohne einen wörtlichen Λ-Mechanismus erzeugen können: Adams Bias-Korrektur und schrittabhängige Momente, Überschießen bzw. Nichtlinearität durch größere frühe Schritte. Ein Ergebnis *Λ-Uhr bestätigt* heißt deshalb nur: Die Festlegung skaliert in diesen zwei Zellen wie Λ, nicht, dass Λ der Mechanismus ist; (3) die Ausgabe von `confirm_r3.py` sagt jetzt ausdrücklich, dass *nicht bestätigt* keine Bestätigung der Schrittuhr ist.

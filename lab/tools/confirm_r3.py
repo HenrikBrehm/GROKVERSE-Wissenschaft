@@ -241,7 +241,8 @@ def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
         return {"n": len(rows), "n_technical": n_tech, "verdict": "nicht auswertbar"}
     out: dict = {"n": len(rows), "n_technical": 0, "n_generalised": sum(1 for r in rows if r["valid"]), **test_family(rows, rng)}
     both = all(out[h]["verdict"] == "bestätigt" for h in PRIMARY)
-    out["lambda_clock"] = "Λ-Uhr bestätigt" if both else "Λ-Uhr nicht bestätigt"
+    out["lambda_clock"] = ("Λ-Uhr bestätigt (Skalierung wie Λ in zwei Zellen, kein Mechanismus)" if both
+                           else "Λ-Uhr nicht bestätigt (keine Bestätigung der Schrittuhr; siehe step_clock_secondary)")   # Codex s26
     out["step_clock_secondary"] = step_clock_secondary(rows, rng)
     ok = [r for r in rows if r["valid"]]
     out["descriptive_generalised_only"] = test_family(ok, rng, label=False) if len(ok) >= 3 else None
@@ -301,10 +302,10 @@ def selftest() -> None:
     rng = np.random.default_rng(0)
     lam = [mk(n2=0.95 - 0.005 * i, o05=0.8 + 0.005 * i) for i in range(20)]          # Lambda clock
     v = verdict(lam, 20, rng)
-    assert v["lambda_clock"] == "Λ-Uhr bestätigt" and v["step_clock_secondary"]["reading"] == "passt nicht zur Schrittuhr", v
+    assert v["lambda_clock"].startswith("Λ-Uhr bestätigt") and v["step_clock_secondary"]["reading"] == "passt nicht zur Schrittuhr", v
     stp = [mk(o2=0.8 + 0.005 * i, n2=0.1, o05=0.02, n05=0.95) for i in range(20)]   # step clock
     v = verdict(stp, 20, rng)
-    assert v["lambda_clock"] == "Λ-Uhr nicht bestätigt" and v["step_clock_secondary"]["reading"] == "passt zur Schrittuhr", v
+    assert v["lambda_clock"].startswith("Λ-Uhr nicht bestätigt") and v["step_clock_secondary"]["reading"] == "passt zur Schrittuhr", v
     assert all(v[h]["verdict"] == "nicht bestätigt" for h in PRIMARY)
     w = verdict(lam[:15] + [mk(base=0.5)] * 5, 20, rng)
     assert w["n_generalised"] == 15 and all(not {"verdict", "p", "p_holm", "t"} & set(x) for x in w["descriptive_generalised_only"].values())

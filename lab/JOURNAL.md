@@ -3593,3 +3593,7 @@ hängt an der unbekannten lokalen Steigung → **unentscheidbar**. N38 und Paper
 *Nur Hinweis:* (6) R2/R3-Selbsttests ohne Ende-zu-Ende-Messung an einem Zufallsmodell (Smoke fängt es). *Geprüft ok:* Trainer-Test-Fixtures und Run-IDs, night_program-Schlüssel EXP-040/042/014, P2f-Modi und Flags, Seed-Blöcke disjunkt,
 Manifest-Entwürfe R2/R3/P4 passend zu REGISTERED, Jobdateien EXP-073–078 (180 .npy-Pfade vorhanden, nur `--device cuda`), Analyse-Muster, EXP-078-Modell, Repro-Referenzen.
 Code-Änderungen (confirm_r1/r2/r3) sind klein und **ungetestet**; die Selbsttests heute Nacht decken sie ab, die Blöcke sind noch nicht eingefroren (Hashes entstehen erst beim Einfrieren).
+
+**Zyklus 4 (Messkern R2/R3 gegen N29c, bis 16:15, gemessen).** *Frage:* Braucht es vor dem Einfrieren einen Ende-zu-Ende-Selbsttest der Messung (Hinweis 6)? *Vorgehen:* `one_run` von R2/R3 mit dem gelaufenen N29c verglichen (diff) und die neuen Teile am Code geprüft:
+Die Lader-Erwartung `config` (arch, lr, weight_decay, train_frac) liegt so in `result.json` (Stichprobe N29c-Lauf; Overrides fließen über `get_config(**hp)` in `cfg.to_dict()`), `lr_scale`/`lr_scale_until`/`switch_step` stehen im Ergebnis. *Ergebnis:* Messkern gleich N29c bis auf einen Rückschritt:
+R2/R3 fingen nur `ValueError` beim Laden ab, Auswertungsfehler hätten die ganze Analyse abgebrochen; N29c macht daraus „defekt“. Übernommen (beide Dateien, ungetestet, Selbsttest heute Nacht). *Entscheidung:* kein zusätzlicher Selbsttest; der Pflicht-Smoke deckt den Rest.

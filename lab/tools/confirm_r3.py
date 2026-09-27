@@ -167,14 +167,15 @@ def one_run(man: dict, c: str, s: int, first: str, second: str, old: list[int], 
         return f"{tag}: defekt after load: {why or 'split bytes differ'}"
     if float(L.res.get("lr_scale", 1.0)) != cell["c"] or int(L.res.get("lr_scale_until", -1)) < t or L.res.get("switch_step") != t:
         return f"{tag}: defekt: lr_scale/lr_scale_until/switch_step in result.json do not match the cell"
-    try:
+    try:                                      # s27 audit (as N29c): any load/forward failure is technical, never an abort
         m = p2.load_model_bytes(BLOCK.bound_bytes(man, L.path / "model_final.pt"))
-    except ValueError as ex:
-        return f"{tag}: defekt: {ex}"
-    W = m.W_E.detach().numpy().astype(np.float64)[:P]
-    ev = {"base": p2.e55.evaluate(m, None, test), "old": p2.e55.evaluate(m, W - g61().project(W, old), test),
-          "new": p2.e55.evaluate(m, W - g61().project(W, new), test)}
-    if not all(np.isfinite(x) for e in ev.values() for x in e.values()) or not all(bool(q.isfinite().all()) for q in m.parameters()):
+        W = m.W_E.detach().numpy().astype(np.float64)[:P]
+        ev = {"base": p2.e55.evaluate(m, None, test), "old": p2.e55.evaluate(m, W - g61().project(W, old), test),
+              "new": p2.e55.evaluate(m, W - g61().project(W, new), test)}
+        finite = all(np.isfinite(x) for e in ev.values() for x in e.values()) and all(bool(q.isfinite().all()) for q in m.parameters())
+    except Exception as ex:
+        return f"{tag}: defekt: {type(ex).__name__}: {ex}"
+    if not finite:
         return f"{tag}: defekt: non-finite loss/margin/weights"
     return {"base": ev["base"]["acc"], "acc_old": ev["old"]["acc"], "acc_new": ev["new"]["acc"],
             "margin": {k: e["margin"] for k, e in ev.items()}}

@@ -5,19 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 16:49 Berlin (14:49Z, vom Runner)
 - **Deadline:** 2026-09-27 19:49 Berlin (17:49Z)
-- **Zuletzt aktualisiert:** 17:34 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 17:46 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests; nur Auswertung gespeicherter Läufe, Denk- und Schreibarbeit.
 
 ## Gerade
 
-Denkarbeit ohne Rechenfenster. Die Feinordnung der Zielfrequenzen (N39) ist jetzt an allen gespeicherten Daten geprüft und für die Nacht an drei Blöcken vorab registriert (C1–C3).
+Denkarbeit an gespeicherten Läufen. Neu: Das Adam-Momentum trägt nach einem Datenwechsel die *Menge* der alten Frequenzen, nicht ihre innere Rangfolge.
 
 ## Als Nächstes
 
-Stand sichern (STATE); danach eine weitere offene Frage aus FINDINGS angehen oder die Nacht-Befehle für C1–C3 gegenprüfen.
+Stand sichern; ab 00:00 laut [[STATE]] (neu dabei: Selbsttests C1–C3, optional EXP-082).
 
 ## Verlauf dieser Sitzung
 
+- 17:46 Momentum-Reset senkt den Anteil der alten Ziele, nicht ihre Ordnung (Exploration).
+- 17:44 N40 (welcher Split? aus den Gewichten ablesbar): schwache Spur, nicht weiter verfolgt.
+- 17:42 Unabhängige Prüfung der neuen Paper-Stellen: Zahlen korrekt, 6 Formulierungen/Quellen korrigiert.
+- 17:39 EXP-082 vorbereitet: vorgegebene Zielstärken als kausaler Test der Feinordnung (Pilot, optional).
 - 17:34 C2 verschärft (Fassung 3, a606ed0): Die alten Ziele müssen eine Nicht-Ziel-Kontrolle schlagen; sonst würde C2 womöglich nur eine Grundrate bestätigen. Codex: kein Blocker, Punkte übernommen.
 - 17:29 Rangerhaltung der alten Ziele gegen t: leicht über der Grundrate bis t = 25, deutlich ab t = 30 (parallel zu π).
 - 17:27 D₅₉ und P2d/P2e: Die Feinordnung überdauert im Transformer das Grokking; im MLP verblasst sie.

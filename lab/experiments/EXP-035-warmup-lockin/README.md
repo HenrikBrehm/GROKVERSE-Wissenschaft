@@ -1,8 +1,8 @@
 ---
 id: EXP-035
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 ---
 # EXP-035: Verschiebt ein Lernraten-Warmup die Festlegung des Transformers? (Schrittzahl oder Parameterstrecke)
 
@@ -128,3 +128,22 @@ dort ≈ 0 voraus. An den einzigen trennscharfen Punkten (t = 100, 150) liegt di
 Richtig: **Warmup verzögert die Festlegung (Schrittuhr klar falsch); bei gleichem Λ halten die Warmup-Läufe mehr fest als die ohne Warmup;
 keine der beiden Uhren passt** (im Wesentlichen Seed 30, zwei Punkte von Seed 31). Außerdem: Seed 31 hat keinen F-Lauf mit Warmup und wurde
 mit dem F-Lauf ohne Warmup normiert (Wirkung ≤ 0.01). Zahlen: `EXP-020-data-switch/posthoc_pi_other.json`.
+
+## Ergebnis (Sitzung 21, 2026-09-27, eingeordnet 04:25 Berlin; Auswertung 04:13, Commit 4d41b8b)
+
+Formales Urteil nach der Festlegung (Nachtrag a: ≥ 3 auswertbare Seeds, alle *verzögert*): ***Festlegung hängt am Lernratenplan: Warmup verzögert (H35-Richtung)***.
+
+| Seed | Intervall ohne Warmup (lo, hi] | mit Warmup (lo_w, hi_w] | Klasse | Λ-Intervall mit Warmup | gen_F ohne / mit |
+|---|---|---|---|---|---|
+| 30 | (25, 50] | (50, 100] | verzögert | (6.4, 25.3] | 950 / 975 |
+| 31 | (25, 50] | (100, 150] | verzögert | (25.3, 56.6] | 625 / 650 |
+| 34 | (25, 50] | (100, 150] | verzögert | (25.3, 56.6] | 650 / 775 |
+| 32 | (25, 50] | (100, 150] | nicht auswertbar (Warmup-Kurve nicht monoton: d(250) = 4 > d(∞) = 3) | – | 1225 / 1300 |
+| 33 | (25, 50], nicht monoton | fehlt (nicht gerechnet) | nicht auswertbar | – | – |
+
+**Einordnung (Regel 15b):** Das Urteil gilt nach der eigenen Festlegung, die vor Regel 15 lag. Mit n = 3 ist es aber nur ein **Pilot**, keine
+tragfähige Kernaussage (exakter Vorzeichentest einseitig p = 1/8 = 0.125, nur beschreibend). Die Seeds 30–34 sind aus EXP-020 bekannt.
+Beschreibend zeigt auch Seed 32 dieselbe Richtung (4/4). Die Schrittuhr („gleiches Intervall“) trifft bei keinem Seed zu.
+Die Λ-Uhr ist nicht widerlegt, aber auch nicht gestützt: Bei Seed 30 liegt das Warmup-Intervall in Λ-Einheiten sogar früher und überlappt
+das Intervall ohne Warmup nur am Rand ((6.4, 25.3] gegen (25, 50]). Bei 31/34 überlappen die Intervalle. Die quantitative Uhrfrage prüft
+[[experiments/EXP-039-lr-clock/README|EXP-039]] (CPU-Queue). **Nicht in [[FINDINGS]] als Kernaussage**, nur als Pilot unter Programm B.

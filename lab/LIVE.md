@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 20:29 Berlin (18:29Z, vom Runner)
 - **Deadline:** 2026-09-27 23:29 Berlin (21:29Z)
-- **Zuletzt aktualisiert:** 21:15 Berlin
+- **Zuletzt aktualisiert:** 21:22 Berlin
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests.
 
 ## Gerade
 
-Wechselkosten-Linie abgeschlossen bis zur Nacht (R6). Nächste Frage wählen.
+Prüfe die Wechselkosten-Befunde auf Robustheit und bereite prospektive Tests für die Nacht vor (EXP-074-Zeitkosten, EXP-085 MLP).
 
 ## Als Nächstes
 
@@ -18,6 +18,11 @@ Ab 00:00 laut [[STATE]]: EXP-018, dann **EXP-084 direkt danach** (Vorhersage vor
 
 ## Verlauf dieser Sitzung
 
+- 21:22 Streuung der Kosten: kritisches Verlangsamen nicht belegt (unklar).
+- 21:21 Befund hängt nicht an der Ereignisdefinition (strenge Definition praktisch gleich).
+- 21:20 [[experiments/EXP-085-mlp-switch-cost/README|EXP-085]] vorbereitet (Wechselkosten im MLP, Nachtschritt 5).
+- 21:18 EXP-074: Zeitvorhersage der Resets vor dem Lauf festgelegt.
+- 21:16 Resets: unmittelbarer Verlustschaden erklärt die Verzögerung nicht.
 - 21:14 N29: Wechsel @25 in 20/20 Seeds langsamer als @50; Resets verzögern in der Reihenfolge von K4d/K4e.
 - 21:13 Paper-Abbildung 6 (Kostenkurve und Persistenz).
 - 21:12 Feine Kostenkurve (Seeds 400–409): Spitze bei 25, negativ ab 50, wo π ≈ 1.

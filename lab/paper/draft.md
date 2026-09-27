@@ -104,11 +104,11 @@ of an early frequency choice) and show the opposite ordering within attention (v
 
 ## 2 Setup (draft prose, session 27; to be checked against the code by an independent agent)
 
-**Model and training.** We use the one-layer transformer of the original GROKVERSE study (preset arch25k; the recipe of Nanda et al. 2023): token embedding W_E and learned positional
+**Model and training.** We use the one-layer transformer of the original GROKVERSE study (preset arch25k, following the recipe of Nanda et al. 2023; our implementation has no bias terms): token embedding W_E and learned positional
 embedding W_pos (d_model = 128), one causal attention layer with four heads of width 32, a ReLU MLP of width 512, residual connections, no layer normalization and no biases, and an untied
 readout W_U. Inputs are the three tokens (a, b, =) with a, b ∈ {0, …, p−1}; the loss is the cross-entropy of the logits at the last position over the p output classes. All weights are
-zero-mean Gaussians at initialization, with standard deviation 1/√d_model for W_E, W_pos, W_Q, W_K, W_V, W_in and W_U, 1/√(4·32) for W_O and 1/√512 for W_out. Training is full-batch AdamW (learning rate 10⁻³, weight decay 1.0, β = (0.9, 0.98)) on 30 % of all pairs. The two arms
-of a seed share the initialization; only the training set differs. Confirmation blocks ran on one GPU (PyTorch 2.9.1 with ROCm, one thread per run) after an equivalence check against the CPU path;
+zero-mean Gaussians at initialization, with standard deviation 1/√d_model for W_E, W_pos, W_Q, W_K, W_V, W_in and W_U, 1/√(4·32) for W_O and 1/√512 for W_out. Training is full-batch AdamW (learning rate 10⁻³, weight decay 1.0, β = (0.9, 0.98)) on 30 % of all pairs; K2 runs train for 2000 steps. The two arms
+of a seed share the initialization; only the training set differs. Confirmation blocks ran on one GPU (PyTorch 2.9.1 with ROCm, one thread per run) after a statistical (not bitwise) equivalence check against the CPU path on add 113;
 all arms and seeds compared within a block ran on the same device.
 
 **Tasks.** Addition modulo 113 (primary) and 97, multiplication modulo 113, and composition in the dihedral group D59 (order 118). For multiplication, pairs with a zero operand are not in
@@ -118,23 +118,23 @@ order n, the candidate frequencies are k = 1, …, ⌊(n−1)/2⌋; for D59 they
 **Engineered splits (K2).** For each seed, a random permutation of the candidate frequencies gives two disjoint target sets T_F and T_G of five frequencies each. Arm F draws its training set
 (30 % of all pairs) without replacement with weights q(a, b) = max(0.05, 1 + ε·w(a, b)), where for a cyclic task w(a, b) = (1/5) Σ_{k∈T_F} cos(2πk·u(a)/n + φ_k(c)), u(a) is the group
 coordinate of the left operand, c the output and φ_k(c) a random phase per target and output; arm G does the same with T_G. For D59 the cosine is replaced by tr(A_k(c) ρ_k(a)) with random
-unit-norm 2×2 matrices A_k(c) and the irrep matrices ρ_k. We use ε = 2. Weighted sampling uses exponential keys (key = U^{1/q}, the largest 30 % are kept). The construction makes the
-pair indicator carry the target frequencies along the output while each token's own occurrence count stays close to uniform (§5).
+unit-norm 2×2 matrices A_k(c) and the irrep matrices ρ_k. We use ε = 2. Weighted sampling uses exponential keys (key = U^{1/q}, the largest 30 % are kept). The construction arranges the
+target frequencies along the output classes; the token frequencies are no more unequal than in a random split (coefficient of variation 0.14 for the pilot construction), although their spectrum is target-enriched (§5).
 
 **Switch protocol (K4–K4e).** For the persistence experiments (addition mod 113), a common held-out test set of 20 % of all pairs is removed first; from the remaining pool two training sets
-A and B of 3831 pairs each (30 % of all pairs) are drawn with target sets T_A, T_B as above. A and B pick their pairs in alternation from their own weighted key orders, so they share no pair
-(a sequential draw would give B the negative image of A's pattern). The steering strength ε is calibrated on separate calibration seeds so that the mask-spectrum target share of A and B equals
-that of the pilot construction (ε ≈ 2.23). A run trains t steps on A, then switches to B (optimizer state kept unless stated) and trains a fixed further budget (2000 steps in P3/N28, 4000
+A and B of 3831 pairs each (30 % of all pairs) are drawn with target sets T_A, T_B as above. A and B pick their pairs in alternation from their own weighted key orders, so at overlap ω = 0 (all primary analyses) they share no pair
+(a sequential draw would give B the negative image of A's pattern). The steering strength ε is calibrated on separate calibration seeds so that the mask-spectrum target share of A and B matches
+the pilot level (0.185; ε ≈ 2.23 at ω = 0). P3 additionally ran ω = 0.4 (40 % uniformly drawn shared pairs, ε ≈ 5.93) as a descriptive secondary level. A run trains t steps on A, then switches to B (optimizer state kept unless stated) and trains a fixed further budget (2000 steps in P3/N28, 4000
 steps in N29–N29c); each seed is run in both directions (A→B, B→A). Reset arms re-initialize the named parameter tensors to their values at initialization and clear their AdamW state at the switch.
 
-**Measures.** All spectral measures use the number rows X = W_E[:n] in group order. P_k(X) is the power of X in the real two-dimensional Fourier subspace (for D59: the irrep subspace) of k,
+**Measures.** All spectral measures use the n group-element rows X of W_E in group order (for mul 113: W_E[g^i], g = 3, i = 0, …, 111). P_k(X) is the power of X in the real two-dimensional Fourier subspace of k (for D59: the four-dimensional span of the matrix coefficients of irrep k),
 and P(S) = Σ_{k∈S} P_k for a set S. The definitions of Δ_pow (K2), the margin sensitivity D (K2-function), the persistence index π (K4) and the ablation contrast R (K4c–e) are given in the
 outline below and in the frozen registrations.
 
 **Protocol.** Each confirmation block was registered before any of its runs: hypotheses, primary measure, minimum effect, family and Holm correction, sample size (from pilot variance), a
-reserved block of fresh seeds, and a list of previously seen data and the decisions they influenced. The analysis code, the split generator and the manifest were frozen by a commit hash;
-every run was started through a wrapper that checks the code hashes before and after training and binds each output file to the manifest, and the analysis accepts only bound runs. From N28 on,
-one job of the frozen list was first run as a smoke test through the frozen loader. Confidence intervals are percentile bootstrap intervals over seeds. Pilots on other seeds are reported
+reserved block of fresh seeds, and a list of previously seen data and the decisions they influenced. The manifest was committed and names its commit; it stores SHA-256 hashes of the analysis, split and training code;
+every run was started through a wrapper that checks the code hashes before, during (every 2 s) and after training and binds each output file to the manifest, and the analysis accepts only bound runs. In P1 (two jobs), N28, N29–N29c, P2d and P2e,
+one job of the frozen list was first run as a smoke test and counted as a regular run (from N28 on also through the frozen loader); P2c and P3 had none. Confidence intervals are percentile bootstrap intervals over seeds. Pilots on other seeds are reported
 separately as explorations (§4).
 
 ## 2 Setup (outline)
@@ -183,7 +183,7 @@ After 25 steps on a first engineered split and 2000 steps on a pair-disjoint sec
 any tested static additive W_E trace was 0.293 [0.263, 0.322] (30 fresh seeds, 30/30). Zeroing Adam's first moment at the switch lowered the persistence index π by 0.151 (0.340 → 0.189); ten extra
 pre-switch steps with the same reset compensated this (non-inferiority, margin 0.05). This is compatible with an "exposure" reading, not a proof of it. *Size, post hoc:* in a scalar
 model of bias-corrected Adam (β = 0.9/0.98), the first moment at the switch still carries 6.5–10.8 update-equivalents of displacement along the old direction (≈ 8.7 if later gradients on the
-same coordinate keep their magnitude); in the pilot π curve (EXP-059, 10 known seeds, sampled every 5 steps up to t = 35), zeroing m shifted π by 8.1, 9.6 and 6.5 steps at t = 25, 30, 35.
+same coordinate keep their magnitude); in the pilot π curve (EXP-059, 10 known seeds, sampled every 5 steps up to t = 35), zeroing m shifted π by 8.1, 9.6 and 6.5 steps at t = 25, 30, 35, but only by 3.8 and 2.4 steps at t = 40 and 50 (interpolated between 35 and 50, where the mean curve rises at the same slope as between 30 and 35), so the scalar model accounts for the size of the effect only up to t ≈ 35.
 That the first moment carries a source signal past the removal of the source data has been shown by state surgery in a different setting (Xu 2026).
 
 ### 3.4 An ablation contrast reverses between a switch at 25 and at 50 steps (K4c; N29 087e042)

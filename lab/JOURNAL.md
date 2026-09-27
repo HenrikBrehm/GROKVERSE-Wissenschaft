@@ -3570,3 +3570,12 @@ verschiebt? *Rechnung* (`EXP-059/inflight_adam.py`, numpy, kein Training): 6.5�
 bei t = 25 / 30 / 35; die Werte bei 40/50 (3.8/2.4) sind Interpolationsartefakte (Kurve 35 → 50 nicht gemessen, sättigt). *Urteil:* passt, post hoc, bekannte Seeds, Skalarmodell. *Literatur:* Xu 2026 (arXiv 2608.20442)
 zeigt das erste Moment als verzögerten Träger nach dem Entfernen von Daten → qualitative K4b-Lesart **bekannt**, nur die Größenvorhersage nicht gefunden. Eingetragen: [[NOVEL_DIRECTIONS]] N38 (mit β₁-Dosis-Test als Skizze, erst nach R3),
 [[paper/related_work]] Nachtrag, Paper §3.3 (ein Satz, als post hoc gekennzeichnet). *Entscheidung:* kein neuer Versuch jetzt; die Nacht ist voll.
+
+**Zyklus 3, Korrektur (vor 16:15, gemessen).** Meine eigene Einordnung der Werte bei t = 40/50 als „Interpolationsartefakt einer sättigenden Kurve“ war falsch: π_normal steigt 30 → 35 und 35 → 50 mit gleicher Steigung (0.034 / 0.033 je Schritt).
+Die Verschiebung durch das Löschen von m ist bei t = 40/50 mit 3.8/2.4 Schritten deutlich kleiner als der Momentum-Schwanz (≈ 9). N38 stimmt also nur bei t = 25–35; danach hängt die Festlegung weniger an der nachlaufenden alten Verschiebung.
+Das ist ein Hinweis für die offene Frage in [[FINDINGS]] (die Uhr ist nicht einfach „aufsummierte Verschiebung“), aber aus einem Piloten an 10 bekannten Seeds. N38, Paper §3.3 korrigiert. *Lehre:* eine bequeme Artefakt-Erklärung erst an den Daten prüfen.
+
+**Zyklus 2, Prüfung (Ergebnis vor 16:20, gemessen).** Unabhängige Quellprüfung von §2 (nur Lesen): Architektur, Init, Verlust, Optimierer, Splitkonstruktion (auch D₅₉-Indexreihenfolge), Wechselprotokoll, Reset, Bootstrap, Bindung **korrekt**.
+Neun Korrekturen übernommen (alle an den genannten Stellen selbst stichprobenartig geprüft: mul-Zeilen W_E[g^i] in EXP-043 `analyze.py`, 4-dim. Irrep-Spann in `dihedral.py`): Zeilen für mul; D₅₉-Unterraum 4-dim.; „keine gemeinsamen Paare“ nur bei ω = 0
+(P3 lief zusätzlich ω = 0.4, ε ≈ 5.93); Token-Häufigkeiten richtig nach §5 (CV 0.14, Spektrum zielangereichert) statt „nahezu gleichverteilt“; GPU-Gleichwertigkeit statistisch, nur add 113; Einfrieren über SHA-256-Hashes im Manifest; Wrapper prüft auch während des Laufs;
+Smoke-Historie (P1 zwei Jobs, N28–N29c, P2d, P2e; P2c und P3 ohne); 2000 Schritte bei K2; „keine Biases“ als Eigenschaft unserer Implementierung (ob Nanda et al. Biases hatten, nicht geprüft). *Verworfen:* nichts.

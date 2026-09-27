@@ -3114,3 +3114,8 @@ Verhalten unverändert (kein `--reset-at-switch`). Codex-Prüfung der Änderung 
 **Zyklus 12 (Vorbereitung D₅₉ für Programm A, 10:52–10:54 gemessen).** `group_train.py --save-model` (atomar, vor „completed“ geprüft). `save_model` geht nur in den Fingerabdruck ein, wenn gesetzt: Der gespeicherte
 Fingerabdruck eines P1-D₅₉-Laufs (Seed 1000 F) wird exakt reproduziert; ein 30-Schritte-Lauf auf der CPU speichert ein ladbares Modell. Noch ohne Codex-Prüfung (geplant zusammen mit der D₅₉-Registrierung).
 Gleichwertigkeit `--reset-at-switch rest` alter gegen neuer freq_ban-Code (60 Schritte, CPU): bitgleich.
+
+**Zyklus 13 (EXP-067, Pilot, Läufe 10:52–10:57, Auswertung 10:57–10:58 gemessen).** *Frage (Programm B):* Welcher Teil des Rests trägt den Ausschluss bei t = 50? *Vorab erwartet:* Attention unwichtig (Modell A).
+*Ergebnis:* **Attention-Reset hebt den Ausschluss vollständig auf** (b 4.25 → 0.10, Δb > 1 in 10/10) und das Netz rechnet danach mit den neuen Frequenzen (ohne alte 0.74, ohne neue 0.08). MLP-Reset (doppelte
+Parameterzahl) *unklar* (b 3.14, Funktion bleibt alt), W_U-Reset *nicht nötig* (b 4.50). Meine Erwartung war falsch. *Entscheidung:* Bestätigung N29b an frischen Seeds 2300–2319 (neu reserviert), Funktionsmaß wie N29,
+Kontraste normal − rsattn und rsmlp − rsattn; Codex-Prüfung läuft. [[experiments/EXP-067-exclusion-part/README|EXP-067]]

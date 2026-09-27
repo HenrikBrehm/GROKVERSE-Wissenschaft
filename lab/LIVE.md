@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 09:39 Berlin (07:39Z, vom Runner)
 - **Deadline:** 2026-09-27 12:39 Berlin (10:39Z)
-- **Zuletzt aktualisiert:** 10:53 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 11:02 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-EXP-067 laeuft auf der GPU (60 Laeufe): Welcher Teil des Netzes (Attention, MLP, Ausgabematrix) haelt nach 50 Schritten die alten Frequenzen fest?
+N29b vorbereitet und bei Codex: Bestaetigt sich an 20 frischen Seeds, dass ein Reset der Attention beim Wechsel das Netz auf die neuen Frequenzen umlenkt (und ein MLP-Reset nicht)?
 
 ## Als Naechstes
 
-EXP-067 auswerten; STATE fuer die naechste Sitzung; Abschlussbericht vor 12:29.
+Codex-Befunde einarbeiten, einfrieren, Probelauf, Block (120 Laeufe, ca. 25 min), auswerten. Abschlussbericht vor 12:29.
 
 ## Verlauf dieser Sitzung
 
+- 10:58 **EXP-067 (Pilot, 10 Seeds):** Ueberraschung: Setzt man beim Wechsel nur die Attention zurueck, lernt das Netz die neuen Frequenzen doch und rechnet mit ihnen. MLP- oder Ausgabe-Reset tun das nicht.
+- 10:54 Vorbereitung D59: Trainer kann jetzt Modelle speichern (alte Laeufe unberuehrt).
 - 10:52 EXP-067 gestartet (Trainer-Option neu, Tests gruen, Codex ok, alter und neuer Code bitgleich).
 - 10:49 FINDINGS: P2e im engen Wortlaut nach Codex.
 - 10:44 **P2e BESTAETIGT:** Der P2d-Befund gilt auch bei Multiplikation mod 113 (0.29) und Addition mod 97 (0.29), je 20/20 frische Seeds. Deutung eng: Empfindlichkeit entlang amplitudenstarker Richtungen.

@@ -3228,3 +3228,10 @@ CRLF-Notiz FINDINGS_DETAILS (Zeilenenden wurden LF), sofort auf CRLF zurückgese
 Neuheitssuche (N33): Modul-Zurückspulen ist bekannt (Chatterji et al. 2019, am fertigen Netz); die Anwendung beim Datenwechsel mit Optimiererzustand und Weitertraining nicht gefunden (vorläufig).
 **Codex (Regel 18c, gemeinsamer Trainer):** vier Blocker, alle selbst geprüft und übernommen: Test ohne `--test-file` (wäre gescheitert), Ban-Bedingungen nicht zurückgespult (jetzt nur baseline),
 Chimären-Störung (Lesarten als Empfindlichkeit, Loss-Diagnose im Trainer-Ereignis), Gleichheitsprüfung je Richtung. Trainer-Änderung ungetestet bis 00:00.
+
+**Zyklus 5, Nachtrag (13:16):** Codex-Nachprüfung der vier Korrekturen: keine verbleibenden Blocker, keine neuen Fehler (`EXP-073-part-rewind/codex_recheck_s24.txt`).
+
+**Zyklus 6 (EXP-074 vorbereitet, 13:16–13:21).** Frage: Gilt das Reset-Muster aus K4d/K4e auch bei anderen Aufgaben (FINDINGS-Grenze 2, Regel 15c)? Zuerst die add-113-Referenz im Maß π aus gespeicherten
+Läufen nachgerechnet (post hoc, nur numpy, bekannte Seeds 400–409): Median π normal 1.04; Δπ Attention 0.84 (10/10 > 0.3), Wertepfad 0.57 (9/10), Muster 0.13, MLP 0.15, Unembedding −0.04. Das ist die
+spektrale Entsprechung der Ablationsbefunde N29b/c. Pilot EXP-074 im EXP-044-Protokoll (Seeds 80–89, F→G bei t = 50, add 97 und mul 113, 100 Läufe) mit vorab festgelegter Lesart (Schwellen etwa die
+Hälfte der add-113-Effekte). Beim Schreiben der Auswertung die Reihenfolge der Suffixe im Run-Namen erst angenommen, dann am Code geprüft und korrigiert (`_at50_add97_rsattn_devcuda`).

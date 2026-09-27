@@ -5,7 +5,7 @@ datum: 2026-09-27
 tags: [lab/bestaetigung]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-056-overlap-persistence/README|EXP-056]]", "[[confirm/P1_REGISTRATION_DRAFT|P1]]", "[[JOURNAL]]"]
 ---
-# P3-Bestätigung (Persistenz, Paket B): Skelett (Sitzung 21, 2026-09-27 04:56 Berlin). **NICHT festgelegt**
+# P3-Bestätigung (Persistenz, Paket B): Skelett (Sitzung 21, 2026-09-27 04:53 Berlin). **NICHT festgelegt**
 
 Zurück zu [[FINDINGS]]. Die Hypothese und die Stichprobe hängen am Piloten [[experiments/EXP-056-overlap-persistence/README|EXP-056]]. Dieses Skelett legt nur fest, was
 **unabhängig vom Pilotausgang** gilt. Alles andere wird erst nach dem Piloten entschieden und dann als „bereits gesehen“ vermerkt.

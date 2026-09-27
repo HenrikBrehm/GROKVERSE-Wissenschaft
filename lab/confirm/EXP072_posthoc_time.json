@@ -1,6 +1,8 @@
 {
  "arms": 10,
- "events_example": {},
+ "generalization_step_median": 4950.0,
+ "n_generalized": 9,
+ "note": "generalization_step = group_train primary threshold; the EXP-072 note reports first test acc >= 0.9 at a median of 4575",
  "mean_rho_M0": {
   "0": 0.13,
   "250": 0.56,

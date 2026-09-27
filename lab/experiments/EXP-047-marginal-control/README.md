@@ -106,3 +106,5 @@ Befehl: `python lab/tools/night_program.py` (Stufe EXP-047); Logs `lab/runner/lo
 Nachtrag a verwendete das zentrierte M0 (getrennte Pfade). Für den Transformer passt nach der Herleitung ([[paper/draft]] §5.2) das zentrierte **M0c** (gemeinsamer Pfad). Nachgerechnet
 (`centred_m0c_shared.py`, 0-basierter mittlerer Zielrang, Zufall 27.5): eng 2.0 / Zielanteil 0.191, shuf **26.2 / 0.090**. Die Erwartung „shuf steuert höchstens schwach“ bleibt; Korrektur der
 Begründung: Nicht alle Häufigkeiten fallen heraus, nur die eigene einer Zeile; die Fremd-Häufigkeiten sind hier schwach (CV 0.14), ihr Spektrum aber zielangereichert (Rang 11.6).
+*Post hoc (14:58, gespeicherte Läufe, explorativ, `posthoc_delta_pow.py`):* Auch im stetigen P1-Maß Δ_pow (W_E-Leistung bei 2000) steuert shuf nicht: 0.02 ± 0.65 (6/10 positiv, p = 0.47),
+eng 7.75 ± 1.63 (10/10, p = 0.001). Das passt zum zentrierten M0c auf Zufallsniveau (oben), obwohl das Häufigkeitsspektrum zielangereichert ist.

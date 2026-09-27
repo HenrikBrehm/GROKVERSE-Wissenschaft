@@ -3399,3 +3399,8 @@ auf dem unkorrigierten Argument; Δ 0.3 ist das Top-5-Maß (p = 0.33); die Randv
 nicht als Ergebnis; „relies“ → Ablationskontrast; EXP-077 trennt die Wege nicht; LeDoux-Epochen und Bedingung (feste Stride-Reihenfolge) präzisiert; EXP-040/074/075 „vorbereitet“.
 Die vom Agenten nachgerechnete Zahl (zentriertes M0c der shuf-Splits 26.2 / 0.090) habe ich selbst nachgerechnet (gleich) und im EXP-047-README vermerkt. *Lehre (wie Sitzung 24):*
 Neue Paper-Texte immer gegen die Quellen prüfen lassen; meine Zusammenfassungen überdehnen vor allem Einschränkungen von Piloten.
+
+**Zyklus 9 (Nachauswertung EXP-047 als Vorwissen für EXP-077, bis 14:58).** *Frage:* Zeigt die shuf-Kontrolle im feineren Maß Δ_pow eine kleine Steuerung über die (zielangereicherten)
+Randverteilungen? *Ergebnis (post hoc, gespeicherte Läufe):* nein, 0.02 ± 0.65 (6/10, p = 0.47); eng 7.75 ± 1.63. *Einordnung:* passt zur korrigierten Theorie (zentriertes M0c der shuf-Splits
+auf Zufallsniveau, 26.2), entscheidet aber EXP-077 nicht vor: dort ist der Anteil erster Ordnung hoch (0.146 bei ε = 2). Die Vorhersage für EXP-077 bleibt damit scharf: erste Ordnung → deutlich
+positiv; „nur Paarstruktur“ → ≈ 0.

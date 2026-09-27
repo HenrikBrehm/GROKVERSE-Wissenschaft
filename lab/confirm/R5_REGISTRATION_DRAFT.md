@@ -48,3 +48,5 @@ Selbst geprüft und **alle übernommen** (Umsetzung beim Schreiben des Codes, da
 5. **MAJOR:** Explizite Listen für Init-, Test-, Ziel- und Ziehungs-Seeds in getrennten Namensräumen, zufällige Zuordnung Split-ID ↔ Init-ID, Hashes; vorzugsweise mehrere unabhängige Splits je Init.
 6. **MAJOR:** Zielfrequenzen unabhängig von der Init wählen und mindestens zwei Zielmengen je Init kreuzen; die Aussage auf wd = 1 beschränken (keine Weight-Decay-Replikation geplant).
 7. **MINOR:** Post-hoc-Belege nur als hypothesenbildend; 2^L̄ als geometrisches Mittel des beschränkten Zeitverhältnisses benennen; Laufreihenfolge zufällig und eingefroren.
+
+*Werkzeug (19:26):* `lab/confirm/R5_power_sim.py` simuliert die vollständige Entscheidungsregel (Obergrenze, p = max(p_L, p_Vorzeichen), Holm) aus den Pilotzeilen von EXP-018 (`summary_cuda.json`), optional mit verschobener Effektgröße. Ungetestet; Selbsttest nur im Fenster. Das Ereignis im Pilot ist noch „erste Kreuzung“, nicht „3 aufeinanderfolgende“, daher nur eine Näherung.

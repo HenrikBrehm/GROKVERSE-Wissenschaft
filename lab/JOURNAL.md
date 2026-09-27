@@ -3648,3 +3648,27 @@ Kontext notiert: 2609.10657 (Skalierung der Grokking-Zeit mit η und λ → R1),
 **Reproduktion (ohne Fenster möglich):** `python lab/experiments/EXP-059-momentum-exposure/inflight_adam.py`, `python lab/experiments/EXP-059-momentum-exposure/clock_predictions.py` (numpy).
 **Nächste Aktion:** ab 00:00 [[STATE]] „Nächste Schritte“ 1–8 (Befehle korrigiert).
 **Runner:** aktiv; next_start_utc laut runner-state.json 2026-09-27T17:34:45Z = **19:34 Berlin**. Früher beendet als die Deadline 18:59, weil weitere Arbeit ohne Rechenfenster jetzt vor allem zusätzlichen ungetesteten Code für ohnehin volle Nächte bedeuten würde.
+
+
+## Sitzung 28 (2026-09-27, Start 16:49 Berlin, vom Runner; Run-Fenster zu bis 00:00)
+
+Stand gelesen (STATE, JOURNAL-Ende, paper/STATUS). Kein STOP, keine Python-Prozesse, `--check` Exit 3 (außerhalb des Fensters). Nur Auswertung gespeicherter Läufe (numpy, wie EXP-059 in Sitzung 27), kein Training, kein Test.
+
+**Zyklus 1 (K2 in absoluten Zahlen, bis 16:51, gemessen).** Frage: Δ_pow ist ein relatives Log-Verhältnis; wie stark ist die Steuerung absolut? `lab/confirm/P1_posthoc_share.py` liest alle 400 P1-Läufe über den eingefrorenen P1-Lader (`power_at`, Bindung geprüft, 0 defekt).
+Ergebnis (beschreibend, post hoc): Anteil der W_E-Gruppenenergie auf den 5 eigenen Zielen bei Schritt 2000: add 113 **0.80** (Seed-Bootstrap-KI [0.79, 0.82], Spanne 0.52–0.92; bei der Init 0.089 = Zufall 5/56), mul 113 0.79, add 97 0.69, D₅₉ 0.44 (Zufall 0.17). Auf den Zielen des anderen Arms 0.02–0.04 (D₅₉ 0.12).
+Im Mittel 3.9 von 5 Zielen unter den stärksten fünf (add 113: 17/100 Arme alle fünf, keiner unter drei; D₅₉ 4.8). → Paper §3.1 ergänzt (die Einschränkung „relativ, nicht gegen die Init“ ist damit beantwortet).
+
+**Zyklus 2 (Welches Ziel bleibt zurück? Programm C, bis 16:53, gemessen).** Vorab im Skriptkopf festgelegt: zwei konkurrierende Prädiktoren für die Rangfolge der 5 Ziele innerhalb eines Arms: Masken-Spektrum (M0; add 113 auch zentriertes M0c, Theorie §5) gegen Init-Energie (Lotterie).
+`lab/confirm/P1_posthoc_within.py`, Mittel der Spearman-Korrelation je Arm, Permutation innerhalb der Arme: add 113 M0c **0.44**, M0 0.32, Init 0.13; mul 113 M0 0.21 (Init 0.08, n. s.); add 97 M0 0.29 (Init 0.11); D₅₉ M0 0.43 (Init 0.15). M0/M0c jeweils p < 5·10⁻⁵.
+Kontrollen (add 113): keine Abhängigkeit vom Frequenzindex k (ρ(gelernt, k) 0.008, ρ(M0c, k) 0.003); vertauschte Arme ρ −0.08. Die Spreizung von M0c innerhalb eines Arms ist klein (max/min ≈ 1.3), die Rangfolge folgt also der zufälligen Schwankung des Splitspektrums.
+**Urteil:** Exploration (Seeds gesehen), aber klar. Die Theorie erster Ordnung sagt nicht nur die Menge, sondern auch die Feinordnung voraus. **Entscheidung:** als Vorhersage an unberührten Fällen registrieren (Regel 18c, Programm C).
+
+**Zyklus 3 (Registrierung C1, bis 16:53, gemessen).** [[confirm/C1_REGISTRATION|C1]]: an den 180 R1-Läufen (frische Seeds 2420–2509, noch kein Lauf), primärer Prädiktor M0c, Einheit Seed (Mittel F/G), einseitiger Vorzeichentest,
+bestätigt bei p < 0.05 und KI-Untergrenze ≥ 0.10; Power aus P1-Streuung (SD 0.305) bei halbiertem Effekt ≈ 0.99. Commit d330f1c (vor jedem R1-Lauf). `C1_analyze.py` geschrieben, **ungetestet** (Selbsttest reproduziert die P1-Exploration 0.438; nur im Fenster).
+Geprüft: `spectra.npy` von freq_ban ist bis 1e-16 gleich `group_power` der W_E-Snapshots (R1-Lader liefert also dasselbe Maß wie die Exploration). Codex-Prüfung läuft (Regel 18c: vor Einfrieren eines Programms).
+
+**Zyklus 4 (Programm B: Welche alten Ziele überdauern einen Wechsel? bis 17:00, gemessen).** Vorab festgelegt: Prädiktoren Energie beim Wechsel (Geschichte), M0c des ersten Splits, M0c des zweiten Splits an den alten Zielen (Stütze durch die neuen Daten). `lab/confirm/N29_posthoc_within.py`, N29 (20 Seeds × 2 Richtungen).
+**Eigener Fehler, vor der Deutung gefunden:** der erste Lauf las die B→A-Läufe mit vertauschten Rollen (alt/neu); korrigiert.
+Ergebnis (korrigiert): t = 50, alte Ziele: Energie beim Wechsel **0.58** (p < 5·10⁻⁵), M0c erster Split 0.37, M0c zweiter Split **0.02** (n. s.). t = 25: 0.17 (p 0.03) / 0.08 / 0.03. Neue Ziele: t = 25 Energie beim Wechsel 0.29, M0c zweiter Split 0.18 (p 0.02); t = 50 nichts signifikant (0.08 / 0.12).
+**Deutung (vorsichtig):** Nach einem Wechsel bei 50 Schritten bleibt auch die innere Ordnung der alten Frequenzen erhalten; die neuen Daten ordnen sie nicht um. Bei 25 Schritten ist die Ordnung weitgehend weg. Passt zu K4/K4c, feinere Auflösung; beschreibend, kein Mechanismus. Läufe desselben Seeds teilen die Init (Einheit Seed in der Registrierung).
+**Entscheidung:** als [[confirm/C2_REGISTRATION|C2]] an R2 registrieren (frische Seeds 2510–2539, t = 50 in beiden R2-Zellen, Einheit Seed, gleiche Schwellen; Power ≈ 0.92 bei halbiertem Mittel). `C2_analyze.py` geschrieben, ungetestet (Selbsttest reproduziert N29 0.580).

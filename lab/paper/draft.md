@@ -167,7 +167,11 @@ At step 2000, the relative W_E energy of the five prescribed targets vs five dis
 | add 97 | 6.11 [5.79, 6.43] | 50/50 | 1.5·10⁻⁵ |
 | D59 | 2.64 [2.55, 2.73] | 50/50 | 1.5·10⁻⁵ |
 
-Limits: engineered (not natural) splits; one architecture family; one time point (step 2000, before grokking for D59 — see 3.6). Δ_pow is relative enrichment, not concentration vs initialization.
+*In absolute terms (descriptive, post hoc on the same runs; `lab/confirm/P1_posthoc_share.py`):* at step 2000 the five own targets carry on average 0.80 of the W_E group power in add 113
+(seed-bootstrap 95 % CI [0.79, 0.82]; range 0.52–0.92; 0.089 at initialization = chance 5/56), 0.79 in mul 113, 0.69 in add 97 and 0.44 in D59 (chance 5/29 = 0.17); the other arm's targets carry 0.02–0.04 (D59: 0.12).
+On average 3.9 of the 5 targets are among the five strongest components (add 113; 17/100 arms all five, none fewer than three); D59: 4.8.
+
+Limits: engineered (not natural) splits; one architecture family; one time point (step 2000, before grokking for D59 — see 3.6). Δ_pow is relative enrichment; the shares above give the concentration against initialization.
 
 ### 3.2 Functional sensitivity along the steered frequencies (K2-function; P2d c0cd65f, P2e 3c484ef)
 
@@ -226,6 +230,10 @@ EXP-050: first order explains only part; [[BEFUND-split-mechanismus]]); it is *n
 - Post hoc on the 50 confirmed add-113 seeds of P1: the M0 target contrast of a seed's split pair correlates with the size of its Δ_pow (Spearman 0.39, permutation p 0.006; centred M0c
   0.26, p 0.07; two measures, not pre-registered); split contrasts vary little, so most of the seed-to-seed spread comes from elsewhere. In the shuffled control of EXP-047, Δ_pow is also
   ≈ 0 on the continuous measure (0.02 ± 0.65, post hoc).
+- Post hoc on all P1 arms (session 28, `lab/confirm/P1_posthoc_within.py`): *which* of the five targets lags is predicted by the mask spectrum of the split. Mean within-arm Spearman
+  between a target's mask-spectrum power and its W_E power at step 2000: add 113 0.44 (centred M0c) / 0.32 (M0), mul 113 0.21, add 97 0.29, D59 0.43 (M0), each p < 5·10⁻⁵ by within-arm permutation;
+  initialization power 0.08–0.15. No dependence on the frequency index (ρ ≈ 0.01), mismatched arms ρ ≈ −0.08. The within-arm spread of M0c is small (max/min ≈ 1.3), so first-order theory orders
+  the targets, not only selects them. Registered for fresh data before any R1 run as C1 ([[confirm/C1_REGISTRATION|C1]]).
 - Further pilots: steering also in a shared-embedding MLP, at 4× width and for non-modular integer addition (EXP-045, 049, 048) — to be confirmed or reported as pilots (rule 19b).
 
 ## 5 Theory (first order, outline)

@@ -1,0 +1,69 @@
+{
+ "note": "post hoc exploration on seen N29 seeds",
+ "t": {
+  "25": {
+   "old": {
+    "n": 40,
+    "switch": {
+     "mean_rho": 0.168,
+     "p_two": 0.03405
+    },
+    "M0c_A": {
+     "mean_rho": 0.075,
+     "p_two": 0.3461
+    },
+    "M0c_B": {
+     "mean_rho": 0.025,
+     "p_two": 0.74135
+    }
+   },
+   "new": {
+    "n": 40,
+    "switch": {
+     "mean_rho": 0.285,
+     "p_two": 0.00035
+    },
+    "M0c_A": {
+     "mean_rho": -0.125,
+     "p_two": 0.1126
+    },
+    "M0c_B": {
+     "mean_rho": 0.182,
+     "p_two": 0.02075
+    }
+   }
+  },
+  "50": {
+   "old": {
+    "n": 40,
+    "switch": {
+     "mean_rho": 0.58,
+     "p_two": 0.0
+    },
+    "M0c_A": {
+     "mean_rho": 0.367,
+     "p_two": 0.0
+    },
+    "M0c_B": {
+     "mean_rho": 0.02,
+     "p_two": 0.8089
+    }
+   },
+   "new": {
+    "n": 40,
+    "switch": {
+     "mean_rho": 0.075,
+     "p_two": 0.3308
+    },
+    "M0c_A": {
+     "mean_rho": 0.043,
+     "p_two": 0.58475
+    },
+    "M0c_B": {
+     "mean_rho": 0.123,
+     "p_two": 0.12385
+    }
+   }
+  }
+ }
+}

@@ -3125,3 +3125,8 @@ Kontraste normal − rsattn und rsmlp − rsattn; Codex-Prüfung läuft. [[exper
 beschreibend. Eigene Prüfung statt Codex (Run-IDs, Reset-Ereignisse, Vorzeichen, alt/neu, Holm). Eingefroren db31564, Smoke (rsattn, Seed 2300) durch den Lader ok, Block 120 Läufe ab 11:06 (7 GPU-Arbeiter).
 **Folge für den Rest der Sitzung:** Keine Codex-Prüfung der N29b-Schlussfolgerung möglich; eine Kernaussage in FINDINGS erst nach einer Codex-Prüfung in einer späteren Sitzung (Regel 18c), bis dahin nur als
 „bestätigt, Schlussfolgerung ungeprüft“ vermerken.
+
+**Zyklus 15 (CPU-Programm: EXP-039 ausgewertet, EXP-040 repariert, 11:05–11:09 gemessen).** [[experiments/EXP-039-lr-clock/README|EXP-039]] ***unklar***: 5/8 Zellen Λ-Uhr, 2/8 Schrittuhr; beschreibend passt die
+Λ-Uhr die π-Werte besser (RMSE 0.134 gegen 0.210; Teiluhr γ = 0.65: 0.130). *Lesart:* Festlegung hängt teilweise an der aufsummierten Lernrate.
+EXP-040 brach am Selbsttest ab (10:59, fail-closed, kein Lauf): importierte `seed_class` aus EXP-039 kannte die EXP-040-Etiketten nicht (alter Fehler aus Sitzung 10, nicht meine Trainer-Änderung).
+Nach registrierter Regel behoben (Nachtrag d), Selbsttest ok; EXP-040 läuft in einer späteren Sitzung. Das CPU-Programm arbeitet jetzt EXP-042 ab.

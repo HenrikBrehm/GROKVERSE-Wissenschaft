@@ -2,10 +2,12 @@
 
 Registration: lab/confirm/P2_REGISTRATION_DRAFT.md (frozen together with the P1 manifest; this file is in its code_sha256).
 Per seed s of the P1 manifest and arm a in {F, G}: remove E = 0.5 * E_ctrl of W_E energy from the own targets and, separately, from the
-control set (EXP-051/055 helpers, unchanged), measure the test-loss change on the pairs in neither split. D_s = mean over the two arms of
-dL_own - dL_ctrl. One-sided sign-flip test of mean D > 0 (Monte Carlo as P1), Holm in the P1-P3 family (FAMILY = 3, P1 and P3 as p = 1
-placeholders here; the joint table is P1_summary + P2_summary). "bestätigt" = all planned seeds valid, Holm-p < 0.05 and the lower
-95 % bootstrap bound of mean D > 0. Runs are accepted only through the P1 loader + binding (confirm_p1.unbound).
+control set (EXP-051/055 helpers, unchanged), measure the test loss on the pairs in neither split. PRIMARY (scale-free, session 21):
+R_s = mean over the two arms of log(L_after_own / L_after_ctrl). One-sided sign-flip test of mean R > 0 (Monte Carlo as P1), Holm in the
+P1-P3 family (FAMILY = 3, P1 and P3 as p = 1 placeholders here; the joint table is P1_summary + P2_summary). "bestätigt" = all planned seeds
+valid, Holm-p < 0.05 and the lower 95 % bootstrap bound of mean R >= MIN_EFFECT = log(1.05) (5 % more loss). Secondary: the raw
+D_s = mean of dL_own - dL_ctrl (EXP-055 scale; dominated by models with high base loss). Runs are accepted only through the P1 loader +
+binding (confirm_p1.post_load_check).
 
   python lab/tools/confirm_p2.py --analyze lab/confirm/P1_manifest.json     # under guarded_run.py, only after P1 jobs finished
   python lab/tools/confirm_p2.py --selftest
@@ -30,6 +32,7 @@ _spec.loader.exec_module(e55)
 e51 = e55.e51
 
 TASK, F_PRIMARY, DOSES, ACC_MIN, ALPHA = {"task": "add", "p": 113}, 0.5, (0.1, 0.25, 0.5, 0.75, 1.0), 0.9, 0.05
+MIN_EFFECT = float(np.log(1.05))
 
 
 def arm_row(man: dict, s: int, arm: str, other: str, T: dict, common: np.ndarray, B: np.ndarray) -> dict | str:
@@ -57,7 +60,8 @@ def arm_row(man: dict, s: int, arm: str, other: str, T: dict, common: np.ndarray
             continue
         ev_o = e55.evaluate(m, e51.remove_energy(W, B, T[arm], E), common)
         ev_c = e55.evaluate(m, e51.remove_energy(W, B, ctrl, E), common)
-        dose[str(f)] = {"E": E, "dL_own": ev_o["loss"] - base["loss"], "dL_ctrl": ev_c["loss"] - base["loss"],
+        dose[str(f)] = {"E": E, "L_own": ev_o["loss"], "L_ctrl": ev_c["loss"],
+                        "dL_own": ev_o["loss"] - base["loss"], "dL_ctrl": ev_c["loss"] - base["loss"],
                         "dacc_own": base["acc"] - ev_o["acc"], "dacc_ctrl": base["acc"] - ev_c["acc"],
                         "margin_own": ev_o["margin"], "margin_ctrl": ev_c["margin"]}
     return {"base": base, "energy_own": e_own, "energy_ctrl": e_ctrl, "dose": dose}
@@ -84,22 +88,23 @@ def seed_row(man: dict, s: int, B: np.ndarray) -> dict:
         r["reason"] = f"base accuracy < {ACC_MIN}"
         return r
     prim = [v["dose"][str(F_PRIMARY)] for v in arms.values()]
-    if not np.all(np.isfinite([x[k] for x in prim for k in ("dL_own", "dL_ctrl")])):
-        r["reason"] = "non-finite loss change at the primary dose"
+    if not all(np.isfinite(x[k]) and x[k] > 0 for x in prim for k in ("L_own", "L_ctrl")):
+        r["reason"] = "loss after the intervention not finite and positive at the primary dose"
         return r
     r["valid"] = True
+    r["R"] = float(np.mean([np.log(x["L_own"] / x["L_ctrl"]) for x in prim]))
     r["D"] = float(np.mean([x["dL_own"] - x["dL_ctrl"] for x in prim]))
     return r
 
 
-def verdict(D: np.ndarray, n_planned: int, rng: np.random.Generator) -> dict:
-    """All planned seeds valid (no complete-case deletion, as P1), Holm-p < ALPHA and CI lower bound > 0."""
+def verdict(D: np.ndarray, n_planned: int, rng: np.random.Generator, min_effect: float = MIN_EFFECT) -> dict:
+    """All planned seeds valid (no complete-case deletion, as P1), Holm-p < ALPHA and CI lower bound >= min_effect."""
     if len(D) != n_planned:
         return {"verdict": "nicht auswertbar"}
     p = c1.sign_flip_p(D, rng)
     ci = c1.boot_ci(D, rng)
     ph = c1.holm({"P2": p, "_P1": 1.0, "_P3": 1.0})["P2"]
-    ok = ph < ALPHA and ci[0] > 0
+    ok = ph < ALPHA and ci[0] >= min_effect
     return {"p": p, "p_holm_worstcase": ph, "ci95": ci, "mean": float(D.mean()), "sd": float(D.std(ddof=1)),
             "d_z": float(D.mean() / D.std(ddof=1)) if D.std(ddof=1) > 0 else None,
             "n_positive": int((D > 0).sum()), "verdict": "bestätigt" if ok else "nicht bestätigt"}
@@ -112,9 +117,13 @@ def analyze(manifest: Path) -> None:
         raise SystemExit("P2 needs the add 113 task in the P1 manifest")
     B = e51.basis()
     rows = [seed_row(man, s, B) for s in man["seeds"]]
+    R = np.array([r["R"] for r in rows if r["valid"]])
     D = np.array([r["D"] for r in rows if r["valid"]])
-    out = {"manifest_commit": man["commit"], "f_primary": F_PRIMARY, "n_valid": int(len(D)), "n_planned": len(man["seeds"]),
-           **verdict(D, len(man["seeds"]), np.random.default_rng(2)), "rows": rows}
+    n = len(man["seeds"])
+    out = {"manifest_commit": man["commit"], "f_primary": F_PRIMARY, "min_effect_R": MIN_EFFECT, "n_valid": int(len(R)), "n_planned": n,
+           **verdict(R, n, np.random.default_rng(2)),
+           "secondary_D_raw": {k: v for k, v in verdict(D, n, np.random.default_rng(3), 0.0).items() if k != "verdict"},
+           "rows": rows}
     (LAB / "confirm" / "P2_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
 
@@ -124,6 +133,7 @@ def selftest() -> None:
     assert verdict(np.ones(9), 10, rng)["verdict"] == "nicht auswertbar"
     v = verdict(np.linspace(0.5, 1.5, 10), 10, rng)
     assert v["verdict"] == "bestätigt" and abs(v["p_holm_worstcase"] - 3 / 1024) < 1e-12, v
+    assert verdict(np.full(10, 0.03), 10, rng)["verdict"] == "nicht bestätigt"     # significant but below log(1.05)
     assert verdict(-np.linspace(0.5, 1.5, 10), 10, rng)["verdict"] == "nicht bestätigt"
     v = verdict(np.array([1.0, -0.9] * 5), 10, rng)
     assert v["verdict"] == "nicht bestätigt" and v["ci95"][0] <= 0

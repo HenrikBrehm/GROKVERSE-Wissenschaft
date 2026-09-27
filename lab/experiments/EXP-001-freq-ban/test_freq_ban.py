@@ -294,7 +294,7 @@ def test_reset_parts(tmp_path: Path) -> None:   # EXP-067 (session 23): only the
     import json
     import subprocess
     spl = HERE.parents[2] / "lab/experiments/EXP-056-overlap-persistence/splits"
-    sizes = {"attn": 4 * 4 * 128 * 32, "mlp": 2 * 128 * 512, "unembed": 128 * 114}
+    sizes = {"attn": 4 * 4 * 128 * 32, "mlp": 2 * 128 * 512, "unembed": 128 * 114, "qk": 2 * 4 * 128 * 32, "vo": 2 * 4 * 128 * 32}
     for part, n in sizes.items():
         r = subprocess.run([sys.executable, str(HERE / "freq_ban.py"), "--seed", "400", "--condition", "baseline", "--steps", "60",
                             "--threads", "1", "--test-file", str(spl / "seed400_test.npy"), "--split-file", str(spl / "seed400_w0_A.npy"),

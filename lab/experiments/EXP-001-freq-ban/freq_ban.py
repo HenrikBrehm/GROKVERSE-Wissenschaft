@@ -72,7 +72,8 @@ LR_SCALE_UNTIL = 250          # EXP-039: last step with the scaled lr (on the fi
 LR_AFTER_SWITCH_STEPS = 500   # P3 ELR arm (session 18): steps after the switch trained with lr * c
 SPECTRUM_EVERY = 250          # steps between stored W_E power spectra
 PARTIAL_WRITE_EVERY = 500     # steps between partial result.json writes
-RESET_PARTS = {"attn": ("W_Q", "W_K", "W_V", "W_O"), "mlp": ("W_in", "W_out"), "unembed": ("W_U",)}   # EXP-067
+RESET_PARTS = {"attn": ("W_Q", "W_K", "W_V", "W_O"), "mlp": ("W_in", "W_out"), "unembed": ("W_U",),   # EXP-067
+               "qk": ("W_Q", "W_K"), "vo": ("W_V", "W_O")}                                          # EXP-069
 
 STORED_RUN = "txf_add_p113_wd1.0_frac0.3_seed{seed}_arch25k"
 # Astra review point 3 (session 13): run fingerprint over every argument that changes the run or its artifacts, plus the
@@ -779,7 +780,7 @@ def main() -> None:
                     help="EXP-057: at --switch-step clear the AdamW state of all parameters (weights unchanged)")
     ap.add_argument("--reset-at-switch", choices=("we", "rest") + tuple(RESET_PARTS), default=None,
                     help="EXP-038: at --switch-step reset W_E or all other parameters to init (+ their AdamW state); "
-                         "EXP-067: or only one part of the rest (attn, mlp, unembed)")
+                         "EXP-067/069: or only one part of the rest (attn, mlp, unembed, qk, vo)")
     ap.add_argument("--lr-scale", type=float, default=1.0,
                     help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
     ap.add_argument("--lr-scale-after-switch", type=float, default=1.0,

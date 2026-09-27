@@ -45,6 +45,7 @@ Zurück zu [[LAB]]. Stand Sitzung 24, 2026-09-27, 13:00 Berlin. Wortlaute, Konfi
 ## Programm (Regel 18c)
 
 **A** (aktiv) Verallgemeinerung: nächster Block P2f (D₅₉, Funktionsmaß). **B** (aktiv) Persistenz: Mechanismus der glatten Festlegung offen. **C** ruht.
+**Veröffentlichung** (Regel 19, gleichgewichtig): [[paper/STATUS]] · Entwurf [[paper/draft]] · Literatur [[paper/related_work]] · Robustheit [[confirm/R1_REGISTRATION_DRAFT|R1]], Piloten [[confirm/P4_REGISTRATION_DRAFT|P4]].
 
 ## Größte offene Frage
 

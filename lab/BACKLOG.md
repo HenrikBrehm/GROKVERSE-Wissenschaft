@@ -174,3 +174,12 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
   Fällt er positiv aus: Bestätigung an frischen Seeds und Trennung der zwei Wege (Nachtrag a) als eigener Versuch.
 - **N36** (Programm B, nach EXP-074): Hält der Pfad fest, den der Wechsel verlangt (Inhalt → Wertepfad, Leitung → QK)? Gegensatz zu Dong 2026.
 - **Repro:** `repro/train.py` Gleichwertigkeit (2 Befehle) → dann `repro/k2.py` voll; weitere Skripte (K4, K4d/e) erst danach.
+
+## Sitzung 26: Robustheit und Uhr der Festlegung, Tiefe, Vorwärtszitate
+
+- **R3** ([[confirm/R3_REGISTRATION_DRAFT|R3]], größte offene Frage in FINDINGS): Λ- gegen Schrittuhr, Lernrate nur vor dem Wechsel skaliert; 80 Läufe; nach Codex einfrieren. Priorität hoch (billig, direkt).
+- **R2** ([[confirm/R2_REGISTRATION_DRAFT|R2]]) jetzt registriert (nicht mehr „nach EXP-040“): K4c bei lr 2e-3 und wd 0.3, n = 30; Codex ohne Blocker.
+- **EXP-078** (Programm A, FINDINGS Grenze 3): K2 im 2-Schicht-Transformer, Pilot, gepaart mit P1; nach der Repro-Gleichwertigkeit.
+- **N37** (nach R3): Fenster am β₂-Horizont? Test mit `--beta2` erst, wenn R3 die Λ-Uhr nicht bestätigt.
+- **Repro:** `repro/k4c.py` geschrieben und geprüft (keine Blocker); nach der Gleichwertigkeit voll laufen lassen (80 Läufe).
+- **Literatur:** Vorwärtszitate (Semantic Scholar) ohne einschränkenden Treffer; Dong/Khanh noch ohne Zitatliste (HTTP 429) → später nachholen.

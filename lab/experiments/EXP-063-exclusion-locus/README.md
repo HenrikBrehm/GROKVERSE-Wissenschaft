@@ -27,7 +27,7 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-063-exclusion-locus/jobs.
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-063-exclusion-locus/analyze.py
 ```
 
-## Ergebnis (Sitzung 22, Läufe 07:54–08:14, ein Lauf nach Speicherfehler 08:14 mit demselben Befehl nachgeholt; Auswertung 08:15 Berlin; `summary.json`)
+## Ergebnis (Sitzung 22, Läufe 07:54–08:14, ein Lauf nach Speicherfehler 08:14 mit demselben Befehl nachgeholt; Auswertung 08:14–08:17 Berlin; `summary.json`)
 
 40/40 Läufe ok, 10/10 Seeds gültig, Reset je Lauf im Ergebnis vermerkt.
 

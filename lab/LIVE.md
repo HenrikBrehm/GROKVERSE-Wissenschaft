@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 06:59 Berlin (04:59Z, vom Runner)
 - **Deadline:** 2026-09-27 09:59 Berlin (07:59Z)
-- **Zuletzt aktualisiert:** 08:31 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 08:30 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
@@ -19,7 +19,7 @@ FINDINGS aktualisieren (nach Codex), dann Abschlussbericht. P2c wird in der naec
 ## Verlauf dieser Sitzung
 
 - 08:29 **N28 BESTAETIGT (30/30 frische Seeds):** Momentum loeschen senkt die Persistenz um 0.15, zehn Extra-Schritte gleichen es aus. **Zwei-Regime-Vorhersage bestaetigt** (29/30 und 30/30): frueh Koexistenz, ab 50 Schritten Ausschluss.
-- 08:15 **EXP-063:** Der Ausschluss braucht W_E und den Rest des Netzes zusammen; das Behalten der alten Wahl nicht.
+- 08:17 **EXP-063:** Der Ausschluss braucht W_E und den Rest des Netzes zusammen; das Behalten der alten Wahl nicht.
 - 08:10 P2c eingefroren und gestartet (Codex-Pruefung ohne Einwaende).
 - 08:05 **P2b abgebrochen, mein Fehler:** Der Trainer hoert standardmaessig 2000 Schritte nach der Generalisierung auf; die Auswertung haette 4000 verlangt und alles abgelehnt. Noch nichts ausgewertet, Seeds verbraucht; Nachfolger P2c mit frischen Seeds.
 - 07:54 EXP-063 gestartet: Sitzt der Ausschluss neuer Frequenzen im Rest des Netzes?

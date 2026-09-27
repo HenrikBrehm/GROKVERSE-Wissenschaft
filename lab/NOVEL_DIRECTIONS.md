@@ -803,3 +803,5 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
   Irrep-Unterraum. Unsere Herleitung erster Ordnung ([[BEFUND-split-mechanismus]], Sitzung 13) zeigt, dass die Leistung des ersten W_E-Gradienten je Frequenz bei One-hot-Token gerade M0c (Transformer)
   bzw. M0 (MLP) ist. Vermutung: Bei nicht-uniformer Paarverteilung tritt M0 (bzw. `dihedral.mask_power` für D_n) an die Stelle von ‖x̂[ρ]‖ in der Auswahlregel von Marchetti et al. Prüfbar ohne neue Läufe
   an einer kleinen Rechnung (AGF-Nutzen erster Stufe mit Paargewichten w(a, b) ausschreiben) und dann an gespeicherten Läufen (Rangfolge der zuerst wachsenden Irreps gegen M0; EXP-015, EXP-046).
+- **Ergebnis (EXP-076, Sitzung 24, 13:38):** *keine Brücke* im einfachsten AGF-Modell (quadratisch, Ein-Frequenz-Ansatz): Der Nutzen erster Stufe sieht die konstruierten Ziele nicht (Treffer = Zufall),
+  M0 trifft alle. Neue Kandidatenfrage **N34**: Hängt die Split-Steuerung an einer endlichen (zufälligen) Auslese bei der Init und verschwindet sie im AGF-Bereich sehr kleiner Init? (vorläufig, ungeprüft)

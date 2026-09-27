@@ -3257,3 +3257,8 @@ konstanten Rängen), beide selbst bestätigt und behoben; zweite Nachprüfung: k
 (ICML 2026, arXiv 2602.03655): Irreps werden einzeln gelernt, Reihenfolge durch die Fourier-Statistik der **Eingabekodierung**, bei **gleichverteilten** Daten, auch D_n. Volltext geprüft: keine
 nicht-uniformen Paarverteilungen, Gradientenfluss ohne Adam/Weight Decay/Grokking; bei One-hot sind dort alle Irreps gleichauf. Einordnung: K2 ergänzt das (die Paarmaske bricht die Gleichheit),
 nach unserer Suche nicht gefunden (vorläufig). FINDINGS-Literaturzeile ergänzt; Brückenfrage (M0 als effektive Kodierungsstatistik im AGF-Rahmen) als Programm-C-Kandidat notiert.
+
+**Zyklus 10 (EXP-076, Theorie-Rechnung ohne Läufe, 13:37–13:38).** Frage: Ist M0 der AGF-Nutzen erster Stufe bei nicht-uniformer Paarverteilung (Brücke zu Marchetti/Kunin)? Vorab festgelegt (Commit vor der
+Rechnung), reine numpy-Rechnung an den 20 EXP-016-Splits. **Ergebnis: keine Brücke** (Median ρ −0.02; U trifft die Ziele nur zufällig, 0.45/5; M0 5/5). Selbstprüfung (Gleichstand bei allen Paaren) ok.
+Mögliche Erklärung (Spekulation): M0 summiert je Ausgabe inkohärent, wie ein Gradient durch eine zufällige feste Auslese; das AGF-Neuron lernt die Auslese aus null. Mein schneller Gegencheck dazu war
+falsch gebaut (Phase unabhängig von c = reine Häufigkeitsmodulation) und zählt nicht. Neue Kandidatenfrage N34 (Init-Skala der Auslese und Split-Steuerung) notiert, nicht geprüft.

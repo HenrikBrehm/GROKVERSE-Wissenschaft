@@ -1,0 +1,4 @@
+# session 22: raw run directories of the new confirmation blocks stay out of git (bindings are committed)
+n28_raw/
+p2b_raw/
+p2c_raw/

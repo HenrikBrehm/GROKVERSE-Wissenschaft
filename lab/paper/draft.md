@@ -113,4 +113,5 @@ code), operating under written rules set by the human author, who bears responsi
    target 25 is replaced by 32 = 2·16 (a harmonic of a target, as seen throughout EXP-016).
 2. Δ_pow per task with CIs (P1 summary) — **done:** `figures/fig2_p1_delta_pow.py` → `fig2_p1_delta_pow.png/.svg` (reads `lab/confirm/P1_summary.json`).
 3. **done:** `figures/fig3_ablation_contrast.py` — ablation contrast R per seed for N29 (switch at 25 vs 50) and N29b/N29c (switch at 50, reset arms); blocks use different seeds.
-4. π(t) pilot curve (EXP-059, clearly marked as pilot) — open.
+4. **done:** `figures/fig4_pi_curve.py` — π(t) pilot curve (EXP-059, 10 known seeds, mean ± SD) with the N28 confirmed points at t = 25 (0.340 [0.302, 0.377]) and 50 (0.998 [0.965, 1.032]),
+   30 fresh seeds (CIs recomputed from the frozen per-seed values; confirmed points offset by 1.2 steps for visibility).

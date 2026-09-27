@@ -20,3 +20,7 @@ Zurück zu [[FINDINGS]] (Programm A) · Vorgänger [[confirm/P2c_REGISTRATION|P2
 - **Familie:** eigene (nur P2d), falls beim Einfrieren nicht anders festgelegt.
 - **Vor dem Einfrieren (nächste Sitzung):** Codex-Prüfung (Regel 18c); ein echter Job bis zum Ende durch den eingefrorenen Lader (Lehre aus P2b); Manifest mit Code-Hashes und Commit.
 - Code: `lab/tools/confirm_p2d.py` (Selbsttest ok, Sitzung 22).
+
+## Codex-Prüfung (Sitzung 22, 09:17–09:20 gemessen)
+
+Gegen 8c66f73: keine Blocker, keine schweren Punkte, kein Fix nötig. Selbst geprüft: Kontrollmengen schließen eigene Ziele, fremde Ziele und fold(2t) aus (EXP-051 `control_set`), Vorzeichen des Abfalls (vorher − nachher).

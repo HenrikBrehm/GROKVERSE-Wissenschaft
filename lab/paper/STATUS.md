@@ -12,6 +12,17 @@ Zurück zu [[LAB]] · Kernaussagen: [[FINDINGS]] · Entwurf: [[paper/draft]] · 
 Arbeitstitel: *Training-set composition steers and locks in the Fourier features of grokking transformers* (vorläufig).
 Angelegt 2026-09-27, Sitzung 24 (Laborsitzung, vom Runner gestartet), nach Regel 19 der Präambel.
 
+## Kurzfassung für den Nutzer (Stand 2026-09-27, Sitzung 24)
+
+**Was das Paper heute tragen würde (alle an frischen, vorab reservierten Seeds bestätigt):** (1) Welche Fourier-Frequenzen ein grokkender Transformer lernt, lässt sich allein über die Auswahl der
+Trainingspaare steuern, bei drei modularen Aufgaben und der nicht-abelschen Gruppe D₅₉. (2) Das Netz reagiert empfindlicher auf Störungen entlang dieser Frequenzen (mit der Einschränkung, dass das der
+Energie folgt). (3) Die Wahl legt sich nach 25–50 Trainingsschritten fest: nach einem Datenwechsel bei 50 Schritten hängt das fertige Netz an den alten Frequenzen, bei 25 an den neuen. (4) Ein Reset der
+Attention, vor allem ihres Wertepfads, hebt dieses Festhalten auf, ein MLP-Reset kaum.
+
+**Was vor einer Einreichung fehlt:** Robustheit gegen Lernrate/Weight Decay/Trainingsanteil (R1, vorbereitet); Bestätigung der Piloten zu MLP, Breite, Integer-Addition (P4, Entwurf); D₅₉-Funktion (P2f,
+läuft ab 00:00); Persistenz außerhalb von add 113 (EXP-074/075 als Piloten ab 00:00); menschliche Prüfung der Literatur (engste Arbeiten: LeDoux 2026, Marchetti et al. 2026, Lyle et al. 2025);
+ein schlankes Reproduktionspaket; deine Entscheidungen unten.
+
 ## Offen für den Nutzer (nicht vom Labor zu entscheiden)
 
 1. **Autorschaft und Rechte an der ursprünglichen GROKVERSE-Studie** (RESULTS.md, docs/, training/): Wer sind die Autoren? Darf der Trainingscode der Studie im Reproduktionspaket veröffentlicht werden, unter welcher Lizenz?

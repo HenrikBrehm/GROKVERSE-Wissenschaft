@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-27, 03:46 Berlin (Sitzung 20, Deadline 04:29)._
+_Zuletzt aktualisiert: 2026-09-27, 04:37 Berlin (Sitzung 21, Deadline 07:19)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]] · [[confirm/P1_REGISTRATION_DRAFT|P1-Entwurf]]
 
@@ -16,16 +16,17 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 
 ## Aktive Queue / laufende Jobs
 
-- **CPU (seit 02:56, 1 Arbeiter × 4 Threads):** `python lab/tools/night_program.py --cpu --experiments EXP-035,EXP-038,EXP-041,EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`.
+- **CPU (Sitzung 21 seit 04:20, 3 Arbeiter × 4 Threads, läuft EXP-038):** `python lab/tools/night_program.py --cpu --experiments EXP-035,EXP-038,EXP-041,EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`.
   ≈ 5 min je Lauf, noch mehrere Fenster. Die Sitzungsdeadline bricht ab (Exit 124/3 = Ablehnung, kein Fehler). **Wiederaufnahme: derselbe Befehl** (Fertiges wird übersprungen).
   Mit freier GPU kann der Arbeiter mehr Threads bekommen: `--cpu-workers 3` (Threadsumme ≤ 12). Nicht mischen (Regel 16d): Die CPU-Versuche bleiben auf der CPU.
 - **GPU:** frei. Kein offenes GPU-Programm.
-- **EXP-035 ausgewertet (04:13), noch nicht gedeutet:** „Warmup verzögert (H35-Richtung)“, aber n_evaluable = 3. Erst die README-Lesart prüfen, nicht in FINDINGS übernehmen. Seit 04:13 läuft EXP-038.
+- **EXP-035 abgeschlossen (Sitzung 21):** Pilot n = 3, Warmup verzögert 3/3; keine Kernaussage (README „Ergebnis“).
 
 ## Nächste Schritte (in dieser Reihenfolge)
 
 1. `python lab/tools/guarded_run.py --check`; kein STOP; laufende Prozesse prüfen (`ps -ef | grep -E "night_program|guarded_run"`); dann das CPU-Programm (oben) wieder starten.
-2. **P1 einfrieren** ([[confirm/P1_REGISTRATION_DRAFT|Entwurf]]): Codex-Befunde B1–M9 umgesetzt (Commits 48e7afb … b750fb1). Die Nachprüfung durch Codex läuft bzw. steht im [[JOURNAL]] (Sitzung 20).
+2. **P1 + P2 zusammen einfrieren** ([[confirm/P1_REGISTRATION_DRAFT|P1]], [[confirm/P2_REGISTRATION_DRAFT|P2]]): B1 gelöst (Wrapper `confirm_p1.py --run`, Bindungen, Codex-Review übernommen, Sitzung 21).
+   P2 = log-Loss-Verhältnis bei f = 0.5 an den P1-Modellen add 113 (`confirm_p2.py`); Codex-Prüfung P2 lief in Sitzung 21 (siehe [[JOURNAL]]).
    Dann: `python lab/tools/confirm_splits.py --hash-code` → Feld `code_sha256` in `lab/confirm/P1_manifest.json` (aus dem Entwurf, `primary_task` add113, Seeds 1000–1049),
    committen, `commit` eintragen, wieder committen; `confirm_splits.py --manifest …`; `confirm_p1.py --jobs … > lab/confirm/P1_jobs.txt`; `parallel_queue.py lab/confirm/P1_jobs.txt --workers 8`
    (GPU, ≈ 400 Läufe, Minuten); `confirm_p1.py --analyze …`. Vorher lesen: „bereits gesehen“ im Entwurf.

@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 14:19 Berlin (12:19Z, vom Runner)
 - **Deadline:** 2026-09-27 17:19 Berlin (15:19Z)
-- **Zuletzt aktualisiert:** 14:40 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 14:43 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: nur Denk- und Vorbereitungsarbeit.
 
 ## Gerade
 
-Nachdenken ueber den Gegensatz zu Dong 2026 (dort hilft ein Query/Key-Reset, bei uns der Wertepfad) und ob sich daraus eine pruefbare Frage ergibt.
+Warte auf den Pruefagenten fuer `repro/train.py` und `repro/k2.py`; danach Befunde einarbeiten.
 
 ## Als Naechstes
 
@@ -18,6 +18,7 @@ Stand sichern; ab 00:00 laeuft die Nacht laut [[STATE]].
 
 ## Verlauf dieser Sitzung
 
+- 14:43 Theorie: Adams erster (vorzeichenartiger) Schritt behaelt im Modell die Zielfrequenzen (20/20); K2-Reproduktionsskript geschrieben; ein Pruefagent kontrolliert den schlanken Trainer.
 - 14:40 Paper: Abschnitt zu verwandten Arbeiten als Fliesstext.
 - 14:40 EXP-077 vorbereitet (Pilot fuer heute Nacht, ~5 min): Steuert schon die Haeufigkeit nur eines Operanden die Frequenzen? Die Theorie sagt ja, die bisherige Lesart nein.
 - 14:36 Volltextpruefung eingearbeitet: Eine neue Arbeit (Dong 2026) zeigt in Sprachmodellen, dass ein Attention-Reset hilft (dort Query/Key, bei uns der Wertepfad) - unsere Reset-Aussage ist dadurch enger; Paper und FINDINGS angepasst.

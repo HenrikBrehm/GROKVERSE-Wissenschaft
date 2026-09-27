@@ -3372,3 +3372,9 @@ vorab festgelegt (Seeds 770–779, 40 Läufe, Lesart vorab), Splits gebaut, Jobl
 
 **Zyklus 5 (Paper: Related-Work-Abschnitt, bis 14:40).** Abschnitt 1b im [[paper/draft]] als Fließtext aus [[paper/related_work]] und der Volltextprüfung; nur Aussagen aus der Tabelle bzw.
 dem Volltextbericht; eine eigene Überdehnung (Stander et al. als „beliebig“-Quelle) vor dem Commit korrigiert. Alles für die menschliche Prüfung markiert.
+
+**Zyklus 6 (Theorie-Grenze: Adams Vorzeichenschritt, bis 14:43).** *Frage:* Zerstört der erste AdamW-Schritt (≈ lr · sign(g)) die Frequenzinformation des ersten Gradienten? *Rechnung*
+(numpy, Modell erster Ordnung mit isotroper Zufalls-Jacobi-Matrix, d = 128, P1-Konstruktion, Kalibrier-Seeds 900–909 × F/G): Top-5 von sign(g) = Ziele in 20/20 Fällen (wie g selbst),
+Zielanteil 0.152 gegen 0.191. *Ergebnis:* Im Modell bleibt die Auswahl unter dem Vorzeichenschritt erhalten; nur ein Modellbefund, nicht am Netz gemessen. In §5.4 des Entwurfs;
+Skripte `lab/paper/repro/theory_identity_check.py`, `theory_sign_check.py`. Außerdem: [[BACKLOG]] um Sitzung 25 ergänzt; EXP-077 Nachtrag a (zweiter Weg über die eigene Häufigkeit,
+Lesart vor jedem Lauf eingeengt); N36 (Routing oder Inhalt) als Lesart des Dong-Gegensatzes.

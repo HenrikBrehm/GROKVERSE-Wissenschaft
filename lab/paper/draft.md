@@ -185,6 +185,26 @@ targets are later displaced by second harmonics 2k of other targets (EXP-016, EX
 correlations. (iv) It says nothing about why the early choice persists after a data switch (K4); the lab's amplitude model for that (H40) is tested separately (EXP-040).
 The derivation in the simplest alternating-gradient-flow model (AGF) does *not* reduce to M0 (EXP-076, negative), so the link to AGF-type theories remains open.
 
+## 5b Discussion (draft, session 25)
+
+**What the data choose.** Which Fourier features a grokking network uses is not only a matter of initialization: a training set with a prescribed pair structure moves the choice
+towards prescribed frequencies across three cyclic tasks and a non-abelian group. At first order this follows from how the training pairs enter the first gradient on the embedding (§5);
+the derivation also says what should *not* matter (a row's own occurrence count) and what should (the arrangement of pairs along the output classes, including the token frequencies of
+the other operand). The last point is a prediction we have not yet tested (pilot EXP-077 prepared); it would distinguish the first-order account from the reading that only
+non-marginal pair structure steers.
+
+**How early and where.** The choice becomes persistent within tens of optimizer steps: after 50 steps on a first split, the final network after a switch still relies more on the old
+frequencies, after 25 steps on the new ones. Resetting the attention, and within it the value/output path, at the switch removes much of this reliance; the tested MLP reset does little.
+Two cautions frame this. First, the resets show where the persistence is *sensitive*, not where it is stored: weights and optimizer state were reset together, and in the same model class
+MLP weight directions do carry frequency identity (Khanh 2026). Second, in language models the ordering within attention is reversed for restoring the ability to learn a new capability
+(query–key rather than value; Dong 2026). One reading, untested, is that the relevant path is the one the new data require to change: our switch keeps the task and the routing and changes
+only the content.
+
+**Open questions.** (i) Which state variable makes the early choice persistent? No measured quantity we tried (W_E lead, OV alignment) explains the time course better than the step count
+(EXP-060, 070, 071); an amplitude-race account is being tested (EXP-040). (ii) Do the persistence results hold beyond add 113 and this architecture (EXP-074, EXP-075 pilots)? (iii) Is the
+steering robust to learning rate, weight decay and training fraction (registration R1)? (iv) Can the first-order account be connected to theories of the learning order under uniform data
+(AGF; the simplest bridge failed, EXP-076)?
+
 ## 6 Limitations
 
 One architecture family and optimizer for all persistence claims (add 113 only, generalization pending: EXP-074, EXP-075); engineered splits; functional measures do not separate identity from energy;

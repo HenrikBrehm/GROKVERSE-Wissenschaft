@@ -29,8 +29,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 2. **Programm B, N32 (außerhalb des Fensters vorbereiten):** Bestätigung „Wertepfad“ festlegen (frische Seeds, Arme normal / rsvo / rsqk bei t = 50, Funktionsmaß wie N29b, `confirm_n29b.py` als Muster),
    Codex vor dem Einfrieren, im Fenster rechnen. Offene Mechanismusfrage: Warum entsteht der Ausschluss zwischen 25 und 50, wenn die OV-Ausrichtung gleichmäßig steigt (EXP-070)? Kandidaten vorab benennen
    (z. B. Schwelle der OV-Verstärkung gegen die Init-Amplitude neuer Richtungen; Adam-Zustand des Wertepfads).
-4. **Programm A, D₅₉:** Registrierung „P2f“ (Irrep-Maß, `group_train.py --save-model` vorhanden seit Sitzung 23, noch ohne Codex-Prüfung), frische Seeds (2290–2299 frei oder neuer Block).
-5. FINDINGS straffen (Regel 15a: höchstens eine Seite; derzeit weit darüber): Kernaussagen K2, K2-Funktion (P2d/P2e), K4/K4b/K4c, Grenze „Funktion folgt Energie“, offene Frage N32.
+3. **Programm A, D₅₉:** Registrierung „P2f“ (Irrep-Maß, `group_train.py --save-model` vorhanden seit Sitzung 23, noch ohne Codex-Prüfung), frische Seeds (2290–2299 frei oder neuer Block).
+4. FINDINGS straffen (Regel 15a: höchstens eine Seite; derzeit weit darüber): Kernaussagen K2, K2-Funktion (P2d/P2e), K4/K4b/K4c, Grenze „Funktion folgt Energie“, offene Frage N32.
 
 ## Drei Prioritäten (Regel 18c)
 

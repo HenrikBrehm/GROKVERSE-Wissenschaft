@@ -11,6 +11,17 @@ Zurück zu [[LAB]]. **Nachtrag Sitzung 21 (27.09., 04:46): P1 und P2 sind eingef
 2026-09-26 nicht gefunden, vorläufig. **Alle Aussagen gelten bisher nur für eine Aufgabe (Addition mod 113) und im Kern eine
 Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelheiten: [[BEFUND-split-mechanismus]], [[BEFUND-festlegung]].
 
+## Kurzfassung (Stand Sitzung 23, 27.09.; alle Aussagen: 1-Schicht-Transformer der Studie, AdamW, konstruierte Splits; Einzelheiten und Wortlaut in den Abschnitten darunter)
+
+| | Aussage (kurz) | Beleg | Stand |
+|---|---|---|---|
+| **K2** | Konstruierte Trainingssplits steuern, welche Frequenzen W_E lernt: add 113, mul 113, add 97, D₅₉ | P1 (50 Seeds je Aufgabe) | bestätigt |
+| **K2-Funktion** | Gleich große W_E-Schritte entlang der gesteuerten Frequenzen senken den Logit-Abstand stärker als entlang von Kontrollen: add 113, mul 113, add 97 | P2d, P2e | bestätigt; **folgt der Energie**, keine Nutzung darüber hinaus belegt (EXP-068) |
+| **K4 / K4b** | Schon 25 Schritte auf dem ersten Split prägen das Endspektrum nach einem Wechsel; ein gelöschtes Adam-Momentum wirkt wie weniger Vorschritte | P3, N28 | bestätigt |
+| **K4c** | Wechsel nach 25 Schritten: Endmodell auf die neuen Frequenzen angewiesen; nach 50: auf die alten | N29 | bestätigt (Ablationskontrast) |
+| **K4d** | Ein Reset der Attention beim Wechsel nach 50 Schritten kehrt das um (MLP-Reset nicht) | N29b | bestätigt, Schlussfolgerung vorläufig (ohne Codex) |
+| **Offen** | *Was* in der Attention hält die frühe Wahl fest (Muster oder Werte; Entropie)? Gilt K2-Funktion bei D₅₉? Hängt die Festlegungszeit an der aufsummierten Lernrate (EXP-039 unklar)? | EXP-069, BACKLOG | laufend |
+
 ## BESTÄTIGT, SCHLUSSFOLGERUNG VORLÄUFIG (Sitzung 23, 27.09., 11:31 Berlin): N29b, Attention-Reset beim Wechsel hebt die Abhängigkeit von den alten Frequenzen auf #befund/positiv
 
 **Kernaussage K4d (vorläufig, ohne Codex-Prüfung, Codex ohne Guthaben):** *Bei Addition mod 113 und einem Wechsel zwischen paar-disjunkten konstruierten Splits nach 50 Schritten (4000 weitere Schritte, 20 frische

@@ -352,6 +352,7 @@ code), operating under written rules set by the human author, who bears responsi
 4. **done:** `figures/fig4_pi_curve.py` — π(t) pilot curve (EXP-059, 10 known seeds, mean ± SD) with the N28 confirmed points at t = 25 (0.340 [0.302, 0.377]) and 50 (0.998 [0.965, 1.032]),
    30 fresh seeds (CIs recomputed from the frozen per-seed values; confirmed points offset by 1.2 steps for visibility).
 5. **done:** `figures/fig5_margin_sensitivity.py` — K2-function D per seed with CI (P2d add 113; P2e mul 113, add 97); different step budgets, compare qualitatively.
+6. **done (exploration, §4, session 32):** `figures/fig6_switch_cost.py` — delay of generalization after a switch at t (pilot seeds 400–409, N28 at 25/50; post hoc) above the persistence π of the same pilot seeds; two panels, no second axis. Replace by the R6 curve once R6 has run.
 
 ## Reproduction (draft, session 27; scripts exist, none has been run end to end yet)
 

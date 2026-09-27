@@ -42,7 +42,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 
 6. Nach den GPU-Queues: **EXP-077** (Pilot, 40 Läufe ≈ 5 min): `parallel_queue.py lab/experiments/EXP-077-marginal-steering/jobs.txt --workers 8`, dann `analyze.py` über guarded_run.
-7. Nach den Blöcken, falls Zeit (GPU, je ≈ 1–3 min): Selbsttest `confirm_p4.py --selftest`; Repro-Gleichwertigkeit (2 Befehle in [[paper/repro/README]]). P4 selbst erst Nacht 28./29. (nach Einfrieren).
+7. Nach den Blöcken, falls Zeit (GPU, je ≈ 1–3 min): Selbsttest `confirm_p4.py --selftest`; Repro-Gleichwertigkeit (2 Befehle in [[paper/repro/README]]). P4 selbst erst Nacht 28./29. (nach Einfrieren; Entwurf `lab/confirm/P4_manifest_DRAFT.json` mit Seeds liegt bereit: `code_sha256` ergänzen, Feld `note` entfernen, als `P4_manifest.json` committen, `commit` setzen).
 
 Vorab-Lesart der Nacht (Kombination EXP-040/073/074/075, P2f): [[LESART-nacht-2026-09-28]].
 

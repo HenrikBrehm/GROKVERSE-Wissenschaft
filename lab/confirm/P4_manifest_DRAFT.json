@@ -1,0 +1,72 @@
+{
+ "experiment": 7,
+ "p": 113,
+ "eps": 2.0,
+ "device": "cuda",
+ "threads": 1,
+ "steps": {
+  "mlp": 10000,
+  "d512": 2000,
+  "intadd": 2000
+ },
+ "d_model": 512,
+ "stop_after_gen": 100000,
+ "python": ".venv-gpu/Scripts/python.exe",
+ "seeds": {
+  "mlp": [
+   2360,
+   2361,
+   2362,
+   2363,
+   2364,
+   2365,
+   2366,
+   2367,
+   2368,
+   2369,
+   2370,
+   2371,
+   2372,
+   2373,
+   2374
+  ],
+  "d512": [
+   2375,
+   2376,
+   2377,
+   2378,
+   2379,
+   2380,
+   2381,
+   2382,
+   2383,
+   2384,
+   2385,
+   2386,
+   2387,
+   2388,
+   2389
+  ],
+  "intadd": [
+   2390,
+   2391,
+   2392,
+   2393,
+   2394,
+   2395,
+   2396,
+   2397,
+   2398,
+   2399,
+   2400,
+   2401,
+   2402,
+   2403,
+   2404
+  ]
+ },
+ "registration": [
+  "lab/confirm/P4_REGISTRATION_DRAFT.md"
+ ],
+ "note": "DRAFT (session 25): add code_sha256 from --hash-code after the selftest, commit, then set 'commit' and save as P4_manifest.json; remove this note"
+}

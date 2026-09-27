@@ -3378,3 +3378,6 @@ dem Volltextbericht; eine eigene Überdehnung (Stander et al. als „beliebig“
 Zielanteil 0.152 gegen 0.191. *Ergebnis:* Im Modell bleibt die Auswahl unter dem Vorzeichenschritt erhalten; nur ein Modellbefund, nicht am Netz gemessen. In §5.4 des Entwurfs;
 Skripte `lab/paper/repro/theory_identity_check.py`, `theory_sign_check.py`. Außerdem: [[BACKLOG]] um Sitzung 25 ergänzt; EXP-077 Nachtrag a (zweiter Weg über die eigene Häufigkeit,
 Lesart vor jedem Lauf eingeengt); N36 (Routing oder Inhalt) als Lesart des Dong-Gegensatzes.
+
+*Nachtrag Zyklus 1:* Entwurfsmanifest `lab/confirm/P4_manifest_DRAFT.json` (Seeds mlp 2360–2374, d512 2375–2389, intadd 2390–2404) erzeugt; dazu `confirm_p4` importiert und nur
+`check_design`, `check_registered` und die Jobliste (90 Zeilen) aufgerufen, kein Selbsttest, kein Training. Codes-Hashes und Commit fehlen absichtlich (erst nach dem Selbsttest).

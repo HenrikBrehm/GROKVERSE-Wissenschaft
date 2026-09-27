@@ -25,12 +25,23 @@ Zurück zu [[FINDINGS]]. Eingefroren ist erst eine Fassung `P1_manifest.json` mi
 ## Codex-Prüfung (Sitzung 20, 03:41) → Reparaturliste vor dem Einfrieren (Einzelheiten und Begründung: [[JOURNAL]] Sitzung 20, Zyklus 14)
 
 - [x] (B1, Sitzung 20 umgesetzt, Selbsttest grün: `confirm_splits.py --hash-code` liefert das Feld `code_sha256`; `check_manifest` prüft es bei Splits, `--jobs`, `--analyze`. Rest-Lücke: der Lader prüft den `git_commit` der Läufe nicht; eine Änderung zwischen `--jobs` und `--analyze`, die wieder zurückgenommen wird, bliebe unbemerkt) Code-Hashes (Trainer, Splits, Analyse, Lader) ins Manifest, bei `--jobs`/`--analyze` prüfen, Läufe gegen Hashes/Commit prüfen
-- [ ] (B2) Familie festlegen: P1 = add 113 primär (P1–P3-Holm über 3), übrige Aufgaben als P1b sekundär mit eigener Holm-Familie
+- [x] (B2, Sitzung 20 umgesetzt, Selbsttest grün: Manifestfeld `primary_task`, `confirm_p1.family_adjust`) Familie festlegen: P1 = add 113 primär (P1–P3-Holm über 3), übrige Aufgaben als P1b sekundär mit eigener Holm-Familie
 - [x] (H3, Sitzung 20 umgesetzt, Selbsttest grün) „bestätigt“ = Holm-p < 0.05 **und** KI-Untergrenze ≥ 1 (Mindesteffekt Teil der Aussage)
 - [x] (B4, Sitzung 20 umgesetzt, Selbsttest grün; Wiederholungsregel für Infrastrukturfehler noch in die Registrierung schreiben) alle 50 Paare verlangen; nicht-endliches Δ / Zielsumme ≤ 0 → ungültig; sonst *nicht auswertbar*
-- [ ] (H5) Power mit der endgültigen Familie und dem endgültigen Test neu rechnen (bei B2: α/3)
+- [x] (H5, mit B2 erledigt: P1 = add 113 bei α/3 → n 25–27, konservativ 44 ≤ 50; P1b-Familie über 3 Aufgaben ebenfalls α/3 im ungünstigsten Fall, mul 113 konservativ 49 ≤ 50, knapp) Power mit der endgültigen Familie und dem endgültigen Test neu rechnen (bei B2: α/3)
 - [x] (H6, Sitzung 20 umgesetzt, Selbsttest grün) bei `--analyze` Split-Indizes und Ziele aus `build()` neu erzeugen und exakt vergleichen
 - [ ] (H7) Symmetrie-Annahme des Vorzeichentests ausdrücklich registrieren; t-Test sekundär berichten
 - [ ] (M8/M9) Design als seed-gepaart beschreiben; P1 als Replikation in pilotgewählten Fällen formulieren
 - verworfen: Mindesteffekt relativ zum Pilotmittel (Δ ist dimensionslos)
+
+### Textbausteine für die Registrierung (Sitzung 20, H7/M8/M9)
+
+- **Test (H7):** einseitiger Vorzeichen-Permutationstest. Nullhypothese: Die Verteilung von Δ_pow ist symmetrisch um 0. Begründung: F und G sind gleich konstruiert (gleiche ε, disjunkte
+  Ziele aus einer Permutation, gleiche Init), unter „kein Einfluss des Splits“ sind die Arme vertauschbar, und Vertauschen kehrt das Vorzeichen von Δ um. Sekundär wird ein
+  studentisierter t-Test berichtet.
+- **Design (M8):** seed-gepaart. F und G teilen die Init, alle Aufgaben nutzen dieselben Seeds. Die Split-Ströme sind nach Aufgabe, p, Seed, Arm und Zweck getrennt.
+- **Aussage (M9):** P1 ist eine **unabhängige Replikation in vier nach dem Pilot gewählten Fällen** (add 113 primär, dazu mul 113, add 97, D₅₉ als P1b),
+  keine Verallgemeinerung auf eine unverzerrte Aufgabenpopulation.
+- **Wiederholungsregel (B4):** Scheitert ein Lauf an der Infrastruktur (Wächter-Abbruch, Absturz ohne Ergebnis), wird **derselbe** eingefrorene Job wiederholt. Fehlt danach ein Paar, gilt die Aufgabe als *nicht auswertbar*.
+- Noch offen vor dem Einfrieren: Nachprüfung der geänderten Stellen durch Codex (nur B1, B2, B4, H3, H6), danach Manifest mit `code_sha256` und `commit` einfrieren.
 

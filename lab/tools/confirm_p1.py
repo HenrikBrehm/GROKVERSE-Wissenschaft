@@ -142,6 +142,19 @@ def split_mismatch(man: dict, t: dict, s: int, arm: str) -> str | None:
     return None
 
 
+def family_adjust(ps: dict[str, float], primary: str | None) -> dict[str, float]:
+    """Session 20 (Codex B2). With 'primary_task' (e.g. "add113"): that task is P1 and enters the P1-P3 Holm family
+    (FAMILY = 3, P2/P3 as p = 1 placeholders until they exist); all other tasks form a separate SECONDARY Holm family (P1b).
+    Without it (old behaviour): every task plus FAMILY - 1 placeholders in one family."""
+    if primary is None:
+        return holm({**ps, **{f"_other{i}": 1.0 for i in range(FAMILY - 1)}})
+    if primary not in ps:
+        raise SystemExit(f"primary_task {primary} is not a manifest task")
+    main_ = holm({primary: ps[primary], **{f"_other{i}": 1.0 for i in range(FAMILY - 1)}})
+    sec = {k: v for k, v in ps.items() if k != primary}
+    return {primary: main_[primary], **(holm(sec) if sec else {})}
+
+
 def task_verdict(v: dict) -> str:
     """Session 20 (Codex B4/H3): all planned pairs valid, Holm-p < ALPHA AND the CI lower bound >= MIN_EFFECT."""
     if "p" not in v:
@@ -242,9 +255,8 @@ def analyze(manifest: Path) -> None:
             res.update({"mean": float(d.mean()), "sd": float(d.std(ddof=1)), "n_positive": int((d > 0).sum()),
                         "ci95": boot_ci(d, rng), "p": sign_flip_p(d, rng)})
         out["tasks"][f"{t['task']}{t['p']}"] = res
-    ps = {k: v.get("p", 1.0) for k, v in out["tasks"].items()}
-    ps.update({f"_other{i}": 1.0 for i in range(FAMILY - 1)})   # P2, P3 enter with p = 1 until their results exist
-    adj = holm(ps)
+    adj = family_adjust({k: v.get("p", 1.0) for k, v in out["tasks"].items()}, man.get("primary_task"))
+    out["primary_task"] = man.get("primary_task")
     for k, v in out["tasks"].items():
         v["p_holm_worstcase"] = adj[k]
         v["verdict"] = task_verdict(v)
@@ -313,6 +325,9 @@ def selftest() -> None:
             assert "indices" in split_mismatch(m1, t1, 1000, "F")
     finally:
         SPLITS = keep
+    fa = family_adjust({"add113": 0.001, "mul113": 0.01, "add97": 0.02, "D59": 0.03}, "add113")
+    assert abs(fa["add113"] - 0.003) < 1e-12 and abs(fa["mul113"] - 0.03) < 1e-12 and abs(fa["add97"] - 0.04) < 1e-12 and abs(fa["D59"] - 0.04) < 1e-12, fa   # Holm is monotone
+    assert abs(family_adjust({"a": 0.01, "b": 0.02}, None)["a"] - 0.04) < 1e-12
     assert task_verdict({"n_valid": 49}) == "nicht auswertbar"
     assert task_verdict({"p": 0.001, "p_holm_worstcase": 0.003, "ci95": [0.5, 2.0]}) == "nicht bestätigt"
     assert task_verdict({"p": 0.001, "p_holm_worstcase": 0.003, "ci95": [1.2, 2.0]}) == "bestätigt"

@@ -41,7 +41,7 @@
   "lab/confirm/P2e_REGISTRATION.md"
  ],
  "code_sha256": {
-  "lab/tools/confirm_p2e.py": "87b6f1f6c61dd3bc729e5c3d5a2b50972140c186378d2b88db2619d400741db9",
+  "lab/tools/confirm_p2e.py": "331522036b69a6b76379a696d2f8c041c94169eb06b94b4678da9f50415fe564",
   "lab/tools/bound_block.py": "fc7cf48733bea633daa147bcbf7c1af675cb6ae4368e803f728c8a907b265bbb",
   "lab/tools/confirm_p1.py": "52975378d5899fcc3df12ba39d8dadd62204e337bac21af46298533043a7e639",
   "lab/tools/confirm_splits.py": "6c8d55fd1bb9789059e6816475892e7715a57abcfe13581e99d73b431f5bd36c",
@@ -99,6 +99,5 @@
   "training/grokverse/seed.py": "84c3e43d4b5cf93cd5d4281974e49f78334b6c364a5353004d3ca8f6979fd639",
   "training/grokverse/train.py": "c75aef6b327a9eea55a3cf9d0cc578822dec96ebccb7e951ddf9263f1c941c1e",
   "training/grokverse/utils.py": "2771462f7bd4035882f411f9f91596dadfcb8c3f5a65ef5ea92b06cb0f1ea2c4"
- },
- "commit": "2510c92"
+ }
 }

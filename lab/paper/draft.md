@@ -255,6 +255,8 @@ EXP-050: first order explains only part; [[BEFUND-split-mechanismus]]); it is *n
   - Zeroing Adam's first moment at 25 reduced the delay only slightly (mean −0.13 log2, smaller in 22/30 seeds; still positive in 25/30; `speed_switch_cost_rom_s32.py`, descriptive).
   - More shared pairs between the splits tended to increase the delay (EXP-056 8/10 seeds, p = 0.055, not significant, not monotone in ω; P3 24/30, seen data).
   - Across seeds, how undecided the final choice was (|π(25) − 0.5|) did not predict the delay (ρ = 0.08).
+  - In N29 (20 further seeds, switch arms only) the switch at 25 generalized later than the one at 50 in 20/20 seeds (mean 1.01 log2).
+  - With re-initialization at a switch at 50, attention resets delayed generalization more than MLP resets (N29b, 15/20). Value-path resets delayed it more than equally sized query/key resets (N29c, 19/20, +1.31 log2). This is the same ordering in which they reduce persistence (K4d, K4e). We cannot tell whether this reflects an undone lock-in or simply more destroyed function (`speed_switch_resets_s32.py`).
   - On a finer grid (seeds 400–409, EXP-059 with EXP-056, same splits and initialization; predictions stated before reading these times) the mean delay was 0.27, 0.38, 0.53, 0.57, 0.55, 0.33 and −0.67 log2 at t = 10, 15, 20, 25, 30, 35 and 50. The delay rose, peaked at 25 and changed sign between 35 and 50, where π rose from 0.56 to 1.05 (`speed_switch_curve_s32.py`).
 The window is not fixed at 25–50:
   - In EXP-020 (CPU, 5 seeds, ≈ 73 % shared pairs) a switch at 50 was still slow, and one at 150 was not slower than the destination alone.

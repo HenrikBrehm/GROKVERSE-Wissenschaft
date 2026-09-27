@@ -1,0 +1,39 @@
+{
+ "transformer_P1": {
+  "n_runs": 100,
+  "missing": 0,
+  "even_2k": {
+   "n_nontarget": 107,
+   "hits": 99,
+   "share": 0.9252336448598131,
+   "expected_share": 0.09309144218435038,
+   "p": 7.959397081317498e-92
+  },
+  "odd_3k": {
+   "n_nontarget": 107,
+   "hits": 9,
+   "share": 0.08411214953271028,
+   "expected_share": 0.09290819131390875,
+   "p": 0.6714794907202253
+  }
+ },
+ "mlp_EXP045": {
+  "n_runs": 20,
+  "missing": 0,
+  "even_2k": {
+   "n_nontarget": 0,
+   "hits": 0,
+   "share": null,
+   "expected_share": null,
+   "p": null
+  },
+  "odd_3k": {
+   "n_nontarget": 0,
+   "hits": 0,
+   "share": null,
+   "expected_share": null,
+   "p": null
+  }
+ },
+ "reading": "MLP not evaluable (< 8 non-target members)"
+}

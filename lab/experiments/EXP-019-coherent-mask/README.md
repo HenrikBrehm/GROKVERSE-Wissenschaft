@@ -1,8 +1,8 @@
 ---
 id: EXP-019
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/positiv]
 verwandt: ["[[experiments/EXP-015-mask-spectrum/README|EXP-015]]", "[[experiments/EXP-018-split-speed/README|EXP-018]]", "[[experiments/EXP-012-init-gradient/README|EXP-012]]"]
 ---
 # EXP-019: Kohärentes Masken-Spektrum M0c gegen M0
@@ -77,3 +77,11 @@ die frühe Schwäche geht teils auf die Maske, teils auf die Init zurück (JOURN
 - **Bereits gesehene Daten:** Die EXP-018-Läufe wurden in Sitzung 32 nach Generalisierungszeit und Top-5-Überlappung mit F (`ov_F_*` in `summary_cuda.json`) ausgewertet. Die Arme E und R gab es mit denselben Seeds und Splits schon in EXP-041. Die Vorhersagegüte von M0 gegen M0c an den Endfrequenzen wurde nach unserer JOURNAL-Suche nie berechnet. Die Baselines 18/19 entstanden nach der Registrierung (Start 08:04/08:30 Berlin, Registrierung 06:11).
 - **Gerätemischung:** Die zwölf Einheiten mischen GPU-Läufe (Arm R) und CPU-Läufe (Baselines). Das betrifft nur die Herkunft von K, nicht den Vergleich M0 gegen M0c innerhalb einer Einheit (beide Prädiktoren an derselben Maske und demselben K).
 - **Befehl (im Fenster, Sekunden):** `python lab/tools/guarded_run.py -- python lab/experiments/EXP-019-coherent-mask/analyze.py --device cuda`
+
+## Ergebnis (Sitzung 36, 2026-09-28 01:31 Berlin, gemessen)
+
+Befehl wie oben → `summary_cuda.json`. **Primär (n = 12):** r̄(M0) 0.315, r̄(M0c) 0.232, d̄ = 0.082, p = 0.0012
+→ **Urteil: M0c besser** (H19 gestützt). M0c gegen die MC-Null p < 1e-5. Sekundär Arm D (n = 10): d̄ = 0.095, p = 0.0039.
+Sekundär, beschreibend: log E0 + log M0c schlägt M0c allein (r̄ 0.194 gegen 0.232, p = 0.022; Arm D 0.172 gegen 0.221,
+p = 0.001), die Init-Energie trägt also zusätzlich bei. Grenzen: Gerätemischung, dritter Nachtrag (siehe oben), EXP-018-Läufe
+zu anderen Größen schon gesehen. Siehe [[JOURNAL]] Sitzung 36, Zyklus 3.

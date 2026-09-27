@@ -1,8 +1,8 @@
 ---
 id: EXP-021
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/positiv]
 verwandt: ["[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experiments/EXP-020-data-switch/README|EXP-020]]"]
 ---
 # EXP-021: Sind die „Fehlgriffe“ unter konstruierten Splits zweite Harmonische der Zielfrequenzen? (Bestätigung)
@@ -28,3 +28,12 @@ desselben Arms (Zufall ≈ 1.4). Das Muster wurde erst beim Lesen gefunden, der 
 | **Grenzen** | Das Nullmodell behandelt die Nicht-Ziel-Frequenzen als unabhängig; die bekannte (k, 2k)-Neigung der W_E-Top-5 unter Zufallssplits ist ein allgemeiner Hintergrund, keine Alternative zu H21 (H21 behauptet gerade diese Neigung, bezogen auf die Ziele) |
 
 Auswertung: `python lab/experiments/EXP-021-harmonic-misses/analyze.py` (nach EXP-016 16–19 und EXP-020).
+
+## Ergebnis (Sitzung 36, 2026-09-28 01:31 Berlin, gemessen)
+
+Befehl: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-021-harmonic-misses/analyze.py` → `summary.json`.
+18 Läufe, 23 Nicht-Ziel-Glieder der W_E-Top-5 bei 2000. **22/23 sind gerade Oberwellen fold(2k) der eigenen Ziele**
+(erwartet 2.2, Poisson-Binomial p = 7.2e-22); Kontrolle mit den Zielen des anderen Arms 0/23 (erwartet 2.1, p = 1.0).
+**Urteil: bestätigt.** Einschränkung (vorab benannt, Sitzung 35): Die Regel stand vor den Läufen fest, die Daten waren
+zum Teil schon beschreibend gesehen (EXP-016 Seeds 16–19; EXP-020 Seed 33). F und G desselben Seeds teilen die Init.
+Siehe [[JOURNAL]] Sitzung 36, Zyklus 2; Folgefrage [[NOVEL_DIRECTIONS]] N45.

@@ -765,3 +765,16 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
   Übersicht https://arxiv.org/pdf/2411.04832); Resets einzelner Schichten aus RL/kontinuierlichem Lernen (https://arxiv.org/html/2410.20098v3). Nanda et al. 2023 (https://arxiv.org/abs/2301.05217) zum Mechanismus.
   **Nicht gefunden (vorläufig):** dass ein Attention-Reset schon nach ≈ 50 Schritten den Ausschluss neuer Merkmale bei einem Datenwechsel aufhebt, während MLP- und Unembedding-Reset es nicht tun.
 - **Nachtrag (Sitzung 23, EXP-069, Pilot):** Den Ausschluss trägt vor allem der Wertepfad (W_V, W_O; b 0.49), nicht das Muster (W_Q, W_K; b 3.17). Nach dem Wertepfad-Reset nutzt das Netz beide Mengen.
+
+
+## N33: Teilweises Zurückspulen beim Datenwechsel lokalisiert die Zeitabhängigkeit der Festlegung #neu/kandidat
+
+- **Frage:** Welcher Teil des Netzes trägt, dass eine Frequenzwahl nach 50 Schritten fest ist, nach 25 aber kaum? Werkzeug: beim Wechsel bei t einen Teil samt AdamW-Zustand auf seinen Stand bei R < t
+  zurücksetzen, den Rest behalten, weitertrainieren. Versuch: [[experiments/EXP-073-part-rewind/README|EXP-073]] (vorbereitet, Sitzung 24).
+- **Suche 2026-09-27 (Sitzung 24, WebSearch):** „rewind subset of layers to earlier checkpoint during training critical period localize which layers rewinding arxiv“, „layer-wise weight rewinding mixed checkpoint
+  chimera network continual learning plasticity which layer retains early features arxiv“. Nächstverwandt: **Modul-Kritikalität** (Chatterji et al. 2019, https://arxiv.org/pdf/1912.00528): einzelne Module
+  des *fertigen* Netzes auf frühere Epochen zurückspulen, ohne Weitertraining, um Generalisierung zu erklären → das Werkzeug „Modul zurückspulen“ ist **bekannt**. Gewichts-Rewinding beim Pruning
+  (Frankle et al. 2020, https://arxiv.org/pdf/2002.10365; Renda et al. 2020, https://arxiv.org/abs/2003.02389); Kritische Perioden (https://arxiv.org/abs/2506.15954); Resets der letzten Schicht
+  (https://arxiv.org/abs/2310.07996).
+- **Nicht gefunden (vorläufig):** das Zurückspulen eines Teils *samt Optimiererzustand* zum Zeitpunkt eines Datenwechsels mit anschließendem Weitertraining, um zu messen, welcher Teil die
+  Zeitabhängigkeit einer Festlegung trägt; dazu die Selbstprüfung „alles zurückspulen = früher wechseln“. Einordnung: neue Anwendung eines bekannten Werkzeugs, keine neue Methode.

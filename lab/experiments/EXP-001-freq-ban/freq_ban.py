@@ -74,6 +74,7 @@ SPECTRUM_EVERY = 250          # steps between stored W_E power spectra
 PARTIAL_WRITE_EVERY = 500     # steps between partial result.json writes
 RESET_PARTS = {"attn": ("W_Q", "W_K", "W_V", "W_O"), "mlp": ("W_in", "W_out"), "unembed": ("W_U",),   # EXP-067
                "qk": ("W_Q", "W_K"), "vo": ("W_V", "W_O")}                                          # EXP-069
+REWIND_PARTS = tuple(RESET_PARTS) + ("we", "rest", "all")   # EXP-073: "rest" = every parameter except W_E, "all" = every parameter
 
 STORED_RUN = "txf_add_p113_wd1.0_frac0.3_seed{seed}_arch25k"
 # Astra review point 3 (session 13): run fingerprint over every argument that changes the run or its artifacts, plus the
@@ -83,7 +84,8 @@ FINGERPRINT_ARGS = ("seed", "condition", "t0", "m", "steps", "stop_after_gen", "
                     "split_value", "warmup", "alternate_every", "reset_at_switch", "lr_scale", "we_init_scale",
                     "spectra_at", "p", "task", "arch", "device", "save_model")
 FINGERPRINT_FILES = ("split_file", "test_file", "switch_split_file")
-LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "reset_optim_part": None, "log_update_norms": 0}   # name -> default; in the fingerprint only if != default (s18, s21)
+LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "reset_optim_part": None, "log_update_norms": 0,
+             "rewind_at_switch": None, "rewind_from": None}   # name -> default; in the fingerprint only if != default (s18, s21, s24)
 LOCK_NAME = "run.lock"
 
 
@@ -406,6 +408,15 @@ def run(a: argparse.Namespace) -> dict:
         if a.switch_split_file is None or a.reset_optim_at_switch or a.reset_at_switch:
             raise SystemExit("--reset-optim-part needs --switch-split-file and excludes the other reset options")
         run_id += f"_ro{a.reset_optim_part}"
+    if (a.rewind_at_switch is None) != (a.rewind_from is None):
+        raise SystemExit("--rewind-at-switch and --rewind-from go together")
+    if a.rewind_at_switch:           # EXP-073 (session 24): one part back to its own state (weights + AdamW state) at step R
+        if (a.switch_split_file is None or not 0 <= a.rewind_from < a.switch_step or a.condition != "baseline"   # Codex s24: ban/shrink state is not rewound
+                or a.reset_at_switch or a.reset_optim_at_switch
+                or a.reset_optim_part or a.alternate_every or a.warmup or a.lr_scale != 1.0 or a.lr_scale_after_switch != 1.0):
+            raise SystemExit("--rewind-at-switch needs --switch-split-file, 0 <= --rewind-from < --switch-step, --condition baseline "
+                             "and excludes the reset, alternation, warmup and lr-scale options")
+        run_id += f"_rw{a.rewind_at_switch}{a.rewind_from}"
     if a.log_update_norms and (a.switch_split_file is None or a.log_update_norms < 1):
         raise SystemExit("--log-update-norms needs --switch-split-file and N >= 1")
     if a.split_value:                # EXP-023: position 1 gets its own attention value matrix
@@ -536,7 +547,7 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "lr_scale_until": LR_SCALE_UNTIL, "lr_scale_after_switch": a.lr_scale_after_switch, "lr_after_switch_steps": LR_AFTER_SWITCH_STEPS, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "spectra_at": sorted(extra_spec),
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "lr_scale_until": LR_SCALE_UNTIL, "lr_scale_after_switch": a.lr_scale_after_switch, "lr_after_switch_steps": LR_AFTER_SWITCH_STEPS, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "rewind_at_switch": a.rewind_at_switch, "rewind_from": a.rewind_from, "spectra_at": sorted(extra_spec),
            "device": a.device, "device_name": (torch.cuda.get_device_name(dev) if dev.type == "cuda" else platform.processor()),
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": {**cfg.to_dict(), "device": a.device},   # Astra 10: Config keeps 'cpu'; record the real device
@@ -583,7 +594,25 @@ def run(a: argparse.Namespace) -> dict:
         tmp.write_text(json.dumps(res, indent=1))
         os.replace(tmp, out_dir / "result.json")
 
+    rw_names: list[str] = []            # EXP-073: parameters to rewind and their snapshot (weights + AdamW state) at step R
+    rw_snap: dict = {}
+    if a.rewind_at_switch:
+        all_names = [nm for nm, _ in model.named_parameters()]
+        rw_names = (all_names if a.rewind_at_switch == "all" else [nm for nm in all_names if nm != "W_E"]
+                    if a.rewind_at_switch == "rest" else ["W_E"] if a.rewind_at_switch == "we"
+                    else [nm for nm in all_names if nm in RESET_PARTS[a.rewind_at_switch]])
+        if a.rewind_at_switch in RESET_PARTS and len(rw_names) != len(RESET_PARTS[a.rewind_at_switch]):
+            raise SystemExit(f"[exp] EXP-073 rewind part {a.rewind_at_switch}: parameters not found")
+
+    def rewind_snapshot() -> dict:
+        prm = dict(model.named_parameters())
+        return {nm: (prm[nm].detach().clone(),
+                     {k: (v.detach().clone() if torch.is_tensor(v) else v) for k, v in opt.state[prm[nm]].items()}
+                     if prm[nm] in opt.state else None) for nm in rw_names}
+
     step, t_start = 0, time.perf_counter()
+    if a.rewind_at_switch and a.rewind_from == 0:
+        rw_snap = rewind_snapshot()
     dense_eval(0); spectrum(0)
     gen_thr = THRESHOLD_SETS["primary"][1]
     stop_at = a.steps
@@ -645,6 +674,8 @@ def run(a: argparse.Namespace) -> dict:
             if step == ban_from:
                 events["post_ban_acc"] = {"train": evaluate(model, trx, try_, p)[1],
                                           "test": evaluate(model, tex, tey, p)[1]}
+        if a.rewind_at_switch and step == a.rewind_from:          # EXP-073: state after the update of step R
+            rw_snap = rewind_snapshot()
         if switch_idx is not None and step == a.switch_step:     # EXP-020: new train set from the next step on
             old = data["train_idx"].numpy()
             sub = {"G_minus_F": np.setdiff1d(switch_idx.numpy(), old), "F_minus_G": np.setdiff1d(old, switch_idx.numpy()),
@@ -682,6 +713,33 @@ def run(a: argparse.Namespace) -> dict:
                                              "train_acc_after": evaluate(model, trx, try_, p)[1]}
                 if not check:
                     raise SystemExit("[exp] EXP-038 reset check failed")
+            if a.rewind_at_switch:        # EXP-073: selected parameters and their AdamW state back to step R, the rest untouched
+                prm = dict(model.named_parameters())
+                before = {nm: q.detach().clone() for nm, q in prm.items()}
+                old_x, old_y = data["all_x"][data["train_idx"]].to(dev), data["all_y"][data["train_idx"]].to(dev)
+                diag = lambda: {"new": list(evaluate(model, trx, try_, p)), "old": list(evaluate(model, old_x, old_y, p))}   # noqa: E731
+                diag_before = diag()          # Codex s24: loss/acc [loss, acc] on the new and old split before and after the rewind
+                with torch.no_grad():
+                    for nm, (w, st) in rw_snap.items():
+                        prm[nm].copy_(w)
+                        if st is None:
+                            opt.state.pop(prm[nm], None)
+                        else:
+                            opt.state[prm[nm]] = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in st.items()}
+                same = lambda s1, s2: s1.keys() == s2.keys() and all(torch.equal(s1[k], s2[k]) if torch.is_tensor(s1[k])   # noqa: E731
+                                                                   else s1[k] == s2[k] for k in s1)
+                check = (set(rw_snap) == set(rw_names) and len(rw_names) > 0
+                         and all(torch.equal(prm[nm], rw_snap[nm][0]) and ((prm[nm] not in opt.state) if rw_snap[nm][1] is None
+                                                                       else same(opt.state[prm[nm]], rw_snap[nm][1]))
+                                 for nm in rw_names)
+                         and all(torch.equal(q, before[nm]) and q in opt.state for nm, q in prm.items() if nm not in rw_names))
+                events["rewind_at_switch"] = {"which": a.rewind_at_switch, "from_step": a.rewind_from, "names": rw_names,
+                                              "n_params": sum(prm[nm].numel() for nm in rw_names), "check": check,
+                                              "change_norm": {nm: float((before[nm] - prm[nm]).norm()) for nm in rw_names},
+                                              "train_acc_after": evaluate(model, trx, try_, p)[1],
+                                              "diag_before": diag_before, "diag_after": diag()}
+                if not check:
+                    raise SystemExit("[exp] EXP-073 rewind check failed")
             if a.reset_optim_at_switch:   # EXP-057: fresh AdamW state (moments and step counters) for every parameter
                 params = list(model.parameters())
                 snap = [q.detach().clone() for q in params]
@@ -781,6 +839,9 @@ def main() -> None:
     ap.add_argument("--reset-at-switch", choices=("we", "rest") + tuple(RESET_PARTS), default=None,
                     help="EXP-038: at --switch-step reset W_E or all other parameters to init (+ their AdamW state); "
                          "EXP-067/069: or only one part of the rest (attn, mlp, unembed, qk, vo)")
+    ap.add_argument("--rewind-at-switch", choices=REWIND_PARTS, default=None,
+                    help="EXP-073: at --switch-step set this part (weights + AdamW state) back to its state after step --rewind-from")
+    ap.add_argument("--rewind-from", type=int, default=None, help="EXP-073: step R of the rewind snapshot (0 = init)")
     ap.add_argument("--lr-scale", type=float, default=1.0,
                     help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
     ap.add_argument("--lr-scale-after-switch", type=float, default=1.0,

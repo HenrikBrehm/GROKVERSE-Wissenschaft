@@ -139,13 +139,56 @@ def test_verify_artifacts(tmp: Path) -> None:
         raise AssertionError("verify_artifacts accepted a broken record")
 
 
+def test_rewind(tmp: Path) -> None:
+    """EXP-073 (session 24): rewinding ALL parameters (weights + AdamW state) to step R at the switch step t must reproduce
+    the run that switches at R (constant lr, no step-dependent schedule); a partial rewind must differ; the fingerprint of
+    runs without the option stays unchanged; invalid combinations are refused."""
+    import numpy as np
+    f1 = fb.run_fingerprint(ns())[0]
+    assert fb.run_fingerprint(ns(rewind_at_switch=None, rewind_from=None))[0] == f1, "default rewind arguments changed the fingerprint"
+    assert fb.run_fingerprint(ns(rewind_at_switch="vo", rewind_from=5))[0] != f1, "fingerprint ignores --rewind-at-switch"
+    out = tmp / "rw"
+    spl = ROOT / "lab/experiments/EXP-056-overlap-persistence/splits"     # Codex s24: switch runs need a common test set
+    base = [sys.executable, str(FB), "--seed", "400", "--condition", "baseline", "--threads", "1", "--out-root", str(out),
+            "--split-file", str(spl / "seed400_w0_A.npy"), "--switch-split-file", str(spl / "seed400_w0_B.npy"),
+            "--test-file", str(spl / "seed400_test.npy"), "--save-model"]
+    run = lambda *x: subprocess.run(base + list(x), cwd=ROOT, capture_output=True, text=True, timeout=600)   # noqa: E731
+    r_ref = run("--steps", "25", "--switch-step", "10")
+    r_all = run("--steps", "30", "--switch-step", "15", "--rewind-at-switch", "all", "--rewind-from", "10")
+    r_vo = run("--steps", "30", "--switch-step", "15", "--rewind-at-switch", "vo", "--rewind-from", "10")
+    for r in (r_ref, r_all, r_vo):
+        assert r.returncode == 0, r.stdout + r.stderr
+    import torch
+    d = {}
+    for k in ("at10", "rwall10", "rwvo10"):
+        hits = list(out.glob(f"*{k}"))
+        assert len(hits) == 1, (k, hits)
+        d[k] = hits[0]
+    m = {k: torch.load(v / "model_final.pt", map_location="cpu") for k, v in d.items()}
+    assert all(torch.equal(m["at10"][n], m["rwall10"][n]) for n in m["at10"]), "rewind all != switch at R"
+    assert not torch.equal(m["at10"]["W_E"], m["rwvo10"]["W_E"]), "partial rewind indistinguishable from switch at R"
+    ev = json.loads((d["rwvo10"] / "result.json").read_text(encoding="utf-8"))["events"]["rewind_at_switch"]
+    assert ev["check"] is True and ev["names"] == ["W_V", "W_O"] and ev["from_step"] == 10, ev
+    sp = {k: np.load(v / "spectra.npy")[-1] for k, v in d.items()}
+    assert np.array_equal(sp["at10"], sp["rwall10"])
+    assert set(ev["diag_before"]) == {"new", "old"} and len(ev["diag_after"]["new"]) == 2, ev
+    for bad in (("--rewind-at-switch", "vo"), ("--rewind-at-switch", "vo", "--rewind-from", "15"),
+                ("--rewind-at-switch", "vo", "--rewind-from", "5", "--reset-at-switch", "qk")):
+        r = run("--steps", "30", "--switch-step", "15", *bad)
+        assert r.returncode != 0, bad
+    rb = subprocess.run([x if x != "baseline" else "ban_random" for x in base] + ["--steps", "30", "--switch-step", "15",
+                        "--rewind-at-switch", "vo", "--rewind-from", "5"], cwd=ROOT, capture_output=True, text=True, timeout=600)
+    assert rb.returncode != 0 and "--condition baseline" in (rb.stdout + rb.stderr), rb.stdout + rb.stderr
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory() as t:
         tmp = Path(t)
         for name, fn in (("fingerprint_unit", lambda: test_fingerprint_unit()),
                          ("pid_and_atomic_unit", lambda: test_pid_and_atomic_unit(tmp)),
                          ("verify_artifacts", lambda: test_verify_artifacts(tmp)),
-                         ("integration", lambda: test_integration(tmp))):
+                         ("integration", lambda: test_integration(tmp)),
+                         ("rewind", lambda: test_rewind(tmp))):
             fn()
             print(f"[test_freq_ban_fingerprint] {name} ok", flush=True)
     print("[test_freq_ban_fingerprint] all ok", flush=True)

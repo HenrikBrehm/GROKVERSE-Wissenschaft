@@ -89,7 +89,11 @@ def equivalence() -> tuple[dict, bool]:
     diag = {}
     dv = HERE / "raw_equiv_cpu_venv" / "EXP-016_baseline_seed10_thr4_split_seed10_eps2.0"
     dc = E16 / "raw" / "EXP-016_baseline_seed10_thr4_split_seed10_eps2.0"
-    if (dv / "result.json").exists():
+    if (dv / "result.json").exists() and load(dv).get("status") != "completed":   # s20: aborted diagnostic -> report, do not crash
+        rv = load(dv)
+        diag = {"status": rv.get("status"), "steps_completed": rv.get("steps_completed"),
+                "note": "diagnostic incomplete (not a criterion); see JOURNAL"}
+    elif (dv / "result.json").exists():
         rv, rc10 = load(dv), load(dc)
         s0v, s0c = np.load(dv / "spectra.npy")[0], np.load(dc / "spectra.npy")[0]
         diag = {"same_init_spectrum": bool(np.allclose(s0v, s0c, rtol=1e-6, atol=0)),

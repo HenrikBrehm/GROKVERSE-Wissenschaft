@@ -2754,3 +2754,8 @@ wird, oder A-Schritte mit kleiner Lernrate bei gleicher Strecke), vor dem Einfri
 Warmup verzögert (EXP-035). Alles Piloten, aber sie zeigen in dieselbe Richtung: Die Festlegung sitzt im Netz. *Wiederholen wir uns?* Nein: P1/P2 sind eingefroren, der Block läuft.
 *Messungen geeignet?* π ist trennscharf für das Niveau, aber zu verrauscht für Steigungen bei n = 10. *Fehlerquelle dieser Sitzung:* dreimal eine eigene Prüfung, die nicht das
 prüfte, was lief (Exit-Code von `tail`, feste Muster statt der Funktion, relative Pfade im Test). *Lehre:* Den echten Codepfad am echten Objekt testen.
+
+**Zyklus 10 (passive Spur als Erklärung für π(0) > 0, 04:59 gemessen, post hoc).** *Frage:* Ist die Persistenz ohne geteilte Paare nur ein Rest der 25 A-Schritte in W_E?
+*Methode:* π ist ein reines W_E-Maß, gleiche Init je Seed → Vorhersage der passiven Spur rechnen: W_E(reiner zweiter Lauf) + c·(W_E^A(25) − W_E(0)). *Ergebnis:* π_Spur = 0.003 (c = 0.135)
+bzw. 0.063 (c = 1, obere Grenze), beobachtet 0.34. *Entscheidung:* Die passive Spur ist als Erklärung ausgeschlossen (beschreibend, aber der Abstand ist groß). Die Rechnung wird
+als vorab festgelegte Kontrolle in P3 übernommen. Das Bild aus EXP-038, EXP-056 und diesem Befund: Das Netz verstärkt eine sehr frühe Wahl aktiv, und die Wahl ist im Netz verteilt.

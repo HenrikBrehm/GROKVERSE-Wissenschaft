@@ -2474,3 +2474,17 @@ nichts Pflichtiges offen, als Nächstes kommt der Ablauf 18b aus [[STATE]].
   `test_night_program.py` ist grün. **Offen:** `confirm_p1.py` schreibt `.venv-gpu/Scripts/python.exe` in Jobzeilen. Das scheitert genauso, und Backslashes lehnt `parallel_queue` in Zeilen ab.
   Vor der Nutzung des Bestätigungsblocks lösen (z. B. `guarded_run` normalisiert cmd[0], das entscheidet der Nutzer, oder absoluter Pfad mit Schrägstrichen testen).
 - *Zweiter Start 02:34:* `gpu001_env` ok, dann `gpu001_components` (Stufe 0, Astra 9). Wiederaufnahme: `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1`.
+
+**Zyklus 4 (GPU-001: Liefert die RX 7900 XT gleichwertige Läufe? 02:34–02:51 gemessen).** Vorab festgelegt in [[experiments/GPU-001-equivalence/README|GPU-001]] (Stufen, Toleranzen).
+- *Stufe 0 Komponenten (Astra 9):* C1 Logits/Loss (1e-4), C2 Gradienten (1e-3), C3 AdamW-Update (1e-3), C4, C5 (Wiederholung) **alle PASS**, GPU-Speicher 189 MB. torch 2.9.1+rocm7.2.1, HIP 7.2.
+- *Regression (CPU-Pfad nach `--device`):* PASS (gleiche Top-5 wie der alte Smoke).
+- *Gleichwertigkeit (Seeds 10–12, EXP-016-Splits, 2000 Schritte, GPU `--threads 1` gegen gespeicherte CPU-Läufe):* **PASS**. A1 ja; A2 9/9 (Top-5-Überlappung ≥ 4 bei 250/500/1000/2000,
+  bei 2000 jeweils 5/5); A3 ja (gen CPU/GPU: 775/800, 625/625, Seed 10 ebenfalls innerhalb der Toleranz); Endgenauigkeit gleich. Der Train-Loss weicht ab Schritt ≈ 110–120 um > 1 % ab
+  (bei Schritt 500 1–3 %). Erwartbar, keine Bitgleichheit (Regel 16b). **Tempo: 0.0074 s/Schritt GPU gegen 0.129 s CPU (4 Threads), also ≈ 17×.** Speicher 241 MB je Lauf.
+- *Diagnose Version gegen Gerät (Astra 10, kein Kriterium):* derselbe CPU-Lauf mit der torch aus `.venv-gpu`, ohne `--threads`. Er brauchte ≈ 1.3 s/Schritt (500 Schritte in ≈ 11 min),
+  ≈ 10× langsamer als die globale CPU-torch. **Abgebrochen 02:49 (Regel 14: deutlich langsamer als geplant, hätte das GPU-Programm ≈ 45 min blockiert).** Der Abbruch ließ `compare.py
+  equivalence` am unvollständigen Lauf abstürzen (ValueError, Schritt 2000 fehlt). Behoben: Unvollständige Diagnose wird als „status running, 500 Schritte“ berichtet. Das Urteil
+  darüber hinaus unverändert. Die Versionsfrage bleibt damit offen. Befund nebenbei: **Die CPU-torch der ROCm-venv ist für CPU-Läufe ungeeignet** (Ursache ungeprüft, vermutlich
+  ohne MKL bzw. mit anderer Threadzahl). CPU-Läufe bleiben beim globalen Python.
+- *Entscheidung:* GPU nach Regel 16/Astra 9 für neue Versuche freigegeben, weiter „experimentell“ bis zu einem langen Lauf (EXP-045 10 000 Schritte liefert ihn). Nachtprogramm neu gestartet
+  02:50 (`night2.log`). Da `compare.py` geändert wurde, hat sich das Siegel geändert: Komponenten und Regression laufen noch einmal (≈ 2 min), die Gleichwertigkeit wird übersprungen (Urteil mit neuem Siegel), dann Durchsatz J = 1/2/4/8.

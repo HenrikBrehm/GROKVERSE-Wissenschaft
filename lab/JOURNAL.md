@@ -3308,3 +3308,10 @@ kritische Perioden (Achille 2019, Kleinman 2023/24), Primacy Bias; K4d/e — Tei
 Mindesteffekt 1) und `lab/tools/confirm_r1.py` (P1-Konstruktion mit dem Anteil als Parameter, ohne `confirm_splits.py` zu ändern). ε-Kalibrierung auf gleichen M0-Zielanteil (numpy, Kalibrier-Seeds):
 2.838 (0.2), 1.465 (0.5). **Codex:** drei Blocker (Bisektion ohne Monotonie-Garantie, Seeds/ε nicht validiert, versprochene Diagnosen fehlten), alle selbst bestätigt und behoben; Aussage auf
 „nach 2000 Optimierer-Schritten“ eingeengt. Nachprüfung zuerst ungültig (mein Auftrag verbot auch das Lesen), dann ohne Befund. Ungetestet bis 00:00.
+
+**Nachtrag zum Abschlussbericht Sitzung 24 (14:10, gemessen): Regel 19 (Veröffentlichung vorbereiten)** kam um ≈ 13:40 als neuer Nutzerauftrag hinzu (in der Präambel geprüft).
+Erledigt: [[paper/STATUS]] mit „Offen für den Nutzer“ (Autorschaft/Rechte der Originalstudie, Einreichung, Venue, KI-Offenlegung, menschliche Literaturprüfung); [[paper/draft]] (alle bestätigten
+Aussagen mit Zahlen aus FINDINGS_DETAILS, Methoden-Definitionen, Positionierung gegen LeDoux 2026 / Marchetti et al. 2026 / Lyle et al. 2025, Explorationen getrennt); [[paper/related_work]]
+(≈ 50 Arbeiten, Suchprotokoll, Prüfgrad je Eintrag; Stichprobe LeDoux selbst geprüft); Abbildungen 1–4 als Skripte aus gespeicherten Läufen/eingefrorenen Zusammenfassungen; [[paper/repro/README]];
+Robustheit: Trainer-Optionen `--lr/--weight-decay/--train-frac` (Codex), [[confirm/R1_REGISTRATION_DRAFT|R1]] + `confirm_r1.py` (Codex, kalibriert); [[confirm/P4_REGISTRATION_DRAFT|P4]]-Entwurf (Code fehlt).
+**Ungetestet bis 00:00:** `--rewind-at-switch`, die Hyperparameter-Optionen, `confirm_p2f.py` nach den Codex-Änderungen, `confirm_r1.py`. **Nächste Aktion unverändert:** [[STATE]] „Nächste Schritte“.

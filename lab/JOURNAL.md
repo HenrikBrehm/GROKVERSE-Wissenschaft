@@ -3775,7 +3775,7 @@ Ergebnis (normal − rom): Anteil der alten Ziele am Ende t = 25/30/35/50: **+0.
 ### Abschlussbericht Sitzung 29 (2026-09-27, 17:59–18:12 Berlin, gemessen; Run-Fenster die ganze Zeit zu, kein Training, kein Test)
 
 **Ergebnisse:** (1) Literatur zur Init-Skala und zur Festlegungszeit sowie erste direkte Google-Scholar-Abfrage: K2/K4 weiter „nach unserer Suche nicht gefunden“; neu zur menschlichen Prüfung Stevinson & Prieto 2026 (Kontext K2-Funktion). (2) Vorprüfung von H40 an gesehenen EXP-039-Läufen (Exploration): Die Wahl fällt, wenn die Zielverschiebung ≈ 1/3–2/3 der Median-Init-Amplitude erreicht; R wächst linear in Λ. Lesehinweis: Der Invarianzvergleich von EXP-040 trägt nur über die s-Zellen. (3) Kandidat N41 (nur Init-Hintergrund skalieren), bewusst nicht gebaut.
-**Eigene Fehler:** unmessene Uhrzeiten (korrigiert) und sechsfach angehängte Abschnitte durch ein Hilfsskript mit Seiteneffekten beim Import (bereinigt, Merkregel im Gedächtnis).
+**Eigene Fehler:** ungemessene Uhrzeiten (korrigiert) und sechsfach angehängte Abschnitte durch ein Hilfsskript mit Seiteneffekten beim Import (bereinigt, Merkregel im Gedächtnis).
 **Reproduktion:** `python lab/confirm/EXP039_posthoc_R.py` (nur numpy auf gespeicherten Läufen).
 **Nächste Aktion:** ab 00:00 [[STATE]] Schritte 1–10 (unverändert).
 **Runner:** aktiv; next_start_utc 2026-09-27T19:34:45Z = **21:34 Berlin**. **Früh beendet**, wie Sitzung 28: Der Nachtplan ist voll und vorbereitet; ohne Rechenfenster blieben nur weitere Mini-Explorationen am selben Thema (Regel 15b) oder ungetesteter Code für Versuche, deren Voraussetzung (EXP-040) erst heute Nacht entschieden wird.

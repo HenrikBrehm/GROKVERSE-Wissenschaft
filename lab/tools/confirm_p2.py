@@ -41,6 +41,8 @@ def arm_row(man: dict, s: int, arm: str, other: str, T: dict, common: np.ndarray
                            config={"p": TASK["p"], "task": TASK["task"]}, files=("model_final.pt",)))
     if L.status != "ok":
         return f"{L.status}: {L.reason}"
+    if (why := c1.post_load_check(man, d, L.res, c1.SPLITS / f"{st}.npy")):
+        return why
     m = e51.load_model(L.path)
     W = m.W_E.detach().numpy().astype(np.float64)[:e51.P]
     base = e55.evaluate(m, None, common)

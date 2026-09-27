@@ -27,8 +27,11 @@ import hashlib
 import itertools
 import json
 import os
+import shlex
+import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -43,6 +46,7 @@ STEP, ALPHA, FAMILY, MIN_EFFECT, N_BOOT, N_MC = 2000, 0.05, 3, 1.0, 10_000, 200_
 RAW = LAB / "confirm" / "raw"
 BIND = LAB / "confirm" / "bindings"
 UNBOUND_NAMES = ("run.lock",)                             # trainer lock files are removed or stale, never results
+POLL_S = 2.0                                              # code gate interval while the trainer runs (Codex B1 review, s21)
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 GT = "lab/experiments/EXP-046-dihedral-steering/group_train.py"
 
@@ -131,31 +135,90 @@ def run_dir_for(cmd: list[str]) -> list[Path]:
     return [d for d in RAW.glob("*") if d.is_dir() and split in d.name and f"seed{seed}_" in d.name.split(split)[0]] if RAW.exists() else []
 
 
+def check_job(man: dict, cmd: list[str]) -> None:
+    """Codex B1 review (s21): --run executes only commands of the frozen job list, nothing else."""
+    if cmd not in [shlex.split(j) for j in trainer_jobs(man)]:
+        raise SystemExit(f"not a job of the frozen manifest: {' '.join(cmd)[:120]}")
+
+
+def _state(dirs: list[Path]) -> dict[str, str]:
+    return {q.relative_to(LAB.parent).as_posix(): _sha(q) for d in dirs for q in sorted(d.rglob("*")) if _bindable(q)}
+
+
+def _run_gated(man: dict, cmd: list[str]) -> tuple[int, str | None]:
+    """Trainer with a fresh bytecode cache (no stale or foreign .pyc can run) and the code gate every POLL_S seconds;
+    a change kills the trainer. Returns (exit code, reason if the code changed)."""
+    pyc = tempfile.mkdtemp(prefix="confirm_pyc_")
+    try:
+        proc = subprocess.Popen(cmd, cwd=LAB.parent, env={**os.environ, "PYTHONPYCACHEPREFIX": pyc})
+        while True:
+            try:
+                rc = proc.wait(timeout=POLL_S)
+                break
+            except subprocess.TimeoutExpired:
+                try:
+                    check_code(man)
+                except SystemExit as ex:
+                    proc.kill()
+                    return proc.wait(), str(ex)
+        try:
+            check_code(man)
+        except SystemExit as ex:
+            return rc, str(ex)
+        return rc, None
+    finally:
+        shutil.rmtree(pyc, ignore_errors=True)
+
+
 def run_bound(manifest: Path, cmd: list[str]) -> int:
-    """Session 21 (Codex B1): gate -> trainer -> gate -> binding. The binding lists only files of the job's own run directory
-    written after the start (a skipped, already completed run binds nothing new). Exit code = trainer's, 4 if a gate fails after."""
+    """Session 21 (Codex B1 + its review): gates -> trainer (polled gate) -> gate -> binding. The binding lists the files of the
+    job's own run directory that are NEW or CHANGED against the state before the start (no timestamps). Before the start: an
+    already bound run is skipped (exit 0), an unbound COMPLETED run is refused (exit 4; never bind work of unknown code).
+    Exit code = trainer's; 4 if a gate fails, the code changes, or a successful run leaves no new result.json."""
     man = json.loads(manifest.read_text(encoding="utf-8"))
     check_manifest(manifest, man)
+    check_job(man, cmd)
+    pre_dirs = run_dir_for(cmd)
+    if len(pre_dirs) == 1 and (pre_dirs[0] / "result.json").exists() and unbound(man, pre_dirs[0]) is None:
+        print(f"[confirm_p1] {pre_dirs[0].name} already bound, skipped", flush=True)
+        return 0
+    for d in pre_dirs:
+        try:
+            done = json.loads((d / "result.json").read_text(encoding="utf-8")).get("status") == "completed"
+        except (OSError, ValueError):
+            done = False
+        if done:
+            print(f"[confirm_p1] {d.name}: completed but not bound to the frozen code; refused (move it away)", file=sys.stderr, flush=True)
+            return 4
+    pre = _state(pre_dirs)
     t0 = time.time_ns()
-    rc = subprocess.run(cmd, cwd=LAB.parent).returncode
-    try:
-        check_code(man)
-    except SystemExit as ex:
-        print(f"[confirm_p1] code changed during the run, no binding: {ex}", file=sys.stderr, flush=True)
+    rc, changed = _run_gated(man, cmd)
+    if changed:
+        print(f"[confirm_p1] code changed during the run, no binding: {changed}", file=sys.stderr, flush=True)
         return 4
     dirs = run_dir_for(cmd)
-    files = {} if rc != 0 or len(dirs) != 1 else {
-        q.relative_to(LAB.parent).as_posix(): _sha(q) for q in sorted(dirs[0].rglob("*")) if _bindable(q) and q.stat().st_mtime_ns >= t0}
+    post = _state(dirs) if rc == 0 and len(dirs) == 1 else {}
+    files = {k: v for k, v in post.items() if pre.get(k) != v}
     BIND.mkdir(parents=True, exist_ok=True)
     rec = {"code_digest": code_digest(man), "manifest_commit": man["commit"], "cmd": cmd, "exit": rc, "t0_ns": t0,
            "t1_ns": time.time_ns(), "run_dirs": [d.name for d in dirs], "files": files}
     name = f"{hashlib.sha256(' '.join(cmd).encode()).hexdigest()[:16]}_{t0}_{os.getpid()}.json"
     with open(BIND / name, "x", encoding="utf-8") as f:
         json.dump(rec, f, indent=1)
-    if rc == 0 and len(dirs) != 1:
-        print(f"[confirm_p1] expected one run directory, found {len(dirs)}: binding without files", file=sys.stderr, flush=True)
+    if rc == 0 and (len(dirs) != 1 or not any(k.endswith("/result.json") for k in files)):
+        print(f"[confirm_p1] {len(dirs)} run directories / no new result.json: nothing usable bound", file=sys.stderr, flush=True)
         return 4
     return rc
+
+
+def post_load_check(man: dict, d: Path, res: dict, split: Path) -> str | None:
+    """Codex B1 review (s21): re-check the binding AFTER loading (hash -> load -> hash) and pin the exact split bytes the trainer
+    used (fingerprint_fields.split_file_sha256 of freq_ban and group_train) to the current split file."""
+    if (why := unbound(man, d)):
+        return f"defekt: {why}"
+    if res.get("fingerprint_fields", {}).get("split_file_sha256") != _sha(split):
+        return "defekt: split bytes differ from the ones the trainer used"
+    return None
 
 
 _BOUND: dict[str, set[tuple[str, str]]] = {}
@@ -196,7 +259,9 @@ def power_at(man: dict, t: dict, s: int, arm: str, init: int | None = None) -> n
         L = load_run(d,
                      Expect(seed=s, device=dev, max_steps=STEP, split_file=split, config={"p": 2 * t["p"], "group": f"D{t['p']}"},
                             at=(STEP,)))
-        return L.spectrum(STEP) if L.status == "ok" else f"{L.status}: {L.reason}"
+        if L.status != "ok":
+            return f"{L.status}: {L.reason}"
+        return post_load_check(man, d, L.res, split) or L.spectrum(STEP)
     suffix = "" if (t["task"], t["p"]) == ("add", 113) else f"_{t['task']}{t['p']}"
     devsuf = "" if dev == "cpu" else f"_dev{dev}"            # freq_ban: CPU run-ids carry no device suffix
     d = find_run(RAW, f"EXP-0*_baseline_seed{init}_thr*_{st}{suffix}{devsuf}")
@@ -207,6 +272,8 @@ def power_at(man: dict, t: dict, s: int, arm: str, init: int | None = None) -> n
                         snapshots_at=(STEP,)))
     if L.status != "ok":
         return f"{L.status}: {L.reason}"
+    if (why := post_load_check(man, d, L.res, split)):
+        return why
     sys.path.insert(0, str(LAB / "experiments/EXP-043-generalize-steering"))
     from analyze import group_power                       # EXP-043 group-basis power (add 113 = plain DFT, k = 1..56)
     return group_power(L.snapshot(STEP), t["task"], t["p"])[0]
@@ -477,8 +544,8 @@ def _selftest_binding() -> None:
             assert "extra.npy" in unbound(man, d)
             # run_bound end to end with a fake trainer; gates stubbed (they need a committed manifest)
             g = globals()
-            gates = g["check_manifest"], g["check_code"]
-            g["check_manifest"], g["check_code"] = (lambda *_: None), (lambda *_: None)
+            gates = g["check_manifest"], g["check_code"], g["check_job"]
+            g["check_manifest"], g["check_code"], g["check_job"] = (lambda *_: None), (lambda *_: None), (lambda *_: None)
             try:
                 mf = Path(tmp) / "m.json"
                 mf.write_text(json.dumps(man))
@@ -489,10 +556,43 @@ def _selftest_binding() -> None:
                 assert run_bound(mf, cmd) == 0
                 _BOUND.clear()
                 assert unbound(man, Path(d2)) is None
+                assert run_bound(mf, cmd) == 0                            # already bound -> skipped (mkdir would fail)
+                d3 = RAW / "EXP-001_baseline_seed1005_thr1_confirm_w_G"   # unbound completed run from elsewhere -> refused
+                d3.mkdir()
+                (d3 / "result.json").write_text('{"status": "completed"}')
+                assert run_bound(mf, [sys.executable, "-c", "pass", "--seed", "1005", "--split-file", "s/confirm_w_G.npy"]) == 4
+                d4 = RAW / "EXP-001_baseline_seed1006_thr1_confirm_v_G"   # trainer exits 0 without writing -> nothing bound
+                d4.mkdir()
+                (d4 / "result.json").write_text('{"status": "running"}')
+                assert run_bound(mf, [sys.executable, "-c", "pass", "--seed", "1006", "--split-file", "s/confirm_v_G.npy"]) == 4
+                _BOUND.clear()
+                assert "result.json" in unbound(man, d4)
+                def gate_trips(*_):                                        # code changes while the trainer sleeps -> killed
+                    raise SystemExit("changed")
+                g["check_code"], g["POLL_S"] = gate_trips, 0.2
+                t_start = time.time()
+                assert run_bound(mf, [sys.executable, "-c", "import time; time.sleep(30)", "--seed", "1007",
+                                      "--split-file", "s/confirm_u_G.npy"]) == 4
+                assert time.time() - t_start < 10
+                g["POLL_S"] = 2.0
                 assert run_bound(mf, [sys.executable, "-c", "raise SystemExit(3)", "--seed", "1003", "--split-file", "s/z.npy"]) == 3
                 assert run_bound(mf, [sys.executable, "-c", "pass", "--seed", "1004", "--split-file", "s/none.npy"]) == 4
             finally:
-                g["check_manifest"], g["check_code"] = gates
+                g["check_manifest"], g["check_code"], g["check_job"] = gates
+            man_j = {"experiment": 1, "eps": 2.0, "seeds": [1000], "device": "cuda", "python": "PY", "threads": 1,
+                     "tasks": [{"task": "add", "p": 113}]}
+            check_job(man_j, shlex.split(trainer_jobs(man_j)[0]))
+            try:
+                check_job(man_j, shlex.split(trainer_jobs(man_j)[0]) + ["--force"])
+                raise AssertionError("foreign command accepted")
+            except SystemExit:
+                pass
+            sp = Path(tmp) / "s.npy"
+            sp.write_bytes(b"x")
+            (d / "extra.npy").unlink()
+            _BOUND.clear()
+            assert post_load_check(man, d, {"fingerprint_fields": {"split_file_sha256": _sha(sp)}}, sp) is None
+            assert "split bytes" in post_load_check(man, d, {"fingerprint_fields": {"split_file_sha256": "0"}}, sp)
     finally:
         RAW, BIND = keep
         _BOUND.clear()

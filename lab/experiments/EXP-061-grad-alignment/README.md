@@ -1,8 +1,8 @@
 ---
 id: EXP-061
-status: vorbereitet
+status: verworfen
 datum: 2026-09-27
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/verworfen, befund/negativ]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-059-momentum-exposure/README|EXP-059]]", "[[experiments/EXP-060-early-lead/README|EXP-060]]", "[[experiments/EXP-038-where-lockin/README|EXP-038]]", "[[JOURNAL]]"]
 ---
 # EXP-061: Verstärkt schon der Gradient der neuen Daten die alte Wahl? (Pilot, Programm B/C)
@@ -30,3 +30,16 @@ eingestellte Netz. Ab einem Punkt verstärkt er die schon gelernte X-Struktur in
 python lab/tools/parallel_queue.py lab/experiments/EXP-061-grad-alignment/jobs.txt --workers 3
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-061-grad-alignment/analyze.py
 ```
+
+## Ergebnis (Sitzung 22, Läufe 07:38–07:47, Auswertung 07:48 Berlin; `summary.json`): ***verworfen***
+
+100/100 Läufe ok, 50/50 Punkte; das Modell bei t stimmt mit dem W_E-Schnappschuss bei t überein (geprüft).
+
+- **c_own (Mittel):** −0.48 / −0.60 / −0.66 / −0.74 / −0.78 bei t = 10 / 20 / 25 / 35 / 50. c_other −0.43 … −0.57.
+- **V1 nein:** Der Gradient der neuen Daten zeigt **gegen** die gelernte Struktur der alten Ziele, und das umso stärker, je später gewechselt wird, obwohl π gleichzeitig von 0 auf 1 steigt.
+- **V2 nein:** Innerhalb von t Spearman(c_own, π) im Mittel −0.25.
+- **Lesart:** Eine Selbstverstärkung über den Rohgradienten in W_E erklärt die Festlegung nicht; erster Ordnung baut das neue Training die alte Struktur ab. Die Persistenz muss aus der weiteren
+  Dynamik kommen: Adam-Normierung je Koordinate (v aus der A-Phase), Weight Decay, das Zusammenspiel mit dem Rest des Netzes oder schlicht daraus, dass die B-Struktur langsamer wächst, als die
+  A-Struktur schrumpft. Rohgradient und Kosinus erster Ordnung sind grobe Werkzeuge; das Urteil gilt nur für dieses Maß.
+- **Nächste Frage (nicht festgelegt):** Wachstumsraten statt Richtungen: Wie schnell schrumpft die A-Energie und wie schnell wächst die B-Energie nach dem Wechsel, je t (aus den Spektren bei t + 250 und
+  am Ende, schon gespeichert)? Ein Wettlauf zweier Raten würde die Steilheit von π(t) ohne Selbstverstärkung erklären.

@@ -2946,3 +2946,16 @@ normal@50 beschreibend.
 (3) Ausschluss wegen undurchführbarer Dosis selektiert über dieselbe Geometrie wie R (stimmt) → Dosis min(0.5·E_ctrl, E_own), Aussage bedingt auf Generalisierung, Sensitivitätsanalyse über alle Seeds.
 (4) Endlichkeit unvollständig (stimmt) → alle Verluste, R, D geprüft. (5) Power nicht eingefroren (stimmt) → `p2b_power.py`: 0.92 am beobachteten Mittel, 0.73 bei −0.02 (hingenommen, berichtet).
 Selbsttests grün (089faa0). Nachprüfung durch Codex für die betroffenen Punkte und die neue N28-Registrierung läuft.
+
+**Zyklus 5 (Bestätigungen eingefroren und gestartet, 07:28–07:34 gemessen).** Codex-Nachprüfung (gegen 089faa0): Alle P2b-Korrekturen greifen. N28: Blocker (Holm auf Δ > 0 statt Δ > 0.05) → die Marge steckt
+jetzt in der getesteten Größe (Y = Δ_m − 0.05, X = π_m35 − π_n25 + 0.05; KI-Tor ≥ 0). Hoch: Die Lesart war zu stark und ist enger gefasst („vereinbar mit / ersetzbar durch verlängerte Exposition“).
+Mittel: δ und Update-Normen gestrichen (nicht im Code festgelegt). Alles selbst geprüft und übernommen. Manifeste fa154bd (Commit-Feld 888c2d9), Splits und Jobs 37448f6, Herkunftsprüfung an allen Dateien bestanden,
+ein echter N28-Job als Smoke gebunden. Beide Blöcke laufen auf der GPU (je 5 Arbeiter).
+
+**Zyklus 6 (EXP-060, Exploration, 07:37).** *Frage:* Ist die Festlegung eine sichtbare W_E-Größe? *Ergebnis:* nein. Der spektrale Vorsprung der gelernten Änderung wächst kaum (0.55 → 0.89), π springt von 0 auf 1;
+innerhalb von t erklärt er die Seed-Streuung nicht (ρ 0.02–0.36). Die relative Größe ist nur eine Uhr. → [[experiments/EXP-060-early-lead/README|EXP-060]].
+
+**Zyklus 7 (EXP-061, 07:38–07:48 gemessen).** *Frage:* Verstärkt der Gradient der neuen Daten die gelernte alte Struktur (Selbstverstärkung)? Vorab festgelegt (355a2a1), 100 kurze Läufe.
+*Ergebnis:* ***verworfen***. Der B-Gradient zeigt gegen die A-Struktur, und zwar zunehmend mit t (cos −0.48 → −0.78), während π steigt. Innerhalb von t negativ (−0.25).
+*Deutung:* Erster Ordnung baut neues Training die alte Wahl ab. Die Persistenz entsteht in der weiteren Dynamik (Adam-v, Weight Decay, Rest des Netzes oder ein Wettlauf der Raten).
+*Nächste Frage:* Raten-Wettlauf aus gespeicherten Spektren (Abbau der A-Energie gegen Aufbau der B-Energie je t). Kein neuer Lauf nötig.

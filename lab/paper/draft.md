@@ -232,8 +232,8 @@ EXP-050: first order explains only part; [[BEFUND-split-mechanismus]]); it is *n
   ≈ 0 on the continuous measure (0.02 ± 0.65, post hoc).
 - Post hoc on all P1 arms (session 28, `lab/confirm/P1_posthoc_within.py`): *which* of the five targets lags is predicted by the mask spectrum of the split. Mean within-arm Spearman
   between a target's mask-spectrum power and its W_E power at step 2000: add 113 0.44 (centred M0c) / 0.32 (M0), mul 113 0.21, add 97 0.29, D59 0.43 (M0), each p < 5·10⁻⁵ by within-arm permutation;
-  initialization power 0.08–0.15. No dependence on the frequency index (ρ ≈ 0.01), mismatched arms ρ ≈ −0.08. The within-arm spread of M0c is small (max/min ≈ 1.3), so first-order theory orders
-  the targets, not only selects them. Registered for fresh data before any R1 run as C1 ([[confirm/C1_REGISTRATION|C1]]).
+  initialization power 0.08–0.15. No dependence on the frequency index (ρ ≈ 0.01), mismatched arms ρ ≈ −0.08. The within-arm spread of M0c is small (max/min ≈ 1.3), so the realized pair spectrum orders
+  the targets, not only selects them (not specific to the shared-path derivation: the MLP pilot shows the same M0c > M0 ordering, §5.3). Registered for fresh data before any R1 run as C1 ([[confirm/C1_REGISTRATION|C1]]).
 - Further pilots: steering also in a shared-embedding MLP, at 4× width and for non-modular integer addition (EXP-045, 049, 048) — to be confirmed or reported as pilots (rule 19b).
 
 ## 5 Theory (first order, outline)

@@ -176,7 +176,9 @@ exactly matched a/b token frequencies but random pair structure did not steer (�
 confirmation. For the *final* frequencies M0c is only descriptively better than M0 in the MLP (r̄ 0.351 vs 0.323, 6/10 seeds, p ≈ 0.21).
 
 **5.4 Limits of the first-order argument.** (i) It describes the gradient at initialization. With AdamW the first update is approximately lr · sign(g) coordinate-wise (bias-corrected
-moments give m̂/√v̂ = g/|g| at step 1), which keeps the dominant frequencies but adds harmonics; the spectrum of the *update* is therefore not exactly the one derived above. In the
+moments give m̂/√v̂ = g/|g| at step 1), which keeps the dominant frequencies but adds harmonics; the spectrum of the *update* is therefore not exactly the one derived above. In a simulation of the first-order model (isotropic random Jacobian, d = 128, P1 construction on 10 calibration
+seeds × 2 arms, session 25, numpy only) the coordinate-wise sign of the gradient kept all five targets in its top five in every case (target share of the power 0.152 vs 0.191 for
+the gradient itself); this checks only the model, not the network. In the
 two-hot pilot network of EXP-033, plain gradient descent produced a persistent bias at least as strong as AdamW (signGD ≈ AdamW), so the steering is not specific to sign-like steps
 there; whether this holds for the transformer is untested. (ii) It predicts which frequencies the network starts to grow, not which survive: in the engineered splits some weak
 targets are later displaced by second harmonics 2k of other targets (EXP-016, EXP-021). (iii) The isotropy assumption on the Jacobians is not checked beyond the first-gradient

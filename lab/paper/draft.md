@@ -16,40 +16,45 @@ Networks that grok modular arithmetic implement it with a sparse set of Fourier 
 We show that, with fixed one-hot tokens, the *composition of the training set* — which input pairs are shown — causally steers which frequencies (for the dihedral group D59: which irreducible
 representations) the embedding of a one-layer transformer learns. In pre-registered, held-out replications with fresh seeds (50 per task), engineered training splits enrich five prescribed
 frequencies in addition mod 113 and 97, multiplication mod 113, and composition in D59. For add 113, add 97 and mul 113 (D59 pending), equal-norm embedding perturbations along the steered
-frequencies reduce the logit margin more than along control frequencies. The choice is made early: 25 training steps on a first split measurably shape the embedding after 2000 further steps on a pair-disjoint second split, and the sign of an ablation contrast
-(old vs new target frequencies removed) reverses between a switch after 25 and after 50 steps. Resetting the attention (weights and optimizer state) at a switch after 50 steps reverses this
-reliance far more than the tested MLP reset, and resetting its value path does so more than an equal-size reset of its query/key weights — a reset sensitivity, not a storage location. We report effect sizes with confidence intervals, the limits of each measurement (notably that functional sensitivity follows spectral energy), and negative results.
+frequencies reduce the logit margin more than along control frequencies. The choice starts to persist early (addition mod 113): 25 training steps on a first split measurably shape the embedding after 2000 further steps on a pair-disjoint second split, and the sign of an ablation contrast
+(old vs new target frequencies removed) reverses between a switch after 25 and after 50 steps. Resetting the attention (weights and optimizer state) at a switch after 50 steps reverses the sign of this contrast, whereas the tested
+MLP reset barely changes it, and resetting its value path lowers it more than an equal-size reset of its query/key weights — a reset sensitivity, not a storage location. We report effect sizes with confidence intervals, the limits of each measurement (notably that functional sensitivity follows spectral energy), and negative results.
 
-## 1 Introduction (draft prose, session 26; to be checked against the sources like §1b)
+## 1 Introduction (draft prose, session 26; checked against the sources by an independent agent, 13 points corrected)
 
 Small networks trained on modular arithmetic first memorize their training pairs and only much later generalize ("grokking"; Power et al. 2022). Mechanistic analyses showed that the generalizing
 solution computes with a handful of Fourier frequencies of the group (Nanda et al. 2023) and, for other finite groups, with a few irreducible representations (Chughtai et al. 2023). *Which*
 frequencies a particular network ends up using has been described as arbitrary across runs (Chughtai et al. 2023). Recent theory attributes the competition between frequencies to the initialization
-(He et al. 2026a) and, for training on the full, uniform group table, derives the order in which irreducible representations are learned from the Fourier statistics of the input encoding
-(Marchetti et al. 2026). With one-hot tokens that encoding favours no frequency, and the role of the train–test split has been named as open (He et al. 2026b).
+(He et al. 2026a) and, for uniform data over all input sequences, derives the order in which irreducible representations are learned from the Fourier statistics of the input encoding
+(Marchetti et al. 2026). With one-hot tokens that encoding favours no frequency in cyclic groups and ties irreducible representations of equal dimension, and the role of the train–test split has
+been named as open (He et al. 2026b).
 
 We ask whether the training set itself can decide this choice. In the one-layer transformer of a previous grokking study we construct training splits whose pair mask carries power at five
 prescribed frequencies, and we train with full-batch AdamW and fixed one-hot tokens. The lever differs from the order of examples within an epoch, which LeDoux (2026) showed to set the fundamental
 frequency, and from the encoding statistics of Marchetti et al. (2026): here only *which* pairs are shown changes. In pre-registered replications with fresh seeds, the embedding enriches the
-prescribed frequencies over disjoint comparison frequencies in every one of 50 seeds per task, for addition mod 113 and mod 97, multiplication mod 113 and composition in the dihedral group D59 (§3.1).
-For the three cyclic tasks (D59 pending), the network is also more sensitive to perturbations along the steered frequencies than along control frequencies (§3.2); we show that this sensitivity follows the embedding energy and do not claim
-more.
+prescribed frequencies over disjoint comparison frequencies at step 2000 in every one of 50 seeds per task, for addition mod 113 and mod 97, multiplication mod 113 and composition in the dihedral
+group D59 (for D59 this is before grokking; §3.1, §3.6). For the three cyclic tasks (D59 pending), the network is also more sensitive to perturbations along the steered frequencies than along
+control frequencies (§3.2). Where we examined it (add-113 switch models, exploratory), this sensitivity follows the embedding energy, so we do not claim use beyond energy.
 
-The choice is made early. After as few as 25 full-batch steps on a first split, a switch to a pair-disjoint second split leaves a measurable trace in the embedding 2000 steps later (§3.3). Between a
-switch after 25 and after 50 steps, the sign of an ablation contrast reverses: after 25 steps the final model loses more accuracy when the new target frequencies are removed, after 50 steps when the
-old ones are removed (§3.4). Early training that later data cannot fully undo is familiar from critical learning periods (Achille et al. 2019), the primacy bias (Nikishin et al. 2022), warm starting
-(Ash & Adams 2020) and, for grokking, the overwriting of early features under non-stationarity (Lyle et al. 2025); LeDoux (2026) conjectures a critical period for the frequency choice. Our
-contribution here is a measured time scale of tens of steps for a specific, prescribed feature choice against a controlled data switch.
+The choice starts to persist early; the persistence and reset results are for addition mod 113 only. After as few as 25 full-batch steps on a first split, a switch to a pair-disjoint second split
+leaves a measurable trace in the embedding 2000 steps later (§3.3). Between a switch after 25 and after 50 steps, the sign of an ablation contrast reverses on average: after 25 steps the final model
+loses more accuracy when the new target frequencies are removed, after 50 steps when the old ones are removed (§3.4; post hoc, the embedding energy points the same way, so this contrast does not
+separate reliance from energy). Early training that later data cannot fully undo is familiar from critical learning periods (Achille et al. 2019), the primacy bias (Nikishin et al. 2022) and warm
+starting (Ash & Adams 2020); Lyle et al. (2025) relate grokking to the overwriting of early features and explain recovery by the effective learning rate (their data-switch experiments use CIFAR,
+not modular arithmetic), and LeDoux (2026) conjectures a critical period for the frequency choice. Our contribution here is a measured time scale of tens of steps for a specific, prescribed
+feature choice against a controlled data switch.
 
-Finally, we ask which part of the network this persistence is sensitive to. Resetting the attention weights together with their optimizer state at the switch after 50 steps reverses the
-reliance on the old frequencies, far more than the tested MLP reset, and resetting the value/output path does more than an equal-size reset of the query/key weights (§3.5). Because weights and
-optimizer state are reset together and the controls are matched only in parameter count, we read this as reset sensitivity, not as the place where the choice is stored. In language models, the
-ordering within attention is reversed for restoring the ability to learn a withheld capability (Dong 2026); we discuss this contrast rather than generalize either ordering.
+Finally, we ask which part of the network this persistence is sensitive to. Resetting the attention weights together with their optimizer state at the switch after 50 steps reverses the sign of
+the ablation contrast (mean 0.86 → −0.63), whereas the tested MLP reset barely changes it (0.79); resetting only the value/output path brings the contrast to about zero, an equal-size reset of the
+query/key weights does not (§3.5). Because weights and optimizer state are reset together, the value/output and query/key resets are matched only in parameter count, and the MLP control resets
+twice as many parameters, we read this as reset sensitivity, not as the place where the choice is stored. In language models, the ordering within attention is reversed for restoring the ability
+to learn a withheld capability (Dong 2026); we discuss this contrast rather than generalize either ordering.
 
 **Contributions.** (i) Causal steering of the learned frequencies (irreps) by the composition of the training set, replicated on held-out seeds across four tasks including a non-abelian group;
-(ii) a functional validation with its limit (sensitivity follows energy); (iii) an early, time-dependent persistence of the choice under a data switch, with a reversal of an ablation contrast
-between 25 and 50 steps; (iv) reset interventions that localize this persistence's sensitivity in the attention value path. A first-order account of the steering (§5) and all explorations and
-negative results (§4) are reported separately from the confirmed results. All claims hold for one model family, one optimizer setting and constructed splits (§6).
+(ii) a functional validation on three cyclic tasks, with its limit (where examined, sensitivity follows energy); (iii) an early, time-dependent persistence of the choice under a data switch, with
+a reversal of an ablation contrast between 25 and 50 steps; (iv) reset interventions showing that this persistence is more sensitive to resetting attention than to the tested MLP reset, and within
+attention to the value/output path than to an equal-size query/key reset. A first-order account of the steering (§5) and all explorations and negative results (§4) are reported separately from
+the confirmed results. All claims hold for one model family, one optimizer setting and constructed splits, and the persistence and reset results (§3.3–3.5) for addition mod 113 only (§6).
 
 ## 1 Introduction (outline)
 
@@ -80,7 +85,7 @@ representations (Chughtai et al. 2023; coset circuits in S₅/S₆: Stander et a
 the initialization (He et al. 2026a), analyses irrep selection with the full group table as data and names the role of the train–test split as open (He et al. 2026b, §6), and, within
 alternating gradient flow (Kunin et al. 2025), derives the order in which irreps are learned from the Fourier statistics of the input encoding under uniform data (Marchetti et al. 2026;
 with one-hot tokens, irreps of equal dimension tie). LeDoux (2026) shows that the *order* of training examples (minibatches) sets the fundamental frequency, while, under a fixed stride ordering,
-different random subsets of training pairs gave the same frequency (their §4.2.3, §5.3). Our lever is the *set* of training pairs under full-batch training with one-hot tokens, with the targets prescribed in advance through the pair mask. On the kernel side, Tomàs Bernal et al. (2026) find for recursive feature machines on modular arithmetic that generalization requires breaking a symmetry of the training set and that the learned features encode elements of the invariance group; there the training set decides *whether* a kernel generalizes, here *which* frequencies a transformer learns.
+different random subsets of training pairs gave the same frequency (their §4.2.3, §5.3). Zhou, Zhang and Xu (2024) show outside modular arithmetic that an insufficient, non-uniform sample makes networks learn spurious (aliased) frequencies first; there the sample adds artefacts next to a fixed correct solution, here it selects among equally correct ones. Our lever is the *set* of training pairs under full-batch training with one-hot tokens, with the targets prescribed in advance through the pair mask. On the kernel side, Tomàs Bernal et al. (2026) find for recursive feature machines on modular arithmetic that generalization requires breaking a symmetry of the training set and that the learned features encode elements of the invariance group; there the training set decides *whether* a kernel generalizes, here *which* frequencies a transformer learns.
 More generally, data statistics select among redundant features (Hermann & Lampinen 2020), stage-wise learning follows data spectra in linear networks (Saxe et al. 2014), and neural
 networks fit low frequencies first in continuous input spaces (spectral bias / frequency principle; Rahaman et al. 2019; Xu et al. 2019). These do not address which discrete group
 frequencies a grokking network adopts.
@@ -89,13 +94,13 @@ frequencies a grokking network adopts.
 lasting cost of warm starting (Ash & Adams 2020) and the primacy bias (Nikishin et al. 2022) all describe early training that later data cannot fully undo. Closest to our setting,
 Lyle et al. (2025) relate grokking to the overwriting of early features and explain recovery by the effective learning rate; their warm-start experiments use CIFAR and treat modular
 arithmetic as stationary, without frequency analysis, so the effective learning rate is an alternative we must address for K4. LeDoux (2026, §3.4) conjectures a critical period in
-modular arithmetic without a switch experiment; Howe (2026a) reports a critical window of the first few thousand epochs for an auxiliary representational loss (a loss intervention, not a data switch). Khanh (2026) uses the same model class and embedding power spectrum as a circuit identity and shows that transplanting another run's
+modular arithmetic without a switch experiment; Howe (2026a) reports that an auxiliary representational (contrastive) prior applied only during the first 2000 epochs (4 % of training) gives most of its benefit (a loss intervention, not a data switch). Khanh (2026) uses the same model class and embedding power spectrum as a circuit identity and shows that transplanting another run's
 weight direction overwrites it — a weight-space intervention, whereas we switch the data and measure when the frequency choice becomes persistent.
 
 **Partial resets.** Resetting layers or parameter groups is an established tool to restore plasticity or to probe module criticality (Nikishin et al. 2022; Zhou et al. 2022; Zhang et al.
 2022; Chatterji et al. 2020; Asadi et al. 2023 for optimizer resets). For transformers, Dong (2026) reports in language models up to 1.4B parameters that re-initializing only the
 query–key slices of attention restores the ability to learn a withheld capability, while value slices do nothing. Our reset results (K4d, K4e) concern a different quantity (persistence
-of an early frequency choice) and show the opposite ordering within attention (value path more than query/key); we report this as a contrast, not as a general statement about attention. In our model family, Jia (2026) transfers or freezes embeddings, readout and internal blocks between modular tasks (query, key and value in one fused matrix), without resets at a data switch and without frequency analysis.
+of an early frequency choice) and show the opposite ordering within attention (value path more than query/key); we report this as a contrast, not as a general statement about attention. In our model family, Jia (2026) transfers embeddings, readout and internal blocks between modular tasks and freezes embeddings and readout (query, key and value in one fused matrix), without resets at a data switch and without frequency analysis.
 
 ## 2 Setup
 

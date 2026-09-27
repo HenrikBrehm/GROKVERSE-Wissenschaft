@@ -3477,3 +3477,10 @@ Vergleich über Mittelwerte (Einzelseeds nur berichtet, GPU-Nichtdeterminismus);
 
 **Zyklus 5 (Paper §1 als Fließtext, vor 15:25).** Einleitung ausformuliert (Frage, Hebel gegen LeDoux/Marchetti, Ergebnisse K2–K4e mit Grenzen, Beiträge). Zwei eigene Überdehnungen vor der Prüfung
 korrigiert: K2-Funktion gilt nur für die drei zyklischen Aufgaben; der Attention-Reset „kehrt“ die Abhängigkeit um (nicht „entfernt das meiste“). Unabhängige Quellenprüfung folgt.
+
+**Zyklus 5, Prüfung (Ergebnis vor 15:30, gemessen).** Unabhängiger Claude-Prüfagent (nur lesend) zur neuen Einleitung: **keine falsche Zahl, 13 Überdehnungen/Ungenauigkeiten**, alle übernommen.
+Zwei davon selbst an den Zusammenfassungen nachgesehen (N29b mean_R: normal 0.86, Attention-Reset −0.63, MLP-Reset 0.79; N29c: VO −0.04, QK 0.72; P3 π 0.351). Wichtigste: „die Wahl fällt früh“ → „beginnt
+früh zu haften“ (π steigt glatt, keine Schwelle); „kehrt die Abhängigkeit um, viel stärker als der MLP-Reset“ war schief (der MLP-Reset kehrt nichts um) → Zahlen genannt; „Reset lokalisiert im
+Wertepfad“ → nur Vergleich mit gleich großem QK-Reset; K4-Ergebnisse ausdrücklich nur add 113; „Sensitivität folgt Energie“ nur, wo geprüft (explorativ); D59 bei 2000 vor dem Grokking;
+Lyle et al. und Marchetti et al. genauer; Howe 2026a und Jia 2026 am Abstract korrigiert; **Zhou, Zhang, Xu 2024 fehlte im Entwurf** (in related_work als nächste Vorarbeit markiert) → ergänzt.
+Abstract an zwei Stellen gleich angepasst. *Lehre (dritte Sitzung in Folge):* Meine erste Fassung überdehnt zuverlässig; die unabhängige Prüfung ist nötig, nicht optional.

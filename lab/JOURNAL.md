@@ -3246,3 +3246,9 @@ Persistenzfragen also vertretbar, für Nutzungsfragen nicht. *Nächste angegriff
 **Zyklus 7 (EXP-075 vorbereitet, bis 13:23 gemessen).** Frage: Ist die frühe Festlegung an die Attention gebunden (die Reset-Befunde K4d/e legen das nahe) oder allgemein (H40)? Entscheidender Gegentest:
 dieselbe π(t)-Kurve in der MLP-Architektur ohne Attention (EXP-045: dort steuerbar, 0.004 s/Schritt). Vorab: Transformer-t½ aus EXP-059 nachgerechnet (33.3, erst geschätzt 34.1, dann aus
 summary.json korrigiert); Lesart t½ ≤ 2 × 33.3 → „ähnlich früh“, > 4× oder π(200) < 0.5 → „deutlich später“. 120 Läufe, wenige Minuten GPU.
+
+**Zyklus 8 (D₅₉-Spektren nachgewertet, S1 in P2f, 13:24–13:33).** Frage: Konzentriert sich die Energie auf die gesteuerten Irreps vor oder mit dem Grokking? Aus gespeicherten EXP-072-Spektren:
+Anteil der eigenen Irreps 0.29–0.38 bei Schritt 250 (Zufall 0.17), 0.39–0.59 bei 2000, ≥ 0.9 erst 500–3000 Schritte nach dem ersten Test ≥ 0.9. Post hoc auffällig: höherer Anteil bei 2000 → früheres
+Grokking (ρ = −0.75, Permutations-p 0.008, 10 Läufe aus 5 Seeds). Im Geist bekannt (Fortschrittsmaße). Entscheidung: nicht post hoc stehen lassen, sondern als vorab festgelegte Sekundärhypothese S1
+in P2f an 20 frischen Seeds prüfen (keine Zusatzläufe). **Codex** (zwei Nachprüfungen): zuerst zwei Blocker (S1 hätte über den gemeinsamen Lader das primäre Urteil gefährden können; ρ undefiniert bei
+konstanten Rängen), beide selbst bestätigt und behoben; zweite Nachprüfung: keine Blocker. Selbsttest von confirm_p2f ab 00:00 (Pflicht vor dem Einfrieren).

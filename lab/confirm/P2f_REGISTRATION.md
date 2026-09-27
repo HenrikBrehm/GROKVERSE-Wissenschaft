@@ -24,7 +24,7 @@ Vorgaenger [[confirm/P2e_REGISTRATION|P2e]] (mul 113, add 97, bestaetigt).
   12001, als spätester gezählt). Spearman ρ(x, y) über 20 Seeds, einseitiger Permutationstest (20000). „S1 bestätigt“ = ρ < 0 und p < 0.05; technischer Ausfall → nicht auswertbar.
   Grundlage: post hoc ρ = −0.75 an 10 EXP-072-Läufen (gesehen). Im Geist bekannt (Fortschrittsmaße, Nanda et al. 2023).
   *Nach Codex-Nachprüfung (s24, `P2f_codex_recheck_s24.txt`):* S1 liest die Spektren getrennt vom primären Lader; ein Problem dort macht nur S1 „nicht auswertbar“, nie das primäre Urteil;
-  bei konstanten Rängen (z. B. alle zensiert) ist S1 „nicht auswertbar (Rangstatistik undefiniert)“.
+  bei konstanten Rängen (z. B. alle zensiert) ist S1 „nicht auswertbar (Rangstatistik undefiniert)“. Zweite Nachprüfung (`P2f_codex_recheck2_s24.txt`): keine Blocker.
 - **Urteil:** Jeder technische Ausfall (auch Lade- oder Rechenfehler) -> *nicht auswertbar*; sonst **"bestaetigt" = p < 0.05 und KI-Untergrenze >= 0.05** (Logit-Einheiten), sonst *nicht bestaetigt*.
   Primaer zaehlen alle 20 Seeds; wie viele Modelle generalisiert haben (>= 0.9 in beiden Armen), wird berichtet, dazu beschreibend D nur an diesen Seeds und der Median-Energieanteil der
   eigenen Irreps in W_E.

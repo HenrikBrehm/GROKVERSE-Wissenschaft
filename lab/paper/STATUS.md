@@ -54,3 +54,5 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 
 - **a:** Registrierungsentwurf [[confirm/R2_REGISTRATION_DRAFT|R2]] (K4c bei lr 2e-3 und wd 0.3, n = 30, Seeds 2510–2539) und `confirm_r2.py` (ungetestet bis 00:00; Codex-Prüfung Sitzung 26).
 - **e:** Vorwärtszitate über die Semantic-Scholar-API gesichtet (9 Ausgangsarbeiten): nichts schränkt K2/K4 ein; neu zu zitieren v. a. Tomàs Bernal et al. 2026 (Kernel-Vorläufer zu K2) und Jia 2026 (Komponentenrollen, gleiche Modellfamilie). Nachtrag in [[paper/related_work]].
+- **a/b (15:40):** [[confirm/R3_REGISTRATION_DRAFT|R3]] (Λ- gegen Schrittuhr der Festlegung, 80 Läufe) und Pilot [[experiments/EXP-078-two-layer-steering/README|EXP-078]] (K2 mit zwei Schichten) vorbereitet; §3.7 im Entwurf listet alle ausstehenden Robustheitsblöcke.
+- **c/d (15:40):** `repro/k4c.py` (geprüft, keine Blocker); Einleitung als Fließtext, unabhängig gegen die Quellen geprüft (13 Korrekturen).

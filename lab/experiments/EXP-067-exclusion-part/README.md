@@ -1,8 +1,8 @@
 ---
 id: EXP-067
-status: laufend
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/laufend]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-063-exclusion-locus/README|EXP-063]]", "[[experiments/EXP-064-functional-regimes/README|EXP-064]]", "[[confirm/N29_REGISTRATION|N29]]", "[[BACKLOG]]", "[[JOURNAL]]"]
 ---
 # EXP-067: Welcher Teil des „Rests“ trägt den Ausschluss neuer Frequenzen bei t = 50? (Pilot)
@@ -37,3 +37,23 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-067-exclusion-part
 
 Trainer-Option eingespielt (5d84666, 18/18 Tests, Codex: keine Fehler). Gleichwertigkeit `rest` alt gegen neu (60 Schritte, CPU, Seed 400): W_E-Schnappschüsse und Reset-Ereignis **bitgleich**.
 Läufe ab 10:52 Berlin (gemessen), 6 GPU-Arbeiter. (Der Selbsttest lief als Vergleich alter gegen neuer Code statt gegen EXP-063, das auf der GPU lief.)
+
+## Ergebnis (Sitzung 23, Läufe 10:52–10:57 (Log), Auswertung 10:57–10:58 Berlin; `summary.json`)
+
+60/60 Läufe ok, 10/10 Seeds gültig, Reset je Lauf mit `check` vermerkt.
+
+| Arm (Wechsel bei 50) | zurückgesetzte Parameter | a (alt erhalten) | **b (neu fehlt)** | Urteil Δb | Genauigkeit ohne alte / ohne neue Ziele |
+|---|---|---|---|---|---|
+| normal (EXP-059) | – | 3.66 | 4.25 | – | (EXP-064: 0.02 / 0.96) |
+| rsrest (EXP-063) | alles außer W_E | 3.10 | 1.05 | trägt mit (10/10) | – |
+| **rsattn** | 65 536 (W_Q, W_K, W_V, W_O) | 1.50 | **0.10** | ***trägt den Ausschluss mit*** (Δb 1.9–5.2, 10/10) | **0.74 / 0.08** |
+| rsmlp | 131 072 (W_in, W_out) | 3.75 | 3.14 | ***unklar*** (Δb −0.4–2.2) | 0.03 / 0.90 |
+| rsunembed | 14 592 (W_U) | 3.75 | 4.50 | ***allein nicht nötig*** (9/10 < 0.5) | 0.02 / 0.98 |
+
+- **Lesart (Pilot, bekannte Seeds):** Gegen meine Vorab-Erwartung (Modell A: Attention unwichtig) hebt **allein das Zurücksetzen der Attention** den Ausschluss vollständig auf, stärker als der Reset
+  des ganzen Rests. Das Netz lernt die neuen Frequenzen und rechnet danach mit ihnen (Umstieg wie bei t = 25). MLP-Reset (doppelt so viele Parameter) und W_U-Reset tun das nicht: **Die Größe des
+  Eingriffs erklärt es nicht.** Die alte Energie sinkt beim Attention-Reset ebenfalls (a 1.50).
+- **Deutung (Spekulation, ungeprüft):** In diesem Modell hängt die Attention-Gewichtung von den Frequenzen der Eingaben ab (vgl. Nanda et al. 2023, Attention-Muster periodisch in a und b). Nach 50 Schritten
+  könnte die Attention auf die alten Frequenzen eingestellt sein und neue Richtungen in W_E nicht weiterreichen. Das ist eine Hypothese, kein Befund; Reset-Empfindlichkeit ist kein Mechanismusnachweis (Codex zu EXP-063).
+- **Grenzen:** Pilot, n = 10 bekannte Seeds, ein Zeitpunkt, 2000 Schritte, Reset auf Init (entfernt alles Gelernte des Teils).
+- **Nächster Schritt:** Bestätigung an frischen Seeds mit Funktionsmaß (wie N29): Kontrast normal gegen rsattn und rsmlp gegen rsattn, 4000 Schritte.

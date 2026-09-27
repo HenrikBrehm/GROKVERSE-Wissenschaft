@@ -3262,3 +3262,28 @@ nach unserer Suche nicht gefunden (vorläufig). FINDINGS-Literaturzeile ergänzt
 Rechnung), reine numpy-Rechnung an den 20 EXP-016-Splits. **Ergebnis: keine Brücke** (Median ρ −0.02; U trifft die Ziele nur zufällig, 0.45/5; M0 5/5). Selbstprüfung (Gleichstand bei allen Paaren) ok.
 Mögliche Erklärung (Spekulation): M0 summiert je Ausgabe inkohärent, wie ein Gradient durch eine zufällige feste Auslese; das AGF-Neuron lernt die Auslese aus null. Mein schneller Gegencheck dazu war
 falsch gebaut (Phase unabhängig von c = reine Häufigkeitsmodulation) und zählt nicht. Neue Kandidatenfrage N34 (Init-Skala der Auslese und Split-Steuerung) notiert, nicht geprüft.
+
+### Abschlussbericht Sitzung 24 (Stand 13:40 Berlin, gemessen; Auftrag §10)
+
+**Wichtigste Befunde (alle Exploration/Pilot, bekannte Seeds, kein Urteil):**
+- **EXP-072:** D₅₉ generalisiert in diesem Aufbau (9/10 Läufe, erster Test ≥ 0.9 bei Median 4575 Schritten; P1 mit 2000 Schritten lag ganz vor dem Grokking). Die gesteuerten Irreps überleben das
+  Grokking und tragen danach 0.90–0.99 der W_E-Energie; Irrep-Form des Funktionsmaßes D = 0.22 ± 0.02 (5/5, post hoc). Früherer Anteil der eigenen Irreps bei Schritt 2000 ging mit früherem Grokking
+  einher (ρ = −0.75, post hoc) → als Sekundärhypothese S1 in P2f vorab festgelegt.
+- **EXP-071:** Die OV-Ausrichtung beim Wechsel sagt die Persistenz je Seed höchstens schwach voraus (r = 0.45, p = 0.09) und erklärt den Zeitverlauf nicht besser als die Schrittzahl. *Unklar.*
+- **EXP-076 (Theorie):** Das Maskenspektrum M0 ist im einfachsten AGF-Modell nicht der Nutzen erster Stufe (Treffer = Zufall). *Negativ.*
+- **Literatur:** Marchetti, Kunin et al. (ICML 2026): Irrep-Reihenfolge aus der Kodierung bei gleichverteilten Daten; unsere Paarmasken-Steuerung dort nicht abgedeckt (vorläufig nicht gefunden).
+- **FINDINGS** wieder eine Seite (Details wortgleich in FINDINGS_DETAILS).
+
+**Vorbereitet für ab 00:00 (alle vor jedem Lauf festgelegt und committet):** P2f (D₅₉-Bestätigung, Codex ohne Blocker, Selbsttest und Einfrieren ausstehend), EXP-073 (neues Trainer-Werkzeug
+`--rewind-at-switch`, Codex: 4 Blocker behoben, Nachprüfung ohne Befund; Trainer-Test ausstehend), EXP-074 (Reset-Muster bei add 97/mul 113), EXP-075 (Festlegung ohne Attention), EXP-040 zuerst auf der CPU.
+
+**Offene Grenzen:** alle Persistenzbefunde weiterhin nur add 113 (EXP-074/075 sollen das angehen); Funktion folgt der Energie; die Trainer-Änderung ist bis zum Test ungetestet.
+**Meine Fehler:** mehrere geschätzte statt gemessene Uhrzeiten (alle korrigiert); ein `sed -i` auf eine CRLF-Notiz (sofort repariert); falsche Suffix-Reihenfolge im EXP-074-Lademuster (vor jedem Lauf
+gefunden und korrigiert); ein falsch gebauter Kontrollfall in EXP-076 (als ungültig vermerkt).
+**Codex:** P2f-Registrierung (keine Blocker, 3 kleine Punkte übernommen), Rewind-Werkzeug + EXP-073 (4 Blocker, alle übernommen; Nachprüfung ohne Befund), P2f-S1 (2 Blocker übernommen; Nachprüfung ohne Befund).
+
+**Reproduktion:** `parallel_queue.py lab/experiments/EXP-071-ov-lead-predicts/jobs.txt` + `analyze.py`; `parallel_queue.py lab/experiments/EXP-072-d59-grok/jobs.txt` + `analyze.py` + `p2d_irrep.py`;
+`python lab/experiments/EXP-074-reset-other-tasks/reference_add113.py`; `python lab/experiments/EXP-076-agf-utility/compute.py` (alle Läufe über guarded_run.py).
+**Nächste Aktion:** ab 00:00 laut [[STATE]]: Tests → CPU (EXP-040 zuerst) → P2f einfrieren und rechnen → EXP-073/074/075 auf der GPU.
+**Runner:** geplante Aufgabe „GROKVERSE-Lab-Runner“ aktiv; `runner-state.json`: nächster Start 2026-09-27 14:04:45Z = **16:04 Berlin** (außerhalb des Fensters). Das Fenster öffnet um 00:00 voraussichtlich
+mitten in einer späteren Sitzung; diese muss den Wechsel selbst bemerken (`guarded_run.py --check`).

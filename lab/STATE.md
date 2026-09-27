@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 13:21 Berlin (Sitzung 24, Start 12:29, Deadline 15:29; Run-Fenster wieder ab 00:00)._
+_Zuletzt aktualisiert: 2026-09-27, 13:40 Berlin (Sitzung 24, Start 12:29, Deadline 15:29; Run-Fenster wieder ab 00:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -12,6 +12,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 - **EXP-072 (Pilot):** D₅₉ generalisiert (9/10, erster Test ≥ 0.9 bei Median 4575 Schritten); eigene Irreps 0.90–0.99 der W_E-Energie; Irrep-Funktionsmaß D = 0.22 (5/5, post hoc).
 - **EXP-071 (Exploration):** OV-Ausrichtung sagt π je Seed höchstens schwach voraus (r = 0.45, p = 0.09); erklärt den Zeitverlauf nicht besser als die Schrittzahl. Urteil unklar.
 - **FINDINGS** auf eine Seite gekürzt; alte Abschnitte wortgleich in [[FINDINGS_DETAILS]].
+- **EXP-076 (Theorie-Rechnung):** M0 ist nicht der AGF-Nutzen erster Stufe (einfachstes Modell) → Brückenvermutung verworfen; Kandidat N34 notiert.
+- **Literatur:** Marchetti, Kunin et al. (ICML 2026) erklären die Irrep-Reihenfolge über die Eingabekodierung bei gleichverteilten Daten; K2 (Paarmaske) dort nicht abgedeckt.
+- **P2f** hat eine vorab festgelegte Sekundärhypothese S1 (Anteil eigener Irreps bei Schritt 2000 sagt Grokking-Zeit voraus), Codex zweimal nachgeprüft.
 - **Vorbereitet (Codex geprüft wo Trainer betroffen):** [[experiments/EXP-073-part-rewind/README|EXP-073]] (neues `--rewind-at-switch`), [[experiments/EXP-074-reset-other-tasks/README|EXP-074]], [[experiments/EXP-075-mlp-lockin/README|EXP-075]] (Festlegung ohne Attention).
 - **P2f** (D₅₉-Bestätigung) registriert, Code `lab/tools/confirm_p2f.py`, Codex: keine Blocker, 3 kleinere Punkte übernommen. **Nicht eingefroren**: Der Selbsttest nach den Codex-Änderungen
   muss erst im Fenster laufen. Seeds 2340–2359 reserviert (Versuchs-ID 6).

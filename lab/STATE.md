@@ -3,57 +3,45 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-27, 05:18 Berlin (Sitzung 21, Deadline 07:19)._
+_Zuletzt aktualisiert: 2026-09-27, 06:25 Berlin (Sitzung 21, Deadline 07:19)._
 
-Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]] · [[confirm/P1_REGISTRATION_DRAFT|P1-Entwurf]]
+Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · Bestätigungen [[confirm/P1_REGISTRATION_DRAFT|P1]] · [[confirm/P2_REGISTRATION_DRAFT|P2]] · [[confirm/P3_REGISTRATION_DRAFT|P3]]
 
-## Lage
+## Lage (Sitzung 21)
 
-- Nacht 26./27.09. (Regel 18b) **erledigt**: Wächter-Abnahme A/B/C bestanden, alle Tests grün, **GPU-001 bestanden** (gleichwertig, ≈ 17× schneller, J = 8).
-  GPU-Programm komplett: EXP-043, 044, 045, 046, 047, 048, 049, 050, 051 und die Auswertungen 052, 055. Ergebnisse: [[FINDINGS]] „Pilotnacht“ (K2 und K4 verallgemeinern sich im Pilot).
-- Run-Fenster wieder normal 00:00–13:00 (die 03:00-Sperre gab es nur in der Nacht 26./27.09.; der Nutzer hat sie 02:25 aufgehoben).
-- Schritte 1–3 (Abnahme, Tests) **nicht wiederholen**. Das Archiv des Ablaufs steht im [[JOURNAL]] (STATE-Archiv Sitzung 20).
+- **Bestätigungsfamilie gerechnet** (alle vorab eingefroren, Läufe an den Code gebunden, Schlussfolgerungen von Codex geprüft):
+  **P1 bestätigt** in 4/4 Aufgaben (je 50/50; add 113 Δ_pow 8.24 [7.92, 8.54]). **P2 nicht auswertbar** (3/50 Modelle bei Schritt 2000 nicht generalisiert).
+  **P3 bestätigt** (D̄ 0.293 [0.263, 0.322], 30/30): starke Wirkung einer 25-Schritt-Vorgeschichte gegen paar-disjunktes Weitertraining. „Festlegung im Netz“ ist damit **nicht** identifiziert.
+- Piloten dieser Sitzung: EXP-035 (Warmup verzögert, n = 3), EXP-038 (Festlegung doppelt vorhanden, 5/5), EXP-056 (Persistenz ohne geteilte Paare), **EXP-057 (Adam-Reset beim Wechsel
+  löscht die A-spezifische Erhaltung: π 0.30 → 0.11, A-Ziele unter Zufall; formal „teilweise“)** → neue Idee N28.
+- **Achtung Reproduktion:** `freq_ban.py` wurde nach dem Einfrieren geändert (5aa8c34, Option `--reset-optim-at-switch`). Eine erneute Auswertung von P1/P2/P3 besteht die Code-Prüfung
+  nur aus einem Checkout von 733e829 bzw. f8adf45. Die Ergebnisse sind committet (4f3fc36, e5f55a5).
 
 ## Aktive Queue / laufende Jobs
 
-- **CPU (Sitzung 21 seit 04:20, 3 Arbeiter × 4 Threads, läuft EXP-038):** `python lab/tools/night_program.py --cpu --experiments EXP-035,EXP-038,EXP-041,EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`.
-  ≈ 5 min je Lauf, noch mehrere Fenster. Die Sitzungsdeadline bricht ab (Exit 124/3 = Ablehnung, kein Fehler). **Wiederaufnahme: derselbe Befehl** (Fertiges wird übersprungen).
-  Mit freier GPU kann der Arbeiter mehr Threads bekommen: `--cpu-workers 3` (Threadsumme ≤ 12). Nicht mischen (Regel 16d): Die CPU-Versuche bleiben auf der CPU.
-- **GPU:** frei. Kein offenes GPU-Programm.
-- **EXP-035 abgeschlossen (Sitzung 21):** Pilot n = 3, Warmup verzögert 3/3; keine Kernaussage (README „Ergebnis“).
+- **CPU (seit 04:20, 3 Arbeiter × 4 Threads):** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-035,EXP-038,EXP-041,EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`.
+  EXP-035 und EXP-038 fertig, danach EXP-041 … (≈ 250 Läufe à ≈ 5 min, mehrere Sitzungen). Die Sitzungsdeadline bricht ab (kein Fehler). **Wiederaufnahme: derselbe Befehl.**
+- **GPU:** frei.
 
 ## Nächste Schritte (in dieser Reihenfolge)
 
-1. `python lab/tools/guarded_run.py --check`; kein STOP; laufende Prozesse prüfen; CPU-Programm (oben) wieder starten.
-2. **P1+P2-Block rechnen (eingefroren 733e829, Sitzung 21):** `python lab/tools/parallel_queue.py lab/confirm/P1_jobs.txt --workers 8` (Hintergrund, GPU).
-   Fertig Gebundenes wird übersprungen („already bound“), also **Wiederaufnahme = derselbe Befehl**. Ein fremder fertiger Lauf wird abgelehnt (Exit 4); nie von Hand in `lab/confirm/raw` schreiben.
-   Danach `python lab/tools/guarded_run.py -- python lab/tools/confirm_p1.py --analyze lab/confirm/P1_manifest.json` und dasselbe mit `confirm_p2.py`.
-   Ergebnis erst nach Codex-Prüfung als Kernaussage in FINDINGS (Regel 18c). Bindungen `lab/confirm/bindings/` mitcommitten.
-3. **P3-Block (eingefroren f8adf45, Sitzung 21):** `python lab/tools/parallel_queue.py lab/confirm/P3_jobs.txt --workers 8` (GPU; Wiederaufnahme = derselbe Befehl, gebundene Läufe werden übersprungen;
-   ein Rest mit `run.lock` wird abgelehnt → Sperre prüfen, von Hand beiseite legen). Dann `python lab/tools/guarded_run.py -- python lab/tools/confirm_p3.py --analyze lab/confirm/P3_manifest.json`.
-   EXP-056 (Pilot) ist ausgewertet: Steigung unklar, π(0) > 0 in 10/10.
-4. Auswertungen nach den CPU-Läufen (eingefroren, über den Wächter): EXP-039 `eval_pi.py`; EXP-054 `n30_window.py` (nach EXP-036); EXP-042 `pi_window.py` (je erst `--selftest`).
-5. Offene Reste: EXP-038-Folgefrage (welcher Teil des Rests genügt; t = 25); Folgeversuch EXP-050 (MLP mit getrennten W_in-Hälften); D₅₉/int-add Häufigkeits-Mischarm.
+1. `python lab/tools/guarded_run.py --check`; kein STOP; Prozesse prüfen; CPU-Programm (oben) wieder starten.
+2. Codex-Nachprüfung von 5aa8c34 und EXP-057 (Ergebnis im [[JOURNAL]] Sitzung 21, letzte Zyklen) einarbeiten.
+3. **EXP-057-Folgeversuch (neu festlegen, Regel 15b):** nur m zurücksetzen (Schrittzähler bleibt), nur v, und derselbe Eingriff bei t = 150. Das trennt „Gedächtnis im Adam-Zustand“ von
+   „vorzeichenartige Schritte nach dem Reset überschreiben die Spur“ (N28). Frische Seeds (neuen Bereich reservieren, z. B. 2200–2299), ≥ 10, dann Bestätigung.
+4. **P2-Nachfolger** ([[BACKLOG]] „P2-Nachfolger“): frische Seeds, sicheres Grokking, feste Ablations-Testmenge, N aus der gesehenen Streuung (≈ 60–80).
+5. Auswertungen nach den CPU-Läufen (über den Wächter): EXP-041, EXP-036, EXP-039 (`eval_pi.py`), EXP-040, EXP-042 (`pi_window.py`), EXP-014.
 
-## Drei Prioritäten (Regel 18c: Programm A/B/C)
+## Drei Prioritäten (Regel 18c)
 
-1. **A** Bestätigung P1 (Block 1000–1049), funktional P2 (Loss-Maß).
-2. **B** Persistenz: CPU-Piloten EXP-035–042 fertig rechnen, P3 festlegen.
-3. **C** läuft gut (EXP-052 4/4, EXP-050): erst nach A/B weiter, höchstens zwei Programme aktiv.
+1. **B** Persistenz: Mechanismus (N28: Adam-Zustand gegen Gewichte), dann Bestätigung.
+2. **A** Funktion: P2-Nachfolger.
+3. **C** ruht (höchstens zwei Programme aktiv).
 
 ## Blocker / Hinweise
 
-- **Windows/venv:** `CreateProcess` findet `.venv-gpu/Scripts/python.exe` (relativ, Schrägstriche) nicht. `night_program.py` nutzt den absoluten Pfad, `confirm_p1.interp()` einen absoluten Pfad mit Schrägstrichen.
-- Die CPU-torch der `.venv-gpu` ist für CPU-Läufe ≈ 10× zu langsam. CPU-Läufe nur mit dem globalen Python.
-- Uncommittete Nutzeränderungen (`guarded_run.py`, `install_task.ps1`, `tick.ps1`, `runner/README.md`, `SESSION_PREAMBLE.md`,
-  `runner-state.json`, `parallel_queue.py`) **nicht committen**; nur gezielt `git add <pfad>`, nie `commit -a`.
-- `guarded_run.py` (Nutzer, 27.09. ≈ 01:30/02:35): Der Wächter tritt vor dem Kindstart dem Job-Objekt bei, argtypes korrigiert. Seitdem keine Warnung mehr.
-- Zeitstempel nur aus `guarded_run.py --check` (`now_berlin`). Shell-Skripte LF, JOURNAL/STATE/LIVE CRLF (bytegenau bearbeiten).
-- Neue `freq_ban.py`-Argumente nur bei Abweichung vom Standard in den Fingerprint (Sitzung 16).
-- Sitzungsgrenze: Ein abgebrochener Job am Deadline-Ende ist kein Fehler (Exit 124 → Ablehnung). Derselbe Befehl setzt fort.
-- Codex über den Subagenten `codex:codex-rescue` (nur lesend) funktioniert (Sitzung 20: zweimal).
-
-## Letzte abgeschlossene Versuche (Details [[LAB]], [[FINDINGS]])
-
-- Sitzung 20 (Piloten, je 10 Seeds, vorab festgelegt): EXP-043 (add 97, mul 113), 046 (D₅₉), 048 (int-add), 049 (d 512), 045 (MLP): *steuerbar*; 047: Paarstruktur trägt;
-  044: *festgelegt*; 052: K1 4/4; 050: M0c wählt, M0 trägt mit; 051/055: Funktion unklar (Bodeneffekt / Hauptdosis n. s.).
+- Codex: direkt `node …/codex-companion.mjs task "<prompt>"` (Vordergrund, als Bash-Hintergrundbefehl). Die Weiterleitung `codex:codex-rescue` hat einmal nur im Hintergrund gestartet.
+- Uncommittete Nutzeränderungen (`guarded_run.py`, `install_task.ps1`, `tick.ps1`, `runner/README.md`, `SESSION_PREAMBLE.md`, `runner-state.json`, `parallel_queue.py`) **nicht committen**.
+- venv-Python nur mit absolutem Pfad (`C:/Users/…/.venv-gpu/Scripts/python.exe`). CPU-Läufe mit dem globalen Python.
+- Zeitstempel nur aus `guarded_run.py --check`. JOURNAL/STATE/LIVE/FINDINGS CRLF (bytegenau bearbeiten).
+- Eigene Prüfungen am echten Codepfad testen (Sitzung 21: dreimal eine Prüfung, die nicht das Laufende prüfte).

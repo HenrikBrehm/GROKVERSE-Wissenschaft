@@ -24,8 +24,12 @@ attention pattern. We report effect sizes with confidence intervals, the limits 
 
 - Grokking and Fourier circuits (Power et al. 2022; Nanda et al. 2023); which frequencies/irreps are learned is "arbitrary" per network (Chughtai et al. 2023) and has been linked to initialization
   (He et al. 2026) and, for uniform data, to the Fourier statistics of the input encoding (Marchetti et al. 2026, AGF).
-- Gap (to be confirmed by the human literature review, [[paper/related_work]]): with one-hot tokens, the encoding prefers no frequency; we ask whether the *training pairs* break the tie, and when the
-  choice becomes fixed.
+- Closest work (see [[paper/related_work]], to be checked by a human): LeDoux (2026, arXiv 2603.25047) shows that the *order* of training examples sets the fundamental frequency in modular
+  arithmetic; Marchetti et al. (ICML 2026) derive the irrep order from the Fourier statistics of the input *encoding* under uniform data; He et al. (2026) attribute the competition to initialization.
+  Our lever is the complementary one: the *set* of training pairs, full batch, one-hot tokens, predicted in advance by the mask spectrum M0 (we found no AGF-utility bridge for M0, EXP-076).
+- Lock-in: critical periods (Achille et al. 2019; Kleinman et al.), primacy bias (Nikishin et al. 2022), warm starting (Ash & Adams 2020) and, closest, grokking under non-stationarity with the
+  effective learning rate as explanation (Lyle et al. 2025). Our contribution is a measured lock-in time of the frequency choice (≈ 25–50 steps) against a pair-disjoint switch and its functional flip.
+- The functional measure (K2-function) is a validation of K2 rather than a separate contribution (frequency ablations go back to Nanda et al. 2023), and we state its limit (function follows energy).
 - Contributions: (i) causal steering via split construction, held-out across four tasks incl. a non-abelian group; (ii) a functional sensitivity measure and its limits; (iii) an early, time-dependent
   lock-in under a data switch; (iv) reset interventions that localize *sensitivity* (not storage) in the attention value path.
 

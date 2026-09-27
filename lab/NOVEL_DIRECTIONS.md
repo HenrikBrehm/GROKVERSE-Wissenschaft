@@ -812,3 +812,11 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
   bei den Frequenzen von ρ. Dann müsste ein Split, der nur die Häufigkeit des linken Operanden periodisch formt (keine Paarstruktur), die gelernten Frequenzen steuern.
 - **Konkurrenz:** „nur Paarstruktur“ (Lesart nach EXP-047) gegen „erste Ordnung inkl. Fremd-Häufigkeiten“. Test: [[experiments/EXP-077-marginal-steering/README|EXP-077]] (Pilot, vorbereitet).
 - **Suche 2026-09-27** (3 Suchbegriffe, im EXP-077-README): nicht gefunden (vorläufig).
+
+## N36: Routing oder Inhalt: Welcher Attention-Pfad hält fest, hängt davon ab, was der Wechsel verlangt? (Sitzung 25) #neu/kandidat
+
+- **Anlass:** Dong 2026 (arXiv 2607.27281): in Sprachmodellen stellt ein QK-Reset die Lernfähigkeit her, Value nicht; bei uns (K4e) wirkt der Wertepfad stärker als QK.
+- **Vermutung (ungeprüft):** Beim Wechsel F→G bleibt die Aufgabe gleich (beide Operanden beachten), nur der *Inhalt* (Frequenzen) ändert sich → Festhalten im Wertepfad. Verlangt der Wechsel eine
+  neue *Leitung* (andere Positionen beachten), sollte QK wichtiger werden.
+- **Möglicher Test (Skizze, nicht festgelegt):** Wechsel zu einer Aufgabe mit anderem Aufmerksamkeitsbedarf (z. B. Ausgabe hängt nach dem Wechsel nur von einer Position ab oder von einer
+  zusätzlichen Position), QK- gegen VO-Reset wie N29c. Erst nach EXP-074 (Reset-Muster bei anderen Aufgaben) entscheiden; Konkurrenzmodelle: „Wertepfad hält immer“ gegen „der benötigte Pfad hält“.

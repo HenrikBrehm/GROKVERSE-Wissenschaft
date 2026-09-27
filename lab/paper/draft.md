@@ -125,7 +125,8 @@ At a switch after 50 steps, resetting W_Q, W_K, W_V, W_O to initialization toget
 tested MLP reset (20 paired seeds, Holm-p 4.7·10⁻¹²). Resetting only W_V, W_O lowered it by 0.850 [0.685, 0.998] vs no reset and by 0.752 [0.596, 0.897] vs an equal-size reset of W_Q, W_K
 (Holm-p 2.1·10⁻⁴ and 1.9·10⁻⁵). These show *reset sensitivity*, not a storage location: weights and optimizer state were reset together, the VO and QK resets are matched only in parameter count, and the MLP control resets twice as many parameters and is not matched in displacement or dynamics. Generalized seeds: 19/20 (N29b),
 17/20 (N29c). *Relation to prior work:* in language models the ordering is reversed (query–key reset restores, value reset does not; Dong 2026); we report our ordering for this
-setting only.
+setting only. A possible reading (untested): our switch keeps the task and hence the routing requirement (attend to both operands) and changes only which frequencies the
+content carries, which passes through the value/output path; a withheld capability in a language model plausibly requires new routing (query–key).
 
 ### 3.6 Pending: D59 function (P2f, prepared) and generalization of the lock-in
 

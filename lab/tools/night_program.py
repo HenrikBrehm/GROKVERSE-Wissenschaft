@@ -589,7 +589,8 @@ def take_lock(lock: Path) -> None:
             pid = json.loads(LOCK.read_text()).get("pid")
         except (OSError, ValueError):
             pid = None
-        out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/NH"], capture_output=True, text=True).stdout
+        out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/NH"], capture_output=True, text=True,
+                             errors="replace").stdout or ""   # s20: German tasklist text (umlaut) left stdout None
         if pid is not None and str(pid) in out:
             raise SystemExit(f"[night] another night program runs (pid {pid}, {LOCK})")
         LOCK.unlink()

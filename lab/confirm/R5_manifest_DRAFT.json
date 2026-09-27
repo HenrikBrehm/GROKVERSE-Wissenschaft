@@ -1,0 +1,11 @@
+{
+ "units": 20,
+ "steps": 8000,
+ "device": "cuda",
+ "threads": 1,
+ "python": ".venv-gpu/Scripts/python.exe",
+ "registration": [
+  "lab/confirm/R5_REGISTRATION_DRAFT.md"
+ ],
+ "note": "DRAFT (session 31). Before freezing: (1) EXP-018 has run; `guarded_run.py -- python lab/confirm/R5_power_sim.py --selftest`, then `python lab/confirm/R5_power_sim.py --pilot lab/experiments/EXP-018-split-speed/summary_cuda.json > lab/confirm/R5_power.json`; n = smallest of 20/30/40/50/60 with 'both' >= 0.8 at extra 0, else 60; set N_UNITS in lab/tools/confirm_r5.py AND 'units' here to n. (2) `guarded_run.py -- python lab/tools/confirm_r5.py --selftest` green. (3) Codex recheck of points 2/4/5/6 (R5_codex_recheck_s31.txt) on the final code. (4) remove this note, add code_sha256 (--hash-code), commit as R5_manifest.json together with R5_power.json, set commit, commit again. (5) --splits, then `python lab/tools/confirm_r5.py --jobs lab/confirm/R5_manifest.json > lab/confirm/R5_jobs.txt` (no guard), commit R5_jobs.txt; smoke = first job line through parallel_queue + --analyze on the loader only; then the block (7n runs x 8000 steps; n=20: ~1 h GPU at 10 parallel)."
+}

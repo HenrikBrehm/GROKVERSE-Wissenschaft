@@ -2741,3 +2741,16 @@ formal ***redundant***, 5/5. Rücksetzen nur von W_E (RW) oder nur des Rests (RR
 Bei RW schreibt der Rest die F-Wahl in ein W_E zurück, das auf der Init stand (Train-Acc nach dem Rücksetzen 0.06–0.09). *Deutung (vorsichtig):* Nach 150 Schritten ist die
 Festlegung doppelt vorhanden. Das passt zu EXP-044 Lesart (i) („Festlegung im Netz“) und ist ein Hinweis für EXP-056. *Einordnung:* Pilot (n = 5, bekannte Seeds), keine Kernaussage.
 *Folgefrage (nicht automatisch verfolgen, Regel 15b):* Welcher Teil des Rests genügt (Attention, MLP, W_U)? Und gilt das auch bei t = 25, wo die Persistenz noch nicht an der Decke ist?
+
+**Zyklus 9 (EXP-056 auswerten, 04:56–04:58 gemessen).** *Frage:* Trägt das Netz oder die Datenüberlappung die Persistenz nach einem Wechsel bei t = 25?
+*Ergebnis:* 120/120 Läufe ok. Die erste Auswertung war leer. Ursache: mein Kommentar mitten in der Musterzeile (Fehler aus der Smoke-Korrektur, bei der ich nur feste Muster
+statt der Funktion geprüft hatte). Behoben vor dem Blick auf Ergebnisse (db71203). Primär ***unklar***: b̄ = 0.11, p = 0.25, 90-%-KI [−0.18, 0.41]. Beschreibend: π(ω = 0) = 0.30 ± 0.14,
+10/10 > 0; π flach über ω (0.30/0.38/0.35), beide Richtungen gleich (0.34/0.34). *Deutung:* Die reine Form von (ii) ist unwahrscheinlich, denn es gibt Persistenz ohne geteilte Paare.
+Ein Anteil von (ii) ist nicht ausgeschlossen. Offene Alternative: eine passive Gewichtsspur (Rechnung ≈ 14 % Rest nach 2000 Schritten, keine Kontrolle).
+*Entscheidung:* P3 mit Kandidat (a) „Persistenz ohne geteilte Daten“ vorbereiten, **mit einer Spur-Kontrolle** (z. B. A→B, bei dem nach 25 Schritten der AdamW-Zustand zurückgesetzt
+wird, oder A-Schritte mit kleiner Lernrate bei gleicher Strecke), vor dem Einfrieren Codex-Prüfung.
+
+**Rückblick nach Regel 4 (Zyklen 1–9, Sitzung 21):** *Gelernt:* Ja. Die Festlegung ist doppelt vorhanden (EXP-038), Persistenz entsteht auch ohne Datenüberlappung (EXP-056),
+Warmup verzögert (EXP-035). Alles Piloten, aber sie zeigen in dieselbe Richtung: Die Festlegung sitzt im Netz. *Wiederholen wir uns?* Nein: P1/P2 sind eingefroren, der Block läuft.
+*Messungen geeignet?* π ist trennscharf für das Niveau, aber zu verrauscht für Steigungen bei n = 10. *Fehlerquelle dieser Sitzung:* dreimal eine eigene Prüfung, die nicht das
+prüfte, was lief (Exit-Code von `tail`, feste Muster statt der Funktion, relative Pfade im Test). *Lehre:* Den echten Codepfad am echten Objekt testen.

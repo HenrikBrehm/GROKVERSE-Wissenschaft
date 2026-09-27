@@ -6,8 +6,10 @@ directory and bindings, so the running P1 block (bound to the P1 hashes) is neve
 switch run contains the stems of both splits.
 
 Per seed s and overlap omega: runs only-A, only-B (2000 steps), A->B, B->A (t = 25, then 2000). L = log[P(F)/P(G)] of the final W_E power
-(add 113 DFT, EXP-043 group_power); pi = mean of pi_AB, pi_BA (EXP-056). pi_trace (c = 1) replaces the switch run's final W_E by
-W_E(pure second run, end) + (W_E(switch run, 25) - W_E(switch run, 0)). PRIMARY: D_s = pi_s(0) - pi_trace_s(0); one-sided t-test of mean D > 0,
+(add 113 DFT, EXP-043 group_power); pi = mean of pi_AB, pi_BA (EXP-056). pi_trace(c) replaces the switch run's final W_E by
+W_E(pure second run, end) + c * (W_E(switch run, 25) - W_E(switch run, 0)); after the Codex review (s21) the control is the MAXIMUM over
+c in C_GRID (0, 0.05, ..., 1): a STATIC ADDITIVE W_E trace, no dynamics (the claim is worded accordingly). Level valid only if
+L(A) - L(B) >= MIN_SEP (normalisation guard, pilot minimum 5.7). PRIMARY: D_s = pi_s(0) - max_c pi_trace_s(0; c); one-sided t-test of mean D > 0,
 worst-case Holm over P1-P3 (3p); "bestätigt" = all planned seeds valid, Holm-p < 0.05 and lower 95 % bootstrap bound >= MIN_EFFECT (0.05).
 Secondary (descriptive): pi(0.4) - pi(0) with CI, pi per omega, pi_trace with the AdamW decay c = 0.999^2000.
 
@@ -46,12 +48,15 @@ BIND = LAB / "confirm" / "p3_bindings"
 SPL = LAB / "confirm" / "p3_splits"
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 CAL = LAB / "experiments/EXP-053-p3-overlap-design/calibration.json"
-T_SWITCH, BUDGET, ALPHA, MIN_EFFECT, SEED_RANGE, POLL_S = 25, 2000, 0.05, 0.05, (1050, 1099), 2.0
+T_SWITCH, BUDGET, ALPHA, MIN_EFFECT, SEED_RANGE, POLL_S, MIN_SEP = 25, 2000, 0.05, 0.05, (1050, 1099), 2.0, 2.0
 C_DECAY = 0.999 ** BUDGET
+C_GRID = tuple(round(0.05 * i, 2) for i in range(21))
+REGISTERED = {"seeds": list(range(1050, 1080)), "omegas": [0.0, 0.4], "device": "cuda", "threads": 1}
 CODE_FILES_P3 = ("lab/tools/confirm_p3.py", "lab/tools/confirm_p1.py", "lab/tools/confirm_splits.py", "lab/tools/result_loader.py",
                  "lab/tools/paket_a_device.py", "lab/experiments/EXP-001-freq-ban/freq_ban.py",
                  "lab/experiments/EXP-053-p3-overlap-design/overlap_split.py", "lab/experiments/EXP-053-p3-overlap-design/calibration.json",
-                 "lab/experiments/EXP-043-generalize-steering/make_split.py", "lab/experiments/EXP-043-generalize-steering/analyze.py")
+                 "lab/experiments/EXP-043-generalize-steering/make_split.py", "lab/experiments/EXP-043-generalize-steering/analyze.py",
+                 "lab/experiments/EXP-046-dihedral-steering/make_split.py", "lab/experiments/EXP-046-dihedral-steering/dihedral.py")
 
 _a43 = None
 
@@ -92,10 +97,15 @@ def check_manifest(manifest: Path, man: dict) -> None:
     strip = lambda d: {k: v for k, v in d.items() if k != "commit"}   # noqa: E731
     if strip(json.loads(got.stdout)) != strip(man):
         raise SystemExit("P3 manifest differs from its frozen version")
-    s = [int(x) for x in man["seeds"]]
-    if not s or len(set(s)) != len(s) or not all(SEED_RANGE[0] <= x <= SEED_RANGE[1] for x in s):
-        raise SystemExit("P3 seeds must be unique and lie in 1050-1099")
+    check_registered(man)
     check_code(man)
+
+
+def check_registered(man: dict) -> None:
+    """Codex review s21: the manifest must be exactly the registered design."""
+    for k, v in REGISTERED.items():
+        if man.get(k) != v:
+            raise SystemExit(f"P3 manifest field {k!r} differs from the registration: {man.get(k)!r} != {v!r}")
 
 
 # ---------------------------------------------------------------- splits and jobs
@@ -241,7 +251,11 @@ def run_bound(manifest: Path, cmd: list[str]) -> int:
         if done:
             print(f"[confirm_p3] {d.name}: completed but not bound; refused", file=sys.stderr, flush=True)
             return 4
-    pre = c1._state([d] if d.exists() else [])
+    if d.exists():                                        # Codex review s21: never bind on top of leftovers, run in a clean dir
+        aside = d.with_name(f"{d.name}.stale_{time.time_ns()}")
+        d.rename(aside)
+        print(f"[confirm_p3] unfinished/unbound leftover moved to {aside.name}", file=sys.stderr, flush=True)
+    pre: dict[str, str] = {}
     t0 = time.time_ns()
     rc, changed = _run_gated(man, cmd)
     if changed:
@@ -307,14 +321,13 @@ def level_row(man: dict, s: int, om: float) -> dict:
     gp = lambda W: a43().group_power(W, "add", 113)[0]   # noqa: E731
     L = {"A": logratio(gp(sn["A"][BUDGET]), F, G), "B": logratio(gp(sn["B"][BUDGET]), F, G),
          "AB": logratio(gp(sn["AB"][T_SWITCH + BUDGET]), F, G), "BA": logratio(gp(sn["BA"][T_SWITCH + BUDGET]), F, G)}
-    if not L["A"] > L["B"]:
-        return {"valid": False, "reason": "L(A) <= L(B)", "L": L}
-    trace = {}
-    for c_name, c in (("c1", 1.0), ("decay", C_DECAY)):
-        tAB = logratio(gp(sn["B"][BUDGET] + c * (sn["AB"][T_SWITCH] - sn["AB"][0])), F, G)
-        tBA = logratio(gp(sn["A"][BUDGET] + c * (sn["BA"][T_SWITCH] - sn["BA"][0])), F, G)
-        trace[c_name] = pi_pair(L, tAB, tBA)
-    return {"valid": True, "L": L, "pi": pi_pair(L, L["AB"], L["BA"]), "pi_trace_c1": trace["c1"], "pi_trace_decay": trace["decay"]}
+    if not L["A"] - L["B"] >= MIN_SEP:
+        return {"valid": False, "reason": f"L(A) - L(B) < {MIN_SEP}", "L": L}
+    tr = lambda c: pi_pair(L, logratio(gp(sn["B"][BUDGET] + c * (sn["AB"][T_SWITCH] - sn["AB"][0])), F, G),   # noqa: E731
+                           logratio(gp(sn["A"][BUDGET] + c * (sn["BA"][T_SWITCH] - sn["BA"][0])), F, G))
+    grid = {str(c): tr(c) for c in C_GRID}
+    return {"valid": True, "L": L, "pi": pi_pair(L, L["AB"], L["BA"]), "pi_trace_max": max(grid.values()),
+            "pi_trace_c1": grid["1.0"], "pi_trace_decay": tr(C_DECAY), "pi_trace_grid": grid}
 
 
 def verdict(D: np.ndarray, n_planned: int, rng: np.random.Generator) -> dict:
@@ -335,7 +348,7 @@ def analyze(manifest: Path) -> None:
     for s in man["seeds"]:
         rows.append({"seed": s, "levels": {str(om): level_row(man, s, om) for om in man["omegas"]}})
     prim = [r["levels"]["0.0"] for r in rows]
-    D = np.array([x["pi"] - x["pi_trace_c1"] for x in prim if x["valid"]])
+    D = np.array([x["pi"] - x["pi_trace_max"] for x in prim if x["valid"]])
     rng = np.random.default_rng(3)
     out = {"manifest_commit": man["commit"], "min_effect": MIN_EFFECT, "n_valid": int(len(D)), "n_planned": len(man["seeds"]),
            **verdict(D, len(man["seeds"]), rng)}
@@ -346,6 +359,7 @@ def analyze(manifest: Path) -> None:
     out["pi_by_omega"] = {k: float(np.mean([r["levels"][k]["pi"] for r in rows if r["levels"][k]["valid"]] or [np.nan]))
                           for k in rows[0]["levels"]} if rows else {}
     out["pi_trace_decay_mean_omega0"] = float(np.mean([x["pi_trace_decay"] for x in prim if x["valid"]] or [np.nan]))
+    out["pi_trace_max_mean_omega0"] = float(np.mean([x["pi_trace_max"] for x in prim if x["valid"]] or [np.nan]))
     out["rows"] = rows
     (LAB / "confirm" / "P3_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
@@ -353,6 +367,13 @@ def analyze(manifest: Path) -> None:
 
 def selftest() -> None:
     man = {"seeds": [1050], "omegas": [0.0, 0.4], "device": "cuda", "python": "PY", "threads": 1}
+    try:
+        check_registered(man)
+        raise AssertionError("unregistered seed list accepted")
+    except SystemExit:
+        pass
+    check_registered({**man, "seeds": list(range(1050, 1080))})
+    assert C_GRID[0] == 0.0 and C_GRID[-1] == 1.0 and len(C_GRID) == 21
     tj = trainer_jobs(man)
     assert len(tj) == 8 and all("p3_raw" in j and "\\" not in j for j in tj)
     assert all(j.startswith("python lab/tools/confirm_p3.py --run M -- ") for j in jobs(man, "M"))
@@ -400,8 +421,16 @@ def selftest() -> None:
                 assert "result.json" in unbound(m2, Path(d)) and run_bound(mf, fake) == 4   # altered completed run refused
                 nothing = [sys.executable, "-c", "pass"] + shlex.split(tj[1])[2:]
                 assert run_bound(mf, nothing) == 4                              # exit 0 without a result.json
-                last = max(BIND.glob("*.json"), key=lambda q: q.stat().st_mtime_ns)
+                last = max(BIND.glob("*.json"), key=lambda q: int(q.name.split("_")[1]))   # t0 in the name (mtime is coarse on Windows)
                 assert json.loads(last.read_text())["exit"] == 4
+                left = run_dir(shlex.split(tj[3]))                              # unfinished leftover -> moved aside, clean rerun
+                left.mkdir(parents=True)
+                (left / "result.json").write_text('{"status": "running"}')
+                redo = [sys.executable, "-c", "import pathlib, sys; d = pathlib.Path(sys.argv[1]); d.mkdir(parents=True); "
+                        "(d / 'result.json').write_text('{}')", left.as_posix()] + shlex.split(tj[3])[2:]
+                assert run_bound(mf, redo) == 0 and list(RAW.glob(left.name + ".stale_*"))
+                _BOUND.clear()
+                assert unbound(m2, left) is None
             finally:
                 g["check_manifest"], g["check_code"], g["check_job"] = gates
     finally:

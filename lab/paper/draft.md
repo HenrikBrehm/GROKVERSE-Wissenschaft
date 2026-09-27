@@ -117,7 +117,7 @@ of an early frequency choice) and show the opposite ordering within attention (v
   - **Ablation contrast R** (K4c–e): accuracy on a held-out test set after projecting W_E onto the complement of the five NEW target subspaces minus after removing the five OLD ones; R > 0 means the
     final model relies on the old frequencies. Averaged over both switch directions per seed.
 - Protocol: every confirmation was registered before its runs, analysis code and manifest frozen by commit hash, fresh seeds from a reserved block, (from N28 on) a smoke job run through the frozen loader, Holm
-  within a family, bootstrap CIs over seeds. Runs are bound to the manifest by content hashes.
+  within a family, bootstrap CIs over seeds. Runs are bound to the manifest by content hashes. Table of all confirmation blocks (manifest commit, fresh seed range, n, runs), generated from the frozen manifests: `lab/paper/figures/table_registrations.py` → `table_registrations.md`.
 
 ## 3 Results (confirmed)
 

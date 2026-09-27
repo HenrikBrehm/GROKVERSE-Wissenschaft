@@ -1,0 +1,60 @@
+{
+ "note": "post hoc exploration, seeds 30-34 seen many times; no confirmation",
+ "rows": [
+  {
+   "seed": 30,
+   "gen_eps1": null,
+   "test_final_eps1": 0.797,
+   "mem_eps1": 140,
+   "gen_eps2": 750,
+   "test_final_eps2": 1.0,
+   "mem_eps2": 130,
+   "gen_eps8": 450,
+   "test_final_eps8": 1.0,
+   "mem_eps8": 120,
+   "strict_order_8_lt_2_lt_1": true
+  },
+  {
+   "seed": 31,
+   "gen_eps1": null,
+   "test_final_eps1": 0.072,
+   "mem_eps1": 140,
+   "gen_eps2": 900,
+   "test_final_eps2": 1.0,
+   "mem_eps2": 130,
+   "gen_eps8": 425,
+   "test_final_eps8": 1.0,
+   "mem_eps8": 110,
+   "strict_order_8_lt_2_lt_1": true
+  },
+  {
+   "seed": 32,
+   "gen_eps1": null,
+   "test_final_eps1": 0.074,
+   "mem_eps1": 140,
+   "gen_eps2": 700,
+   "test_final_eps2": 1.0,
+   "mem_eps2": 130,
+   "gen_eps8": 425,
+   "test_final_eps8": 1.0,
+   "mem_eps8": 120,
+   "strict_order_8_lt_2_lt_1": true
+  },
+  {
+   "seed": 34,
+   "gen_eps1": null,
+   "test_final_eps1": 0.063,
+   "mem_eps1": 140,
+   "gen_eps2": 800,
+   "test_final_eps2": 1.0,
+   "mem_eps2": 130,
+   "gen_eps8": 450,
+   "test_final_eps8": 1.0,
+   "mem_eps8": 110,
+   "strict_order_8_lt_2_lt_1": true
+  }
+ ],
+ "strict_order_count": 4,
+ "n": 4,
+ "sign_test_one_sided_p": 0.0625
+}

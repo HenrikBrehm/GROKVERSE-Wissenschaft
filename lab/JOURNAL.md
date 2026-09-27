@@ -2878,3 +2878,10 @@ auf allen Backends vollständig zurück; die Fingerabdrücke bleiben kompatibel.
 „Unter Zufall“ ist nicht signifikant (t = −1.2). „Teilweise“ ist keine additive Zerlegung. *Übernommen:* Korrekturen in EXP-057, N28, FINDINGS, LAB, STATE (gestützt ist nur: Eine volle
 Optimierer-Neuinit senkt die A-Persistenz). *Nächster Versuch:* nur m auf 0 (v und Schrittzähler bleiben) mit protokollierten frühen Update-Normen, dann Momente zurücksetzen bei erhaltenem Schrittzähler,
 und ein voller Reset mit angeglichener Update-Norm. t = 150 erst danach (vermengt Alter, Spurgröße und Phase).
+
+**Zyklus 19 (EXP-058 vorbereitet und gestartet, 06:32–06:38 gemessen).** *Frage:* Liegt das Gedächtnis im Adam-Momentum, oder überschreibt ein voller Reset die kleine Spur (Codex-Einwand zu EXP-057)?
+*Technik:* `freq_ban.py --reset-optim-part m|moments` und `--log-update-norms N` (041f7a8). Der erste Smoke fand einen Fehler (`we_idx` nur mit keep_init gesetzt), behoben vor dem Commit.
+17/17 Tests. Vier GPU-Smokes zeigen die Update-Normen nach dem Wechsel: normal 0.27–0.34, voller Reset 0.48–0.38 (größer), nur m 0.18–0.36 (kleiner), m + v 0.25–0.41.
+*Codex (041f7a8):* keine Blocker, korrekt. Hinweise: Test steht nach dem `__main__`-Block (pytest findet ihn, direkter Aufruf nicht), kein Verhaltenstest für Reset und Logging.
+„Nur m“ ist die richtige chirurgische Kontrolle für das erste Moment, aber keine vollständige Trennung von Gewichten und Optimierer (v trägt auch A-Geschichte). Bei der Auswertung paarweise
+vergleichen und neben den Normen auch Richtungen prüfen. *Festlegung:* [[experiments/EXP-058-optim-part/README|EXP-058]] (06:36, vor jedem Lauf). *Start:* 80 Läufe, GPU.

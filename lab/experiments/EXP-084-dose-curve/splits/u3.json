@@ -1,0 +1,53 @@
+{
+ "unit": 3,
+ "init_seed": 2783,
+ "targets": [
+  12,
+  22,
+  28,
+  31,
+  53
+ ],
+ "arms": {
+  "R": {
+   "m0_target_share": 0.08881212831880841,
+   "count_cv_c": 0.1279385630671183,
+   "overlap_with_R": 3831
+  },
+  "e0.5": {
+   "m0_target_share": 0.0952213547436382,
+   "count_cv_c": 0.11915141138127819,
+   "overlap_with_R": 1447
+  },
+  "e1": {
+   "m0_target_share": 0.11530102868452743,
+   "count_cv_c": 0.12107443956582213,
+   "overlap_with_R": 1475
+  },
+  "e2": {
+   "m0_target_share": 0.18175441974117568,
+   "count_cv_c": 0.12458469917809162,
+   "overlap_with_R": 1466
+  },
+  "e4": {
+   "m0_target_share": 0.27911556456503034,
+   "count_cv_c": 0.11647193662872866,
+   "overlap_with_R": 1449
+  },
+  "e8": {
+   "m0_target_share": 0.35294011195422603,
+   "count_cv_c": 0.11209280237517805,
+   "overlap_with_R": 1443
+  },
+  "e16": {
+   "m0_target_share": 0.3993498073606095,
+   "count_cv_c": 0.10909927647215734,
+   "overlap_with_R": 1437
+  },
+  "e32": {
+   "m0_target_share": 0.4294736116877731,
+   "count_cv_c": 0.10499964795605893,
+   "overlap_with_R": 1441
+  }
+ }
+}

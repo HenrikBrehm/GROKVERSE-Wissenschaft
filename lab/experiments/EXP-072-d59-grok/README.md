@@ -48,3 +48,12 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-072-d59-grok/jobs.txt --w
 - **Lesart:** Auch in der nicht-abelschen Aufgabe landet nach dem Grokking fast die gesamte W_E-Energie in gesteuerten Irreps, und das Netz reagiert auf Schritte entlang dieser Irreps
   staerker als entlang der Kontrollen. Wie bei P2e gilt die Grenze aus [[experiments/EXP-068-matched-sensitivity/README|EXP-068]]: Das ist mit "Funktion folgt der Energie" vereinbar.
 - **Folge fuer P2f:** 12000 Schritte, n = 20 frische Seeds genuegt bei dieser Streuung klar (KI-Halbbreite ~0.01); Registrierung mit Codex-Pruefung vor dem Einfrieren (Regel 18c).
+
+## Nachtrag b (Sitzung 24, 13:26 Berlin, gemessen; post hoc, Exploration, nur gespeicherte Spektren)
+
+Energieanteil der eigenen Ziel-Irreps an der Irrep-Leistung von W_E (2-dim Irreps; Zufall 5/29 = 0.17) im Verlauf:
+Schritt 250: 0.29–0.38; 2000: 0.39–0.59; ≥ 0.9 erst 500–3000 Schritte **nach** dem ersten Test ≥ 0.9 (Seed 1004 F: erst bei 20000).
+Die Steuerung wirkt also früh (Schritt 250 deutlich über Zufall), die Konzentration auf die eigenen Irreps geschieht mit bzw. nach dem Grokking.
+**Auffällig:** Läufe mit höherem Anteil bei Schritt 2000 groken früher: Spearman ρ = −0.75 (Permutations-p = 0.008, einseitig; 10 Läufe aus 5 Seeds, F und G teilen die Init, also nicht unabhängig;
+1004 F zensiert, als spätester gezählt). Im Geist bekannt (Fortschrittsmaße vor dem Grokking, Nanda et al. 2023, https://arxiv.org/abs/2301.05217); hier für eine nicht-abelsche Gruppe mit gesteuerten Irreps.
+Wird als vorab festgelegte Sekundärhypothese in [[confirm/P2f_REGISTRATION|P2f]] an frischen Seeds geprüft (keine zusätzlichen Läufe).

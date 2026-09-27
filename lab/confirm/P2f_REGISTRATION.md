@@ -19,6 +19,10 @@ Vorgaenger [[confirm/P2e_REGISTRATION|P2e]] (mul 113, add 97, bestaetigt).
   drop_S = Logit-Abstand vorher - nachher auf den Paaren in keinem der beiden Splits. 4 Kontrollmengen je Arm aus 1..29 ohne eigene, fremde Ziele und fold(2k) der eigenen
   (RNG [6, 59, Seed, Arm]). **Primaer:** D_s = Mittel ueber beide Arme von (drop_eigen - Mittel drop_Kontrolle). Einseitiger t-Test (Mittel > 0), 95-%-Bootstrap-KI.
 - **Familie:** eine Hypothese (keine Holm-Korrektur noetig).
+- **Sekundärhypothese S1 (eigene Bezeichnung, nicht Teil des primären Urteils; ergänzt Sitzung 24, 13:27, vor dem Einfrieren, nach EXP-072 Nachtrag b):** Seeds mit höherem Energieanteil der eigenen
+  Ziel-Irreps an der W_E-Irrep-Leistung bei Schritt 2000 groken früher. Je Seed x = Mittel beider Arme des Anteils bei 2000, y = Mittel beider Arme des Generalisierungsschritts (nie generalisiert:
+  12001, als spätester gezählt). Spearman ρ(x, y) über 20 Seeds, einseitiger Permutationstest (20000). „S1 bestätigt“ = ρ < 0 und p < 0.05; technischer Ausfall → nicht auswertbar.
+  Grundlage: post hoc ρ = −0.75 an 10 EXP-072-Läufen (gesehen). Im Geist bekannt (Fortschrittsmaße, Nanda et al. 2023).
 - **Urteil:** Jeder technische Ausfall (auch Lade- oder Rechenfehler) -> *nicht auswertbar*; sonst **"bestaetigt" = p < 0.05 und KI-Untergrenze >= 0.05** (Logit-Einheiten), sonst *nicht bestaetigt*.
   Primaer zaehlen alle 20 Seeds; wie viele Modelle generalisiert haben (>= 0.9 in beiden Armen), wird berichtet, dazu beschreibend D nur an diesen Seeds und der Median-Energieanteil der
   eigenen Irreps in W_E.

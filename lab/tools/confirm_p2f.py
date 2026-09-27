@@ -40,6 +40,7 @@ DH_FILE = "lab/experiments/EXP-046-dihedral-steering/dihedral.py"
 N = 59
 G = 2 * N
 ACC_MIN, ALPHA, MIN_EFFECT, REL_DELTA, N_CTRL = 0.9, 0.05, 0.05, 0.02, 4
+S1_STEP, S1_PERM = 2000, 20000          # secondary S1 (EXP-072 Nachtrag b): own-irrep share at step 2000 vs grokking step
 REGISTERED = {"experiment": 6, "eps": 2.0, "seeds": list(range(2340, 2360)), "task": "D", "n": N, "steps": 12000,
               "device": "cuda", "threads": 1}
 CODE_FILES = ("lab/tools/confirm_p2f.py", "lab/tools/bound_block.py", "lab/tools/confirm_p1.py", "lab/tools/confirm_splits.py",
@@ -193,15 +194,19 @@ def arm_row(man: dict, s: int, arm: str, T: dict, common: np.ndarray) -> dict | 
     if (why := BLOCK.unbound(man, d)):
         return f"defekt: {why}"
     L = load_run(d, Expect(seed=s, device=man["device"], max_steps=man["steps"], split_file=split, config={"p": G},
-                           files=("model_final.pt",)))
+                           at=(S1_STEP,), files=("model_final.pt",)))
     if L.status != "ok":
         return f"{L.status}: {L.reason}"
     if (why := BLOCK.unbound(man, d)) or L.res.get("fingerprint_fields", {}).get("split_file_sha256") != sha(split):
         return f"defekt after load: {why or 'split bytes differ'}"
     try:
-        return measure(s, arm, T, common, BLOCK.bound_bytes(man, L.path / "model_final.pt"))
+        out = measure(s, arm, T, common, BLOCK.bound_bytes(man, L.path / "model_final.pt"))
     except Exception as ex:                    # as P2e (Codex s23 point 1): any load/forward failure is technical, never an abort
         return f"defekt: {type(ex).__name__}: {ex}"
+    pw = np.asarray(L.spectrum(S1_STEP), dtype=np.float64)        # irrep power k = 1..29 (group_train), checked finite by the loader
+    gen = L.res.get("generalization_step")
+    return {**out, "share_own_2000": float(pw[[k - 1 for k in T[arm]]].sum() / pw.sum()),
+            "gen_step": int(gen) if gen is not None else man["steps"] + 1}   # never generalised: censored, ranked last
 
 
 def validity(arms: dict) -> dict:
@@ -232,6 +237,31 @@ def stats(D: np.ndarray, rng: np.random.Generator) -> dict:
             "ci95": c1.boot_ci(D, rng), "n_positive": int((D > 0).sum())}
 
 
+def rankdata(v: np.ndarray) -> np.ndarray:
+    o = np.argsort(v, kind="stable")
+    r = np.empty(len(v))
+    r[o] = np.arange(len(v))
+    for u in np.unique(v):                                   # average ranks for ties
+        r[v == u] = r[v == u].mean()
+    return r
+
+
+def secondary_s1(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
+    """S1 (secondary, own label, not part of the primary verdict): seeds with a larger own-irrep share at step 2000 grok earlier.
+    Per seed x = mean over arms of share_own_2000, y = mean over arms of gen_step (censored = steps + 1); Spearman rho(x, y),
+    one-sided permutation p (rho <= observed). "S1 bestätigt" = rho < 0 and p < ALPHA; any technical failure -> nicht auswertbar."""
+    if any(r.get("technical") for r in rows) or len(rows) != n_planned or n_planned < 5:
+        return {"verdict": "nicht auswertbar"}
+    x = np.array([np.mean([v["share_own_2000"] for v in r["arms"].values()]) for r in rows])
+    y = np.array([np.mean([v["gen_step"] for v in r["arms"].values()]) for r in rows])
+    rx, ry = rankdata(x), rankdata(y)
+    rho = float(np.corrcoef(rx, ry)[0, 1])
+    perm = np.array([np.corrcoef(rng.permutation(rx), ry)[0, 1] for _ in range(S1_PERM)])
+    p = float((1 + (perm <= rho).sum()) / (1 + S1_PERM))
+    return {"n": len(rows), "rho": rho, "p_perm_one_sided": p, "n_censored_arms": int(sum(v["gen_step"] > REGISTERED["steps"] for r in rows for v in r["arms"].values())),
+            "verdict": "S1 bestätigt" if rho < 0 and p < ALPHA else "S1 nicht bestätigt"}
+
+
 def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
     n_tech = sum(1 for r in rows if r.get("technical"))
     if n_tech > 0 or len(rows) != n_planned or n_planned < 3:
@@ -256,7 +286,8 @@ def analyze(manifest: Path) -> None:
         raise SystemExit(f"P2f splits differ from the registered construction, confirmation void: {bad[:3]}")
     rows = [seed_row(man, s) for s in man["seeds"]]
     out = {"manifest_commit": man["commit"], "min_effect": MIN_EFFECT, "rel_delta": REL_DELTA, "n_planned": len(man["seeds"]),
-           "D59": verdict(rows, len(man["seeds"]), np.random.default_rng(6)), "rows": rows}
+           "D59": verdict(rows, len(man["seeds"]), np.random.default_rng(6)),
+           "S1_secondary": secondary_s1(rows, len(man["seeds"]), np.random.default_rng(61)), "rows": rows}
     (LAB / "confirm" / "P2f_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
 
@@ -301,6 +332,13 @@ def selftest() -> None:
     assert verdict(rows[:19], 20, rng)["verdict"] == "nicht auswertbar"
     assert verdict(rows[:19] + [{"seed": 1, "valid": False, "technical": True}], 20, rng)["verdict"] == "nicht auswertbar"
     assert verdict([mk(0.0 + 0.004 * i) for i in range(20)], 20, rng)["verdict"] == "nicht bestätigt"
+    s1rows = [{"technical": False, "arms": {a: {"share_own_2000": 0.4 + 0.01 * i, "gen_step": 9000 - 200 * i} for a in "FG"}} for i in range(20)]
+    s1 = secondary_s1(s1rows, 20, np.random.default_rng(1))
+    assert s1["verdict"] == "S1 bestätigt" and s1["rho"] < -0.99, s1
+    assert secondary_s1(s1rows[:19], 20, rng)["verdict"] == "nicht auswertbar"
+    flat = [{"technical": False, "arms": {a: {"share_own_2000": 0.4 + 0.01 * i, "gen_step": 5000 + 200 * i} for a in "FG"}} for i in range(20)]
+    assert secondary_s1(flat, 20, np.random.default_rng(1))["verdict"] == "S1 nicht bestätigt"
+    assert list(rankdata(np.array([3.0, 1.0, 3.0]))) == [1.5, 0.0, 1.5]
     w = verdict(rows[:15] + [mk(0.0, False)] * 5, 20, rng)
     assert w["n"] == 20 and w["n_generalised"] == 15 and "verdict" not in w["descriptive_generalised_only"]
     import torch                                            # end-to-end measure() on a random model (P2e lesson)

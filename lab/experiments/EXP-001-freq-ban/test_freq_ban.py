@@ -288,3 +288,19 @@ def test_partial_optimizer_reset_arguments() -> None:   # EXP-058 (session 21): 
                                "--reset-optim-part", "m", "--reset-optim-at-switch"], capture_output=True, text=True, timeout=120)
     assert r.returncode != 0 and "excludes the other reset options" in (r.stderr + r.stdout)
     assert not (HERE / "raw_test_never").exists()
+
+
+def test_reset_parts(tmp_path: Path) -> None:   # EXP-067 (session 23): only the named part is reset, n_params matches, run_id suffix
+    import json
+    import subprocess
+    spl = HERE.parents[2] / "lab/experiments/EXP-056-overlap-persistence/splits"
+    sizes = {"attn": 4 * 4 * 128 * 32, "mlp": 2 * 128 * 512, "unembed": 128 * 114}
+    for part, n in sizes.items():
+        r = subprocess.run([sys.executable, str(HERE / "freq_ban.py"), "--seed", "400", "--condition", "baseline", "--steps", "60",
+                            "--threads", "1", "--test-file", str(spl / "seed400_test.npy"), "--split-file", str(spl / "seed400_w0_A.npy"),
+                            "--switch-split-file", str(spl / "seed400_w0_B.npy"), "--switch-step", "50", "--spectra-at", "50,60",
+                            "--reset-at-switch", part, "--out-root", str(tmp_path)], capture_output=True, text=True, timeout=600)
+        assert r.returncode == 0, r.stderr[-500:]
+        d = next(tmp_path.glob(f"EXP-020_*_at50_rs{part}"))
+        ev = json.loads((d / "result.json").read_text(encoding="utf-8"))["events"]["reset_at_switch"]
+        assert ev["which"] == part and ev["check"] is True and ev["n_params"] == n, ev

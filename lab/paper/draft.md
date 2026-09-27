@@ -140,6 +140,9 @@ embedding energy after grokking (exploration). Confirmation P2f (20 fresh seeds,
 - The mask spectrum M0 predicts the learned frequencies (EXP-015) and is closely related, at first order, to the power of the first W_E gradient (coherent variant M0c for the transformer;
 EXP-050: first order explains only part; [[BEFUND-split-mechanismus]]); it is *not* the first-stage utility of
   the simplest AGF model (EXP-076, negative).
+- Post hoc on the 50 confirmed add-113 seeds of P1: the M0 target contrast of a seed's split pair correlates with the size of its Δ_pow (Spearman 0.39, permutation p 0.006; centred M0c
+  0.26, p 0.07; two measures, not pre-registered); split contrasts vary little, so most of the seed-to-seed spread comes from elsewhere. In the shuffled control of EXP-047, Δ_pow is also
+  ≈ 0 on the continuous measure (0.02 ± 0.65, post hoc).
 - Further pilots: steering also in a shared-embedding MLP, at 4× width and for non-modular integer addition (EXP-045, 049, 048) — to be confirmed or reported as pilots (rule 19b).
 
 ## 5 Theory (first order, outline)

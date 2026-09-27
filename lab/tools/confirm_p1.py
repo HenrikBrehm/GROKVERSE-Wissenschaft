@@ -122,9 +122,11 @@ def _bindable(p: Path) -> bool:
 
 
 def run_dir_for(cmd: list[str]) -> list[Path]:
-    """Run directories of this job: name contains 'seed<seed>_' and the split stem (freq_ban and group_train run ids both do)."""
+    """Run directories of this job: the split stem occurs in the name and 'seed<seed>_' occurs BEFORE it (freq_ban and group_train
+    run ids both look like that). Before the stem, because the stem itself contains the unit seed: the cross runs (init 1200+) on
+    the split of unit 1000 must not match the primary job of seed 1000."""
     seed, split = cmd[cmd.index("--seed") + 1], Path(cmd[cmd.index("--split-file") + 1]).stem
-    return [d for d in RAW.glob("*") if d.is_dir() and f"seed{seed}_" in d.name and split in d.name] if RAW.exists() else []
+    return [d for d in RAW.glob("*") if d.is_dir() and split in d.name and f"seed{seed}_" in d.name.split(split)[0]] if RAW.exists() else []
 
 
 def run_bound(manifest: Path, cmd: list[str]) -> int:
@@ -444,6 +446,12 @@ def _selftest_binding() -> None:
             (d / "run.lock").write_text("x")
             assert run_dir_for(["py", "t.py", "--seed", "1000", "--split-file", "s/confirm_x_F.npy"]) == [d]
             assert run_dir_for(["py", "t.py", "--seed", "1001", "--split-file", "s/confirm_x_F.npy"]) == []
+            st = "confirm_exp1_eps2.0_add113_seed1000_F"                 # primary and cross run on the same split
+            prim, cross = RAW / f"EXP-001_baseline_seed1000_thr1_{st}_devcuda", RAW / f"EXP-001_baseline_seed1200_thr1_{st}_devcuda"
+            prim.mkdir(), cross.mkdir()
+            assert run_dir_for(["py", "t.py", "--seed", "1000", "--split-file", f"s/{st}.npy"]) == [prim]
+            assert run_dir_for(["py", "t.py", "--seed", "1200", "--split-file", f"s/{st}.npy"]) == [cross]
+            prim.rmdir(), cross.rmdir()
             _BOUND.clear()
             assert "not bound" in unbound(man, d)
             BIND.mkdir()

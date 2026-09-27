@@ -1,0 +1,14 @@
+{
+ "setbacks": {
+  "A": 0,
+  "B": 0,
+  "AB@25": 0,
+  "BA@25": 1,
+  "AB@50": 0,
+  "BA@50": 3
+ },
+ "runs_per_arm": 30,
+ "per_seed_more_at25": 1,
+ "nonzero": 1,
+ "p_one_sided": 0.5
+}

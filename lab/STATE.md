@@ -34,7 +34,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
    `python`, `registration`, `code_sha256` aus `--hash-code`), committen, Commit-ID ins Feld `commit`, erneut committen → `--splits` → `--jobs > P2f_jobs.txt` → Smoke: erste Jobzeile allein über
    `parallel_queue` und `--analyze` (Wert nicht ansehen, nur Lader prüfen) → Block `parallel_queue.py lab/confirm/P2f_jobs.txt --workers 10` (12000 Schritte) → `--analyze`.
 5. Parallel auf der GPU (nach P2f-Block oder daneben, höchstens ≈ 10 GPU-Prozesse): **EXP-073** (140 Läufe), **EXP-074** (100), **EXP-075** (120, MLP, sehr schnell) über `parallel_queue.py`,
-   dann ihre `analyze.py`. Zusammen erwartet ≈ 45 min GPU.
+   dann ihre `analyze.py`. Schätzung aus den s/Schritt dieser Sitzung: P2f ≈ 25 min (10 parallel, 0.03 s/Schritt), EXP-073 ≈ 18 min, EXP-074 ≈ 13 min, EXP-075 ≈ 5 min,
+   GPU zusammen ≈ 1 h nacheinander; CPU (EXP-040 zuerst) ≈ 3 h. Nicht alle GPU-Queues gleichzeitig starten (≤ 10 Prozesse).
 
 
 ## Prioritäten (Regel 18c + Regel 19, Veröffentlichung gleichgewichtig)

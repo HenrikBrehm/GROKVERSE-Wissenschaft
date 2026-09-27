@@ -1,0 +1,22 @@
+{
+ "seed": 2344,
+ "task": "D",
+ "n": 59,
+ "arm": "G",
+ "targets": [
+  2,
+  4,
+  17,
+  22,
+  24
+ ],
+ "other_targets": [
+  3,
+  7,
+  9,
+  18,
+  23
+ ],
+ "n_train": 4177,
+ "manifest_commit": "15539d8"
+}

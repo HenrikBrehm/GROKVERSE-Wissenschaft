@@ -325,6 +325,7 @@ code), operating under written rules set by the human author, who bears responsi
 
 ## Figures (scripts under `lab/paper/figures/`, rendered from stored runs / frozen summaries)
 
+0. **done (session 30):** `figures/fig0_setup.py` — setup: training-pair masks of one P1 seed (add 113, seed 1000; arm R ε = 0 vs arm F ε = 2) arranged by a and c = a + b, their centred mask spectra M0c (target share 0.089 vs 0.194), and a schematic of the switch protocol. Caption must say: the engineered mask looks random to the eye; the steering lives in its spectrum, not in a visible symmetry. The switch blocks use their own pair-disjoint construction (§2), the panel (c) is schematic.
 1. **done:** `figures/fig1_mask_vs_learned.py` — mask spectrum M0 vs learned W_E power at step 2000 for EXP-016 seed 10 F (pilot data). Caption must say: four of five targets dominate;
    target 25 is replaced by 32 = 2·16 (a harmonic of a target, as seen throughout EXP-016).
 2. Δ_pow per task with CIs (P1 summary) — **done:** `figures/fig2_p1_delta_pow.py` → `fig2_p1_delta_pow.png/.svg` (reads `lab/confirm/P1_summary.json`).

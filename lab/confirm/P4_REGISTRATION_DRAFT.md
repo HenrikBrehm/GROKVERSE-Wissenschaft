@@ -22,7 +22,7 @@ damit sie im Paper als Ergebnisse statt als Piloten stehen können.
   `make_split` mit neuen Strömen; Codex-Prüfung vor dem Einfrieren (Regel 18c). GPU-Budget ≈ 40 min.
 - **Bereits gesehene Daten:** die drei Piloten (Seeds 90–99, 160–169, 170–179); davon beeinflusst: Maß, Zeitpunkte, Wahl der drei Bedingungen.
 
-## Technische Bestandsaufnahme für `confirm_p4.py` (Sitzung 24, 14:1x, nur gelesen)
+## Technische Bestandsaufnahme für `confirm_p4.py` (Sitzung 24, 14:10, nur gelesen)
 
 | Bedingung | Trainer | Run-ID | Splits | Maß im Piloten |
 |---|---|---|---|---|

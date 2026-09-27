@@ -15,7 +15,7 @@ import torch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "lab" / "tools"))
-from confirm_r4 import MEASURES, N_FREQ, P  # noqa: E402
+from confirm_r4 import MEASURES, N_FREQ, P, PAIRS, PRIMARY  # noqa: E402
 
 RUN = ROOT / "training/runs/txf_add_p113_wd1.0_frac0.3_seed{s}_arch25k/ckpt_step{t:06d}.pt"
 
@@ -40,6 +40,17 @@ def main() -> None:
         for name, f in MEASURES.items():
             v = np.array([f(S[a], S[b]) for a, b in itertools.combinations(range(10), 2)])
             print(f"step {t:5d} {name:4s} mean {v.mean():+.3f} sd {v.std(ddof=1):.3f}")
+        # Codex recheck s30: SD of the crossed-design UNIT statistic under the null. Four unrelated runs fill the four cells
+        # (init index, split index); Delta = mean(split pairs) - mean(none pairs), over all ordered 4-tuples of the 10 runs
+        # (overlapping, so this is a resampling estimate, not 5040 independent units).
+        for name, f in MEASURES.items():
+            d = []
+            for q in itertools.permutations(range(10), 4):
+                cell = dict(zip([(0, 0), (0, 1), (1, 0), (1, 1)], q))
+                sim = {k: np.mean([f(S[cell[a]], S[cell[b]]) for a, b in pp]) for k, pp in PAIRS.items()}
+                d.append(sim["split"] - sim["none"])
+            d = np.array(d)
+            print(f"step {t:5d} {name:4s} unit-Delta null: mean {d.mean():+.4f} sd {d.std(ddof=1):.3f}")
 
 
 if __name__ == "__main__":

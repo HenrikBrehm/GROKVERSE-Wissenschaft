@@ -64,7 +64,10 @@ def run(a: argparse.Namespace) -> dict:
     run_id = f"EXP-046_seed{a.seed}_{Path(a.split_file).stem}_dev{a.device.replace(':', '')}"
     out_dir = Path(a.out_root) / run_id
     rj = out_dir / "result.json"
-    fingerprint, fp_fields = config_fingerprint(a)     # session 19: resume guard, lab/tools/trainer_guard.py
+    # session 19: resume guard (lab/tools/trainer_guard.py); session 23: save_model only enters the fingerprint when set, so the
+    # fingerprints of all earlier runs (without the option) stay unchanged
+    fp_args = argparse.Namespace(**{k: v for k, v in vars(a).items() if not (k == "save_model" and not v)})
+    fingerprint, fp_fields = config_fingerprint(fp_args)
     if should_skip(rj, fingerprint, a.steps, a.force, "g", run_id):
         raise SystemExit(0)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -156,6 +159,12 @@ def run(a: argparse.Namespace) -> dict:
     res["final_top_m_share"] = float(np.sort(pw)[::-1][:M].sum() / total_nonconst())
     res["final_acc"] = {"train": evaluate(model, trx, try_, G)[1], "test": evaluate(model, tex, tey, G)[1]}
     res["end_utc"] = datetime.now(timezone.utc).isoformat()
+    if a.save_model:                                      # session 23 (P2e/D59): atomic, then checked before "completed"
+        tmp_model = out_dir / "model_final.pt.tmp"
+        torch.save(model.state_dict(), tmp_model)
+        os.replace(tmp_model, out_dir / "model_final.pt")
+        if not (out_dir / "model_final.pt").exists():
+            raise SystemExit(f"[g] artifact check failed in {out_dir}: model_final.pt missing")
     write("completed")
     print(f"[g] {run_id} completed: {step} steps, gen {res.get('generalization_step')}, top-{M} "
           f"{res['final_top_m_irreps']} (share {res['final_top_m_share']:.3f}), {res['sec_per_step']} s/step", flush=True)
@@ -172,6 +181,7 @@ def main() -> None:
     ap.add_argument("--device", default="cpu")
     ap.add_argument("--out-root", default=str(HERE / "raw"))
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--save-model", action="store_true", help="session 23: store model_final.pt (state_dict) at the end")
     run(ap.parse_args())
 
 

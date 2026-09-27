@@ -1,11 +1,11 @@
 ---
 id: P2c-registrierung
-status: entwurf
+status: eingefroren
 datum: 2026-09-27
 tags: [lab/bestaetigung]
 verwandt: ["[[FINDINGS]]", "[[confirm/P2b_REGISTRATION|P2b]]", "[[confirm/P2_REGISTRATION_DRAFT|P2]]", "[[confirm/N28_REGISTRATION|N28]]", "[[JOURNAL]]"]
 ---
-# P2c-Bestätigung (funktionale Nutzung): Registrierung (Sitzung 22). **ENTWURF, nicht eingefroren**
+# P2c-Bestätigung (funktionale Nutzung): Registrierung (Sitzung 22). **EINGEFROREN**
 
 Zurück zu [[FINDINGS]] (Programm A) · ersetzt [[confirm/P2b_REGISTRATION|P2b]] (abgebrochen, Designfehler) · Familie Sitzung 22 mit [[confirm/N28_REGISTRATION|N28]] (P2c übernimmt den Platz von P2b).
 
@@ -23,6 +23,11 @@ python lab/tools/parallel_queue.py lab/confirm/P2c_jobs.txt --workers 5
 python lab/tools/guarded_run.py -- python lab/tools/confirm_p2c.py --analyze lab/confirm/P2c_manifest.json
 ```
 
-## Codex-Prüfung (Sitzung 22, 08:07–08:12)
+## Codex-Prüfung (Sitzung 22, 08:07–08:09 gemessen)
 
 Gezielte Nachprüfung der Änderungen gegenüber P2b: volle 4000 Schritte garantiert, Lauf-ID und Lader korrekt; zwei Kommentarfehler behoben. Sonst keine Einwände.
+
+## EINGEFROREN (Sitzung 22, 08:09 Berlin, gemessen)
+
+Manifest-Commit **e8e0cfa** (Commit-Feld b7dfa94), Splits und Jobs 4aa4544, Herkunftsprüfung für alle 100 Seeds bestanden. Vor dem Einfrieren kein Lauf mit Seeds 2100–2199.
+Start 08:10 mit 3 Arbeitern (freier virtueller Speicher nur 3.3 GB).

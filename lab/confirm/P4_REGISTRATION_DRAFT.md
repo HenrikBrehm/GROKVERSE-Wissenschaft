@@ -21,3 +21,14 @@ damit sie im Paper als Ergebnisse statt als Piloten stehen können.
 - **Code (fehlt):** `lab/tools/confirm_p4.py` nach dem Muster `confirm_p2e.py` (Bindung, Manifest, Selbsttest mit End-zu-End-Maß), Split-Konstruktion aus `confirm_splits` (add 113) bzw. EXP-048
   `make_split` mit neuen Strömen; Codex-Prüfung vor dem Einfrieren (Regel 18c). GPU-Budget ≈ 40 min.
 - **Bereits gesehene Daten:** die drei Piloten (Seeds 90–99, 160–169, 170–179); davon beeinflusst: Maß, Zeitpunkte, Wahl der drei Bedingungen.
+
+## Technische Bestandsaufnahme für `confirm_p4.py` (Sitzung 24, 14:1x, nur gelesen)
+
+| Bedingung | Trainer | Run-ID | Splits | Maß im Piloten |
+|---|---|---|---|---|
+| H4a MLP | `freq_ban.py --arch mlp` (Fingerabdruck, Sperre, `--save-model`) | `EXP-045_baseline_seed<s>_thr1_<stem>_mlp_devcuda` | EXP-043-Konstruktion → hier `confirm_splits.build` (add 113) mit neuer Versuchs-ID | Top-5-Δ bei 10 000 |
+| H4b d = 512 | `lab/experiments/EXP-049-width-steering/width_train.py --d-model 512` (eigener schlanker Trainer, trainer_guard) | `EXP-049_d512_seed<s>_<stem>_dev<dev>` | EXP-049 `make_split.py` → hier `confirm_splits.build` (add 113) | Δ_pow bei 2000 |
+| H4c Integer-Addition | `lab/experiments/EXP-048-intadd-steering/intadd_train.py` (eigener Trainer, Ausgabe 225) | `EXP-048_seed<s>_<stem>_dev<dev>` | EXP-048 `make_split.py` (eigene Ströme `SeedSequence([48001, seed, arm, purpose])`, Ziele aus 6..56) → Ströme um eine Versuchs-ID erweitern, ohne die Pilotdatei zu ändern | trendbereinigtes Δ_pow bei 2000 (EXP-048 Nachtrag a) |
+
+Offene Punkte: Das trendbereinigte Maß aus EXP-048 `analyze.py` wiederverwenden (Datei in die Hash-Liste); für H4a Δ_pow statt Top-5 als Primärgröße (vorab so festgelegt); alle Arme GPU.
+

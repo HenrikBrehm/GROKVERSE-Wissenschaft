@@ -520,3 +520,8 @@ Google Scholar.
   2609.19363 (Stiefel-Attention, W_Q/W_K auf der Stiefel-Mannigfaltigkeit, Weight Decay wirkt dort nicht; Kontext zu K4d/e, nicht einschränkend), 2608.07436 (Muon-Transformer verlieren die Generalisierung nach dem Grokking bei (a + b) mod 113, **auch eine AdamW-Referenz in 4/5 Seeds**;
   Kontext: unsere Persistenzmaße liegen bei 2000–4000 Schritten nach dem Wechsel, spätes Verhalten nicht geprüft), 2608.14803, 2608.28184, 2608.01833 (Dynamik/Mechanismen, nicht einschlägig).
   **Keine** steuert die Frequenzwahl über die Trainingsmenge oder misst eine Festlegung nach einem Datenwechsel → K2/K4 unverändert „nach unserer Suche nicht gefunden“.
+
+
+### Nachtrag Sitzung 28 (2026-09-27): Einordnung der Feinordnung (C1)
+
+Explorativ ordnet das Paarspektrum des Splits auch die Frequenzen **innerhalb** der Zielmenge, stärker als die Init-Energie ([[NOVEL_DIRECTIONS]] N39; Registrierung [[confirm/C1_REGISTRATION|C1]]). Abgrenzung: He et al. 2026a (2602.16849) finden bei vollen Daten die Init (Betrag/Phase) als Entscheider je Neuron; bei unseren konstruierten Splits ist der Init-Beitrag zur Rangfolge klein (ρ 0.08–0.15 gegen 0.21–0.44). Das widerspricht He et al. nicht (andere Datenlage), grenzt aber ab: Zu zitieren als „Daten gegen Init“. Suche vom 2026-09-27 ohne einschränkenden Treffer (Suchbegriffe in N39).

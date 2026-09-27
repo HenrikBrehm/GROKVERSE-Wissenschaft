@@ -5,20 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 16:49 Berlin (14:49Z, vom Runner)
 - **Deadline:** 2026-09-27 19:49 Berlin (17:49Z)
-- **Zuletzt aktualisiert:** 16:55 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 17:06 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests; nur Auswertung gespeicherter Läufe, Denk- und Schreibarbeit.
 
 ## Gerade
 
-Codex prüft die neue Registrierung [[confirm/C1_REGISTRATION|C1]] (Programm C): Sagt das Masken-Spektrum voraus, welches der fünf Ziele zurückbleibt? Geprüft wird an den frischen R1-Seeds, die noch nicht gelaufen sind.
+Codex prüft nur die korrigierten Punkte der Registrierungen [[confirm/C1_REGISTRATION|C1]] und [[confirm/C2_REGISTRATION|C2]] nach (Fassung 2).
 
 ## Als Nächstes
 
-Codex-Punkte prüfen und einarbeiten; Befund in [[FINDINGS]] (Programm C) und im Paper (§3.1 absolute Anteile, §4 Exploration) eintragen.
+Codex-Nachprüfung einarbeiten; danach weitere Denkarbeit (siehe STATE, Programm B/C).
 
 ## Verlauf dieser Sitzung
 
+- 17:05 C1/C2 Fassung 2 committet (d50e7b0): engere Aussagen, bereinigter Koeffizient, Code-Tor. Diagnose vor dem Lauf: in den R1-Splits hängt M0c nicht von k ab.
+- 17:04 Codex zu C1: 2 Blocker, 6 größere Punkte; alle geprüft, fast alle übernommen (JOURNAL).
+- 17:00 C2 registriert (Programm B): nach einem Wechsel bei t = 50 behalten die alten Ziele ihre Rangfolge (N29 ρ 0.58; die neuen Daten ordnen sie nicht um).
 - 16:55 Artefakt-Kontrolle: keine Abhängigkeit von k (ρ ≈ 0.01), vertauschte Arme ρ ≈ −0.08.
 - 16:53 C1 registriert und committet (d330f1c), vor jedem R1-Lauf.
-- 16:52 Exploration P1: Rangfolge der Ziele folgt M0/M0c (ρ 0.21–0.44, alle 4 Aufgaben, p < 5·10⁻⁵), Init nur 0.08–0.15.
+- 16:52 Exploration P1: Rangfolge der Ziele folgt M0/M0c (ρ 0.21–0.44, alle 4 Aufgaben), Init nur 0.08–0.15.
 - 16:51 P1 absolut: 80 % der W_E-Energie auf den 5 Zielen (add 113; Init 8.9 % = Zufall); mul 79 %, add 97 69 %, D₅₉ 44 % (Zufall 17 %).

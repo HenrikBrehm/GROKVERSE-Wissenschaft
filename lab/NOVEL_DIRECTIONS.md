@@ -864,3 +864,10 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
 
 - **Zu N37, Korrektur (Sitzung 27, 16:25, gemessen, nach einer Designprüfung):** Die Begründung „festgelegt, sobald v̂ die Gradientengrößen kennt“ trägt nicht: Bias-korrigiertes v̂ ist ab Schritt 1 unverzerrt, die Füllmasse 1 − β₂ᵗ ist kein Uhrwerk (Skalarmodell: gleicher Vorlauf für jedes β₂).
   N37 ist damit nur noch eine **Skalierungshypothese ohne Mechanismus**. Test mit großen vorhergesagten Abständen bei festem t: [[experiments/EXP-081-optimizer-clock/README|EXP-081]] Nachtrag a, Teil B.
+
+
+## N39: Das Spektrum der Trainingspaare ordnet auch die Frequenzen innerhalb der Zielmenge (Sitzung 28) #neu/kandidat
+
+- **Beobachtung (Exploration, gesehene P1-Seeds):** Welches der fünf vorgegebenen Ziele bei Schritt 2000 am schwächsten ist, folgt der zufälligen Schwankung des Masken-Spektrums des Splits (ρ 0.21–0.44 bei add 113, mul 113, add 97, D₅₉), deutlich mehr als der Init-Energie (0.08–0.15); bereinigt um k und Init unverändert (add 113: 0.433). Feinere Form: Nach einem Wechsel bei t = 50 behalten die alten Ziele ihre Rangfolge (N29, ρ 0.58).
+- **Registriert:** [[confirm/C1_REGISTRATION|C1]] (an R1), [[confirm/C2_REGISTRATION|C2]] (an R2), beide vor jedem Lauf.
+- **Suche 2026-09-27 (WebSearch):** „grokking training pairs subset Fourier spectrum predicts which frequencies learned modular addition non-uniform data distribution“; „"training set" composition which Fourier frequencies grokking transformer data spectrum versus initialization lottery 2026“. Nächstverwandt: He et al. 2026a (arXiv 2602.16849: bei vollen Daten entscheidet Init-Betrag/Phase den Wettbewerb je Neuron), Marchetti et al. 2026 (arXiv 2602.03655: Irrep-Reihenfolge aus der Kodierungsstatistik bei gleichverteilten Daten), Zhou et al. 2024 (arXiv 2405.17479: Frequenzsicht auf Trainings- und Gesamtmenge). Die Aussage „bei konstruierten Splits ordnet das realisierte Paarspektrum die Zielfrequenzen stärker als die Init“ wurde **nach unserer Suche nicht gefunden** (vorläufig; Erweiterung von K2, kein eigener Anspruch vor C1).

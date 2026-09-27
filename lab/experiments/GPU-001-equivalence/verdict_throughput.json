@@ -1,0 +1,39 @@
+{
+ "levels": {
+  "J1": {
+   "n_completed": 1,
+   "complete": true,
+   "wall_s": 8.013484716415405,
+   "aggregate_steps_per_s": 62.394827929947084,
+   "runs_per_hour": 449.242761095619,
+   "max_mem_mb": 241.4
+  },
+  "J2": {
+   "n_completed": 2,
+   "complete": true,
+   "wall_s": 10.02284026145935,
+   "aggregate_steps_per_s": 99.77211787414015,
+   "runs_per_hour": 718.359248693809,
+   "max_mem_mb": 241.4
+  },
+  "J4": {
+   "n_completed": 4,
+   "complete": true,
+   "wall_s": 12.040860176086426,
+   "aggregate_steps_per_s": 166.1010900178104,
+   "runs_per_hour": 1195.927848128235,
+   "max_mem_mb": 241.4
+  },
+  "J8": {
+   "n_completed": 8,
+   "complete": true,
+   "wall_s": 18.088091373443604,
+   "aggregate_steps_per_s": 221.13997090221918,
+   "runs_per_hour": 1592.207790495978,
+   "max_mem_mb": 241.4
+  }
+ },
+ "definition": "J*500 steps / wall time of the level",
+ "pass": true,
+ "seal": "aaaa803a720219b2"
+}

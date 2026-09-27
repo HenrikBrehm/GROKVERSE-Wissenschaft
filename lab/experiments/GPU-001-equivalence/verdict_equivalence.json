@@ -1,0 +1,84 @@
+{
+ "rows": [
+  {
+   "seed": 10,
+   "overlap_top5": {
+    "250": 5,
+    "500": 5,
+    "1000": 5,
+    "2000": 5
+   },
+   "gen_cpu": 525,
+   "gen_gpu": 525,
+   "A3_seed": true,
+   "rel_loss_diff_at_steps": {
+    "10": 1.0183831395672706e-07,
+    "100": 0.0013689755938440242,
+    "500": 0.011987888000820929
+   },
+   "first_step_rel_diff_gt_1pct": 120,
+   "sec_per_step_cpu": 0.12963,
+   "sec_per_step_gpu": 0.00745,
+   "cuda_max_mem_mb": 241.4,
+   "final_test_acc_cpu": 1.0,
+   "final_test_acc_gpu": 0.9998881220817566
+  },
+  {
+   "seed": 11,
+   "overlap_top5": {
+    "250": 5,
+    "500": 5,
+    "1000": 5,
+    "2000": 5
+   },
+   "gen_cpu": 775,
+   "gen_gpu": 800,
+   "A3_seed": true,
+   "rel_loss_diff_at_steps": {
+    "10": 1.0171335123013653e-07,
+    "100": 0.0050046309648827175,
+    "500": 0.012908128268086695
+   },
+   "first_step_rel_diff_gt_1pct": 110,
+   "sec_per_step_cpu": 0.1286,
+   "sec_per_step_gpu": 0.00745,
+   "cuda_max_mem_mb": 241.4,
+   "final_test_acc_cpu": 1.0,
+   "final_test_acc_gpu": 1.0
+  },
+  {
+   "seed": 12,
+   "overlap_top5": {
+    "250": 5,
+    "500": 4,
+    "1000": 5,
+    "2000": 5
+   },
+   "gen_cpu": 625,
+   "gen_gpu": 625,
+   "A3_seed": true,
+   "rel_loss_diff_at_steps": {
+    "10": 9.164163153058631e-07,
+    "100": 0.006799557103404768,
+    "500": 0.03146535270908582
+   },
+   "first_step_rel_diff_gt_1pct": 120,
+   "sec_per_step_cpu": 0.12981,
+   "sec_per_step_gpu": 0.00744,
+   "cuda_max_mem_mb": 241.4,
+   "final_test_acc_cpu": 0.9992168545722961,
+   "final_test_acc_gpu": 0.9995524883270264
+  }
+ ],
+ "A1": true,
+ "A2_hits": "9/9",
+ "A2": true,
+ "A3": true,
+ "version_diagnostic": {
+  "status": "running",
+  "steps_completed": 500,
+  "note": "diagnostic incomplete (not a criterion); see JOURNAL"
+ },
+ "pass": true,
+ "seal": "aaaa803a720219b2"
+}

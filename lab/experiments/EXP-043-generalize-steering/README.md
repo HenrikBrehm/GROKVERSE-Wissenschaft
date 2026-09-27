@@ -1,13 +1,13 @@
 ---
 id: EXP-043
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experiments/GPU-001-equivalence/README|GPU-001]]", "[[FINDINGS]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-043: Verallgemeinert sich die Steuerung der Frequenzwahl über die Daten? (Addition mod 97, Multiplikation mod 113)
 
-**Status:** vorbereitet, **nicht ausgeführt**, Code ungetestet. Definition fixiert 2026-09-26 19:19 Berlin (Sitzung 11), vor
+**Status:** abgeschlossen 2026-09-27 (Sitzung 20, GPU), Urteil unten unter „Ergebnis“. Ursprünglich: Definition fixiert 2026-09-26 19:19 Berlin (Sitzung 11), vor
 jedem Lauf. Ziel in [[FINDINGS]]: größte offene Frage (K2 außerhalb von Addition mod 113; Regel 15c). Läuft **nur auf der GPU**
 und erst nach bestandenem [[experiments/GPU-001-equivalence/README|GPU-001]].
 
@@ -84,3 +84,22 @@ Urteilsregeln unverändert.
 ## Nachtrag (Sitzung 13, 2026-09-26 20:20 Berlin, gemessen; vor jedem Lauf): nicht-endliche Läufe ungültig
 
 Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lauf (NaN in W_E) wäre bisher als gültig gezählt worden und hätte still ein falsches K oder sogar das Urteil *widerspricht* mit p = 0 erzeugt (`one_sided_p` mit NaN gibt 0.0). `analyze.py` wertet einen Lauf mit nicht-endlichem Spektrum bzw. W_E jetzt als **ungültig** (zählt gegen die Mindestzahl gültiger Seeds). Urteilsregeln sonst unverändert.
+
+## Ergebnis (Sitzung 20, 2026-09-27, Läufe 02:53–02:56 Berlin, GPU nach bestandenem GPU-001)
+
+Befehl: `python lab/tools/night_program.py` (Stufe EXP-043: Selbsttest, Smoke, 40 Hauptläufe mit 8 GPU-Arbeitern, `analyze.py`); Logs
+`lab/runner/logs/night_20260927T005025_010314Z/EXP-043_*`, Zahlen `summary.json`. Code-Stand laut result.json: Commit 19583de, device cuda (+ unversionierter `guarded_run.py`/`parallel_queue.py` des Nutzers).
+
+| Aufgabe | gültig | Δ̄ | Δ > 0 | p (einseitig, Vorzeichen-Perm.) | Holm (2) | Urteil |
+|---|---|---|---|---|---|---|
+| add 97 | 10/10 | 7.7 | 10/10 | 0.00098 | ja | ***steuerbar*** |
+| mul 113 | 10/10 | 7.7 | 10/10 | 0.00098 | ja | ***steuerbar*** |
+
+- Mittlere Überlappung eigene Ziele 4.05 bzw. 3.9 von 5, gekreuzt 0.2 bzw. 0.05. Nicht-Ziel-Frequenzen in K sind zu 84 % bzw. 82 % 2k-Oberwellen der Ziele (wie EXP-016).
+- *Sekundär, beschreibend:* bei Schritt 2000 generalisiert (Test ≥ 0.95) sind add 97 17/20 und mul 113 16/20 Läufe. Die Steuerung zeigt sich auch in den nicht generalisierten Läufen
+  (eigene Überlappung dort 4–5). Die eigene Überlappung liegt **schon bei Schritt 50** meist bei 4–5 von 5 (`ov_own_early`), passend zu K4.
+- **Gesamtlesart (vorab):** Beide *steuerbar* → K2 verallgemeinert sich auf diese zwei Fälle. Laut Nachtrag heißt das bei mul 113 „auch bei zusammengesetztem Modulus
+  (Z₁₁₂ über den diskreten Logarithmus) mit Null-Token“, nicht „bei einer anderen Rechenart“. Das ist **Exploration/Pilot** (Seeds 70–79 mit den Splits dieses Versuchs), keine
+  unabhängige Bestätigung. Die Bestätigung gehört in den reservierten Block ([[FINDINGS]] P1).
+- Grenzen: 2000 Schritte, ein Modell (Transformer der Studie), GPU (GPU-001 gleichwertig), ε = 2. Seed 70/99 wurden früher schon genutzt, aber mit anderem p bzw. anderer Architektur (s. Nachtrag s12).
+- Folgeversuch EXP-044 (K4 in beiden Aufgaben) ist damit auswertbar und steht im Nachtprogramm.

@@ -35,3 +35,17 @@ Zurück zu [[FINDINGS]]. Die Hypothese und die Stichprobe hängen am Piloten [[e
 - **Umsetzung (geplant):** eigenes Modul `lab/tools/confirm_p3.py` mit eigenem Manifest `lab/confirm/P3_manifest.json`, eigener Code-Hash-Liste, eigenem Rohordner und eigenen
   Bindungen. Der P1-Code wird **nicht** geändert, weil der laufende P1-Block an seine Hashes gebunden ist. Die Laufverzeichnisse werden exakt aus dem Befehl bestimmt (die
   Wechselläufe enthalten den Stamm beider Splits). Codex-Prüfung vor dem Einfrieren.
+
+## Codex-Prüfung (Sitzung 21, 05:09) und endgültige Regeln (gelten allein, wo abweichend)
+
+Codex (gegen 18eb7d3; die Weiterleitung hatte die Prüfung im Hintergrund gestartet, das Ergebnis habe ich selbst mit `codex-companion result` abgeholt): 3 Blocker, 2 schwere, 1 leichter Befund. Alle geprüft und übernommen (54f1e73):
+1. **π_Spur(c = 1) ist keine obere Grenze** (nichtlinear, ohne Dynamik). → Kontrolle ist jetzt das **Maximum über c ∈ {0, 0.05, …, 1}**. Die **Aussage wird enger**:
+   Persistenz über eine **statische additive W_E-Spur** hinaus. Eine Spur in den übrigen Gewichten, die den weiteren Verlauf lenkt, ist operational genau die „Festlegung im Netz“
+   (vgl. EXP-038) und wird nicht als Gegenerklärung behandelt.
+2. **Normierung:** Eine Stufe ist nur gültig, wenn **L(A) − L(B) ≥ 2** (Pilot: Minimum 5.7). Weil alle 30 Seeds verlangt werden, macht ein Verstoß die Bestätigung *nicht auswertbar*; nachgezogen wird nicht.
+3. **Manifest = Registrierung** (im Code erzwungen): Seeds genau 1050–1079, ω = [0.0, 0.4], `cuda`, 1 Thread.
+4. **Herkunft:** EXP-046 `make_split.py` und `dihedral.py` (Import über `confirm_splits`) stehen jetzt in den Code-Hashes.
+5. **Wiederaufnahme:** Ein ungebundenes, unfertiges Laufverzeichnis wird umbenannt (`.stale_<ns>`, nichts gelöscht), dann wird sauber neu gerechnet.
+6. `cuda:0`: durch 3 gegenstandslos.
+
+Kein Test-Leck: Die gemeinsame Testmenge ist disjunkt zu beiden Splits (Codex). Der ε-Unterschied zwischen den ω-Stufen trifft nur den sekundären Vergleich, der beschreibend bleibt.

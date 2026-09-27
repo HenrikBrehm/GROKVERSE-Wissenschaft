@@ -1,43 +1,27 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 28 (beendet)
+# LIVE: Laborsitzung 29 (beendet)
 
-- **Sitzungsstart:** 2026-09-27 16:49 Berlin (14:49Z, vom Runner)
-- **Deadline:** 2026-09-27 19:49 Berlin (17:49Z)
-- **Zuletzt aktualisiert:** 17:56 Berlin (gemessen)
-- **Run-Fenster:** zu bis 00:00: kein Training, keine Tests; nur Auswertung gespeicherter Läufe, Denk- und Schreibarbeit.
+- **Sitzungsstart:** 2026-09-27 17:59 Berlin (15:59Z, vom Runner)
+- **Deadline:** 2026-09-27 20:59 Berlin (18:59Z)
+- **Zuletzt aktualisiert:** 18:12 Berlin (gemessen)
+- **Run-Fenster:** zu bis 00:00: kein Training, keine Tests.
 
 ## Gerade
 
-**Sitzung beendet (17:56).** Nächster geplanter Start laut runner-state.json: **20:24 Berlin** (18:24Z), außerhalb des Run-Fensters.
+**Sitzung beendet (18:12).** Nächster geplanter Start laut runner-state.json: **21:34 Berlin** (19:34Z).
 
 ## Als Nächstes
 
-Ab 00:00 laut [[STATE]] Schritte 1–10 (neu: Selbsttests C1–C4 vor dem Einfrieren von P2f/R1/R2/P4; optional EXP-082). Für dich: [[paper/STATUS]] (Nachtrag Sitzung 28).
+Ab 00:00 laut [[STATE]] Schritte 1–10, Nachtplan unverändert. Neu zum Lesen von EXP-040: [[LESART-nacht-2026-09-28]] Punkte 11–12. Für dich: [[paper/STATUS]] (Nachtrag Sitzung 29: Stevinson & Prieto 2026 zur menschlichen Prüfung).
 
 ## Verlauf dieser Sitzung
 
-- 17:56 Sitzung beendet; alles committet.
-- 17:55 C4 registriert und nach Codex korrigiert (D₅₉ bei 12 000 Schritten, an P2f).
-- 17:46 Momentum-Reset senkt den Anteil der alten Ziele, nicht ihre Ordnung (Exploration).
-- 17:44 N40 (welcher Split? aus den Gewichten ablesbar): schwache Spur, nicht weiter verfolgt.
-- 17:42 Unabhängige Prüfung der neuen Paper-Stellen: Zahlen korrekt, 6 Formulierungen/Quellen korrigiert.
-- 17:39 EXP-082 vorbereitet: vorgegebene Zielstärken als kausaler Test der Feinordnung (Pilot, optional).
-- 17:34 C2 verschärft (Fassung 3, a606ed0): Die alten Ziele müssen eine Nicht-Ziel-Kontrolle schlagen; sonst würde C2 womöglich nur eine Grundrate bestätigen. Codex: kein Blocker, Punkte übernommen.
-- 17:29 Rangerhaltung der alten Ziele gegen t: leicht über der Grundrate bis t = 25, deutlich ab t = 30 (parallel zu π).
-- 17:27 D₅₉ und P2d/P2e: Die Feinordnung überdauert im Transformer das Grokking; im MLP verblasst sie.
-- 17:26 Eigener Messfehler (mul-Basis) gefunden → dabei echten Fehler in `repro/k2.py` behoben.
-- 17:21 C3 nach Codex korrigiert (kein Blocker).
-
-- 17:19 C3 registriert (b199107): In den Piloten zeigt sich die Feinordnung überall (ρ 0.29–0.60, Init ≈ 0).
-- 17:15 Negativ: Die Theorie sagt fürs MLP „M0 statt M0c“ voraus; für die Feinordnung stimmt das nicht (M0c 0.60 > M0 0.46). Paper korrigiert.
-- 17:14 Codex-Nachprüfung: 1 neuer Blocker in C2 (Seed zählte schon mit einem Lauf), behoben (f445f94).
-
-- 17:05 C1/C2 Fassung 2 committet (d50e7b0): engere Aussagen, bereinigter Koeffizient, Code-Tor. Diagnose vor dem Lauf: in den R1-Splits hängt M0c nicht von k ab.
-- 17:04 Codex zu C1: 2 Blocker, 6 größere Punkte; alle geprüft, fast alle übernommen (JOURNAL).
-- 17:00 C2 registriert (Programm B): nach einem Wechsel bei t = 50 behalten die alten Ziele ihre Rangfolge (N29 ρ 0.58; die neuen Daten ordnen sie nicht um).
-- 16:55 Artefakt-Kontrolle: keine Abhängigkeit von k (ρ ≈ 0.01), vertauschte Arme ρ ≈ −0.08.
-- 16:53 C1 registriert und committet (d330f1c), vor jedem R1-Lauf.
-- 16:52 Exploration P1: Rangfolge der Ziele folgt M0/M0c (ρ 0.21–0.44, alle 4 Aufgaben), Init nur 0.08–0.15.
-- 16:51 P1 absolut: 80 % der W_E-Energie auf den 5 Zielen (add 113; Init 8.9 % = Zufall); mul 79 %, add 97 69 %, D₅₉ 44 % (Zufall 17 %).
+- 18:12 Sitzung beendet; alles committet.
+- 18:12 Zwei eigene Fehler korrigiert: geschätzte statt gemessene Uhrzeiten; doppelt angehängte Abschnitte (Hilfsskript) entfernt.
+- vor 18:10 N41 notiert: nur den Init-Hintergrund skalieren (erst nach EXP-040).
+- vor 18:10 Google Scholar erstmals direkt abgefragt: nichts Einschränkendes zu K2/K4.
+- vor 18:10 H40 an EXP-039 vorgeprüft: Festlegung bei ≈ 1/3–2/3 der Init-Amplitude (nicht widerlegt).
+- vor 18:10 Literatur Init-Skala/Festlegung: nichts Einschränkendes (Khanh et al. 2026 als Kontext).
+- 18:00 Start: kein STOP, keine Python-Prozesse, Fenster zu.

@@ -12,12 +12,15 @@ Unit = seed with an F/G pair (same init for F and G, as P1). Experiment id 10 (c
        difference D_2L - D_1L at 2000 (reported, no verdict)
 Primary verdict: all n units valid, EXACT one-sided sign-flip p < 0.05 (full enumeration, n <= 20; Codex s33 blocker) AND bootstrap CI
 lower bound >= MIN_EFFECT (1.0, as P1) -> "bestätigt"; else "nicht bestätigt"; any technical failure -> "nicht auswertbar".
-Registered second reading (symmetric): bootstrap CI upper bound < LIMIT (0.5) -> "keine Steuerung von Belang bestätigt".
+Registered second reading (symmetric): EXACT one-sided sign-flip p of (LIMIT - D) < 0.05 AND bootstrap CI upper bound < LIMIT (0.5)
+-> "keine Steuerung von Belang bestätigt" (session 34 review: same evidential standard as the positive reading).
+Only the primary step (2000) is fatal: a missing/invalid 2L spectrum at 10 000 gives D10000 = None with a reason (session 34 review).
 The trainer records the sha256 of the split bytes it loaded; the analysis requires it to equal the registered split (Codex s33 point 4).
 
   python lab/tools/confirm_r7.py --selftest
   python lab/tools/confirm_r7.py --n-rule lab/experiments/EXP-078-two-layer-steering/summary.json    # prints the manifest "pilot" block
   python lab/tools/confirm_r7.py --splits|--jobs|--analyze lab/confirm/R7_manifest.json
+  python lab/tools/confirm_r7.py --smoke-check lab/confirm/R7_manifest.json    # after the 4 smoke jobs of the first seed: loader path, no values
 """
 from __future__ import annotations
 
@@ -57,7 +60,8 @@ REGISTERED = {"experiment": EXPERIMENT, "p": P, "eps": EPS, "device": "cuda", "t
 CODE_FILES = ("lab/tools/confirm_r7.py", "lab/tools/bound_block.py", "lab/tools/confirm_p1.py", "lab/tools/confirm_splits.py",
               "lab/experiments/EXP-043-generalize-steering/make_split.py", "lab/experiments/EXP-046-dihedral-steering/make_split.py",
               "lab/experiments/EXP-046-dihedral-steering/dihedral.py", T2, T1,
-              "lab/experiments/EXP-078-two-layer-steering/two_layer.py", "lab/experiments/EXP-078-two-layer-steering/analyze.py")
+              "lab/experiments/EXP-078-two-layer-steering/two_layer.py", "lab/experiments/EXP-078-two-layer-steering/analyze.py",
+              "lab/tools/result_loader.py", "lab/paper/repro/k2.py")                   # session 34 review: executed imports
 
 
 # ---------------------------------------------------------------- statistics
@@ -89,7 +93,7 @@ def n_rule(pilot_D2000: list[float]) -> int:
         hits = 0
         for _ in range(N_SIM):
             x = rng.normal(m, sd, n)
-            hits += ci_lower(x, rng, c1.N_BOOT) >= MIN_EFFECT and exact_sign_flip_p(x) < ALPHA   # cheap test first
+            hits += ci_lower(x, rng, c1.N_BOOT) >= MIN_EFFECT and exact_sign_flip_p(x) < ALPHA   # bootstrap first; exact test skipped if it fails
         if hits / N_SIM >= 0.8:
             return n
     return N_ALLOWED[-1]
@@ -113,6 +117,12 @@ def check_pilot(man: dict) -> None:
     now = pilot_block(ROOT / PILOT)
     if pb != now or pb.get("summary_sha256") != sha(ROOT / PILOT) or pb.get("n_units") != N_UNITS:
         raise SystemExit("R7: manifest pilot block differs from the bound pilot summary or from N_UNITS")
+    import hashlib
+    import subprocess
+    pc = str(man.get("pilot_commit", "")).strip()          # Fassung 3: summary committed together with its analysis log
+    got = subprocess.run(["git", "show", f"{pc}:{PILOT}"], cwd=ROOT, capture_output=True) if pc else None
+    if got is None or got.returncode != 0 or hashlib.sha256(got.stdout).hexdigest() != pb.get("summary_sha256"):
+        raise SystemExit("R7: pilot_commit missing or its EXP-078 summary.json differs from the bound pilot summary")
 
 
 # ---------------------------------------------------------------- design and splits
@@ -229,14 +239,16 @@ def spectra(man: dict, model: str, s: int, a: str) -> dict | str:
         return f"defekt: {why}"
     if len(pw) != len(st):
         return "defekt: spectra and steps differ in length"
-    out: dict = {"test_acc": (r.get("final_acc") or {}).get("test"), "gen_step": r.get("generalization_step")}
+    out: dict = {"test_acc": (r.get("final_acc") or {}).get("test"), "gen_step": r.get("generalization_step"), "bad_final": None}
     for step in sorted({PRIMARY_STEP, man["steps"][model]}):
-        if step not in st:
-            return f"defekt: no spectrum at {step}"
-        v = pw[st.index(step)]
-        if v.shape != (56,) or not np.all(np.isfinite(v)) or not np.all(v > 0):
-            return f"defekt: spectrum at {step} shape/values"
-        out[step] = v
+        v = pw[st.index(step)] if step in st else None
+        why = (f"no spectrum at {step}" if v is None else
+               f"spectrum at {step} shape/values" if v.shape != (56,) or not np.all(np.isfinite(v)) or not np.all(v > 0) else None)
+        if why and step == PRIMARY_STEP:
+            return f"defekt: {why}"
+        out[step] = None if why else v
+        if why:                                      # session 34 review: only the primary step is fatal
+            out["bad_final"] = why
     return out
 
 
@@ -247,7 +259,9 @@ def seed_row(man: dict, s: int) -> dict:
     if bad2:
         return {"seed": s, "technical": True, "reason": "; ".join(bad2)}
     D = lambda m, step: c1.delta_pow_checked(runs[(m, "F")][step], runs[(m, "G")][step], T["F"], T["G"])   # noqa: E731
-    row = {"seed": s, "technical": False, "D2000": D("2L", PRIMARY_STEP), "D10000": D("2L", STEPS["2L"]),
+    ok10 = all(runs[("2L", a)][STEPS["2L"]] is not None for a in "FG")
+    row = {"seed": s, "technical": False, "D2000": D("2L", PRIMARY_STEP), "D10000": D("2L", STEPS["2L"]) if ok10 else None,
+           "reason_10000": None if ok10 else "; ".join(f"{a}: {runs[('2L', a)]['bad_final']}" for a in "FG" if runs[("2L", a)]["bad_final"]),
            **{f"{k}_2L_{a}": runs[("2L", a)][k] for a in "FG" for k in ("test_acc", "gen_step")}}
     if row["D2000"] is None:
         return {"seed": s, "technical": True, "reason": "Delta_pow undefined"}
@@ -262,6 +276,11 @@ def summarize(D: np.ndarray, rng: np.random.Generator) -> dict:
             "p_one_sided_exact": exact_sign_flip_p(D) if len(D) <= 20 else None, "n_positive": int((D > 0).sum())}
 
 
+def limit_ok(D: np.ndarray, ci95: list[float]) -> bool:
+    """Symmetric second reading (session 34 review): exact one-sided sign-flip p of (LIMIT - D) < ALPHA AND CI upper bound < LIMIT."""
+    return exact_sign_flip_p(LIMIT - D) < ALPHA and ci95[1] < LIMIT
+
+
 def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
     n_tech = sum(1 for r in rows if r.get("technical"))
     if n_tech or len(rows) != n_planned or n_planned not in N_ALLOWED:
@@ -269,7 +288,8 @@ def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
     prim = summarize(np.array([r["D2000"] for r in rows]), rng)
     out = {"primary_D2000": prim, "n_technical": 0,
            "verdict": "bestätigt" if prim["p_one_sided_exact"] < ALPHA and prim["ci95"][0] >= MIN_EFFECT else "nicht bestätigt",
-           "limit_reading": "keine Steuerung von Belang bestätigt" if prim["ci95"][1] < LIMIT else "nicht belegt"}
+           "limit_reading": "keine Steuerung von Belang bestätigt" if limit_ok(np.array([r["D2000"] for r in rows]), prim["ci95"])
+           else "nicht belegt"}
     sec = [r["D10000"] for r in rows if r.get("D10000") is not None]
     out["secondary_D10000"] = summarize(np.array(sec), rng) if len(sec) > 1 else None
     pair = [r["D2000"] - r["D1L_2000"] for r in rows if r.get("D1L_2000") is not None]
@@ -294,6 +314,26 @@ def analyze(manifest: Path) -> None:
            "result": verdict(rows, len(man["seeds"]), np.random.default_rng(10)), "rows": rows}
     stale.write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1, ensure_ascii=False, default=float))
+
+
+def smoke_check(manifest: Path) -> None:
+    """Session 34 review: after the 4 smoke jobs of the first seed (2L F/G, 1L F/G) run the REAL loader path (bound bytes, check_result,
+    spectra, seed_row) for that seed and print only which fields are defined, never a value. Exit 1 if the row is not complete."""
+    man = json.loads(manifest.read_text(encoding="utf-8"))
+    BLOCK.check_manifest(manifest, man)
+    check_design(man)
+    check_pilot(man)
+    s = man["seeds"][0]
+    if (m := split_mismatch(s)):
+        raise SystemExit(f"R7 smoke: {m}")
+    row = seed_row(man, s)
+    shown = {"seed": s, "technical": row.get("technical"), "reason": row.get("reason"),
+             **{k: (row.get(k) is not None and bool(np.isfinite(row[k]))) for k in ("D2000", "D10000", "D1L_2000")},
+             "reason_10000": row.get("reason_10000"), "reason_1L": row.get("reason_1L")}
+    print(json.dumps(shown, indent=1, ensure_ascii=False))
+    if row.get("technical") or not all(shown[k] for k in ("D2000", "D10000", "D1L_2000")):
+        raise SystemExit(1)
+    print("[confirm_r7] smoke check ok (loader path complete for the first seed; values not shown)", flush=True)
 
 
 # ---------------------------------------------------------------- selftest
@@ -367,6 +407,8 @@ def selftest() -> None:
     null = [{**r, "D2000": 0.05 * ((-1) ** i)} for i, r in enumerate(ok)]
     vn = verdict(null, n, rng)
     assert vn["verdict"] == "nicht bestätigt" and vn["limit_reading"] == "keine Steuerung von Belang bestätigt", vn
+    assert not limit_ok(np.array([0.45, 0.55] * 5), [0.3, 0.45]), "limit reading must need the exact test"
+    assert limit_ok(np.array([0.05] * 10), [0.0, 0.1])
     mixed = [{**r, "D2000": (3.0 if i % 2 else -2.5)} for i, r in enumerate(ok)]
     assert verdict(mixed, n, rng)["verdict"] == "nicht bestätigt"
     assert verdict(ok[:11], 11, rng)["verdict"] == "nicht auswertbar"
@@ -395,5 +437,7 @@ def selftest() -> None:
 if __name__ == "__main__":
     if sys.argv[1:2] == ["--n-rule"]:
         print(json.dumps(pilot_block(Path(sys.argv[2])), indent=1, ensure_ascii=False))
+    elif sys.argv[1:2] == ["--smoke-check"]:
+        smoke_check(Path(sys.argv[2]))
     else:
         BLOCK.cli(sys.argv[1:], analyze, write_splits, selftest)

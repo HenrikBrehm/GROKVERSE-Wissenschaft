@@ -63,16 +63,21 @@ def reading(s: dict) -> str:
 def main() -> None:
     p1 = {r["seed"]: r["Delta_pow"] for r in json.loads((LAB / "confirm" / "P1_summary.json").read_text(encoding="utf-8"))["tasks"]["add113"]["rows"]
           if r.get("valid")}
-    rows, bad = [], []
+    rows, bad, bad_secondary = [], [], []
     for s in SEEDS:
         T = {a: json.loads((SPL / f"confirm_exp1_eps2.0_add113_seed{s}_{a}.json").read_text(encoding="utf-8"))["targets"] for a in "FG"}
         row: dict = {"seed": s}
         for step in (PRIMARY, STEPS):
             pw = {a: spectrum(HERE / "raw" / f"seed{s}_{a}", s, a, step) for a in "FG"}
             if any(isinstance(v, str) for v in pw.values()):
-                bad.append(f"seed {s} @ {step}: " + "; ".join(f"{a} {v}" for a, v in pw.items() if isinstance(v, str)))
-                row = {}
-                break
+                why = f"seed {s} @ {step}: " + "; ".join(f"{a} {v}" for a, v in pw.items() if isinstance(v, str))
+                if step == PRIMARY:              # session 34 (R7 review, before any run): only the primary step is fatal
+                    bad.append(why)
+                    row = {}
+                    break
+                bad_secondary.append(why)
+                row[f"D{step}"] = None
+                continue
             row[f"D{step}"] = delta_pow(pw["F"], pw["G"], T["F"], T["G"])
         if not row:
             continue
@@ -81,11 +86,12 @@ def main() -> None:
                     "gen_step": {a: res[a]["generalization_step"] for a in "FG"}})
         rows.append(row)
     rng = np.random.default_rng(78)
-    out: dict = {"n_valid": len(rows), "problems": bad, "rows": rows}
+    out: dict = {"n_valid": len(rows), "problems": bad, "problems_secondary_10000": bad_secondary, "rows": rows}
     if rows:
         out["primary_D2000"] = summarize(np.array([r["D2000"] for r in rows]), rng)
         out["reading"] = reading(out["primary_D2000"])
-        out["secondary_D10000"] = summarize(np.array([r["D10000"] for r in rows]), rng)
+        sec = [r["D10000"] for r in rows if r["D10000"] is not None]
+        out["secondary_D10000"] = summarize(np.array(sec), rng) if len(sec) > 1 else None
         paired = np.array([r["D2000"] - r["D1L_2000"] for r in rows if r["D1L_2000"] is not None])
         out["secondary_paired_2L_minus_1L_at2000"] = summarize(paired, rng) if len(paired) > 1 else None
         out["n_generalised_both_arms"] = sum(all(g is not None for g in r["gen_step"].values()) for r in rows)

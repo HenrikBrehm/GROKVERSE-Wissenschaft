@@ -184,7 +184,7 @@ any tested static additive W_E trace was 0.293 [0.263, 0.322] (30 fresh seeds, 3
 pre-switch steps with the same reset compensated this (non-inferiority, margin 0.05). This is compatible with an "exposure" reading, not a proof of it. *Size, post hoc:* in a scalar
 model of bias-corrected Adam (β = 0.9/0.98), the first moment at the switch still carries 6.5–10.8 update-equivalents of displacement along the old direction (≈ 8.7 if later gradients on the
 same coordinate keep their magnitude); in the pilot π curve (EXP-059, 10 known seeds, sampled every 5 steps up to t = 35), zeroing m shifted π by 8.1, 9.6 and 6.5 steps at t = 25, 30, 35, (at t = 40 and 50 the comparison is not possible: the curve was not sampled between 35 and 50 and approaches its natural ceiling π ≈ 1).
-That the first moment carries a source signal past the removal of the source data has been shown by state surgery in a different setting (Xu 2026), and that fixed-clock first-moment memory makes data-order effects first order in the learning rate in fine-tuning (Sweeney 2026; order sensitivity collapses when the optimizer state is reset, Sevetlidis and Pavlidis 2026, cited there, not yet read by us).
+That the first moment carries a source signal past the removal of the source data has been shown by state surgery in a different setting (Xu 2026), and that fixed-clock first-moment memory makes data-order effects first order in the learning rate in fine-tuning (Sweeney 2026); a measure of training memory that grows with momentum collapses when the optimizer state is reset (Sevetlidis and Pavlidis 2026). What we add is only the size estimate in our setting.
 
 ### 3.4 An ablation contrast reverses between a switch at 25 and at 50 steps (K4c; N29 087e042)
 

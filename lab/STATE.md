@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 22:46 Berlin (Sitzung 33 beendet; Läufe gesperrt bis Mo 28.09. 01:30, dann bis 18:00; Checkliste [[NACHT_2026-09-28]])._
+_Zuletzt aktualisiert: 2026-09-28, 01:36 Berlin (Sitzung 36, Fenster offen seit 01:30, bis 18:00; Sitzungsende 02:39, nächste Sitzung 03:14)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -18,6 +18,10 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 - **Sitzungen 24–29:** Inhalte stehen in den Abschlussberichten im [[JOURNAL]] (aus STATE entfernt in Sitzung 32, Astra-Punkt 17). Operative Punkte (P2f-Selbsttest und Einfrieren, Seeds 2340–2359, EXP-073/074/075, EXP-072-Pilot) stehen in den Schritten unten.
 
 ## Aktive Queue / laufende Jobs
+
+- **Sitzung 36 (ab 01:30):** Selbsttests C1/C2 (Wrapper), R4, R7, EXP-078/073/075 **grün**. Ausgewertet: **EXP-021 bestätigt** (22/23 fold(2k), p = 7e-22), **EXP-019 M0c besser** (n = 12, p = 0.0012), **N45 nicht auswertbar** (MLP-Top-5 enthält keine Nicht-Ziele). P2f-Smoke ok, Lader ok (Seed 2340: G fehlt, wie erwartet).
+- **Läuft (Hintergrund, Logs `lab/runner/logs/*_s36.log`):** CPU `night_program.py --cpu --cpu-workers 1 --experiments EXP-040,EXP-014`; GPU EXP-073 `--workers 6`. Danach P2f-Block `parallel_queue.py lab/confirm/P2f_jobs.txt --workers 8`. **Wiederaufnahme (Sitzung 37):** dieselben Befehle erneut starten (fertige Läufe werden erkannt bzw. vom Lader gebunden; verwaiste `run.lock` toter PIDs übernimmt der Trainer), dann `confirm_p2f.py --analyze`, `C4_analyze.py`, EXP-073 `analyze.py`, weiter mit Schritt 4ff. der [[NACHT_2026-09-28]] (EXP-074/075, EXP-086/085, Repro, EXP-078/077, Bestätigungen).
+- **Betrieb:** Eine Runner-Sitzung endet, sobald die Antwort endet; Hintergrund-Wecker wecken niemanden (Sitzung 35 endete so nach 15 min). Im Vordergrund warten.
 
 - **Keine (seit ≈ 22:05 auf Anweisung des Nutzers gestoppt).** Läufe erst wieder **ab Mo 28.09. 01:30 Berlin** (Wächter: `WINDOW_START_OVERRIDES`, von der Nutzerseite gesetzt; bis 18:00). Die Runner-Sitzung um 00:04 darf deshalb bis 01:30 nichts starten: `--check` gibt Exit 3.
 - **Erledigt in Sitzung 32 (Fenster 21:40–22:05):** Tests grün; Selbsttests grün außer C1/C2 (Blocker unten); EXP-042 π-Lesart (gemischt); **EXP-018 fertig: *beschleunigt*** (10/10); R5-Power → n = 20; **EXP-084 fertig: Vorhersage M_share getroffen**; **P2f eingefroren** (15539d8), Splits/Jobs committet, Smoke noch nicht gelaufen (vom Wächter abgelehnt).

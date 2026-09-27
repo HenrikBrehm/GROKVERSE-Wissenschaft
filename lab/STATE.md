@@ -18,7 +18,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Aktive Queue / laufende Jobs
 
-- **Sitzung 32, ab 21:43 (Fenster vorgezogen geöffnet, Freigabe des Nutzers, im Wächter geprüft):** CPU `night_program.py --cpu --cpu-workers 2 --experiments EXP-040,EXP-014` (Log `lab/runner/logs/night_cpu_s32.log`); GPU EXP-018 `jobs_cuda.txt --workers 4` (Log `lab/runner/logs/exp018_s32.log`). Schritt 1 und 2 erledigt: Tests grün, Selbsttests grün **außer C1/C2** (Blocker unten). EXP-042 `pi_window.py` gelaufen. Wiederaufnahme: dieselben Befehle erneut starten; fertige Läufe werden übersprungen.
+- **Sitzung 32, ab 21:43 (Fenster vorgezogen geöffnet, Freigabe des Nutzers, im Wächter geprüft):** CPU `night_program.py --cpu --cpu-workers 2 --experiments EXP-040,EXP-014` (Log `lab/runner/logs/night_cpu_s32.log`); GPU EXP-018 `jobs_cuda.txt --workers 4` (Log `lab/runner/logs/exp018_s32.log`). Schritt 1 und 2 erledigt: Tests grün, Selbsttests grün **außer C1/C2** (Blocker unten). EXP-042 `pi_window.py` gelaufen. **Stand 21:56:** EXP-018 fertig (*beschleunigt*, 10/10) und ausgewertet; R5-Power → n = 20 (`lab/confirm/R5_power_pilot_s32.txt`); EXP-084 läuft (Log `lab/runner/logs/exp084_s32.log`); **P2f eingefroren** (Manifest-Commit 15539d8, commit-Feld ad7002b, Splits und `P2f_jobs.txt` committet) → als Nächstes: Smoke mit der ersten Jobzeile, `--analyze` nur als Ladertest, dann `parallel_queue.py lab/confirm/P2f_jobs.txt --workers 4`, danach `--analyze` und `C4_analyze.py lab/confirm/P2f_manifest.json`. Wiederaufnahme: dieselben Befehle erneut starten; fertige Läufe werden übersprungen.
 
 ## Nächste Schritte (ab 00:00, in dieser Reihenfolge; alles über guarded_run.py)
 

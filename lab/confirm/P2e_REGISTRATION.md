@@ -49,3 +49,9 @@ Erstes Einfrieren 2510c92. Der Smoke-Job (Seed 2270, mul 113, F) lief durch, abe
 als technischer Ausfall erfasst (die neue Fehlerbehandlung griff). Korrigiert, Selbsttest um einen End-zu-End-Durchlauf von `measure` an einem Zufallsmodell ergänzt, **neu eingefroren** (siehe
 Manifest-Commit). Splits unverändert (deterministisch, gleiche Bytes; das Feld `manifest_commit` in den Split-JSONs nennt 2510c92). Der Smoke-Lauf unter dem alten Code wurde beiseitegelegt
 (`*.stale_s23`), nicht ausgewertet, und wird unter dem neuen Manifest neu gerechnet. Keine Auswertung von P2e-Ergebnissen vor dem neuen Einfrieren.
+
+## Deutung vorab eingeschränkt (Sitzung 23, 10:25, vor jeder Auswertung des Blocks; Urteilsregel unverändert)
+
+Nach [[experiments/EXP-068-matched-sensitivity/README|EXP-068]] folgt die Empfindlichkeit bei gleicher Schrittnorm der Amplitudenverteilung in W_E. Ein „bestätigt“ in P2e heißt deshalb nur: Auch bei mul 113 und
+add 97 reagiert der Logit-Abstand stärker auf gleich große Schritte entlang der gesteuerten Frequenzen als entlang der Kontrollen. Das ist mit „die gesteuerten Frequenzen tragen mehr Amplitude, entlang derer
+das Netz empfindlich ist“ vereinbar und belegt keine Nutzung über die Energie hinaus.

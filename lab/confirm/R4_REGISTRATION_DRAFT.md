@@ -29,6 +29,10 @@ Gutachter-Einwand O1 zum [[paper/draft]]: Alle bestätigten Steuerbefunde (K2) n
 - **Gültigkeit:** Alle 4 Läufe einer Einheit gebunden, geladen (gemeinsamer Lader), Spektren bei 250/1000/2000 endlich, Split-Hash = Split-Datei. Fehlt ein Lauf oder ist er defekt: ganzes R4 *nicht auswertbar* (wie N29/R3).
 - **Budget:** 160 Läufe × 2000 Schritte, GPU ≈ 0.03 s/Schritt bei 10 parallel → ≈ 35 min.
 
+## Designprüfung (numpy, vor jedem Lauf, Sitzung 30)
+
+`python lab/confirm/R4_design_lever.py` an den 80 R4-Splits: M0c (zentriert, kohärent) über k schwankt je Split um den Faktor 1.90 (Median; 1.57–2.64); die fünf stärksten Frequenzen liegen im Mittel 1.28-fach über den übrigen 51. Die beiden Splits einer Einheit sind unabhängig (Spearman der M0c −0.02 ± 0.11, Top-5-Überlappung 0.55, Zufall 0.45). Ein gewöhnlicher Split hat also einen Hebel grob in der Größenordnung der natürlichen Schwankung, die nach C1 (Exploration) die Rangfolge der Ziele mitordnet (1.30 innerhalb von fünf Zielen; andere Bezugsmenge, nur grob vergleichbar), und deutlich unter einer konstruierten Abstufung (EXP-082 strong 3.8). Erwartung vor dem Lauf: H1 eher klein; ein negatives H1 wäre damit gut erklärbar und kein Messfehler.
+
 ## Was dagegen spräche
 
 - H1 nicht bestätigt, KI von Δ_split eng um 0: Ein gewöhnlicher Zufallssplit formt die Frequenzwahl (bei 2000 Schritten) nicht messbar mit; die Steuerung braucht konstruierte Paarstruktur. Das wäre ein eigener Befund fürs Paper (Abgrenzung zu EXP-015, dann Seed-Kopplung als Erklärung der Assoziation).

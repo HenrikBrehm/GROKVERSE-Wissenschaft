@@ -11,6 +11,17 @@ Zurück zu [[LAB]]. **Nachtrag Sitzung 21 (27.09., 04:46): P1 und P2 sind eingef
 2026-09-26 nicht gefunden, vorläufig. **Alle Aussagen gelten bisher nur für eine Aufgabe (Addition mod 113) und im Kern eine
 Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelheiten: [[BEFUND-split-mechanismus]], [[BEFUND-festlegung]].
 
+## BESTÄTIGT (Sitzung 23, 27.09., 10:44 Berlin): P2e, P2d-Befund auch bei mul 113 und add 97 #befund/positiv
+
+**Kernaussage K2-Funktion verallgemeinert (P2e)** (Wortlaut nach Codex-Prüfung der Schlussfolgerung, Sitzung 23): *Nach 8000 Trainingsschritten senkte ein einseitiger W_E-Schritt der Norm
+0.02·‖X‖_F (X = Zahlenzeilen in Gruppenordnung) entlang der amplitudengewichteten Richtung der gesteuerten Zielfrequenzen den Logit-Abstand (richtige gegen beste falsche Klasse) auf Paaren außerhalb
+beider Splits stärker als das Mittel von vier vorab festgelegten Kontrollmengen aus je 5 Frequenzen. Gemittelt über die zwei Arme je Seed: mul 113 0.291 [0.268, 0.308], add 97 0.294 [0.275, 0.312]
+(getrennte Seed-Bootstrap-KI, je 20/20 positive Seed-Mittel, Holm über beide Aufgaben).* Diese aufgaben-, dosis- und kontrollspezifische Empfindlichkeit trennt Frequenzidentität nicht von gelernter
+Amplitude und Ausrichtung und **belegt deshalb keine Nutzung über die Energie hinaus**.
+Belege: [[confirm/P2e_REGISTRATION|Registrierung + Ergebnis]], Manifest 3c484ef, 80 gebundene Läufe; Pilot [[experiments/EXP-066-p2d-other-tasks/README|EXP-066]].
+**Grenzen (Codex, übernommen):** Einheit = Seed (Mittel über zwei unabhängig trainierte Arme); Kontrollen zufällig aus einem eingeschränkten Pool, nicht energiegleich; mul 113 in 19/20 Seeds in beiden Armen
+generalisiert (primär alle 20); Vergleich mit P2d (add 113) nur qualitativ (4000 statt 8000 Schritte, anderer Seed-Block); eine Architektur, zwei zyklische Aufgaben, eine Dosis. D₅₉ steht aus ([[BACKLOG]]).
+
 ## BESTÄTIGT (Sitzung 23, 27.09., 10:17 Berlin): N29, Ablationskontrast kehrt sich zwischen Wechsel bei t = 25 und t = 50 um #befund/positiv
 
 **Kernaussage K4c** (Wortlaut nach Codex-Prüfung der Schlussfolgerung, Sitzung 23, selbst nachgerechnet): *Bei Addition mod 113 (einschichtiger Transformer), nach einem Wechsel zwischen paar-disjunkten

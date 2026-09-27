@@ -67,3 +67,9 @@ das Netz empfindlich ist“ vereinbar und belegt keine Nutzung über die Energie
 
 Deutung nur im vorab eingeschränkten Sinn (Abschnitt oben): Die stärkere Margin-Reaktion bei gleicher Schrittnorm entlang der gesteuerten Frequenzen zeigt sich auch bei mul 113 und add 97, in ähnlicher Größe
 wie bei add 113 (P2d: 0.250 nach 4000 Schritten; Schrittzahlen verschieden).
+
+## Codex-Prüfung der Schlussfolgerung (Sitzung 23, Ergebnis vor 10:49 Berlin)
+
+Zahlen korrekt, Deutung zu weit. Übernommen: Norm genau benennen (0.02·‖X‖_F), Einheit Seed (zwei Arme), Kontrollen nicht energiegleich, mul 113 19/20 generalisiert, Vergleich mit P2d nur qualitativ,
+„zeigt keine Nutzung über die Energie hinaus“ → „belegt keine …“ (nicht getestet). Der Hinweis auf „ENTWURF“ im Kopf betraf eine ältere Fassung; der Kopf war beim Lesen schon nachgezogen.
+Wortlaut in [[FINDINGS]].

@@ -5,19 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 06:59 Berlin (04:59Z, vom Runner)
 - **Deadline:** 2026-09-27 09:59 Berlin (07:59Z)
-- **Zuletzt aktualisiert:** 08:36 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 09:13 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-EXP-064 auf der GPU: Nutzt das fertige Netz nach einem fruehen Wechsel wirklich beide Frequenzmengen, und nach einem spaeten nur die alten? (Test durch Entfernen der Frequenzen.) P2c rechnet daneben.
+Abschlussbericht steht; bis kurz vor der Deadline (09:59) noch ein kurzer Auswertungs-Versuch: ein besseres Mass fuer die Funktionsfrage an den P2c-Modellen (P2d-Pilot, kein Training).
 
 ## Als Naechstes
 
-EXP-064 auswerten (ca. 09:10), dann Abschlussbericht vor 09:50.
+Den funktionalen Uebergang (frueh umsteigen, ab 50 Schritten festhalten) an frischen Seeds sauber bestaetigen; danach ein besseres Mass fuer die Funktionsfrage (P2d).
 
 ## Verlauf dieser Sitzung
 
+- 09:13 Abschlussbericht im JOURNAL, STATE fuer die naechste Sitzung.
+- 09:06 **EXP-064 (beschreibend):** Nach einem fruehen Wechsel rechnet das Netz mit den NEUEN Frequenzen, nach 50 Schritten nur noch mit den alten. Formal nicht auswertbar (3 Modelle nicht fertig), das Muster ist aber in allen 10 Seeds gleich.
+- 09:03 **P2c nicht bestaetigt:** Das Entfernen der gesteuerten Frequenzen schadet mit diesem Mass nicht mehr als bei Kontrollfrequenzen, eher weniger. Die Funktionsfrage bleibt offen.
 - 08:34 Codex prueft die Schlussfolgerungen: Aussagen enger gefasst (Spektrum, nicht Funktion). FINDINGS aktualisiert.
 - 08:29 **N28 BESTAETIGT (30/30 frische Seeds):** Momentum loeschen senkt die Persistenz um 0.15, zehn Extra-Schritte gleichen es aus. **Zwei-Regime-Vorhersage bestaetigt** (29/30 und 30/30): frueh Koexistenz, ab 50 Schritten Ausschluss.
 - 08:17 **EXP-063:** Der Ausschluss braucht W_E und den Rest des Netzes zusammen; das Behalten der alten Wahl nicht.

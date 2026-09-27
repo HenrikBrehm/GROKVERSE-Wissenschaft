@@ -3007,3 +3007,26 @@ Nächster Schritt: Bestätigung mit sicherer Generalisierung (längeres Nachtrai
 **Zyklus 16 (Codex prüft die P2c-Schlussfolgerung, 09:05–09:12 gemessen).** Urteil korrekt. Übernommen: keine Gegenhypothese behaupten; Dosisgeometrie genau benennen (2.44 % gegen 50 %, Skalierung 0.988 gegen 0.707,
 post hoc); Ursache nicht identifiziert (mehrere Faktoren ändern sich gleichzeitig; nach Codex bleibt R auch innerhalb der Basis-Loss-Quartile negativ); die funktionale Aussage bleibt eng.
 Nachfolgemaß P2d im [[BACKLOG]] (lokale Empfindlichkeit je gleicher Schrittnorm, Kontrollen gleicher Größe, Logit-Abstand primär).
+
+### Abschlussbericht Sitzung 22 (Stand 09:13 Berlin, gemessen; Auftrag §10; Nachträge unten)
+
+**Wichtigste Befunde:**
+- **N28 bestätigt** (eingefroren fa154bd, 300 gebundene Läufe, 30/30 frische Seeds): Das Nullsetzen von Adams erstem Moment beim Wechsel senkt den normierten Persistenzindex π um 0.15
+  (0.340 → 0.189). Ein Arm mit zehn zusätzlichen Vorschritten liegt nicht darunter (0.410; Nichtunterlegenheit). Beides mit Holm-p ≈ 10⁻⁸. Das ist vereinbar mit „verlängerter Exposition“;
+  die Deutung „Gedächtnis im Adam-Zustand“ aus Sitzung 21 ist damit herabgestuft (EXP-059).
+- **Zwei Regime** (EXP-062, Vorhersage an 30 frischen Seeds erfüllt, 29/30 und 30/30): Nach einem Wechsel bei t = 25 überwiegt spektral die erhaltene alte Energie, bei t = 50 fehlen die neuen Frequenzen.
+  **Funktional (EXP-064, beschreibend, nach eigener Regel nicht auswertbar):** Bei t = 25 rechnet das Netz mit den neuen Frequenzen, bei t = 50 nur mit den alten (Genauigkeit ohne alte 0.01–0.09, 10/10).
+  Kandidat N29, nach der Suche vom 27.09. nicht gefunden (vorläufig).
+- **P2c nicht bestätigt** (99/100 Seeds): R̄ = −0.108 [−0.149, −0.070]. Eine bevorzugte funktionale Nutzung der gesteuerten Frequenzen ist mit dem P2-Maß nicht belegt; Ursache offen (u. a. Dosisgeometrie).
+- Verworfen bzw. negativ: EXP-060 (W_E-Vorsprung sagt π nicht voraus), EXP-061 (neuer Gradient verstärkt die alte Struktur nicht). EXP-063 (Pilot): Rest- oder W_E-Reset verkleinert den Ausschluss.
+
+**Offene Grenzen:** eine Aufgabe (add 113), eine Architektur, ω = 0, Spektralmaße in W_E; π(t) als Kurve nur Pilot; der funktionale Übergang ist nicht bestätigt; P2 (Funktion) bleibt offen.
+**Meine Fehler:** P2b-Designfehler (vorzeitiger Trainer-Stopp nicht bedacht, 100 Seeds verbraucht), mehrfach geschätzte Uhrzeiten (alle korrigiert), einmal `git add -u lab` mit Nutzer-Dateien (sofort zurückgenommen).
+
+**Reproduktion:** `python lab/tools/confirm_n28.py --analyze lab/confirm/N28_manifest.json` · `python lab/confirm/n28_regimes.py` · `python lab/tools/confirm_p2c.py --analyze lab/confirm/P2c_manifest.json`
+(alle über `guarded_run.py`); Blöcke `parallel_queue.py lab/confirm/{N28,P2c}_jobs.txt`; Piloten `parallel_queue.py lab/experiments/EXP-0{59,61,63,64}-*/jobs.txt`, dann `analyze.py`; EXP-060/062 nur `analyze.py`.
+
+**Nächste Aktion:** CPU-Programm neu starten; funktionalen Übergang (t = 25 gegen 50) an frischen Seeds mit sicherem Nachtraining festlegen (vorher ein echter Job durch den Lader, Codex), dann P2d.
+
+**Runner:** geplante Aufgabe „GROKVERSE-Lab-Runner“ aktiv; laut `runner-state.json` nächster Start 2026-09-27 08:34:44Z = **10:34 Berlin**. Das CPU-Programm läuft bis zur Deadline 09:59 und wird dann vom Wächter beendet
+(kein Fehler; derselbe Befehl setzt fort). Keine GPU-Läufe offen.

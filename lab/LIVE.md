@@ -1,23 +1,25 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 25
+# LIVE: Laborsitzung 25 (beendet)
 
 - **Sitzungsstart:** 2026-09-27 14:19 Berlin (12:19Z, vom Runner)
 - **Deadline:** 2026-09-27 17:19 Berlin (15:19Z)
-- **Zuletzt aktualisiert:** 14:58 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 15:00 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: nur Denk- und Vorbereitungsarbeit.
 
 ## Gerade
 
-Stand sichern; Vorab-Lesart fuer EXP-077 in [[LESART-nacht-2026-09-28]] ergaenzt.
+**Sitzung beendet (15:00).** Naechster geplanter Start laut runner-state.json: **17:54 Berlin** (15:54Z), ausserhalb des Run-Fensters.
 
 ## Als Naechstes
 
-Stand sichern; ab 00:00 laeuft die Nacht laut [[STATE]].
+Ab 00:00: Tests, CPU mit EXP-040, P2f, EXP-073/074/075, dann EXP-077 (neu) und Selbsttests fuer P4 und den Repro-Trainer. Fuer dich: [[paper/STATUS]] (neu: Dong 2026 schraenkt die Reset-Aussage ein).
 
 ## Verlauf dieser Sitzung
 
+- 15:00 Sitzung beendet; alles committet.
+- 15:00 Nachauswertungen: gemischte Kontrolle aus EXP-047 steuert auch im feinen Mass nicht; staerkeres Maskensignal geht mit staerkerer Steuerung einher (post hoc).
 - 14:58 Zahlenpruefung der neuen Paper-Abschnitte: Mathe korrekt, 12 Formulierungen enger gefasst (u. a. ein zitierter, nie gerechneter Versuch entfernt).
 - 14:51 Paper: Diskussionsabschnitt geschrieben; ein Pruefagent gleicht die neuen Abschnitte gegen die Quellen ab.
 - 14:51 Pruefagent zum schlanken Trainer: keine Blocker, 4 kleinere Punkte behoben.

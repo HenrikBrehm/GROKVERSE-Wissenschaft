@@ -3412,3 +3412,22 @@ Holm über die zwei Maße: 0.012 / 0.072. C schwankt kaum (SD 0.07 bzw. 0.11 bei
 *Einordnung:* post hoc, explorativ; die bestätigten P1-Seeds sind hier kein unabhängiger Test. Hinweis, dass für den **Endzustand** M0 mindestens so gut passt wie das M0c des ersten Gradienten
 (im Einklang mit dem früheren, nicht signifikanten Befund zu den finalen Frequenzen, [[BEFUND-split-mechanismus]] Punkt 6): Der erste Gradient erklärt die Richtung, nicht die ganze Stärke.
 *Entscheidung:* kein neuer Versuch; im Paper höchstens als Exploration (§4).
+
+### Abschlussbericht Sitzung 25 (2026-09-27, 14:19–15:00 Berlin, gemessen; Run-Fenster die ganze Zeit zu)
+
+**Wichtigste Ergebnisse (alle ohne Training; Rechnungen nur numpy auf gespeicherten Daten):**
+1. **Literatur (Regel 19e):** Volltextprüfung der engsten Arbeiten ([[paper/fulltext_check_2026-09-27]]). **K4d eingeschränkt:** Dong 2026 zeigt in Sprachmodellen, dass ein QK-Reset die
+   Lernfähigkeit herstellt, Value nicht; „Attention-Reset > MLP-Reset“ ist für Transformer nicht neu, unsere Reihenfolge (Wertepfad > QK) ist umgekehrt. Khanh 2026 (gleicher Modelltyp) ist
+   Pflichtzitat für K4. K2 bleibt „nach unserer Suche nicht gefunden“.
+2. **Theorie (Paper §5):** ausformuliert; dabei einen eigenen Fehler gefunden (nicht alle Token-Häufigkeiten fallen im ersten Gradienten heraus, nur die eigene einer Zeile) → neue prüfbare
+   Vorhersage **EXP-077** (Pilot vorbereitet, Programm C). Nachauswertungen: EXP-047-shuf auch im stetigen Maß ≈ 0; in P1 geht der M0-Kontrast mit der Steuerstärke je Seed einher (ρ 0.39, post hoc).
+3. **Werkzeuge (ungetestet bis 00:00):** `confirm_p4.py` (Codex: 1 Blocker behoben), `repro/train.py` + `repro/k2.py` (Claude-Prüfagent: keine Blocker, 4 Punkte behoben), P4-Entwurfsmanifest.
+4. **Paper:** Related Work (1b), Theorie (5.1–5.4), Diskussion (5b), Grenzen ergänzt; unabhängige Zahlenprüfung: 12 Überdehnungen korrigiert (u. a. ein nie gerechneter Versuch als Beleg).
+
+**Offene Grenzen:** alles Neue ungetestet; Persistenzbefunde weiter nur add 113; die umgekehrte QK/VO-Reihenfolge gegenüber Dong ist unerklärt (Lesart N36, ungeprüft).
+**Meine Fehler:** eine geschätzte Uhrzeit (sofort ersetzt); falsche Theorieaussage zu Häufigkeiten (numerisch gefunden, korrigiert); mehrere Überdehnungen im Paper-Text (durch die Prüfung gefunden).
+**Reproduktion:** `python lab/paper/repro/theory_identity_check.py`, `theory_sign_check.py`, `lab/confirm/P1_posthoc_m0_strength.py`, `lab/experiments/EXP-047-marginal-control/posthoc_delta_pow.py`,
+`centred_m0c_shared.py` (alle aus dem Repo-Wurzelverzeichnis, reine numpy-Rechnung).
+**Nächste Aktion:** ab 00:00 laut [[STATE]] „Nächste Schritte“ 1–7 (Tests → CPU EXP-040 → P2f → GPU EXP-073/074/075 → EXP-077 → P4-Selbsttest, Repro-Gleichwertigkeit).
+**Runner:** geplante Aufgabe aktiv; nächster Start laut runner-state.json 2026-09-27 15:54:45Z = **17:54 Berlin**. Freiwillig früher beendet: weitere Arbeit ohne Rechenfenster wäre heute
+Beschäftigung ohne Erkenntnis oder weiteres ungetestetes Werkzeug für eine schon volle Nacht.

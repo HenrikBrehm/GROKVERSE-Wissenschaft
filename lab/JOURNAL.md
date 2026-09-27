@@ -2915,3 +2915,7 @@ Danach der P2-Nachfolger.
 
 **Runner:** Die geplante Aufgabe „GROKVERSE-Lab-Runner“ ist aktiv. Nächster Start laut `runner-state.json`: 2026-09-27 05:54:44Z = **07:54 Berlin**. Das CPU-Programm (EXP-041 …) läuft bis zur
 Sitzungsdeadline 07:19, dann beendet es der Wächter. Die Folgesitzung setzt mit demselben Befehl fort.
+
+**Nachtrag 06:56 (gemessen): EXP-041 ausgewertet (CPU-Programm).** Beide Hypothesen ***geprägt***: E → R @150 10/10 (p = 0.001), R → E @150 9/10, 0 umgeschlagen. Ein 150-Schritte-Vorlauf auf einem
+konstruierten Split programmiert die Frequenzwahl auch gegen gewöhnliches Zufallssplit-Training, und ein schwacher Zufallssplit prägt ebenso. Pilot (Regel 15b). Bei t = 150 ist das Momentum abgeklungen,
+die Festlegung sitzt dann in den Gewichten. Folgefrage für N28: Wann geht das Gedächtnis vom Optimierer in die Gewichte über (t = 25 gegen 50 gegen 150)? Seit 06:55 läuft EXP-036 auf der CPU.

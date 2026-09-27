@@ -1,8 +1,8 @@
 ---
 id: EXP-041
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 ---
 # EXP-041: Prägt ein kurzer Vorlauf die Frequenzwahl, auch gegen einen Zufallssplit, und in beide Richtungen?
 
@@ -92,3 +92,11 @@ Nicht in `queue_s10.sh` (die ist lang genug); Kandidat für die nächste Queue n
 sh lab/experiments/EXP-041-imprint/queue.sh
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-041-imprint/analyze.py
 ```
+
+## Ergebnis (Sitzung 21, Läufe im CPU-Programm 04:46–06:55, Auswertung 06:55 Berlin; eingeordnet 06:56)
+
+Automatisch ausgewertet (`analyze.py`, nach den Regeln aus Nachtrag a: P41a einseitig, P41b zweiseitig, je α = 0.025), 10/10 Seeds gültig (20–29):
+- **P41a (E → R @150): 10/10 gehalten, p = 0.00098 → *geprägt*.** Ein 150-Schritte-Vorlauf auf dem konstruierten Split legt die Frequenzwahl auch gegen gewöhnliches Weitertraining auf einem **Zufallssplit** fest.
+- **P41b (R → E @150): 9/10 gehalten, 0 umgeschlagen, 1 Gleichstand (Seed 27, d = 0) → *geprägt*.** Auch der spektral schwache Zufallssplit prägt, der starke konstruierte Split überschreibt ihn nicht.
+- Einordnung: Pilot (Regel 15b, 10 Seeds, vor Regel 15 festgelegt). Passt zu P3 (bestätigt: starke Wirkung der Vorgeschichte) und zu EXP-058 (Momentum). Bei t = 150 ist das
+  Momentum aber längst abgeklungen (β₁ = 0.9). Hier muss die Festlegung also schon in den Gewichten stecken. Damit ergibt sich eine zeitliche Frage für N28: Wann wandert das Gedächtnis vom Optimierer in die Gewichte?

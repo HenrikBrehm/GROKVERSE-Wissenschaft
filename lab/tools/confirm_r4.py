@@ -206,7 +206,9 @@ def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
         for kind in MEASURES:
             s = np.array([delta(r, kind, t, "split") for r in rows])
             i = np.array([delta(r, kind, t, "init") for r in rows])
-            desc[f"{kind}@{t}"] = {"delta_split": [float(s.mean()), c1.boot_ci(s, rng)],
+            none = np.array([r[f"{kind}_none_{t}"] for r in rows])      # transfer check of the study-run null calibration (s30)
+            desc[f"{kind}@{t}"] = {"s_none_mean_sd": [float(none.mean()), float(none.std(ddof=1))],
+                                   "delta_split": [float(s.mean()), c1.boot_ci(s, rng)],
                                    "delta_init": [float(i.mean()), c1.boot_ci(i, rng)],
                                    "split_minus_init": [float((s - i).mean()), c1.boot_ci(s - i, rng)]}
     out["descriptive"] = desc

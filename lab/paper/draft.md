@@ -188,7 +188,8 @@ The derivation in the simplest alternating-gradient-flow model (AGF) does *not* 
 ## 6 Limitations
 
 One architecture family and optimizer for all persistence claims (add 113 only, generalization pending: EXP-074, EXP-075); engineered splits; functional measures do not separate identity from energy;
-resets localize sensitivity, not mechanism; many design decisions were informed by pilots on known seeds (each registration lists them).
+resets localize sensitivity, not mechanism; in the same model class (1-layer, d = 128, AdamW 1e-3/1.0, full batch; p = 59) Khanh (2026, §7, App. A) finds that swapping the weight
+*directions* of attention, MLP or unembedding each moves the frequency identity, so our weak MLP *reset* effect at a 50-step switch must not be read as "the MLP carries no frequency identity"; many design decisions were informed by pilots on known seeds (each registration lists them).
 
 ## AI use disclosure (draft wording, to be confirmed by the user)
 

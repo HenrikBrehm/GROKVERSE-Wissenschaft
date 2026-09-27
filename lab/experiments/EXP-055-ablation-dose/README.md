@@ -1,8 +1,8 @@
 ---
 id: EXP-055
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/unklar]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-051-functional-ablation/README|EXP-051]]", "[[experiments/EXP-047-marginal-control/README|EXP-047]]", "[[JOURNAL]]"]
 ---
 # EXP-055: Werden die gesteuerten Frequenzen je Energieeinheit stärker genutzt? (Dosis-Wirkung am Test-Loss, P2-Pilot)
@@ -34,3 +34,18 @@ fremden 0. Daraus folgen das kontinuierliche Maß und die Dosisstufen. Die Loss-
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-055-ablation-dose/analyze.py --selftest
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-055-ablation-dose/analyze.py
 ```
+
+## Ergebnis (Sitzung 20, 2026-09-27, 03:10 Berlin, CPU-Auswertung, 23 s)
+
+Code: Commit nach 67cc1a4 („EXP-055 analysis code“), Befehl wie oben. Zahlen `summary.json`.
+
+- 10/10 Seeds gültig (Basis-Genauigkeit 1.0, Basis-Loss 0.001–0.007, Logit-Abstand ≈ 6.5–8).
+- **Primär (f = 1.0): D̄ = 5.3·10⁻⁵, 4/10 positiv, p = 0.42 → *richtungsgleich, n. s.*** Das ist das Urteil.
+- *Beschreibend (nicht vorab als Test festgelegt; die Dosen sind nicht unabhängig):* D̄ je Dosis f = 0.1 / 0.25 / 0.5 / 0.75 / 1.0: 1.2 / 3.0 / 5.9 / 8.1 ·10⁻⁴ / 0.5·10⁻⁴,
+  positiv in **10 / 10 / 10 / 10 / 4 von 10** Seeds. Bei Teildosen kostet dieselbe Energie aus den Zielen also durchweg mehr Loss als aus der Kontrolle. Beim vollständigen
+  Entfernen der Kontrolle (f = 1) wächst ΔL_ctrl überproportional (konvex) und holt ΔL_own ein. Deutung, ungeprüft: Die Kontrollfrequenzen tragen einen kleinen, aber nötigen Rest,
+  der erst beim völligen Löschen fehlt. Oder das Löschen einer ganzen Menge ist ein anderer Eingriff als Skalieren.
+- Größenordnung: Alle ΔL sind klein (≤ 4·10⁻³) gegen Basis-Loss 10⁻³. Entfernt werden bei f = 1 nur 5–18 % der Zielenergie. Die Modelle sind robust.
+- **Entscheidung:** Kein Nachtrag. Für P2 folgt: primäre Dosis **vor** den Daten auf eine Teildosis legen (z. B. f = 0.5), Maß ΔL, an **frischen** Modellen
+  (Bestätigungsblock oder neue Pilot-Seeds). Diese 20 Modelle sind jetzt zweimal gesehen und taugen nicht mehr zur Bestätigung.
+

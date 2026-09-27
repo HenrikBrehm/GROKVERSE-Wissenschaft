@@ -2510,3 +2510,9 @@ Vor der Deutung [[LESART-nacht-2026-09-27]] gelesen.
   die Nutzung je Energieeinheit ist offen. shuf-Modelle ungültig (nicht generalisiert).
 - *Entscheidung:* Für P2 einen sauberen Nachfolger mit neuer ID festlegen (kontinuierliches Maß: Test-Loss/Logit-Abstand; Dosis-Wirkungs-Kurve own gegen ctrl über mehrere Energiestufen,
   an den gespeicherten EXP-047-Modellen, kein Training nötig). *Codex-Hinweis für später:* vor dem Einfrieren von P2 prüfen lassen (Regel 18c).
+
+**Zyklus 7 (P2 genauer: EXP-055, Dosis-Wirkung am Test-Loss, 03:10–03:13 gemessen).** Registriert 03:10 vor dem ersten Lauf (Commit 67cc1a4), mit „bereits gesehen: EXP-051“.
+*Ergebnis:* primär f = 1.0 *richtungsgleich, n. s.* (D̄ 5·10⁻⁵, 4/10, p 0.42). Beschreibend: Bei f = 0.1–0.75 ist ΔL_own > ΔL_ctrl in 10/10 Seeds je Dosis, bei f = 1 kippt es,
+weil das vollständige Löschen der Kontrolle überproportional kostet. *Deutung:* Bei gleicher entfernter Energie sind die Zielfrequenzen im Teilbereich stärker genutzt. Das ist aber post hoc,
+und die vorab gewählte Primärdosis war die ungünstigste. *Entscheidung:* P2 für den Bestätigungsblock mit primärer Teildosis (f = 0.5) und ΔL an frischen Modellen festlegen
+(im [[BACKLOG]] P2-Abschnitt nachgetragen). Die 20 EXP-047-Modelle sind verbraucht (zweimal gesehen).

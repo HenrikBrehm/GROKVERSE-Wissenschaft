@@ -10,6 +10,10 @@ Runs: transformer of the study (freq_ban.py, add/mul) or group_train.py (D_n), 2
   python lab/tools/confirm_p1.py --jobs lab/confirm/P1_manifest.json > lab/confirm/P1_jobs.txt     # for parallel_queue.py
   python lab/tools/confirm_p1.py --analyze lab/confirm/P1_manifest.json                             # under guarded_run.py
   python lab/tools/confirm_p1.py --selftest
+  python lab/tools/confirm_p1.py --run lab/confirm/P1_manifest.json -- <trainer command>             # one job line (see run_bound)
+Session 21 (Codex B1, UNTESTED): every job runs through --run, which checks the frozen manifest and code before and after the
+trainer and writes a binding (code digest + sha256 of every file the run wrote) to lab/confirm/bindings/. --analyze accepts a run
+only if every file in its directory is covered by a binding with the manifest's code digest; runs made outside --run are rejected.
 Extra manifest fields: "device": "cuda"|"cpu", "python": ".venv-gpu/Scripts/python.exe", "threads": 1.
 
 Optional "cross": {"task": "add", "p": 113, "seeds": [...], "inits_per_seed": 2} (Astra point 5, session 16, UNTESTED): the SAME
@@ -19,20 +23,26 @@ split are no independent split replications). Reading, fixed before any run: see
 """
 from __future__ import annotations
 
+import hashlib
 import itertools
 import json
+import os
+import subprocess
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
 
 LAB = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(LAB / "tools"))
-from confirm_splits import OUT as SPLITS, build, check_manifest  # noqa: E402
+from confirm_splits import OUT as SPLITS, build, check_code, check_manifest  # noqa: E402
 from result_loader import Expect, find_run, load_run  # noqa: E402
 
 STEP, ALPHA, FAMILY, MIN_EFFECT, N_BOOT, N_MC = 2000, 0.05, 3, 1.0, 10_000, 200_000
 RAW = LAB / "confirm" / "raw"
+BIND = LAB / "confirm" / "bindings"
+UNBOUND_NAMES = ("run.lock",)                             # trainer lock files are removed or stale, never results
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 GT = "lab/experiments/EXP-046-dihedral-steering/group_train.py"
 
@@ -74,7 +84,12 @@ def fb_job(man: dict, t: dict, init: int, sp: str) -> str:
             f"--spectra-at 250,500,1000,{STEP} --out-root lab/confirm/raw")
 
 
-def jobs(man: dict) -> list[str]:
+def jobs(man: dict, manifest: str) -> list[str]:
+    """Every line runs through --run (session 21, Codex B1); manifest is the repo-relative manifest path."""
+    return [f"python lab/tools/confirm_p1.py --run {manifest} -- {j}" for j in trainer_jobs(man)]
+
+
+def trainer_jobs(man: dict) -> list[str]:
     out = []
     for t in man["tasks"]:
         for s in man["seeds"]:
@@ -94,6 +109,76 @@ def jobs(man: dict) -> list[str]:
     return out
 
 
+def code_digest(man: dict) -> str:
+    return hashlib.sha256(json.dumps(man["code_sha256"], sort_keys=True).encode()).hexdigest()
+
+
+def _sha(p: Path) -> str:
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def _bindable(p: Path) -> bool:
+    return p.is_file() and p.name not in UNBOUND_NAMES and not p.name.endswith(".tmp")
+
+
+def run_dir_for(cmd: list[str]) -> list[Path]:
+    """Run directories of this job: name contains 'seed<seed>_' and the split stem (freq_ban and group_train run ids both do)."""
+    seed, split = cmd[cmd.index("--seed") + 1], Path(cmd[cmd.index("--split-file") + 1]).stem
+    return [d for d in RAW.glob("*") if d.is_dir() and f"seed{seed}_" in d.name and split in d.name] if RAW.exists() else []
+
+
+def run_bound(manifest: Path, cmd: list[str]) -> int:
+    """Session 21 (Codex B1): gate -> trainer -> gate -> binding. The binding lists only files of the job's own run directory
+    written after the start (a skipped, already completed run binds nothing new). Exit code = trainer's, 4 if a gate fails after."""
+    man = json.loads(manifest.read_text(encoding="utf-8"))
+    check_manifest(manifest, man)
+    t0 = time.time_ns()
+    rc = subprocess.run(cmd, cwd=LAB.parent).returncode
+    try:
+        check_code(man)
+    except SystemExit as ex:
+        print(f"[confirm_p1] code changed during the run, no binding: {ex}", file=sys.stderr, flush=True)
+        return 4
+    dirs = run_dir_for(cmd)
+    files = {} if rc != 0 or len(dirs) != 1 else {
+        q.relative_to(LAB.parent).as_posix(): _sha(q) for q in sorted(dirs[0].rglob("*")) if _bindable(q) and q.stat().st_mtime_ns >= t0}
+    BIND.mkdir(parents=True, exist_ok=True)
+    rec = {"code_digest": code_digest(man), "manifest_commit": man["commit"], "cmd": cmd, "exit": rc, "t0_ns": t0,
+           "t1_ns": time.time_ns(), "run_dirs": [d.name for d in dirs], "files": files}
+    name = f"{hashlib.sha256(' '.join(cmd).encode()).hexdigest()[:16]}_{t0}_{os.getpid()}.json"
+    with open(BIND / name, "x", encoding="utf-8") as f:
+        json.dump(rec, f, indent=1)
+    if rc == 0 and len(dirs) != 1:
+        print(f"[confirm_p1] expected one run directory, found {len(dirs)}: binding without files", file=sys.stderr, flush=True)
+        return 4
+    return rc
+
+
+_BOUND: dict[str, set[tuple[str, str]]] = {}
+
+
+def bound_files(man: dict) -> set[tuple[str, str]]:
+    """(relpath, sha256) of every file bound by a successful --run with this manifest's code digest and commit."""
+    key = f"{man['commit']}:{code_digest(man)}"
+    if key not in _BOUND:
+        ok: set[tuple[str, str]] = set()
+        for b in sorted(BIND.glob("*.json")) if BIND.exists() else []:
+            r = json.loads(b.read_text(encoding="utf-8"))
+            if r.get("exit") == 0 and r.get("code_digest") == code_digest(man) and r.get("manifest_commit") == man["commit"]:
+                ok |= set(r.get("files", {}).items())
+        _BOUND[key] = ok
+    return _BOUND[key]
+
+
+def unbound(man: dict, d: Path | None) -> str | None:
+    """None if every bindable file of run directory d is covered by a binding (Codex B1), else the reason."""
+    if d is None:
+        return None                                       # load_run reports the missing run itself
+    ok = bound_files(man)
+    bad = [q.name for q in sorted(d.rglob("*")) if _bindable(q) and (q.relative_to(LAB.parent).as_posix(), _sha(q)) not in ok]
+    return f"not bound to the frozen code: {bad[:3]}" if bad else None
+
+
 def power_at(man: dict, t: dict, s: int, arm: str, init: int | None = None) -> np.ndarray | str:
     """W_E group power at STEP of the run on the split of (seed s, arm); init defaults to s (primary runs)."""
     st = stem(man, t, s, arm)
@@ -101,13 +186,19 @@ def power_at(man: dict, t: dict, s: int, arm: str, init: int | None = None) -> n
     split = SPLITS / f"{st}.npy"
     dev = man["device"]
     if t["task"] == "D":
-        L = load_run(find_run(RAW, f"EXP-046_seed{s}_{st}_dev{dev}"),
+        d = find_run(RAW, f"EXP-046_seed{s}_{st}_dev{dev}")
+        if (why := unbound(man, d)):
+            return f"defekt: {why}"
+        L = load_run(d,
                      Expect(seed=s, device=dev, max_steps=STEP, split_file=split, config={"p": 2 * t["p"], "group": f"D{t['p']}"},
                             at=(STEP,)))
         return L.spectrum(STEP) if L.status == "ok" else f"{L.status}: {L.reason}"
     suffix = "" if (t["task"], t["p"]) == ("add", 113) else f"_{t['task']}{t['p']}"
     devsuf = "" if dev == "cpu" else f"_dev{dev}"            # freq_ban: CPU run-ids carry no device suffix
-    L = load_run(find_run(RAW, f"EXP-0*_baseline_seed{init}_thr*_{st}{suffix}{devsuf}"),
+    d = find_run(RAW, f"EXP-0*_baseline_seed{init}_thr*_{st}{suffix}{devsuf}")
+    if (why := unbound(man, d)):
+        return f"defekt: {why}"
+    L = load_run(d,
                  Expect(seed=init, device=dev, max_steps=STEP, split_file=split, config={"p": t["p"], "task": t["task"]},
                         snapshots_at=(STEP,)))
     if L.status != "ok":
@@ -280,21 +371,22 @@ def selftest() -> None:
     assert lo == hi == 2.0
     man = {"experiment": 1, "eps": 2.0, "seeds": [1000], "device": "cuda", "python": "PY", "threads": 1,
            "tasks": [{"task": "add", "p": 113}, {"task": "D", "p": 59}]}
-    j = jobs(man)
+    j = trainer_jobs(man)
+    assert all(x.startswith("python lab/tools/confirm_p1.py --run M.json -- ") for x in jobs(man, "M.json"))
     assert len(j) == 4 and "--task add" in j[0] and "group_train.py" in j[2] and all("\\" not in x for x in j), j
     assert "confirm_exp1_eps2.0_add113_seed1000_F.npy" in j[0] and "--n 59" in j[2]
     h = holm({"a": 0.01, "b": 0.04, "c": 1.0})
     assert abs(h["a"] - 0.03) < 1e-12 and abs(h["b"] - 0.08) < 1e-12 and h["c"] == 1.0
     # cross block (session 16): extra inits reuse the unit's split files, D tasks rejected
     mc = {**man, "seeds": [1000, 1001], "cross": {"task": "add", "p": 113, "seeds": [1001], "inits_per_seed": 2}}
-    jc = jobs(mc)
+    jc = trainer_jobs(mc)
     assert len(jc) == 8 + 4 and "--seed 1201 " in jc[8] and "--seed 1301 " in jc[10], jc[8:]
     assert "confirm_exp1_eps2.0_add113_seed1001_F.npy" in jc[8] and "confirm_exp1_eps2.0_add113_seed1001_G.npy" in jc[9]
     for bad in ({"task": "D", "p": 59, "seeds": [1000], "inits_per_seed": 1},
                 {"task": "add", "p": 113, "seeds": [999], "inits_per_seed": 1},
                 {"task": "add", "p": 113, "seeds": [1000], "inits_per_seed": 3}):
         try:
-            jobs({**mc, "cross": bad})
+            trainer_jobs({**mc, "cross": bad})
             raise AssertionError(bad)
         except SystemExit:
             pass
@@ -333,7 +425,65 @@ def selftest() -> None:
     assert task_verdict({"p": 0.001, "p_holm_worstcase": 0.003, "ci95": [0.5, 2.0]}) == "nicht bestätigt"
     assert task_verdict({"p": 0.001, "p_holm_worstcase": 0.003, "ci95": [1.2, 2.0]}) == "bestätigt"
     assert task_verdict({"p": 0.001, "p_holm_worstcase": 0.06, "ci95": [1.2, 2.0]}) == "nicht bestätigt"
+    _selftest_binding()
     print("[confirm_p1] selftest ok", flush=True)
+
+
+def _selftest_binding() -> None:
+    """Session 21 (B1): bound files pass; unbound, altered, extra, wrong-digest/commit and failed-run files do not."""
+    import tempfile
+    global RAW, BIND
+    keep = RAW, BIND
+    try:
+        with tempfile.TemporaryDirectory(dir=LAB / "confirm") as tmp:
+            RAW, BIND = Path(tmp) / "raw", Path(tmp) / "bindings"
+            man = {"commit": "c0", "code_sha256": {"a.py": "1" * 64}}
+            d = RAW / "EXP-001_baseline_seed1000_thr1_confirm_x_F"
+            d.mkdir(parents=True)
+            (d / "result.json").write_text("{}")
+            (d / "run.lock").write_text("x")
+            assert run_dir_for(["py", "t.py", "--seed", "1000", "--split-file", "s/confirm_x_F.npy"]) == [d]
+            assert run_dir_for(["py", "t.py", "--seed", "1001", "--split-file", "s/confirm_x_F.npy"]) == []
+            _BOUND.clear()
+            assert "not bound" in unbound(man, d)
+            BIND.mkdir()
+            rel = (d / "result.json").relative_to(LAB.parent).as_posix()
+            rec = {"code_digest": code_digest(man), "manifest_commit": "c0", "exit": 0, "files": {rel: _sha(d / "result.json")}}
+            for i, bad in enumerate(({"exit": 1}, {"code_digest": "0" * 64}, {"manifest_commit": "c1"})):
+                (BIND / f"bad{i}.json").write_text(json.dumps({**rec, **bad}))
+            _BOUND.clear()
+            assert "not bound" in unbound(man, d)
+            (BIND / "ok.json").write_text(json.dumps(rec))
+            _BOUND.clear()
+            assert unbound(man, d) is None and unbound(man, None) is None
+            (d / "result.json").write_text('{"x": 1}')
+            _BOUND.clear()
+            assert "result.json" in unbound(man, d)
+            (d / "result.json").write_text("{}")
+            (d / "extra.npy").write_bytes(b"1")
+            _BOUND.clear()
+            assert "extra.npy" in unbound(man, d)
+            # run_bound end to end with a fake trainer; gates stubbed (they need a committed manifest)
+            g = globals()
+            gates = g["check_manifest"], g["check_code"]
+            g["check_manifest"], g["check_code"] = (lambda *_: None), (lambda *_: None)
+            try:
+                mf = Path(tmp) / "m.json"
+                mf.write_text(json.dumps(man))
+                d2 = (RAW / "EXP-001_baseline_seed1002_thr1_confirm_y_G").as_posix()
+                fake = ("import pathlib, sys; d = pathlib.Path(sys.argv[1]); d.mkdir(); (d / 'result.json').write_text('{}'); "
+                        "(d / 'run.lock').write_text('x')")
+                cmd = [sys.executable, "-c", fake, d2, "--seed", "1002", "--split-file", "s/confirm_y_G.npy"]
+                assert run_bound(mf, cmd) == 0
+                _BOUND.clear()
+                assert unbound(man, Path(d2)) is None
+                assert run_bound(mf, [sys.executable, "-c", "raise SystemExit(3)", "--seed", "1003", "--split-file", "s/z.npy"]) == 3
+                assert run_bound(mf, [sys.executable, "-c", "pass", "--seed", "1004", "--split-file", "s/none.npy"]) == 4
+            finally:
+                g["check_manifest"], g["check_code"] = gates
+    finally:
+        RAW, BIND = keep
+        _BOUND.clear()
 
 
 if __name__ == "__main__":
@@ -343,7 +493,9 @@ if __name__ == "__main__":
     elif len(a) == 2 and a[0] == "--jobs":
         m = json.loads(Path(a[1]).read_text(encoding="utf-8"))
         check_manifest(Path(a[1]), m)
-        print("\n".join(jobs(m)))
+        print("\n".join(jobs(m, Path(a[1]).resolve().relative_to(LAB.parent.resolve()).as_posix())))
+    elif len(a) >= 4 and a[0] == "--run" and a[2] == "--":
+        raise SystemExit(run_bound(Path(a[1]), a[3:]))
     elif len(a) == 2 and a[0] == "--analyze":
         analyze(Path(a[1]))
     else:

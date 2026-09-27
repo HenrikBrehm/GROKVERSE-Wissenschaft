@@ -75,3 +75,5 @@ Line numbers refer to lab/paper/draft.md.
 - Author first names/initials: missing for almost all entries (only LeDoux, Dong and Khanh have full names in fulltext_check).
 
 *Nachtrag (Sitzung 30, vom Laboragenten):* Janati et al. 2026 steht inzwischen in [[paper/related_work]] (Autoren und Titel per arXiv-Abstract). Die Zitate He et al. 2026 → 2026a, Kleinman et al. → 2023, 2024 und Frankle et al. 2020 → Frankle, Schwab und Morcos 2020 sind im Entwurf eindeutig gemacht. Die übrigen Punkte oben (fehlende Venues, URLs, Prüfgrade) sind offen für die menschliche Prüfung.
+
+*Nachtrag (Sitzung 30):* Venues, volle Titel und URLs der Preprints wurden gegen die arXiv-Abstractseiten geprüft, siehe [[paper/references_venues_check]]. Nur Tomàs Bernal et al. und Sevetlidis & Pavlidis nennen eine Venue (AISTATS 2026). Die Titel von Dong und Khanh sind hier gekürzt. Zu klären bleiben die Namensform von Tomàs Bernal und die Schreibung „Gharda“ Sokar in Lyle et al.

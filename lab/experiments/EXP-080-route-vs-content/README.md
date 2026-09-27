@@ -1,8 +1,8 @@
 ---
 id: EXP-080
-status: vorbereitet
+status: zurückgestellt
 datum: 2026-09-27
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/verworfen, neu/kandidat]
 verwandt: ["[[NOVEL_DIRECTIONS]]", "[[experiments/EXP-079-head-symmetry/README|EXP-079]]", "[[confirm/N29c_REGISTRATION|N29c]]", "[[FINDINGS]]", "[[paper/related_work]]", "[[JOURNAL]]"]
 ---
 # EXP-080: Hält der Pfad, den der Wechsel verlangt? Aufgabenwechsel a + b → a − b (Leitung) gegen a² + b² (Inhalt) mit QK- oder VO-Reset (PILOT, N36)
@@ -55,3 +55,7 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-080-route-vs-conte
 python lab/tools/parallel_queue.py lab/experiments/EXP-080-route-vs-content/jobs.txt --workers 10
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-080-route-vs-content/analyze.py
 ```
+
+## Nachtrag a (15:53 Berlin, gemessen; vor jedem Lauf): **ZURÜCKGESTELLT, nicht rechnen**
+
+Ein Prüfagent (nur lesend) zeigte: Austauschsymmetrische Attention erzwingt **keine** symmetrischen Ausgaben. Bei symmetrischer Attention ist die Differenz der Ausgaben unter Vertauschung genau Σ_h (α_a − α_b)(a, b) · W_O^h W_V^h (W_pos[0] − W_pos[1]); Inhaltsanteile und der Anteil von „=“ heben sich weg. Antisymmetrie (a − b) kann also auch über eine **Positionsmarke im Wertepfad** (OV(W_pos[0] − W_pos[1])) oder über W_pos entstehen, nicht nur über QK. Das deckt sich mit meiner eigenen Nachrechnung vor der Prüfung. Weitere Einwände, alle übernommen: (B2) Bei t = 50 ist das Netz nahe der Init, die Attention trägt zufällige Positionsasymmetrie (W_pos[0] ≠ W_pos[1]); a − b wäre dort fast Lernen von vorn, der Gegensatz Leitung/Inhalt greift nicht. (B3) Ein QK-Reset bringt zufällige Positionsasymmetrie der Init zurück und hilft a − b deshalb trivial; ein positives I wäre mehrdeutig. Kleinere Punkte (Verlustskala normieren, Reset-Prüfung im Trainer, „Vorzeichentest“ heißt hier Vorzeichen-Permutationstest) für einen Nachfolger vermerkt. **Entscheidung:** EXP-080 wird in dieser Form nicht gerechnet. Ein Nachfolger braucht (1) den Zustand am Wechsel (Symmetrie- und Kanalmaße aus EXP-079 an gespeicherten Wechselzuständen), (2) eine Vorhersage je Kanal (QK-Versatz, OV-Marke, W_pos) statt „Leitung gegen Inhalt“, (3) Protokollierung dieser Größen vor und nach dem Wechsel.

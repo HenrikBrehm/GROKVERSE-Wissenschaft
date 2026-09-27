@@ -3523,3 +3523,9 @@ sagt eine Wechselwirkung der Reset-Wirkung voraus. *Vorbedingung:* Symmetrie der
 schlanker Trainer (Reihenfolge wie `repro/train.py`), ungetestet; ein Prüfagent prüft Design und Code (läuft). *Eigene Nachrechnung vorab:* Das Symmetrieargument gilt nicht streng: Über W_pos
 entsteht bei austauschsymmetrischer Attention ein antisymmetrischer Anteil (α_a − α_b) · OV(W_pos[0] − W_pos[1]); er hängt aber an den Attention-Gewichten, also an QK. Die Aussage ist deshalb:
 Antisymmetrie kann nur über das Attention-Muster entstehen, nicht „das Netz kann nur symmetrische Funktionen“. Korrektur nach der Prüfung.
+
+**Zyklus 10, Prüfung (Ergebnis vor 15:54, gemessen): EXP-080 zurückgestellt.** Prüfagent: Das Symmetrieargument trägt nicht (drei Blocker, alle selbst nachvollzogen): (1) Bei austauschsymmetrischer Attention
+ist die Ausgabedifferenz unter Vertauschung Σ_h (α_a − α_b) · W_O W_V (W_pos[0] − W_pos[1]) → a − b ist über eine OV-Positionsmarke ohne QK-Änderung erreichbar; der Aufgabengegensatz trennt QK und VO
+nicht. (2) Bei t = 50 ist die Attention noch zufällig positionsasymmetrisch. (3) Ein QK-Reset bringt diese Init-Asymmetrie zurück und hilft a − b trivial. *Entscheidung:* EXP-080 wird nicht gerechnet
+(Status zurückgestellt), EXP-079 misst stattdessen die Kanäle (QK-Versatz, OV-Marke, Logit-Antisymmetrie) als Material für ein neues Design; N36 korrigiert. *Lehre:* Ein eigenes Gegenargument hatte ich
+schon notiert, aber als „trägt qualitativ“ abgetan; die Prüfung vor dem Lauf hat eine Nacht-Queue mit einem nicht deutbaren Versuch verhindert.

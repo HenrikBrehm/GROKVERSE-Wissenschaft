@@ -845,3 +845,5 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
 - **Suche 15:38** (WebSearch: „Adam beta2 horizon critical period early training feature lock-in data switch second moment bias correction first steps determine features“): Treffer zu kritischen
   Perioden allgemein (https://arxiv.org/abs/2506.15954), zur Stabilität von Adam in Abhängigkeit von β₂ und zu Konvergenzbedingungen (https://arxiv.org/abs/2603.02092), LeDoux 2026; **keine Arbeit,
   die ein Festlegungsfenster an den β₂-Horizont bindet** (eine Suche, nur Treffer; vorläufig).
+
+- **Zu N36, Korrektur (15:53, gemessen, nach einer Prüfung):** Die N36-Schärfung (Sitzung 26) ist in einem Punkt falsch: Austauschsymmetrische Attention erzwingt keine symmetrischen Funktionen; über die OV-Positionsmarke W_O W_V (W_pos[0] − W_pos[1]) (und W_pos) kann Antisymmetrie auch ohne QK-Änderung entstehen. a − b verlangt also Positionsinformation, nicht zwingend neue QK-Leitung. EXP-080 zurückgestellt; EXP-079 misst jetzt die Kanäle (QK-Versatz, OV-Marke, Logit-Antisymmetrie) als Grundlage eines neuen Designs.

@@ -121,7 +121,42 @@ def selftest() -> None:
                 assert share <= 1.3 * M / K, (task, arm, share)
             else:
                 assert share > 1.5 * M / K and len(top & set(T)) >= 4, (task, arm, share, sorted(top), T)
+    # (3) session 20 (Codex B1): code gate
+    h = code_hashes()
+    assert "lab/experiments/EXP-001-freq-ban/freq_ban.py" in h and any(k.startswith("training/grokverse/models/") for k in h)
+    check_code({"code_sha256": h})
+    for bad in ({}, {"code_sha256": {**h, "lab/tools/confirm_p1.py": "0" * 64}}, {"code_sha256": {k: v for k, v in list(h.items())[1:]}}):
+        try:
+            check_code(bad)
+            raise AssertionError("code gate accepted a mismatch")
+        except SystemExit:
+            pass
     print("[confirm_splits] selftest ok", flush=True)
+
+
+CODE_FILES = ("lab/tools/confirm_splits.py", "lab/tools/confirm_p1.py", "lab/tools/result_loader.py", "lab/tools/trainer_guard.py",
+              "lab/experiments/EXP-001-freq-ban/freq_ban.py", "lab/experiments/EXP-043-generalize-steering/make_split.py",
+              "lab/experiments/EXP-043-generalize-steering/analyze.py", "lab/experiments/EXP-046-dihedral-steering/make_split.py",
+              "lab/experiments/EXP-046-dihedral-steering/group_train.py", "lab/experiments/EXP-046-dihedral-steering/dihedral.py")
+
+
+def code_hashes() -> dict[str, str]:
+    """Session 20 (Codex B1): SHA-256 of every file that builds splits, trains or analyses the block (plus all of
+    training/grokverse). Stored in the frozen manifest; any later change to executed code makes the gate fail."""
+    import hashlib
+    files = list(CODE_FILES) + sorted(q.relative_to(LAB.parent).as_posix()
+                                      for q in (LAB.parent / "training/grokverse").rglob("*.py") if "__pycache__" not in q.parts)
+    return {f: hashlib.sha256((LAB.parent / f).read_bytes()).hexdigest() for f in files}
+
+
+def check_code(man: dict) -> None:
+    want = man.get("code_sha256")
+    if not want:
+        raise SystemExit("manifest has no 'code_sha256' (python lab/tools/confirm_splits.py --hash-code): freeze the code too (Codex B1)")
+    have = code_hashes()
+    diff = sorted(set(want) ^ set(have)) + sorted(f for f in set(want) & set(have) if want[f] != have[f])
+    if diff:
+        raise SystemExit(f"executed code differs from the frozen manifest: {diff[:5]}")
 
 
 def check_manifest(manifest: Path, man: dict) -> None:
@@ -139,6 +174,7 @@ def check_manifest(manifest: Path, man: dict) -> None:
         raise SystemExit("manifest differs from its frozen version at the named commit")
     if not man["seeds"] or not all(1000 <= int(x) <= 1099 for x in man["seeds"]):
         raise SystemExit("seeds must lie in the reserved block 1000-1099")
+    check_code(man)
 
 
 def main(manifest: Path) -> None:
@@ -166,6 +202,8 @@ def main(manifest: Path) -> None:
 if __name__ == "__main__":
     if sys.argv[1:] == ["--selftest"]:
         selftest()
+    elif sys.argv[1:] == ["--hash-code"]:
+        print(json.dumps(code_hashes(), indent=1))
     elif len(sys.argv) == 3 and sys.argv[1] == "--manifest":
         main(Path(sys.argv[2]))
     else:

@@ -24,7 +24,7 @@ Zurück zu [[FINDINGS]]. Eingefroren ist erst eine Fassung `P1_manifest.json` mi
 
 ## Codex-Prüfung (Sitzung 20, 03:41) → Reparaturliste vor dem Einfrieren (Einzelheiten und Begründung: [[JOURNAL]] Sitzung 20, Zyklus 14)
 
-- [ ] (B1) Code-Hashes (Trainer, Splits, Analyse, Lader) ins Manifest, bei `--jobs`/`--analyze` prüfen, Läufe gegen Hashes/Commit prüfen
+- [x] (B1, Sitzung 20 umgesetzt, Selbsttest grün: `confirm_splits.py --hash-code` liefert das Feld `code_sha256`; `check_manifest` prüft es bei Splits, `--jobs`, `--analyze`. Rest-Lücke: der Lader prüft den `git_commit` der Läufe nicht; eine Änderung zwischen `--jobs` und `--analyze`, die wieder zurückgenommen wird, bliebe unbemerkt) Code-Hashes (Trainer, Splits, Analyse, Lader) ins Manifest, bei `--jobs`/`--analyze` prüfen, Läufe gegen Hashes/Commit prüfen
 - [ ] (B2) Familie festlegen: P1 = add 113 primär (P1–P3-Holm über 3), übrige Aufgaben als P1b sekundär mit eigener Holm-Familie
 - [x] (H3, Sitzung 20 umgesetzt, Selbsttest grün) „bestätigt“ = Holm-p < 0.05 **und** KI-Untergrenze ≥ 1 (Mindesteffekt Teil der Aussage)
 - [x] (B4, Sitzung 20 umgesetzt, Selbsttest grün; Wiederholungsregel für Infrastrukturfehler noch in die Registrierung schreiben) alle 50 Paare verlangen; nicht-endliches Δ / Zielsumme ≤ 0 → ungültig; sonst *nicht auswertbar*

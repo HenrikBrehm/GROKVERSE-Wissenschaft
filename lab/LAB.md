@@ -122,6 +122,7 @@ nutzt ([[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]).
 | [[experiments/EXP-078-two-layer-steering/README\|EXP-078]] Steuert die Split-Zusammensetzung auch in einem 2-Schicht-Transformer die Frequenzen? (Pilot, Programm A) | vorbereitet (Sitzung 26) #exp/vorbereitet | — |
 | [[experiments/EXP-079-head-symmetry/README\|EXP-079]] Sind die Attention-Köpfe nach a + b austauschsymmetrisch? (Vorbedingung N36, keine Läufe) | vorbereitet (Sitzung 26) #exp/vorbereitet | — |
 | [[experiments/EXP-080-route-vs-content/README\|EXP-080]] Hält der Pfad, den der Wechsel verlangt? a − b (Leitung) gegen a² + b² (Inhalt), QK- gegen VO-Reset (Pilot, N36) | zurückgestellt (Sitzung 26, Designfehler vor jedem Lauf gefunden) #exp/verworfen | — |
+| [[experiments/EXP-081-optimizer-clock/README\|EXP-081]] Welche Uhr legt fest? β₁ (Verschiebung + Momentum-Schwanz) gegen β₂ (Horizont) gegen Schritte (Pilot, N37/N38) | vorbereitet (Sitzung 27, Entwurf, kein Code; nach R3) #exp/vorbereitet | — |
 | [[confirm/R3_REGISTRATION_DRAFT\|R3]] Tickt die Festlegung in Λ oder in Schritten? (Bestätigung) | Entwurf, Codex ohne Blocker (Sitzung 26) #exp/vorbereitet | — |
 | [[confirm/R2_REGISTRATION_DRAFT\|R2]] Hält K4c bei lr 2e-3 und wd 0.3? (Bestätigung, Regel 19a) | Entwurf, Codex ohne Blocker (Sitzung 26) #exp/vorbereitet | — |
 | [[confirm/P2d_REGISTRATION\|P2d]] Bestätigung: Empfindlichkeit je gleicher Schrittnorm (20 frische Seeds) | bestätigt (Sitzung 22) #befund/positiv | D̄ 0.250 [0.229, 0.270], 20/20: eigene Ziele lokal viel empfindlicher als gleich große Kontrollen |

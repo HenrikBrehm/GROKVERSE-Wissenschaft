@@ -3616,3 +3616,7 @@ aber nur ≈ 2–3 Schritte. *Neues Design:* Teil A misst den Momentum-Schwanz d
 `--reset-optim-part m` (Standardpfad unverändert). Zwei unabhängige Code-Prüfungen (nur Lesen) gegen die eingefrorenen Auswertungen: Konstruktion, Arme, Reset-Semantik, Leistungsdefinition, π/R, Hypothesen und Statistik stimmen überein; übernommen:
 kein stiller No-op-Reset in `train.py`, strengere Vergleichsschwellen (alle Seeds, auch Kontraste), Bootstrap-Seeds wie im Original, Cache-Fehler für die normal-Arme in `k4b.py` (nur Rechenzeit), NaN-Prüfung wie N28. Alles **ungetestet**;
 laufen erst nach bestandener Gleichwertigkeit von `train.py` (frühestens Nacht 28./29.). Offen im Paket: K2-Funktion (P2d/P2e).
+
+**Zyklus 8 (Repro K2-Funktion, bis 16:35, gemessen).** `repro/k2_function.py` (P2d, add 113) nutzt die eingefrorene P2d-Messung direkt (nur gelesen importiert). Unabhängige Prüfung (nur Lesen): Splits, Training, Maß und Statistik identisch zu P2d, kein sicherer Fehler.
+Übernommen: Konstanten gegen `confirm_p2d.REGISTERED` geprüft, Splits bitgenau gegen die eingefrorenen P2d-Dateien, größte Abweichung je Seed im Vergleich; in allen drei neuen Repro-Skripten Trainer-Hash und Threads im Ausgabepfad
+(sonst würden nach einer Trainer-Änderung alte Modelle still wiederverwendet). `k4c.py` unverändert (läuft heute Nacht im Smoke). Damit fehlen im Paket nur noch P2e (mul 113, add 97) und P3 (statische Spur); alles ungetestet.

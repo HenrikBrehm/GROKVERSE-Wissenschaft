@@ -17,6 +17,7 @@ control_sets, validity, verdict; model loading and margin evaluation as there):
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import subprocess
 import sys
@@ -33,6 +34,8 @@ import confirm_p2d as p2d  # noqa: E402  (frozen P2d measure, read-only)
 import confirm_splits as cs  # noqa: E402
 
 LAB, EXPERIMENT, EPS, STEPS, P = k4c.LAB, 4, 2.0, 4000, 113
+assert (p2d.REGISTERED["experiment"], p2d.REGISTERED["eps"], p2d.REGISTERED["steps"]) == (EXPERIMENT, EPS, STEPS)   # s27 review
+TRAINER_SHA = hashlib.sha256((HERE / "train.py").read_bytes()).hexdigest()[:10]   # runs of another trainer version are never reused
 
 
 def cached(out: Path, s: int, steps: int) -> bool:
@@ -80,7 +83,7 @@ def main() -> None:
     seeds = list(range(lo, hi + 1))
     if a.smoke:
         seeds, a.steps, a.out = seeds[:1], 300, str(Path(a.out).with_name(Path(a.out).name + "_smoke"))
-    root = Path(a.out) / f"steps{a.steps}_{a.device.replace(':', '')}"
+    root = Path(a.out) / f"steps{a.steps}_{a.device.replace(':', '')}_thr{a.threads}_train{TRAINER_SHA}"
     (root / "splits").mkdir(parents=True, exist_ok=True)
     jobs, meta = [], {}
     for s in seeds:
@@ -94,6 +97,9 @@ def main() -> None:
             if f.exists() and not np.array_equal(np.load(f), idx.astype(np.int64)):
                 raise SystemExit(f"{f} differs from the deterministic construction")
             np.save(f, idx.astype(np.int64))
+            frozen = p2d.SPL / f"{p2d.stem(s, arm)}.npy"      # s27 review: bit-exact check against the frozen P2d split if present
+            if frozen.exists() and not np.array_equal(np.load(frozen), idx.astype(np.int64)):
+                raise SystemExit(f"seed {s} {arm}: split differs from the frozen P2d split")
             files[arm] = f
             jobs.append(((s, arm), files[arm], root / "runs" / f"seed{s}_{arm}"))
         common = np.setdiff1d(np.arange(P * P), np.union1d(*[np.load(files[x]) for x in "FG"]))
@@ -111,8 +117,10 @@ def main() -> None:
                  **p2d.verdict(D, len(seeds), np.random.default_rng(42), n_tech), "rows": rows}
     if a.compare_p2d:
         ref = json.loads((LAB / "confirm" / "P2d_summary.json").read_text(encoding="utf-8"))
+        ref_D = {r["seed"]: r["D"] for r in ref["rows"] if r.get("valid")}
+        per_seed = [abs(r["D"] - ref_D[r["seed"]]) for r in rows if r.get("valid") and r["seed"] in ref_D]
         out["compare_p2d"] = {"mean_D": out.get("mean"), "frozen_mean_D": ref.get("mean"), "n_valid": out.get("n_valid"),
-                              "frozen_n_valid": ref.get("n_valid")}
+                              "frozen_n_valid": ref.get("n_valid"), "max_seed_abs_diff_D": max(per_seed) if per_seed else None}
     (root / "k2_function_summary.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1, default=float), flush=True)
     if a.compare_p2d:

@@ -19,6 +19,7 @@ Same statistics as the frozen analyses (one-sided t-test, Holm over {H1, H2}, bo
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import subprocess
 import sys
@@ -31,6 +32,8 @@ import torch
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import k4c  # noqa: E402  (complement/accuracy/ablate, path setup, confirm_p1 helpers, overlap_split)
+
+TRAINER_SHA = hashlib.sha256((HERE / "train.py").read_bytes()).hexdigest()[:10]   # s27 review: never reuse runs of another trainer version
 
 LAB, T, BUDGET = k4c.LAB, 50, 4000
 BLOCKS = {  # frozen definitions of N29b / N29c (confirm_n29b.py, confirm_n29c.py)
@@ -97,7 +100,7 @@ def main() -> None:
     out_dir = Path(a.out) if a.out else HERE / "out" / f"k4_resets_{a.block}"
     if a.smoke:
         seeds, a.budget, out_dir = seeds[:1], 300, out_dir.with_name(out_dir.name + "_smoke")
-    root = out_dir / f"budget{a.budget}_{a.device.replace(':', '')}"
+    root = out_dir / f"budget{a.budget}_{a.device.replace(':', '')}_thr{a.threads}_train{TRAINER_SHA}"
     (root / "splits").mkdir(parents=True, exist_ok=True)
     eps = json.loads(k4c.CAL.read_text(encoding="utf-8"))["levels"][str(k4c.OMEGA)]["eps"]
     jobs, meta = [], {}

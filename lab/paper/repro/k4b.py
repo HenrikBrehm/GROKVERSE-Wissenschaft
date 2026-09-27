@@ -18,6 +18,7 @@ Statistics as the frozen analysis (one-sided t-test, Holm with the P2b placehold
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import subprocess
 import sys
@@ -29,6 +30,8 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import k4c  # noqa: E402  (path setup, overlap_split, calibration, confirm_p1 helpers)
+
+TRAINER_SHA = hashlib.sha256((HERE / "train.py").read_bytes()).hexdigest()[:10]   # s27 review: never reuse runs of another trainer version
 
 LAB, BUDGET, MIN_SEP, H1_MIN, NI_MARGIN = k4c.LAB, 2000, 2.0, 0.05, 0.05
 ARMS = (("normal", 25), ("m", 25), ("m", 35), ("normal", 50))   # frozen N28 arms
@@ -78,7 +81,7 @@ def main() -> None:
     seeds = list(range(lo, hi + 1))
     if a.smoke:
         seeds, a.budget, a.out = seeds[:1], 300, str(Path(a.out).with_name(Path(a.out).name + "_smoke"))
-    root = Path(a.out) / f"budget{a.budget}_{a.device.replace(':', '')}"
+    root = Path(a.out) / f"budget{a.budget}_{a.device.replace(':', '')}_thr{a.threads}_train{TRAINER_SHA}"
     (root / "splits").mkdir(parents=True, exist_ok=True)
     eps = json.loads(k4c.CAL.read_text(encoding="utf-8"))["levels"][str(k4c.OMEGA)]["eps"]
     jobs, targets = [], {}

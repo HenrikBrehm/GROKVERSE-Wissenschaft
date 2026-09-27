@@ -3611,3 +3611,8 @@ der Nachtblöcke (Hashes) und mit Codex; Start frühestens nach R3. *Warum jetzt
 (2) N37 hat keinen Mechanismus (v̂ ist bias-korrigiert ab Schritt 1 unverzerrt; mein eigenes Skript zeigte das, ich hatte es übersehen). Dazu S1 selbst nachgerechnet: auch die Verschiebungsuhr sagt für β₂ = 0.95 einen etwas größeren Schwanz voraus (10.8–12.4 statt 8.9),
 aber nur ≈ 2–3 Schritte. *Neues Design:* Teil A misst den Momentum-Schwanz direkt (normal gegen m-Löschen bei t = 25 für β₁ ∈ {0.8, 0.9, 0.95}; Vorhersage 4 / 9 / 16–24 Schritte), Teil B prüft N37 bei festem t = 33 mit großen vorhergesagten Abständen (N37: π nahe 1 bzw. 0; Verschiebungsuhr: ±0.1).
 ≈ 500 statt 800 Läufe. Verworfen: nichts; S2 (β nur vor/nach dem Wechsel) als späterer Schritt notiert. *Lehre:* Eine Vorhersage, deren Mechanismus im eigenen Rechenmodell nicht vorkommt, ist keine Vorhersage.
+
+**Zyklus 7 (Reproduktionspaket, Regel 19c, bis 16:31, gemessen).** *Frage:* Welche bestätigten Kernaussagen haben noch kein schlankes Repro-Skript? *Ergebnis:* neu `repro/k4_resets.py` (K4d/K4e, N29b/N29c) und `repro/k4b.py` (K4/K4b, N28), dazu in `repro/train.py`
+`--reset-optim-part m` (Standardpfad unverändert). Zwei unabhängige Code-Prüfungen (nur Lesen) gegen die eingefrorenen Auswertungen: Konstruktion, Arme, Reset-Semantik, Leistungsdefinition, π/R, Hypothesen und Statistik stimmen überein; übernommen:
+kein stiller No-op-Reset in `train.py`, strengere Vergleichsschwellen (alle Seeds, auch Kontraste), Bootstrap-Seeds wie im Original, Cache-Fehler für die normal-Arme in `k4b.py` (nur Rechenzeit), NaN-Prüfung wie N28. Alles **ungetestet**;
+laufen erst nach bestandener Gleichwertigkeit von `train.py` (frühestens Nacht 28./29.). Offen im Paket: K2-Funktion (P2d/P2e).

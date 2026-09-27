@@ -44,7 +44,7 @@ def cached(out: Path, s: int, steps: int, t: int | None, part: str | None) -> bo
 
 def run(a: argparse.Namespace, s: int, first: Path, second: Path | None, t: int | None, part: str | None, test: Path, out: Path) -> Path:
     steps = a.budget + (t or 0)
-    if not cached(out, s, steps, t, part):
+    if not cached(out, s, steps, t, "m" if part == "m" else None):   # s27 review: result.json stores null for normal arms
         cmd = [sys.executable, str(HERE / "train.py"), "--seed", str(s), "--split-file", str(first), "--test-file", str(test),
                "--steps", str(steps), "--device", a.device, "--threads", str(a.threads), "--out", str(out)]
         if second is not None:
@@ -108,11 +108,14 @@ def main() -> None:
         if not (np.isfinite(L["A"]) and np.isfinite(L["B"]) and L["A"] - L["B"] >= MIN_SEP):
             rows.append({"seed": s, "valid": False, "L": L})
             continue
-        pi = {}
+        pi, bad = {}, None
         for part, t in ARMS:
             lab_, lba = (final_logratio(outs[(s, f"{part}{t}", tag)], TA, TB) for tag in ("AB", "BA"))
+            if not (np.isfinite(lab_) and np.isfinite(lba)):   # as confirm_n28 (s27 review)
+                bad = f"non-finite L in {part}{t}"
+                break
             pi[f"{part}{t}"] = ((lab_ - L["B"]) / (L["A"] - L["B"]) + (lba - L["A"]) / (L["B"] - L["A"])) / 2
-        rows.append({"seed": s, "valid": True, "L": L, "pi": pi})
+        rows.append({"seed": s, "valid": False, "reason": bad, "L": L} if bad else {"seed": s, "valid": True, "L": L, "pi": pi})
     ok = [r for r in rows if r["valid"]]
     out: dict = {"budget": a.budget, "device": a.device, "n": len(rows), "n_valid": len(ok),
                  "pi_mean": {f"{p}{t}": float(np.mean([r["pi"][f"{p}{t}"] for r in ok])) for p, t in ARMS} if ok else {}}

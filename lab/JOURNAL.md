@@ -2553,3 +2553,24 @@ a *M0c selektiert* (D̄ 6.51, 10/10, p 0.001), b *anti steuert trotzdem* (Δ̄_a
 Eingetreten ist das vorab benannte Zwischenergebnis „a ja und b ja“: Der Kreuzterm dominiert (≈ 6×), M0 trägt einen kleinen, aber durchgängigen Anteil. **Das ist ein Befund gegen die reine
 Theorie erster Ordnung** (sie sagt anti ≈ 0). Kandidaten: spätere Schritte, MLP-Nichtlinearität. Das passt zu EXP-052 S1 (M0c > M0, aber M0 sagt auch voraus). Folgeversuch MLP mit getrennten W_in-Hälften
 (vorab genannt). FINDINGS und LAB ergänzt.
+
+**Zyklus 14 (Codex-Prüfung des P1-Entwurfs vor dem Einfrieren, Regel 18c, 03:30–03:41 gemessen).** Über den Claude-Subagenten codex-rescue, nur lesend, ≈ 11 min.
+*Codex:* „not safe to freeze as-is“, 3 Blocker, 4 hoch, 2 mittel. Die Δ_pow-Rechnung ist in Pilot und Bestätigung gleich (Schritt 2000, F/G nicht vertauscht, D₅₉-Irreps richtig indiziert),
+der Windows-Pfad in Ordnung. *Selbst geprüft (Code gelesen) und Entscheidung je Punkt:*
+1. **Blocker, übernommen:** `check_manifest` vergleicht nur das Manifest ohne `commit` (confirm_splits.py:127–139), der ausgeführte Code ist nicht gebunden, und der Lader prüft `git_commit` nicht.
+   → Manifest bekommt SHA-256 der Trainer-, Split- und Analysedateien. `--jobs`/`--analyze` brechen bei Abweichung ab, der Lader prüft sie gegen die Läufe.
+2. **Blocker, übernommen:** P1-Familie offen (add 113 allein oder vier Aufgaben). → Vorschlag: **P1 = add 113 (Kern) primär**, die drei anderen Aufgaben als P1b sekundär mit eigener
+   Holm-Familie. So bleibt die P1–P3-Familie bei 3, wie in FINDINGS festgelegt. Entscheidung beim Einfrieren.
+3. **Hoch, übernommen:** Mindesteffekt 1 wird nur berichtet (confirm_p1.py:219–221). → „bestätigt“ braucht KI-Untergrenze ≥ 1 (oder Test gegen 1), sonst Mindesteffekt aus der Aussage streichen.
+4. **Blocker, übernommen:** 80 % vollständige Fälle genügen (Z. 209), nicht-endliches Δ wird nicht abgewiesen. → Alle 50 geplanten Paare verlangen (Infrastrukturfehler nur mit
+   demselben eingefrorenen Job wiederholen), Δ nicht endlich oder Zielsumme ≤ 0 → ungültig. Fehlt am Ende etwas: *nicht auswertbar*.
+5. **Hoch, übernommen:** Die Power-Rechnung nutzt α/3, der Code hätte 6 Hypothesen. Mit Punkt 2 (Familie 3) passt α/3 wieder. Sonst neu rechnen.
+6. **Hoch, übernommen:** Ziel-JSON wird bei der Auswertung nicht gegen `build()` geprüft. → Bei `--analyze` Indizes und Ziele neu erzeugen und exakt vergleichen.
+7. **Hoch, teilweise:** Der Vorzeichen-Permutationstest ist exakt nur unter Symmetrie. Pilot und EXP-016 nutzen denselben Test, die Annahme wird in der Registrierung ausdrücklich genannt
+   (Nullhypothese: Verteilung von Δ symmetrisch um 0, gerechtfertigt durch die Vertauschbarkeit von F und G, die bei gleicher Konstruktion beider Arme gilt). Zusätzlich wird ein
+   studentisierter t-Test berichtet, nicht primär.
+8. **Mittel, übernommen (nur Beschreibung):** Das Design ist nach Seeds gepaart (F/G gleiche Init, Aufgaben gleicher Seed). Das wird so beschrieben. Optional Init je Aufgabe trennen.
+9. **Mittel, übernommen:** Die Aufgabenwahl ist nach dem Pilot gefiltert. P1 heißt deshalb „unabhängige Replikation in vier im Pilot gewählten Fällen“, nicht Verallgemeinerung auf eine Aufgabenpopulation.
+- **Verworfen:** mein eigener Vorschlag „Mindesteffekt relativ zum Pilotmittel“. Codex hat recht: Δ ist ein dimensionsloses Log-Verhältnis, eine Skalierung fällt heraus.
+*Ergebnis:* **Nicht eingefroren.** Reparaturliste im Entwurf `lab/confirm/P1_REGISTRATION_DRAFT.md`. Das ist Code-Arbeit, sie geht auch außerhalb des Fensters. Nach den Korrekturen nur
+die betroffenen Punkte nachprüfen lassen (Regel 18c).

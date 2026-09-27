@@ -21,3 +21,16 @@ Zurück zu [[FINDINGS]]. Eingefroren ist erst eine Fassung `P1_manifest.json` mi
 - **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** EXP-016 (add 113, Seeds 10–19), EXP-043 (add 97, mul 113; 70–79), EXP-046 (D₅₉; 140–149),
   EXP-047 (add 113 GPU; 150–159), EXP-048 (int-add; 160–169), EXP-049 (add 113 d128/512; 170–179), EXP-052 (R-Läufe), `pilot_power` auf diesen Piloten.
   Beeinflusst: Aufgabenwahl (nur im Pilot *steuerbare* Aufgaben), n = 50 (aus der Pilotstreuung), GPU statt CPU (GPU-001). Keine Seeds 1000–1099 wurden je benutzt.
+
+## Codex-Prüfung (Sitzung 20, 03:41) → Reparaturliste vor dem Einfrieren (Einzelheiten und Begründung: [[JOURNAL]] Sitzung 20, Zyklus 14)
+
+- [ ] (B1) Code-Hashes (Trainer, Splits, Analyse, Lader) ins Manifest, bei `--jobs`/`--analyze` prüfen, Läufe gegen Hashes/Commit prüfen
+- [ ] (B2) Familie festlegen: P1 = add 113 primär (P1–P3-Holm über 3), übrige Aufgaben als P1b sekundär mit eigener Holm-Familie
+- [ ] (H3) „bestätigt“ = Holm-p < 0.05 **und** KI-Untergrenze ≥ 1 (Mindesteffekt Teil der Aussage)
+- [ ] (B4) alle 50 Paare verlangen; nicht-endliches Δ / Zielsumme ≤ 0 → ungültig; sonst *nicht auswertbar*
+- [ ] (H5) Power mit der endgültigen Familie und dem endgültigen Test neu rechnen (bei B2: α/3)
+- [ ] (H6) bei `--analyze` Split-Indizes und Ziele aus `build()` neu erzeugen und exakt vergleichen
+- [ ] (H7) Symmetrie-Annahme des Vorzeichentests ausdrücklich registrieren; t-Test sekundär berichten
+- [ ] (M8/M9) Design als seed-gepaart beschreiben; P1 als Replikation in pilotgewählten Fällen formulieren
+- verworfen: Mindesteffekt relativ zum Pilotmittel (Δ ist dimensionslos)
+

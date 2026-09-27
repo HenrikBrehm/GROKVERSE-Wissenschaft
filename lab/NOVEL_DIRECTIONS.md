@@ -199,6 +199,7 @@ alignment“, nur zweischichtige Netze) und 2607.05104 (siehe N3).
   neue Grundidee. #neu/bekannt (teilweise)
 
 - **Nachtrag Sitzung 30 (19:12):** Post-hoc-Beobachtung an EXP-047: 20/20 konstruierte gegen 0/20 gemischte Arme (gleiche Token-Häufigkeiten, gleiche Init) generalisieren innerhalb von 2000 Schritten, Testmengen sind Komplemente. EXP-018 auf die GPU gestellt (Nachtrag c), rechnet in der Nacht 27./28. Nachsuche (1 Anfrage, s. JOURNAL Sitzung 30): nichts Einschränkendes. Nachsuche mit 21 Anfragen: [[paper/lit_grokking_speed_2026-09-27]]. Teilweise bekannt: Datenauswahl über Token-Häufigkeiten beschleunigt (AlQuabeh et al. 2025). Konzentration des Paarspektrums nicht gefunden (vorläufig). #neu/bekannt (teilweise)
+- **Nachtrag Sitzung 31 (19:36, gemessen; post hoc, keine neue Suche):** Dosis-Wirkung an gespeicherten Läufen mit gleicher Init, Testmenge und Größe: ε 8 / 2 / 1 → Generalisierung nach 425–450 / 700–900 / nicht bis 2000 Schritte, strenge Ordnung in 4/4 Seeds (`EXP-042/posthoc_speed_dose.py`). Innerhalb von ε = 2 (P1) nur zwischen den Seeds ein Zusammenhang, nicht gepaart innerhalb der Init (`lab/confirm/speed_posthoc_share_within.py`). Vorschlag: Dosis-Trend als Hypothese in [[confirm/R5_REGISTRATION_DRAFT|R5]].
 
 ## N8: Kommutationssymmetrie des Splits und Frequenzwahl #neu/kandidat (schwach)
 

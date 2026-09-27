@@ -19,15 +19,16 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 
 ## Aktive Queue / laufende Jobs
 
-- **GPU:** frei (N29, P2e, N29b, EXP-067/069/070 fertig und ausgewertet).
+- **GPU: N29c-Block** (eingefroren 3c9cb63, Seeds 2320–2339, 120 Läufe) ab 12:00: `python lab/tools/parallel_queue.py lab/confirm/N29c_jobs.txt --workers 7` (Log `lab/runner/logs/n29c_block.log`).
+  Nicht fertig bis 12:39 → **im nächsten Fenster** derselbe Befehl (gebundene Läufe werden übersprungen, abgebrochene beiseitegelegt), dann
+  `python lab/tools/guarded_run.py -- python lab/tools/confirm_n29c.py --analyze lab/confirm/N29c_manifest.json`, danach Codex zur Schlussfolgerung.
 - **CPU:** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-036,EXP-039,EXP-040,EXP-042,EXP-014` (EXP-036/039 fertig, EXP-040 am Selbsttest gescheitert und inzwischen repariert,
   EXP-042 lief ab 10:59). Wiederaufnahme im Fenster: derselbe Befehl, EXP-040 zusätzlich einzeln (`--experiments EXP-040`).
 
 ## Nächste Schritte (in dieser Reihenfolge)
 
 1. `guarded_run.py --check`; kein STOP; Prozesse prüfen. **Außerhalb des Fensters (13:00–00:00) keine Läufe.**
-2. **Programm B, N32 (außerhalb des Fensters vorbereiten):** Bestätigung „Wertepfad“ festlegen (frische Seeds, Arme normal / rsvo / rsqk bei t = 50, Funktionsmaß wie N29b, `confirm_n29b.py` als Muster),
-   Codex vor dem Einfrieren, im Fenster rechnen. Offene Mechanismusfrage: Warum entsteht der Ausschluss zwischen 25 und 50, wenn die OV-Ausrichtung gleichmäßig steigt (EXP-070)? Kandidaten vorab benennen
+2. **Programm B, N32:** Bestätigung „Wertepfad“ = [[confirm/N29c_REGISTRATION|N29c]] (eingefroren, läuft/fortsetzen, s. oben). Offene Mechanismusfrage: Warum entsteht der Ausschluss zwischen 25 und 50, wenn die OV-Ausrichtung gleichmäßig steigt (EXP-070)? Kandidaten vorab benennen
    (z. B. Schwelle der OV-Verstärkung gegen die Init-Amplitude neuer Richtungen; Adam-Zustand des Wertepfads).
 3. **Programm A, D₅₉:** Registrierung „P2f“ (Irrep-Maß, `group_train.py --save-model` vorhanden seit Sitzung 23, noch ohne Codex-Prüfung), frische Seeds (2290–2299 frei oder neuer Block).
 4. FINDINGS straffen (Regel 15a: höchstens eine Seite; derzeit weit darüber): Kernaussagen K2, K2-Funktion (P2d/P2e), K4/K4b/K4c, Grenze „Funktion folgt Energie“, offene Frage N32.

@@ -5,18 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 16:49 Berlin (14:49Z, vom Runner)
 - **Deadline:** 2026-09-27 19:49 Berlin (17:49Z)
-- **Zuletzt aktualisiert:** 17:06 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 17:19 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests; nur Auswertung gespeicherter Läufe, Denk- und Schreibarbeit.
 
 ## Gerade
 
-Codex prüft nur die korrigierten Punkte der Registrierungen [[confirm/C1_REGISTRATION|C1]] und [[confirm/C2_REGISTRATION|C2]] nach (Fassung 2).
+Codex prüft die neue Registrierung [[confirm/C3_REGISTRATION|C3]]: Gilt die Feinordnung auch im MLP, bei 4× Breite und bei der Integer-Addition (an den P4-Seeds)?
 
 ## Als Nächstes
 
 Codex-Nachprüfung einarbeiten; danach weitere Denkarbeit (siehe STATE, Programm B/C).
 
 ## Verlauf dieser Sitzung
+
+- 17:19 C3 registriert (b199107): In den Piloten zeigt sich die Feinordnung überall (ρ 0.29–0.60, Init ≈ 0).
+- 17:15 Negativ: Die Theorie sagt fürs MLP „M0 statt M0c“ voraus; für die Feinordnung stimmt das nicht (M0c 0.60 > M0 0.46). Paper korrigiert.
+- 17:14 Codex-Nachprüfung: 1 neuer Blocker in C2 (Seed zählte schon mit einem Lauf), behoben (f445f94).
 
 - 17:05 C1/C2 Fassung 2 committet (d50e7b0): engere Aussagen, bereinigter Koeffizient, Code-Tor. Diagnose vor dem Lauf: in den R1-Splits hängt M0c nicht von k ab.
 - 17:04 Codex zu C1: 2 Blocker, 6 größere Punkte; alle geprüft, fast alle übernommen (JOURNAL).

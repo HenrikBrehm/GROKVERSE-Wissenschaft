@@ -3355,3 +3355,11 @@ eigener Anteil 0.9 %), nicht auf einem allgemeinen Wegfall. Korrigiert im Entwur
 M0“) ist im engen Sinn (eigene Häufigkeit) richtig und bleibt. *Neue prüfbare Folgerung:* Ein Split mit stark strukturierten Häufigkeiten nur eines Operanden müsste zu den Frequenzen von ρ
 steuern → Kandidat für Paket C (Entscheidung zwischen „nur Paarstruktur“ und „erste Ordnung inkl. Fremd-Häufigkeiten“), Literatursuche folgt.
 
+**Zyklus 3 (Regel 19e: Volltextprüfung der engsten Arbeiten, bis 14:36).** *Frage:* Enthalten die engsten Arbeiten im Volltext schon (a) Steuerung über die Split-Zusammensetzung,
+(b) Festlegung nach Datenwechsel, (c) Attention- gegen MLP-Reset? *Ausführung:* Hintergrund-Agent (arXiv-HTML-Volltexte inkl. Anhänge, Semantic-Scholar-Vorwärtszitate von Nanda 2023),
+Ergebnis [[paper/fulltext_check_2026-09-27]]. Von mir selbst am Abstract geprüft: Dong 2607.27281 und Khanh 2607.06628 (beide bestätigt; eine Überdehnung des Agenten korrigiert:
+Value-Reset bei Dong „do nothing“, nicht „schlechter als kein Reset“). *Ergebnis:* K2 weiter „nicht gefunden“ (LeDoux: zufällige Teilmengen ändern die Frequenz nicht; He et al. 2026b §6 nennt
+den Split als offen). **K4d eingeschränkt:** In Sprachmodellen stellt ein QK-Reset die Lernfähigkeit her, Value nicht (Dong 2026); „Attention-Reset > MLP-Reset“ ist für Transformer
+nicht neu, unsere Reihenfolge (Wertepfad > QK) ist umgekehrt → als Gegensatz berichten. K4: Khanh 2026 (Frequenzidentität per Gewichtsrichtung, gleicher Modelltyp) und LeDoux §3.4 zitieren;
+Lyle et al. 2025 von „teilweise, deutlich“ auf „teilweise“. Eingearbeitet in [[paper/draft]] (§1, §3.5), [[paper/related_work]] (Nachtrag), [[FINDINGS]] (Literatur). *Entscheidung:*
+Die umgekehrte QK/VO-Reihenfolge ist eine offene Frage für B (verschiedene Aufgaben, Skalen, Protokolle); kein neuer Versuch jetzt.

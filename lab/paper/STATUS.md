@@ -41,3 +41,11 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 | d Entwurf `lab/paper/draft.md` | Gerüst mit allen bestätigten Kernaussagen und Zahlen aus FINDINGS_DETAILS (Sitzung 24) | Abbildungen 1–5 fertig (`figures/fig1_mask_vs_learned.py`, `fig2_p1_delta_pow.py`, `fig3_ablation_contrast.py`, `fig4_pi_curve.py`, `fig5_margin_sensitivity.py`; aus gespeicherten Läufen bzw. eingefrorenen Zusammenfassungen); Abbildung 4 (`fig4_pi_curve.py`) fertig; Theorie-Abschnitt; nach P2f (D₅₉) ergänzen | Zahlenprüfung (Sitzung 24): alle Zahlen korrekt, 15 Formulierungen enger gefasst.
 | e Literatur [[paper/related_work]] | Entwurf fertig (Sitzung 24): ≈ 50 Arbeiten, 37 Suchbegriffe, Prüfgrad je Eintrag ([A] Abstract, [L] Volltext früher, [K] Klassiker, [S] nur Snippet), Einordnung je Kernaussage. Lücken: Google Scholar/Semantic Scholar nicht direkt abgefragt. Stichprobe LeDoux 2026 selbst am Abstract geprüft (Reihenfolge, nicht Menge) | **menschliche Prüfung**; vorrangig LeDoux (Volltext), Marchetti et al. und He et al. 2026b (Anhänge: nicht-uniforme Paare?), Lyle et al. 2025 (Frequenzanalyse nach Datenwechsel?), Vorwärtszitate |
 | f Entscheidungen des Nutzers | oben vorgelegt | — |
+
+## Nachtrag Sitzung 25 (2026-09-27, 14:36)
+
+- **a/b:** `lab/tools/confirm_p4.py` geschrieben, Codex (1 Blocker: Testangabe, behoben), ungetestet bis 00:00; Seeds 2360–2419 (P4), 2420–2509 (R1) reserviert.
+- **c:** schlanker Trainer `lab/paper/repro/train.py` mit Vergleich gegen gespeicherte Läufe; Prüfbefehle in [[paper/repro/README]] (ab 00:00).
+- **d:** Theorie §5 ausformuliert (numerisch geprüft; dabei eine falsche Aussage zu Token-Häufigkeiten gefunden und korrigiert).
+- **e:** Volltextprüfung [[paper/fulltext_check_2026-09-27]]: **K4d eingeschränkt** durch Dong 2026 (Sprachmodelle: QK-Reset hilft, Value nicht; bei uns umgekehrt), Khanh 2026 Pflichtzitat.
+  Für die menschliche Prüfung vorrangig: Dong 2026 und Khanh 2026 im Volltext.

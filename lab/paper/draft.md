@@ -29,7 +29,15 @@ reliance far more than the tested MLP reset, and resetting its value path does s
   Our lever is the complementary one: the *set* of training pairs, full batch, one-hot tokens, predicted in advance by the mask spectrum M0 (we found no AGF-utility bridge for M0, EXP-076).
 - Lock-in: critical periods (Achille et al. 2019; Kleinman et al.), primacy bias (Nikishin et al. 2022), warm starting (Ash & Adams 2020) and, closest, grokking under non-stationarity with the
   effective learning rate as explanation (Lyle et al. 2025). Our contribution is a measured lock-in time of the frequency choice (≈ 25–50 steps) against a pair-disjoint switch and the reversal of an ablation contrast.
+  Also to cite (full-text check, session 25, [[paper/fulltext_check_2026-09-27]]): LeDoux (2026) *conjectures* a critical learning period (epochs 3–14, their §3.4/§6.2) without a switch
+  experiment; Khanh (2026, arXiv 2607.06628) uses the same kind of model (1-layer transformer, full-batch AdamW, embedding power spectrum as circuit identity) and shows that transplanting
+  another run's weight *direction* overwrites a run's frequency identity — a weight-space intervention rather than a data switch; Lyle et al. (2025) run warm-start experiments only on
+  CIFAR and treat modular arithmetic as stationary (their §4.2), with no frequency analysis. He et al. (2026b, arXiv 2606.02993, §6) name the analysis of the train–test split as open.
 - The functional measure (K2-function) is a validation of K2 rather than a separate contribution (frequency ablations go back to Nanda et al. 2023), and we state its limit (function follows energy).
+- Partial resets (full-text check, session 25): Dong (2026, arXiv 2607.27281) reports for language models (Pythia up to 1.4B) that after "aging" on base data re-initializing only the
+  query–key slices restores learnability (6/6) while the value slices do nothing (0/6). "An attention reset beats an MLP reset" is therefore not new for transformers; our contrast is the
+  opposite ordering within attention (value path > query/key) in the grokking/frequency setting, which must be discussed as such (different tasks, scales, measures and reset protocols;
+  no claim which is general).
 - Contributions: (i) causal steering via split construction, held-out across four tasks incl. a non-abelian group; (ii) a functional validation (margin sensitivity) with its limits; (iii) an early, time-dependent
   lock-in under a data switch; (iv) reset interventions that localize *sensitivity* (not storage) in the attention value path.
 
@@ -91,7 +99,8 @@ from energy. 19/20 seeds generalized.
 At a switch after 50 steps, resetting W_Q, W_K, W_V, W_O to initialization together with their AdamW state lowered the ablation contrast by 1.49 [1.36, 1.61] vs no reset and by 1.42 [1.28, 1.56] vs the
 tested MLP reset (20 paired seeds, Holm-p 4.7·10⁻¹²). Resetting only W_V, W_O lowered it by 0.850 [0.685, 0.998] vs no reset and by 0.752 [0.596, 0.897] vs an equal-size reset of W_Q, W_K
 (Holm-p 2.1·10⁻⁴ and 1.9·10⁻⁵). These show *reset sensitivity*, not a storage location: weights and optimizer state were reset together, the VO and QK resets are matched only in parameter count, and the MLP control resets twice as many parameters and is not matched in displacement or dynamics. Generalized seeds: 19/20 (N29b),
-17/20 (N29c).
+17/20 (N29c). *Relation to prior work:* in language models the ordering is reversed (query–key reset restores, value reset does not; Dong 2026); we report our ordering for this
+setting only.
 
 ### 3.6 Pending: D59 function (P2f, prepared) and generalization of the lock-in
 

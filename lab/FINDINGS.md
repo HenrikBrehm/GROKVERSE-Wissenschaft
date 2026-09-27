@@ -39,8 +39,9 @@ Zurück zu [[LAB]]. Stand Sitzung 24, 2026-09-27, 13:00 Berlin. Wortlaute, Konfi
 - *Bekannt:* Daten und Training beeinflussen, welche Frequenzen gelernt werden (Frequency Principle, Zhou et al. 2024; Datenreihenfolge, LeDoux 2026; Init-Lotterie, He et al. 2026; AGF, Kunin et al. 2025;
   **Reihenfolge der Irreps durch die Fourier-Statistik der Eingabekodierung bei gleichverteilten Daten, auch D_n: Marchetti et al., ICML 2026**);
   kritische Perioden allgemein (Achille et al. 2019); Merkmalsersetzung über die effektive Lernrate (Lyle et al. 2025).
+  *Ergänzt Sitzung 25 (Volltextprüfung, [[paper/fulltext_check_2026-09-27]]):* Teil-Resets in Transformern: in Sprachmodellen stellt ein Re-Init der Query-Key-Anteile die Lernfähigkeit her, Value-Anteile nicht (Dong 2026, arXiv 2607.27281); Frequenzidentität im selben Modelltyp über die Gewichtsrichtung übertragbar (Khanh 2026, arXiv 2607.06628).
 - *Nach unserer Suche nicht gefunden (vorläufig):* kausale Steuerung der Frequenz-/Irrep-Wahl über die Split-Zusammensetzung, auch in einer nicht-abelschen Gruppe (K2);
-  eine gemessene Festlegungszeit der Frequenzwahl von ≈ 25–50 Schritten gegen einen Datenwechsel (K4–K4c); die Reset-Empfindlichkeit des Attention-Wertepfads dafür (K4d/e, N32).
+  eine gemessene Festlegungszeit der Frequenzwahl von ≈ 25–50 Schritten gegen einen Datenwechsel (K4–K4c); die Reset-Empfindlichkeit des Attention-Wertepfads dafür (K4d/e, N32; „Attention-Reset > MLP-Reset“ allein ist nach Dong 2026 nicht neu, unsere Reihenfolge Wertepfad > QK ist dort umgekehrt).
 
 ## Programm (Regel 18c)
 

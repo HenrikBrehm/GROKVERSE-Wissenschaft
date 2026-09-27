@@ -430,3 +430,21 @@ Frühere Suchen des Labors (2026-09-26/27, mehr als 40 Suchstrings) sind in [[NO
 4. ⚠ Achille et al. 2019 / Kleinman et al. 2024: Gibt es dort Wettbewerb gleichwertiger Lösungen und Zeitskalen in Schritten?
 5. Vorwärtszitate (Google Scholar/Semantic Scholar) von He et al. 2026a, Marchetti et al. 2026, LeDoux 2026, Lyle et al. 2025 und Nanda et al. 2023 für Arbeiten nach Juli 2026.
 6. ⚠ Pracher et al. 2026 und Mallinar et al. 2025: Werden Teilmengen/Splits und die resultierenden Frequenzen analysiert?
+
+## Nachtrag Sitzung 25 (2026-09-27): Volltextprüfung der engsten Arbeiten
+
+Details, Zitate und Abschnittsangaben: [[paper/fulltext_check_2026-09-27]] (Hintergrund-Agent, arXiv-HTML-Volltexte inkl. Anhänge; Formeln und Abbildungen nicht gesehen).
+Von mir selbst am Abstract geprüft: Dong 2607.27281 und Khanh 2607.06628. Die Einschätzungen in der Tabelle oben bleiben als Stand von Sitzung 24 stehen; **gültig ist diese Ergänzung**:
+
+| Arbeit | Neu/geändert | Wirkung auf unseren Anspruch |
+|---|---|---|
+| **Dong 2026 (2607.27281)**, *The Kinetics of Training* | neu: in Sprachmodellen (Pythia bis 1.4B) stellt ein Re-Init nur der Query-Key-Anteile die Lernfähigkeit nach „Alterung“ her (6/6), Value-Anteile nichts (0/6) | **schränkt K4d ein** („Attention-Reset > MLP-Reset“ in Transformern bekannt); K4e hat die **umgekehrte** Reihenfolge (Wertepfad > QK) → als Gegensatz diskutieren. (Der Agent schrieb „Value schlechter als kein Reset“; der Abstract sagt „do nothing“, das gilt.) |
+| **Khanh 2026 (2607.06628)**, *Cross-Trajectory Chimera Interventions* | neu: gleiche Modellklasse, Frequenzidentität über Gewichtsrichtung übertragbar | **teilweise** für K4 (Eingriff im Gewichtsraum statt Datenwechsel); muss zitiert werden; Spannung zu unserem schwachen MLP-Reset laut Agent (nicht selbst geprüft) |
+| Tian 2025 (2509.21519) | neu: Datenverteilung formt die Energielandschaft, nur gleichverteilte Zufallsteilmengen | nur konzeptionell für K2 |
+| LeDoux 2026 | Volltext: zufällige Teilmengen ändern die Frequenz **nicht** (§4.2.3, §5.3); kritische Periode nur vermutet (§3.4, §6.2) | K2 unberührt (schärft den Kontrast); K4 teilweise (Vermutung ohne Wechselversuch) |
+| Marchetti et al. 2026 | Korrektur: bei One-hot gleichauf nur innerhalb derselben Dimension; niedrigdimensionale Irreps zuerst (App. D.2) | K2 unberührt; relevant für die Deutung von D₅₉ |
+| Lyle et al. 2025 | Warmstart nur auf CIFAR, modulare Arithmetik als stationär behandelt, keine Frequenzanalyse | für K4 von „teilweise, deutlich“ auf **„teilweise“**; ELR bleibt Pflicht-Alternative |
+| He et al. 2026b (2606.02993) | §6: „analysis of the train-test split remains open“ | stützt die Lücke, die K2 füllt (zitierbar) |
+
+Fazit (vorläufig, Grundlage für die menschliche Prüfung): K2 weiter „nach unserer Suche nicht gefunden“; K4 bleibt, mit Khanh und LeDoux §3.4 zitiert; K4d/K4e neu formuliert und direkt gegen Dong gestellt.
+

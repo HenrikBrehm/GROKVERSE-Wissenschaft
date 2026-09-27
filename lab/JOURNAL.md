@@ -3287,3 +3287,9 @@ gefunden und korrigiert); ein falsch gebauter Kontrollfall in EXP-076 (als ungü
 **Nächste Aktion:** ab 00:00 laut [[STATE]]: Tests → CPU (EXP-040 zuerst) → P2f einfrieren und rechnen → EXP-073/074/075 auf der GPU.
 **Runner:** geplante Aufgabe „GROKVERSE-Lab-Runner“ aktiv; `runner-state.json`: nächster Start 2026-09-27 14:04:45Z = **16:04 Berlin** (außerhalb des Fensters). Das Fenster öffnet um 00:00 voraussichtlich
 mitten in einer späteren Sitzung; diese muss den Wechsel selbst bemerken (`guarded_run.py --check`).
+
+**Zyklus 11 (Regel 19, Veröffentlichung vorbereiten, 13:40–13:44).** Neuer Nutzerauftrag (Regel 19 in der Präambel, von der interaktiven Sitzung des Nutzers gemeldet und in der Datei selbst geprüft).
+Angelegt: [[paper/STATUS]] (Punkte a–f, „Offen für den Nutzer“: Autorschaft/Rechte der Originalstudie, Einreichung, Venue, KI-Offenlegung, menschliche Literaturprüfung),
+[[paper/draft]] (Gerüst, alle bestätigten Kernaussagen mit Zahlen wörtlich aus FINDINGS_DETAILS, Explorationen getrennt, KI-Offenlegung als Entwurf), [[paper/robustness_plan]] (R1 lr/wd/train_frac
+für K2, R2 für K4c; braucht neue Trainer-Optionen + Codex), Abbildungen 2 und 3 als Skripte aus den eingefrorenen Zusammenfassungen (Mittelwerte gegen die registrierten Werte geprüft). Die gründliche
+Literaturrecherche ([[paper/related_work]]) läuft über einen Hintergrund-Agenten mit Suchprotokoll. Fehler von mir: eine Ersetzung im Abbildungsskript hat Docstring-Text mitverändert (korrigiert).

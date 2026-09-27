@@ -79,3 +79,5 @@ python lab/tools/guarded_run.py -- python lab/tools/confirm_r6.py --analyze lab/
 Codex bestätigte als korrekt: Jobzahl und -reihenfolge, Run-IDs, Lader-Hashes, Richtung von `cost()`, Binomialtest, max-Regel, Holm, Selbsttest-Arithmetik. **Offen vor dem Einfrieren:** eine kurze Codex-Nachprüfung der geänderten Stellen und der Selbsttest im Fenster.
 
 **Codex-Nachprüfung (Sitzung 32, `R6_codex_recheck_s32.txt`):** Punkte 1, 2 und 5 geschlossen. Neu gemeldet: (MAJOR) Die Sensitivität bei halbem Effekt stand nicht im Skript. Jetzt `power_half_effect_shift` in `R6_pilot_power.py`/`.json`. (MINOR) n = 30 lag über der exakten Aufzählung bis n = 22. Jetzt ist der Test exakt per Meet-in-the-Middle (bis n = 40), die Selbsttests vergleichen gegen rohe Aufzählung (n = 1, 7, 10) und prüfen den Fall n = 30. Stopp-Semantik, Lader-Gleichheit, Blockarithmetik und die S1-Regeln bestätigte Codex als korrekt.
+
+**Codex-Nachprüfung 2 (Sitzung 32, 21:09, `R6_codex_recheck2_s32.txt`, nur S2):** keine Befunde. `s2_rule` entspricht dem Text, die Selbsttest-Arithmetik stimmt; eine als post hoc gekennzeichnete Sekundärhypothese vor dem Einfrieren ist zulässig.

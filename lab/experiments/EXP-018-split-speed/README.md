@@ -101,3 +101,13 @@ Konkurrierende Vorhersagen, damit das Ergebnis nicht nachträglich passend gedeu
   nicht zum Testspektrum passt, verzögert die Generalisierung → E **später** als R und D.
 - **Nullsicht:** Die Beschleunigung in EXP-016 lag an der Komplement-Testmenge → E ≈ D ≈ R auf T*.
 Siehe [[NOVEL_DIRECTIONS]] N6.
+
+## Nachtrag c (2026-09-27, Sitzung 30, 19:11 Berlin gemessen, **vor jedem Hauptlauf**; keine Kriterienänderung)
+
+- **Gerät:** Die Läufe gehen auf die **GPU** (Regel 16d: neue Versuche bevorzugt GPU; alle Arme und Seeds auf demselben Gerät, nie gemischt). Grund: Die CPU ist in der Nacht 27./28. mit EXP-040/042/014 belegt, auf der GPU kosten die 30 Läufe nur ≈ 15 min (10 parallel, ≤ 8000 Schritte à ≈ 0.03 s). Die Grenze „eine Plattform (4 Threads)“ wird zu „eine Plattform (GPU, 1 Thread)“. Hypothesen, Primärgröße, Zensierung, Tests und Entscheidungsregel bleiben unverändert.
+- **Code:** `analyze.py --device cuda` liest `raw/EXP-018_baseline_seed{s}_thr1_seed{s}_train_{arm}_devcuda`, verlangt `device = cuda` in jeder result.json und schreibt `summary_cuda.json`. Ohne Argument bleibt alles wie bisher (CPU). Jobs: `jobs_cuda.txt` (30 Zeilen, Reihenfolge je Seed E, D, R), Smoke `smoke_cuda.txt` (50 Schritte, `raw_smoke`). Ungetestet; die synthetischen Tests `test_analyze.py` laufen weiter auf dem CPU-Muster.
+- **Bereits gesehene Daten (neu seit der Festlegung):** In der Sitzung 30 fiel beim Durchsehen gespeicherter Läufe auf (post hoc, nicht Teil dieses Versuchs): In [[experiments/EXP-047-marginal-control/README|EXP-047]] (Seeds 150–159, GPU, Komplement-Testmenge, 2000 Schritte) generalisierten alle 20 konstruierten Arme (Median 688, 475–1175 Schritte). Von den 20 Armen mit gleichen Token-Häufigkeiten, aber zufälliger Paarstruktur generalisierte keiner (Test 0.02–0.28 bei 2000). Das stützt H18 vorab, entscheidet aber nichts: Die Testmengen waren Komplemente (Artefakt 1 oben), und EXP-047 hat keinen Arm D. Dieser Befund hat nichts an EXP-018 verändert.
+- **Befehle (nur im Fenster):**
+  `python lab/tools/parallel_queue.py lab/experiments/EXP-018-split-speed/smoke_cuda.txt --workers 1` (Smoke, danach `raw_smoke` ansehen: completed, `test_hash` gesetzt) →
+  `python lab/tools/parallel_queue.py lab/experiments/EXP-018-split-speed/jobs_cuda.txt --workers 10` →
+  `python lab/tools/guarded_run.py -- python lab/experiments/EXP-018-split-speed/analyze.py --device cuda`.

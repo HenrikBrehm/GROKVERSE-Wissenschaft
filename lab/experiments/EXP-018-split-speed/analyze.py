@@ -22,6 +22,8 @@ sys.path.insert(0, str(LAB.parent / "training"))
 from grokverse.data import split_hash  # noqa: E402
 
 RUN = HERE / "raw/EXP-018_baseline_seed{s}_thr4_seed{s}_train_{arm}"
+RUN_CUDA = HERE / "raw/EXP-018_baseline_seed{s}_thr1_seed{s}_train_{arm}_devcuda"   # Nachtrag c (session 30): GPU variant
+DEVICE = "cpu"                                                                      # set by --device in main(); never mixed
 SEEDS = range(20, 30)
 ARMS = ("E", "D", "R")
 THRESHOLDS = {"primary": 0.95, "sens_loose": 0.90, "sens_strict": 0.99}
@@ -52,10 +54,11 @@ def order_sign(e: tuple[int, bool], d: tuple[int, bool]) -> int | None:
 
 def protocol_error(res: dict, s: int) -> str | None:
     want = {"exp_id": "EXP-018", "condition": "baseline", "seed": s, "max_steps": CAP,
-            "stop_after_generalization": STOP_AFTER}
+            "stop_after_generalization": STOP_AFTER, "device": DEVICE}
     for k, v in want.items():
-        if res.get(k) != v:
-            return f"{k}={res.get(k)!r}, expected {v!r}"
+        got = res.get(k, "cpu") if k == "device" else res.get(k)     # pre-rule-16 records have no device field (CPU)
+        if got != v:
+            return f"{k}={got!r}, expected {v!r}"
     if res["config"].get("eval_every_test") != EVAL_EVERY:
         return "eval cadence differs"
     return None
@@ -128,6 +131,11 @@ def contrast(valid: list[dict], key: str) -> dict:
 
 
 def main() -> None:
+    global RUN, DEVICE
+    if sys.argv[1:] == ["--device", "cuda"]:                     # Nachtrag c: all arms and seeds on the GPU, one summary per device
+        RUN, DEVICE = RUN_CUDA, "cuda"
+    elif sys.argv[1:] not in ([], ["--device", "cpu"]):
+        raise SystemExit("usage: analyze.py [--device cpu|cuda]")
     rows = [row(s) for s in SEEDS]
     valid = [r for r in rows if r["valid"]]
     out: dict = {"rows": rows, "n_valid": len(valid)}
@@ -145,7 +153,8 @@ def main() -> None:
                             **{f"sign_{c}_{t}": sign_test(valid, f"sign_{c}_{t}")
                                for c in ("ED", "ER", "DR") for t in THRESHOLDS if (c, t) != ("ED", "primary")}}
         out["censored_primary"] = {arm: sum(not r[f"gen_{arm}_primary"][1] for r in valid) for arm in ARMS}
-    (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    out["device"] = DEVICE
+    (HERE / ("summary.json" if DEVICE == "cpu" else "summary_cuda.json")).write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
     for r in rows:
         print({k: v for k, v in r.items() if not k.startswith("sign_") or k.endswith("primary")})

@@ -3,13 +3,14 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 19:28 Berlin (Sitzung 30 beendet; Run-Fenster wieder ab 00:00)._
+_Zuletzt aktualisiert: 2026-09-27, 19:43 Berlin (Sitzung 31 läuft, Fenster zu bis 00:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
 ## Lage (Sitzungen 24–30)
 
-- **Sitzung 30 (Fenster zu, 18:19–):** Gutachter-Durchgang durch [[paper/draft]]: 10 Textkorrekturen (Umfang, fehlende Armmittel, Werte nur generalisierter Seeds, LeDoux-Abgrenzung), keine Zahl geändert. Neu vorbereitet: [[experiments/EXP-083-reset-displacement/README|EXP-083]] (Verschiebung ‖W(50) − W(0)‖ je Reset-Teil; 80 × 50 Schritte GPU, ≈ 5 min; Nachtschritt 7). Registrierungsentwurf [[confirm/R4_REGISTRATION_DRAFT|R4]] (Zufallssplit gegen Init, gekreuzt, 60 Einheiten = 240 GPU-Läufe à 8000 Schritte ≈ 1.6 h; ungetestet; Codex-Prüfung Sitzung 30: 1 Blocker + 4 Major eingearbeitet): heute Nacht nur `guarded_run.py -- python lab/tools/confirm_r4.py --selftest`; Codex-Nachprüfung der geänderten Punkte in einer Sitzung ohne Fenster, Einfrieren und Rechnen in der Nacht 28./29. Nach EXP-014: `python lab/confirm/R4_pilot_n.py` (nur Power-Bericht).
+- **Sitzung 31 (Fenster zu, 19:29–):** EXP-042 war fertig, aber ungelesen → *unklar* (vorab festgelegt); STATE-Fehler korrigiert, EXP-042 aus dem CPU-Befehl gestrichen, `pi_window.py` neu in Schritt 3. Post hoc: Grokking-Tempo abgestuft nach Konzentration (ε 8/2/1, 4/4 Seeds) mit gleich geordnetem frühem W_E-Zielanteil → Vorschlag für R5. R4: Codex-Nachprüfung 2 ohne Blocker.
+- **Sitzung 30 (Fenster zu, 18:19–):** Gutachter-Durchgang durch [[paper/draft]]: 10 Textkorrekturen (Umfang, fehlende Armmittel, Werte nur generalisierter Seeds, LeDoux-Abgrenzung), keine Zahl geändert. Neu vorbereitet: [[experiments/EXP-083-reset-displacement/README|EXP-083]] (Verschiebung ‖W(50) − W(0)‖ je Reset-Teil; 80 × 50 Schritte GPU, ≈ 5 min; Nachtschritt 7). Registrierungsentwurf [[confirm/R4_REGISTRATION_DRAFT|R4]] (Zufallssplit gegen Init, gekreuzt, 60 Einheiten = 240 GPU-Läufe à 8000 Schritte ≈ 1.6 h; ungetestet; Codex-Prüfung Sitzung 30: 1 Blocker + 4 Major eingearbeitet): heute Nacht nur `guarded_run.py -- python lab/tools/confirm_r4.py --selftest`; Codex-Nachprüfung 2 **erledigt (Sitzung 31)**: kein Blocker, SD/Power als Surrogat formuliert; Einfrieren und Rechnen in der Nacht 28./29. Nach EXP-014: `python lab/confirm/R4_pilot_n.py` (nur Power-Bericht).
 
 - **Sitzung 29 (Fenster zu, 17:59–):** Nachtplan **unverändert**. Literatur: erste Google-Scholar-Abfrage und Init-Skala-Suche, nichts Einschränkendes zu K2/K4 (neu zur menschlichen Prüfung: Stevinson & Prieto 2026, Kontext K2-Funktion). H40 an EXP-039 vorgeprüft: Festlegung bei ≈ 1/3–2/3 der Init-Amplitude; Invarianzvergleich von EXP-040 nur über die s-Zellen lesen ([[LESART-nacht-2026-09-28]] 11–12). Kandidat N41 (nur Init-Hintergrund skalieren), erst nach EXP-040.
 

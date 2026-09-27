@@ -2959,3 +2959,8 @@ innerhalb von t erklärt er die Seed-Streuung nicht (ρ 0.02–0.36). Die relati
 *Ergebnis:* ***verworfen***. Der B-Gradient zeigt gegen die A-Struktur, und zwar zunehmend mit t (cos −0.48 → −0.78), während π steigt. Innerhalb von t negativ (−0.25).
 *Deutung:* Erster Ordnung baut neues Training die alte Wahl ab. Die Persistenz entsteht in der weiteren Dynamik (Adam-v, Weight Decay, Rest des Netzes oder ein Wettlauf der Raten).
 *Nächste Frage:* Raten-Wettlauf aus gespeicherten Spektren (Abbau der A-Energie gegen Aufbau der B-Energie je t). Kein neuer Lauf nötig.
+
+**Zyklus 8 (EXP-062, 07:50–07:51 gemessen).** *Frage:* Ist die Persistenz erhaltene alte Energie (a) oder fehlende neue Energie (b)? (Exploration auf gespeicherten Spektren, a + b = Zähler von π exakt.)
+*Ergebnis:* zwei Regime. Bis t ≈ 30 **Koexistenz**: a wächst (2.1 bei t = 25), b bleibt klein (0.26), das Netz lernt die neuen Frequenzen fast normal dazu. Bei t = 50 **Ausschluss**: b = 4.25,
+die neuen Frequenzen entstehen kaum. Je Seed 10/10 in beiden Mustern. *Entscheidung:* Vorhersage für die frischen N28-Seeds vorab festgelegt (2bdfdaf, `lab/confirm/n28_regimes.py`, ≥ 24/30 je Muster),
+bevor irgendein N28-Ergebnis angesehen wurde. Auswertung nach dem Block.

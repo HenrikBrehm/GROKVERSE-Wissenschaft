@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 04:19 Berlin (02:19Z, vom Runner)
 - **Deadline:** 2026-09-27 07:19 Berlin (05:19Z)
-- **Zuletzt aktualisiert:** 06:52 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 06:56 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-**Sitzung beendet** (06:52). Die CPU-Laeufe (EXP-041 ...) laufen bis 07:19 weiter und werden dann vom Waechter beendet. Naechster geplanter Start: **07:54 Berlin** (runner-state.json).
+**Sitzung beendet** (06:56). Die CPU-Laeufe (EXP-036 ...) laufen bis 07:19 weiter und werden dann vom Waechter beendet. Naechster geplanter Start: **07:54 Berlin** (runner-state.json).
 
 ## Als Naechstes
 
@@ -18,6 +18,7 @@ Naechste Sitzung: CPU-Programm neu starten; die Momentum-Frage (N28) als Bestaet
 
 ## Verlauf dieser Sitzung
 
+- 06:56 EXP-041 (CPU): Ein kurzer Vorlauf praegt die Frequenzwahl auch gegen normales Zufallstraining (10/10, Pilot).
 - 06:52 Abschlussbericht im JOURNAL.
 - 06:50 **EXP-058: Nur das Adam-Momentum zu loeschen reicht, damit das Netz die fruehe Wahl vergisst** (0.30 -> 0.12), obwohl die Schritte danach kleiner sind. Das Gedaechtnis steckt im Momentum (Pilot).
 - 06:38 EXP-058 gestartet (Folgeversuch mit sauberer Kontrolle, Codex ohne Einwaende).

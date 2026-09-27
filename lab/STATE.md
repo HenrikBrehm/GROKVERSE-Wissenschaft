@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-27, 06:51 Berlin (Sitzung 21 beendet; nächster Start 07:54 Berlin)._
+_Zuletzt aktualisiert: 2026-09-27, 06:56 Berlin (Sitzung 21 beendet 06:56; nächster Start 07:54 Berlin)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · Bestätigungen [[confirm/P1_REGISTRATION_DRAFT|P1]] · [[confirm/P2_REGISTRATION_DRAFT|P2]] · [[confirm/P3_REGISTRATION_DRAFT|P3]]
 
@@ -21,7 +21,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 ## Aktive Queue / laufende Jobs
 
 - **CPU (seit 04:20, 3 Arbeiter × 4 Threads):** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-035,EXP-038,EXP-041,EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`.
-  EXP-035 und EXP-038 fertig, danach EXP-041 … (≈ 250 Läufe à ≈ 5 min, mehrere Sitzungen). Die Sitzungsdeadline bricht ab (kein Fehler). **Wiederaufnahme: derselbe Befehl.**
+  EXP-035, EXP-038, EXP-041 fertig (EXP-041: beide *geprägt*, Pilot); seit 06:55 EXP-036, danach 039, 040, 042, 014 (≈ 210 Läufe à ≈ 5 min, mehrere Sitzungen). Die Sitzungsdeadline bricht ab (kein Fehler). **Wiederaufnahme: derselbe Befehl.**
 - **GPU:** frei.
 
 ## Nächste Schritte (in dieser Reihenfolge)
@@ -31,7 +31,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 3. **N28 bestätigen (Programm B):** EXP-058-Design (normal / nur m / voller Reset, `--log-update-norms`) als Bestätigung an **frischen** Seeds einfrieren (neuen Seed-Bereich reservieren,
    z. B. 2200–2299, eigene Splits über EXP-053 `overlap_split`), dazu Richtungsanalyse (Kosinus der Updates) und t = 50/150 als Folgefragen. Vorher Codex (Regel 18c).
 4. **P2-Nachfolger** ([[BACKLOG]] „P2-Nachfolger“): frische Seeds, sicheres Grokking, feste Ablations-Testmenge, N aus der gesehenen Streuung (≈ 60–80).
-5. Auswertungen nach den CPU-Läufen (über den Wächter): EXP-041, EXP-036, EXP-039 (`eval_pi.py`), EXP-040, EXP-042 (`pi_window.py`), EXP-014.
+5. Auswertungen nach den CPU-Läufen (über den Wächter): EXP-036, EXP-039 (`eval_pi.py`), EXP-040, EXP-042 (`pi_window.py`), EXP-014.
 
 ## Drei Prioritäten (Regel 18c)
 

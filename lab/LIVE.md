@@ -5,19 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 09:39 Berlin (07:39Z, vom Runner)
 - **Deadline:** 2026-09-27 12:39 Berlin (10:39Z)
-- **Zuletzt aktualisiert:** 11:45 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 12:01 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-Codex hat wieder Guthaben: Es prueft gerade die N29b-Schlussfolgerung und die zwei Trainer-Aenderungen. Danach Abschlussbericht.
+N29c laeuft (120 Laeufe seit 12:00): Bestaetigt sich an frischen Seeds, dass der Wertepfad (W_V, W_O) der Attention die fruehe Wahl festhaelt, staerker als das Muster (W_Q, W_K)?
 
 ## Als Naechstes
 
-Codex-Ergebnisse einarbeiten, Abschlussbericht, Sitzungsende 12:39.
+Wenn N29c vor 12:39 fertig ist: auswerten. Sonst setzt die naechste Sitzung im Fenster ab 00:00 fort. Naechster Runner-Start 13:14 Berlin (ausserhalb des Fensters: nur Denkarbeit).
 
 ## Verlauf dieser Sitzung
 
+- 12:00 N29c eingefroren (Codex: kein Blocker), Probelauf ok, Block gestartet.
+- 11:57 Abschlussbericht im JOURNAL.
+- 11:54 Codex (wieder mit Guthaben) hat N29b geprueft: kein Fehler, Aussage enger gefasst (Reset-Empfindlichkeit, kein Speicherort).
 - 11:44 **EXP-070 (Exploration):** Der Wertepfad richtet sich gleichmaessig auf die ersten Frequenzen aus, ohne Sprung zwischen Schritt 25 und 50. Die Zeitform des Ausschlusses bleibt unerklaert.
 - 11:40 **EXP-069 (Pilot):** Den Ausschluss neuer Frequenzen haelt vor allem der Wertepfad der Attention (W_V, W_O) fest, nicht das Aufmerksamkeitsmuster.
 - 11:36 FINDINGS hat oben eine Kurzfassung (Tabelle der Kernaussagen).

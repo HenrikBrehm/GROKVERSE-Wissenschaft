@@ -820,3 +820,6 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
   neue *Leitung* (andere Positionen beachten), sollte QK wichtiger werden.
 - **Möglicher Test (Skizze, nicht festgelegt):** Wechsel zu einer Aufgabe mit anderem Aufmerksamkeitsbedarf (z. B. Ausgabe hängt nach dem Wechsel nur von einer Position ab oder von einer
   zusätzlichen Position), QK- gegen VO-Reset wie N29c. Erst nach EXP-074 (Reset-Muster bei anderen Aufgaben) entscheiden; Konkurrenzmodelle: „Wertepfad hält immer“ gegen „der benötigte Pfad hält“.
+- **Suche 2026-09-27 15:00** („partial reset attention query key versus value output plasticity task switch routing content transformer reinitialization which weights“): Die Aufteilung
+  QK = Leitung, OV = Inhalt ist Standard (Elhage et al. 2021, *A Mathematical Framework for Transformer Circuits*; Kanäle für Inhalt z. B. https://arxiv.org/abs/2606.20678). Eine Vorhersage,
+  welcher Teil-Reset je nach Art des Datenwechsels die Plastizität herstellt, wurde nicht gefunden (vorläufig; eine Suche, nur Treffer).

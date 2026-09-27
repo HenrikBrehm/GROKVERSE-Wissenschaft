@@ -5,20 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 09:39 Berlin (07:39Z, vom Runner)
 - **Deadline:** 2026-09-27 12:39 Berlin (10:39Z)
-- **Zuletzt aktualisiert:** 10:19 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 7T10: Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-**N29 BESTAETIGT (20 frische Seeds):** Wechselt man die Trainingsdaten nach 50 Schritten, rechnet das fertige Netz weiter mit den ALTEN Frequenzen (0.90); nach 25 Schritten mit den NEUEN (0.60).
-Codex greift gerade die Formulierung an. P2e laeuft auf der GPU (7 Arbeiter).
+P2e laeuft auf der GPU (etwa 30/80 fertig, 7 Arbeiter). Danach Auswertung und die Trainer-Option fuer EXP-067 (Patch vorbereitet, darf erst nach P2e eingespielt werden, weil der Trainer im Code-Hash von P2e steht).
 
 ## Als Naechstes
 
-Codex-Ergebnis einarbeiten, dann FINDINGS. Nach P2e: Auswertung, danach Trainer-Option fuer EXP-067 (welcher Netzteil haelt die alten Frequenzen fest).
+P2e auswerten → Codex zur Schlussfolgerung → FINDINGS. Dann Trainer-Option + Tests + Codex → EXP-067 (60 Laeufe).
 
 ## Verlauf dieser Sitzung
 
+- 10:24 **EXP-068 (Exploration):** Bei gleich viel entfernter Energie reagiert das Netz auf die dominante Frequenzmenge NICHT staerker. Die gemessene Funktion folgt der Energie; das ist jetzt als Grenze in FINDINGS vermerkt.
+- 10:21 FINDINGS: N29 als K4c im engen Wortlaut nach Codex eingetragen.
 - 10:17 **N29 bestaetigt:** zwischen 25 und 50 Schritten kippt, auf welche Frequenzen das Netz am Ende angewiesen ist. Nachtraeglich: Die Energie in W_E zeigt dieselbe Richtung.
 - 10:16 N29-Block fertig (80/80); P2e zweite Warteschlange gestartet.
 - 10:09 EXP-067 vorab festgelegt (Pilot).

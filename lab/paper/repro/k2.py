@@ -43,10 +43,19 @@ def sign_flip_p(d: np.ndarray, rng: np.random.Generator, n_mc: int = 200_000) ->
 
 
 def run_arm(a: argparse.Namespace, s: int, arm: str, split: Path, out: Path) -> np.ndarray:
+    """add: the trainer's spectra.npy (plain DFT = group basis for addition). mul (session 28 fix): spectra.npy of train.py and
+    freq_ban is the plain DFT over the TOKEN index, not the multiplicative group basis that P1 measures (confirm_p1.power_at ->
+    EXP-043 group_power); so the final W_E is taken from model_final.pt and measured with group_power, as in P1."""
     if not (out / "result.json").exists():
         cmd = [sys.executable, str(HERE / "train.py"), "--seed", str(s), "--split-file", str(split), "--task", a.task, "--p", str(a.p),
                "--steps", str(a.steps), "--device", a.device, "--threads", str(a.threads), "--out", str(out)]
-        subprocess.run(cmd, check=True)
+        subprocess.run(cmd + (["--save-model"] if a.task == "mul" else []), check=True)
+    if a.task == "mul":
+        import torch
+        sys.path.insert(0, str(LAB / "experiments/EXP-043-generalize-steering"))
+        from analyze import group_power
+        W = torch.load(out / "model_final.pt", map_location="cpu")["W_E"].numpy().astype(np.float64)[:a.p]
+        return group_power(W, a.task, a.p)[0]
     st = np.load(out / "spectra_steps.npy").tolist()
     return np.load(out / "spectra.npy")[st.index(a.steps)].astype(np.float64)
 

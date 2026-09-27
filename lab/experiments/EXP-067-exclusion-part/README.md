@@ -1,8 +1,8 @@
 ---
 id: EXP-067
-status: vorbereitet
+status: laufend
 datum: 2026-09-27
-tags: [exp/vorbereitet]
+tags: [exp/laufend]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-063-exclusion-locus/README|EXP-063]]", "[[experiments/EXP-064-functional-regimes/README|EXP-064]]", "[[confirm/N29_REGISTRATION|N29]]", "[[BACKLOG]]", "[[JOURNAL]]"]
 ---
 # EXP-067: Welcher Teil des „Rests“ trägt den Ausschluss neuer Frequenzen bei t = 50? (Pilot)
@@ -32,3 +32,8 @@ eingespielt wird (`freq_ban.py` steht in deren Code-Hash).
 python lab/tools/parallel_queue.py lab/experiments/EXP-067-exclusion-part/jobs.txt --workers 6
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-067-exclusion-part/analyze.py
 ```
+
+## Durchführung (Sitzung 23)
+
+Trainer-Option eingespielt (5d84666, 18/18 Tests, Codex: keine Fehler). Gleichwertigkeit `rest` alt gegen neu (60 Schritte, CPU, Seed 400): W_E-Schnappschüsse und Reset-Ereignis **bitgleich**.
+Läufe ab 10:50 Berlin, 6 GPU-Arbeiter.

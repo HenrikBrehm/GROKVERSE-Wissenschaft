@@ -2645,7 +2645,7 @@ Sitzung 20. Die übrigen Dateien (READMEs, FINDINGS, BACKLOG, JOURNAL) wurden nu
 am Boden, der Loss braucht eine vorab gewählte Teildosis. *Nächste Annahme, die wir gezielt angreifen:* dass die Pilotergebnisse an frischen Seeds und Splits halten (P1-Bestätigung), und die
 Theorie erster Ordnung (EXP-050 zeigt schon eine Lücke: M0 trägt mit).
 
-### Abschlussbericht Sitzung 20 (Stand 04:02 Berlin, gemessen; Auftrag §10)
+### Abschlussbericht Sitzung 20 (Stand 04:01 Berlin, gemessen; Auftrag §10)
 
 **Wichtigste Befunde (alle Pilot, je 10 Seeds, Urteile vorab festgelegt, GPU nach bestandenem GPU-001):**
 - K2 (Steuerung der Frequenzwahl über die Daten) hält außerhalb von add 113: add 97, mul 113, D₅₉ (nicht-abelsch), nicht-modulare Addition, 4× Breite, MLP. Jeweils 10/10, p 0.001.

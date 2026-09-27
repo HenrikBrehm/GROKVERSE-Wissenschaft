@@ -5,19 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 01:29 Berlin (23:29Z, vom Runner)
 - **Deadline:** 2026-09-27 04:29 Berlin (02:29Z)
-- **Zuletzt aktualisiert:** 03:45 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 04:01 Berlin (gemessen)
 - **Run-Fenster:** offen seit 02:25 (Freigabe des Nutzers, 03:00-Sperre aufgehoben), bis Sitzungsende 04:29.
 
 ## Gerade
 
-GPU-Programm komplett (inkl. EXP-050). CPU: Paket-B-Piloten laufen weiter. Codex prueft die Korrekturen am Bestaetigungsentwurf nach.
+Abschlussbericht geschrieben. CPU: Paket-B-Piloten laufen (3 Arbeiter) bis zur Deadline 04:29, danach setzt die naechste Sitzung fort.
 
 ## Als Naechstes
 
-Codex-Ergebnis einarbeiten; ~04:15 Stand sichern (Deadline 04:29 beendet die CPU-Laeufe; Folgesitzung setzt fort und kann P1 einfrieren).
+Naechste Sitzung (geplant 05:04 Berlin): CPU-Programm neu starten, Trainer an den eingefrorenen Code binden (B1), dann Bestaetigungsblock P1 einfrieren und auf der GPU rechnen.
 
 ## Verlauf dieser Sitzung
 
+- 04:01 Abschlussbericht im JOURNAL. LAB-Uebersicht korrigiert (Zeilen waren an falscher Stelle).
+- 03:55 EXP-046: die drei staerksten Irreps sind immer eigene Ziele (10/10).
+- 03:54 Codex-Nachpruefung: 1 Punkt offen (Trainer an eingefrorenen Code binden), P1 bleibt uneingefroren.
+- 03:47 CPU-Programm mit 3 Arbeitern neu gestartet (Sperrfehler behoben).
 - 03:45 Alle Codex-Punkte am Bestaetigungscode umgesetzt und getestet.
 - 03:41 Codex prueft P1-Entwurf: 3 Blocker (u. a. Code nicht eingefroren). Selbst bestaetigt; nicht eingefroren.
 - 03:40 **EXP-050: kohaerentes Maskenspektrum waehlt, M0 traegt aber auch** (Theorie erster Ordnung nur halb).

@@ -57,3 +57,14 @@ Letzte Codex-Nachprüfung (05:13, im Vordergrund über `codex-companion.mjs task
 dazu als Härtung nicht-endliche Werte. Alle drei übernommen (6a54652). Es gelten die Regeln dieses Dokuments einschließlich „Codex-Prüfung … endgültige Regeln“.
 Splits (60 Paare + 30 Testmengen) und Jobliste (240) in einem Commit nach c0da64e. Vor dem Einfrieren lief **kein** Lauf mit Seeds 1050–1099.
 Rechnen: `python lab/tools/parallel_queue.py lab/confirm/P3_jobs.txt --workers 8` (GPU), dann `python lab/tools/guarded_run.py -- python lab/tools/confirm_p3.py --analyze lab/confirm/P3_manifest.json`.
+
+## ERGEBNIS (Sitzung 21, Block 05:39–06:04, Auswertung 06:04 Berlin; `P3_summary.json`): ***bestätigt***
+
+240/240 Läufe mit Exit 0, gebunden (`lab/confirm/p3_bindings/`). Ausgewertet wie eingefroren, keine Abweichung. 30/30 Seeds gültig (keine Stufe unter L(A) − L(B) ≥ 2).
+
+- **Primär:** D̄ = π(ω = 0) − max_c π_Spur = **0.293**, 95-%-KI **[0.263, 0.322]**, SD 0.083, **30/30 > 0**, t = 19.3, Holm-p (ungünstigster Fall) 6·10⁻¹⁸ → ***bestätigt***.
+- π(ω = 0) = 0.351; stärkste statische W_E-Spur (Maximum über c) 0.057; Spur mit AdamW-Zerfall 0.003.
+- **Sekundär (beschreibend):** π(0.4) − π(0) = 0.005, 95-%-KI [−0.030, 0.042] (n = 30). Im Bereich ω 0–0.4 ist kein Einfluss der geteilten Paare zu sehen (ε unterscheidet sich zwischen den Stufen).
+- Replikation des Piloten EXP-056 (π(0) 0.30, Spur 0.06): Die Werte sind ähnlich, die Streuung ist kleiner (SD 0.08 gegen 0.14).
+**Lesart (vorsichtig, Codex-Prüfung vor FINDINGS):** Nach 25 Schritten hält das Netz etwa ein Drittel der relativen A-Präferenz gegen 2000 Schritte auf völlig anderen Paaren,
+und zwar weit über eine statische W_E-Spur hinaus.

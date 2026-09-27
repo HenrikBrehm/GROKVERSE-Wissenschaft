@@ -41,7 +41,7 @@ SPL = LAB / "confirm" / "n28_splits"
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 CAL = LAB / "experiments/EXP-053-p3-overlap-design/calibration.json"
 BUDGET, ALPHA, MIN_SEP, OMEGA = 2000, 0.05, 2.0, 0.0
-MIN_EFFECT, NI_MARGIN = {"H1": 0.05, "H2": 0.0}, 0.05
+MIN_EFFECT, H1_MIN, NI_MARGIN = {"H1": 0.0, "H2": 0.0}, 0.05, 0.05   # Codex s22: margins inside the tested contrast
 REGISTERED = {"seeds": list(range(2200, 2230)), "arms": [["normal", 25], ["m", 25], ["m", 35], ["normal", 50]], "device": "cuda", "threads": 1}
 CODE_FILES = ("lab/tools/confirm_n28.py", "lab/tools/confirm_p1.py", "lab/tools/confirm_splits.py", "lab/tools/result_loader.py",
               "lab/tools/paket_a_device.py", "lab/experiments/EXP-001-freq-ban/freq_ban.py",
@@ -211,10 +211,11 @@ def seed_row(man: dict, s: int) -> dict:
 
 
 def contrasts(pi: dict[str, float]) -> dict[str, float]:
-    """H1: pi_normal(25) - pi_m(25) > 0.05 (zeroing m lowers persistence).
+    """H1: pi_normal(25) - pi_m(25) - H1_MIN > 0 (zeroing m lowers persistence by more than 0.05; the tested contrast carries the margin,
+    so Holm and the CI gate refer to the same hypothesis, Codex recheck s22).
     H2 (after EXP-059, non-inferiority): pi_m(35) - pi_normal(25) + NI_MARGIN > 0, i.e. 10 extra plain A steps with m zeroed reach at
     least the persistence of the normal switch at 25 minus 0.05 (the momentum tail acts like prolonged exposure)."""
-    return {"H1": pi["normal25"] - pi["m25"], "H2": pi["m35"] - pi["normal25"] + NI_MARGIN}
+    return {"H1": pi["normal25"] - pi["m25"] - H1_MIN, "H2": pi["m35"] - pi["normal25"] + NI_MARGIN}
 
 
 def verdict(X: dict[str, np.ndarray], n_planned: int, rng: np.random.Generator) -> dict:
@@ -282,11 +283,12 @@ def selftest() -> None:
     L = {"A": 2.0, "B": -2.0}
     assert pi_pair(L, 0.0, 0.0) == 0.5 and pi_pair(L, 2.0, -2.0) == 1.0 and pi_pair(L, -2.0, 2.0) == 0.0
     c = contrasts({"normal25": 0.3, "m25": 0.1, "m35": 0.2, "normal50": 1.0})
-    assert abs(c["H1"] - 0.2) < 1e-12 and abs(c["H2"] - (-0.05)) < 1e-12
+    assert abs(c["H1"] - 0.15) < 1e-12 and abs(c["H2"] - (-0.05)) < 1e-12
     assert "--steps 2050" in tj[8] and "--reset-optim" not in tj[8] and "at50" in expected_run_id(shlex.split(tj[9]))
     rng = np.random.default_rng(0)
     assert verdict({"H1": np.full(29, 0.3), "H2": np.full(30, 0.3)}, 30, rng)["verdict"] == "nicht auswertbar"
     v = verdict({"H1": np.linspace(0.1, 0.4, 30), "H2": np.linspace(-0.03, 0.03, 30)}, 30, rng)
+    assert verdict({"H1": np.linspace(0.0, 0.3, 30), "H2": np.full(30, 0.1)}, 30, rng)["H1"]["verdict"] == "bestätigt"
     assert v["H1"]["verdict"] == "bestätigt" and v["H2"]["verdict"] == "nicht bestätigt", v
     assert v["H1"]["p"] < v["H2"]["p"] and abs(v["H1"]["p_holm"] - 3 * v["H1"]["p"]) < 1e-12, v     # worst case with the P2b placeholder
     selftest_binding(BLOCK, tj[4], tj[1], tj[5])

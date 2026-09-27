@@ -15,17 +15,24 @@ Zurück zu [[FINDINGS]] · Piloten [[experiments/EXP-058-optim-part/README|EXP-0
   Alle mit `--log-update-norms 10`. 10 Läufe je Seed, 300 Läufe.
 - **Maß:** π wie P3/EXP-056 (Mittel von π_AB und π_BA aus dem Log-Energieverhältnis der A- gegen B-Ziele in W_E am Ende). Seed gültig: alle 10 Läufe gebunden und geladen,
   Reset im Lauf geprüft, L(A) − L(B) ≥ 2.
-- **H1:** Δ_m = π_normal@25 − π_m@25 > 0 (Löschen nur des ersten Moments senkt die Persistenz). Mindesteffekt 0.05.
+- **H1:** Δ_m = π_normal@25 − π_m@25 > 0.05 (Löschen nur des ersten Moments senkt die Persistenz um mehr als 0.05). Geprüft als Y = Δ_m − 0.05 > 0 (t-Test und Holm auf Y, KI-Untergrenze von Y ≥ 0).
 - **H2 (nach EXP-059, Nichtunterlegenheit):** π_m@35 − π_normal@25 > −0.05. Zehn zusätzliche gewöhnliche A-Schritte mit gelöschtem m erreichen mindestens die Persistenz des normalen
-  Wechsels bei 25 (Marge 0.05). Geprüft als X = π_m@35 − π_normal@25 + 0.05 > 0 mit Mindesteffekt 0 (KI-Untergrenze ≥ 0). **Lesart:** H1 und H2 zusammen heißen, dass das
-  Momentum beim Wechsel wie verlängerte A-Exposition wirkt (Konkurrenzmodell M2 aus EXP-059), nicht wie ein eigenes Gedächtnis.
+  Wechsels bei 25 (Marge 0.05). Geprüft als X = π_m@35 − π_normal@25 + 0.05 > 0 mit Mindesteffekt 0 (KI-Untergrenze ≥ 0). **Lesart (enger nach Codex):** H1 und H2 zusammen heißen: Das Löschen von m senkt
+  die Persistenz, und zehn zusätzliche gewöhnliche A-Schritte gleichen das innerhalb der Marge aus. Das ist **vereinbar mit** verlängerter Exposition (M2) und durch sie ersetzbar,
+  schließt aber einen optimiererspezifischen Mechanismus nicht aus.
   Pilot EXP-059: D = +0.059, SD 0.062, also X̄ ≈ 0.11 (n = 10); bei n = 30 praktisch sichere Power.
-- **Beschreibend:** π_normal@50 (EXP-059: 1.05, d. h. nach 50 A-Schritten volle Festlegung gegen 2000 B-Schritte), Verschiebung δ, frühe Update-Normen.
-- **Test:** je Hypothese einseitiger t-Test, Holm in der Familie Sitzung 22 {N28-H1, N28-H2, P2b} (P2b als p = 1), 95-%-Bootstrap-KI.
-  „bestätigt“ = alle 30 Seeds gültig, Holm-p < 0.05 und KI-Untergrenze ≥ Mindesteffekt. Fehlt ein Seed: *nicht auswertbar*.
+- **Beschreibend (einzige weitere Ausgabe):** π je Arm, darunter π_normal@50 (EXP-059: 1.05, d. h. volle Festlegung nach 50 A-Schritten). δ und Update-Normen werden nicht ausgewertet (Codex: im Code nicht festgelegt, zu wenige Arme für eine δ-Kurve).
+- **Test:** je Hypothese einseitiger t-Test auf die Kontrastgröße mit eingebauter Marge (Y bzw. X), Holm in der Familie Sitzung 22 {N28-H1, N28-H2, P2b} (P2b als p = 1), 95-%-Bootstrap-KI.
+  „bestätigt“ = alle 30 Seeds gültig, Holm-p < 0.05 und KI-Untergrenze der Kontrastgröße ≥ 0. Fehlt ein Seed: *nicht auswertbar*.
 - **Stichprobe:** EXP-058: Δ_m 0.186, SD 0.098 (n = 10, bekannte Seeds). Bei n = 30 liegt die erwartete KI-Untergrenze bei ≈ 0.15, weit über 0.05; die Power für H1 ist praktisch 1.
 - **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** EXP-056/057/058/059 an den Seeds 400–409 (Wahl der Arme, t = 25/35, Mindesteffekt, n). P3-Daten (Seeds 1050–1079).
   Vor der Registrierung wurde kein Lauf mit Seeds 2200–2229 gemacht.
 - **Herkunft und Ausfälle (Codex-Punkte aus der P2b-Prüfung, übertragen):** Splits werden in der Auswertung aus `overlap_split.build` neu gebaut und müssen exakt übereinstimmen,
   sonst ist die Bestätigung ungültig. Jeder fehlende oder defekte Lauf macht den Seed ungültig, und „bestätigt“ verlangt alle 30 Seeds. Gebunden werden nur Läufe mit Status „completed“.
 - **Technik:** `lab/tools/confirm_n28.py` auf `lab/tools/bound_block.py`. Selbsttest ok, ungetestet am echten Lauf.
+
+## Codex-Prüfung (Sitzung 22, gegen 089faa0), übernommen
+
+Blocker: H1 wurde mit Holm auf Δ > 0 geprüft, die Marge 0.05 stand nur im KI-Tor. Jetzt trägt die getestete Größe die Marge (Y = Δ_m − 0.05), wie bei H2. Hoch: Die Lesart war zu stark;
+jetzt „vereinbar mit / ersetzbar durch verlängerte Exposition“. Mittel: δ und Update-Normen waren versprochen, aber nicht festgelegt, und sind gestrichen. P2b-Korrekturen von Codex als erledigt bestätigt;
+die P2b-Power-Empfindlichkeit bleibt ein offen berichtetes, bewusst hingenommenes Risiko.

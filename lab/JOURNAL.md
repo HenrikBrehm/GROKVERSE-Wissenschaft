@@ -2932,3 +2932,17 @@ Klasse, damit neue Blöcke sie nicht ein drittes Mal kopieren. confirm_p1/p3 ble
 (P2-Nachfolger: Seeds 2000–2099, 4000 Schritte, Ausschluss nicht generalisierter Modelle mit Bericht, ≥ 90 % gültig). Beide Selbsttests ok. Power für P2b aus den 47 P2-Werten per Bootstrap
 nachgerechnet: 0.88 bei n = 80, 0.92 bei n = 100 am beobachteten Effekt, ≈ 0.7 bei einem um 0.02 kleineren. Deshalb n = 100. Seed-Blöcke in [[FINDINGS]] reserviert (b0676fb).
 Codex-Prüfung von P2b + bound_block läuft (Vordergrund, als Bash-Hintergrundbefehl).
+
+**Zyklus 3 (EXP-059 ausgewertet, 07:22 gemessen).** *Frage:* Momentum-Gedächtnis (M1) oder verlängerte Exposition (M2)? *Ergebnis:* ***verlängerte Exposition genügt***.
+D = π_rom(35) − π_normal(25) = +0.059 [0.023, 0.095] (90 %), 8/10 > 0. π_normal(t) = 0.01 / 0.07 / 0.19 / 0.30 / 0.39 / 0.56 / 1.05 bei t = 10 … 50; die Verschiebung durch das Löschen von m
+beträgt 6–10 Schritte bei t = 25–35 und 2 Schritte bei t = 50. *Deutung:* Die N28-Mechanismusdeutung aus Sitzung 21 („das Gedächtnis sitzt im Adam-Zustand“) war zu stark. Der Momentum-Schwanz
+setzt einfach die A-Exposition für einige Schritte fort, und π(t) ist so steil (≈ 0.02–0.03 je Schritt), dass das den Abfall erklärt. N28 herabgestuft (#neu/bekannt). Die Steilheit selbst
+(volle Festlegung nach 50 Schritten) ist der interessantere Befund für Programm B. *Entscheidung:* N28-Bestätigung eng: H1 (m-Reset senkt π) plus H2 als Nichtunterlegenheit (m@35 ≥ normal@25 − 0.05),
+normal@50 beschreibend.
+
+**Zyklus 4 (Codex-Prüfung P2b, 07:14–07:22; Korrekturen bis 07:26 gemessen).** *Codex:* 2 Blocker, 1 hoch, 2 mittel; Run-IDs und Refaktor in Ordnung. *Selbst geprüft, alle übernommen:*
+(1) Split-Herkunft wird nicht erzwungen (stimmt: Ziele kamen aus veränderlichem JSON) → `split_mismatch` baut neu und vergleicht exakt, bei Abweichung ist die Bestätigung ungültig (auch in N28).
+(2) Bis zu 10 technische Ausfälle hätten still verschwinden können (stimmt) → jeder technische Ausfall macht P2b nicht auswertbar; die Bindung nimmt nur `completed`-Läufe (bound_block).
+(3) Ausschluss wegen undurchführbarer Dosis selektiert über dieselbe Geometrie wie R (stimmt) → Dosis min(0.5·E_ctrl, E_own), Aussage bedingt auf Generalisierung, Sensitivitätsanalyse über alle Seeds.
+(4) Endlichkeit unvollständig (stimmt) → alle Verluste, R, D geprüft. (5) Power nicht eingefroren (stimmt) → `p2b_power.py`: 0.92 am beobachteten Mittel, 0.73 bei −0.02 (hingenommen, berichtet).
+Selbsttests grün (089faa0). Nachprüfung durch Codex für die betroffenen Punkte und die neue N28-Registrierung läuft.

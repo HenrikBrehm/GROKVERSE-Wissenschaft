@@ -2,7 +2,7 @@
 id: EXP-039
 status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/abgeschlossen, befund/unklar]
+tags: [exp/abgeschlossen, befund/unklar, neu/kandidat]
 ---
 # EXP-039: Läuft die Festlegung der Frequenzwahl auf einer „Lernraten-Uhr“?
 

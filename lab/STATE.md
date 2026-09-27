@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-27, 04:37 Berlin (Sitzung 21, Deadline 07:19)._
+_Zuletzt aktualisiert: 2026-09-27, 05:18 Berlin (Sitzung 21, Deadline 07:19)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]] · [[confirm/P1_REGISTRATION_DRAFT|P1-Entwurf]]
 
@@ -29,7 +29,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
    Fertig Gebundenes wird übersprungen („already bound“), also **Wiederaufnahme = derselbe Befehl**. Ein fremder fertiger Lauf wird abgelehnt (Exit 4); nie von Hand in `lab/confirm/raw` schreiben.
    Danach `python lab/tools/guarded_run.py -- python lab/tools/confirm_p1.py --analyze lab/confirm/P1_manifest.json` und dasselbe mit `confirm_p2.py`.
    Ergebnis erst nach Codex-Prüfung als Kernaussage in FINDINGS (Regel 18c). Bindungen `lab/confirm/bindings/` mitcommitten.
-3. **EXP-056** (P3-Pilot, GPU) auswerten: `python lab/tools/guarded_run.py -- python lab/experiments/EXP-056-overlap-persistence/analyze.py`; dann P3 registrieren (Seeds 1050–1099).
+3. **P3-Block (eingefroren f8adf45, Sitzung 21):** `python lab/tools/parallel_queue.py lab/confirm/P3_jobs.txt --workers 8` (GPU; Wiederaufnahme = derselbe Befehl, gebundene Läufe werden übersprungen;
+   ein Rest mit `run.lock` wird abgelehnt → Sperre prüfen, von Hand beiseite legen). Dann `python lab/tools/guarded_run.py -- python lab/tools/confirm_p3.py --analyze lab/confirm/P3_manifest.json`.
+   EXP-056 (Pilot) ist ausgewertet: Steigung unklar, π(0) > 0 in 10/10.
 4. Auswertungen nach den CPU-Läufen (eingefroren, über den Wächter): EXP-039 `eval_pi.py`; EXP-054 `n30_window.py` (nach EXP-036); EXP-042 `pi_window.py` (je erst `--selftest`).
 5. Offene Reste: EXP-038-Folgefrage (welcher Teil des Rests genügt; t = 25); Folgeversuch EXP-050 (MLP mit getrennten W_in-Hälften); D₅₉/int-add Häufigkeits-Mischarm.
 

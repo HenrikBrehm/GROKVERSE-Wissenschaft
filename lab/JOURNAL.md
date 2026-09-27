@@ -2631,3 +2631,6 @@ Wiederholungsregel stehen im Entwurf. Beim Selbsttest fiel ein falscher Sollwert
 bewusst ausgenommen (kein Rechencode, Dateien des Nutzers). **B1 bleibt ein Blocker:** Die Trainer prüfen den eingefrorenen Code nicht selbst, und der Lader bindet die Läufe nicht an den Digest.
 Das berührt den gemeinsamen Trainer, deshalb in der nächsten Sitzung mit Codex-Prüfung. Selbsttests grün. **P1 bleibt uneingefroren.**
 Nebenbei: CPU-Programm mit 3 Arbeitern neu gestartet (03:47), dabei einen Fehler behoben: `take_lock` stürzte bei verwaister Sperre ab, weil die deutsche `tasklist`-Ausgabe (Umlaut) nicht dekodiert wurde und stdout None blieb (Commit 1b0e94f).
+
+**Zyklus 17 (offener Rest EXP-046, 03:55–03:56 gemessen).** Die vorab angekündigten beschreibenden Zusätze nachgetragen: Top-3-Δ = 6.0 (Maximum) in 10/10 Seeds, die drei stärksten Irreps sind immer
+Ziele des eigenen Arms. Δ_pow 2.72 ± 0.45 (aus `pilot_power`). Keine Änderung am Urteil *steuerbar*.

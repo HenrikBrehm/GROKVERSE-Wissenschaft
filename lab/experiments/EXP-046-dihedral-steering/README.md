@@ -110,4 +110,4 @@ Code-Stand laut result.json: Commit 95efe98, device cuda. 20 gesteuerte Läufe +
 - Sekundär: Zufallssplit R gegen F/G im Mittel 0.75 (Zufall ≈ 0.86).
 - **Lesart (vorab, Nachtrag s13):** *steuerbar* heißt nur „der Split steuert die Irreps“. Ob das über die Paarstruktur oder über die a/b-Häufigkeiten läuft, ist hier **nicht** getrennt
   (Häufigkeits-Confound, Zielrang ≈ 8–10 von 29). Das trennt EXP-047 für Z₁₁₃, für D₅₉ erst ein Mischarm. Grenze aus der Definition: D₅₉ enthält Z₅₉, die Irreps sind auf den Drehungen Frequenzen.
-- Pilot, keine Bestätigung. Die vorab angekündigten beschreibenden Zusätze (Top-3-Δ, Δ_pow) fehlen noch in `analyze.py`. Nachtragen, dabei ausdrücklich nicht vorab festgelegt.
+- Pilot, keine Bestätigung. *Beschreibende Zusätze (vorab angekündigt, nicht als Test festgelegt; Sitzung 20):* Top-3-Δ **6.0 von 6 in 10/10 Seeds** (`posthoc_top3.py/.json`), Δ_pow 2.72 ± 0.45, 10/10 (`lab/tools/pilot_power_summary.json`).

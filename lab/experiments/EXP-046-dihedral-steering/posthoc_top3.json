@@ -1,0 +1,49 @@
+{
+ "n": 10,
+ "Delta_top3_mean": 6.0,
+ "n_positive": 10,
+ "max_possible": 6,
+ "p_sign_flip_descriptive": 0.0009765625,
+ "rows": [
+  {
+   "seed": 140,
+   "Delta_top3": 6
+  },
+  {
+   "seed": 141,
+   "Delta_top3": 6
+  },
+  {
+   "seed": 142,
+   "Delta_top3": 6
+  },
+  {
+   "seed": 143,
+   "Delta_top3": 6
+  },
+  {
+   "seed": 144,
+   "Delta_top3": 6
+  },
+  {
+   "seed": 145,
+   "Delta_top3": 6
+  },
+  {
+   "seed": 146,
+   "Delta_top3": 6
+  },
+  {
+   "seed": 147,
+   "Delta_top3": 6
+  },
+  {
+   "seed": 148,
+   "Delta_top3": 6
+  },
+  {
+   "seed": 149,
+   "Delta_top3": 6
+  }
+ ]
+}

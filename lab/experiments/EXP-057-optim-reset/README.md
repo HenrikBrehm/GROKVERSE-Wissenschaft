@@ -8,7 +8,7 @@ verwandt: ["[[FINDINGS]]", "[[confirm/P3_REGISTRATION_DRAFT|P3]]", "[[experiment
 # EXP-057: Sitzt die Persistenz nach einem frühen Wechsel im AdamW-Zustand oder in den Gewichten? (Pilot)
 
 Zurück zu [[LAB]] · [[FINDINGS]]: Zielt auf die **größte offene Frage** aus P3 („Festlegung im Netz oder Optimiererzustand?“, Codex-Prüfung 06:10).
-Festgelegt 2026-09-27 06:18 Berlin (Sitzung 21), **vor jedem EXP-057-Lauf**. **Pilot** (10 Seeds, bekannte Seeds 400–409 aus EXP-056).
+Festgelegt 2026-09-27 06:16 Berlin (Sitzung 21), **vor jedem EXP-057-Lauf**. **Pilot** (10 Seeds, bekannte Seeds 400–409 aus EXP-056).
 
 **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** EXP-056 (π(0) = 0.30 an genau diesen Seeds, deren Läufe hier wiederverwendet werden), P3 (π(0) = 0.35, bestätigt),
 P3-Zerlegung (Ziele des ersten Splits 20 % gegen Zufall 8.9 %), Codex-Einwand (Optimiererzustand/verlangsamte Anpassung nicht getrennt).

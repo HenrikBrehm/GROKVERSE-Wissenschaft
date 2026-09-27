@@ -9,7 +9,7 @@ verwandt: ["[[FINDINGS]]", "[[BACKLOG]]", "[[experiments/EXP-053-p3-overlap-desi
 
 Zurück zu [[LAB]] · [[FINDINGS]] (Paket B, P3; offene Frage „Festlegung im Netz oder nur geteilte Paare?“) · Konstruktion
 [[experiments/EXP-053-p3-overlap-design/README|EXP-053]] · [[BACKLOG]] „Entwurf P3-Bestätigung“.
-Festgelegt 2026-09-27 04:44 Berlin (Sitzung 21), **bevor ein EXP-056-Lauf oder -Split existiert**. **Pilot** (Regel 15b: 10 Seeds; liefert die Streuung für P3).
+Festgelegt 2026-09-27 04:43 Berlin (Sitzung 21), **bevor ein EXP-056-Lauf oder -Split existiert**. **Pilot** (Regel 15b: 10 Seeds; liefert die Streuung für P3).
 
 **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** EXP-020 (add 113, ≈ 73 % geteilte Paare; π 0.38/0.72/≈1 bei t = 25/50/150) und EXP-044
 (add 97/mul 113, ≈ 38 %; π(25) 0.37/0.22, SD 0.12/0.17). Daraus: t = 25 (empfindlichster Wechselzeitpunkt, π weit weg von 0 und 1) und das Maß π.

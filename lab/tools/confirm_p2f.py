@@ -246,6 +246,9 @@ def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
 
 
 def analyze(manifest: Path) -> None:
+    stale = LAB / "confirm" / "P2f_summary.json"            # Codex s24 point 2: an aborted analysis must not leave an older summary behind
+    if stale.exists():
+        stale.unlink()
     man = json.loads(manifest.read_text(encoding="utf-8"))
     BLOCK.check_manifest(manifest, man)
     bad = [m for m in (split_mismatch(man, s) for s in man["seeds"]) if m]
@@ -283,6 +286,10 @@ def selftest() -> None:
     assert np.allclose(proj(f3, [3]), f3, atol=1e-10) and np.allclose(proj(f3, [4]), 0, atol=1e-10)
     c = control_sets([1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [6, 1])
     assert all(len(x) == 5 and not set(x) & set(range(1, 11)) and max(x) <= 29 for x in c)
+    harm = {fold(2 * k) for k in range(11, 16)}             # Codex s24 point 3: {22, 24, 26, 28, 29}, outside own and other
+    assert harm == {22, 24, 26, 28, 29}
+    for key in range(50):
+        assert all(not set(x) & (harm | set(range(1, 6)) | set(range(11, 16))) for x in control_sets(list(range(11, 16)), [1, 2, 3, 4, 5], [6, key]))
     good = {a: {"base": {"acc": 1.0, "margin": 5.0}, "drop_own": 0.3, "drop_ctrl": [0.0, 0.01, -0.01, 0.0], "energy_own": 0.9} for a in "FG"}
     v = validity(good)
     assert v["valid"] and v["generalised"] and abs(v["D"] - 0.3) < 1e-12

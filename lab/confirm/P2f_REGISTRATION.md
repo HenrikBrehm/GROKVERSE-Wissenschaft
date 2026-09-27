@@ -24,7 +24,7 @@ Vorgaenger [[confirm/P2e_REGISTRATION|P2e]] (mul 113, add 97, bestaetigt).
   eigenen Irreps in W_E.
 - **Stichprobe:** Pilot EXP-072 (5 Seeds, 20000 Schritte): D = 0.223 ± 0.024. Falls sich Effekt und Streuung auf 12000 Schritte uebertragen, liegt die KI-Untergrenze bei n = 20 weit ueber 0.05.
   n = 20 wie P2e, damit die Aufgaben vergleichbar bleiben (nicht aus einer Poweranalyse; die Power ist bei dieser Streuung ohnehin nahe 1).
-- **Warum 12000 Schritte:** EXP-072: erster Test >= 0.9 bei Median 4575, Maximum 8150; ein Lauf (1004 F) blieb bis 20000 bei 0.83. 12000 = Maximum + Reserve; alle Seeds zaehlen,
+- **Warum 12000 Schritte:** EXP-072: erster Test >= 0.9 bei Median 4575, Maximum 8150; ein Lauf (1004 F) blieb bis 20000 bei 0.83. 12000 = Maximum + Reserve. *Nach Codex (s24) offengelegt:* Bei Schritt 12000 waren im Pilot 9/10 Arme >= 0.9; Seed 1004 F lag bei 0.23 (0.83 erst bei 20000), und der Pilotwert D = 0.223 stammt von 20000-Schritt-Modellen, nicht von 12000. Alle Seeds zaehlen,
   das Urteil haengt also nicht davon ab, wie viele generalisieren.
 - **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** EXP-072 an P1-Splits (Seeds 1000-1004): Schrittzahl, Mass (post hoc gewaehlt, Uebertragung des P2e-Masses),
   delta und Mindesteffekt wie P2d/P2e. D59-Spektren aus P1 und EXP-046 (K2). Seeds 2340-2359 wurden nie benutzt; Versuchs-ID 6 erzeugt eigene Splits und Ziele.
@@ -32,7 +32,10 @@ Vorgaenger [[confirm/P2e_REGISTRATION|P2e]] (mul 113, add 97, bestaetigt).
   "Bestaetigt" heisst nur: Auch in D59 reagiert der Logit-Abstand staerker auf gleich grosse Schritte entlang der gesteuerten Irreps; das belegt keine Nutzung ueber die Energie hinaus.
 - **Grenzen:** eine nicht-abelsche Gruppe (D59 enthaelt Z59 mit Index 2), eine Architektur, eine Dosis, eine lokale endliche Stoerung.
 - **Vor dem Einfrieren:** Codex-Pruefung (Regel 18c); ein echter Job bis zum Ende durch den eingefrorenen Lader (im Fenster); Manifest mit Code-Hashes und Commit.
-- Code: `lab/tools/confirm_p2f.py` (Selbsttest ok, Sitzung 24, 12:50 Berlin, inkl. End-zu-End-Mass an einem Zufallsmodell und Import-Pruefung gegen die Hash-Liste).
+- **Codex-Pruefung (Sitzung 24, ca. 12:51-12:57 Berlin, `P2f_codex_review.txt`):** keine Blocker (Projektion, Elementreihenfolge, Eingabeformat, Run-ID, Lader-Felder, Kontrollpool, Ein-Hypothesen-Design geprueft).
+  Uebernommen: (1) 12000-Schritt-Befund des Piloten offengelegt (oben); (2) `--analyze` loescht zuerst eine alte `P2f_summary.json`, damit ein abgebrochener Lauf keine veraltete Zusammenfassung hinterlaesst;
+  (3) Selbsttest prueft den fold(2k)-Ausschluss jetzt mit einer Menge, deren Harmonische ausserhalb von eigenen und fremden Zielen liegen.
+- Code: `lab/tools/confirm_p2f.py` (Selbsttest ok, Sitzung 24, 12:50 Berlin, vor den Codex-Aenderungen; **der geaenderte Selbsttest ist noch nicht gelaufen** (Fenster zu ab 12:58), inkl. End-zu-End-Mass an einem Zufallsmodell und Import-Pruefung gegen die Hash-Liste).
 
 ```
 python lab/tools/confirm_p2f.py --splits lab/confirm/P2f_manifest.json

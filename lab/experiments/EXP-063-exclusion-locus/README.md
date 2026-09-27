@@ -1,8 +1,8 @@
 ---
 id: EXP-063
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/positiv]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-062-rate-race/README|EXP-062]]", "[[experiments/EXP-038-where-lockin/README|EXP-038]]", "[[NOVEL_DIRECTIONS]]", "[[BACKLOG]]", "[[JOURNAL]]"]
 ---
 # EXP-063: Wo sitzt der Ausschluss neuer Frequenzen bei t = 50? W_E oder der Rest des Netzes (Pilot)
@@ -26,3 +26,16 @@ Festgelegt 2026-09-27 (Sitzung 22), **vor jedem EXP-063-Lauf**. **Pilot**, bekan
 python lab/tools/parallel_queue.py lab/experiments/EXP-063-exclusion-locus/jobs.txt --workers 2
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-063-exclusion-locus/analyze.py
 ```
+
+## Ergebnis (Sitzung 22, Läufe 07:54–08:14, ein Lauf nach Speicherfehler 08:14 mit demselben Befehl nachgeholt; Auswertung 08:15 Berlin; `summary.json`)
+
+40/40 Läufe ok, 10/10 Seeds gültig, Reset je Lauf im Ergebnis vermerkt.
+
+- **Primär:** Δb_rest = b50(normal) − b50(rsrest) > 1 in **10/10** Seeds (1.43 … 4.45, Mittel 3.2) → ***Ausschluss sitzt (auch) im Rest des Netzes***.
+- **Mittel:** normal a = 3.66, b = 4.25 · Rest zurückgesetzt a = 3.10, **b = 1.05** · nur W_E zurückgesetzt a = 2.51, **b = 0.44**.
+- **Lesart (Pilot, bekannte Seeds):** Beide Resets heben den Ausschluss weitgehend auf: Die neuen Frequenzen werden wieder gelernt. Die alten bleiben in beiden Fällen stark erhalten, auch wenn W_E
+  auf seine Init zurückgesetzt wird (der Rest des Netzes baut sie in W_E wieder auf, vgl. [[experiments/EXP-038-where-lockin/README|EXP-038]]). Also: **Das Erhalten der alten Wahl ist doppelt vorhanden
+  (W_E oder Rest genügt), der Ausschluss der neuen braucht W_E und Rest zusammen.** Das Zwei-Regime-Bild aus EXP-062 bekommt damit einen Ort: Bei t = 50 ist das ganze Netz so aufeinander eingestellt,
+  dass neue Frequenzen nicht mehr entstehen.
+- **Grenzen:** Pilot, n = 10, nur t = 50; ein Reset auf die Init entfernt alles Gelernte des Teils, nicht nur die Ausrichtung; b nach W_E-Reset ist gegen ein reines Y-Modell gemessen, das von derselben Init startet.
+- **Nächste Frage:** Welcher Teil des Rests (Attention, MLP, Unembedding)? Und K1 (Weight Decay) aus dem [[BACKLOG]].

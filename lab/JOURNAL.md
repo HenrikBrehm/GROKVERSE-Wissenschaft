@@ -2975,3 +2975,7 @@ Seeds 2000–2099 verbraucht. **P2c** = P2b mit Seeds 2100–2199, Versuchs-ID 3
 Codex (gezielt): 4000 Schritte garantiert, Lauf-ID korrekt, zwei Kommentarfehler (behoben). Eingefroren e8e0cfa, Splits/Jobs 4aa4544, Start mit 3 Arbeitern (freier virtueller Speicher 3.3 GB).
 Geprüft: N28, EXP-058/059/063 sind nicht betroffen (≤ 2050 Schritte, Generalisierung nie vor Schritt 50).
 *Lehre:* Eine Bestätigung braucht vor dem Einfrieren einen echten Probelauf **bis zum Ende**, dessen Ergebnis den eingefrorenen Lader passiert. Der N28-Smoke hat das geleistet, für P2b fehlte er.
+
+**Zyklus 11 (EXP-063 ausgewertet, 08:15).** *Ergebnis:* ***Ausschluss sitzt (auch) im Rest des Netzes*** (Δb > 1 in 10/10). Rest-Reset: b 4.25 → 1.05, a bleibt 3.1. W_E-Reset (beschreibend): b 0.44, a 2.5.
+*Deutung (Pilot):* Das Erhalten der alten Wahl ist doppelt vorhanden, der Ausschluss braucht W_E und Rest zusammen. Ein Speicherfehler (Job 2) wurde mit demselben Befehl nachgeholt.
+*Nächste Frage:* welcher Teil des Rests; Weight Decay (K1, braucht Trainer-Option und Codex).

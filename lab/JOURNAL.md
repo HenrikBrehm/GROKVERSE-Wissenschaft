@@ -2766,3 +2766,11 @@ Die Wahl 0.05 statt 0.1 folgt aus der Bootstrap-Power am Piloten (bei n = 30 und
 (18eb7d3), denn der laufende P1-Block ist an die Hashes von `confirm_p1.py` gebunden, und jede Änderung dort würde ihn stoppen. Die Laufverzeichnisse werden exakt aus dem Befehl
 bestimmt (Wechselläufe tragen beide Stämme). *Prüfung:* Selbsttest grün. Der Auswertepfad lief an echten EXP-056-Daten (drei Seeds, zwei Stufen, unter P3-Namen kopiert):
 π und beide Spurvarianten stimmen auf 6 Stellen mit EXP-056 überein. Normierungsspanne L(A) − L(B) im Piloten 5.7–9.9, π also stabil. *Stand:* Codex prüft P3.
+
+**Zyklus 12 (Codex prüft P3, 05:04–05:13 gemessen).** Die Codex-Weiterleitung (`codex:codex-rescue`) hat die Prüfung diesmal **im Hintergrund** gestartet und durfte das Ergebnis
+nicht selbst abholen (Regel 12 verlangt Vordergrund). Ich habe es mit `node …/codex-companion.mjs result task-muj8j25d-cf78hp` abgeholt. *Lehre:* Für Codex künftig direkt
+`codex-companion.mjs task "<prompt>"` ohne `--background` aufrufen (wartet bis zum Ergebnis). *Codex:* 3 Blocker (Spurkontrolle ist keine obere Grenze; Normierung instabil;
+Manifest erzwingt die Registrierung nicht), 2 schwere Befunde (Herkunft unvollständig, EXP-046-Importe; Wiederaufnahme bindet Reste nicht zuverlässig), 1 leichter (cuda:0).
+*Selbst geprüft:* alle zutreffend, **alle übernommen** (54f1e73; Details in [[confirm/P3_REGISTRATION_DRAFT|P3]]). Die Aussage ist jetzt enger: Persistenz über eine statische additive W_E-Spur hinaus.
+Kontrolle = Maximum über c ∈ [0, 1], gültig nur bei L(A) − L(B) ≥ 2. Die Pilotvalidierung (echte EXP-056-Daten) liefert unverändert dieselben Werte, dort liegt das Maximum bei c = 1.
+Ein eigener Testfehler (Prüfung an die falsche Stelle eingefügt, „letzte Bindung“ nach mtime) ist behoben. Selbsttest grün. *Stand:* Codex prüft die Korrekturen im Vordergrund.

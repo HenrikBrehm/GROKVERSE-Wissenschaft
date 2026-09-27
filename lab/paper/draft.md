@@ -300,7 +300,7 @@ steering robust to learning rate, weight decay and training fraction (registrati
 One architecture family and optimizer for all persistence claims (add 113 only, generalization pending: EXP-074, EXP-075); engineered splits; functional measures do not separate identity from energy;
 resets localize sensitivity, not mechanism; in the same model class (one-layer transformer, d = 128, full-batch AdamW lr 1e-3, wd 1; p = 59) Khanh (2026, §7, App. A) reports suggestive
 evidence (three pairs per task) that transplanting the weight direction of attention, MLP or unembedding alone each pulls the frequency identity towards the donor, so our weak MLP *reset*
-effect at a 50-step switch must not be read as "the MLP carries no frequency identity"; many design decisions were informed by pilots on known seeds (each registration lists them). All persistence results use AdamW with β = (0.9, 0.98); part of the persistence is carried by the first moment (K4b), so its size is expected to depend on the optimizer and β₁ (untested; a β₁/β₂ pilot is drafted, EXP-081).
+effect at a 50-step switch must not be read as "the MLP carries no frequency identity"; many design decisions were informed by pilots on known seeds (each registration lists them). Final models are measured 2000–4000 steps after the switch; whether the persistence survives much longer training is untested (post-grokking loss of generalization has been reported for add 113, 2608.07436). All persistence results use AdamW with β = (0.9, 0.98); part of the persistence is carried by the first moment (K4b), so its size is expected to depend on the optimizer and β₁ (untested; a β₁/β₂ pilot is drafted, EXP-081).
 
 ## AI use disclosure (draft wording, to be confirmed by the user)
 

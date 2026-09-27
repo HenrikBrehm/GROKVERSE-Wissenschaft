@@ -78,10 +78,12 @@ def interp(man: dict) -> str:
     return py
 
 
-def fb_job(man: dict, t: dict, init: int, sp: str) -> str:
+def fb_job(man: dict, t: dict, init: int, sp: str, save_model: bool = False) -> str:
+    """save_model (session 21): the primary add/mul runs keep model_final.pt for a LATER, separately registered functional test
+    (P2). It does not change training or the run id, and the P1 analysis does not read it."""
     return (f"{interp(man)} {FB} --seed {init} --condition baseline --steps {STEP} --threads {man['threads']} "
             f"--device {man['device']} --p {t['p']} --task {t['task']} --split-file {sp} "
-            f"--spectra-at 250,500,1000,{STEP} --out-root lab/confirm/raw")
+            f"--spectra-at 250,500,1000,{STEP}{' --save-model' if save_model else ''} --out-root lab/confirm/raw")
 
 
 def jobs(man: dict, manifest: str) -> list[str]:
@@ -99,7 +101,7 @@ def trainer_jobs(man: dict) -> list[str]:
                     out.append(f"{interp(man)} {GT} --seed {s} --n {t['p']} --steps {STEP} --device {man['device']} --split-file {sp} "
                                f"--out-root lab/confirm/raw")
                 else:
-                    out.append(fb_job(man, t, s, sp))
+                    out.append(fb_job(man, t, s, sp, save_model=True))
     c = cross_spec(man)
     if c is not None:
         for s in c["seeds"]:
@@ -377,12 +379,14 @@ def selftest() -> None:
     assert all(x.startswith("python lab/tools/confirm_p1.py --run M.json -- ") for x in jobs(man, "M.json"))
     assert len(j) == 4 and "--task add" in j[0] and "group_train.py" in j[2] and all("\\" not in x for x in j), j
     assert "confirm_exp1_eps2.0_add113_seed1000_F.npy" in j[0] and "--n 59" in j[2]
+    assert "--save-model" in j[0] and "--save-model" not in j[2]
     h = holm({"a": 0.01, "b": 0.04, "c": 1.0})
     assert abs(h["a"] - 0.03) < 1e-12 and abs(h["b"] - 0.08) < 1e-12 and h["c"] == 1.0
     # cross block (session 16): extra inits reuse the unit's split files, D tasks rejected
     mc = {**man, "seeds": [1000, 1001], "cross": {"task": "add", "p": 113, "seeds": [1001], "inits_per_seed": 2}}
     jc = trainer_jobs(mc)
     assert len(jc) == 8 + 4 and "--seed 1201 " in jc[8] and "--seed 1301 " in jc[10], jc[8:]
+    assert "--save-model" not in jc[8]
     assert "confirm_exp1_eps2.0_add113_seed1001_F.npy" in jc[8] and "confirm_exp1_eps2.0_add113_seed1001_G.npy" in jc[9]
     for bad in ({"task": "D", "p": 59, "seeds": [1000], "inits_per_seed": 1},
                 {"task": "add", "p": 113, "seeds": [999], "inits_per_seed": 1},

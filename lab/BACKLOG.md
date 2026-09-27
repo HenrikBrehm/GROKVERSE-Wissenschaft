@@ -129,3 +129,4 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
   für eigene Ziele gegen mehrere vorab festgelegte Kontrollen **gleicher Größe** (5 Frequenzen). Primär: Abfall des mittleren Logit-Abstands der richtigen Klasse (vermeidet den CE-Boden bei 1e-4);
   sekundär CE-Änderung in float64. Getrennt: Kurve bei gleichem Energieanteil (Abhängigkeit im natürlichen Maßstab).
 - **Modelle:** die gebundenen P2c-Modelle sind für eine *neue* Frage (anderes Maß) nutzbar, aber schon gesehen (R). Sauberer: frische Seeds.
+- **Pilot EXP-065 (Sitzung 22, 09:15):** an den P2c-Modellen eigene > Kontrolle in 80/80, Differenz je Seed 0.254 ± 0.038. Für P2d: Differenz der Abfälle als Primärgröße (immer definiert), frische Seeds, n ≈ 20 genügt; mehrere δ als Sekundärkurve.

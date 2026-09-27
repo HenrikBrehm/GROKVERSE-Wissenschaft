@@ -3030,3 +3030,8 @@ Nachfolgemaß P2d im [[BACKLOG]] (lokale Empfindlichkeit je gleicher Schrittnorm
 
 **Runner:** geplante Aufgabe „GROKVERSE-Lab-Runner“ aktiv; laut `runner-state.json` nächster Start 2026-09-27 08:34:44Z = **10:34 Berlin**. Das CPU-Programm läuft bis zur Deadline 09:59 und wird dann vom Wächter beendet
 (kein Fehler; derselbe Befehl setzt fort). Keine GPU-Läufe offen.
+
+**Nachtrag Zyklus 17 (EXP-065, Exploration, 09:13–09:15 gemessen).** *Frage:* Liegt die P2c-Umkehrung an der Dosisgeometrie? Maß (Codex-Vorschlag): Abfall des Logit-Abstands bei gleicher Schrittnorm entlang
+der eigenen Ziele gegen 4 gleich große Kontrollmengen. *Ergebnis:* eigene > Kontrolle in 80/80 Modellen (Median 0.25 gegen 0.0007; je Seed Differenz 0.254 ± 0.038). *Deutung (Exploration, gleiche Modelle,
+Maß nach dem Ergebnis gewählt):* Die Umkehrung war sehr wahrscheinlich ein Artefakt der Dosis. Die funktionale Nutzung ist damit plausibel, aber erst mit P2d an frischen Seeds belegt.
+*Nächster Schritt:* P2d festlegen (Differenz der Abfälle primär, n ≈ 20, frischer Block), vorher ein echter Job durch den Lader und Codex.

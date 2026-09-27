@@ -157,3 +157,12 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 - **EXP-074** (Programm B, Verallgemeinerung Regel 15c): Attention-/Wertepfad-/Muster-/MLP-Reset bei add 97 und mul 113 (EXP-044-Protokoll).
 - **EXP-071** (unklar): OV-Vorsprung sagt π je Seed höchstens schwach voraus; Bestätigung bräuchte n ≈ 30–40, derzeit nicht priorisiert.
 - Danach je nach Ergebnis: Bestätigung des EXP-073-Musters an frischen Seeds oder Bestätigung „Reset-Muster verallgemeinert“ (EXP-074) mit eigenem Block.
+
+
+## Regel 19: Veröffentlichung (Sitzung 24, gleichgewichtig mit neuer Forschung)
+
+- **R1** Robustheit K2 (lr/wd/train_frac): [[confirm/R1_REGISTRATION_DRAFT|Entwurf]] + `confirm_r1.py` (Codex geprüft, ε kalibriert). Nächste Schritte: Selbsttest im Fenster → Seeds reservieren → einfrieren → Nacht 28./29.
+- **R2** Robustheit K4c (lr 2e-3, wd 0.3): nach EXP-040 festlegen ([[paper/robustness_plan]]).
+- **P4** Piloten MLP/Breite/Integer bestätigen: [[confirm/P4_REGISTRATION_DRAFT|Entwurf]] mit technischer Bestandsaufnahme; `confirm_p4.py` fehlt (drei Trainer).
+- **Repro-Paket:** schlanke Skripte je Kernaussage ([[paper/repro/README]]); Lizenzfrage beim Nutzer.
+- **Literatur:** [[paper/related_work]] wartet auf menschliche Prüfung; vorrangige Punkte dort in Abschnitt 9.

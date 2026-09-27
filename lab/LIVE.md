@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 20:29 Berlin (18:29Z, vom Runner)
 - **Deadline:** 2026-09-27 23:29 Berlin (21:29Z)
-- **Zuletzt aktualisiert:** 21:45 Berlin
+- **Zuletzt aktualisiert:** 21:59 Berlin
 - **Run-Fenster:** seit 21:40 offen (Freigabe des Nutzers, im Wächter geprüft) bis Mo 28.09. 18:00; meine Läufe enden spätestens 23:29 (Sitzungsdeadline).
 
 ## Gerade
 
-Es laufen: CPU EXP-040 (danach EXP-014, 2 × 4 Threads) und GPU EXP-018 (4 Arbeiter). Ich beobachte beide und werte die π-Lesart von EXP-042 aus.
+GPU: EXP-084 läuft (12/80, Vorhersage vor dem Lauf). CPU: EXP-040. P2f ist eingefroren und startet nach EXP-084.
 
 ## Als Nächstes
 
@@ -18,6 +18,9 @@ Ab 00:00 laut [[STATE]]: EXP-018 → EXP-084 (Vorhersage vor dem Lauf) → P2f �
 
 ## Verlauf dieser Sitzung
 
+- 21:58 **P2f eingefroren** (15539d8), Splits und Jobs committet.
+- 21:54 **EXP-018: beschleunigt** (konstruierter Split ≈ 6.5× schneller als die prospektive Kontrolle D, 10/10, p = 0.001). R5 → n = 20.
+- 21:46 EXP-042 π-Lesart: gemischt (ε 8 verschiebt das Fenster, ε 1 nicht).
 - 21:43 Nacht gestartet: Trainer-Tests grün, Selbsttests grün außer C1/C2 (Fehler nur im Selbsttest, Blocker in STATE); CPU EXP-040/014 und GPU EXP-018 laufen.
 - 21:39 **Fenster Mo 28.09. bis 18:00** (Freigabe des Nutzers, im Wächter geprüft) → alle Paper-Blöcke in dieser Nacht möglich.
 - 21:38 Zweite Quellenprüfung: Paper-Absatz korrigiert (Optimizer-Anteil ein Viertel bis die Hälfte).

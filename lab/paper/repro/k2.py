@@ -7,7 +7,7 @@ the mean with bootstrap 95% CI and the exact / Monte-Carlo one-sided sign-flip p
 --compare-p1 prints the per-seed difference to the frozen P1 summary (lab/confirm/P1_summary.json) for the same seeds.
 
   python lab/tools/guarded_run.py -- python lab/paper/repro/k2.py --smoke                 # 2 seeds, 200 steps, CPU, ~1 min
-  python lab/tools/guarded_run.py -- .venv-gpu/Scripts/python.exe lab/paper/repro/k2.py --device cuda --workers 8 --compare-p1
+  python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/k2.py --device cuda --workers 8 --compare-p1
 """
 from __future__ import annotations
 

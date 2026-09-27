@@ -64,7 +64,7 @@ Vorab-Lesart der Nacht (Kombination EXP-040/073/074/075, P2f): [[LESART-nacht-20
 
 ## Blocker / Hinweise
 
-- **Statische Prüfung der Nachtbefehle (Sitzung 27, nur Lesen):** behoben: absoluter GPU-Interpreterpfad in [[paper/repro/README]] (Gleichwertigkeitsbefehle); `--jobs` ohne Wächter (s. o.); R1-Seed-Obergrenze; R2/R3 löschen eine alte Zusammenfassung vor `--analyze`. Offen, nur Hinweis: Die Selbsttests von R2/R3 messen kein Zufallsmodell Ende-zu-Ende; ein Fehler in `one_run` zeigt sich erst im Smoke (Pflicht). Die „Voll“-Befehle von `repro/k2.py`/`k4c.py` nennen den venv-Pfad relativ: absolut schreiben.
+- **Statische Prüfung der Nachtbefehle (Sitzung 27, nur Lesen):** behoben: absoluter GPU-Interpreterpfad in [[paper/repro/README]] (Gleichwertigkeitsbefehle); `--jobs` ohne Wächter (s. o.); R1-Seed-Obergrenze; R2/R3 löschen eine alte Zusammenfassung vor `--analyze`. Offen, nur Hinweis: Die Selbsttests von R2/R3 messen kein Zufallsmodell Ende-zu-Ende; ein Fehler in `one_run` zeigt sich erst im Smoke (Pflicht). Die „Voll“-Befehle von `repro/k2.py`/`k4c.py` nennen den venv-Pfad jetzt absolut (Sitzung 28).
 
 - `freq_ban.py` hat `--reset-at-switch attn|mlp|unembed|qk|vo`. Eingefrorene Blöcke prüfen Code-Hashes: `--analyze` am Manifest-Commit reproduzieren (`git worktree add <dir> <commit>`).
 - Speicher: höchstens ≈ 8–10 GPU-Prozesse gleichzeitig neben dem CPU-Programm. 10 D₅₉-Läufe parallel: ≈ 0.03 s/Schritt je Lauf.

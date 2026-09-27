@@ -11,7 +11,7 @@ Same statistics as the frozen analysis (one-sided t-test, Holm over {H1, H2}, bo
 --compare-n29 prints the largest per-seed deviation of acc_old/acc_new from lab/confirm/N29_summary.json (same seeds 2250-2269).
 
   python lab/tools/guarded_run.py -- python lab/paper/repro/k4c.py --smoke                  # 1 seed, 300 steps after the switch, CPU
-  python lab/tools/guarded_run.py -- .venv-gpu/Scripts/python.exe lab/paper/repro/k4c.py --device cuda --workers 8 --compare-n29
+  python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/k4c.py --device cuda --workers 8 --compare-n29
 """
 from __future__ import annotations
 

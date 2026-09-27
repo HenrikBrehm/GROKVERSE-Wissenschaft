@@ -21,6 +21,7 @@ K4d/K4e: Ein Reset von Attention (bzw. W_V/W_O) beim Wechsel nach 50 Schritten s
 - **Maß:** je Teil ‖W(50) − W(0)‖_F (= was der Reset auf die Init entfernt) und relativ zu ‖W(0)‖_F; je Seed Mittel über A/B; Verhältnis groß/klein für attn/mlp (N29b-Seeds) und vo/qk (N29c-Seeds).
 - **Lesart (vorab):** Ist die Verschiebung des *schwächer* wirkenden Resets (MLP bzw. QK) in ≥ 15/20 Seeds größer → Größen-Erklärung für dieses Paar widersprochen („size alternative contradicted“). Ist die des stärker wirkenden in ≥ 15/20 größer → Größen-Erklärung bleibt offen (nicht trennbar). Sonst unklar. Beides getrennt für absolut und relativ; widersprechen sich absolut und relativ, gilt „unklar“.
 - **Was die Messung nicht kann:** Der Reset löscht auch den AdamW-Zustand (nicht gemessen); gleiche Verschiebung heißt nicht gleiche funktionale Wirkung. Eine Verschiebungs-angeglichene Reset-Kontrolle wäre ein eigener Versuch (nur, wenn hier „offen“ herauskommt).
+- **Abweichung von den Blockargumenten (bewusst, Code-Prüfung Sitzung 30):** `--switch-split-file`/`--switch-step` fehlen; bei `--steps 50` = Wechselschritt wirkt der Wechsel im Trainer erst nach Schritt 50, der Zustand bei 50 ist derselbe. Das W_E-Tor bei Schritt 50 prüft das zusätzlich. `measure.py` setzt vor dem Init-Nachbau `torch.set_num_threads(1)` wie der Trainer (Fund der Code-Prüfung, behoben).
 - **Budget:** 80 × 50 Schritte; Laufzeit von Start/Import beherrscht, bei 8 parallel ≈ 3–5 min. Abbruch bei Torfehler: Ursache klären, nicht Toleranz ändern.
 
 ## Befehle (nur im Fenster, alles über den Wächter)

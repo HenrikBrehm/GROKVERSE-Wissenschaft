@@ -125,6 +125,7 @@ nutzt ([[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]).
 | [[experiments/EXP-081-optimizer-clock/README\|EXP-081]] Welche Uhr legt fest? β₁ (Verschiebung + Momentum-Schwanz) gegen β₂ (Horizont) gegen Schritte (Pilot, N37/N38) | vorbereitet (Sitzung 27, Entwurf, kein Code; nach R3) #exp/vorbereitet | — |
 | [[confirm/R3_REGISTRATION_DRAFT\|R3]] Tickt die Festlegung in Λ oder in Schritten? (Bestätigung) | Entwurf, Codex ohne Blocker (Sitzung 26) #exp/vorbereitet | — |
 | [[confirm/R2_REGISTRATION_DRAFT\|R2]] Hält K4c bei lr 2e-3 und wd 0.3? (Bestätigung, Regel 19a) | Entwurf, Codex ohne Blocker (Sitzung 26) #exp/vorbereitet | — |
+| [[confirm/R4_REGISTRATION_DRAFT\|R4]] Formt ein gewöhnlicher Zufallssplit die gelernten Frequenzen? (gekreuzt Init × Split, Bestätigung, Gutachter-Einwand O1) | Entwurf Sitzung 30, ungetestet, Codex offen #exp/vorbereitet | — |
 | [[confirm/C1_REGISTRATION\|C1]] Ordnet das Paarspektrum die fünf Ziele? (Programm C, an R1) | registriert Sitzung 28, Codex-geprüft, Auswertung ungetestet #exp/vorbereitet | Exploration P1: ρ 0.21–0.44, Init 0.08–0.15 |
 | [[confirm/C2_REGISTRATION\|C2]] Behalten alte Ziele nach dem Wechsel bei t = 50 ihre Rangfolge? (Programm B, an R2) | registriert Sitzung 28, Codex-geprüft, ungetestet #exp/vorbereitet | Exploration N29: ρ 0.58 (t = 25: 0.17) |
 | [[confirm/C3_REGISTRATION\|C3]] Feinordnung bei MLP, 4× Breite, Integer-Addition (an P4) | registriert Sitzung 28, ungetestet #exp/vorbereitet | Piloten: ρ 0.29–0.60, Init ≈ 0 |

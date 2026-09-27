@@ -37,8 +37,9 @@ RAW = HERE / "raw"
 
 
 def init_state(seed: int) -> tuple[dict[str, np.ndarray], torch.nn.Module]:
-    """Same order as freq_ban.run: set_seed, (dataset uses its own generator), build_model on the CPU."""
+    """Same order as freq_ban.run: threads, set_seed, (dataset uses its own generator), build_model on the CPU (review s30: threads first)."""
     cfg = get_config("arch25k", seed=seed, steps=50, threads=1, p=113, task="add", arch="transformer")
+    torch.set_num_threads(cfg.threads)
     set_seed(cfg.seed)
     model = build_model(cfg)
     return {n: prm.detach().cpu().numpy().astype(np.float64) for n, prm in model.named_parameters()}, model

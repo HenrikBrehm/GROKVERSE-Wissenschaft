@@ -128,7 +128,8 @@ def selftest() -> None:
     assert abs(delta_pow(np.array([4.0, 1.0]), np.array([1.0, 4.0]), [1], [2]) - 2 * np.log(4)) < 1e-12
     big = plan(list(rng.normal(8.4, 1.2, 10)), rng)          # EXP-016-like pilot: SD 1.2 -> small n for mean >= 1
     assert big["n_needed_normal"] is not None and big["n_needed_normal"] <= 30, big
-    tiny = plan(list(rng.normal(0.2, 6.0, 10)), rng)           # very noisy pilot -> more seeds than the cap
+    x = rng.normal(0.0, 6.0, 10)                               # very noisy pilot -> more seeds than the cap
+    tiny = plan(list(x - x.mean() + 0.2), rng)                 # mean fixed at 0.2 (a raw draw can land above 1, s20)
     assert tiny["n_needed_normal"] is None and "warning" in tiny, tiny
     import itertools                                           # Monte Carlo sign flip vs the exact test
     d = np.array([0.9, -0.2, 1.3, 0.4, 0.7, -0.5, 1.1, 0.2])

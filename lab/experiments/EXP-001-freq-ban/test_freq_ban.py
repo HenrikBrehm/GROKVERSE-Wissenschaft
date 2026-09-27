@@ -265,7 +265,13 @@ def test_guard_window() -> None:
 
 if __name__ == "__main__":
     tests = [v for k, v in dict(globals()).items() if k.startswith("test_")]
+    import inspect
+    import tempfile
     for t in tests:
-        t()
+        if "tmp_path" in inspect.signature(t).parameters:   # pytest-style test, run without pytest
+            with tempfile.TemporaryDirectory() as d:
+                t(Path(d))
+        else:
+            t()
         print(f"ok  {t.__name__}")
     print(f"{len(tests)} passed")

@@ -4,7 +4,8 @@ unit, test or thresholds of the registration. Same statistics as C1 (C1_analyze.
 Per arm (P4 run, step 2000, through the frozen P4 loader confirm_p4.spectra: 'secondary' for mlp, 'primary' for d512 and intadd):
   rho = Spearman over the 5 targets between the split's mask spectrum and the W_E power; mask spectrum = M0c (m0c_add) for
   mlp and d512 (add 113), EXP-048 mask_power for intadd. Step-0 power from a second full load of the same run (spectra.npy);
-  missing step 0 or ties -> arm technical. Unit = seed (mean F/G, both valid). Confirmed = sign-flip p < 0.05 and stratified
+  missing step 0 or ties -> arm technical. intadd: the step-0 control is the RAW spectrum (the trainer stores no step-0 W_E),
+  while the outcome is detrended: a deliberately different control (registration, Codex s28 MAJOR). Unit = seed (mean F/G, both valid). Confirmed = sign-flip p < 0.05 and stratified
   bootstrap CI lower bound of the equal-weight condition mean >= 0.10 and CI lower bound of the adjusted coefficient
   (mask | k, step 0) > 0. Not evaluable if a condition has fewer than 10 of 15 seeds. Code gate C3_manifest.json.
 
@@ -140,6 +141,21 @@ def selftest() -> None:
         sp, st = np.load(d / "spectra.npy"), list(np.load(d / "spectra_steps.npy"))
         r.append(rt.spearman(mask_spectrum("intadd", np.load(e48 / f"splits/{stem}.npy"))[sel], sp[st.index(2000)][sel]))
     assert len(r) == 20 and abs(np.mean(r) - ref) < 1e-3, (np.mean(r), ref)
+    # Codex s28 (MINOR): also the detrended primary of the pilot (0.285), rebuilt as confirm_p4.spectra does it
+    spec = importlib.util.spec_from_file_location("c3_a48", e48 / "analyze.py")
+    a48 = importlib.util.module_from_spec(spec)
+    sys.path.insert(0, str(e48))
+    spec.loader.exec_module(a48)
+    from intadd_train import dft_power
+    ref_d = json.loads((LAB / "confirm/A_posthoc_within.json").read_text(encoding="utf-8"))["EXP-048"]["detrended"]["M0"]["mean_rho"]
+    rd = []
+    for d in sorted((e48 / "raw").glob("EXP-048_*_eps2.0_*_devcuda")):
+        stem = d.name.split("_", 2)[2].rsplit("_devcuda", 1)[0]
+        T = json.loads((e48 / f"splits/{stem}.json").read_text(encoding="utf-8"))["targets"]
+        sel = [k - 1 for k in T]
+        y = dft_power(a48.detrend(np.load(d / "we_final.npy").astype(np.float64)))
+        rd.append(rt.spearman(mask_spectrum("intadd", np.load(e48 / f"splits/{stem}.npy"))[sel], y[sel]))
+    assert len(rd) == 20 and abs(np.mean(rd) - ref_d) < 1e-3, (np.mean(rd), ref_d)
     print("C3 selftest ok")
 
 

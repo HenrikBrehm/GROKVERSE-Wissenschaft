@@ -27,6 +27,7 @@ nach 2000 Schritten der Rangfolge ihrer Energie im Masken-Spektrum des Splits, a
 
 - **Daten:** alle 90 P4-Läufe über den eingefrorenen P4-Lader (`confirm_p4.spectra`): Energie bei Schritt 2000 (MLP: `secondary`, d512: `primary`, Integer: `primary` = trendbereinigte DFT von W_E, wie P4);
   Schritt 0 über einen zweiten vollständigen Ladevorgang desselben Laufs (`spectra.npy`). Fehlt Schritt 0 oder gibt es Bindungen → Arm technisch.
+  **Integer-Addition (Codex s28):** Die Init-Kontrolle ist dort das **rohe** Spektrum bei Schritt 0 (der Trainer speichert W_E bei Schritt 0 nicht), die Zielgröße ist trendbereinigt. Das ist eine bewusst andere Kontrolle; „bereinigt um den Init-Rang“ heißt für diese Bedingung „um den rohen Init-Rang“. Eine trendbereinigte Init-Kontrolle ist nicht möglich und wird nicht behauptet.
 - **Maß, Einheit, Statistik, Schwellen:** wie C1 Fassung 2b (Spearman je Arm; Einheit Seed = Mittel F/G, beide gültig; gleich gewichtetes Mittel der Bedingungsmittel; bestätigt = Vorzeichen-Permutation p < 0.05
   **und** geschichtete Bootstrap-KI-Untergrenze ≥ 0.10 **und** KI-Untergrenze des bereinigten Koeffizienten (Maske | k, Init) > 0; nicht auswertbar, wenn eine Bedingung < 10 von 15 Seeds hat).
   Code: `C1_analyze.aggregate`. Eigene Familie (eine Hypothese), nicht in der P4-Holm-Familie.
@@ -38,3 +39,7 @@ nach 2000 Schritten der Rangfolge ihrer Energie im Masken-Spektrum des Splits, a
 
 `lab/confirm/C3_analyze.py` (nutzt `C1_analyze.aggregate`, `rank_tools.py`, `P1_posthoc_within.py`); Hashes in `C3_manifest.json`; letzter Commit von Tor und Registrierung muss ein Vorfahr des P4-Manifest-Commits sein.
 Selbsttest (nur im Fenster): Masken-Spektren je Bedingung, Pilotwert der Integer-Addition (0.36) reproduziert. Wird P4 geändert (Seeds, Schritte, Bedingungen), muss C3 neu registriert werden. **Ungetestet.**
+
+## Codex-Prüfung (Sitzung 28, `C3_codex_review_s28.txt`)
+
+Kein Blocker. Übernommen: MAJOR (rohe Init-Kontrolle bei trendbereinigter Zielgröße) als ausdrücklich andere Kontrolle registriert und die Deutung eingeengt, statt den Trainer zu ändern (P4-Code ist Codex-geprüft; eine Trainer-Änderung vor dem Einfrieren wäre ein neuer Prüfpunkt). MINOR: Selbsttest prüft zusätzlich den trendbereinigten Pilotwert (0.285). Bestätigt von Codex: alle Trainer speichern Schritt 0 und 2000, `secondary` = Schritt 2000 beim MLP, gleiche k-Indizierung, `dataclasses.replace` gültig.

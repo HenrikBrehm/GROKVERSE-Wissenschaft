@@ -36,4 +36,4 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-067-exclusion-part
 ## Durchführung (Sitzung 23)
 
 Trainer-Option eingespielt (5d84666, 18/18 Tests, Codex: keine Fehler). Gleichwertigkeit `rest` alt gegen neu (60 Schritte, CPU, Seed 400): W_E-Schnappschüsse und Reset-Ereignis **bitgleich**.
-Läufe ab 10:50 Berlin, 6 GPU-Arbeiter.
+Läufe ab 10:52 Berlin (gemessen), 6 GPU-Arbeiter. (Der Selbsttest lief als Vergleich alter gegen neuer Code statt gegen EXP-063, das auf der GPU lief.)

@@ -1,0 +1,63 @@
+{
+ "seeds": [
+  2510,
+  2511,
+  2512,
+  2513,
+  2514,
+  2515,
+  2516,
+  2517,
+  2518,
+  2519,
+  2520,
+  2521,
+  2522,
+  2523,
+  2524,
+  2525,
+  2526,
+  2527,
+  2528,
+  2529,
+  2530,
+  2531,
+  2532,
+  2533,
+  2534,
+  2535,
+  2536,
+  2537,
+  2538,
+  2539
+ ],
+ "budget": 4000,
+ "device": "cuda",
+ "threads": 1,
+ "cells": {
+  "lr2": {
+   "hp": {
+    "lr": 0.002
+   },
+   "ts": [
+    12,
+    25,
+    50
+   ]
+  },
+  "wd03": {
+   "hp": {
+    "weight_decay": 0.3
+   },
+   "ts": [
+    25,
+    50
+   ]
+  }
+ },
+ "python": ".venv-gpu/Scripts/python.exe",
+ "registration": [
+  "lab/confirm/R2_REGISTRATION_DRAFT.md"
+ ],
+ "note": "DRAFT (session 26): add code_sha256 from --hash-code after the selftest, remove this note, save as R2_manifest.json, commit, set commit, commit again"
+}

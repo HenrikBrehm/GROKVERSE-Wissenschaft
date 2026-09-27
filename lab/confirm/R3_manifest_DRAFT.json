@@ -1,0 +1,42 @@
+{
+ "seeds": [
+  2540,
+  2541,
+  2542,
+  2543,
+  2544,
+  2545,
+  2546,
+  2547,
+  2548,
+  2549,
+  2550,
+  2551,
+  2552,
+  2553,
+  2554,
+  2555,
+  2556,
+  2557,
+  2558,
+  2559
+ ],
+ "budget": 4000,
+ "device": "cuda",
+ "threads": 1,
+ "cells": {
+  "lrs2": {
+   "c": 2.0,
+   "t": 25
+  },
+  "lrs05": {
+   "c": 0.5,
+   "t": 50
+  }
+ },
+ "python": ".venv-gpu/Scripts/python.exe",
+ "registration": [
+  "lab/confirm/R3_REGISTRATION_DRAFT.md"
+ ],
+ "note": "DRAFT (session 26): add code_sha256 from --hash-code after the selftest, remove this note, save as R3_manifest.json, commit, set commit, commit again"
+}

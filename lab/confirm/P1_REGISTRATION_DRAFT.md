@@ -31,8 +31,8 @@ Zurück zu [[FINDINGS]]. Eingefroren ist erst eine Fassung `P1_manifest.json` mi
 - [x] (B4, Sitzung 20 umgesetzt, Selbsttest grün; Wiederholungsregel für Infrastrukturfehler noch in die Registrierung schreiben) alle 50 Paare verlangen; nicht-endliches Δ / Zielsumme ≤ 0 → ungültig; sonst *nicht auswertbar*
 - [x] (H5, mit B2 erledigt: P1 = add 113 bei α/3 → n 25–27, konservativ 44 ≤ 50; P1b-Familie über 3 Aufgaben ebenfalls α/3 im ungünstigsten Fall, mul 113 konservativ 49 ≤ 50, knapp) Power mit der endgültigen Familie und dem endgültigen Test neu rechnen (bei B2: α/3)
 - [x] (H6, Sitzung 20 umgesetzt, Selbsttest grün) bei `--analyze` Split-Indizes und Ziele aus `build()` neu erzeugen und exakt vergleichen
-- [ ] (H7) Symmetrie-Annahme des Vorzeichentests ausdrücklich registrieren; t-Test sekundär berichten
-- [ ] (M8/M9) Design als seed-gepaart beschreiben; P1 als Replikation in pilotgewählten Fällen formulieren
+- [x] (H7, Text unten „Textbausteine“, Teil der Registrierung; t-Test sekundär noch nicht im Code, wird beschreibend nachgereicht) Symmetrie-Annahme des Vorzeichentests ausdrücklich registrieren; t-Test sekundär berichten
+- [x] (M8/M9, Text unten, Teil der Registrierung) Design als seed-gepaart beschreiben; P1 als Replikation in pilotgewählten Fällen formulieren
 - verworfen: Mindesteffekt relativ zum Pilotmittel (Δ ist dimensionslos)
 
 ### Textbausteine für die Registrierung (Sitzung 20, H7/M8/M9)
@@ -51,7 +51,7 @@ Zurück zu [[FINDINGS]]. Eingefroren ist erst eine Fassung `P1_manifest.json` mi
 - B2, B4/H3, H6 im Code bestätigt. Text oben entsprechend nachgezogen (war noch alt).
 - [x] `lab/tools/paket_a_device.py` in `CODE_FILES` (wird über EXP-043 `analyze.py` ausgeführt). Die Starter `parallel_queue.py` und `guarded_run.py` sind **ausdrücklich ausgenommen**:
   kein wissenschaftlicher Code, unversionierte Dateien des Nutzers (sie setzen Zeitfenster und Parallelität durch, ändern keine Rechnung).
-- [ ] **B1 noch offen (Blocker für das Einfrieren):** Die Läufe werden nicht an den eingefrorenen Code gebunden. Eine Codeänderung zwischen `--jobs` und `--analyze`, die wieder zurückgenommen wird,
+- [x] **B1 (Sitzung 21 gelöst, siehe unten):** Die Läufe werden nicht an den eingefrorenen Code gebunden. Eine Codeänderung zwischen `--jobs` und `--analyze`, die wieder zurückgenommen wird,
   bliebe unbemerkt. Lösung: Die Trainer bekommen `--manifest`, prüfen beim Start `check_code`, schreiben den geprüften Digest in `result.json`, und der Lader vergleicht ihn beim Auswerten.
   Das ändert den gemeinsamen Trainer, also vorher Codex-Prüfung (Regel 18c). Nächste Sitzung.
 

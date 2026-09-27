@@ -24,11 +24,13 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 1. `guarded_run.py --check`; kein STOP; Prozesse prüfen.
 2. **Trainer-Tests** (neues `--rewind-at-switch`, ungetestet): `python lab/tools/guarded_run.py --min-minutes 5 -- python lab/tests/test_freq_ban_fingerprint.py`. Scheitert `test_rewind`: EXP-073 nicht starten.
-3. **P2f einfrieren und rechnen** (≈ 30 min): `guarded_run.py -- python lab/tools/confirm_p2f.py --selftest` → Manifest `lab/confirm/P2f_manifest.json` wie P2e (Felder aus `REGISTERED`,
+3. **CPU sofort nach den Tests starten, EXP-040 zuerst** (≈ 3 h; direkter Test des Amplitudenmodells H40 für die offene Frage in FINDINGS):
+   `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-040,EXP-042,EXP-014` (im Hintergrund).
+4. **P2f einfrieren und rechnen** (≈ 30 min): `guarded_run.py -- python lab/tools/confirm_p2f.py --selftest` → Manifest `lab/confirm/P2f_manifest.json` wie P2e (Felder aus `REGISTERED`,
    `python`, `registration`, `code_sha256` aus `--hash-code`), committen, Commit-ID ins Feld `commit`, erneut committen → `--splits` → `--jobs > P2f_jobs.txt` → Smoke: erste Jobzeile allein über
    `parallel_queue` und `--analyze` (Wert nicht ansehen, nur Lader prüfen) → Block `parallel_queue.py lab/confirm/P2f_jobs.txt --workers 10` (12000 Schritte) → `--analyze`.
-4. Parallel auf der GPU (nach P2f-Block oder daneben, Speicher beachten): **EXP-073** (140 Läufe) und **EXP-074** (100 Läufe) über `parallel_queue.py`, dann ihre `analyze.py`.
-5. CPU parallel: `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-042,EXP-040,EXP-014`.
+5. Parallel auf der GPU (nach P2f-Block oder daneben, Speicher beachten): **EXP-073** (140 Läufe) und **EXP-074** (100 Läufe) über `parallel_queue.py`, dann ihre `analyze.py`.
+
 
 ## Drei Prioritäten (Regel 18c)
 

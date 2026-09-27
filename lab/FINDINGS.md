@@ -48,5 +48,6 @@ Zurück zu [[LAB]]. Stand Sitzung 24, 2026-09-27, 13:00 Berlin. Wortlaute, Konfi
 ## Größte offene Frage
 
 **Was macht die frühe Wahl gegen einen Datenwechsel fest, wenn keine gemessene Zustandsgröße den Zeitverlauf besser erklärt als die Schrittzahl?** Die Reset-Befunde (K4d/e) zeigen, *wo* ein Eingriff wirkt,
-nicht *warum* die Festlegung glatt mit den Vorschritten wächst. Kandidaten vorab: kumulierte Lernrate (EXP-039 unklar, EXP-040 offen); Amplitude der alten Richtungen gegen die Init-Amplitude neuer
-Richtungen im Wertepfad; Zustand des Adam-Zweitmoments. Zweite offene Frage: Hält K2-Funktion bei D₅₉ (P2f)?
+nicht *warum* die Festlegung glatt mit den Vorschritten wächst. Kandidaten vorab: **Amplitudenrennen unter Adam** (Zielamplituden wachsen ≈ linear in der aufsummierten Lernrate und legen fest, sobald sie die Init-Amplitude der
+Konkurrenz einholen; H40, direkter Test [[experiments/EXP-040-we-init-scale/README|EXP-040]], passt zu EXP-039 „Λ-Uhr besser“ und EXP-059 „Momentum = Vorschritte“); welcher Netzteil dafür empfindlich ist
+([[experiments/EXP-073-part-rewind/README|EXP-073]]); Zustand des Adam-Zweitmoments. Zweite offene Frage: Hält K2-Funktion bei D₅₉ (P2f)?

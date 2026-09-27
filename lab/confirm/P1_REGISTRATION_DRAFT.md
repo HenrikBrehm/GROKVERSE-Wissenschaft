@@ -55,3 +55,12 @@ Zurück zu [[FINDINGS]]. Eingefroren ist erst eine Fassung `P1_manifest.json` mi
   bliebe unbemerkt. Lösung: Die Trainer bekommen `--manifest`, prüfen beim Start `check_code`, schreiben den geprüften Digest in `result.json`, und der Lader vergleicht ihn beim Auswerten.
   Das ändert den gemeinsamen Trainer, also vorher Codex-Prüfung (Regel 18c). Nächste Sitzung.
 
+## B1 umgesetzt (Sitzung 21, 2026-09-27 04:24 Berlin, Commit feedd8f), anders als oben skizziert
+
+Statt den gemeinsamen Trainer zu ändern, läuft **jeder Job über einen Wrapper**: `confirm_p1.py --run <Manifest> -- <Trainerbefehl>`
+(`--jobs` erzeugt nur noch solche Zeilen). Der Wrapper prüft Manifest und Code-Hashes vor dem Start, startet den Trainer, prüft den Code
+danach erneut und schreibt eine **Bindung** nach `lab/confirm/bindings/` (Code-Digest, Manifest-Commit, Exit-Code, sha256 jeder Datei, die der
+Lauf in seinem eigenen Laufverzeichnis geschrieben hat). `--analyze` nimmt einen Lauf nur an, wenn **jede** Datei seines Verzeichnisses durch eine
+erfolgreiche Bindung mit passendem Digest und Commit gedeckt ist. Läufe außerhalb des Wrappers, geänderte oder zusätzliche Dateien → *defekt*.
+Vorteil: `freq_ban.py`/`group_train.py` bleiben unverändert (keine neue Gleichwertigkeitsprüfung nötig). Selbsttest grün (inkl. Ende-zu-Ende mit
+Scheintrainer). Codex-Nachprüfung: siehe unten / [[JOURNAL]] Sitzung 21.

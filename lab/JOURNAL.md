@@ -2671,3 +2671,20 @@ EXP-052 `exp052.py`, EXP-044 `pi_persistence.py`, EXP-055 `analyze.py`, `lab/too
 **Nachtrag 04:18 (gemessen):** Das CPU-Programm hat EXP-035 abgeschlossen (Auswertung 04:13): formales Urteil „Festlegung hängt am Lernratenplan: Warmup verzögert (H35-Richtung)“, **n_evaluable = 3**.
 **Noch nicht gedeutet und nicht in FINDINGS:** In der Folgesitzung zuerst die README-Lesart und die Mindestzahl prüfen (3 Seeds sind nach Regel 15b kein tragfähiges Urteil). Seit 04:13 läuft EXP-038.
 Die Sitzung endet mit laufenden CPU-Jobs. Der Wächter beendet sie um 04:29 (Sitzungsdeadline), die Folgesitzung setzt mit demselben Befehl fort.
+
+## Sitzung 21 (2026-09-27, Start 04:19 Berlin, Deadline 07:19; vom Runner)
+
+**Start (04:19–04:20 gemessen):** Fenster offen, kein STOP, keine Python-Prozesse. CPU-Programm (Paket B) mit 3 Arbeitern × 4 Threads neu gestartet
+(GPU frei, Threadsumme 12). EXP-035 wurde übersprungen (fertig), jetzt läuft EXP-038.
+
+**Zyklus 1 (EXP-035 einordnen, 04:20–04:25).** *Frage:* Trägt das formale Urteil aus Sitzung 20? *Ergebnis:* Nach der eigenen Festlegung (≥ 3 auswertbare Seeds,
+alle verzögert) ja: Seeds 30, 31, 34 verzögert ((25, 50] → (50, 100] bzw. (100, 150]). Seed 32 ist wegen einer nicht monotonen Warmup-Kurve nicht auswertbar, zeigt
+aber dieselbe Richtung. Nach Regel 15b ist n = 3 nur ein **Pilot** (Vorzeichentest p = 0.125, beschreibend). Die Schrittuhr trifft bei keinem Seed zu, die Λ-Uhr ist weder
+gestützt noch widerlegt (Seed 30 fixiert in Λ-Einheiten eher früher). *Entscheidung:* README-Ergebnis und LAB-Zeile nachgetragen, nicht in FINDINGS als Kernaussage.
+Die Uhrfrage beantwortet EXP-039.
+
+**Zyklus 2 (B1: Läufe an den eingefrorenen Code binden, 04:20–04:24).** *Frage:* Wie schließen wir die letzte Blocker-Lücke vor dem Einfrieren von P1, ohne den
+gemeinsamen Trainer anzufassen? *Änderung:* Wrapper `confirm_p1.py --run` (Prüfung vor und nach dem Lauf, Bindungsdatei mit Hashes aller geschriebenen Dateien),
+`--analyze` verwirft ungebundene Läufe (Commit feedd8f). *Ergebnis:* Selbsttests `confirm_p1` und `confirm_splits` grün (über den Wächter), inkl. Ende-zu-Ende mit
+Scheintrainer (gebunden → angenommen; geänderte/zusätzliche Datei, falscher Digest/Commit, Exit ≠ 0 → abgelehnt). Unterwegs: Das Patch-Skript schrieb die Datei mit LF,
+die Datei ist CRLF. Ich habe die CRLF-Endungen wiederhergestellt, damit der Diff nur die echte Änderung zeigt. *Entscheidung:* Codex-Nachprüfung (Regel 18c, Änderung am Lader), dann einfrieren.

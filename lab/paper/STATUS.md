@@ -91,3 +91,5 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 
 - **d (Beobachtung, post hoc):** Die Beschleunigung ist abgestuft: bei gleicher Init, Testmenge und Größe generalisieren Splits umso früher, je konzentrierter sie sind (ε 8 / 2 / 1: 425–450 / 700–900 / nicht bis 2000 Schritte, 4/4 Seeds). In §4 des Entwurfs als Beobachtung ergänzt; Vorschlag für die Bestätigung R5 (Dosis-Trend). Innerhalb einer Stufe (P1) unklar.
 - **a:** EXP-042 (Stärke des zweiten Splits) war seit dem Mittag fertig, aber ungelesen: vorab festgelegtes Urteil *unklar*; nicht fürs Paper.
+- **d (20:16, post hoc):** Die Beschleunigung zeigt sich auch bei mul 113 und add 97 (EXP-043, je 10/10 Seeds, Komplement-Testmengen) und ist in §4 als Beobachtung ergänzt. **a/b:** Bestätigung R5 (Fassung 2 mit Code, zwei Codex-Runden, ungetestet) und Pilot EXP-084 (Kurvenform, frische Seeds) sind vorbereitet. **Für dich:** Falls R5 trägt, wäre „konstruierte Trainingsdaten beschleunigen Grokking abgestuft nach der Konzentration“ eine mögliche dritte Kernaussage. Das entscheidet sich frühestens in der Nacht 28./29.
+

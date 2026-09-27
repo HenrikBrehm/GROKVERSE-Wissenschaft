@@ -41,7 +41,7 @@ sys.path.insert(0, str(HERE))
 import parallel_queue as pq  # noqa: E402
 
 R = "lab/experiments"
-GPY = ".venv-gpu/Scripts/python.exe"
+GPY = str(ROOT / ".venv-gpu" / "Scripts" / "python.exe")   # s20: CreateProcess cannot find ".venv-gpu/Scripts/python.exe" (forward slashes)
 EXIT_TIMEOUT = 124            # guarded_run.py: job killed at its hard time limit
 PY = "python"
 DEVA, PYA = "cuda", GPY       # programme-A device/interpreter; main() switches to ("cpu", PY) with --paket-a-cpu

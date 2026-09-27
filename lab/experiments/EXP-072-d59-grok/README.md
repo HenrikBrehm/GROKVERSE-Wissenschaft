@@ -38,3 +38,13 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-072-d59-grok/jobs.txt --w
 - **Lesart vorab erfuellt:** >= 8/10 generalisiert -> P2f mit laengeren Laeufen planen. Vorschlag: 12000 Schritte (max. erster Uebergang 8150 + Reserve), Funktionsmass als
   Irrep-Variante des P2d-Masses (Projektion auf die isotypischen Komponenten, 4 Spalten je Irrep); Pilot des Masses an diesen 10 Modellen im naechsten Fenster.
 - **Grenzen:** 5 bekannte Seeds (P1-Splits), 10 Laeufe; Top-5-Zaehlung ist grob.
+
+## Nachtrag a (Sitzung 24, 12:47 Berlin, gemessen; post hoc, Exploration): P2d-Mass in Irrep-Form an den 10 Modellen
+
+`p2d_irrep.py` (nach dem Ergebnis oben geschrieben, keine Vorab-Festlegung): wie P2e, aber Projektion auf die isotypischen Spalten (4 je 2-dim Irrep) der D59-Irrep-Basis; 4 Kontrollmengen je Arm.
+- **D = 0.223 ± 0.024 (SD), 5/5 Seeds positiv** (P2e zum Vergleich: mul 113 0.291, add 97 0.294). drop_eigen 0.13-0.29, drop_Kontrolle im Mittel -0.06 bis -0.003.
+- **Energie:** Die eigenen Ziel-Irreps tragen am Ende 0.90-0.99 der W_E-Energie (Rest inkl. trivial/sign). Nachgeprueft (Seed 1000 F): 98.9 % der Energie liegen in drei eigenen Irreps
+  (2, 10, 23); die Top-5-Plaetze 4-5 sind Rauschen. Die Zaehlung "3.7/5" oben unterschaetzt die Steuerung also.
+- **Lesart:** Auch in der nicht-abelschen Aufgabe landet nach dem Grokking fast die gesamte W_E-Energie in gesteuerten Irreps, und das Netz reagiert auf Schritte entlang dieser Irreps
+  staerker als entlang der Kontrollen. Wie bei P2e gilt die Grenze aus [[experiments/EXP-068-matched-sensitivity/README|EXP-068]]: Das ist mit "Funktion folgt der Energie" vereinbar.
+- **Folge fuer P2f:** 12000 Schritte, n = 20 frische Seeds genuegt bei dieser Streuung klar (KI-Halbbreite ~0.01); Registrierung mit Codex-Pruefung vor dem Einfrieren (Regel 18c).

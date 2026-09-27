@@ -29,7 +29,7 @@ frequencies a particular network ends up using has been described as arbitrary a
 (Marchetti et al. 2026). With one-hot tokens that encoding favours no frequency in cyclic groups and ties irreducible representations of equal dimension, and the role of the train–test split has
 been named as open (He et al. 2026b).
 
-We ask whether the training set itself can decide this choice. In the one-layer transformer of a previous grokking study we construct training splits whose pair mask carries power at five
+We ask whether the training set itself can decide this choice when its pair structure is engineered to do so (whether an ordinary random split already does is a separate, open question; §4). In the one-layer transformer of a previous grokking study we construct training splits whose pair mask carries power at five
 prescribed frequencies, and we train with full-batch AdamW and fixed one-hot tokens. The lever differs from the order of examples within an epoch, which LeDoux (2026) showed to set the fundamental
 frequency, from the encoding statistics of Marchetti et al. (2026), and from deliberately symmetric training sets, which in feature-learning kernels select the symmetry subgroup the features encode (Tomàs Bernal et al. 2026): here only *which* pairs are shown changes, the split has no built-in symmetry, and the targets are prescribed Fourier frequencies. In pre-registered replications with fresh seeds, the embedding enriches the
 prescribed frequencies over disjoint comparison frequencies at step 2000 in every one of 50 seeds per task, for addition mod 113 and mod 97, multiplication mod 113 and composition in the dihedral

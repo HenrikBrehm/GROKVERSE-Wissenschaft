@@ -1,8 +1,8 @@
 ---
 id: EXP-058
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-057-optim-reset/README|EXP-057]]", "[[NOVEL_DIRECTIONS]]", "[[JOURNAL]]"]
 ---
 # EXP-058: Trägt das Adam-Momentum die Persistenz, oder überschreibt ein voller Reset nur die Spur? (Pilot)
@@ -31,3 +31,17 @@ Trainer-Option: `freq_ban.py --reset-optim-part m|moments`, `--log-update-norms 
 python lab/tools/parallel_queue.py lab/experiments/EXP-058-optim-part/jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-058-optim-part/analyze.py
 ```
+
+## Ergebnis (Sitzung 21, Läufe 06:38–06:50, Auswertung 06:50 Berlin; `summary.json`)
+
+80/80 Läufe ok, 10/10 Seeds gültig, jeder Reset im Lauf geprüft.
+
+- **Primär:** Δ̄_m = π_normal − π_rom = **0.186**, SD 0.098, t = 6.0, p = 0.0001, 90-%-KI [0.13, 0.24] → ***Momentum (m) trägt einen Teil der Persistenz***.
+- π je Arm: normal **0.303**, voller Reset **0.108**, nur m **0.117**, m + v **0.093**.
+- Frühe Update-Norm (Schritte 26–30): normal 0.270, voller Reset 0.425, **nur m 0.246**, m + v 0.326.
+- **Lesart (Pilot, bekannte Seeds):** Das Löschen nur des ersten Moments senkt die Persistenz so stark wie der volle Reset, obwohl die ersten Schritte danach **kleiner** sind als normal.
+  Das Überschreiben der Spur durch große, vorzeichenartige Schritte (Codex-Einwand zu EXP-057) erklärt den Abfall damit nicht. Das Momentum der 25 A-Schritte trägt den größten Teil
+  der A-Persistenz. Übrig bleibt in allen Reset-Armen π ≈ 0.1, womöglich die unspezifisch langsamere Anpassung (vgl. P3-Zerlegung).
+- Die Arme normal und voller Reset reproduzieren die EXP-056/057-Werte bis auf die letzte Stelle (0.30295 bzw. 0.10835). Die GPU-Läufe sind also deterministisch.
+- **Grenzen:** Pilot, n = 10 bekannte Seeds, nur t = 25, eine Aufgabe. Richtungen (Kosinus der Updates zu m bzw. zum B-Gradienten) sind nicht ausgewertet (Codex-Hinweis).
+  Eine Bestätigung an frischen Seeds steht aus.

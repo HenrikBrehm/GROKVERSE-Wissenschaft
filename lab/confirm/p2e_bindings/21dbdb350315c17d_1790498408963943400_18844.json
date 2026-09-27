@@ -1,0 +1,43 @@
+{
+ "code_digest": "939e3bcee220993259f9ff81381dd813ba88433b07fcbe4b98fb30416a94cfc0",
+ "manifest_commit": "3c484ef",
+ "cmd": [
+  "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe",
+  "lab/experiments/EXP-001-freq-ban/freq_ban.py",
+  "--seed",
+  "2284",
+  "--condition",
+  "baseline",
+  "--steps",
+  "8000",
+  "--threads",
+  "1",
+  "--device",
+  "cuda",
+  "--p",
+  "113",
+  "--task",
+  "mul",
+  "--split-file",
+  "lab/confirm/p2e_splits/p2e_mul113_seed2284_F.npy",
+  "--spectra-at",
+  "500,1000,2000,4000,8000",
+  "--stop-after-gen",
+  "8000",
+  "--save-model",
+  "--out-root",
+  "lab/confirm/p2e_raw"
+ ],
+ "exit": 0,
+ "t0_ns": 1790498408963943400,
+ "t1_ns": 1790498512995251400,
+ "run_dir": "EXP-043_baseline_seed2284_thr1_p2e_mul113_seed2284_F_mul113_devcuda",
+ "files": {
+  "lab/confirm/p2e_raw/EXP-043_baseline_seed2284_thr1_p2e_mul113_seed2284_F_mul113_devcuda/model_final.pt": "33d0026ccbaf8df021fd35de73fdbfd1e3d011f8cfce6bd0a41eb10349203aea",
+  "lab/confirm/p2e_raw/EXP-043_baseline_seed2284_thr1_p2e_mul113_seed2284_F_mul113_devcuda/result.json": "458debc91852552754761963e308940e783a8eaf672348d7f252167de1a00960",
+  "lab/confirm/p2e_raw/EXP-043_baseline_seed2284_thr1_p2e_mul113_seed2284_F_mul113_devcuda/spectra.npy": "fc1f1b9795f9cb8e5eaae929deded2ba6ce3c1f8318c54b4fd19084bb0615ee1",
+  "lab/confirm/p2e_raw/EXP-043_baseline_seed2284_thr1_p2e_mul113_seed2284_F_mul113_devcuda/spectra_steps.npy": "9697029a656c6510b0dbab2632e1f45a17dc7038f3eea0a1c08845af154cec53",
+  "lab/confirm/p2e_raw/EXP-043_baseline_seed2284_thr1_p2e_mul113_seed2284_F_mul113_devcuda/we_snapshot_steps.npy": "3d8a2505a23caab0264a6919059bfaac6881755f1c3bd51b00f2656b097453c8",
+  "lab/confirm/p2e_raw/EXP-043_baseline_seed2284_thr1_p2e_mul113_seed2284_F_mul113_devcuda/we_snapshots.npy": "78fd2cd14fa3289d1c3ed95e63bbeeaa1fc689f0ed3d9f1fc66f233917cebb14"
+ }
+}

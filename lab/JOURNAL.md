@@ -2999,3 +2999,7 @@ verlangt, Funktion getrennt zu prüfen (EXP-064 läuft). *Welche Annahme als Nä
 Beschreibend (nach dem Ergebnis): Die eigenen Ziele tragen bei 4000 Schritten noch mehr W_E-Energie (Median-Verhältnis 20.5 statt 12.2), die Dosis 0.5·E_ctrl stört sie also nur um ≈ 2.5 %,
 die Kontrolle um 50 %. Deutung offen, nicht verteidigt. *Entscheidung:* Programm A („funktionale Nutzung“) ist mit dem P2-Maß nicht belegt; ein Nachfolger bräuchte ein vorab festgelegtes Maß mit
 angeglichener relativer Störung oder eine Dosis-Kurve. Codex-Prüfung dieser Schlussfolgerung in der nächsten Sitzung.
+
+**Zyklus 15 (EXP-064 ausgewertet, 09:06).** ***nicht auswertbar*** (3 Seeds unter der Basis-Genauigkeit 0.9). Beschreibend in allen 10 Seeds klar: t = 50 → ohne alte Ziele Genauigkeit 0.01–0.09, ohne neue ≈ 1;
+t = 25 → ohne neue 0.04–0.38. Die „Koexistenz“ aus EXP-062 ist spektral, funktional ist es ein **Umstieg** (t = 25) gegen **Festhalten** (t = 50). Codex hatte genau hier die Lücke benannt.
+Nächster Schritt: Bestätigung mit sicherer Generalisierung (längeres Nachtraining, `--stop-after-gen` ≥ Schritte) an frischen Seeds.

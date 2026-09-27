@@ -1,8 +1,8 @@
 ---
 id: EXP-064
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/unklar]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-062-rate-race/README|EXP-062]]", "[[experiments/EXP-063-exclusion-locus/README|EXP-063]]", "[[confirm/N28_REGISTRATION|N28]]", "[[NOVEL_DIRECTIONS]]", "[[JOURNAL]]"]
 ---
 # EXP-064: Sind die zwei Spektralsignaturen auch funktional? (Pilot)
@@ -29,3 +29,19 @@ Festgelegt 2026-09-27 (Sitzung 22), **vor jedem EXP-064-Lauf**. **Pilot**, bekan
 python lab/tools/parallel_queue.py lab/experiments/EXP-064-functional-regimes/jobs.txt --workers 1
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-064-functional-regimes/analyze.py
 ```
+
+## Ergebnis (Sitzung 22, Läufe 08:36–09:06, Auswertung 09:06 Berlin; `summary.json`): ***nicht auswertbar*** (7 < 8 gültige Seeds)
+
+40/40 Läufe ok. Seeds 401, 405, 408 verletzen die vorab festgelegte Basis-Genauigkeit ≥ 0.9 (Minimum je Seed 0.87 / 0.34 / 0.71; mindestens ein Arm noch nicht fertig generalisiert).
+Das Urteil gilt. **Nur beschreibend** (alle 10 Seeds, Mittel beider Richtungen; Genauigkeit nach Entfernen):
+
+| | alte Ziele entfernt | neue Ziele entfernt |
+|---|---|---|
+| Wechsel bei t = 25 | 0.31 – 0.97 (Mittel der 7 gültigen 0.79) | **0.04 – 0.38** (0.13) |
+| Wechsel bei t = 50 | **0.01 – 0.09** (0.02) | 0.73 – 1.00 (0.96) |
+
+- **Lesart (beschreibend, nicht geprüft):** Bei t = 50 rechnet das Netz mit den alten Frequenzen und braucht die neuen nicht (in allen 10 Seeds): **funktionaler Ausschluss**.
+  Bei t = 25 rechnet es überwiegend mit den **neuen**. Die dort spektral erhaltene alte Energie (a = 2.2 in EXP-062/N28) ist funktional weitgehend entbehrlich. Das Wort „Koexistenz“ aus EXP-062 trifft
+  also das Spektrum, aber nicht die Funktion. Treffender: **funktionaler Umstieg bei t = 25, funktionales Festhalten bei t = 50**, dazwischen der Übergang.
+- **Grenzen:** nicht auswertbar nach eigener Regel; vollständige Entfernung von 5 Frequenzen ist ein grober Eingriff; bekannte Seeds.
+- **Nächster Schritt:** vorab festgelegte Bestätigung an frischen Seeds mit sicherer Generalisierung (z. B. 4000 Schritte nach dem Wechsel, `--stop-after-gen` passend) und einer Regel für nicht generalisierte Modelle.

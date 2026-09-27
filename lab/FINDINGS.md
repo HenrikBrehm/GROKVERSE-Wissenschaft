@@ -7,7 +7,7 @@ verwandt: ["[[LAB]]", "[[BEFUND-split-mechanismus]]", "[[BEFUND-festlegung]]", "
 ---
 # FINDINGS: Kernaussagen des Labors (eine Seite)
 
-Zurück zu [[LAB]]. **Nachtrag Sitzung 20: Pilotnacht mit neuen Läufen, siehe Abschnitt unten.** Nachtrag Sitzung 14: nur Vorbereitung und Nachrechnung gespeicherter Läufe, keine neuen Läufe, Kernaussagen unverändert. Stand 2026-09-26, Sitzung 13 (nach 48 angelegten Versuchen; Kernaussagen seit Sitzung 11 unverändert, keine neuen Läufe). „Neu“ heißt immer: nach unserer Suche vom
+Zurück zu [[LAB]]. **Nachtrag Sitzung 21 (27.09., 04:46): P1 und P2 sind eingefroren** (Manifest 733e829, Seeds 1000–1049; [[confirm/P1_REGISTRATION_DRAFT|P1]], [[confirm/P2_REGISTRATION_DRAFT|P2]]). P2 misst jetzt das log-Loss-Verhältnis bei halber Dosis statt der Genauigkeit. P3-Pilot [[experiments/EXP-056-overlap-persistence/README|EXP-056]] läuft. **Nachtrag Sitzung 20: Pilotnacht mit neuen Läufen, siehe Abschnitt unten.** Nachtrag Sitzung 14: nur Vorbereitung und Nachrechnung gespeicherter Läufe, keine neuen Läufe, Kernaussagen unverändert. Stand 2026-09-26, Sitzung 13 (nach 48 angelegten Versuchen; Kernaussagen seit Sitzung 11 unverändert, keine neuen Läufe). „Neu“ heißt immer: nach unserer Suche vom
 2026-09-26 nicht gefunden, vorläufig. **Alle Aussagen gelten bisher nur für eine Aufgabe (Addition mod 113) und im Kern eine
 Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelheiten: [[BEFUND-split-mechanismus]], [[BEFUND-festlegung]].
 

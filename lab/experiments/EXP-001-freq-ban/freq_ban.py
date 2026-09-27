@@ -80,7 +80,7 @@ FINGERPRINT_ARGS = ("seed", "condition", "t0", "m", "steps", "stop_after_gen", "
                     "split_value", "warmup", "alternate_every", "reset_at_switch", "lr_scale", "we_init_scale",
                     "spectra_at", "p", "task", "arch", "device", "save_model")
 FINGERPRINT_FILES = ("split_file", "test_file", "switch_split_file")
-LATE_ARGS = {"lr_scale_after_switch": 1.0}   # name -> default; in the fingerprint only if != default (session 18)
+LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False}   # name -> default; in the fingerprint only if != default (s18, s21)
 LOCK_NAME = "run.lock"
 
 
@@ -395,6 +395,10 @@ def run(a: argparse.Namespace) -> dict:
         if a.switch_split_file is None:
             raise SystemExit("--reset-at-switch needs --switch-split-file")
         run_id += f"_rs{a.reset_at_switch}"
+    if a.reset_optim_at_switch:      # EXP-057 (session 21): clear the AdamW state of ALL parameters at --switch-step, weights kept
+        if a.switch_split_file is None:
+            raise SystemExit("--reset-optim-at-switch needs --switch-split-file")
+        run_id += "_ro"
     if a.split_value:                # EXP-023: position 1 gets its own attention value matrix
         exp_id = "EXP-023"
         run_id = run_id.replace(run_id.split("_")[0], exp_id, 1) + f"_sv{a.split_value}"
@@ -655,6 +659,15 @@ def run(a: argparse.Namespace) -> dict:
                                              "train_acc_after": evaluate(model, trx, try_, p)[1]}
                 if not check:
                     raise SystemExit("[exp] EXP-038 reset check failed")
+            if a.reset_optim_at_switch:   # EXP-057: fresh AdamW state (moments and step counters) for every parameter
+                params = list(model.parameters())
+                snap = [q.detach().clone() for q in params]
+                for q in params:
+                    opt.state.pop(q, None)
+                check = all(q not in opt.state and torch.equal(q, s0) for q, s0 in zip(params, snap))
+                events["reset_optim_at_switch"] = {"n_params": sum(q.numel() for q in params), "check": check}
+                if not check:
+                    raise SystemExit("[exp] EXP-057 optimizer reset check failed")
             # session 18, P3 model (iii): ELR = lr / ||theta|| at the switch (read-only, additive field); after a reset,
             # so it describes the parameters the post-switch updates act on (Codex s18)
             events["switch"]["param_norm"] = float(sum(float((q.detach() ** 2).sum()) for q in model.parameters()) ** 0.5)
@@ -721,6 +734,8 @@ def main() -> None:
     ap.add_argument("--warmup", type=int, default=0, help="EXP-035: linear lr warmup over this many steps (0 = off)")
     ap.add_argument("--alternate-every", type=int, default=0,
                     help="EXP-037: alternate F/G in blocks of this many steps until --switch-step (0 = off)")
+    ap.add_argument("--reset-optim-at-switch", action="store_true",
+                    help="EXP-057: at --switch-step clear the AdamW state of all parameters (weights unchanged)")
     ap.add_argument("--reset-at-switch", choices=("we", "rest"), default=None,
                     help="EXP-038: at --switch-step reset W_E or all other parameters to init (+ their AdamW state)")
     ap.add_argument("--lr-scale", type=float, default=1.0,

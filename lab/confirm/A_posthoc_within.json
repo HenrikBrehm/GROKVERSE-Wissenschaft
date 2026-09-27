@@ -1,0 +1,55 @@
+{
+ "EXP-049_d512": {
+  "arms": 20,
+  "M0c": {
+   "mean_rho": 0.295,
+   "p_two": 0.0086
+  },
+  "M0": {
+   "mean_rho": 0.31,
+   "p_two": 0.0054
+  },
+  "init": {
+   "mean_rho": -0.01,
+   "p_two": 0.93195
+  }
+ },
+ "EXP-049_d128": {
+  "arms": 20,
+  "M0c": {
+   "mean_rho": 0.31,
+   "p_two": 0.005
+  },
+  "M0": {
+   "mean_rho": 0.265,
+   "p_two": 0.0176
+  },
+  "init": {
+   "mean_rho": 0.155,
+   "p_two": 0.17505
+  }
+ },
+ "EXP-048": {
+  "arms": 20,
+  "detrended": {
+   "M0": {
+    "mean_rho": 0.285,
+    "p_two": 0.0106
+   },
+   "init": {
+    "mean_rho": 0.11,
+    "p_two": 0.3365
+   }
+  },
+  "raw": {
+   "M0": {
+    "mean_rho": 0.36,
+    "p_two": 0.001
+   },
+   "init": {
+    "mean_rho": 0.12,
+    "p_two": 0.2873
+   }
+  }
+ }
+}

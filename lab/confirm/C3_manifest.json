@@ -1,0 +1,10 @@
+{
+ "registration": "lab/confirm/C3_REGISTRATION.md",
+ "code_sha256": {
+  "lab/confirm/C3_analyze.py": "80fd00b492632995107457eb881552598a6ab7c1a5ea41cc1ee3e5d61baca5d2",
+  "lab/confirm/C1_analyze.py": "eaa0bb18cac0ffde52c2fd1efa8f470ac7bc57ad7f8b55ca3d810ff5597738d4",
+  "lab/confirm/rank_tools.py": "f0f7464ea1a392f68bb537aaeb7d3b1b6c212e1a4073dd159f882736f41f6fbf",
+  "lab/confirm/P1_posthoc_within.py": "d62db4c56c2cde725dc5978d9aa5de3c6040e3c284d2d1d1766d040b6da1f57f"
+ },
+ "note": "code gate, session 28, before any P4 run"
+}

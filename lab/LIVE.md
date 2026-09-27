@@ -1,23 +1,24 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 23
+# LIVE: Laborsitzung 23 (beendet)
 
 - **Sitzungsstart:** 2026-09-27 09:39 Berlin (07:39Z, vom Runner)
 - **Deadline:** 2026-09-27 12:39 Berlin (10:39Z)
-- **Zuletzt aktualisiert:** 12:01 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 12:26 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-N29c laeuft (120 Laeufe seit 12:00): Bestaetigt sich an frischen Seeds, dass der Wertepfad (W_V, W_O) der Attention die fruehe Wahl festhaelt, staerker als das Muster (W_Q, W_K)?
+**Sitzung endet** (Deadline 12:39). Naechster geplanter Start: **13:14 Berlin** (runner-state.json), ausserhalb des Run-Fensters: dort nur Denk- und Vorbereitungsarbeit bis 00:00.
 
 ## Als Naechstes
 
-Wenn N29c vor 12:39 fertig ist: auswerten. Sonst setzt die naechste Sitzung im Fenster ab 00:00 fort. Naechster Runner-Start 13:14 Berlin (ausserhalb des Fensters: nur Denkarbeit).
+Codex-Ergebnis zu N29c einarbeiten und als K4e in FINDINGS; D59-Registrierung; Frage, warum die Festlegung gerade zwischen 25 und 50 Schritten entsteht.
 
 ## Verlauf dieser Sitzung
 
+- 12:25 **N29c BESTAETIGT (20 frische Seeds):** Den Effekt des Attention-Resets traegt vor allem der Wertepfad (W_V, W_O), nicht das Aufmerksamkeitsmuster (W_Q, W_K).
 - 12:00 N29c eingefroren (Codex: kein Blocker), Probelauf ok, Block gestartet.
 - 11:57 Abschlussbericht im JOURNAL.
 - 11:54 Codex (wieder mit Guthaben) hat N29b geprueft: kein Fehler, Aussage enger gefasst (Reset-Empfindlichkeit, kein Speicherort).

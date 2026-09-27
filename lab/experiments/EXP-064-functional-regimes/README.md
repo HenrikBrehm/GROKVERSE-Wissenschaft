@@ -45,3 +45,6 @@ Das Urteil gilt. **Nur beschreibend** (alle 10 Seeds, Mittel beider Richtungen; 
   also das Spektrum, aber nicht die Funktion. Treffender: **funktionaler Umstieg bei t = 25, funktionales Festhalten bei t = 50**, dazwischen der Übergang.
 - **Grenzen:** nicht auswertbar nach eigener Regel; vollständige Entfernung von 5 Frequenzen ist ein grober Eingriff; bekannte Seeds.
 - **Nächster Schritt:** vorab festgelegte Bestätigung an frischen Seeds mit sicherer Generalisierung (z. B. 4000 Schritte nach dem Wechsel, `--stop-after-gen` passend) und einer Regel für nicht generalisierte Modelle.
+
+**Korrektur (Sitzung 23, 09:55, nach Codex):** „braucht die neuen nicht (in allen 10 Seeds)“ ist zu stark: Seed 406 hat acc_neu(50) = 0.73, also unter der eigenen 0.9-Schwelle für „nicht gebraucht“.
+Belegt ist nur: Bei t = 50 schadet das Entfernen der alten in jedem Seed-Mittel mehr als das Entfernen der neuen. Bestätigung: [[confirm/N29_REGISTRATION|N29]].

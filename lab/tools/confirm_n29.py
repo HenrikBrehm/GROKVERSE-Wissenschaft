@@ -8,7 +8,9 @@ Per seed and t: acc_old / acc_new = mean over both directions of the accuracy af
   H1 (holding on at 50):   X1 = (acc_new(50) - acc_old(50)) - MIN_DIFF > 0
   H2 (switching at 25):    X2 = (acc_old(25) - acc_new(25)) - MIN_DIFF > 0
 One family {H1, H2}, Holm, one-sided t-test, 95 % bootstrap CI; "bestätigt" = Holm p < 0.05 and CI lower bound >= 0.
-Eligibility: base accuracy >= 0.9 in all four runs of a seed; technical failure -> "nicht auswertbar"; < 80 % eligible -> "nicht auswertbar".
+Primary sample (Codex s23 blocker 1): ALL seeds; any technical failure -> "nicht auswertbar". Generalisation (base accuracy >= 0.9 in all four
+runs) is only reported, and the eligible subset is analysed descriptively (never gates the verdict).
+Joint claim "Übergang bestätigt" only if H1 and H2 are both "bestätigt" (Codex s23 point 3).
 
   python lab/tools/confirm_n29.py --hash-code | --splits M | --jobs M | --run M -- <cmd> | --analyze M | --selftest
 """
@@ -36,7 +38,7 @@ BIND = LAB / "confirm" / "n29_bindings"
 SPL = LAB / "confirm" / "n29_splits"
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 CAL = LAB / "experiments/EXP-053-p3-overlap-design/calibration.json"
-BUDGET, ALPHA, OMEGA, ACC_MIN, MIN_VALID_FRAC, MIN_DIFF, P = 4000, 0.05, 0.0, 0.9, 0.8, 0.3, 113
+BUDGET, ALPHA, OMEGA, ACC_MIN, MIN_DIFF, P = 4000, 0.05, 0.0, 0.9, 0.3, 113
 REGISTERED = {"seeds": list(range(2250, 2270)), "ts": [25, 50], "budget": 4000, "device": "cuda", "threads": 1}
 CODE_FILES = ("lab/tools/confirm_n29.py", "lab/tools/bound_block.py", "lab/tools/confirm_p1.py", "lab/tools/confirm_p2.py",
               "lab/tools/confirm_splits.py", "lab/tools/result_loader.py", "lab/tools/trainer_guard.py", "lab/tools/paket_a_device.py",
@@ -46,7 +48,7 @@ CODE_FILES = ("lab/tools/confirm_n29.py", "lab/tools/bound_block.py", "lab/tools
               "lab/experiments/EXP-046-dihedral-steering/make_split.py", "lab/experiments/EXP-046-dihedral-steering/dihedral.py",
               "lab/experiments/EXP-051-functional-ablation/analyze.py", "lab/experiments/EXP-055-ablation-dose/analyze.py",
               "lab/experiments/EXP-061-grad-alignment/analyze.py", "lab/experiments/EXP-059-momentum-exposure/analyze.py",
-              "lab/experiments/EXP-056-overlap-persistence/analyze.py")
+              "lab/experiments/EXP-056-overlap-persistence/analyze.py", "lab/experiments/EXP-056-overlap-persistence/make_splits.py")
 
 
 # ---------------------------------------------------------------- splits and jobs
@@ -156,11 +158,12 @@ def one_run(man: dict, s: int, t: int, first: str, second: str, old: list[int], 
     except ValueError as ex:
         return f"{tag}: defekt: {ex}"
     W = m.W_E.detach().numpy().astype(np.float64)[:P]
-    acc = lambda Wr: p2.e55.evaluate(m, Wr, test)["acc"]   # noqa: E731
-    vals = {"base": acc(None), "acc_old": acc(W - g61().project(W, old)), "acc_new": acc(W - g61().project(W, new))}
-    if not all(np.isfinite(v) for v in vals.values()):
-        return f"{tag}: defekt: non-finite accuracy"
-    return vals
+    ev = {"base": p2.e55.evaluate(m, None, test), "old": p2.e55.evaluate(m, W - g61().project(W, old), test),
+          "new": p2.e55.evaluate(m, W - g61().project(W, new), test)}
+    if not all(np.isfinite(x) for e in ev.values() for x in e.values()) or not np.isfinite(W).all():   # Codex s23 point 4
+        return f"{tag}: defekt: non-finite loss/margin/weights"
+    return {"base": ev["base"]["acc"], "acc_old": ev["old"]["acc"], "acc_new": ev["new"]["acc"],
+            "margin": {k: e["margin"] for k, e in ev.items()}}
 
 
 def seed_row(man: dict, s: int) -> dict:
@@ -189,20 +192,28 @@ def contrasts(r: dict) -> dict[str, float]:
     return {"H1": (r["new50"] - r["old50"]) - MIN_DIFF, "H2": (r["old25"] - r["new25"]) - MIN_DIFF}
 
 
-def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
-    n_tech = sum(1 for r in rows if r.get("technical"))
-    ok = [r for r in rows if r["valid"]]
-    if n_tech > 0 or len(ok) < MIN_VALID_FRAC * n_planned or len(ok) < 3:
-        return {"n_valid": len(ok), "n_technical": n_tech, "verdict": "nicht auswertbar"}
-    X = {k: np.array([contrasts(r)[k] for r in ok]) for k in ("H1", "H2")}
+def test_family(rows: list[dict], rng: np.random.Generator) -> dict:
+    X = {k: np.array([contrasts(r)[k] for r in rows]) for k in ("H1", "H2")}
     tt = {k: c1.t_test_secondary(v) for k, v in X.items()}
     ph = c1.holm({k: t["p_one_sided"] for k, t in tt.items()})
-    out: dict = {"n_valid": len(ok), "n_technical": 0}
+    out: dict = {}
     for k, v in X.items():
         ci = c1.boot_ci(v, rng)
         out[k] = {"mean_minus_min": float(v.mean()), "mean_diff": float(v.mean() + MIN_DIFF), "sd": float(v.std(ddof=1)), "t": tt[k]["t"],
                   "p": tt[k]["p_one_sided"], "p_holm": ph[k], "ci95_minus_min": ci, "n_positive": int((v > 0).sum()),
                   "verdict": "bestätigt" if ph[k] < ALPHA and ci[0] >= 0.0 else "nicht bestätigt"}
+    return out
+
+
+def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
+    """Primary: all planned seeds (Codex s23 blocker 1: the accuracy gate is outcome-related). Eligible subset: descriptive only."""
+    n_tech = sum(1 for r in rows if r.get("technical"))
+    if n_tech > 0 or len(rows) != n_planned or n_planned < 3:
+        return {"n": len(rows), "n_technical": n_tech, "verdict": "nicht auswertbar"}
+    out: dict = {"n": len(rows), "n_technical": 0, "n_generalised": sum(1 for r in rows if r["valid"]), **test_family(rows, rng)}
+    out["transition"] = "Übergang bestätigt" if out["H1"]["verdict"] == out["H2"]["verdict"] == "bestätigt" else "Übergang nicht bestätigt"
+    ok = [r for r in rows if r["valid"]]
+    out["descriptive_generalised_only"] = test_family(ok, rng) if len(ok) >= 3 else None
     return out
 
 
@@ -258,14 +269,21 @@ def selftest() -> None:
     rng = np.random.default_rng(0)
     good = [mk(0.8 + 0.01 * i, 0.1, 0.02, 0.95) for i in range(20)]
     v = verdict(good, 20, rng)
-    assert v["H1"]["verdict"] == "bestätigt" and v["H2"]["verdict"] == "bestätigt", v
+    assert v["H1"]["verdict"] == "bestätigt" and v["H2"]["verdict"] == "bestätigt" and v["transition"] == "Übergang bestätigt", v
     v = verdict([mk(0.25 + 0.01 * i, 0.1, 0.02, 0.95) for i in range(20)], 20, rng)
-    assert v["H1"]["verdict"] == "bestätigt" and v["H2"]["verdict"] == "nicht bestätigt", v
-    assert verdict(good[:15] + [mk(0.8, 0.1, 0.02, 0.95, base=0.5)] * 5, 20, rng)["verdict"] == "nicht auswertbar"
-    assert verdict(good[:16] + [mk(0.8, 0.1, 0.02, 0.95, base=0.5)] * 4, 20, rng)["H1"]["verdict"] == "bestätigt"
+    assert v["H1"]["verdict"] == "bestätigt" and v["H2"]["verdict"] == "nicht bestätigt" and v["transition"] == "Übergang nicht bestätigt", v
+    w = verdict(good[:15] + [mk(0.8, 0.1, 0.02, 0.95, base=0.5)] * 5, 20, rng)     # not generalised: still in the primary sample
+    assert w["n_generalised"] == 15 and w["n"] == 20 and w["H1"]["verdict"] == "bestätigt" and w["descriptive_generalised_only"]
+    w = verdict(good[:15] + [mk(0.1, 0.4, 0.3, 0.3, base=0.5)] * 5, 20, rng)       # low-effect non-generalised seeds count against H2
+    assert w["H2"]["mean_diff"] < verdict(good[:15], 15, rng)["H2"]["mean_diff"]
+    assert verdict(good[:19], 20, rng)["verdict"] == "nicht auswertbar"
     assert verdict(good[:19] + [{"seed": 1, "valid": False, "technical": True}], 20, rng)["verdict"] == "nicht auswertbar"
     selftest_binding(BLOCK, tj[0], tj[1], tj[2])
     assert set(CODE_FILES) <= set(BLOCK.code_hashes())
+    g61()                                                   # Codex s23 blocker 2: every lab module the analysis executes is hashed
+    loaded = {Path(m.__file__).resolve().relative_to(ROOT.resolve()).as_posix() for m in list(sys.modules.values())
+              if getattr(m, "__file__", None) and Path(m.__file__).resolve().is_relative_to((ROOT / "lab").resolve())}
+    assert loaded <= set(CODE_FILES), sorted(loaded - set(CODE_FILES))
     print("[confirm_n29] selftest ok", flush=True)
 
 

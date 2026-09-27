@@ -47,6 +47,7 @@ Zurück zu [[LAB]]. Stand Sitzung 24, 2026-09-27, 13:00 Berlin. Wortlaute, Konfi
 ## Programm (Regel 18c)
 
 **A** (aktiv) Verallgemeinerung: nächster Block P2f (D₅₉, Funktionsmaß). **B** (aktiv) Persistenz: Mechanismus der glatten Festlegung offen. **C** ruht.
+*Ergänzt Sitzung 28 (Exploration, gesehene Seeds):* **C** hat wieder eine Vorhersage an unberührten Fällen: Die Rangfolge der fünf Ziele innerhalb eines Splits folgt dem Maskenspektrum (P1, alle vier Aufgaben, ρ 0.21–0.44, Init nur 0.08–0.15) → registriert als [[confirm/C1_REGISTRATION|C1]] an den R1-Seeds. **B** fein: Nach einem Wechsel bei t = 50 behalten die alten Ziele ihre Rangfolge vom Wechselzeitpunkt (N29, ρ 0.58; bei t = 25 0.17), die neuen Daten ordnen sie nicht um (ρ 0.02) → [[confirm/C2_REGISTRATION|C2]] an den R2-Seeds. Absolut trägt K2 bei add 113 im Mittel 80 % der W_E-Energie auf den 5 Zielen (Init 8.9 %).
 **Veröffentlichung** (Regel 19, gleichgewichtig): [[paper/STATUS]] · Entwurf [[paper/draft]] · Literatur [[paper/related_work]] · Robustheit [[confirm/R1_REGISTRATION_DRAFT|R1]], Piloten [[confirm/P4_REGISTRATION_DRAFT|P4]].
 
 ## Größte offene Frage

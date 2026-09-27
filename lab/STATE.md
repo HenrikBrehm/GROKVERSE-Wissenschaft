@@ -3,11 +3,13 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 16:44 Berlin (Sitzung 27 beendet, Start 15:59; Run-Fenster wieder ab 00:00)._
+_Zuletzt aktualisiert: 2026-09-27, 17:03 Berlin (Sitzung 28 läuft, Start 16:49; Run-Fenster wieder ab 00:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
-## Lage (Sitzungen 24–27)
+## Lage (Sitzungen 24–28)
+
+- **Sitzung 28 (Fenster zu, 16:49–):** Aus gespeicherten P1-Läufen: K2 absolut (80 % der W_E-Energie auf den Zielen, add 113); Maskenspektrum ordnet die Ziele innerhalb eines Splits (alle 4 Aufgaben) → **C1** registriert (an R1); nach Wechsel bei t = 50 bleibt die Rangfolge der alten Ziele erhalten (N29) → **C2** registriert (an R2). Beides Exploration an gesehenen Seeds; Auswerteskripte ungetestet.
 
 - **Sitzung 27 (Fenster zu, 15:59–):** Paper §2 (Methoden) als Fließtext, unabhängig gegen den Code geprüft (9 Korrekturen). N38: Adams Momentum-Schwanz (≈ 9 Schritte) passt zur K4b-Größe bei t = 25–35 (EXP-059, post hoc), bei 40/50 unentscheidbar; qualitativ bekannt (Xu 2026, arXiv 2608.20442). Nacht-Befehle statisch geprüft und korrigiert (siehe Blocker/Hinweise, Schritte 3/4/8). Literatur: K4b-Deutung bekannt (Sweeney 2026 u. a.), K2/K4 weiter nicht gefunden. Repro-Paket: neu `repro/k4_resets.py` (K4d/e), `repro/k4b.py` (K4/K4b), `repro/k2_function.py` (P2d), `repro/k2_function_p2e.py` (P2e), `train.py --reset-optim-part m`; geprüft, ungetestet, **nicht für heute Nacht** (erst nach der Gleichwertigkeit von `train.py`). Neu entworfen: [[experiments/EXP-081-optimizer-clock/README|EXP-081]] (β₁/β₂-Uhr, kein Code, erst nach R3; Trainer-Option `--beta1/--beta2` erst nach dem Einfrieren der Nachtblöcke).
 
@@ -48,6 +50,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 7. Nach den Blöcken, falls Zeit (GPU, je ≈ 1–3 min): Selbsttest `confirm_p4.py --selftest`; Repro-Gleichwertigkeit (2 Befehle in [[paper/repro/README]]); neu: `confirm_r2.py --selftest`, `EXP-078/analyze.py --selftest`, Smoke `repro/k4c.py --smoke`. Dazu **EXP-079** (Sekunden, keine Läufe): `guarded_run.py -- python lab/experiments/EXP-079-head-symmetry/measure.py` (Vorbedingung für N36). EXP-080 ist **zurückgestellt** (Designfehler, siehe README) und wird nicht gerechnet. **Die Gleichwertigkeit vor EXP-078 ziehen.** P4 selbst erst Nacht 28./29. (nach Einfrieren; Entwurf `lab/confirm/P4_manifest_DRAFT.json` mit Seeds liegt bereit: `code_sha256` ergänzen, Feld `note` entfernen, als `P4_manifest.json` committen, `commit` setzen).
 
 8. **Neu (Sitzung 26): Rest der Nacht für die Paper-Bestätigungen nutzen.** Die GPU ist nach 1–7 nur ≈ 1–1.5 h belegt. Wenn 1–7 durch sind, alle Selbsttests grün und bis 13:00 noch ≥ 2.5 h bleiben, in dieser Reihenfolge einfrieren und rechnen, je mit Manifest, Commit und Smoke wie P2f: **R1** (`confirm_r1.py`, 180 Läufe ≈ 30 min), **P4** (`confirm_p4.py`, Entwurf `P4_manifest_DRAFT.json`, ≈ 40 min), **R3** ([[confirm/R3_REGISTRATION_DRAFT|R3]], `confirm_r3.py`, Λ- gegen Schrittuhr, 80 Läufe ≈ 17 min; nur nach eingearbeiteter Codex-Prüfung), **R2** ([[confirm/R2_REGISTRATION_DRAFT|R2]], `confirm_r2.py`, 300 Läufe ≈ 45–60 min; Codex ohne Blocker, Punkte eingearbeitet). GPU-Prozesse wie in Schritt 3 (Thread-Summe ≤ 12). **R1:** Entwurf `lab/confirm/R1_manifest_DRAFT.json` liegt bereit (Seeds 2420–2509 in CELLS-Reihenfolge, 15 je Zelle; ε aus `R1_calibration.json`; `confirm_r1.py` prüft jetzt auch die Obergrenze 2509). Reicht die Zeit nicht: **R1 vor R3 vor P4 vor R2**, Rest in die Nacht 28./29. Jeder Block braucht vorher seinen Selbsttest (grün) und nach dem Einfrieren einen Smoke-Job.
+
+9. **Neu (Sitzung 28): C1/C2** (reine Auswertungen, kein Training): Selbsttests `guarded_run.py -- python lab/confirm/C1_analyze.py --selftest` und `... C2_analyze.py --selftest` (Sekunden; reproduzieren 0.438 bzw. 0.580) **vor** dem Start von R1/R2. Nach `confirm_r1.py --analyze`: `python lab/confirm/C1_analyze.py lab/confirm/R1_manifest.json`; nach R2 entsprechend `C2_analyze.py lab/confirm/R2_manifest.json` (beide über guarded_run). Registrierungen: [[confirm/C1_REGISTRATION|C1]], [[confirm/C2_REGISTRATION|C2]].
 
 Vorab-Lesart der Nacht (Kombination EXP-040/073/074/075, P2f): [[LESART-nacht-2026-09-28]].
 

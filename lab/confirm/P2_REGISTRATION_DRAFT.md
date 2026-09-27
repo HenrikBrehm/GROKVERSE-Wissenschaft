@@ -66,3 +66,14 @@ P2 ist mit dem Manifest `lab/confirm/P1_manifest.json` eingefroren: **Manifest-C
 Übernommen: Die Bindung speichert das Urteil des Wrappers, der Trainer bleibt nie verwaist zurück, P2 lädt genau die gebundenen Modellbytes, E = E_own ist erlaubt (d2ac48f).
 Splits (600) und Jobliste (420) in 6babde7. Vor dem Einfrieren wurde **kein** Lauf mit Seeds 1000–1399 gemacht. Danach liefen zwei Jobs der eingefrorenen
 Liste als Smoke (add 113 und D₅₉, Seed 1000 F). Beide sind gebunden und zählen als reguläre Läufe des Blocks.
+
+## ERGEBNIS (Sitzung 21, Auswertung 05:40–05:44 Berlin; `P2_summary.json`): ***nicht auswertbar***
+
+Nach der eingefrorenen Regel („bestätigt“ braucht alle 50 Seeds gültig) ist P2 **nicht auswertbar**: 3 von 50 Seeds (1001, 1008, 1026) verletzen die vorab festgelegte Gültigkeitsbedingung
+„Basis-Test-Genauigkeit ≥ 0.9“. In allen drei ist der **G-Arm** bei Schritt 2000 noch nicht fertig generalisiert (0.82 / 0.70 / 0.73; der F-Arm jeweils 1.0). Dieses Urteil gilt.
+Nachgerechnet oder ersetzt wird nichts.
+*Nur beschreibend, keine Bestätigung:* Über die 47 gültigen Seeds ist R̄ = 0.12 (SD 0.20, 43/47 > 0, Minimum −0.74). Das ist deutlich kleiner und streut stärker als im Piloten
+(R̄ 0.15, SD 0.065 an den 20 EXP-047-Modellen).
+**Eigener Designfehler:** Die Kombination „alle 50 gültig“ + „Genauigkeit ≥ 0.9“ + nur 2000 Schritte war zu streng. Im Piloten hatten alle Modelle generalisiert, diese Streuung
+der Generalisierungszeit hatte ich nicht eingeplant. Ein Nachfolger braucht Modelle nach sicherem Grokking (mehr Schritte) oder eine vorab festgelegte Behandlung nicht generalisierter Modelle,
+eine Stichprobe aus der **jetzt beobachteten** Streuung (d_z ≈ 0.6, bereits gesehen) und frische Seeds. Diese 50 Modelle sind für P2 verbraucht.

@@ -73,3 +73,20 @@ P1 ist mit dem Manifest `lab/confirm/P1_manifest.json` eingefroren: **Manifest-C
 Übernommen: Die Bindung speichert das Urteil des Wrappers, der Trainer bleibt nie verwaist zurück, P2 lädt genau die gebundenen Modellbytes, E = E_own ist erlaubt (d2ac48f).
 Splits (600) und Jobliste (420) in 6babde7. Vor dem Einfrieren wurde **kein** Lauf mit Seeds 1000–1399 gemacht. Danach liefen zwei Jobs der eingefrorenen
 Liste als Smoke (add 113 und D₅₉, Seed 1000 F). Beide sind gebunden und zählen als reguläre Läufe des Blocks.
+
+## ERGEBNIS (Sitzung 21, Block 04:48–05:39, Auswertung 05:39 Berlin; `P1_summary.json`)
+
+420/420 Läufe mit Exit 0, alle an den eingefrorenen Code gebunden (`lab/confirm/bindings/`). Frozen analysis, **no deviation from the registration**.
+
+| Aufgabe | n gültig | Δ_pow Mittel | 95-%-KI | positiv | Holm-p (ungünstigster Fall) | t-Test (sekundär) | Urteil |
+|---|---|---|---|---|---|---|---|
+| **add 113 (P1, primär)** | 50/50 | 8.24 | [7.92, 8.54] | 50/50 | 1.5·10⁻⁵ | t = 51.1 | ***bestätigt*** |
+| mul 113 (P1b) | 50/50 | 8.09 | [7.75, 8.43] | 50/50 | 1.5·10⁻⁵ | t = 46.3 | ***bestätigt*** |
+| add 97 (P1b) | 50/50 | 6.11 | [5.79, 6.43] | 50/50 | 1.5·10⁻⁵ | t = 37.6 | ***bestätigt*** |
+| D₅₉ (P1b) | 50/50 | 2.64 | [2.55, 2.73] | 50/50 | 1.5·10⁻⁵ | t = 56.8 | ***bestätigt*** |
+
+Alle KI-Untergrenzen liegen über dem Mindesteffekt 1. p = 5·10⁻⁶ ist die Untergrenze des Monte-Carlo-Vorzeichentests (200 000 Ziehungen), der wahre Wert ist kleiner.
+**Kreuzblock (sekundär, beschreibend):** 5 Einheiten × 3 Inits, alle Δ > 0, Mittel 8.19, σ²_Einheit 2.22 gegen σ²_Init 0.68 (ICC 0.77) → „stabil über Inits“.
+Der Split bestimmt den größeren Teil der Streuung, die Init den kleineren.
+**Lesart (vorsichtig, Codex-Prüfung vor FINDINGS):** eine unabhängige Replikation der Steuerung der W_E-Repräsentation durch konstruierte Splits, in vier nach dem Pilot gewählten Fällen,
+2000 Schritte, eine Architektur je Aufgabe. Das ist keine Aussage über funktionale Nutzung (siehe P2).

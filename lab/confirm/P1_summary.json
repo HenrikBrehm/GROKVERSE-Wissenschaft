@@ -1,0 +1,1183 @@
+{
+ "manifest_commit": "733e829",
+ "tasks": {
+  "add113": {
+   "rows": [
+    {
+     "seed": 1000,
+     "valid": true,
+     "Delta_pow": 5.447269307113048
+    },
+    {
+     "seed": 1001,
+     "valid": true,
+     "Delta_pow": 10.117783459510434
+    },
+    {
+     "seed": 1002,
+     "valid": true,
+     "Delta_pow": 9.203297974138613
+    },
+    {
+     "seed": 1003,
+     "valid": true,
+     "Delta_pow": 8.910074023953136
+    },
+    {
+     "seed": 1004,
+     "valid": true,
+     "Delta_pow": 6.3617493771438145
+    },
+    {
+     "seed": 1005,
+     "valid": true,
+     "Delta_pow": 9.57929923627287
+    },
+    {
+     "seed": 1006,
+     "valid": true,
+     "Delta_pow": 10.513203971995758
+    },
+    {
+     "seed": 1007,
+     "valid": true,
+     "Delta_pow": 8.569608741863062
+    },
+    {
+     "seed": 1008,
+     "valid": true,
+     "Delta_pow": 7.537669658487335
+    },
+    {
+     "seed": 1009,
+     "valid": true,
+     "Delta_pow": 6.294411048457016
+    },
+    {
+     "seed": 1010,
+     "valid": true,
+     "Delta_pow": 9.038100506026787
+    },
+    {
+     "seed": 1011,
+     "valid": true,
+     "Delta_pow": 9.804471109512026
+    },
+    {
+     "seed": 1012,
+     "valid": true,
+     "Delta_pow": 7.8622288454138625
+    },
+    {
+     "seed": 1013,
+     "valid": true,
+     "Delta_pow": 8.41761614497381
+    },
+    {
+     "seed": 1014,
+     "valid": true,
+     "Delta_pow": 8.401446852335837
+    },
+    {
+     "seed": 1015,
+     "valid": true,
+     "Delta_pow": 7.757410050363768
+    },
+    {
+     "seed": 1016,
+     "valid": true,
+     "Delta_pow": 9.41758665135645
+    },
+    {
+     "seed": 1017,
+     "valid": true,
+     "Delta_pow": 6.5825719388602995
+    },
+    {
+     "seed": 1018,
+     "valid": true,
+     "Delta_pow": 9.692458468803068
+    },
+    {
+     "seed": 1019,
+     "valid": true,
+     "Delta_pow": 7.9157327137743145
+    },
+    {
+     "seed": 1020,
+     "valid": true,
+     "Delta_pow": 10.083301984611225
+    },
+    {
+     "seed": 1021,
+     "valid": true,
+     "Delta_pow": 7.012746915454951
+    },
+    {
+     "seed": 1022,
+     "valid": true,
+     "Delta_pow": 8.417740370707616
+    },
+    {
+     "seed": 1023,
+     "valid": true,
+     "Delta_pow": 7.980759353588458
+    },
+    {
+     "seed": 1024,
+     "valid": true,
+     "Delta_pow": 7.801792781151951
+    },
+    {
+     "seed": 1025,
+     "valid": true,
+     "Delta_pow": 6.7223194587976245
+    },
+    {
+     "seed": 1026,
+     "valid": true,
+     "Delta_pow": 6.674309498348176
+    },
+    {
+     "seed": 1027,
+     "valid": true,
+     "Delta_pow": 8.47901854344623
+    },
+    {
+     "seed": 1028,
+     "valid": true,
+     "Delta_pow": 6.483890049995528
+    },
+    {
+     "seed": 1029,
+     "valid": true,
+     "Delta_pow": 9.539373908349376
+    },
+    {
+     "seed": 1030,
+     "valid": true,
+     "Delta_pow": 7.84545053787984
+    },
+    {
+     "seed": 1031,
+     "valid": true,
+     "Delta_pow": 8.060091340433232
+    },
+    {
+     "seed": 1032,
+     "valid": true,
+     "Delta_pow": 7.152160862180397
+    },
+    {
+     "seed": 1033,
+     "valid": true,
+     "Delta_pow": 8.988017997188287
+    },
+    {
+     "seed": 1034,
+     "valid": true,
+     "Delta_pow": 9.31066550740561
+    },
+    {
+     "seed": 1035,
+     "valid": true,
+     "Delta_pow": 7.740491371181498
+    },
+    {
+     "seed": 1036,
+     "valid": true,
+     "Delta_pow": 8.218919723283358
+    },
+    {
+     "seed": 1037,
+     "valid": true,
+     "Delta_pow": 7.1301217701488895
+    },
+    {
+     "seed": 1038,
+     "valid": true,
+     "Delta_pow": 9.537072792760126
+    },
+    {
+     "seed": 1039,
+     "valid": true,
+     "Delta_pow": 8.604473852262894
+    },
+    {
+     "seed": 1040,
+     "valid": true,
+     "Delta_pow": 7.285091187662697
+    },
+    {
+     "seed": 1041,
+     "valid": true,
+     "Delta_pow": 8.1755948141329
+    },
+    {
+     "seed": 1042,
+     "valid": true,
+     "Delta_pow": 8.929593767370775
+    },
+    {
+     "seed": 1043,
+     "valid": true,
+     "Delta_pow": 8.410635006035456
+    },
+    {
+     "seed": 1044,
+     "valid": true,
+     "Delta_pow": 9.108263649745759
+    },
+    {
+     "seed": 1045,
+     "valid": true,
+     "Delta_pow": 8.35344366621335
+    },
+    {
+     "seed": 1046,
+     "valid": true,
+     "Delta_pow": 7.331240029420536
+    },
+    {
+     "seed": 1047,
+     "valid": true,
+     "Delta_pow": 8.518162620899782
+    },
+    {
+     "seed": 1048,
+     "valid": true,
+     "Delta_pow": 7.229999389416753
+    },
+    {
+     "seed": 1049,
+     "valid": true,
+     "Delta_pow": 9.270624042844176
+    }
+   ],
+   "n_valid": 50,
+   "n_planned": 50,
+   "mean": 8.236387137465456,
+   "sd": 1.140805034556718,
+   "n_positive": 50,
+   "ci95": [
+    7.9241373571820795,
+    8.544935310958746
+   ],
+   "p": 4.9999750001249995e-06,
+   "t_test_secondary": {
+    "t": 51.05171366676613,
+    "p_one_sided": 1.8905676540538678e-44,
+    "df": 49
+   },
+   "p_holm_worstcase": 1.4999925000374999e-05,
+   "verdict": "best\u00e4tigt",
+   "min_effect_met": true
+  },
+  "mul113": {
+   "rows": [
+    {
+     "seed": 1000,
+     "valid": true,
+     "Delta_pow": 7.734973969857222
+    },
+    {
+     "seed": 1001,
+     "valid": true,
+     "Delta_pow": 8.935245507148746
+    },
+    {
+     "seed": 1002,
+     "valid": true,
+     "Delta_pow": 8.552970561656434
+    },
+    {
+     "seed": 1003,
+     "valid": true,
+     "Delta_pow": 7.146731996072686
+    },
+    {
+     "seed": 1004,
+     "valid": true,
+     "Delta_pow": 8.103501388630129
+    },
+    {
+     "seed": 1005,
+     "valid": true,
+     "Delta_pow": 6.989080285929034
+    },
+    {
+     "seed": 1006,
+     "valid": true,
+     "Delta_pow": 9.708963006431196
+    },
+    {
+     "seed": 1007,
+     "valid": true,
+     "Delta_pow": 9.59537080897583
+    },
+    {
+     "seed": 1008,
+     "valid": true,
+     "Delta_pow": 9.839668180940311
+    },
+    {
+     "seed": 1009,
+     "valid": true,
+     "Delta_pow": 6.632777657544003
+    },
+    {
+     "seed": 1010,
+     "valid": true,
+     "Delta_pow": 6.605806292363151
+    },
+    {
+     "seed": 1011,
+     "valid": true,
+     "Delta_pow": 7.8669796175261135
+    },
+    {
+     "seed": 1012,
+     "valid": true,
+     "Delta_pow": 7.595846606102818
+    },
+    {
+     "seed": 1013,
+     "valid": true,
+     "Delta_pow": 9.5469790367775
+    },
+    {
+     "seed": 1014,
+     "valid": true,
+     "Delta_pow": 9.092141752655127
+    },
+    {
+     "seed": 1015,
+     "valid": true,
+     "Delta_pow": 5.496675321943812
+    },
+    {
+     "seed": 1016,
+     "valid": true,
+     "Delta_pow": 9.55447918918155
+    },
+    {
+     "seed": 1017,
+     "valid": true,
+     "Delta_pow": 7.7082405847025495
+    },
+    {
+     "seed": 1018,
+     "valid": true,
+     "Delta_pow": 8.674312063885697
+    },
+    {
+     "seed": 1019,
+     "valid": true,
+     "Delta_pow": 8.734673124435796
+    },
+    {
+     "seed": 1020,
+     "valid": true,
+     "Delta_pow": 6.495315061567154
+    },
+    {
+     "seed": 1021,
+     "valid": true,
+     "Delta_pow": 6.986643392995061
+    },
+    {
+     "seed": 1022,
+     "valid": true,
+     "Delta_pow": 6.882669168220791
+    },
+    {
+     "seed": 1023,
+     "valid": true,
+     "Delta_pow": 7.172492071269164
+    },
+    {
+     "seed": 1024,
+     "valid": true,
+     "Delta_pow": 8.374743915685762
+    },
+    {
+     "seed": 1025,
+     "valid": true,
+     "Delta_pow": 7.567625770195662
+    },
+    {
+     "seed": 1026,
+     "valid": true,
+     "Delta_pow": 8.435220804116486
+    },
+    {
+     "seed": 1027,
+     "valid": true,
+     "Delta_pow": 8.963031240684725
+    },
+    {
+     "seed": 1028,
+     "valid": true,
+     "Delta_pow": 7.412107904653322
+    },
+    {
+     "seed": 1029,
+     "valid": true,
+     "Delta_pow": 8.933927051984423
+    },
+    {
+     "seed": 1030,
+     "valid": true,
+     "Delta_pow": 8.52114439937562
+    },
+    {
+     "seed": 1031,
+     "valid": true,
+     "Delta_pow": 8.614547994172804
+    },
+    {
+     "seed": 1032,
+     "valid": true,
+     "Delta_pow": 8.079146877346588
+    },
+    {
+     "seed": 1033,
+     "valid": true,
+     "Delta_pow": 8.036467523965616
+    },
+    {
+     "seed": 1034,
+     "valid": true,
+     "Delta_pow": 9.578431884604324
+    },
+    {
+     "seed": 1035,
+     "valid": true,
+     "Delta_pow": 5.886640244735034
+    },
+    {
+     "seed": 1036,
+     "valid": true,
+     "Delta_pow": 5.690094682825913
+    },
+    {
+     "seed": 1037,
+     "valid": true,
+     "Delta_pow": 9.33310218238947
+    },
+    {
+     "seed": 1038,
+     "valid": true,
+     "Delta_pow": 6.284685243732985
+    },
+    {
+     "seed": 1039,
+     "valid": true,
+     "Delta_pow": 9.49970706572781
+    },
+    {
+     "seed": 1040,
+     "valid": true,
+     "Delta_pow": 8.85701770479406
+    },
+    {
+     "seed": 1041,
+     "valid": true,
+     "Delta_pow": 9.402032625601862
+    },
+    {
+     "seed": 1042,
+     "valid": true,
+     "Delta_pow": 8.798712227257406
+    },
+    {
+     "seed": 1043,
+     "valid": true,
+     "Delta_pow": 6.994998004475624
+    },
+    {
+     "seed": 1044,
+     "valid": true,
+     "Delta_pow": 8.593412036384361
+    },
+    {
+     "seed": 1045,
+     "valid": true,
+     "Delta_pow": 9.225884873955867
+    },
+    {
+     "seed": 1046,
+     "valid": true,
+     "Delta_pow": 9.524766032204056
+    },
+    {
+     "seed": 1047,
+     "valid": true,
+     "Delta_pow": 9.465022857901065
+    },
+    {
+     "seed": 1048,
+     "valid": true,
+     "Delta_pow": 7.6000053197224595
+    },
+    {
+     "seed": 1049,
+     "valid": true,
+     "Delta_pow": 5.300661026421688
+    }
+   ],
+   "n_valid": 50,
+   "n_planned": 50,
+   "mean": 8.092513482834539,
+   "sd": 1.234719245227674,
+   "n_positive": 50,
+   "ci95": [
+    7.74989593953563,
+    8.427416081545195
+   ],
+   "p": 4.9999750001249995e-06,
+   "t_test_secondary": {
+    "t": 46.3447150651703,
+    "p_one_sided": 1.968243609440082e-42,
+    "df": 49
+   },
+   "p_holm_worstcase": 1.4999925000374999e-05,
+   "verdict": "best\u00e4tigt",
+   "min_effect_met": true
+  },
+  "add97": {
+   "rows": [
+    {
+     "seed": 1000,
+     "valid": true,
+     "Delta_pow": 5.682885093778671
+    },
+    {
+     "seed": 1001,
+     "valid": true,
+     "Delta_pow": 6.524569681330185
+    },
+    {
+     "seed": 1002,
+     "valid": true,
+     "Delta_pow": 6.212685724103513
+    },
+    {
+     "seed": 1003,
+     "valid": true,
+     "Delta_pow": 6.610676926686027
+    },
+    {
+     "seed": 1004,
+     "valid": true,
+     "Delta_pow": 6.1402543547745765
+    },
+    {
+     "seed": 1005,
+     "valid": true,
+     "Delta_pow": 5.313298042214654
+    },
+    {
+     "seed": 1006,
+     "valid": true,
+     "Delta_pow": 5.466164276042221
+    },
+    {
+     "seed": 1007,
+     "valid": true,
+     "Delta_pow": 7.873064055266602
+    },
+    {
+     "seed": 1008,
+     "valid": true,
+     "Delta_pow": 6.203518515758961
+    },
+    {
+     "seed": 1009,
+     "valid": true,
+     "Delta_pow": 6.833573237168754
+    },
+    {
+     "seed": 1010,
+     "valid": true,
+     "Delta_pow": 6.139598093592356
+    },
+    {
+     "seed": 1011,
+     "valid": true,
+     "Delta_pow": 4.890584435613665
+    },
+    {
+     "seed": 1012,
+     "valid": true,
+     "Delta_pow": 8.210671544364784
+    },
+    {
+     "seed": 1013,
+     "valid": true,
+     "Delta_pow": 6.077110955969665
+    },
+    {
+     "seed": 1014,
+     "valid": true,
+     "Delta_pow": 6.846438447352222
+    },
+    {
+     "seed": 1015,
+     "valid": true,
+     "Delta_pow": 5.689361293698156
+    },
+    {
+     "seed": 1016,
+     "valid": true,
+     "Delta_pow": 8.591462271847023
+    },
+    {
+     "seed": 1017,
+     "valid": true,
+     "Delta_pow": 6.389694111522337
+    },
+    {
+     "seed": 1018,
+     "valid": true,
+     "Delta_pow": 4.043410968238557
+    },
+    {
+     "seed": 1019,
+     "valid": true,
+     "Delta_pow": 7.862296499140463
+    },
+    {
+     "seed": 1020,
+     "valid": true,
+     "Delta_pow": 3.518703126184372
+    },
+    {
+     "seed": 1021,
+     "valid": true,
+     "Delta_pow": 6.9681936332174805
+    },
+    {
+     "seed": 1022,
+     "valid": true,
+     "Delta_pow": 4.720219426603439
+    },
+    {
+     "seed": 1023,
+     "valid": true,
+     "Delta_pow": 7.4183276470542
+    },
+    {
+     "seed": 1024,
+     "valid": true,
+     "Delta_pow": 6.66827534697981
+    },
+    {
+     "seed": 1025,
+     "valid": true,
+     "Delta_pow": 4.797905520057318
+    },
+    {
+     "seed": 1026,
+     "valid": true,
+     "Delta_pow": 7.228209294623316
+    },
+    {
+     "seed": 1027,
+     "valid": true,
+     "Delta_pow": 5.563378890048423
+    },
+    {
+     "seed": 1028,
+     "valid": true,
+     "Delta_pow": 5.799278541459691
+    },
+    {
+     "seed": 1029,
+     "valid": true,
+     "Delta_pow": 7.216539253607731
+    },
+    {
+     "seed": 1030,
+     "valid": true,
+     "Delta_pow": 5.727354557807635
+    },
+    {
+     "seed": 1031,
+     "valid": true,
+     "Delta_pow": 7.040354451605319
+    },
+    {
+     "seed": 1032,
+     "valid": true,
+     "Delta_pow": 8.122647841857589
+    },
+    {
+     "seed": 1033,
+     "valid": true,
+     "Delta_pow": 5.489526300424267
+    },
+    {
+     "seed": 1034,
+     "valid": true,
+     "Delta_pow": 5.756335790151921
+    },
+    {
+     "seed": 1035,
+     "valid": true,
+     "Delta_pow": 4.887936444800525
+    },
+    {
+     "seed": 1036,
+     "valid": true,
+     "Delta_pow": 7.235983981780379
+    },
+    {
+     "seed": 1037,
+     "valid": true,
+     "Delta_pow": 4.5663709329983755
+    },
+    {
+     "seed": 1038,
+     "valid": true,
+     "Delta_pow": 4.498337051616078
+    },
+    {
+     "seed": 1039,
+     "valid": true,
+     "Delta_pow": 5.3584575022736285
+    },
+    {
+     "seed": 1040,
+     "valid": true,
+     "Delta_pow": 6.016466624067621
+    },
+    {
+     "seed": 1041,
+     "valid": true,
+     "Delta_pow": 6.477062278221509
+    },
+    {
+     "seed": 1042,
+     "valid": true,
+     "Delta_pow": 4.013520786087175
+    },
+    {
+     "seed": 1043,
+     "valid": true,
+     "Delta_pow": 6.895094697546785
+    },
+    {
+     "seed": 1044,
+     "valid": true,
+     "Delta_pow": 6.961141822694032
+    },
+    {
+     "seed": 1045,
+     "valid": true,
+     "Delta_pow": 6.337456817199011
+    },
+    {
+     "seed": 1046,
+     "valid": true,
+     "Delta_pow": 5.423331885063101
+    },
+    {
+     "seed": 1047,
+     "valid": true,
+     "Delta_pow": 5.240627713187562
+    },
+    {
+     "seed": 1048,
+     "valid": true,
+     "Delta_pow": 5.007944529997557
+    },
+    {
+     "seed": 1049,
+     "valid": true,
+     "Delta_pow": 7.0377576918965845
+    }
+   ],
+   "n_valid": 50,
+   "n_planned": 50,
+   "mean": 6.111881178191515,
+   "sd": 1.1483386022781912,
+   "n_positive": 50,
+   "ci95": [
+    5.791607284921392,
+    6.425683559400025
+   ],
+   "p": 4.9999750001249995e-06,
+   "t_test_secondary": {
+    "t": 37.63482842370458,
+    "p_one_sided": 4.024462120664329e-38,
+    "df": 49
+   },
+   "p_holm_worstcase": 1.4999925000374999e-05,
+   "verdict": "best\u00e4tigt",
+   "min_effect_met": true
+  },
+  "D59": {
+   "rows": [
+    {
+     "seed": 1000,
+     "valid": true,
+     "Delta_pow": 3.1478508908001093
+    },
+    {
+     "seed": 1001,
+     "valid": true,
+     "Delta_pow": 2.451802145992264
+    },
+    {
+     "seed": 1002,
+     "valid": true,
+     "Delta_pow": 2.7021127849022024
+    },
+    {
+     "seed": 1003,
+     "valid": true,
+     "Delta_pow": 2.7614975975970135
+    },
+    {
+     "seed": 1004,
+     "valid": true,
+     "Delta_pow": 3.213387262718232
+    },
+    {
+     "seed": 1005,
+     "valid": true,
+     "Delta_pow": 2.6562893764104425
+    },
+    {
+     "seed": 1006,
+     "valid": true,
+     "Delta_pow": 2.7303891481556217
+    },
+    {
+     "seed": 1007,
+     "valid": true,
+     "Delta_pow": 2.5072587664805805
+    },
+    {
+     "seed": 1008,
+     "valid": true,
+     "Delta_pow": 2.8574875840337235
+    },
+    {
+     "seed": 1009,
+     "valid": true,
+     "Delta_pow": 2.1862628348373123
+    },
+    {
+     "seed": 1010,
+     "valid": true,
+     "Delta_pow": 2.9853041515991614
+    },
+    {
+     "seed": 1011,
+     "valid": true,
+     "Delta_pow": 2.701962240912377
+    },
+    {
+     "seed": 1012,
+     "valid": true,
+     "Delta_pow": 2.236653046551842
+    },
+    {
+     "seed": 1013,
+     "valid": true,
+     "Delta_pow": 3.0332529650298046
+    },
+    {
+     "seed": 1014,
+     "valid": true,
+     "Delta_pow": 2.8236820664983373
+    },
+    {
+     "seed": 1015,
+     "valid": true,
+     "Delta_pow": 2.4456938632763268
+    },
+    {
+     "seed": 1016,
+     "valid": true,
+     "Delta_pow": 2.2684502449075845
+    },
+    {
+     "seed": 1017,
+     "valid": true,
+     "Delta_pow": 2.842985985475389
+    },
+    {
+     "seed": 1018,
+     "valid": true,
+     "Delta_pow": 2.955790745426353
+    },
+    {
+     "seed": 1019,
+     "valid": true,
+     "Delta_pow": 2.7030007912529888
+    },
+    {
+     "seed": 1020,
+     "valid": true,
+     "Delta_pow": 2.4458799710517463
+    },
+    {
+     "seed": 1021,
+     "valid": true,
+     "Delta_pow": 2.5362072584779067
+    },
+    {
+     "seed": 1022,
+     "valid": true,
+     "Delta_pow": 2.2764761561400793
+    },
+    {
+     "seed": 1023,
+     "valid": true,
+     "Delta_pow": 2.856932966678545
+    },
+    {
+     "seed": 1024,
+     "valid": true,
+     "Delta_pow": 3.094231024003413
+    },
+    {
+     "seed": 1025,
+     "valid": true,
+     "Delta_pow": 2.853021435989268
+    },
+    {
+     "seed": 1026,
+     "valid": true,
+     "Delta_pow": 2.585264943441996
+    },
+    {
+     "seed": 1027,
+     "valid": true,
+     "Delta_pow": 1.9154832593197852
+    },
+    {
+     "seed": 1028,
+     "valid": true,
+     "Delta_pow": 3.2868897439026954
+    },
+    {
+     "seed": 1029,
+     "valid": true,
+     "Delta_pow": 2.6451191230283166
+    },
+    {
+     "seed": 1030,
+     "valid": true,
+     "Delta_pow": 1.9979122451554208
+    },
+    {
+     "seed": 1031,
+     "valid": true,
+     "Delta_pow": 2.4975931830642475
+    },
+    {
+     "seed": 1032,
+     "valid": true,
+     "Delta_pow": 2.5139127125239087
+    },
+    {
+     "seed": 1033,
+     "valid": true,
+     "Delta_pow": 2.474013889022776
+    },
+    {
+     "seed": 1034,
+     "valid": true,
+     "Delta_pow": 2.3115333864585903
+    },
+    {
+     "seed": 1035,
+     "valid": true,
+     "Delta_pow": 2.1715734848601977
+    },
+    {
+     "seed": 1036,
+     "valid": true,
+     "Delta_pow": 2.461474585223046
+    },
+    {
+     "seed": 1037,
+     "valid": true,
+     "Delta_pow": 2.791277177863183
+    },
+    {
+     "seed": 1038,
+     "valid": true,
+     "Delta_pow": 2.629394976010291
+    },
+    {
+     "seed": 1039,
+     "valid": true,
+     "Delta_pow": 2.928883124310352
+    },
+    {
+     "seed": 1040,
+     "valid": true,
+     "Delta_pow": 2.474377096909654
+    },
+    {
+     "seed": 1041,
+     "valid": true,
+     "Delta_pow": 2.327355661118954
+    },
+    {
+     "seed": 1042,
+     "valid": true,
+     "Delta_pow": 2.1446328325970043
+    },
+    {
+     "seed": 1043,
+     "valid": true,
+     "Delta_pow": 2.2005185037349424
+    },
+    {
+     "seed": 1044,
+     "valid": true,
+     "Delta_pow": 2.6248655917598946
+    },
+    {
+     "seed": 1045,
+     "valid": true,
+     "Delta_pow": 2.732490955726481
+    },
+    {
+     "seed": 1046,
+     "valid": true,
+     "Delta_pow": 2.682773423017972
+    },
+    {
+     "seed": 1047,
+     "valid": true,
+     "Delta_pow": 3.111811773797248
+    },
+    {
+     "seed": 1048,
+     "valid": true,
+     "Delta_pow": 3.153257132109869
+    },
+    {
+     "seed": 1049,
+     "valid": true,
+     "Delta_pow": 3.0244931257817496
+    }
+   ],
+   "n_valid": 50,
+   "n_planned": 50,
+   "mean": 2.639215304718744,
+   "sd": 0.32858379122078796,
+   "n_positive": 50,
+   "ci95": [
+    2.549525018441352,
+    2.7291602061542934
+   ],
+   "p": 4.9999750001249995e-06,
+   "t_test_secondary": {
+    "t": 56.795468578788444,
+    "p_one_sided": 1.1085634490940862e-46,
+    "df": 49
+   },
+   "p_holm_worstcase": 1.4999925000374999e-05,
+   "verdict": "best\u00e4tigt",
+   "min_effect_met": true
+  }
+ },
+ "primary_task": "add113",
+ "cross_secondary": {
+  "task": "add113",
+  "rows": [
+   {
+    "seed": 1000,
+    "inits": [
+     1000,
+     1200,
+     1300
+    ],
+    "valid": true,
+    "Delta_pow": [
+     5.447269307113048,
+     5.484690626045178,
+     7.023436964425109
+    ]
+   },
+   {
+    "seed": 1001,
+    "inits": [
+     1001,
+     1201,
+     1301
+    ],
+    "valid": true,
+    "Delta_pow": [
+     10.117783459510434,
+     10.690074434508642,
+     8.877784716892489
+    ]
+   },
+   {
+    "seed": 1002,
+    "inits": [
+     1002,
+     1202,
+     1302
+    ],
+    "valid": true,
+    "Delta_pow": [
+     9.203297974138613,
+     7.471555405794899,
+     8.5343028895928
+    ]
+   },
+   {
+    "seed": 1003,
+    "inits": [
+     1003,
+     1203,
+     1303
+    ],
+    "valid": true,
+    "Delta_pow": [
+     8.910074023953136,
+     9.799980368659867,
+     9.264801979739818
+    ]
+   },
+   {
+    "seed": 1004,
+    "inits": [
+     1004,
+     1204,
+     1304
+    ],
+    "valid": true,
+    "Delta_pow": [
+     6.3617493771438145,
+     7.907299593750991,
+     7.807624946697855
+    ]
+   }
+  ],
+  "n_valid_units": 5,
+  "sigma2_between_unit": 2.2230992530787175,
+  "sigma2_within_init": 0.675742325288177,
+  "icc_unit": 0.7668922888608262,
+  "mean": 8.193448404531113,
+  "frac_positive": 1.0,
+  "min_per_unit": [
+   5.447269307113048,
+   8.877784716892489,
+   7.471555405794899,
+   8.910074023953136,
+   6.3617493771438145
+  ],
+  "reading": "stabil \u00fcber Inits"
+ }
+}

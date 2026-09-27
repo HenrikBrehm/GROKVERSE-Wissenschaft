@@ -451,7 +451,7 @@ Fazit (vorläufig, Grundlage für die menschliche Prüfung): K2 weiter „nach u
 *Ergänzung (14:57, von mir per WebFetch am HTML-Volltext geprüft):* Khanh 2026 (2607.06628), §3: 1-Schicht-Transformer, d = 128, Full-Batch-AdamW lr 1e-3, wd 1.0, β = (0.9, 0.98),
 50 % Split, Addition und Multiplikation mod 59; §7/App. A: Richtungstausch von Attention, MLP oder Unembedding allein verschiebt die Identität jeweils (Autoren: „suggestive“, drei Paare je Aufgabe).
 
-## Nachtrag Sitzung 26 (2026-09-27, 15:10–15:35 Berlin): Vorwärtszitate über die Semantic-Scholar-API
+## Nachtrag Sitzung 26 (2026-09-27, 15:10 bis vor 15:22 Berlin, gemessen): Vorwärtszitate über die Semantic-Scholar-API
 
 **Korrektur der Einschränkung oben:** Die Semantic-Scholar-Graph-API ist über WebFetch erreichbar (`api.semanticscholar.org/graph/v1/paper/arXiv:<id>/citations`). Die Lücke „keine Vorwärtszitate“
 ist damit für Semantic Scholar teilweise geschlossen; Google Scholar bleibt ungeprüft.

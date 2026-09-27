@@ -3437,7 +3437,7 @@ Beschäftigung ohne Erkenntnis oder weiteres ungetestetes Werkzeug für eine sch
 Stand gelesen; kein STOP, keine Python-Prozesse, `--check` Exit 3 (außerhalb des Fensters, erwartet). Die vorige Sitzung endete freiwillig um 15:00; der Runner hat sofort diese gestartet.
 Deshalb arbeite ich bis zur Deadline weiter (Regel 13).
 
-**Zyklus 1 (Nachtvorbereitung, bis 15:15).** *Frage:* Laufen die Jobdateien der Nacht technisch an, oder scheitern Zeilen an Tippfehlern? *Prüfung* (statisch, ohne Ausführung): alle 400 Zeilen
+**Zyklus 1 (Nachtvorbereitung, zwischen 15:10 und 15:17, gemessen).** *Frage:* Laufen die Jobdateien der Nacht technisch an, oder scheitern Zeilen an Tippfehlern? *Prüfung* (statisch, ohne Ausführung): alle 400 Zeilen
 von EXP-073/074/075/077 gegen die `add_argument`-Optionen von `freq_ban.py` und die Existenz aller `.npy`-Pfade. *Ergebnis:* keine unbekannte Option, keine fehlende Datei, keine doppelte Zeile;
 Eingriffswerte je 20 Zeilen wie registriert (rewind all/attn/rest/vo/we; reset attn/mlp/qk/vo). *Entscheidung:* nichts zu ändern.
 
@@ -3446,16 +3446,23 @@ Eingriffswerte je 20 Zeilen wie registriert (rewind all/attn/rest/vo/we; reset a
 aus Juli bis September 2026, z. B. 2609.18078 „Component Roles in Grokking Transfer“, 2606.26050 „Natural Ungrokking“, 2607.12735 „Critical Windows in Grokking“). Ein Claude-Hilfsagent (nur lesend)
 geht die Vorwärtszitate von 9 Ausgangsarbeiten durch. Ergebnis folgt.
 
-**Zyklus 3 (Paper, Regel 19a: R2 vorbereitet, 15:20).** *Frage:* Hält K4c (Umstieg bei 25, Festhalten bei 50) auch bei anderen Hyperparametern? Das ist die Robustheitsfrage, die Gutachter
+**Zyklus 3 (Paper, Regel 19a: R2 vorbereitet, zwischen 15:17 und 15:22, gemessen).** *Frage:* Hält K4c (Umstieg bei 25, Festhalten bei 50) auch bei anderen Hyperparametern? Das ist die Robustheitsfrage, die Gutachter
 zu K4 zuerst stellen; im [[paper/robustness_plan]] war R2 nur skizziert („nach EXP-040“). *Änderung:* Registrierungsentwurf [[confirm/R2_REGISTRATION_DRAFT|R2]] und `lab/tools/confirm_r2.py`
 (N29-Protokoll, Zellen lr 2e-3 mit t ∈ {12, 25, 50} und wd 0.3 mit t ∈ {25, 50}, Holm über 4, n = 30 aus der N29-Streuung: Power 0.88 bei halbiertem Abstand; Seeds 2510–2539 in
 [[FINDINGS_DETAILS]] reserviert). *Entscheidung zur Abhängigkeit von EXP-040:* Das Warten auf EXP-040 ist nicht nötig. H2 bei lr 2e-3 liegt mit t = 12 unter beiden Uhren (Schritte, Λ) im
 Umstiegsbereich; die Uhrenfrage wird als Sekundärgröße (t = 25) ohne Urteil mitgemessen. Nur `py_compile`, kein Selbsttest (Fenster zu). Codex prüft (läuft).
 
-**Zyklus 2, Ergebnis (15:40).** Der Hilfsagent hat die Vorwärtszitate von 9 Ausgangsarbeiten gesichtet (Nanda et al. 2023 ≈ 280 Titel ab März 2026, Marchetti 7, LeDoux 1, Lyle 9, Chughtai ≈ 28,
+**Zyklus 2, Ergebnis (vor 15:22, gemessen).** Der Hilfsagent hat die Vorwärtszitate von 9 Ausgangsarbeiten gesichtet (Nanda et al. 2023 ≈ 280 Titel ab März 2026, Marchetti 7, LeDoux 1, Lyle 9, Chughtai ≈ 28,
 He a/b 8; Dong und Khanh 0, vermutlich Indexierungsverzug; dann HTTP 429). *Ergebnis:* **nichts, was K2, K2-Funktion, K4–K4c oder K4d/e einschränkt.** Engster neuer Treffer zu K2:
 Tomàs Bernal, Mallinar, Belkin 2026 (arXiv 2604.00316): Kernel (RFM), Symmetriebruch der Trainingsmenge entscheidet, **ob** generalisiert wird, nicht welche Frequenzen. Zu K4d/e: Jia 2026
 (2609.18078): gleiche Modellfamilie, Übertragen/Einfrieren von Komponenten; Q, K, V fusioniert, keine Resets, keine Frequenzen. Beides habe ich selbst am Abstract bzw. an den Aufbau-Angaben im
 HTML-Volltext nachgesehen; den Rest (Howe 2026a/b, Li & Sreedhar 2026, Swaroop 2026, Hidajat et al. 2026, Sweeney 2026) nur über die Abstract-Angaben des Agenten. *Übernommen:* Nachtrag in
 [[paper/related_work]] (mit Prüfgrad, Einschränkung „API nicht abgefragt“ korrigiert), drei Sätze in §1b des [[paper/draft]]. *Offen:* Zitate am PDF prüfen, Dong/Khanh später nachholen,
 Google Scholar. Neuheitsstand in [[FINDINGS]] unverändert („nach unserer Suche nicht gefunden“, jetzt mit Vorwärtszitaten bis 2026-09-23).
+
+*Korrektur (15:22, gemessen):* Die Uhrzeiten „15:20“, „15:40“, „15:25–15:50“ in diesem Sitzungsabschnitt, in LIVE, R2-Entwurf, robustness_plan, STATUS und related_work waren **geschätzt**, nicht
+gemessen (Verstoß gegen die Laborregel „nur gemessene Zeiten“). Alle durch gemessene Grenzen ersetzt. Ab jetzt vor jedem Eintrag messen.
+
+**Zyklus 4 (Paper, Regel 19c: K4c-Reproduktionsskript, vor 15:22).** `lab/paper/repro/k4c.py`: baut die N29-Splits nach, trainiert mit `repro/train.py`, Ablation und H1/H2 wie N29,
+`--compare-n29` gegen die eingefrorene Zusammenfassung. Ungetestet (nur `py_compile`); ein Claude-Prüfagent vergleicht es mit `confirm_n29.py` (läuft). Die Vorsicht aus Sitzung 25 („kein
+K4-Skript vor der Gleichwertigkeit“) betraf π mit Spurkontrollen; K4c braucht nur Wechsel + Ablation und hängt allein an der Gleichwertigkeit von `train.py`, die heute Nacht geprüft wird.

@@ -8,7 +8,7 @@ verwandt: ["[[paper/robustness_plan]]", "[[paper/STATUS]]", "[[confirm/N29_REGIS
 # R2-Bestätigung (Regel 19a): Hält der K4c-Übergang bei doppelter Lernrate und kleinerem Weight Decay? Registrierungsentwurf (Sitzung 26)
 
 Zurück zu [[paper/robustness_plan]] · [[paper/STATUS]] · Vorlage [[confirm/N29_REGISTRATION|N29]] (K4c, eingefroren 087e042, bestätigt).
-Entwurf 2026-09-27, Sitzung 26, 15:20 Berlin (gemessen), **vor jedem R2-Lauf**. Code `lab/tools/confirm_r2.py` (ungetestet bis zum nächsten Fenster).
+Entwurf 2026-09-27, Sitzung 26, zwischen 15:17 und 15:22 Berlin (gemessen), **vor jedem R2-Lauf**. Code `lab/tools/confirm_r2.py` (ungetestet bis zum nächsten Fenster).
 
 - **Aussage (Robustheit von K4c):** Das N29-Muster (früher Wechsel → Endmodell hängt an den neuen Frequenzen; Wechsel nach 50 Schritten → an den alten) besteht auch bei
   (a) **lr 2e-3** (wd 1) und (b) **wd 0.3** (lr 1e-3). Je Zelle genau eine Abweichung vom Standard (lr 1e-3, wd 1.0, train_frac 0.3).

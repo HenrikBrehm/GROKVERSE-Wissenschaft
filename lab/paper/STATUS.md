@@ -50,7 +50,7 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 - **e:** Volltextprüfung [[paper/fulltext_check_2026-09-27]]: **K4d eingeschränkt** durch Dong 2026 (Sprachmodelle: QK-Reset hilft, Value nicht; bei uns umgekehrt), Khanh 2026 Pflichtzitat.
   Für die menschliche Prüfung vorrangig: Dong 2026 und Khanh 2026 im Volltext.
 
-## Nachtrag Sitzung 26 (2026-09-27, 15:40)
+## Nachtrag Sitzung 26 (2026-09-27, vor 15:22, gemessen)
 
 - **a:** Registrierungsentwurf [[confirm/R2_REGISTRATION_DRAFT|R2]] (K4c bei lr 2e-3 und wd 0.3, n = 30, Seeds 2510–2539) und `confirm_r2.py` (ungetestet bis 00:00; Codex-Prüfung Sitzung 26).
 - **e:** Vorwärtszitate über die Semantic-Scholar-API gesichtet (9 Ausgangsarbeiten): nichts schränkt K2/K4 ein; neu zu zitieren v. a. Tomàs Bernal et al. 2026 (Kernel-Vorläufer zu K2) und Jia 2026 (Komponentenrollen, gleiche Modellfamilie). Nachtrag in [[paper/related_work]].

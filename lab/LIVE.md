@@ -5,19 +5,24 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 04:19 Berlin (02:19Z, vom Runner)
 - **Deadline:** 2026-09-27 07:19 Berlin (05:19Z)
-- **Zuletzt aktualisiert:** 05:46 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 06:24 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-GPU: P3-Block bei 54/240 (fertig ca. 06:10). Codex prueft die Schlussfolgerung aus P1, bevor sie als Kernaussage in FINDINGS kommt.
+Codex prueft nachtraeglich die neue Trainer-Option (Adam-Reset) und greift die EXP-057-Deutung an. GPU frei. CPU: Paket-B-Piloten laufen weiter.
 
 ## Als Naechstes
 
-P3 auswerten, FINDINGS aktualisieren, Abschlussbericht (Deadline 07:19).
+Codex-Befunde einarbeiten, STATE + Abschlussbericht (Deadline 07:19).
 
 ## Verlauf dieser Sitzung
 
+- 06:21 **EXP-057 (Pilot): Setzt man nur den Adam-Zustand zurueck, verschwindet das Gedaechtnis der ersten 25 Schritte fast ganz.** Ueberraschend; erst Kontrollen, dann Bestaetigung.
+- 06:13 Zerlegung: Die fruehen Ziele tragen 20 % der Leistung (Zufall 9 %). Es gibt also echtes Erhalten plus langsameres Umlernen.
+- 06:10 Codex: P3 gilt statistisch; "Festlegung im Netz" ist damit aber noch nicht bewiesen (enge Formulierung uebernommen).
+- 06:04 **P3 BESTAETIGT** (30/30 frische Seeds): Nach nur 25 Schritten haelt das Netz ein Drittel seiner fruehen Frequenzwahl gegen 2000 Schritte auf voellig anderen Daten.
+- 05:51 P1 als bestaetigte Kernaussage in FINDINGS (Wortlaut nach Codex-Pruefung: enge Fassung).
 - 05:44 **P2 nicht auswertbar**: 3 von 50 Modellen waren nach 2000 Schritten noch nicht fertig generalisiert (Regel verlangte alle 50). Mein Designfehler; beschreibend schwaecher als im Pilot.
 - 05:39 **P1 BESTAETIGT** in allen 4 Aufgaben (je 50/50 frische Seeds): konstruierte Daten steuern, welche Frequenzen das Netz lernt.
 - 05:17 **P3 eingefroren** (f8adf45): Persistenz ohne gemeinsame Daten, 30 frische Seeds. Alle drei Bestaetigungen sind damit vor jedem Lauf festgelegt.

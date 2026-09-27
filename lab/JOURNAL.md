@@ -2801,3 +2801,14 @@ und zwar über eine statische W_E-Spur hinaus? *Block:* 240/240 Läufe Exit 0, g
 Holm-p 6·10⁻¹⁸. π(0) = 0.351, maximale statische Spur 0.057. Sekundär: Überlappung 0 → 0.4 ändert π nicht messbar (0.005 [−0.030, 0.042]). Der Pilot EXP-056 ist damit repliziert
 (an frischen Seeds, andere Split-Ströme). *Deutung (vorsichtig):* Zusammen mit EXP-038 (Festlegung doppelt vorhanden) spricht alles für eine sehr frühe Festlegung im Netz, die das weitere
 Training aktiv trägt. Nicht gezeigt: welcher Mechanismus (Adam-Momente, Gewichtsnorm, Struktur im Rest). *Stand:* Codex greift die Schlussfolgerung an, besonders die Frage, ob der reine B-Lauf der richtige Nullpunkt ist.
+
+**Zyklus 17 (Codex greift P3 an, EXP-057 als Folgeversuch, 06:05–06:23 gemessen).** *Codex zu P3:* Als registrierter Befund bestätigt. Die Lesart „Festlegung im Netz“ ist aber
+nicht identifiziert: Ein unspezifisch langsameres Anpassen liegt zwischen den Endpunkten und erzeugt ebenfalls π > 0. Das habe ich selbst nachgerechnet und übernommen (FINDINGS im Codex-Wortlaut).
+*Post hoc:* Die Ziele des ersten Splits tragen in den Wechselläufen 20 % der W_E-Leistung (Zufall 8.9 %), es gibt also eine A-spezifische Erhaltung, dazu eine langsamere Anpassung.
+*EXP-057 (vorab festgelegt 06:16, Pilot, bekannte Seeds 400–409):* neue Trainer-Option `--reset-optim-at-switch` (5aa8c34; 16/16 Tests, Smoke). 40 Läufe, Auswertung 06:21: formal
+***teilweise***. Δ̄ = 0.195 [0.13, 0.26], p = 0.0002, π_ro = 0.108 (Schwelle 0.1). **Beschreibend entscheidend:** Mit Reset liegen die A-Ziele unter Zufall (7.1 %), die A-spezifische Erhaltung ist also weg.
+Die gleich lange Referenz ändert nichts. *Lesart (Pilot):* Das Gedächtnis der ersten 25 Schritte sitzt vor allem im AdamW-Zustand. Das widerspricht meiner Erwartung.
+Neue Idee N28, Suche ohne Treffer (vorläufig). *Alternative:* Die vorzeichenartigen Schritte nach einem vollen Reset könnten die kleine Spur überschreiben. Trennen ließe sich das mit einem Reset nur von m (Schrittzähler bleibt).
+**Versäumnis:** Die Trainer-Änderung 5aa8c34 lief vor dem Pilot ohne Codex-Prüfung (Regel 18c verlangt sie bei Änderungen am gemeinsamen Trainer). Tests und Smoke waren grün,
+die Option ist ohne Flag wirkungslos. Die Prüfung läuft jetzt nachträglich. Wegen der geänderten Datei `freq_ban.py` besteht eine erneute Auswertung von P1/P2/P3 die Code-Prüfung nur noch aus
+einem Checkout der eingefrorenen Commits (733e829 bzw. f8adf45). Die Ergebnisse sind berechnet und committet; das ist so gewollt.

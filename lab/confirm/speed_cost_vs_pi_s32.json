@@ -1,0 +1,22 @@
+{
+ "note": "post hoc exploration on N28",
+ "n": 30,
+ "primary_spearman_abs_pi25_minus_half_vs_C25": 0.07808676307007786,
+ "p_one_sided": 0.65935,
+ "spearman_pi25_C25": -0.07808676307007786,
+ "spearman_pi50_C50": -0.6066740823136819,
+ "pi25_quartiles": [
+  0.151,
+  0.268,
+  0.362,
+  0.423,
+  0.491
+ ],
+ "pi50_quartiles": [
+  0.82,
+  0.953,
+  1.002,
+  1.057,
+  1.227
+ ]
+}

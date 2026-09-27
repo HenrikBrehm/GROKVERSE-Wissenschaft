@@ -574,7 +574,7 @@ def _selftest_binding() -> None:
                 assert run_bound(mf, [sys.executable, "-c", "import time; time.sleep(30)", "--seed", "1007",
                                       "--split-file", "s/confirm_u_G.npy"]) == 4
                 assert time.time() - t_start < 10
-                g["POLL_S"] = 2.0
+                g["check_code"], g["POLL_S"] = (lambda *_: None), 2.0
                 assert run_bound(mf, [sys.executable, "-c", "raise SystemExit(3)", "--seed", "1003", "--split-file", "s/z.npy"]) == 3
                 assert run_bound(mf, [sys.executable, "-c", "pass", "--seed", "1004", "--split-file", "s/none.npy"]) == 4
             finally:

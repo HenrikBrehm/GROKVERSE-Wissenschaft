@@ -109,3 +109,11 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-040-we-init-scale/
 Das CPU-Programm brach EXP-040 um 10:59 Berlin am Selbsttest ab (fail-closed, kein Lauf gestartet). Ursache: `analyze.py` importierte `seed_class` aus EXP-039, die nur deren Etiketten (lambda/step)
 kennt; jeder EXP-040-Seed wäre „unklar“ geworden. Behoben durch eine eigene `seed_class` nach der registrierten Regel (Urteilszeile oben: Seed = H40 bzw. unverändert nur, wenn beide Skalen übereinstimmen).
 Selbsttest danach ok. Urteilsregel unverändert. EXP-040 läuft in einer späteren Sitzung (`night_program.py --cpu --experiments EXP-040`).
+
+## Literatur zur Init-Skala (2026-09-27, Sitzung 29, 18:05 Berlin, gemessen; ändert keine Regel)
+
+Die im Abschnitt „Neuheit“ offen gelassene gezielte Suche ist nachgeholt ([[paper/related_work]], Nachtrag Sitzung 29): kein Treffer, der die Verschiebung eines Festlegungsfensters durch die Init-Skala prüft. Neu als Kontext: Khanh et al. 2026 (arXiv 2606.13753) finden eine Grokking-Verzögerung ∝ exp(7.5 ρ) bei geklemmter Gewichtsnorm ρ; das stützt den schon notierten Ausfallgrund (s = 2 → gen_F später → Zelle *unklar*). Das Urteil hängt davon nicht ab; wird s = 2 mehrheitlich *unklar*, ist das als erwarteter Ausfall, nicht als Befund gegen H40 zu lesen.
+
+## Literatur zur Init-Skala (2026-09-27, Sitzung 29, 18:05 Berlin, gemessen; ändert keine Regel)
+
+Die im Abschnitt „Neuheit“ offen gelassene gezielte Suche ist nachgeholt ([[paper/related_work]], Nachtrag Sitzung 29): kein Treffer, der die Verschiebung eines Festlegungsfensters durch die Init-Skala prüft. Neu als Kontext: Khanh et al. 2026 (arXiv 2606.13753) finden eine Grokking-Verzögerung ∝ exp(7.5 ρ) bei geklemmter Gewichtsnorm ρ; das stützt den schon notierten Ausfallgrund (s = 2 → gen_F später → Zelle *unklar*). Das Urteil hängt davon nicht ab; wird s = 2 mehrheitlich *unklar*, ist das als erwarteter Ausfall, nicht als Befund gegen H40 zu lesen.

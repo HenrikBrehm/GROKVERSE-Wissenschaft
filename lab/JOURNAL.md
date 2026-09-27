@@ -3088,3 +3088,15 @@ Block gesehen). *Lehre:* Der Smoke durch den Lader ist unverzichtbar (zweites Ma
 alle 20 Seeds primär): H1 (t = 50) acc_neu − acc_alt = 0.903 [0.846, 0.953], 20/20 über 0.3; H2 (t = 25) acc_alt − acc_neu = 0.603 [0.498, 0.700], 17/20 über 0.3. Holm-p 7·10⁻¹⁵ bzw. 1·10⁻⁵.
 *Post hoc:* Nach 4000 Schritten folgt auch die W_E-Energie derselben Richtung (38/40 bzw. 40/40); anders als bei 2000 Schritten in EXP-062 (dort bei t = 25 noch viel alte Energie). Die Ablation trennt Funktion
 und Energie hier also nicht. *Entscheidung:* Codex greift die Schlussfolgerung an, bevor sie in FINDINGS steht. P2e läuft (2 + 5 GPU-Arbeiter).
+
+**Zyklus 8 (Codex greift N29-Schlussfolgerung an, FINDINGS K4c, 10:17–10:21).** Zahlen tragen; „hängt ab“, „kippt“, „funktionale Festlegung“ zu stark. Selbst nachgerechnet: t = 25 38/40 Richtungen mit
+erwartetem Vorzeichen, 29/40 über 0.3 (2253 A→B, 2267 B→A umgekehrt); t = 50 40/40 und 39/40. Übernommen: enger Wortlaut „K4c“ in [[FINDINGS]] (Umkehrung eines Ablationskontrasts, keine netzweite
+oder unumkehrbare Festlegung), Einheiten richtungsgemittelte Seeds, fehlende Energiekontrolle als Grenze.
+
+**Zyklus 9 (Funktion gegen Energie, zwei Explorationen, 10:21–10:24 gemessen).** *Frage:* Zeigen die funktionalen Befunde mehr als die Energieverteilung in W_E?
+(a) EXP-064 post hoc: Auch nach 2000 Schritten zeigen absolute Energie und Ablation immer dieselbe Richtung (Dissoziation 0/40); die „überschüssige alte Energie“ aus EXP-062 war relativ gemessen.
+(b) [[experiments/EXP-068-matched-sensitivity/README|EXP-068]] (N29-Modelle, vorab festgelegt): Bei gleicher entfernter Energie **kein** Vorteil der dominanten Menge (Median log-Verhältnis −0.28 bzw. −0.18,
+42–44 % > 0); nur bei gleicher Schrittnorm, was die Amplitudengewichtung ohnehin erzeugt. *Überlegung danach:* Jede Störung innerhalb eines Frequenzunterraums ist in ihrer Größe an dessen Energie
+gebunden (auch eine Phasenverschiebung: ‖ΔW‖² = 2(1 − cos φ)·E_k). Die Frage „Funktion über die Energie hinaus“ ist mit Ablationen am selben Modell deshalb kaum sauber zu stellen; möglich wäre nur
+ein Vergleich von Frequenzen gleicher Energie mit unterschiedlicher Herkunft (Ziel gegen Nicht-Ziel), falls es solche Paare gibt. *Entscheidung:* In FINDINGS als Grenze von K2-Funktion und K4c
+festhalten; keine weitere Ablations-Variante ohne diese Trennung.

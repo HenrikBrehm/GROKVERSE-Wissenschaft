@@ -73,3 +73,5 @@ Line numbers refer to lab/paper/draft.md.
 - Title and authors MISSING: Janati et al. 2026 (L319).
 - Possibly shortened titles (fulltext_check headings use short titles, e.g. "Beyond Embedding Transfer" for Jia): Dong 2026 *The Kinetics of Training*, Khanh 2026 *Cross-Trajectory Chimera Interventions*; check full titles.
 - Author first names/initials: missing for almost all entries (only LeDoux, Dong and Khanh have full names in fulltext_check).
+
+*Nachtrag (Sitzung 30, vom Laboragenten):* Janati et al. 2026 steht inzwischen in [[paper/related_work]] (Autoren und Titel per arXiv-Abstract). Die Zitate He et al. 2026 → 2026a, Kleinman et al. → 2023, 2024 und Frankle et al. 2020 → Frankle, Schwab und Morcos 2020 sind im Entwurf eindeutig gemacht. Die übrigen Punkte oben (fehlende Venues, URLs, Prüfgrade) sind offen für die menschliche Prüfung.

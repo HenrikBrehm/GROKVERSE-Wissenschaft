@@ -1,0 +1,55 @@
+{
+ "note": "prediction before any EXP-084 run; calibrated on seen seeds only",
+ "m_share_params": {
+  "T_inf": 248.51478891042382,
+  "A": 52.18113072395478,
+  "s0": 0.08088775596191117
+ },
+ "check_eps1_seen_s0.115_pred": 1778.2039722338868,
+ "per_arm": {
+  "R": {
+   "share_median": 0.08969050786701385,
+   "M_share_median_b": 4000,
+   "M_eps_b": 4000
+  },
+  "e0.5": {
+   "share_median": 0.09370948294977172,
+   "M_share_median_b": 4000,
+   "M_eps_b": 1373
+  },
+  "e1": {
+   "share_median": 0.11243972131659628,
+   "M_share_median_b": 1912,
+   "M_eps_b": 1031
+  },
+  "e2": {
+   "share_median": 0.1805338798511588,
+   "M_share_median_b": 772,
+   "M_eps_b": 775
+  },
+  "e4": {
+   "share_median": 0.27747955983880956,
+   "M_share_median_b": 514,
+   "M_eps_b": 582
+  },
+  "e8": {
+   "share_median": 0.35397877004656736,
+   "M_share_median_b": 440,
+   "M_eps_b": 438
+  },
+  "e16": {
+   "share_median": 0.400650334552876,
+   "M_share_median_b": 412,
+   "M_eps_b": 329
+  },
+  "e32": {
+   "share_median": 0.42980533387233866,
+   "M_share_median_b": 398,
+   "M_eps_b": 247
+  }
+ },
+ "median_log2_e32_over_e8": {
+  "M_share": -0.14247637158544083,
+  "M_eps": -0.8249132934419089
+ }
+}

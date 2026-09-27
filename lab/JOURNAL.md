@@ -2634,3 +2634,8 @@ Nebenbei: CPU-Programm mit 3 Arbeitern neu gestartet (03:47), dabei einen Fehler
 
 **Zyklus 17 (offener Rest EXP-046, 03:55–03:56 gemessen).** Die vorab angekündigten beschreibenden Zusätze nachgetragen: Top-3-Δ = 6.0 (Maximum) in 10/10 Seeds, die drei stärksten Irreps sind immer
 Ziele des eigenen Arms. Δ_pow 2.72 ± 0.45 (aus `pilot_power`). Keine Änderung am Urteil *steuerbar*.
+
+**Korrektur (03:58 gemessen): LAB.md.** Mehrere Tabellenzeilen hatte ich über das *erste* Vorkommen des Versuchslinks gesucht. Bei EXP-043 lag das in einem alten „Lage“-Absatz, deshalb standen
+die EXP-044/045-Zeilen außerhalb der Tabelle, und die Aktualisierungen für EXP-048/049/050 hatten den Lage-Absatz aus Sitzung 13 überschrieben (Regel 10 verletzt: bestehende Inhalte nicht
+umschreiben). LAB.md aus dem Stand vor der Sitzung (fa7507e) neu aufgebaut: alter Absatz wörtlich wiederhergestellt, nur Tabellenzeilen aktualisiert, neue Zeilen EXP-044/045/055, neuer Lage-Absatz
+Sitzung 20. Die übrigen Dateien (READMEs, FINDINGS, BACKLOG, JOURNAL) wurden nur mit eindeutig geprüften Zeichenketten geändert (assert count == 1), also nicht betroffen.

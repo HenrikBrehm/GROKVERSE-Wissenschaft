@@ -57,3 +57,12 @@ Ergebnisse, Regeln unverändert. (Meine Prüfung um 04:44 testete feste Muster, 
   (Rechnung, keine Kontrolle). Das wirkt zu klein für π ≈ 0.3, weil die späteren Gewichte viel größer sind als die nach 25 Schritten. Belegt ist das aber erst mit einer Kontrolle.
   Zusammen mit [[experiments/EXP-038-where-lockin/README|EXP-038]] (der Rest schreibt die Wahl aktiv zurück) spricht mehr für eine aktive Festlegung.
 - **Für P3:** Kandidat (a) „Persistenz ohne geteilte Daten“ (π(ω = 0) > 0) ist trennscharf (d_z ≈ 2.2). Kandidat (b) (Steigung) wäre bei n = 50 schwach.
+
+## Post hoc (Sitzung 21, 04:59 Berlin, nach dem Ergebnis; beschreibend, kein Urteil): passive Spur als Erklärung ausgeschlossen
+
+π wird nur an W_E gemessen, und alle Läufe eines Seeds teilen die Init. Die Vorhersage einer **passiven** Spur lässt sich deshalb direkt rechnen:
+W_Spur = W_E(reiner Lauf des zweiten Splits, Ende) + c · (W_E(Wechsellauf, Schritt 25) − W_E(Schritt 0)), mit c = 0.999²⁰⁰⁰ = 0.135 (nur AdamW-Zerfall) bzw. c = 1 (obere Grenze, gar kein Zerfall).
+Ergebnis über alle 30 Seed×ω-Zellen (`posthoc_trace.py`, `posthoc_trace.json`): **π_Spur = 0.003 (c = 0.135; Maximum 0.006), 0.063 (c = 1; Maximum 0.10), beobachtet π = 0.34.**
+Die 25 Schritte auf A wirken also nicht als Rest in W_E. Sie ändern den weiteren Verlauf: Das Netz verstärkt die frühe Wahl selbst. Grenze: Nur W_E wird linear addiert.
+Eine Spur in den übrigen Gewichten, die den Verlauf lenkt, ist genau das, was „Festlegung im Netz“ meint (vgl. [[experiments/EXP-038-where-lockin/README|EXP-038]]).
+Für P3 heißt das: Die Spur-Kontrolle kann als diese Rechnung vorab festgelegt werden (billig, ohne zusätzliche Läufe).

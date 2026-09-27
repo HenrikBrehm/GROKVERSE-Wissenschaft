@@ -70,5 +70,5 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 ## Nachtrag Sitzung 28 (2026-09-27, ab 16:49, gemessen)
 
 - **d:** §3.1 um absolute Anteile ergänzt (add 113: 80 % der W_E-Energie auf den 5 Zielen, Init 8.9 %); §4 und §5.3: Das Paarspektrum ordnet auch die Ziele innerhalb der Menge (Exploration, alle Aufgaben, Breite, MLP), aber nicht architekturspezifisch wie in Vorhersage 2 hergeleitet.
-- **a/b:** Drei kleine Zusatzregistrierungen auf noch nicht gelaufenen Blöcken, ohne zusätzliches Training: [[confirm/C1_REGISTRATION|C1]] (an R1), [[confirm/C2_REGISTRATION|C2]] (an R2, feine Persistenz nach dem Wechsel), [[confirm/C3_REGISTRATION|C3]] (an P4). Codex-geprüft; Auswertungen ungetestet.
+- **a/b:** Drei kleine Zusatzregistrierungen auf noch nicht gelaufenen Blöcken, ohne zusätzliches Training: [[confirm/C1_REGISTRATION|C1]] (an R1), [[confirm/C2_REGISTRATION|C2]] (an R2, feine Persistenz nach dem Wechsel), [[confirm/C3_REGISTRATION|C3]] (an P4), [[confirm/C4_REGISTRATION|C4]] (an P2f, D₅₉ bei 12 000 Schritten). Alle Codex-geprüft; Auswertungen ungetestet. Pilot [[experiments/EXP-082-graded-targets/README|EXP-082]] (Eingriff: vorgegebene Zielstärken) vorbereitet.
 - **e:** Suche zu N39 ohne einschränkenden Treffer; Abgrenzung zu He et al. 2026a in [[paper/related_work]].

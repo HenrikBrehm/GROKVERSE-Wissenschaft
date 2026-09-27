@@ -1,8 +1,8 @@
 ---
 id: EXP-038
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 ---
 # EXP-038: Wo sitzt die Festlegung, im Embedding W_E oder in den nachgelagerten Gewichten?
 
@@ -62,3 +62,21 @@ python lab/experiments/EXP-038-where-lockin/analyze.py --selftest
 ## Status
 
 Vorbereitet, nicht ausgeführt; `--reset-at-switch` im echten Lauf ungetestet (Smoke am Anfang der Queue).
+## Ergebnis (Sitzung 21, 2026-09-27, eingeordnet 04:51 Berlin; Läufe und Auswertung im CPU-Programm, Auswertung 04:46)
+
+Formales Urteil nach der Festlegung (≥ 4 auswertbare Seeds mit gleichem Muster): ***redundant*** (5/5 Seeds).
+
+| Seed | d_h Kontrolle (ohne Rücksetzen) | RW (nur W_E auf Init) d_h | RR (alles außer W_E auf Init) d_h | Test-Acc RW / RR | Train-Acc direkt nach dem Rücksetzen RW / RR |
+|---|---|---|---|---|---|
+| 30 | 5 | 5 | 4 | 1.0 / 1.0 | 0.065 / 0.013 |
+| 31 | 5 | 5 | 4 | 1.0 / 1.0 | 0.062 / 0.012 |
+| 32 | 4 | 4 | 5 | 1.0 / 1.0 | 0.076 / 0.012 |
+| 33 | 4 | 4 | 5 | 1.0 / 1.0 | 0.082 / 0.011 |
+| 34 | 5 | 5 | 5 | 1.0 / 1.0 | 0.085 / 0.010 |
+
+**Lesart (nach Nachtrag a: Notwendigkeit/Hinlänglichkeit unter Rücksetzen und Neulernen, kein Speicherort):** Nach 150 Schritten auf F reicht **jeder der beiden
+Teile allein**, damit das Netz nach 2000 Schritten nur auf G wieder die F-Frequenzen trägt. Bemerkenswert ist RW: W_E steht nach dem Rücksetzen auf der Init
+(Train-Acc 0.06–0.09), und trotzdem schreiben die übrigen Gewichte die F-Wahl während des G-Trainings in das neue W_E zurück. Die Festlegung steckt also nicht nur
+im Embedding. Sie ist nach 150 Schritten doppelt vorhanden. Ob schon ein Teil des Rests (Attention, MLP, W_U) genügt, ist offen (Folgeversuch).
+**Einordnung (Regel 15b):** n = 5, Seeds aus EXP-020 bekannt → **Pilot**, keine Kernaussage. Grenzen wie oben (grober Eingriff; RR setzt 93.5 % der Parameter zurück,
+RW 6.5 %; t = 150 liegt nach EXP-020 bereits an der Decke der Persistenz).

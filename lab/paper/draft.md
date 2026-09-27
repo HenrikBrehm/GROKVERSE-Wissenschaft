@@ -119,7 +119,7 @@ resets localize sensitivity, not mechanism; many design decisions were informed 
 Experiment planning, code, analyses and text of this work were produced to a substantial degree by AI agents (Anthropic Claude as the lab agent; OpenAI Codex as an independent reviewer of designs and
 code), operating under written rules set by the human author, who bears responsibility for the content. All numerical results come from logged runs bound to frozen manifests; no number was written by hand.
 
-## Figures (to be produced by scripts under `lab/paper/figures/`, none yet)
+## Figures (scripts under `lab/paper/figures/`, rendered from stored runs / frozen summaries)
 
 1. **done:** `figures/fig1_mask_vs_learned.py` — mask spectrum M0 vs learned W_E power at step 2000 for EXP-016 seed 10 F (pilot data). Caption must say: four of five targets dominate;
    target 25 is replaced by 32 = 2·16 (a harmonic of a target, as seen throughout EXP-016).
@@ -127,3 +127,4 @@ code), operating under written rules set by the human author, who bears responsi
 3. **done:** `figures/fig3_ablation_contrast.py` — ablation contrast R per seed for N29 (switch at 25 vs 50) and N29b/N29c (switch at 50, reset arms); blocks use different seeds.
 4. **done:** `figures/fig4_pi_curve.py` — π(t) pilot curve (EXP-059, 10 known seeds, mean ± SD) with the N28 confirmed points at t = 25 (0.340 [0.302, 0.377]) and 50 (0.998 [0.965, 1.032]),
    30 fresh seeds (CIs recomputed from the frozen per-seed values; confirmed points offset by 1.2 steps for visibility).
+5. **done:** `figures/fig5_margin_sensitivity.py` — K2-function D per seed with CI (P2d add 113; P2e mul 113, add 97); different step budgets, compare qualitatively.

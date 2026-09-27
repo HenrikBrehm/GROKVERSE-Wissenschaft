@@ -18,6 +18,7 @@ import importlib.util
 import io
 import json
 import shlex
+import tempfile
 import sys
 from pathlib import Path
 
@@ -194,7 +195,7 @@ def arm_row(man: dict, s: int, arm: str, T: dict, common: np.ndarray) -> dict | 
     if (why := BLOCK.unbound(man, d)):
         return f"defekt: {why}"
     L = load_run(d, Expect(seed=s, device=man["device"], max_steps=man["steps"], split_file=split, config={"p": G},
-                           at=(S1_STEP,), files=("model_final.pt",)))
+                           files=("model_final.pt",)))
     if L.status != "ok":
         return f"{L.status}: {L.reason}"
     if (why := BLOCK.unbound(man, d)) or L.res.get("fingerprint_fields", {}).get("split_file_sha256") != sha(split):
@@ -203,10 +204,19 @@ def arm_row(man: dict, s: int, arm: str, T: dict, common: np.ndarray) -> dict | 
         out = measure(s, arm, T, common, BLOCK.bound_bytes(man, L.path / "model_final.pt"))
     except Exception as ex:                    # as P2e (Codex s23 point 1): any load/forward failure is technical, never an abort
         return f"defekt: {type(ex).__name__}: {ex}"
-    pw = np.asarray(L.spectrum(S1_STEP), dtype=np.float64)        # irrep power k = 1..29 (group_train), checked finite by the loader
-    gen = L.res.get("generalization_step")
-    return {**out, "share_own_2000": float(pw[[k - 1 for k in T[arm]]].sum() / pw.sum()),
-            "gen_step": int(gen) if gen is not None else man["steps"] + 1}   # never generalised: censored, ranked last
+    return {**out, **s1_fields(L.path, L.res, T[arm], man["steps"])}
+
+
+def s1_fields(d: Path, res: dict, own: list[int], steps: int) -> dict:
+    """Secondary S1 inputs, isolated from the primary path (Codex recheck s24): any problem gives None, never a technical failure."""
+    gen = res.get("generalization_step")
+    try:
+        st = np.load(d / "spectra_steps.npy").tolist()
+        pw = np.asarray(np.load(d / "spectra.npy")[st.index(S1_STEP)], dtype=np.float64)
+        share = float(pw[[k - 1 for k in own]].sum() / pw.sum()) if pw.shape == (dh().n_irrep2(N),) and np.all(np.isfinite(pw)) else None
+    except Exception:                                        # noqa: BLE001 (secondary only)
+        share = None
+    return {"share_own_2000": share, "gen_step": int(gen) if gen is not None else steps + 1}   # never generalised: censored, ranked last
 
 
 def validity(arms: dict) -> dict:
@@ -250,11 +260,14 @@ def secondary_s1(rows: list[dict], n_planned: int, rng: np.random.Generator) -> 
     """S1 (secondary, own label, not part of the primary verdict): seeds with a larger own-irrep share at step 2000 grok earlier.
     Per seed x = mean over arms of share_own_2000, y = mean over arms of gen_step (censored = steps + 1); Spearman rho(x, y),
     one-sided permutation p (rho <= observed). "S1 bestätigt" = rho < 0 and p < ALPHA; any technical failure -> nicht auswertbar."""
-    if any(r.get("technical") for r in rows) or len(rows) != n_planned or n_planned < 5:
+    if (any(r.get("technical") for r in rows) or len(rows) != n_planned or n_planned < 5
+            or any(v.get("share_own_2000") is None for r in rows for v in r["arms"].values())):
         return {"verdict": "nicht auswertbar"}
     x = np.array([np.mean([v["share_own_2000"] for v in r["arms"].values()]) for r in rows])
     y = np.array([np.mean([v["gen_step"] for v in r["arms"].values()]) for r in rows])
     rx, ry = rankdata(x), rankdata(y)
+    if np.std(rx) == 0 or np.std(ry) == 0:                   # Codex recheck s24: e.g. every arm censored -> rho undefined
+        return {"n": len(rows), "verdict": "nicht auswertbar (Rangstatistik undefiniert)"}
     rho = float(np.corrcoef(rx, ry)[0, 1])
     perm = np.array([np.corrcoef(rng.permutation(rx), ry)[0, 1] for _ in range(S1_PERM)])
     p = float((1 + (perm <= rho).sum()) / (1 + S1_PERM))
@@ -339,6 +352,17 @@ def selftest() -> None:
     flat = [{"technical": False, "arms": {a: {"share_own_2000": 0.4 + 0.01 * i, "gen_step": 5000 + 200 * i} for a in "FG"}} for i in range(20)]
     assert secondary_s1(flat, 20, np.random.default_rng(1))["verdict"] == "S1 nicht bestätigt"
     assert list(rankdata(np.array([3.0, 1.0, 3.0]))) == [1.5, 0.0, 1.5]
+    cens = [{"technical": False, "arms": {a: {"share_own_2000": 0.4 + 0.01 * i, "gen_step": 12001} for a in "FG"}} for i in range(20)]
+    assert secondary_s1(cens, 20, rng)["verdict"].startswith("nicht auswertbar")
+    miss = [{**r, "arms": {**r["arms"], "F": {**r["arms"]["F"], "share_own_2000": None}}} if i == 3 else r for i, r in enumerate(s1rows)]
+    assert secondary_s1(miss, 20, rng)["verdict"] == "nicht auswertbar"
+    with tempfile.TemporaryDirectory() as tmp:               # s1_fields never raises and isolates bad spectra
+        td = Path(tmp)
+        assert s1_fields(td, {"generalization_step": 5000}, [1, 2], 12000) == {"share_own_2000": None, "gen_step": 5000}
+        np.save(td / "spectra_steps.npy", np.array([0, 2000]))
+        np.save(td / "spectra.npy", np.ones((2, dh().n_irrep2(N))))
+        f = s1_fields(td, {}, [1, 2], 12000)
+        assert abs(f["share_own_2000"] - 2 / 29) < 1e-12 and f["gen_step"] == 12001, f
     w = verdict(rows[:15] + [mk(0.0, False)] * 5, 20, rng)
     assert w["n"] == 20 and w["n_generalised"] == 15 and "verdict" not in w["descriptive_generalised_only"]
     import torch                                            # end-to-end measure() on a random model (P2e lesson)

@@ -1,0 +1,9 @@
+{
+ "arms": 100,
+ "top1_of_10": 0.2,
+ "chance_top1": 0.1,
+ "pairwise_true_beats_decoy": 0.7355555555555555,
+ "chance_pairwise": 0.5,
+ "nontarget_top1_of_10": 0.22,
+ "nontarget_pairwise": 0.63
+}

@@ -3140,3 +3140,7 @@ N29b-Block eingespielt (Code-Hash). STATE neu geschrieben (51 Zeilen).
 von den alten Frequenzen um 1.49 [1.36, 1.61] gegenüber normal und um 1.42 [1.28, 1.56] gegenüber dem MLP-Reset (je 20/20). Beschreibend R(rsattn) = −0.63 [−0.73, −0.52], < 0 in 40/40 Richtungen: Das Netz ist danach
 auf die neuen Frequenzen angewiesen. R(rsmlp) = 0.79 ≈ normal 0.86. Die Pilotbeobachtung aus EXP-067 hält an frischen Seeds mit 4000 Schritten. *Ohne Codex-Prüfung der Schlussfolgerung (kein Guthaben).*
 Trainer-Erweiterung `qk|vo` (1c6e480, 18/18 Tests, **ohne Codex**: gleiche Codepfade wie `attn`, nur zwei neue Einträge in RESET_PARTS). EXP-069 (40 Läufe) ab 11:35.
+
+**Zyklus 18 (EXP-069 ausgewertet, Läufe 11:35–11:40, Auswertung 11:40 gemessen).** *Frage:* Muster (W_Q, W_K) oder Werte (W_V, W_O)? *Ergebnis (Pilot, 10/10 gültig):* **rsvo trägt den Ausschluss mit**
+(b 0.49, Δb > 1 in 10/10), rsqk *unklar* (b 3.17, Funktion bleibt alt). Funktional nach rsvo: beide Mengen nötig (ohne alte 0.14, ohne neue 0.17); nur der volle Attention-Reset gibt den vollständigen Umstieg.
+*Entscheidung:* Kandidat N32 präzisiert (Wertepfad). Bestätigung an frischen Seeds in einer späteren Sitzung (im Fenster), Codex-Prüfung der Trainer-Erweiterung nachholen.

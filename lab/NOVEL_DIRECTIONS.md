@@ -764,3 +764,4 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
   features data distribution shift early training“. Nächstverwandt: Plastizitätsverlust in Transformern geht mit einem Entropiekollaps der Attention einher (Lyle et al., https://clarelyle.com/posts/2025-09-06-plasticity-survey.html;
   Übersicht https://arxiv.org/pdf/2411.04832); Resets einzelner Schichten aus RL/kontinuierlichem Lernen (https://arxiv.org/html/2410.20098v3). Nanda et al. 2023 (https://arxiv.org/abs/2301.05217) zum Mechanismus.
   **Nicht gefunden (vorläufig):** dass ein Attention-Reset schon nach ≈ 50 Schritten den Ausschluss neuer Merkmale bei einem Datenwechsel aufhebt, während MLP- und Unembedding-Reset es nicht tun.
+- **Nachtrag (Sitzung 23, EXP-069, Pilot):** Den Ausschluss trägt vor allem der Wertepfad (W_V, W_O; b 0.49), nicht das Muster (W_Q, W_K; b 3.17). Nach dem Wertepfad-Reset nutzt das Netz beide Mengen.

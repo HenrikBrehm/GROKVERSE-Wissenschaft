@@ -61,3 +61,11 @@ python lab/experiments/EXP-077-marginal-steering/make_split.py        # erledigt
 python lab/tools/parallel_queue.py lab/experiments/EXP-077-marginal-steering/jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-077-marginal-steering/analyze.py
 ```
+
+## Nachtrag a (14:42 Berlin, gemessen; vor jedem Lauf): zweiter Weg, gleiche Lesart
+
+Ein positives Δ_pow zeigt, dass die Randverteilung steuert, aber nicht zwingend über den Weg erster Ordnung (Fremd-Operand, p|ρ̂(k)|²). Ein zweiter denkbarer Weg: Die **eigene**
+Häufigkeit ρ(t) moduliert, wie stark Zeile t anfangs aktualisiert wird (Amplitudenmodulation über t); das kann ebenfalls Leistung bei den Frequenzen von ρ erzeugen (bei Adams vorzeichenartigen
+Schritten vermutlich schwach). Der Pilot trennt die beiden Wege nicht; die Lesart „stützt erste Ordnung“ gilt deshalb nur im Sinn „stützt die Vorhersage, dass Häufigkeiten allein steuern
+können“, gegen die Lesart „nur Paarstruktur“. Kriterien und Urteile oben unverändert. Eine Trennung (z. B. über die W_E-Zeilennormen gegen ρ(t) aus den gespeicherten Schnappschüssen) wäre
+ein eigener, später festzulegender Schritt.

@@ -42,7 +42,7 @@ Festgelegt 2026-09-27, Sitzung 24, **vor jedem EXP-073-Lauf** (außerhalb des Fe
 Vier Blocker gemeldet, alle selbst geprüft und übernommen: (1) der Test `test_rewind` hatte keine Testmenge (Wechselläufe brauchen `--test-file`) → EXP-056-Splits mit gemeinsamer Testmenge, eindeutige
 Treffer; (2) Ban-/Shrink-Bedingungen würden nicht zurückgespult → `--rewind-at-switch` nur mit `--condition baseline`; (3) Chimären-Störung → Lesarten als Empfindlichkeit, Loss/Genauigkeit auf neuem und
 altem Split vor und nach dem Zurückspulen im Trainer-Ereignis; (4) Gleichheitsprüfung rwall = ref25 je Richtung statt gemittelt. Bestätigt ohne Änderung: Zeitpunkt des Schnappschusses, Wiederherstellen
-des AdamW-Zustands (alle Tensoren geklont, Gerät bleibt), Fingerabdruck-Kompatibilität, 140 eindeutige Jobs, π-Normierung. Die Trainer-Änderung ist bis zum Test im Fenster **ungetestet**.
+des AdamW-Zustands (alle Tensoren geklont, Gerät bleibt), Fingerabdruck-Kompatibilität, 140 eindeutige Jobs, π-Normierung. Die Trainer-Änderung ist bis zum Test im Fenster **ungetestet**. Nachprüfung der vier Korrekturen durch Codex (Sitzung 24, `codex_recheck_s24.txt`): keine verbleibenden Blocker, keine neuen Fehler.
 
 ```
 python lab/tools/guarded_run.py --min-minutes 5 -- python lab/tests/test_freq_ban_fingerprint.py

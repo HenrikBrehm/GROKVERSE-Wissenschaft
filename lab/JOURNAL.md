@@ -2707,3 +2707,12 @@ add/mul speichern `model_final.pt` (5b03b7c; Training und Lauf-ID unverändert).
 Vorzeichentest, Holm P1–P3, „bestätigt“ = alle gültig, Holm-p < 0.05, KI-Untergrenze > 0. Auswertecode `confirm_p2.py` (935155b), steht in den eingefrorenen Code-Hashes.
 *Power aus EXP-055 (f = 0.5):* D̄ = 5.9·10⁻⁴, SD 3.6·10⁻⁴, d_z = 1.63. Bootstrap-Power bei α/3 für n = 20: 0.997 bei halbem Effekt. Ein Verhältnis ΔL_own/ΔL_ctrl als
 Mindesteffekt geht nicht, weil ΔL_ctrl im Pilot teils negativ ist. *Stand:* Codex prüft den P2-Entwurf.
+
+**Zyklus 5 (P2-Maß und Registrierungslücken vor dem Einfrieren, 04:33–04:38 gemessen).** *Frage:* Misst das P2-Maß, was die Aussage behauptet, und deckt der Code
+alles ab, was die Registrierung verspricht? *Ergebnisse:* (a) Das rohe D gewichtet Modelle nach ihrem Basis-Loss. Seed 157 G (Basis-Loss 2·10⁻⁷) trägt praktisch nichts bei.
+→ primär jetzt das skalenfreie R = log(L_nach,own/L_nach,ctrl), Mindesteffekt log 1.05; Pilot R̄ = 0.150, SD 0.065, 10/10 (bereits gesehen, im Entwurf vermerkt).
+(b) Geometrie: Bei f = 0.5 ist die Störung entlang der Ziele nur ≈ 5 % der quadrierten Kontrollstörung. R > 0 folgt also nicht aus dem Eingriff selbst.
+(c) Der t-Test (H7, sekundär) stand in der Registrierung, fehlte aber im Code. Nachgetragen, ohne scipy (unvollständige Betafunktion, gegen die geschlossene Form bei df = 2 und
+einen Tabellenwert geprüft; meine erste Testerwartung 1/27 war falsch, der Code war richtig). (d) Der frische Bytecode-Cache pro Lauf hätte torch in jedem der 420 Läufe neu
+übersetzt. Jetzt nutzen alle Jobs eines Einfrierens einen Cache, der an den Code-Digest gebunden ist (5290b63). (e) `lab/confirm/raw/` stand nicht in .gitignore, ergänzt.
+GPU bereit (RX 7900 XT, 21 GB frei). Die Jobliste aus dem Entwurf hat 420 Zeilen, keine Backslashes.

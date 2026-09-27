@@ -1,0 +1,20 @@
+{
+ "seed": 2123,
+ "arm": "G",
+ "targets": [
+  13,
+  18,
+  22,
+  24,
+  35
+ ],
+ "other_targets": [
+  12,
+  27,
+  38,
+  41,
+  44
+ ],
+ "n": 3831,
+ "manifest_commit": "e8e0cfa"
+}

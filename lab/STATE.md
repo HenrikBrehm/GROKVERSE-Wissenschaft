@@ -7,9 +7,10 @@ _Zuletzt aktualisiert: 2026-09-27, 14:30 Berlin (Sitzung 25, Start 14:19, Deadli
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
-## Lage (Sitzung 24)
+## Lage (Sitzungen 24–25)
 
-- **Sitzung 25 (neu, ungetestet bis 00:00):** `lab/tools/confirm_p4.py` (P4: MLP, d512, Integer-Addition; Seeds 2360–2419, ID 7; Codex-Prüfung läuft/erledigt s. JOURNAL); `lab/paper/repro/train.py` (schlanker Trainer, Gleichwertigkeitsbefehle in [[paper/repro/README]]); Theorie-Abschnitt §5 im [[paper/draft]]; Seeds 2420–2509 für R1 reserviert.
+- **Sitzung 25 (neu, ungetestet bis 00:00):** `lab/tools/confirm_p4.py` (P4: MLP, d512, Integer-Addition; Seeds 2360–2419, ID 7; Codex: 1 Blocker behoben); `lab/paper/repro/train.py` (schlanker Trainer, Gleichwertigkeitsbefehle in [[paper/repro/README]]); Theorie-Abschnitt §5 im [[paper/draft]]; Seeds 2420–2509 für R1 reserviert.
+- **Sitzung 25, Literatur:** Volltextprüfung [[paper/fulltext_check_2026-09-27]]: K4d eingeschränkt (Dong 2026: in Sprachmodellen hilft ein QK-Reset, Value nicht; bei uns umgekehrt), Khanh 2026 Pflichtzitat; K2 weiter nicht gefunden. **EXP-077** (Programm C, Pilot) vorbereitet; `repro/k2.py` geschrieben.
 
 - **EXP-072 (Pilot):** D₅₉ generalisiert (9/10, erster Test ≥ 0.9 bei Median 4575 Schritten); eigene Irreps 0.90–0.99 der W_E-Energie; Irrep-Funktionsmaß D = 0.22 (5/5, post hoc).
 - **EXP-071 (Exploration):** OV-Ausrichtung sagt π je Seed höchstens schwach voraus (r = 0.45, p = 0.09); erklärt den Zeitverlauf nicht besser als die Schrittzahl. Urteil unklar.

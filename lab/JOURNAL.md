@@ -3004,6 +3004,6 @@ angeglichener relativer Störung oder eine Dosis-Kurve. Codex-Prüfung dieser Sc
 t = 25 → ohne neue 0.04–0.38. Die „Koexistenz“ aus EXP-062 ist spektral, funktional ist es ein **Umstieg** (t = 25) gegen **Festhalten** (t = 50). Codex hatte genau hier die Lücke benannt.
 Nächster Schritt: Bestätigung mit sicherer Generalisierung (längeres Nachtraining, `--stop-after-gen` ≥ Schritte) an frischen Seeds.
 
-**Zyklus 16 (Codex prüft die P2c-Schlussfolgerung, 09:05–09:08).** Urteil korrekt. Übernommen: keine Gegenhypothese behaupten; Dosisgeometrie genau benennen (2.44 % gegen 50 %, Skalierung 0.988 gegen 0.707,
+**Zyklus 16 (Codex prüft die P2c-Schlussfolgerung, 09:05–09:12 gemessen).** Urteil korrekt. Übernommen: keine Gegenhypothese behaupten; Dosisgeometrie genau benennen (2.44 % gegen 50 %, Skalierung 0.988 gegen 0.707,
 post hoc); Ursache nicht identifiziert (mehrere Faktoren ändern sich gleichzeitig; nach Codex bleibt R auch innerhalb der Basis-Loss-Quartile negativ); die funktionale Aussage bleibt eng.
 Nachfolgemaß P2d im [[BACKLOG]] (lokale Empfindlichkeit je gleicher Schrittnorm, Kontrollen gleicher Größe, Logit-Abstand primär).

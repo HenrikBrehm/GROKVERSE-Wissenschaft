@@ -45,7 +45,7 @@ Start 08:10 mit 3 Arbeitern (freier virtueller Speicher nur 3.3 GB).
 - **Folge für Programm A:** Die funktionale Nutzung der gesteuerten Frequenzen ist mit diesem Maß **nicht** belegt. Ein Nachfolger bräuchte ein Maß, das die relative Störung angleicht
   (z. B. gleicher Anteil der jeweiligen Energie) oder eine Dosis-Kurve, vorab festgelegt; vor jeder weiteren Aussage Codex-Prüfung der Schlussfolgerung.
 
-## Codex-Prüfung der Schlussfolgerung (Sitzung 22, 09:05–09:08), übernommen
+## Codex-Prüfung der Schlussfolgerung (Sitzung 22, 09:05–09:12 gemessen), übernommen
 
 Urteil korrekt. Übernommen: (1) keine Gegenhypothese behaupten (oben geändert). (2) Post hoc, beschreibend: Die Dosis entfernte median 2.44 % der Energie im Eigenziel-Unterraum, aber 50 % im Kontrollunterraum
 (Skalierungsfaktoren ≈ 0.988 bzw. 0.707); mögliche Erklärung, kein getesteter Mechanismus. (3) Die Ursache ist nicht identifiziert: Trainingsstand, Seed/Split-Block, Energiegeometrie, Kontrollzusammensetzung

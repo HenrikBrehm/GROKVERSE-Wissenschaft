@@ -496,7 +496,7 @@ Google Scholar.
 *Nachtrag (15:48):* Semantic Scholar liefert für Dong 2026 (2607.27281) eine **leere** Zitatliste (gültige Antwort, keine Sperre); Khanh erneut HTTP 429. Leere Liste heißt bei einer Arbeit von Ende Juli vermutlich Indexierungsverzug, nicht „nie zitiert“.
 *Nachtrag (15:56):* Auch für Khanh 2026 (2607.06628) liefert Semantic Scholar eine leere Zitatliste (gültige Antwort). Damit sind alle 9 Ausgangsarbeiten gesichtet; leer bei Dong und Khanh = vermutlich Indexierungsverzug (beide Juli 2026). In einer späteren Woche erneut prüfen.
 
-## Nachtrag Sitzung 27 (2026-09-27, 16:10 Berlin, gemessen)
+## Nachtrag Sitzung 27 (2026-09-27, vor 16:07 Berlin, gemessen)
 
 - **Xu 2026, *Stored in Optimizer State, Valued by Later Training: A Causal Account of Subliminal Trait Transfer*** (arXiv 2608.20442, eingereicht 2026-08-20; [A] Abstract-Seite per WebFetch). Zustandschirurgie zeigt Adams
   erstes Moment als kausalen Träger eines Quellsignals, das nach dem Entfernen der Quelldaten weiterwirkt (Effekte über 8–16 Updates). Keine Grokking-/Fourier-Analyse, kein früher Datenwechsel, keine Größenvorhersage über β₁.

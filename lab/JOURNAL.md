@@ -3529,3 +3529,10 @@ ist die Ausgabedifferenz unter Vertauschung Σ_h (α_a − α_b) · W_O W_V (W_p
 nicht. (2) Bei t = 50 ist die Attention noch zufällig positionsasymmetrisch. (3) Ein QK-Reset bringt diese Init-Asymmetrie zurück und hilft a − b trivial. *Entscheidung:* EXP-080 wird nicht gerechnet
 (Status zurückgestellt), EXP-079 misst stattdessen die Kanäle (QK-Versatz, OV-Marke, Logit-Antisymmetrie) als Material für ein neues Design; N36 korrigiert. *Lehre:* Ein eigenes Gegenargument hatte ich
 schon notiert, aber als „trägt qualitativ“ abgetan; die Prüfung vor dem Lauf hat eine Nacht-Queue mit einem nicht deutbaren Versuch verhindert.
+
+**Zwischenbilanz nach Auftrag §4 (15:54, gemessen, nach 10 Zyklen dieser Sitzung).** *Gelernt:* (1) Literatur: Die Neuheit von K2 ist enger als notiert (Tomàs Bernal et al.: Trainingsmengen-Symmetrie wählt
+die gelernte Gruppenstruktur in Kerneln); K4 und K4d/e bleiben nach Vorwärtszitaten und vier Volltexten nicht gefunden. (2) Ein geplanter Versuch (EXP-080) war nicht deutbar; das hat die Prüfung vor
+dem Lauf gezeigt. *Wiederholen wir uns?* Nein, aber die Zahl vorbereiteter, ungetesteter Blöcke für eine Nacht ist jetzt hoch (P2f, EXP-073/074/075/077/078/079, R1, R2, R3, P4, Repro). Das Risiko
+liegt bei den Nachtsitzungen (Einfrieren, Smokes). Deshalb **keine weiteren Versuche für diese Nacht**; die Reihenfolge in [[STATE]] ist verbindlich priorisiert. *Messungen geeignet?* Für die Uhrfrage
+ja (R3 mit gegensätzlichen Vorhersagen); für N36 noch nicht (Kanäle erst messen). *Nächste anzugreifende Annahme:* dass die Festlegung eine einzige Uhr hat (R3 kann „keine der beiden“ ergeben;
+dann N37). *Folge für den Rest der Sitzung:* nur noch Paper-Arbeit und Literatur, keine neuen Registrierungen.

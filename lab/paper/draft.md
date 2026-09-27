@@ -119,7 +119,7 @@ order n, the candidate frequencies are k = 1, …, ⌊(n−1)/2⌋; for D59 they
 (30 % of all pairs) without replacement with weights q(a, b) = max(0.05, 1 + ε·w(a, b)), where for a cyclic task w(a, b) = (1/5) Σ_{k∈T_F} cos(2πk·u(a)/n + φ_k(c)), u(a) is the group
 coordinate of the left operand, c the output and φ_k(c) a random phase per target and output; arm G does the same with T_G. For D59 the cosine is replaced by tr(A_k(c) ρ_k(a)) with random
 unit-norm 2×2 matrices A_k(c) and the irrep matrices ρ_k. We use ε = 2. Weighted sampling uses exponential keys (key = U^{1/q}, the largest 30 % are kept). The construction arranges the
-target frequencies along the output classes; the token frequencies are no more unequal than in a random split (coefficient of variation 0.14 for the pilot construction), although their spectrum is target-enriched (§5).
+target frequencies along the output classes; the token frequencies are no more unequal than in a random split (coefficient of variation 0.14 for the pilot construction), although their spectrum is target-enriched (§5). To the eye an engineered mask is indistinguishable from a random one; the difference lies in its spectrum (Fig. 0: centred mask-spectrum target share 0.194 vs 0.089 for the random arm of the same seed, chance 5/56 ≈ 0.089).
 
 **Switch protocol (K4–K4e).** For the persistence experiments (addition mod 113), a common held-out test set of 20 % of all pairs is removed first; from the remaining pool two training sets
 A and B of 3831 pairs each (30 % of all pairs) are drawn with target sets T_A, T_B as above. A and B pick their pairs in alternation from their own weighted key orders, so at overlap ω = 0 (all primary analyses) they share no pair

@@ -35,7 +35,7 @@ def power(s: int, om: float, kind: str) -> np.ndarray | str:
     """kind: 'A', 'B' (pure runs, 2000 steps) or 'AB', 'BA' (switch at T_SWITCH, then 2000 steps)."""
     first, second = kind[0], kind[1:] or None
     st1 = stem(s, om, first)
-    pat = f"EXP-056_baseline_seed{s}_thr*_{st1}" + (f"_to_{stem(s, om, second)}_at{T_SWITCH}" if second else "") + SUF
+    pat = f"EXP-0*_baseline_seed{s}_thr*_{st1}"          # freq_ban names pure runs EXP-018_, switch runs EXP-020_ (smoke 04:44) + (f"_to_{stem(s, om, second)}_at{T_SWITCH}" if second else "") + SUF
     steps = BUDGET + (T_SWITCH if second else 0)
     L = load_run(find_run(HERE / "raw", pat),
                  Expect(seed=s, device=DEV, max_steps=steps, split_file=SPL / f"{st1}.npy", test_file=SPL / f"seed{s}_test.npy",

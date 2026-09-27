@@ -31,7 +31,7 @@ been named as open (He et al. 2026b).
 
 We ask whether the training set itself can decide this choice. In the one-layer transformer of a previous grokking study we construct training splits whose pair mask carries power at five
 prescribed frequencies, and we train with full-batch AdamW and fixed one-hot tokens. The lever differs from the order of examples within an epoch, which LeDoux (2026) showed to set the fundamental
-frequency, and from the encoding statistics of Marchetti et al. (2026): here only *which* pairs are shown changes. In pre-registered replications with fresh seeds, the embedding enriches the
+frequency, from the encoding statistics of Marchetti et al. (2026), and from deliberately symmetric training sets, which in feature-learning kernels select the symmetry subgroup the features encode (Tomàs Bernal et al. 2026): here only *which* pairs are shown changes, the split has no built-in symmetry, and the targets are prescribed Fourier frequencies. In pre-registered replications with fresh seeds, the embedding enriches the
 prescribed frequencies over disjoint comparison frequencies at step 2000 in every one of 50 seeds per task, for addition mod 113 and mod 97, multiplication mod 113 and composition in the dihedral
 group D59 (for D59 this is before grokking; §3.1, §3.6). For the three cyclic tasks (D59 pending), the network is also more sensitive to perturbations along the steered frequencies than along
 control frequencies (§3.2). Where we examined it (add-113 switch models, exploratory), this sensitivity follows the embedding energy, so we do not claim use beyond energy.

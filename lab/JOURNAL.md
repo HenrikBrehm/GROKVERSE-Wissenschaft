@@ -2516,3 +2516,9 @@ Vor der Deutung [[LESART-nacht-2026-09-27]] gelesen.
 weil das vollständige Löschen der Kontrolle überproportional kostet. *Deutung:* Bei gleicher entfernter Energie sind die Zielfrequenzen im Teilbereich stärker genutzt. Das ist aber post hoc,
 und die vorab gewählte Primärdosis war die ungünstigste. *Entscheidung:* P2 für den Bestätigungsblock mit primärer Teildosis (f = 0.5) und ΔL an frischen Modellen festlegen
 (im [[BACKLOG]] P2-Abschnitt nachgetragen). Die 20 EXP-047-Modelle sind verbraucht (zweimal gesehen).
+
+**Zyklus 8 (nicht-modulare Aufgabe: EXP-048, 03:07–03:12 gemessen).** [[experiments/EXP-048-intadd-steering/README|EXP-048]] (a + b ohne mod, Ausgabe 0..224): **steuerbar**
+(trendbereinigtes Δ_pow 2.23, 10/10, p 0.00098; roh 2.12; Top-5-Δ 3.4; R ≈ 0). Die Aufgabe ist bei 2000 Schritten nicht gelernt (Test 0.23). Die Steuerung betrifft also die
+Repräsentation vor jedem Lernen. Lesart vorab: „der Split steuert“, Häufigkeiten gegen Paarstruktur hier nicht getrennt. *Zwischenstand Paket A:* K2 hält in 5/5 geprüften neuen Fällen
+(add 97, mul 113, D₅₉, int-add, dazu die Mechanismuskontrolle EXP-047). Nach [[LESART-nacht-2026-09-27]] Regel 2 reicht das für „K2 verallgemeinert sich über die gezeigten Aufgaben“
+(EXP-046, EXP-048 und eine EXP-043-Aufgabe *steuerbar*). FINDINGS aktualisiere ich nach EXP-049 in diesem Zyklus.

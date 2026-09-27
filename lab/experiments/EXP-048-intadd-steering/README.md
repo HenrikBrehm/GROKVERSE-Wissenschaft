@@ -1,13 +1,13 @@
 ---
 id: EXP-048
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-016-engineered-split/README|EXP-016]]", "[[experiments/EXP-046-dihedral-steering/README|EXP-046]]", "[[experiments/EXP-047-marginal-control/README|EXP-047]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-048: Datensteuerung der Frequenzen bei **nicht-modularer** Addition
 
-**Status:** vorbereitet, **nicht ausgeführt, ungetestet** (Sitzung 13, 2026-09-26 20:10 Berlin, außerhalb des Fensters).
+**Status:** abgeschlossen 2026-09-27 (Sitzung 20, GPU), Ergebnis unten. Ursprünglich: vorbereitet, nicht ausgeführt, ungetestet (Sitzung 13, 2026-09-26 20:10 Berlin, außerhalb des Fensters).
 Festgelegt, bevor ein einziger Lauf dieser Aufgabe existierte. Zurück zu [[LAB]] · [[FINDINGS]] · Idee [[NOVEL_DIRECTIONS]] N25.
 
 ## Bezug zu [[FINDINGS]]
@@ -101,3 +101,16 @@ Eine unabhängige Prüfung (Claude-Subagent, EXP-049) fand: Ein divergierter Lau
 
 **Art:** Pilot/Exploration für Paket A. Bestätigung nur im reservierten Block (Seeds 1000–1099, [[FINDINGS]] „Programm“) nach eingefrorenem Analysemanifest.
 **Gesehen:** EXP-016-Spektren (Seeds 10–19) zur Kalibrierung von Δ_pow gesehen (8.4); Literatur zur Zahlengerade (Liu et al. 2022) prägte die Zielwahl k ≥ 6 und die Trendbereinigung (Nachtrag a); die 30 Splits offline angesehen. Keine Läufe der Aufgabe gesehen.
+
+## Ergebnis (Sitzung 20, 2026-09-27, Läufe 03:07–03:10 Berlin, GPU nach bestandenem GPU-001)
+
+Befehl: `python lab/tools/night_program.py` (Stufe EXP-048); Logs `lab/runner/logs/night_20260927T005025_010314Z/EXP-048_*`, Zahlen `summary.json`.
+20 gesteuerte Läufe (F/G, Seeds 160–169) + 10 Zufallssplit-Läufe (R), device cuda, Commits f34eeb1/97a3e6a (dazwischen nur Dokumente).
+
+- **Primär (trendbereinigtes Δ_pow, Nachtrag a): Δ̄ 2.23, 10/10 positiv, p 0.00098 → *steuerbar*.**
+- Sekundär: rohes Δ_pow 2.12 (p 0.00098); Top-5-Δ 3.4 (p 0.00098); Arm R Log-Verhältnis −0.02 (≈ 0, wie erwartet); linearer Anteil (R²) von W_E im Mittel 0.40.
+  Test-Genauigkeit im Mittel 0.23 bei 2000 Schritten (nicht Teil des Urteils; die Aufgabe ist in 2000 Schritten nicht gelernt).
+- **Lesart (vorab, Nachtrag a):** *steuerbar* heißt „der Split steuert die Fourier-Leistung in W_E“. Über Paarstruktur oder Häufigkeiten ist hier nicht getrennt (Häufigkeiten
+  tragen die Ziele hier stärker als modular). EXP-047 hat für Z₁₁₃ gezeigt, dass die Paarstruktur trägt. Das ist nur eine Übertragung, hier nicht geprüft.
+  Der Effekt ist kleiner als modular (Δ_pow 2.2 gegen 8.4 in EXP-016, andere Skala: trendbereinigt). Keine funktionale Aussage.
+  Pilot, keine Bestätigung. Erste Stützung von K2 für eine **nicht-modulare** Aufgabe, allerdings vor jedem Lernen der Aufgabe (Test 0.23).

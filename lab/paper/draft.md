@@ -111,5 +111,5 @@ code), operating under written rules set by the human author, who bears responsi
 
 1. Mask spectrum vs learned spectrum for one engineered split (EXP-015/016 data).
 2. Δ_pow per task with CIs (P1 summary) — **done:** `figures/fig2_p1_delta_pow.py` → `fig2_p1_delta_pow.png/.svg` (reads `lab/confirm/P1_summary.json`).
-3. π(t) curve and the N29 reversal (EXP-059 pilot curve clearly marked; N29 confirmed points).
-4. Reset contrasts (N29b, N29c).
+3. **done:** `figures/fig3_ablation_contrast.py` — ablation contrast R per seed for N29 (switch at 25 vs 50) and N29b/N29c (switch at 50, reset arms); blocks use different seeds.
+4. π(t) pilot curve (EXP-059, clearly marked as pilot) — open.

@@ -3303,3 +3303,8 @@ Codex (Regel 18c): zwei Blocker, beide selbst bestätigt: `:g` in der Run-ID nic
 dazu Schutz gegen leere Splits. Ungetestet bis 00:00 (neuer Test `test_hp_overrides`). **Literatur:** Hintergrund-Agent hat [[paper/related_work]] geschrieben (≈ 50 Arbeiten, Suchprotokoll, Prüfgrad je Eintrag).
 Engste Arbeiten: K2 — LeDoux 2026 (Reihenfolge der Daten setzt die Grundfrequenz; von mir am Abstract geprüft: Reihenfolge, nicht Menge), Marchetti et al. 2026, He et al. 2026; K4 — Lyle et al. 2025,
 kritische Perioden (Achille 2019, Kleinman 2023/24), Primacy Bias; K4d/e — Teil-Resets (Nikishin 2022, Zhou 2022), Modul-Kritikalität. K2-Funktion allein trägt wenig Neuheit (Ablationen seit Nanda 2023).
+
+**Zyklus 14 (Regel 19a: R1 vorbereitet, 13:55–14:08).** Registrierungsentwurf [[confirm/R1_REGISTRATION_DRAFT|R1]] (K2 bei lr 5e-4/2e-3, wd 0.3/3, train_frac 0.2/0.5; je 15 frische Seeds, Holm über 6,
+Mindesteffekt 1) und `lab/tools/confirm_r1.py` (P1-Konstruktion mit dem Anteil als Parameter, ohne `confirm_splits.py` zu ändern). ε-Kalibrierung auf gleichen M0-Zielanteil (numpy, Kalibrier-Seeds):
+2.838 (0.2), 1.465 (0.5). **Codex:** drei Blocker (Bisektion ohne Monotonie-Garantie, Seeds/ε nicht validiert, versprochene Diagnosen fehlten), alle selbst bestätigt und behoben; Aussage auf
+„nach 2000 Optimierer-Schritten“ eingeengt. Nachprüfung zuerst ungültig (mein Auftrag verbot auch das Lesen), dann ohne Befund. Ungetestet bis 00:00.

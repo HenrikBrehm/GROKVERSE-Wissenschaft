@@ -20,7 +20,7 @@ Zurück zu [[paper/robustness_plan]] · [[paper/STATUS]]. Entwurf Sitzung 24 (20
 - **Zusätzlich beschreibend:** Test-Genauigkeit (Median) und Zahl der bis Schritt 2000 generalisierten Arme je Zelle (im Code seit der Codex-Prüfung). **Schätzgröße eng gefasst (Codex s24):**
   „Steuerung nach 2000 Optimierer-Schritten“; lr/wd können eine Zelle vor oder nach das Grokking legen, eine phasengleiche Robustheitsaussage ist damit nicht gemacht.
 - **Codex-Prüfung (Sitzung 24, `R1_codex_review_s24.txt`):** drei Blocker übernommen (Kalibrierung fail-closed; exakt 15 verschiedene Seeds je Zelle, global verschieden, ε = gespeicherte
-  Kalibrierung, im Code geprüft; Diagnosen umgesetzt und Aussage eng gefasst); klein übernommen: alle drei Hyperparameter und die Architektur im Lader geprüft.
+  Kalibrierung, im Code geprüft; Diagnosen umgesetzt und Aussage eng gefasst); klein übernommen: alle drei Hyperparameter und die Architektur im Lader geprüft. Nachprüfung (`R1_codex_recheck_s24.txt`; der erste Versuch war ungültig, weil mein Auftrag auch das Lesen verbot): keine Blocker.
 - **Splits:** `confirm_splits`-Konstruktion mit eigener Versuchs-ID (8) und frischen Seeds; für die train_frac-Zellen muss die Split-Größe round(f · 113²) sein, und ε muss so gewählt werden, dass der
   M0-Zielanteil dem Standard entspricht (Kalibrierung an Kalibrier-Seeds vor jedem Lauf, wie EXP-053) — sonst wäre eine Abschwächung bei 0.5 nur eine schwächere Steuerung.
 - **Kalibrierung (Sitzung 24, `confirm_r1.py --calibrate`, Kalibrier-Seeds 900–909, Versuchs-ID 98, nur numpy):** Ziel-M0-Anteil beim Standard 0.1908. *Nach Codex (s24) neu, fail-closed:* deterministische Gittersuche statt Bisektion, erreichter Anteil nachgerechnet und

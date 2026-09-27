@@ -107,7 +107,8 @@ def verdict(D: np.ndarray, n_planned: int, rng: np.random.Generator, min_effect:
     ok = ph < ALPHA and ci[0] >= min_effect
     return {"p": p, "p_holm_worstcase": ph, "ci95": ci, "mean": float(D.mean()), "sd": float(D.std(ddof=1)),
             "d_z": float(D.mean() / D.std(ddof=1)) if D.std(ddof=1) > 0 else None,
-            "n_positive": int((D > 0).sum()), "verdict": "bestätigt" if ok else "nicht bestätigt"}
+            "n_positive": int((D > 0).sum()), "t_test_secondary": c1.t_test_secondary(D),
+            "verdict": "bestätigt" if ok else "nicht bestätigt"}
 
 
 def analyze(manifest: Path) -> None:

@@ -333,6 +333,39 @@ def sign_flip_p(d: np.ndarray, rng: np.random.Generator) -> float:
     return float((np.sum((flips * d).mean(axis=1) >= d.mean() - 1e-12) + 1) / (N_MC + 1))
 
 
+def _betainc(a: float, b: float, x: float) -> float:
+    """Regularized incomplete beta I_x(a, b) (continued fraction, Numerical Recipes betacf); no scipy in this environment."""
+    import math
+    if x <= 0.0 or x >= 1.0:
+        return 0.0 if x <= 0.0 else 1.0
+    if x > (a + 1.0) / (a + b + 2.0):
+        return 1.0 - _betainc(b, a, 1.0 - x)
+    lbt = math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b) + a * math.log(x) + b * math.log(1.0 - x)
+    c, d = 1.0, 1.0 - (a + b) * x / (a + 1.0)
+    d = 1.0 / (d if abs(d) > 1e-300 else 1e-300)
+    h = d
+    for m in range(1, 300):
+        for num in (m * (b - m) * x / ((a + 2 * m - 1) * (a + 2 * m)), -(a + m) * (a + b + m) * x / ((a + 2 * m) * (a + 2 * m + 1))):
+            d = 1.0 + num * d
+            d = 1.0 / (d if abs(d) > 1e-300 else 1e-300)
+            c = 1.0 + num / c
+            c = c if abs(c) > 1e-300 else 1e-300
+            h *= d * c
+        if abs(d * c - 1.0) < 1e-15:
+            break
+    return math.exp(lbt) * h / a
+
+
+def t_test_secondary(d: np.ndarray) -> dict:
+    """Registration H7 (session 21): studentized one-sample t-test, one-sided mean > 0, reported secondary only."""
+    n = len(d)
+    sd = float(d.std(ddof=1))
+    t = float(d.mean() / (sd / n ** 0.5)) if sd > 0 else float("inf") * np.sign(d.mean())
+    df = n - 1
+    tail = 0.5 * _betainc(df / 2.0, 0.5, df / (df + t * t)) if np.isfinite(t) else 0.0   # P(T >= |t|)
+    return {"t": t, "p_one_sided": tail if t > 0 else 1.0 - tail, "df": int(df)}
+
+
 def boot_ci(d: np.ndarray, rng: np.random.Generator) -> list[float]:
     m = np.array([rng.choice(d, len(d)).mean() for _ in range(N_BOOT)])
     return [float(np.quantile(m, 0.025)), float(np.quantile(m, 0.975))]
@@ -416,7 +449,7 @@ def analyze(manifest: Path) -> None:
         res: dict = {"rows": rows, "n_valid": int(len(d)), "n_planned": len(man["seeds"])}
         if len(d) == len(man["seeds"]):   # session 20 (Codex B4): every planned pair, no complete-case deletion
             res.update({"mean": float(d.mean()), "sd": float(d.std(ddof=1)), "n_positive": int((d > 0).sum()),
-                        "ci95": boot_ci(d, rng), "p": sign_flip_p(d, rng)})
+                        "ci95": boot_ci(d, rng), "p": sign_flip_p(d, rng), "t_test_secondary": t_test_secondary(d)})
         out["tasks"][f"{t['task']}{t['p']}"] = res
     adj = family_adjust({k: v.get("p", 1.0) for k, v in out["tasks"].items()}, man.get("primary_task"))
     out["primary_task"] = man.get("primary_task")
@@ -438,6 +471,10 @@ def selftest() -> None:
     assert abs(delta_pow(np.array([4.0, 1.0]), np.array([1.0, 4.0]), [1], [2]) - 2 * np.log(4)) < 1e-12
     assert sign_flip_p(np.ones(10), rng) == 1 / 1024
     assert sign_flip_p(np.array([1.0, -1.0] * 5), rng) > 0.5
+    tt = t_test_secondary(np.array([1.0, 2.0, 3.0]))            # t = 2 sqrt 3, df 2: p = (1 - t / sqrt(2 + t^2)) / 2 (closed form)
+    assert abs(tt["t"] - 3 ** 0.5 * 2) < 1e-9 and tt["df"] == 2 and abs(tt["p_one_sided"] - (1 - 12 ** 0.5 / 14 ** 0.5) / 2) < 1e-12, tt
+    assert abs(_betainc(5.0, 0.5, 10 / 14) * 0.5 - 0.036694017385370196) < 1e-9     # t = 2, df = 10 (table value)
+    assert abs(t_test_secondary(-np.array([1.0, 2.0, 3.0]))["p_one_sided"] - (1 + 12 ** 0.5 / 14 ** 0.5) / 2) < 1e-12
     lo, hi = boot_ci(np.full(10, 2.0), rng)
     assert lo == hi == 2.0
     man = {"experiment": 1, "eps": 2.0, "seeds": [1000], "device": "cuda", "python": "PY", "threads": 1,

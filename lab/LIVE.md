@@ -5,19 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 09:39 Berlin (07:39Z, vom Runner)
 - **Deadline:** 2026-09-27 12:39 Berlin (10:39Z)
-- **Zuletzt aktualisiert:** 10:25 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 10:53 Berlin (gemessen)
 - **Run-Fenster:** offen (00:00-13:00), bindend ist die Sitzungsdeadline.
 
 ## Gerade
 
-P2e laeuft auf der GPU (etwa 30/80 fertig, 7 Arbeiter). Danach Auswertung und die Trainer-Option fuer EXP-067 (Patch vorbereitet, darf erst nach P2e eingespielt werden, weil der Trainer im Code-Hash von P2e steht).
+EXP-067 laeuft auf der GPU (60 Laeufe): Welcher Teil des Netzes (Attention, MLP, Ausgabematrix) haelt nach 50 Schritten die alten Frequenzen fest?
 
 ## Als Naechstes
 
-P2e auswerten → Codex zur Schlussfolgerung → FINDINGS. Dann Trainer-Option + Tests + Codex → EXP-067 (60 Laeufe).
+EXP-067 auswerten; STATE fuer die naechste Sitzung; Abschlussbericht vor 12:29.
 
 ## Verlauf dieser Sitzung
 
+- 10:52 EXP-067 gestartet (Trainer-Option neu, Tests gruen, Codex ok, alter und neuer Code bitgleich).
+- 10:49 FINDINGS: P2e im engen Wortlaut nach Codex.
+- 10:44 **P2e BESTAETIGT:** Der P2d-Befund gilt auch bei Multiplikation mod 113 (0.29) und Addition mod 97 (0.29), je 20/20 frische Seeds. Deutung eng: Empfindlichkeit entlang amplitudenstarker Richtungen.
 - 10:24 **EXP-068 (Exploration):** Bei gleich viel entfernter Energie reagiert das Netz auf die dominante Frequenzmenge NICHT staerker. Die gemessene Funktion folgt der Energie; das ist jetzt als Grenze in FINDINGS vermerkt.
 - 10:21 FINDINGS: N29 als K4c im engen Wortlaut nach Codex eingetragen.
 - 10:17 **N29 bestaetigt:** zwischen 25 und 50 Schritten kippt, auf welche Frequenzen das Netz am Ende angewiesen ist. Nachtraeglich: Die Energie in W_E zeigt dieselbe Richtung.

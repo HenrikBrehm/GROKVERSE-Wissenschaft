@@ -63,7 +63,25 @@ def main() -> None:
         print(name, json.dumps({k: out[name][k] for k in ("seeds", "gen_step_median", "n_gen", "n_runs")}), flush=True)
         for t, r in res.items():
             print(f"   step {t:>5}: n {r['n']:3d}  mean {r['mean']:+.3f}  CI {r['ci95']}  share>0 {r['share_pos']:.2f}", flush=True)
+    out["add113_decomposition"] = decomposition()   # added after the first run (session 30): own vs other targets, absolute power
+    print("add113 decomposition (median over arms):", json.dumps(out["add113_decomposition"]), flush=True)
     (LAB / "confirm/P2de_posthoc_dpow_time.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+
+
+def decomposition() -> dict:
+    """add 113: median absolute W_E power on the arm's own targets, on the other arm's targets, total, and own share, per step."""
+    name, raw, spl, task, p, run, stem = TASKS[0]
+    rows: dict[int, list[tuple[float, float, float]]] = {}
+    for s in range(2230, 2250):
+        for a, b in (("F", "G"), ("G", "F")):
+            T = json.loads((LAB / "confirm" / spl / f"{stem.format(s=s, a=a)}.json").read_text(encoding="utf-8"))["targets"]
+            U = json.loads((LAB / "confirm" / spl / f"{stem.format(s=s, a=b)}.json").read_text(encoding="utf-8"))["targets"]
+            for t, pw in spectra(LAB / "confirm" / raw / run.format(s=s, a=a), task, p).items():
+                rows.setdefault(t, []).append((pw[[k - 1 for k in T]].sum(), pw[[k - 1 for k in U]].sum(), pw.sum()))
+    return {str(t): {"own": round(float(np.median([r[0] for r in v])), 3), "other": round(float(np.median([r[1] for r in v])), 4),
+                     "total": round(float(np.median([r[2] for r in v])), 3),
+                     "own_share": round(float(np.median([r[0] / r[2] for r in v])), 3)}
+            for t, v in sorted(rows.items()) if t in (0, 500, 1000, 2000, 3000, 4000)}
 
 
 if __name__ == "__main__":

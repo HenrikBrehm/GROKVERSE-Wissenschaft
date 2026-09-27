@@ -3510,3 +3510,5 @@ zwei Zellen“; die Ausgabe von *nicht bestätigt* sagt ausdrücklich, dass das 
 **ob** generalisiert wird“) war **zu schwach**: Mit absichtlich H-invarianten Splits lernt RFM genau die Untergruppe H, Vorhersage und Ergebnis stimmen zu 100 % überein. Die Trainingsmengen-Struktur wählt
 dort also die gelernte Merkmalsstruktur (Kernel, Symmetrie-Untergruppen, keine Fourier-Analyse, keine Netze). *Folge:* K2 **teilweise eingeschränkt** (konzeptioneller Vorläufer); related_work, Paper §1b und
 FINDINGS korrigiert. *Lehre:* Auch Einordnungen „schränkt nicht ein“ aus Abstracts sind am Volltext zu prüfen, bevor sie ins Paper gehen.
+
+**Zyklus 8, Fortsetzung (15:44, gemessen).** Zwei weitere Abstract-Einordnungen am Volltext geprüft: Li & Sreedhar 2026 (Regel überlebt oder nicht, keine Wahl zwischen gleich richtigen Lösungen) und Swaroop 2026 (Struktur bei Memorisierung kodiert, keine Schrittangabe, kein Datenwechsel): beide schränken nicht ein, Einordnung bestätigt.

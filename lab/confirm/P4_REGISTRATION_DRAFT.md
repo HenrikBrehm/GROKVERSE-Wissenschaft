@@ -14,8 +14,9 @@ damit sie im Paper als Ergebnisse statt als Piloten stehen können.
 - **Maß:** Δ_pow = log[P_F(F)/P_F(G)] + log[P_G(G)/P_G(F)] der W_E-Leistung (wie P1 bzw. EXP-048/049), einseitiger t-Test über Seeds, 95-%-Bootstrap-KI.
   Zeitpunkt: 2000 Schritte (H4b, H4c wie die Piloten); H4a: der Pilot maß Top-5 bei 10 000 Schritten, hier Δ_pow bei 2000 **und** 10 000 (primär 10 000, damit der Endzustand nach dem Grokking zählt).
 - **Mindesteffekt:** Δ_pow ≥ 1 (wie P1). **Urteil je Hypothese:** Holm-p < 0.05 und KI-Untergrenze ≥ 1 → bestätigt; technischer Ausfall → nicht auswertbar (zählt mit p = 1).
-- **Stichprobe aus Pilotstreuung:** Piloten n = 10, alle 10/10 positiv, Mittel 7.9 (MLP, Top-5-Maß), 7.82 (d = 512), 2.23 (Integer-Addition). Die SD ist in den Zusammenfassungen nicht gespeichert
-  → vor dem Einfrieren aus den Pilot-`rows` nachrechnen. Bei SD ≈ 1 (P1: ≈ 1.1) reichen n = 15; für H4c (kleiner Effekt, Mindesteffekt 1) Power gezielt aus der Pilot-SD rechnen, eher n = 20.
+- **Stichprobe aus Pilotstreuung (nachgerechnet Sitzung 24 aus den Pilot-`rows`):** MLP Top-5-Δ 7.9 ± 0.57 (Δ_pow im Piloten nicht berechnet), d = 512 Δ_pow 7.82 ± 1.60 (Minimum 5.29),
+  Integer-Addition Δ_pow 2.23 ± 0.27 (Minimum 1.95), je n = 10 (SD mit ddof 1). Gegen den Mindesteffekt 1 standardisierte Abstände ≈ 4.3 (Breite) bzw. 4.6 (Integer); einseitig, α = 0.05/3 (Holm, schlimmster Fall),
+  Power ≈ 1 schon bei n = 10. **Gewählt n = 15 je Bedingung** als Reserve gegen eine Abschwächung an frischen Seeds und für die MLP-Umstellung auf Δ_pow. 3 × 15 × 2 = 90 Läufe (MLP bis 10 000 Schritte).
 - **Seeds:** frischer Block (z. B. 2360–2419), Versuchs-ID 7, vor jeder Nutzung in [[FINDINGS_DETAILS]] reservieren.
 - **Code (fehlt):** `lab/tools/confirm_p4.py` nach dem Muster `confirm_p2e.py` (Bindung, Manifest, Selbsttest mit End-zu-End-Maß), Split-Konstruktion aus `confirm_splits` (add 113) bzw. EXP-048
   `make_split` mit neuen Strömen; Codex-Prüfung vor dem Einfrieren (Regel 18c). GPU-Budget ≈ 40 min.

@@ -25,6 +25,7 @@ Das ist kein Äquivalenztest, und ε unterscheidet sich zwischen den Stufen.
 eine A-spezifische Erhaltung und eine langsamere Anpassung. Belege: [[confirm/P3_REGISTRATION_DRAFT|P3]], Manifest f8adf45, `P3_summary.json`, `lab/confirm/p3_posthoc_decompose.py`.
 Zusammenhang: Pilot [[experiments/EXP-056-overlap-persistence/README|EXP-056]], [[experiments/EXP-038-where-lockin/README|EXP-038]] (Festlegung doppelt vorhanden, Pilot). **Größte offene Frage jetzt:**
 Ist die Erhaltung A-spezifisch im Netz, oder steckt sie im Optimiererzustand? Nächster Versuch: Wechsel mit Adam-Reset und Kontrollen gleicher Länge.
+**Erster Hinweis (Pilot [[experiments/EXP-057-optim-reset/README|EXP-057]], 06:21, 10 bekannte Seeds, keine Bestätigung):** Setzt man beim Wechsel nur den AdamW-Zustand zurück (Gewichte bleiben), fällt π von 0.30 auf 0.11, und die Ziele des ersten Splits sinken unter Zufall (7.1 % gegen 8.9 %). Die A-spezifische Erhaltung nach 25 Schritten sitzt demnach vor allem im **Optimiererzustand**. Die gleich lange Referenz ändert nichts (0.304). Formal *teilweise*; eine Bestätigung an frischen Seeds und die Trennung m / v / Schrittzähler stehen aus.
 
 ## BESTÄTIGT (Sitzung 21, 27.09., 05:39 Berlin): P1, Steuerung der W_E-Repräsentation durch konstruierte Splits #befund/positiv
 

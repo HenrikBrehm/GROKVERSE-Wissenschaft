@@ -48,3 +48,7 @@ Das Urteil gilt. **Nur beschreibend** (alle 10 Seeds, Mittel beider Richtungen; 
 
 **Korrektur (Sitzung 23, vor 09:54, nach Codex):** „braucht die neuen nicht (in allen 10 Seeds)“ ist zu stark: Seed 406 hat acc_neu(50) = 0.73, also unter der eigenen 0.9-Schwelle für „nicht gebraucht“.
 Belegt ist nur: Bei t = 50 schadet das Entfernen der alten in jedem Seed-Mittel mehr als das Entfernen der neuen. Bestätigung: [[confirm/N29_REGISTRATION|N29]].
+
+**Post hoc (Sitzung 23, nach N29, beschreibend; `posthoc_energy.py`, `posthoc_energy.json`):** Auch hier (2000 Schritte) zeigt die *absolute* W_E-Energie immer in dieselbe Richtung wie die Ablation:
+t = 25 alte Energie größer in nur 3/20 Läufen, Ablation spricht in 17/20 für die neuen, beides zugleich (Energie alt, Funktion neu) in 0/20; t = 50 20/20 und 0/20. Die „überschüssige alte Energie“ aus
+[[experiments/EXP-062-rate-race/README|EXP-062]] ist relativ zu reinen B-Läufen gemessen, nicht absolut. Eine Trennung von Funktion und Energie gibt es in diesen Daten nicht.

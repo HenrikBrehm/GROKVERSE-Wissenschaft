@@ -3,13 +3,13 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-27, 17:27 Berlin (Sitzung 28 läuft, Start 16:49; Run-Fenster wieder ab 00:00)._
+_Zuletzt aktualisiert: 2026-09-27, 17:56 Berlin (Sitzung 28 beendet, Start 16:49; Run-Fenster wieder ab 00:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
 ## Lage (Sitzungen 24–28)
 
-- **Sitzung 28 (Fenster zu, 16:49–):** Aus gespeicherten P1-Läufen: K2 absolut (80 % der W_E-Energie auf den Zielen, add 113); Maskenspektrum ordnet die Ziele innerhalb eines Splits (alle 4 Aufgaben) → **C1** registriert (an R1); nach Wechsel bei t = 50 bleibt die Rangfolge der alten Ziele erhalten (N29) → **C2** registriert (an R2). Beides Exploration an gesehenen Seeds; Auswerteskripte ungetestet. Auch bei 4× Breite, Integer-Addition, MLP → **C3** (an P4). Architekturkontrast der Theorie (MLP folgt M0) für die Feinordnung widerlegt (Pilot). Alle drei Codex-geprüft (C3 läuft).
+- **Sitzung 28 (Fenster zu, 16:49–):** Aus gespeicherten P1-Läufen: K2 absolut (80 % der W_E-Energie auf den Zielen, add 113); Maskenspektrum ordnet die Ziele innerhalb eines Splits (alle 4 Aufgaben) → **C1** registriert (an R1); nach Wechsel bei t = 50 bleibt die Rangfolge der alten Ziele erhalten (N29) → **C2** registriert (an R2). Beides Exploration an gesehenen Seeds; Auswerteskripte ungetestet. Auch bei 4× Breite, Integer-Addition, MLP → **C3** (an P4). Architekturkontrast der Theorie (MLP folgt M0) für die Feinordnung widerlegt (Pilot). Dazu **C4** (an P2f, D₅₉ bei 12 000 Schritten) und Pilot **EXP-082** (Eingriff: vorgegebene Zielstärken, optional). Momentum trägt nach dem Wechsel die Menge, nicht die Ordnung (Exploration). Alle C-Registrierungen Codex-geprüft; eigener Fund: `repro/k2.py` maß mul in der falschen Basis (behoben).
 
 - **Sitzung 27 (Fenster zu, 15:59–):** Paper §2 (Methoden) als Fließtext, unabhängig gegen den Code geprüft (9 Korrekturen). N38: Adams Momentum-Schwanz (≈ 9 Schritte) passt zur K4b-Größe bei t = 25–35 (EXP-059, post hoc), bei 40/50 unentscheidbar; qualitativ bekannt (Xu 2026, arXiv 2608.20442). Nacht-Befehle statisch geprüft und korrigiert (siehe Blocker/Hinweise, Schritte 3/4/8). Literatur: K4b-Deutung bekannt (Sweeney 2026 u. a.), K2/K4 weiter nicht gefunden. Repro-Paket: neu `repro/k4_resets.py` (K4d/e), `repro/k4b.py` (K4/K4b), `repro/k2_function.py` (P2d), `repro/k2_function_p2e.py` (P2e), `train.py --reset-optim-part m`; geprüft, ungetestet, **nicht für heute Nacht** (erst nach der Gleichwertigkeit von `train.py`). Neu entworfen: [[experiments/EXP-081-optimizer-clock/README|EXP-081]] (β₁/β₂-Uhr, kein Code, erst nach R3; Trainer-Option `--beta1/--beta2` erst nach dem Einfrieren der Nachtblöcke).
 

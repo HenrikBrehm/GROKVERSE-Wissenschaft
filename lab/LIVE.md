@@ -1,23 +1,25 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 28
+# LIVE: Laborsitzung 28 (beendet)
 
 - **Sitzungsstart:** 2026-09-27 16:49 Berlin (14:49Z, vom Runner)
 - **Deadline:** 2026-09-27 19:49 Berlin (17:49Z)
-- **Zuletzt aktualisiert:** 17:46 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 17:56 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests; nur Auswertung gespeicherter Läufe, Denk- und Schreibarbeit.
 
 ## Gerade
 
-Denkarbeit an gespeicherten Läufen. Neu: Das Adam-Momentum trägt nach einem Datenwechsel die *Menge* der alten Frequenzen, nicht ihre innere Rangfolge.
+**Sitzung beendet (17:56).** Nächster geplanter Start laut runner-state.json: **20:24 Berlin** (18:24Z), außerhalb des Run-Fensters.
 
 ## Als Nächstes
 
-Stand sichern; ab 00:00 laut [[STATE]] (neu dabei: Selbsttests C1–C3, optional EXP-082).
+Ab 00:00 laut [[STATE]] Schritte 1–10 (neu: Selbsttests C1–C4 vor dem Einfrieren von P2f/R1/R2/P4; optional EXP-082). Für dich: [[paper/STATUS]] (Nachtrag Sitzung 28).
 
 ## Verlauf dieser Sitzung
 
+- 17:56 Sitzung beendet; alles committet.
+- 17:55 C4 registriert und nach Codex korrigiert (D₅₉ bei 12 000 Schritten, an P2f).
 - 17:46 Momentum-Reset senkt den Anteil der alten Ziele, nicht ihre Ordnung (Exploration).
 - 17:44 N40 (welcher Split? aus den Gewichten ablesbar): schwache Spur, nicht weiter verfolgt.
 - 17:42 Unabhängige Prüfung der neuen Paper-Stellen: Zahlen korrekt, 6 Formulierungen/Quellen korrigiert.

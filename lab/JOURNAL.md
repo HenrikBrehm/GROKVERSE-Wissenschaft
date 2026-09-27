@@ -3579,3 +3579,7 @@ Das ist ein Hinweis für die offene Frage in [[FINDINGS]] (die Uhr ist nicht ein
 Neun Korrekturen übernommen (alle an den genannten Stellen selbst stichprobenartig geprüft: mul-Zeilen W_E[g^i] in EXP-043 `analyze.py`, 4-dim. Irrep-Spann in `dihedral.py`): Zeilen für mul; D₅₉-Unterraum 4-dim.; „keine gemeinsamen Paare“ nur bei ω = 0
 (P3 lief zusätzlich ω = 0.4, ε ≈ 5.93); Token-Häufigkeiten richtig nach §5 (CV 0.14, Spektrum zielangereichert) statt „nahezu gleichverteilt“; GPU-Gleichwertigkeit statistisch, nur add 113; Einfrieren über SHA-256-Hashes im Manifest; Wrapper prüft auch während des Laufs;
 Smoke-Historie (P1 zwei Jobs, N28–N29c, P2d, P2e; P2c und P3 ohne); 2000 Schritte bei K2; „keine Biases“ als Eigenschaft unserer Implementierung (ob Nanda et al. Biases hatten, nicht geprüft). *Verworfen:* nichts.
+
+**Zyklus 3, zweite Korrektur (16:09–16:12, gemessen).** Die erste Korrektur hat überzogen: π = 1 ist der reine Endpunkt des ersten Splits und damit eine natürliche Obergrenze; zwischen 35 und 50 ist π_normal nicht gemessen. Gepaart (EXP-059, 10 Seeds, Bootstrap):
+Abfall durch m-Löschen 0.186 / 0.186 / 0.197 bei t = 25 / 30 / 35 (Verschiebung mit lokaler 5-Schritt-Steigung ≈ 8.4 / 11.1 / 5.7, verrauscht), 0.077 [0.031, 0.118] bei t = 50. Ob der kleine Wert bei 50 der Momentum-Rechnung widerspricht,
+hängt an der unbekannten lokalen Steigung → **unentscheidbar**. N38 und Paper §3.3 entsprechend (Paper nennt nur t = 25–35 und sagt, warum 40/50 nicht vergleichbar sind). Offener, billiger Zusatz für einen späteren Piloten: π_normal bei t = 40/45.

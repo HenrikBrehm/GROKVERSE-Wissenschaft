@@ -11,6 +11,21 @@ Zurück zu [[LAB]]. **Nachtrag Sitzung 21 (27.09., 04:46): P1 und P2 sind eingef
 2026-09-26 nicht gefunden, vorläufig. **Alle Aussagen gelten bisher nur für eine Aufgabe (Addition mod 113) und im Kern eine
 Architektur (1-Schicht-Transformer der Studie, AdamW, lr 1e-3, wd 1).** Einzelheiten: [[BEFUND-split-mechanismus]], [[BEFUND-festlegung]].
 
+## BESTÄTIGT (Sitzung 21, 27.09., 06:04 Berlin): P3, starke Wirkung einer 25-Schritt-Vorgeschichte gegen paar-disjunktes Weitertraining #befund/positiv
+
+**Kernaussage K4-bestätigt** (Wortlaut nach Codex-Prüfung der Schlussfolgerung, 06:10): *Nach 25 Schritten auf dem ersten konstruierten Split lagen die Wechselmodelle nach 2000 Schritten auf
+einem paar-disjunkten zweiten Split im Mittel noch bei 0.351 der normierten log-W_E-Leistungsdistanz zwischen dem reinen Endpunkt des zweiten und dem des ersten Splits. Der registrierte
+Überschuss über jede geprüfte statische additive W_E-Spur betrug 0.293 [0.263, 0.322] (30 frische Seeds, 30/30 > 0; add 113; bestätigt).* Der Befund zeigt eine **starke Wirkung der
+frühen Trainingsvorgeschichte**. Er trennt aber eine Festlegung im Netz **nicht** von Optimiererzustand oder allgemein verlangsamter Anpassung (Codex: Der reine Lauf des zweiten Splits ist
+der richtige Nullpunkt für den Gesamteffekt, nicht für eine A-spezifische Festlegung; dafür fehlen B→B/A→A mit 2025 Schritten und ein Optimierer-Reset beim Wechsel).
+**Sekundär:** In den registrierten, auf gleiche Steuerstärke kalibrierten Konstruktionen war kein Einfluss der Überlappung nachweisbar: Δπ(0.4 − 0) = 0.005 [−0.030, 0.042].
+Das ist kein Äquivalenztest, und ε unterscheidet sich zwischen den Stufen.
+**Post hoc (06:13, beschreibend, nach Ergebnis und Codex):** In den Wechselläufen tragen die Ziele des *ersten* Splits im Mittel 20 % der W_E-Leistung (Zufall 8.9 %, reiner Lauf des zweiten Splits 2.7 %;
+über Zufall in 48/60 Richtungen). Die Ziele des zweiten Splits tragen 48 % statt 78 %. Ein bloß träges, diffuses Modell läge bei höchstens Zufallsniveau. Es gibt also Hinweise auf **beides**:
+eine A-spezifische Erhaltung und eine langsamere Anpassung. Belege: [[confirm/P3_REGISTRATION_DRAFT|P3]], Manifest f8adf45, `P3_summary.json`, `lab/confirm/p3_posthoc_decompose.py`.
+Zusammenhang: Pilot [[experiments/EXP-056-overlap-persistence/README|EXP-056]], [[experiments/EXP-038-where-lockin/README|EXP-038]] (Festlegung doppelt vorhanden, Pilot). **Größte offene Frage jetzt:**
+Ist die Erhaltung A-spezifisch im Netz, oder steckt sie im Optimiererzustand? Nächster Versuch: Wechsel mit Adam-Reset und Kontrollen gleicher Länge.
+
 ## BESTÄTIGT (Sitzung 21, 27.09., 05:39 Berlin): P1, Steuerung der W_E-Repräsentation durch konstruierte Splits #befund/positiv
 
 **Kernaussage K2-bestätigt** (Wortlaut nach Codex-Prüfung der Schlussfolgerung, 05:47): *Bei Schritt 2000 verschiebt eine konstruierte Auswahl der Trainingspaare die relative

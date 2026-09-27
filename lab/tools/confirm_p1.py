@@ -150,16 +150,21 @@ def _run_gated(man: dict, cmd: list[str]) -> tuple[int, str | None]:
     a change kills the trainer. Returns (exit code, reason if the code changed)."""
     pyc = str(Path(tempfile.gettempdir()) / f"confirm_pyc_{code_digest(man)[:16]}")
     proc = subprocess.Popen(cmd, cwd=LAB.parent, env={**os.environ, "PYTHONPYCACHEPREFIX": pyc})
-    while True:
-        try:
-            rc = proc.wait(timeout=POLL_S)
-            break
-        except subprocess.TimeoutExpired:
+    try:
+        while True:
             try:
-                check_code(man)
-            except SystemExit as ex:
-                proc.kill()
-                return proc.wait(), str(ex)
+                rc = proc.wait(timeout=POLL_S)
+                break
+            except subprocess.TimeoutExpired:
+                try:
+                    check_code(man)
+                except SystemExit as ex:
+                    proc.kill()
+                    return proc.wait(), str(ex)
+    finally:                                              # Codex recheck s21: any other exception must not orphan the trainer
+        if proc.poll() is None:
+            proc.kill()
+            proc.wait()
     try:
         check_code(man)
     except SystemExit as ex:
@@ -196,16 +201,24 @@ def run_bound(manifest: Path, cmd: list[str]) -> int:
     dirs = run_dir_for(cmd)
     post = _state(dirs) if rc == 0 and len(dirs) == 1 else {}
     files = {k: v for k, v in post.items() if pre.get(k) != v}
+    if rc == 0 and (len(dirs) != 1 or not any(k.endswith("/result.json") for k in files)):
+        print(f"[confirm_p1] {len(dirs)} run directories / no new result.json: nothing usable bound", file=sys.stderr, flush=True)
+        rc = 4                                            # Codex recheck s21: the binding records the WRAPPER's verdict
     BIND.mkdir(parents=True, exist_ok=True)
     rec = {"code_digest": code_digest(man), "manifest_commit": man["commit"], "cmd": cmd, "exit": rc, "t0_ns": t0,
-           "t1_ns": time.time_ns(), "run_dirs": [d.name for d in dirs], "files": files}
+           "t1_ns": time.time_ns(), "run_dirs": [d.name for d in dirs], "files": files if rc == 0 else {}}
     name = f"{hashlib.sha256(' '.join(cmd).encode()).hexdigest()[:16]}_{t0}_{os.getpid()}.json"
     with open(BIND / name, "x", encoding="utf-8") as f:
         json.dump(rec, f, indent=1)
-    if rc == 0 and (len(dirs) != 1 or not any(k.endswith("/result.json") for k in files)):
-        print(f"[confirm_p1] {len(dirs)} run directories / no new result.json: nothing usable bound", file=sys.stderr, flush=True)
-        return 4
     return rc
+
+
+def bound_bytes(man: dict, f: Path) -> bytes:
+    """Codex recheck s21 (P2 TOCTOU): read a file ONCE and return exactly these bytes only if their hash is bound."""
+    data = f.read_bytes()
+    if (f.relative_to(LAB.parent).as_posix(), hashlib.sha256(data).hexdigest()) not in bound_files(man):
+        raise ValueError(f"{f.name} not bound to the frozen code")
+    return data
 
 
 def post_load_check(man: dict, d: Path, res: dict, split: Path) -> str | None:
@@ -569,6 +582,7 @@ def _selftest_binding() -> None:
             (BIND / "ok.json").write_text(json.dumps(rec))
             _BOUND.clear()
             assert unbound(man, d) is None and unbound(man, None) is None
+            assert bound_bytes(man, d / "result.json") == b"{}"
             (d / "result.json").write_text('{"x": 1}')
             _BOUND.clear()
             assert "result.json" in unbound(man, d)
@@ -599,6 +613,8 @@ def _selftest_binding() -> None:
                 d4.mkdir()
                 (d4 / "result.json").write_text('{"status": "running"}')
                 assert run_bound(mf, [sys.executable, "-c", "pass", "--seed", "1006", "--split-file", "s/confirm_v_G.npy"]) == 4
+                last = max(BIND.glob("*.json"), key=lambda q: q.stat().st_mtime_ns)
+                assert json.loads(last.read_text())["exit"] == 4 and json.loads(last.read_text())["files"] == {}
                 _BOUND.clear()
                 assert "result.json" in unbound(man, d4)
                 def gate_trips(*_):                                        # code changes while the trainer sleeps -> killed

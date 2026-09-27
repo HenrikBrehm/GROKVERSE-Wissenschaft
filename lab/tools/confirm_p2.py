@@ -38,6 +38,19 @@ TASK, F_PRIMARY, DOSES, ACC_MIN, ALPHA = {"task": "add", "p": 113}, 0.5, (0.1, 0
 MIN_EFFECT = float(np.log(1.05))
 
 
+def load_model_bytes(data: bytes):
+    """As EXP-051 load_model (same config, CPU, eval), but from bytes already checked against the bindings."""
+    import io
+    import torch
+    torch.set_num_threads(4)
+    from grokverse.config import get_config
+    from grokverse.models import build_model
+    model = build_model(get_config("arch25k", seed=0, steps=e51.STEP, threads=1))
+    model.load_state_dict(torch.load(io.BytesIO(data), map_location="cpu"))
+    model.eval()
+    return model
+
+
 def arm_row(man: dict, s: int, arm: str, other: str, T: dict, common: np.ndarray, B: np.ndarray) -> dict | str:
     st, dev = c1.stem(man, TASK, s, arm), man["device"]
     d = find_run(c1.RAW, f"EXP-0*_baseline_seed{s}_thr*_{st}{'' if dev == 'cpu' else f'_dev{dev}'}")
@@ -49,12 +62,15 @@ def arm_row(man: dict, s: int, arm: str, other: str, T: dict, common: np.ndarray
         return f"{L.status}: {L.reason}"
     if (why := c1.post_load_check(man, d, L.res, c1.SPLITS / f"{st}.npy")):
         return why
-    m = e51.load_model(L.path)
+    try:
+        m = load_model_bytes(c1.bound_bytes(man, L.path / "model_final.pt"))   # Codex recheck s21: load exactly the hashed bytes
+    except ValueError as ex:
+        return f"defekt: {ex}"
     W = m.W_E.detach().numpy().astype(np.float64)[:e51.P]
     base = e55.evaluate(m, None, common)
     ctrl = e51.control_set(T[arm], T[other])
     e_own, e_ctrl = e51.energy(W, B, T[arm]), e51.energy(W, B, ctrl)
-    if not e_own > F_PRIMARY * e_ctrl:
+    if e_own < F_PRIMARY * e_ctrl:                     # E = e_own is allowed (remove_energy permits it)
         return f"E_own <= {F_PRIMARY} E_ctrl, primary dose infeasible"
     dose = {}
     for f in DOSES:

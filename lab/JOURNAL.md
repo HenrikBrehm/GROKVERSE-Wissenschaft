@@ -3381,3 +3381,9 @@ Lesart vor jedem Lauf eingeengt); N36 (Routing oder Inhalt) als Lesart des Dong-
 
 *Nachtrag Zyklus 1:* Entwurfsmanifest `lab/confirm/P4_manifest_DRAFT.json` (Seeds mlp 2360–2374, d512 2375–2389, intadd 2390–2404) erzeugt; dazu `confirm_p4` importiert und nur
 `check_design`, `check_registered` und die Jobliste (90 Zeilen) aufgerufen, kein Selbsttest, kein Training. Codes-Hashes und Commit fehlen absichtlich (erst nach dem Selbsttest).
+
+**Zyklus 7 (Prüfung des Repro-Trainers, bis 14:50).** Unabhängiger Claude-Prüfagent (nur lesend) hat `repro/train.py` und `repro/k2.py` gegen den Standardpfad von `freq_ban.py`,
+`confirm_p1` und `training/grokverse` abgeglichen: **keine Blocker** (RNG-Reihenfolge bis zur Init, Trainingsschritt, Wechsel/Reset, Spektrenformel identisch; kein Dropout, `evaluate` ohne
+Einfluss; `--stop-after-gen` ändert die Spektren an gemeinsamen Schritten nicht). Übernommen: Wechsel verlangt jetzt `--test-file` (wie freq_ban); Testindizes sortiert (wie freq_ban);
+Schutz gegen gerades p; `k2.py --compare-p1` scheitert jetzt bei Abweichung > `--tol` (Standard 1e-3; die P1-Werte kommen aus einer FFT, k2 aus der Basis-Matrix → nur Rundung).
+Nicht übernommen: Sperren/atomisches Schreiben im schlanken Trainer (bewusst schlank; eine Aufrufinstanz schreibt in eigene Ordner). Weiter ungetestet bis 00:00.

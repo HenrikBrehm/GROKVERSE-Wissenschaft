@@ -63,6 +63,7 @@ def main() -> None:
     ap.add_argument("--out", default=str(HERE / "out" / "k2"))
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--compare-p1", action="store_true")
+    ap.add_argument("--tol", type=float, default=1e-3, help="max |Delta_pow - P1| per seed for --compare-p1 (FFT vs basis: rounding only)")
     a = ap.parse_args()
     lo, hi = (int(x) for x in a.seeds.split("-"))
     seeds = list(range(lo, hi + 1))
@@ -97,6 +98,8 @@ def main() -> None:
         out["compare_p1"] = {"n": len(diffs), "max_abs_diff": max(diffs) if diffs else None}
     (root / "k2_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1), flush=True)
+    if a.compare_p1 and (not out["compare_p1"]["n"] or out["compare_p1"]["max_abs_diff"] > a.tol):
+        raise SystemExit(f"[k2] does not reproduce P1 within tol {a.tol}")
 
 
 if __name__ == "__main__":

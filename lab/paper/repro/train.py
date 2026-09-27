@@ -43,6 +43,8 @@ RESET_PARTS = {"attn": ("W_Q", "W_K", "W_V", "W_O"), "mlp": ("W_in", "W_out"), "
 
 def fourier_basis(p: int) -> np.ndarray:
     """Orthonormal real DFT basis over Z_p, columns [const, cos_1, sin_1, ..., cos_K, sin_K], K = (p-1)//2 (p odd)."""
+    if p % 2 == 0:
+        raise ValueError("fourier_basis assumes odd p (no Nyquist column)")
     a = np.arange(p)
     cols = [np.ones(p) / np.sqrt(p)]
     for k in range(1, (p - 1) // 2 + 1):
@@ -74,11 +76,13 @@ def train(a: argparse.Namespace) -> dict:
     p = cfg.p
     if (a.switch_split_file is None) != (a.switch_step is None) or (a.reset_at_switch and a.switch_step is None):
         raise SystemExit("--switch-split-file and --switch-step go together; --reset-at-switch needs a switch")
+    if a.switch_split_file and not a.test_file:           # as freq_ban: a switch needs an explicit shared test set
+        raise SystemExit("--switch-split-file needs --test-file")
     torch.set_num_threads(cfg.threads)
     set_seed(cfg.seed)
     data = make_dataset(cfg)                           # own torch.Generator: does not touch the global RNG (model init unchanged)
     tr = load_idx(a.split_file, p, int(round(cfg.train_frac * p * p)))
-    te = (load_idx(a.test_file, p, None) if a.test_file else torch.from_numpy(np.setdiff1d(np.arange(p * p), tr.numpy())))
+    te = (torch.from_numpy(np.sort(load_idx(a.test_file, p, None).numpy())) if a.test_file else torch.from_numpy(np.setdiff1d(np.arange(p * p), tr.numpy())))
     if np.intersect1d(te.numpy(), tr.numpy()).size:
         raise SystemExit("test set overlaps the train set")
     sw = load_idx(a.switch_split_file, p, len(tr)) if a.switch_split_file else None

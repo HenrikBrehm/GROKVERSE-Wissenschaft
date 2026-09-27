@@ -18,3 +18,4 @@ lab/experiments/*/.status/
 lab/experiments/*/.failed
 lab/experiments/*/.refused
 lab/confirm/raw/
+lab/confirm/p3_raw/

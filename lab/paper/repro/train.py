@@ -18,6 +18,8 @@ relative deviation above --tol).
 from __future__ import annotations
 
 import argparse
+import hashlib
+import io
 import json
 import platform
 import sys
@@ -58,8 +60,13 @@ def freq_power(W: np.ndarray, basis: np.ndarray) -> np.ndarray:
     return sq[1::2] + sq[2::2]
 
 
+INPUT_SHA256: dict[str, str] = {}                  # s33 (Codex R7): sha256 of the exact bytes each index file was loaded from
+
+
 def load_idx(path: str, p: int, n: int | None) -> torch.Tensor:
-    raw = np.load(path)
+    data = Path(path).read_bytes()
+    INPUT_SHA256[path] = hashlib.sha256(data).hexdigest()
+    raw = np.load(io.BytesIO(data))
     if (raw.ndim != 1 or not np.issubdtype(raw.dtype, np.integer) or (n is not None and len(raw) != n)
             or len(np.unique(raw)) != len(raw) or raw.min() < 0 or raw.max() >= p * p):
         raise SystemExit(f"invalid index file {path}: need {n or 'some'} unique ints in [0, {p * p})")
@@ -150,7 +157,7 @@ def train(a: argparse.Namespace) -> dict:
            "generalization_step": gen_step, "test_curve": test_curve, "sec_per_step": round((time.perf_counter() - t0) / a.steps, 5),
            "versions": {"python": platform.python_version(), "torch": torch.__version__, "numpy": np.__version__},
            "platform": platform.platform(), "end_utc": datetime.now(timezone.utc).isoformat(),
-           "status": "completed"}                     # s33: bound_block binds only runs marked completed (R7)
+           "input_sha256": dict(INPUT_SHA256), "status": "completed"}                     # s33: bound_block binds only runs marked completed (R7)
     (out / "result.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
     return res
 

@@ -26,7 +26,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 ## Nächste Schritte (ab 00:00, in dieser Reihenfolge; alles über guarded_run.py)
 
 1. `guarded_run.py --check`; kein STOP; Prozesse prüfen.
-2. **Trainer-Tests** (neues `--rewind-at-switch`, ungetestet): `python lab/tools/guarded_run.py --min-minutes 5 -- python lab/tests/test_freq_ban_fingerprint.py`. Scheitert `test_rewind`: EXP-073 nicht starten.
+2. **Trainer-Tests** (neu, ungetestet: `--rewind-at-switch`, `--lr/--weight-decay/--train-frac`): `python lab/tools/guarded_run.py --min-minutes 5 -- python lab/tests/test_freq_ban_fingerprint.py`.
+   Scheitert `test_rewind`: EXP-073 nicht starten. Danach Selbsttests `confirm_r1.py --selftest` (R1 erst Nacht 28./29.).
 3. **CPU sofort nach den Tests starten, EXP-040 zuerst** (≈ 3 h; direkter Test des Amplitudenmodells H40 für die offene Frage in FINDINGS):
    `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-040,EXP-042,EXP-014` (im Hintergrund).
 4. **P2f einfrieren und rechnen** (≈ 30 min): `guarded_run.py -- python lab/tools/confirm_p2f.py --selftest` → Manifest `lab/confirm/P2f_manifest.json` wie P2e (Felder aus `REGISTERED`,

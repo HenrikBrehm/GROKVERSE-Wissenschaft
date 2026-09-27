@@ -189,14 +189,21 @@ def p_sign(d: np.ndarray) -> float:
     return sum(math.comb(n, i) for i in range(k, n + 1)) / 2 ** n if n else 1.0
 
 
+def _half_sums(x: np.ndarray) -> np.ndarray:
+    """All 2^len(x) signed sums of x (len(x) <= 20)."""
+    m = len(x)
+    signs = 1.0 - 2.0 * ((np.arange(2 ** m)[:, None] >> np.arange(m)[None, :]) & 1)
+    return signs @ x
+
+
 def p_flip(d: np.ndarray, rng: np.random.Generator) -> float:
-    """One-sided sign-flip test of the mean. Exact over all 2^n sign vectors for n <= 22 (Codex s32), else Monte Carlo."""
+    """One-sided sign-flip test of the sum, EXACT for n <= 40 by meet in the middle (Codex s32 recheck: n = 30 needs it):
+    count sign vectors with left-half sum + right-half sum >= observed sum. Monte Carlo only above 40."""
     n = len(d)
-    if n <= 22:
-        hits, bits = 0, np.arange(n)[None, :]
-        for lo in range(0, 2 ** n, 2 ** 16):                    # chunks keep memory small (2^20 x 20 at once ~ 170 MB)
-            idx = np.arange(lo, min(lo + 2 ** 16, 2 ** n))[:, None]
-            hits += int((((1.0 - 2.0 * ((idx >> bits) & 1)) @ d) >= d.sum() - 1e-12).sum())
+    if n <= 40:
+        left, right = _half_sums(d[: n // 2]), np.sort(_half_sums(d[n // 2:]))
+        need = d.sum() - 1e-12 - left                                        # right sum must be >= need
+        hits = int((len(right) - np.searchsorted(right, need, side="left")).sum())
         return hits / 2 ** n
     s = rng.choice(np.array([-1.0, 1.0]), size=(N_FLIP, n))
     return float(((s * d).mean(axis=1) >= d.mean() - 1e-12).sum() + 1) / (N_FLIP + 1)
@@ -315,6 +322,11 @@ def selftest() -> None:
     assert s_t["t_star"] == [10, 25] and s_t["S1"] == "nicht gestützt", s_t                    # 10 is 20 steps from t_pi = 30
     d = np.array([0.5, -0.2, 0.3])                                                             # exact flip p by hand: sums >= 0.6
     assert abs(p_flip(d, rng) - 2 / 8) < 1e-12, p_flip(d, rng)
+    for m in (1, 7, 10):                                                                       # meet in the middle == brute force
+        x = np.random.default_rng(m).normal(0.2, 1.0, m)
+        brute = float((_half_sums(x) >= x.sum() - 1e-12).mean())
+        assert abs(p_flip(x, rng) - brute) < 1e-12, (m, p_flip(x, rng), brute)
+    assert abs(p_flip(np.linspace(0.1, 0.9, 30), rng) - 0.5 ** 30) < 1e-18                     # all positive: only the identity
     selftest_binding(BLOCK, tj[4], tj[1], tj[5])
     assert set(CODE_FILES) <= set(BLOCK.code_hashes())
     print("[confirm_r6] selftest ok", flush=True)

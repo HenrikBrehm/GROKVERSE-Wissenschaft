@@ -56,21 +56,27 @@ def main() -> None:
     H2 = np.array([cost(b, 25) - cost(b, 50) for b in n28.values()])
     P3 = np.array([cost(b, 25) for b in p3.values()])
     rng = np.random.default_rng(SEED)
-    power = {}
-    for n in (10, 15, 20, 25):
-        ok = 0
-        for _ in range(REPS):
-            i = rng.integers(0, len(H1), n)
-            p1, p2 = p_rule(H1[i], rng), p_rule(H2[i], rng)
-            lo, hi = sorted((p1, p2))
-            ok += (2 * lo < 0.05) and (hi < 0.05)          # Holm over 2: both rejected
-        power[n] = ok / REPS
+
+    def power_at(a: np.ndarray, b: np.ndarray, ns: tuple[int, ...]) -> dict[int, float]:
+        res = {}
+        for n in ns:
+            ok = 0
+            for _ in range(REPS):
+                i = rng.integers(0, len(a), n)
+                lo, hi = sorted((p_rule(a[i], rng), p_rule(b[i], rng)))
+                ok += (2 * lo < 0.05) and (hi < 0.05)      # Holm over 2: both rejected
+            res[n] = ok / REPS
+        return res
+
+    power = power_at(H1, H2, (10, 15, 20, 25, 30))
+    # sensitivity (winner's curse): both per-seed quantities shifted down by half their pilot mean
+    power_half = power_at(H1 - H1.mean() / 2, H2 - H2.mean() / 2, (20, 25, 30))
     out = {"note": "seen data; hypothesis selected on N28, so the effect is optimistic (winner's curse)", "cap": CAP,
            "N28": {"n": len(H1), "H1_mean": float(H1.mean()), "H1_sd": float(H1.std(ddof=1)), "H1_pos": int((H1 > 1e-9).sum()),
                    "H2_mean": float(H2.mean()), "H2_sd": float(H2.std(ddof=1)), "H2_pos": int((H2 > 1e-9).sum()),
                    "H1": H1.round(4).tolist(), "H2": H2.round(4).tolist()},
            "P3_w0_C25": {"n": len(P3), "mean": float(P3.mean()), "sd": float(P3.std(ddof=1)), "pos": int((P3 > 1e-9).sum())},
-           "power_both_rejected": power, "reps": REPS, "flips_mc": FLIPS, "rng_seed": SEED}
+           "power_both_rejected": power, "power_half_effect_shift": power_half, "reps": REPS, "flips_mc": FLIPS, "rng_seed": SEED}
     (LAB / "confirm/R6_pilot_power.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "N28"}, indent=1))
     print({k: v for k, v in out["N28"].items() if k not in ("H1", "H2")})

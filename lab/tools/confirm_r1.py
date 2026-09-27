@@ -36,6 +36,7 @@ SPL = LAB / "confirm" / "r1_splits"
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 P, STEP, ALPHA, MIN_EFFECT, EPS0, FRAC0 = 113, 2000, 0.05, 1.0, 2.0, 0.3
 N_PER_CELL, SEED_MIN, CAL_TOL = 15, 2420, 0.005        # Codex s24: exact n, fresh block, calibration tolerance
+SEED_MAX = 2509                                          # s27 audit: reserved R1 block is 2420-2509 (R2 starts at 2510)
 CAL_FILE = LAB / "confirm" / "R1_calibration.json"
 CAL_SEEDS = tuple(range(900, 910))
 CAL_EXPERIMENT = 98                                      # calibration streams never used for the block itself
@@ -103,7 +104,7 @@ def check_design(man: dict) -> None:
                                        for v in seeds.values()):
         raise SystemExit(f"R1 manifest: need exactly {N_PER_CELL} distinct integer seeds per cell")
     flat = [x for v in seeds.values() for x in v]
-    if len(set(flat)) != len(flat) or min(flat) < SEED_MIN:
+    if len(set(flat)) != len(flat) or min(flat) < SEED_MIN or max(flat) > SEED_MAX:
         raise SystemExit("R1 manifest: seeds must be globally distinct and from the fresh block")
     cal = json.loads(CAL_FILE.read_text(encoding="utf-8")) if CAL_FILE.exists() else None
     if cal is None or man.get("eps") != cal["eps"]:

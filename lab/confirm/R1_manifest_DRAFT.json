@@ -1,0 +1,145 @@
+{
+ "experiment": 8,
+ "task": "add",
+ "p": 113,
+ "steps": 2000,
+ "device": "cuda",
+ "threads": 1,
+ "cells": {
+  "lr5e-4": {
+   "lr": 0.0005
+  },
+  "lr2e-3": {
+   "lr": 0.002
+  },
+  "wd0.3": {
+   "weight_decay": 0.3
+  },
+  "wd3": {
+   "weight_decay": 3.0
+  },
+  "tf0.2": {
+   "train_frac": 0.2
+  },
+  "tf0.5": {
+   "train_frac": 0.5
+  }
+ },
+ "seeds": {
+  "lr5e-4": [
+   2420,
+   2421,
+   2422,
+   2423,
+   2424,
+   2425,
+   2426,
+   2427,
+   2428,
+   2429,
+   2430,
+   2431,
+   2432,
+   2433,
+   2434
+  ],
+  "lr2e-3": [
+   2435,
+   2436,
+   2437,
+   2438,
+   2439,
+   2440,
+   2441,
+   2442,
+   2443,
+   2444,
+   2445,
+   2446,
+   2447,
+   2448,
+   2449
+  ],
+  "wd0.3": [
+   2450,
+   2451,
+   2452,
+   2453,
+   2454,
+   2455,
+   2456,
+   2457,
+   2458,
+   2459,
+   2460,
+   2461,
+   2462,
+   2463,
+   2464
+  ],
+  "wd3": [
+   2465,
+   2466,
+   2467,
+   2468,
+   2469,
+   2470,
+   2471,
+   2472,
+   2473,
+   2474,
+   2475,
+   2476,
+   2477,
+   2478,
+   2479
+  ],
+  "tf0.2": [
+   2480,
+   2481,
+   2482,
+   2483,
+   2484,
+   2485,
+   2486,
+   2487,
+   2488,
+   2489,
+   2490,
+   2491,
+   2492,
+   2493,
+   2494
+  ],
+  "tf0.5": [
+   2495,
+   2496,
+   2497,
+   2498,
+   2499,
+   2500,
+   2501,
+   2502,
+   2503,
+   2504,
+   2505,
+   2506,
+   2507,
+   2508,
+   2509
+  ]
+ },
+ "eps": {
+  "lr5e-4": 2.0,
+  "lr2e-3": 2.0,
+  "wd0.3": 2.0,
+  "wd3": 2.0,
+  "tf0.2": 2.838,
+  "tf0.5": 1.465
+ },
+ "python": ".venv-gpu/Scripts/python.exe",
+ "registration": [
+  "lab/confirm/R1_REGISTRATION_DRAFT.md"
+ ],
+ "note": "DRAFT (session 27, after the static audit): seeds 2420-2509 in CELLS order, 15 per cell; eps copied from R1_calibration.json. Before freezing: run --selftest (green), remove this note, add code_sha256 (--hash-code), commit as R1_manifest.json, set commit. Check the field set against REGISTERED in confirm_r1.py and bound_block.check_manifest."
+}

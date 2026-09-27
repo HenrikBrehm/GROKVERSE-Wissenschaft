@@ -250,6 +250,9 @@ def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
 
 
 def analyze(manifest: Path) -> None:
+    stale = LAB / "confirm" / "R3_summary.json"            # s27 audit (as P2f): an aborted analysis must not leave an older summary behind
+    if stale.exists():
+        stale.unlink()
     man = json.loads(manifest.read_text(encoding="utf-8"))
     BLOCK.check_manifest(manifest, man)
     bad = [m for m in (split_mismatch(man, s) for s in man["seeds"]) if m]

@@ -3583,3 +3583,13 @@ Smoke-Historie (P1 zwei Jobs, N28–N29c, P2d, P2e; P2c und P3 ohne); 2000 Schri
 **Zyklus 3, zweite Korrektur (16:09–16:10, gemessen).** Die erste Korrektur hat überzogen: π = 1 ist der reine Endpunkt des ersten Splits und damit eine natürliche Obergrenze; zwischen 35 und 50 ist π_normal nicht gemessen. Gepaart (EXP-059, 10 Seeds, Bootstrap):
 Abfall durch m-Löschen 0.186 / 0.186 / 0.197 bei t = 25 / 30 / 35 (Verschiebung mit lokaler 5-Schritt-Steigung ≈ 8.4 / 11.1 / 5.7, verrauscht), 0.077 [0.031, 0.118] bei t = 50. Ob der kleine Wert bei 50 der Momentum-Rechnung widerspricht,
 hängt an der unbekannten lokalen Steigung → **unentscheidbar**. N38 und Paper §3.3 entsprechend (Paper nennt nur t = 25–35 und sagt, warum 40/50 nicht vergleichbar sind). Offener, billiger Zusatz für einen späteren Piloten: π_normal bei t = 40/45.
+
+**Zyklus 1, Ergebnis (bis 16:13, gemessen): statische Prüfung der Nachtbefehle.** Ein Prüfagent hat STATE-Schritte 1–8 und die verlinkten READMEs/Registrierungen gegen den Code gelesen. **Regelverstoß des Agenten, offen vermerkt:** Er hat einmal
+`python -c "1"` ausgeführt (außerhalb des Fensters, trotz Verbot in der Anweisung; ein No-op, keine Datei berührt, kein Training/Test). Alles andere nur gelesen.
+*Sicher (selbst am Code bestätigt, behoben):* (1) [[paper/repro/README]]: relativer venv-Interpreterpfad → CreateProcess-Fehler (bekannt aus Sitzung 20) → absoluter Pfad. (2) `--jobs > …` über guarded_run schriebe `[guard]`-Zeilen in die Jobdatei
+(guarded_run.py:197/228) → STATE: `--jobs` ohne Wächter wie bei P2e, voller Pfad `lab/confirm/…`.
+*Verdacht, übernommen:* (3) R1 hatte keine Seed-Obergrenze und kein Manifest-Entwurf → `SEED_MAX = 2509` in `confirm_r1.check_design`, `R1_manifest_DRAFT.json` (15 Seeds je Zelle in CELLS-Reihenfolge, ε aus der Kalibrierung). (4) Thread-Summe:
+3 × 4 CPU-Threads plus bis zu 10 GPU-Prozesse widerspricht Regel 17 (≤ 12) → STATE: CPU 2 Arbeiter + höchstens 4 GPU-Prozesse, mehr nur nach Messung. (5) R2/R3 ließen eine alte Zusammenfassung stehen → löschen wie P2f.
+*Nur Hinweis:* (6) R2/R3-Selbsttests ohne Ende-zu-Ende-Messung an einem Zufallsmodell (Smoke fängt es). *Geprüft ok:* Trainer-Test-Fixtures und Run-IDs, night_program-Schlüssel EXP-040/042/014, P2f-Modi und Flags, Seed-Blöcke disjunkt,
+Manifest-Entwürfe R2/R3/P4 passend zu REGISTERED, Jobdateien EXP-073–078 (180 .npy-Pfade vorhanden, nur `--device cuda`), Analyse-Muster, EXP-078-Modell, Repro-Referenzen.
+Code-Änderungen (confirm_r1/r2/r3) sind klein und **ungetestet**; die Selbsttests heute Nacht decken sie ab, die Blöcke sind noch nicht eingefroren (Hashes entstehen erst beim Einfrieren).

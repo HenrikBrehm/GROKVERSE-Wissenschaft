@@ -3633,3 +3633,18 @@ Auswertung identisch; kein sicherer Fehler. Übernommen: Vergleich nur mit dem v
 
 **Zyklus 12 (Literatur: neueste arXiv-Einreichungen, bis 16:44, gemessen).** arXiv-API (erster Versuch über HTTP leer, zweiter über HTTPS ok): 40 neueste Treffer zu „grokking“; sieben neue, einschlägige Titel an den Abstracts eingeordnet. Nichts schränkt K2/K4 ein.
 Kontext notiert: 2609.10657 (Skalierung der Grokking-Zeit mit η und λ → R1), 2608.07436 (Zusammenbruch nach dem Grokking bei add 113, auch unter AdamW → unsere Endmodelle sind 2000–4000 Schritte nach dem Wechsel gemessen; spätere Stabilität ungeprüft, als Grenze fürs Paper).
+
+### Abschlussbericht Sitzung 27 (2026-09-27, 15:59–16:44 Berlin, gemessen; Run-Fenster die ganze Zeit zu, kein Training, kein Test)
+
+**Wichtigste Ergebnisse:**
+1. **Nacht abgesichert:** Statische Prüfung aller Nachtbefehle; zwei sichere Befehlsfehler behoben (`--jobs` über den Wächter hätte `[guard]`-Zeilen in Jobdateien geschrieben; relativer venv-Pfad in den Repro-Gleichwertigkeitsbefehlen), dazu R1-Seed-Obergrenze + Manifest-Entwurf, R2/R3 robuster, Thread-Budget nach Regel 17 (CPU 2 Arbeiter + höchstens 4 GPU-Prozesse).
+2. **N38 (post hoc):** Adams Momentum-Schwanz (≈ 9 Update-Äquivalente) erklärt die Größe von K4b bei t = 25–35 ohne freien Parameter; bei 40/50 unentscheidbar. Qualitativ **bekannt** (Xu 2026, Sweeney 2026, Sevetlidis & Pavlidis 2026), nur die Größenabschätzung nicht gefunden. Zwei eigene Fehldeutungen dabei korrigiert.
+3. **EXP-081 entworfen** (Uhr der Festlegung: β₁-Dosis über den Momentum-Schwanz, β₂ bei festem t): Prüfung fand zwei Blocker (β₁-Arm zu schwach; N37 ohne Mechanismus), Design ersetzt, Power ≈ 0.93–1.0. Kein Code, erst nach R3.
+4. **Paper:** §2 Methoden als Fließtext (geprüft, 9 Korrekturen), Reproduktionsabschnitt, Grenzen (Optimierer, Langzeitstabilität), Literatur (6 Arbeiten am Volltext/Abstract, arXiv-Durchsicht bis 24.09.): K2/K4 weiter nicht gefunden.
+5. **Repro-Paket fast vollständig:** `k2_function.py`, `k2_function_p2e.py`, `k4b.py`, `k4_resets.py` (+ `train.py --reset-optim-part m`), jeweils unabhängig gegen die eingefrorenen Auswertungen gelesen; fehlt D₅₉ und die P3-Zerlegung.
+
+**Offene Grenzen:** Alles Neue ist ungetestet. Die Repro-Vergleichsschwellen setzen fast bitgenaue Nachrechnung voraus (vor den Vollläufen klären). Ein Prüfagent hat einmal `python -c "1"` ausgeführt (No-op, vermerkt).
+**Meine Fehler:** geschätzte Uhrzeiten (korrigiert), zwei überzogene Deutungen zu N38 (korrigiert), N37-Mechanismus nicht gegen das eigene Skript geprüft (von der Prüfung gefunden).
+**Reproduktion (ohne Fenster möglich):** `python lab/experiments/EXP-059-momentum-exposure/inflight_adam.py`, `python lab/experiments/EXP-059-momentum-exposure/clock_predictions.py` (numpy).
+**Nächste Aktion:** ab 00:00 [[STATE]] „Nächste Schritte“ 1–8 (Befehle korrigiert).
+**Runner:** aktiv; next_start_utc laut runner-state.json 2026-09-27T17:34:45Z = **19:34 Berlin**. Früher beendet als die Deadline 18:59, weil weitere Arbeit ohne Rechenfenster jetzt vor allem zusätzlichen ungetesteten Code für ohnehin volle Nächte bedeuten würde.

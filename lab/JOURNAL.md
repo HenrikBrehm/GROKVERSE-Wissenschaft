@@ -3035,3 +3035,7 @@ Nachfolgemaß P2d im [[BACKLOG]] (lokale Empfindlichkeit je gleicher Schrittnorm
 der eigenen Ziele gegen 4 gleich große Kontrollmengen. *Ergebnis:* eigene > Kontrolle in 80/80 Modellen (Median 0.25 gegen 0.0007; je Seed Differenz 0.254 ± 0.038). *Deutung (Exploration, gleiche Modelle,
 Maß nach dem Ergebnis gewählt):* Die Umkehrung war sehr wahrscheinlich ein Artefakt der Dosis. Die funktionale Nutzung ist damit plausibel, aber erst mit P2d an frischen Seeds belegt.
 *Nächster Schritt:* P2d festlegen (Differenz der Abfälle primär, n ≈ 20, frischer Block), vorher ein echter Job durch den Lader und Codex.
+
+**Zyklus 18 (P2d festgelegt, eingefroren, gerechnet, 09:17–09:30 gemessen).** Codex (gegen 8c66f73): keine Blocker. Eingefroren c0cd65f, Splits/Jobs 3e7019b, ein Smoke bis Schritt 4000 durch den Lader (Lehre aus P2b).
+40 Läufe, 7 Arbeiter. ***bestätigt***: D̄ = 0.250 [0.229, 0.270], 20/20, p = 1.6·10⁻¹⁵. *Deutung:* Bei gleicher Schrittnorm reagiert das Netz entlang der gesteuerten Frequenzen in W_E lokal viel empfindlicher
+als entlang gleich großer Kontrollmengen. Die P2c-Umkehrung lag damit sehr wahrscheinlich an der Dosisgeometrie. Codex-Prüfung der Schlussfolgerung läuft.

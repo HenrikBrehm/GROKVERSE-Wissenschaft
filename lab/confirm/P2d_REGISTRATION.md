@@ -29,3 +29,8 @@ Gegen 8c66f73: keine Blocker, keine schweren Punkte, kein Fix nötig. Selbst gep
 
 Manifest-Commit **c0cd65f**, Splits und Jobs 3e7019b, Herkunftsprüfung für alle 20 Seeds bestanden. Vor dem Einfrieren kein Lauf mit Seeds 2230–2249.
 Ein echter Job (Seed 2230 F) lief 09:21 als Smoke bis Schritt 4000 und passierte den eingefrorenen Lader (gebunden). Er zählt als regulärer Lauf. Start des Blocks 09:22, 7 Arbeiter.
+
+## ERGEBNIS (Sitzung 22, Block 09:21–09:30, Auswertung 09:30 Berlin; `lab/confirm/P2d_summary.json`): ***bestätigt***
+
+40/40 Läufe gebunden, 0 technische Ausfälle, 20/20 Seeds geeignet. **D̄ = 0.250** (SD 0.049), 95-%-KI **[0.229, 0.270]**, t = 22.7, p = 1.6·10⁻¹⁵, 20/20 > 0.
+Der Pilotwert (EXP-065: 0.254 ± 0.038) ist an frischen Seeds reproduziert. Schlussfolgerung vor dem Eintrag in FINDINGS von Codex geprüft (siehe JOURNAL).

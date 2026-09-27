@@ -3387,3 +3387,7 @@ Lesart vor jedem Lauf eingeengt); N36 (Routing oder Inhalt) als Lesart des Dong-
 Einfluss; `--stop-after-gen` ändert die Spektren an gemeinsamen Schritten nicht). Übernommen: Wechsel verlangt jetzt `--test-file` (wie freq_ban); Testindizes sortiert (wie freq_ban);
 Schutz gegen gerades p; `k2.py --compare-p1` scheitert jetzt bei Abweichung > `--tol` (Standard 1e-3; die P1-Werte kommen aus einer FFT, k2 aus der Basis-Matrix → nur Rundung).
 Nicht übernommen: Sperren/atomisches Schreiben im schlanken Trainer (bewusst schlank; eine Aufrufinstanz schreibt in eigene Ordner). Weiter ungetestet bis 00:00.
+
+**Zyklus 8 (Paper: Diskussion, bis 14:51).** Abschnitt 5b im [[paper/draft]] (was die Daten wählen, wie früh und wo, offene Fragen), mit den Einschränkungen aus Khanh 2026 und Dong 2026.
+Bewusst **kein** K4-Repro-Skript heute: π mit Spurkontrollen und EXP-056-Splits wäre ein weiteres großes ungetestetes Werkzeug für eine volle Nacht; erst nach der Gleichwertigkeit.
+Unabhängiger Prüfagent (nur lesend) gleicht die neuen Abschnitte 1b, 5, 5b gegen die Quellen ab (läuft).

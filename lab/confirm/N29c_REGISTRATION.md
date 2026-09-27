@@ -1,11 +1,11 @@
 ---
 id: N29c-registrierung
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-27
-tags: [lab/bestaetigung]
+tags: [lab/bestaetigung, befund/positiv]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-069-attention-part/README|EXP-069]]", "[[confirm/N29b_REGISTRATION|N29b]]", "[[experiments/EXP-070-ov-alignment/README|EXP-070]]", "[[NOVEL_DIRECTIONS]]", "[[JOURNAL]]"]
 ---
-# N29c-Bestätigung (Wertepfad gegen Muster der Attention beim Wechsel bei t = 50): Registrierung (Sitzung 23). **ENTWURF**
+# N29c-Bestätigung (Wertepfad gegen Muster der Attention beim Wechsel bei t = 50): Registrierung (Sitzung 23). **EINGEFROREN 3c9cb63, H1 und H2 BESTÄTIGT**
 
 Zurück zu [[FINDINGS]] (K4d, offene Frage „was in der Attention“) · Pilot [[experiments/EXP-069-attention-part/README|EXP-069]] · Vorgänger [[confirm/N29b_REGISTRATION|N29b]] · [[NOVEL_DIRECTIONS]] N32.
 
@@ -38,3 +38,15 @@ Kein Blocker (Zuordnung rsvo→vo, rsqk→qk, Run-IDs, Selbsttest-Anpassungen ko
 Manifest-Commit **3c9cb63**, Splits und Jobs committet; vor dem Einfrieren kein Lauf mit Seeds 2320–2339. Smoke (Seed 2320, rsvo, A→B) durch den eingefrorenen Lader: gebunden, Wert nicht angesehen.
 Abweichend von „Rechnen erst im nächsten Fenster“: Der Block startete 12:00 Berlin (7 GPU-Arbeiter), weil das Fenster noch offen war. Endet er nicht vor der Sitzungsdeadline 12:39, bricht der Wächter ab;
 gebundene Läufe bleiben gültig, derselbe Queue-Befehl setzt im nächsten Fenster fort (fertige werden übersprungen).
+
+## ERGEBNIS (Sitzung 23, Block 12:00–12:25 (Log), Auswertung 12:25 Berlin; `lab/confirm/N29c_summary.json`): ***H1 und H2 bestätigt***
+
+120/120 Läufe gebunden, 0 technische Ausfälle, 17/20 Seeds generalisiert (primär alle 20).
+
+| | Kontrast | 95-%-KI | Seeds über der Schwelle | Holm-p |
+|---|---|---|---|---|
+| **H1** R(normal) − R(rsvo) | **0.850** | [0.685, 0.998] | 16/20 über 0.5 | 2·10⁻⁴ |
+| **H2** R(rsqk) − R(rsvo) | **0.752** | [0.596, 0.897] | 17/20 über 0.3 | 2·10⁻⁵ |
+
+Mittelwerte R: normal **0.81**, rsqk **0.72**, rsvo **−0.04** (beschreibend: nach dem Wertepfad-Reset ist das Netz etwa gleich stark auf alte und neue Frequenzen angewiesen, wie im Piloten).
+Codex-Prüfung der Schlussfolgerung beim Sitzungsende gestartet; Ergebnis in `lab/runner/logs/codex_n29c_conclusion.txt` (nächste Sitzung einarbeiten).

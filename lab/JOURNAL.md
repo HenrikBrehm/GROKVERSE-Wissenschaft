@@ -3178,3 +3178,11 @@ EXP-066/068 nur `analyze.py`; `lab/confirm/n29_posthoc_energy.py`, `lab/experime
 **Nächste Aktion:** N29c (Wertepfad gegen Muster, Seeds 2320–2339) nach Codex einfrieren und im nächsten Fenster (ab 00:00) rechnen; D₅₉-Registrierung (P2f); EXP-040 im CPU-Programm; FINDINGS straffen.
 **Runner:** geplante Aufgabe „GROKVERSE-Lab-Runner“ aktiv; laut `runner-state.json` nächster Start 2026-09-27 11:14:45Z = **13:14 Berlin** (außerhalb des Run-Fensters: nur Denk- und Vorbereitungsarbeit bis 00:00).
 Das CPU-Programm (EXP-042) läuft bis zur Deadline 12:39 und wird dann vom Wächter beendet (kein Fehler; derselbe Befehl setzt fort).
+
+**Zyklus 21 (N29c eingefroren, gerechnet, ausgewertet, 11:59–12:25 gemessen).** Codex vor dem Einfrieren: kein Blocker (Rundung der Pilotwerte korrigiert). Eingefroren 3c9cb63, Smoke ok (Wert nicht angesehen),
+Block 12:00–12:25, 120/120 gebunden. ***H1 und H2 bestätigt:*** Wertepfad-Reset senkt den Kontrast um 0.85 [0.68, 1.00] gegenüber normal (16/20 über 0.5) und um 0.75 [0.60, 0.90] gegenüber dem Muster-Reset
+(17/20 über 0.3). R: normal 0.81, rsqk 0.72, rsvo −0.04 (beide Mengen genutzt). Die Pilotbeobachtung aus EXP-069 hält an frischen Seeds. Codex-Prüfung der Schlussfolgerung läuft beim Sitzungsende;
+FINDINGS-Eintrag „K4e“ erst danach (nächste Sitzung).
+
+**Nachtrag zum Abschlussbericht (12:26):** zusätzlich **N29c bestätigt** (3c9cb63): Den Reset-Effekt der Attention trägt vor allem der Wertepfad (W_V, W_O), nicht das Muster (W_Q, W_K). Nächste Aktion
+geändert: Codex-Ergebnis zu N29c einarbeiten, K4e in FINDINGS; dann D₅₉ (P2f) und die Zeitfrage (warum 25–50?).

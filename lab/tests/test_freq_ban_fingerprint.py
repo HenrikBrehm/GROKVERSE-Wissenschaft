@@ -181,6 +181,25 @@ def test_rewind(tmp: Path) -> None:
     assert rb.returncode != 0 and "--condition baseline" in (rb.stdout + rb.stderr), rb.stdout + rb.stderr
 
 
+def test_hp_overrides(tmp: Path) -> None:
+    """Rule 19a (session 24): --lr / --weight-decay / --train-frac reach the config, change fingerprint and run id only when given,
+    and invalid values are refused."""
+    f1 = fb.run_fingerprint(ns())[0]
+    assert fb.run_fingerprint(ns(lr=None, weight_decay=None, train_frac=None))[0] == f1, "default overrides changed the fingerprint"
+    assert fb.run_fingerprint(ns(lr=2e-3))[0] != f1 and fb.run_fingerprint(ns(weight_decay=0.3))[0] != f1
+    assert fb.hp_overrides(ns()) == {} and fb.hp_overrides(ns(lr=2e-3, weight_decay=0.0)) == {"lr": 2e-3, "weight_decay": 0.0}
+    out = tmp / "hp"
+    r = train(out, "--steps", "20", "--lr", "0.002", "--weight-decay", "0.5")
+    assert r.returncode == 0, r.stdout + r.stderr
+    hits = list(out.glob("*_lr0.002_wd0.5"))
+    assert len(hits) == 1, list(out.iterdir())
+    cfg = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))["config"]
+    assert cfg["lr"] == 0.002 and cfg["weight_decay"] == 0.5 and cfg["train_frac"] == 0.3, cfg
+    for bad in (("--train-frac", "1.5"), ("--lr", "0"), ("--weight-decay", "-1"), ("--train-frac", "0.2")):   # 0.2: split file has 0.3
+        r = train(out, "--steps", "20", *bad)
+        assert r.returncode != 0, bad
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory() as t:
         tmp = Path(t)
@@ -188,7 +207,8 @@ def main() -> int:
                          ("pid_and_atomic_unit", lambda: test_pid_and_atomic_unit(tmp)),
                          ("verify_artifacts", lambda: test_verify_artifacts(tmp)),
                          ("integration", lambda: test_integration(tmp)),
-                         ("rewind", lambda: test_rewind(tmp))):
+                         ("rewind", lambda: test_rewind(tmp)),
+                         ("hp_overrides", lambda: test_hp_overrides(tmp))):
             fn()
             print(f"[test_freq_ban_fingerprint] {name} ok", flush=True)
     print("[test_freq_ban_fingerprint] all ok", flush=True)

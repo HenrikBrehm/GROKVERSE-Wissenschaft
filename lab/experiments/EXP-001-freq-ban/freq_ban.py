@@ -85,7 +85,9 @@ FINGERPRINT_ARGS = ("seed", "condition", "t0", "m", "steps", "stop_after_gen", "
                     "spectra_at", "p", "task", "arch", "device", "save_model")
 FINGERPRINT_FILES = ("split_file", "test_file", "switch_split_file")
 LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "reset_optim_part": None, "log_update_norms": 0,
-             "rewind_at_switch": None, "rewind_from": None}   # name -> default; in the fingerprint only if != default (s18, s21, s24)
+             "rewind_at_switch": None, "rewind_from": None,
+             "lr": None, "weight_decay": None, "train_frac": None}   # name -> default; in the fingerprint only if != default (s18, s21, s24)
+HP_OVERRIDES = ("lr", "weight_decay", "train_frac")   # session 24 (rule 19a robustness): None = preset value, unchanged behaviour
 LOCK_NAME = "run.lock"
 
 
@@ -341,11 +343,21 @@ def verify_artifacts(out_dir: Path, step: int, extra_spec: set[int], save_model:
         raise SystemExit(f"[exp] artifact check failed in {out_dir}: model_final.pt missing")
 
 
+def hp_overrides(a: argparse.Namespace) -> dict:
+    """Rule 19a: optional overrides of the preset's lr / weight_decay / train_frac; {} (preset values) when not given."""
+    out = {k: getattr(a, k, None) for k in HP_OVERRIDES if getattr(a, k, None) is not None}
+    for k, v in out.items():
+        if not np.isfinite(v) or v < 0 or (k != "weight_decay" and v == 0) or (k == "train_frac" and not 0 < v < 1):
+            raise SystemExit(f"--{k.replace('_', '-')} out of range: {v!r}")
+    return out
+
+
 def run(a: argparse.Namespace) -> dict:
     if ((a.p, a.task, a.arch) != (113, "add", "transformer")
             and (a.split_file is None or a.split_seed is not None or a.condition != "baseline" or a.split_value)):
         raise SystemExit("--p/--task/--arch other than 113/add/transformer only with --split-file and --condition baseline")
-    cfg = get_config("arch25k", seed=a.seed, steps=a.steps, threads=a.threads, p=a.p, task=a.task, arch=a.arch)
+    hp = hp_overrides(a)
+    cfg = get_config("arch25k", seed=a.seed, steps=a.steps, threads=a.threads, p=a.p, task=a.task, arch=a.arch, **hp)
     p = cfg.p
     exp_id = EXP_ID_BY_CONDITION.get(a.condition, EXP_ID)
     if a.split_seed is not None:     # EXP-014: data split from another seed, init from --seed
@@ -417,6 +429,9 @@ def run(a: argparse.Namespace) -> dict:
             raise SystemExit("--rewind-at-switch needs --switch-split-file, 0 <= --rewind-from < --switch-step, --condition baseline "
                              "and excludes the reset, alternation, warmup and lr-scale options")
         run_id += f"_rw{a.rewind_at_switch}{a.rewind_from}"
+    for k, tag in (("lr", "lr"), ("weight_decay", "wd"), ("train_frac", "tf")):   # rule 19a: distinct run ids for overrides
+        if k in hp:
+            run_id += f"_{tag}{hp[k]:g}"
     if a.log_update_norms and (a.switch_split_file is None or a.log_update_norms < 1):
         raise SystemExit("--log-update-norms needs --switch-split-file and N >= 1")
     if a.split_value:                # EXP-023: position 1 gets its own attention value matrix
@@ -465,7 +480,8 @@ def run(a: argparse.Namespace) -> dict:
     # make_dataset uses its own torch.Generator (seeded with cfg.seed), not the global RNG,
     # so a foreign split leaves the model init unchanged
     data = make_dataset(cfg if a.split_seed is None
-                        else get_config("arch25k", seed=a.split_seed, steps=a.steps, threads=a.threads))
+                        else get_config("arch25k", seed=a.split_seed, steps=a.steps, threads=a.threads,
+                                        **{k: v for k, v in hp.items() if k == "train_frac"}))
     if a.split_file is not None:
         raw = np.load(a.split_file)       # fail closed (Codex review 2026-09-26)
         n_expected = int(round(cfg.train_frac * p * p))
@@ -842,6 +858,9 @@ def main() -> None:
     ap.add_argument("--rewind-at-switch", choices=REWIND_PARTS, default=None,
                     help="EXP-073: at --switch-step set this part (weights + AdamW state) back to its state after step --rewind-from")
     ap.add_argument("--rewind-from", type=int, default=None, help="EXP-073: step R of the rewind snapshot (0 = init)")
+    ap.add_argument("--lr", type=float, default=None, help="rule 19a: override the preset learning rate (default: preset)")
+    ap.add_argument("--weight-decay", type=float, default=None, help="rule 19a: override the preset AdamW weight decay (default: preset)")
+    ap.add_argument("--train-frac", type=float, default=None, help="rule 19a: override the preset train fraction (split files must match)")
     ap.add_argument("--lr-scale", type=float, default=1.0,
                     help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
     ap.add_argument("--lr-scale-after-switch", type=float, default=1.0,

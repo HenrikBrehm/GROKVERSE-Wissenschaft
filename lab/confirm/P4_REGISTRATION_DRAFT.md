@@ -32,3 +32,14 @@ damit sie im Paper als Ergebnisse statt als Piloten stehen können.
 
 Offene Punkte: Das trendbereinigte Maß aus EXP-048 `analyze.py` wiederverwenden (Datei in die Hash-Liste); für H4a Δ_pow statt Top-5 als Primärgröße (vorab so festgelegt); alle Arme GPU.
 
+## Nachtrag Sitzung 25 (2026-09-27, ≈ 14:24 Berlin gemessen, vor jedem P4-Lauf): Code geschrieben, Pilot-Δ_pow der MLP nachgerechnet
+
+- **Code:** `lab/tools/confirm_p4.py` (Muster `confirm_r1.py`/`bound_block.py`: Manifest-Bindung, Code-Hashes aller drei Trainer, Sperre gegen Überschreiben der Splits,
+  deterministischer Nachbau der Splits vor der Auswertung, gemeinsamer Ergebnislader). **Ungetestet** (Selbsttest erst im Fenster ab 00:00), Codex-Prüfung vor dem Einfrieren.
+- **Splits:** mlp und d512: P1-Konstruktion `confirm_splits.build` mit Versuchs-ID 7 (add 113, ε = 2); intadd: EXP-048-Konstruktion mit Strömen
+  `SeedSequence([48001, 7, Seed, Arm, Zweck])` (Pilot: `[48001, Seed, Arm, Zweck]`); der Selbsttest prüft, dass die Funktion mit dem Pilotstrom die Pilot-Splits exakt nachbaut.
+- **Seeds:** **2360–2419** reserviert (Block), davon 3 × 15 = 45 genutzt, je Bedingung disjunkt; genaue Liste im Manifest. Versuchs-ID 7.
+- **Läufe:** 90 (mlp 30 × 10 000 Schritte mit `--stop-after-gen 100000`, d512 30 × 2000, intadd 30 × 2000), alle GPU, `--threads 1`.
+- **Pilot-Δ_pow der MLP (post hoc aus den gespeicherten EXP-045-Spektren, Seeds 90–99, Sitzung 25):** bei 10 000 Schritten 7.68 ± 2.51 (Minimum 3.49, 10/10 > 1), bei 2000
+  Schritten 2.45 ± 0.15. Standardisierter Abstand zum Mindesteffekt bei 10 000: (7.68 − 1)/2.51 = 2.7 → Power bei n = 15, einseitig α = 0.05/3, praktisch 1. n = 15 bleibt.
+- **Sekundär (nur berichtet):** mlp Δ_pow bei 2000; intadd Δ_pow am rohen Spektrum und lineares R²; Median der Test-Genauigkeit, Anzahl generalisierter Arme.

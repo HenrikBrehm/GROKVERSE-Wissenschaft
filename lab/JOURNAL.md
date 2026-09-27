@@ -3326,3 +3326,16 @@ Lehre: Ein Entwurf aus korrekten Zahlen kann trotzdem überdehnen; die Registrie
 und zwei ungetestete Werkzeuge (`confirm_p2f.py` nach Änderungen, `confirm_r1.py`) an; ein drittes, in einer Stunde geschriebenes Bestätigungswerkzeug für drei verschiedene Trainer würde mehr Risiko
 als Nutzen bringen. Bausteine sind im [[confirm/P4_REGISTRATION_DRAFT|P4-Entwurf]] inventarisiert. Alle Änderungen dieser Sitzung sind committet (einzelne Pfade; Nutzerdateien des Runners unberührt).
 Gedächtnis ergänzt: Codex-Aufträge müssen Lesen erlauben; Backslashes in Heredoc-Python brechen.
+
+## Sitzung 25 (2026-09-27, Start 14:19 Berlin, Deadline 17:19; Run-Fenster zu bis 00:00)
+
+**Zyklus 1 (Regel 19b/c: P4-Werkzeug und schlanker Repro-Trainer, 14:21–14:28).** *Frage:* Können die drei Piloten (MLP, 4× Breite, Integer-Addition) als eingefrorener
+Bestätigungsblock gerechnet werden, und lässt sich K2/K4 mit einem schlanken Trainer ohne Labor-Ballast reproduzieren? *Änderung:* `lab/tools/confirm_p4.py` (drei Trainer,
+Bindung/Manifest über `bound_block`, Splits add 113 = P1-Konstruktion mit Versuchs-ID 7, intadd = EXP-048-Konstruktion mit um die Versuchs-ID erweiterten Strömen; Selbsttest
+prüft den exakten Nachbau der Pilot-Splits mit dem Pilotstrom); Nachtrag im [[confirm/P4_REGISTRATION_DRAFT|P4-Entwurf]]; Seeds 2360–2419 (P4) und 2420–2509 (R1, war im Code,
+aber nicht in FINDINGS_DETAILS reserviert) reserviert. Pilot-Δ_pow der MLP aus den gespeicherten EXP-045-Spektren nachgerechnet (post hoc): 7.68 ± 2.51 bei 10 000, 2.45 ± 0.15
+bei 2000 Schritten → n = 15 reicht. `lab/paper/repro/train.py` (Standardpfad von `freq_ban.py` inkl. Wechsel und Teil-Reset) mit `--compare-to` gegen gespeicherte Läufe;
+Prüfbefehle (P1 Seed 1000 F; N29b Seed 2300 Attention-Reset) in [[paper/repro/README]]. Beide Dateien nur per `py_compile` auf Syntax geprüft (kein Test, kein Lauf).
+Selbst geprüft: Ergebnisfelder echter Pilotläufe (MLP: `events.generalization_step`, `config.arch = mlp`, 10 000 Schritte; d512/intadd: `config.d_model`, `config.p = 225`,
+Spektren (9, 56), `we_final.npy`) passen zu den `Expect`-Angaben. *Mein Fehler:* eine geschätzte Uhrzeit (14:40) im P4-Nachtrag, sofort durch die gemessene ersetzt.
+*Ergebnis:* vorbereitet, **ungetestet** bis 00:00. *Nächster Schritt:* Codex-Prüfung (läuft), dann einarbeiten.

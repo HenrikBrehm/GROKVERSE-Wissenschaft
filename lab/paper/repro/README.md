@@ -33,3 +33,23 @@ Wichtig: Die Auswertungen prüfen Code-Hashes gegen ihr Manifest. Nach späteren
 2. Je Kernaussage ein Skript `repro/k2.py`, `repro/k2_function.py`, `repro/k4.py`, `repro/k4_resets.py`: Splits bauen (aus `confirm_splits`-Logik kopiert), Läufe, Auswertung, Tabelle; `--smoke` = 2 Seeds, wenige Schritte.
 3. Einmal vollständig im Fenster laufen lassen, Zahlen gegen FINDINGS vergleichen, Laufzeiten eintragen.
 4. Lizenz- und Rechtefrage zum Studiencode vorher klären (Nutzer, [[paper/STATUS]] „Offen“).
+
+## Stand Sitzung 25 (2026-09-27, vor jedem Lauf): schlanker Trainer `repro/train.py` (Plan Punkt 1), **ungetestet**
+
+`lab/paper/repro/train.py` (≈ 190 Zeilen): Standardpfad von `freq_ban.py` ohne die Labor-Eingriffe (Verbote, Warmup, Lernraten-Skalen, Rewind, Wechsel-Varianten),
+ohne Sperren und Fingerabdrücke; gleiche Reihenfolge (Threads, Seed, Datensatz, Init auf der CPU, `.to(device)`, AdamW), gleicher Verlust, gleicher Wechsel und Teil-Reset
+(`attn`, `mlp`, `vo`, `qk`, `unembed`, `we`). Abhängig nur von `training/grokverse` (Rechtefrage siehe [[paper/STATUS]]). `--compare-to <Laufordner>` vergleicht die Spektren
+mit einem gespeicherten Lauf an allen gemeinsamen Schritten.
+
+**Gleichwertigkeitsprüfung (ab 00:00, GPU, gleiche Umgebung wie die Blöcke; Abnahme: relative Abweichung ≤ 1e-4 an allen gemeinsamen Schritten, Bitgleichheit wird nur berichtet):**
+
+```
+G=".venv-gpu/Scripts/python.exe"
+# K2 (P1, Seed 1000, Arm F, 2000 Schritte)
+python lab/tools/guarded_run.py -- $G lab/paper/repro/train.py --seed 1000 --steps 2000 --device cuda   --split-file lab/confirm/splits/confirm_exp1_eps2.0_add113_seed1000_F.npy --out lab/paper/repro/out/eq_p1_1000F   --compare-to lab/confirm/raw/EXP-016_baseline_seed1000_thr1_confirm_exp1_eps2.0_add113_seed1000_F_devcuda --tol 1e-4
+# K4d (N29b, Seed 2300, Wechsel bei 50 mit Attention-Reset, 4050 Schritte)
+python lab/tools/guarded_run.py -- $G lab/paper/repro/train.py --seed 2300 --steps 4050 --device cuda   --split-file lab/confirm/n29b_splits/n29b_seed2300_w0_A.npy --test-file lab/confirm/n29b_splits/n29b_seed2300_test.npy   --switch-split-file lab/confirm/n29b_splits/n29b_seed2300_w0_B.npy --switch-step 50 --reset-at-switch attn   --out lab/paper/repro/out/eq_n29b_2300_attn   --compare-to lab/confirm/n29b_raw/EXP-020_baseline_seed2300_thr1_n29b_seed2300_w0_A_to_n29b_seed2300_w0_B_at50_rsattn_devcuda --tol 1e-4
+```
+
+Einschränkung: Der Referenzlauf N29b wurde mit `--stop-after-gen 4050` gerechnet (kein vorzeitiger Stopp bei 4050 Schritten), der schlanke Trainer rechnet immer die volle
+Schrittzahl; beide sind damit gleich lang. Besteht die Prüfung, folgen die Skripte je Kernaussage (Plan Punkt 2) auf diesem Trainer. `lab/paper/repro/out/` gehört nicht in Git.

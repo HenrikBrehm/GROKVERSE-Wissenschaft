@@ -1,0 +1,50 @@
+{
+ "order@25": {
+  "n": 20,
+  "mean_normal_minus_rom": -0.145,
+  "sd": 0.265,
+  "p_two": 0.0206
+ },
+ "old_share@25": {
+  "n": 20,
+  "mean_normal_minus_rom": 0.153,
+  "sd": 0.113,
+  "p_two": 0.0
+ },
+ "order@30": {
+  "n": 20,
+  "mean_normal_minus_rom": 0.09,
+  "sd": 0.299,
+  "p_two": 0.2029
+ },
+ "old_share@30": {
+  "n": 20,
+  "mean_normal_minus_rom": 0.173,
+  "sd": 0.128,
+  "p_two": 0.0
+ },
+ "order@35": {
+  "n": 20,
+  "mean_normal_minus_rom": 0.025,
+  "sd": 0.249,
+  "p_two": 0.721
+ },
+ "old_share@35": {
+  "n": 20,
+  "mean_normal_minus_rom": 0.228,
+  "sd": 0.157,
+  "p_two": 0.0
+ },
+ "order@50": {
+  "n": 20,
+  "mean_normal_minus_rom": 0.015,
+  "sd": 0.331,
+  "p_two": 0.8319
+ },
+ "old_share@50": {
+  "n": 20,
+  "mean_normal_minus_rom": 0.045,
+  "sd": 0.088,
+  "p_two": 0.0194
+ }
+}

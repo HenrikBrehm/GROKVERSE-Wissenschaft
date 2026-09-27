@@ -495,3 +495,11 @@ Google Scholar.
 *Nachsuche (15:47, gemessen; WebSearch „choice of training pairs determines which Fourier frequencies transformer learns modular arithmetic 2026“, „openreview 2026 grokking training data controls learned representation frequency modular addition subset structure“):* Neu nur **Fu, Zhou, Belkin, Sharan, Jia (2026), *Convergent Evolution: How Different Language Models Learn Similar Number Representations*, arXiv:2604.20817 (COLM 2026) [A]**: Sprachmodelle lernen periodische Zahldarstellungen (Perioden 2, 5, 10); Daten, Architektur, Optimierer und Tokenizer entscheiden, *ob* trennbare Merkmale entstehen. Keine gezielte Auswahl von Trainingspaaren, um bestimmte Frequenzen zu steuern → zitieren als Kontext (Daten formen Fourier-Merkmale in Sprachmodellen), schränkt K2 nicht ein. Übrige Treffer bekannt.
 *Nachtrag (15:48):* Semantic Scholar liefert für Dong 2026 (2607.27281) eine **leere** Zitatliste (gültige Antwort, keine Sperre); Khanh erneut HTTP 429. Leere Liste heißt bei einer Arbeit von Ende Juli vermutlich Indexierungsverzug, nicht „nie zitiert“.
 *Nachtrag (15:56):* Auch für Khanh 2026 (2607.06628) liefert Semantic Scholar eine leere Zitatliste (gültige Antwort). Damit sind alle 9 Ausgangsarbeiten gesichtet; leer bei Dong und Khanh = vermutlich Indexierungsverzug (beide Juli 2026). In einer späteren Woche erneut prüfen.
+
+## Nachtrag Sitzung 27 (2026-09-27, 16:10 Berlin, gemessen)
+
+- **Xu 2026, *Stored in Optimizer State, Valued by Later Training: A Causal Account of Subliminal Trait Transfer*** (arXiv 2608.20442, eingereicht 2026-08-20; [A] Abstract-Seite per WebFetch). Zustandschirurgie zeigt Adams
+  erstes Moment als kausalen Träger eines Quellsignals, das nach dem Entfernen der Quelldaten weiterwirkt (Effekte über 8–16 Updates). Keine Grokking-/Fourier-Analyse, kein früher Datenwechsel, keine Größenvorhersage über β₁.
+  *Einordnung:* schränkt die **qualitative** Lesart von K4b ein (erstes Moment trägt die frühe Exposition über den Wechsel), nicht K4/K4c. Zitieren bei K4b. Unsere parameterfreie Größenabschätzung
+  (Momentum-Schwanz ≈ 6.5–10.8 Update-Äquivalente gegen gemessene π-Verschiebung 6.5–9.6 Schritte, EXP-059, post hoc; [[NOVEL_DIRECTIONS]] N38) ist dort nicht enthalten.
+  Suchbegriffe: siehe N38.

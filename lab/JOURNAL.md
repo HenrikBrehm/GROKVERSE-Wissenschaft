@@ -3557,3 +3557,16 @@ dann N37). *Folge für den Rest der Sitzung:* nur noch Paper-Arbeit und Literatu
 **Nächste Aktion:** ab 00:00 laut [[STATE]] „Nächste Schritte“ 1–8.
 **Runner:** geplante Aufgabe aktiv; next_start_utc laut runner-state.json 2026-09-27T16:44:45Z = **18:44 Berlin** (der Runner startet erfahrungsgemäß schon kurz nach Sitzungsende neu).
 Früher beendet als die Deadline 18:09, weil weitere Arbeit ohne Rechenfenster jetzt nur neue ungetestete Blöcke für eine volle Nacht oder Beschäftigung wäre (Zwischenbilanz oben).
+
+## Sitzung 27 (2026-09-27, Start 15:59 Berlin, vom Runner; Deadline 18:59; Run-Fenster zu)
+
+**Zyklus 1 (Nachtbefehle statisch prüfen, ab 16:00, gemessen).** *Frage:* Passen die Befehle in [[STATE]] Schritte 1–8 zu den Optionen der (ungetesteten) Skripte? Ein Prüfagent liest nur Code (keine Ausführung); Ergebnis folgt.
+
+**Zyklus 2 (Paper §2 als Fließtext, 16:00–16:04, gemessen).** Methodenteil ausformuliert (Modell, Aufgaben, Splitkonstruktion, Wechselprotokoll, Maße, Protokoll) aus Code und Registrierungen; Init-Streuungen
+und Reset-Semantik selbst am Code geprüft (Reset = Init-Werte zurück + AdamW-Zustand gelöscht; Bootstrap = Perzentil). Unabhängige Quellprüfung läuft (Regel aus dem Memory: jede neue Paper-Sektion).
+
+**Zyklus 3 (N38: Größe von K4b aus der Adam-Arithmetik, 16:04–16:10, gemessen).** *Frage:* Sagt der Momentum-Schwanz von Adam ohne freien Parameter voraus, um wie viele Schritte das Löschen von m die π-Kurve
+verschiebt? *Rechnung* (`EXP-059/inflight_adam.py`, numpy, kein Training): 6.5–10.8 Update-Äquivalente bei t = 25–35 (≈ 8.7 bei gleich großen Gradienten danach). *Vergleich:* EXP-059 `delta_shift` 8.1 / 9.6 / 6.5
+bei t = 25 / 30 / 35; die Werte bei 40/50 (3.8/2.4) sind Interpolationsartefakte (Kurve 35 → 50 nicht gemessen, sättigt). *Urteil:* passt, post hoc, bekannte Seeds, Skalarmodell. *Literatur:* Xu 2026 (arXiv 2608.20442)
+zeigt das erste Moment als verzögerten Träger nach dem Entfernen von Daten → qualitative K4b-Lesart **bekannt**, nur die Größenvorhersage nicht gefunden. Eingetragen: [[NOVEL_DIRECTIONS]] N38 (mit β₁-Dosis-Test als Skizze, erst nach R3),
+[[paper/related_work]] Nachtrag, Paper §3.3 (ein Satz, als post hoc gekennzeichnet). *Entscheidung:* kein neuer Versuch jetzt; die Nacht ist voll.

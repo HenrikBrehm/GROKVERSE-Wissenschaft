@@ -1,34 +1,21 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 26 (beendet)
+# LIVE: Laborsitzung 27
 
-- **Sitzungsstart:** 2026-09-27 15:09 Berlin (13:09Z, vom Runner)
-- **Deadline:** 2026-09-27 18:09 Berlin (16:09Z)
-- **Zuletzt aktualisiert:** 15:57 Berlin (gemessen)
+- **Sitzungsstart:** 2026-09-27 15:59 Berlin (13:59Z, vom Runner)
+- **Deadline:** 2026-09-27 18:59 Berlin (16:59Z)
+- **Zuletzt aktualisiert:** 16:00 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: nur Denk-, Such- und Vorbereitungsarbeit.
 
 ## Gerade
 
-**Sitzung beendet (15:57).** Naechster geplanter Start laut runner-state.json: **18:44 Berlin** (16:44Z), ausserhalb des Run-Fensters.
+Statische Pruefung der Nacht-Befehle (STATE Schritte 1-8) gegen die tatsaechlichen Skript-Optionen, ohne etwas auszufuehren. Grund: die Nacht hat ~12 ungetestete Bloecke; ein Tippfehler in einem Befehl kostet Fensterzeit.
 
 ## Als Naechstes
 
-Ab 00:00 laut [[STATE]]: Tests, EXP-040 (CPU), P2f, EXP-073/074/075, Gleichwertigkeit repro, EXP-078, EXP-077, EXP-079, dann R1, R3, P4, R2. Fuer dich: [[paper/STATUS]] (neu: ein Kernel-Vorlaeufer schraenkt K2 teilweise ein).
+Danach: offene Frage in [[FINDINGS]] (Uhr der Festlegung) weiterdenken bzw. Paper-Arbeit.
 
 ## Verlauf dieser Sitzung
 
-- 15:57 Sitzung beendet; alles committet.
-- 15:54 EXP-080 zurueckgestellt (Designfehler vor dem Lauf gefunden); EXP-079 erweitert; STATE aktualisiert.
-- 15:51 EXP-080 vorbereitet (N36-Pilot) und EXP-079 (Symmetrie der Koepfe, Sekunden); Registrierungstabelle fuers Paper automatisch aus den Manifesten erzeugt.
-- 15:44 Zwei weitere Literatur-Einordnungen am Volltext bestaetigt (schraenken nicht ein).
-- 15:44 Tomas Bernal et al. 2026 am Volltext: schraenkt K2 teilweise ein (Kernel, symmetrische Splits waehlen die gelernte Untergruppe); korrigiert.
-- 15:42 Codex zu R3: keine Blocker, 3 Punkte uebernommen.
-- 15:37 R3 vorbereitet (Lambda- gegen Schrittuhr, 80 Laeufe, Seeds 2540-2559); N37 notiert (Fenster = Horizont von Adams zweitem Moment?).
-- 15:34-15:37 EXP-078 nach Codepruefung verbessert; Lesart von EXP-077 vor dem Lauf korrigiert.
-- 15:31 EXP-078 vorbereitet (2-Schicht-Pilot).
-- 15:30 Paper-Einleitung nach Quellenpruefung korrigiert (13 Punkte).
-- 15:25 Codex zu R2 und Pruefung von repro/k4c.py: keine Blocker.
-- vor 15:22 repro/k4c.py; Vorwaertszitate ueber Semantic Scholar gesichtet.
-- 15:17-15:22 R2 vorbereitet.
-- 15:10 Stand gelesen; kein STOP, keine Prozesse, Fenster zu.
+- 15:59 Sitzung gestartet; STATE, JOURNAL, STATUS gelesen; kein STOP, keine Python-Prozesse, Fenster zu (Exit 3).

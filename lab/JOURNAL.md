@@ -2885,3 +2885,33 @@ und ein voller Reset mit angeglichener Update-Norm. t = 150 erst danach (vermeng
 *Codex (041f7a8):* keine Blocker, korrekt. Hinweise: Test steht nach dem `__main__`-Block (pytest findet ihn, direkter Aufruf nicht), kein Verhaltenstest für Reset und Logging.
 „Nur m“ ist die richtige chirurgische Kontrolle für das erste Moment, aber keine vollständige Trennung von Gewichten und Optimierer (v trägt auch A-Geschichte). Bei der Auswertung paarweise
 vergleichen und neben den Normen auch Richtungen prüfen. *Festlegung:* [[experiments/EXP-058-optim-part/README|EXP-058]] (06:36, vor jedem Lauf). *Start:* 80 Läufe, GPU.
+
+**Zyklus 20 (EXP-058 ausgewertet, 06:50–06:51 gemessen).** *Ergebnis:* ***Momentum (m) trägt einen Teil der Persistenz***. Δ̄_m = 0.186 [0.13, 0.24], p = 0.0001. π normal 0.303, voller Reset 0.108,
+nur m 0.117, m + v 0.093. Frühe Update-Norm: nur m 0.246 < normal 0.270 < voller Reset 0.425. *Deutung (Pilot):* Das Überschreiben der Spur scheidet als Erklärung für EXP-057 aus.
+Das erste Moment der 25 A-Schritte trägt den größten Teil der A-Persistenz; übrig bleibt π ≈ 0.1. Die GPU-Läufe reproduzieren EXP-056/057 bitgenau. *Entscheidung:* N28 als nächstes Programm B:
+Bestätigung an frischen Seeds, vorher Codex-Prüfung.
+
+### Abschlussbericht Sitzung 21 (Stand 06:51 Berlin, gemessen; Auftrag §10)
+
+**Wichtigste Befunde:**
+- **P1 bestätigt** (vorab eingefroren, 733e829; 420 gebundene Läufe): Konstruierte Splits steuern die relative W_E-Energie der Zielfrequenzen/-Irreps. add 113 Δ_pow 8.24 [7.92, 8.54],
+  mul 113 8.09, add 97 6.11, D₅₉ 2.64, jeweils 50/50 frische Seeds, Holm-p 1.5·10⁻⁵. Wortlaut nach Codex: zurückgehaltene Replikation in vier nach dem Pilot gewählten Fällen, Repräsentation, nicht Funktion.
+- **P2 nicht auswertbar**: 3/50 Modelle bei Schritt 2000 nicht generalisiert, die Regel verlangte alle 50 (mein Designfehler). Beschreibend R̄ = 0.12. Nachfolgeplan im BACKLOG.
+- **P3 bestätigt** (f8adf45; 240 gebundene Läufe): Nach 25 Schritten auf A liegen die Modelle nach 2000 Schritten auf einem paar-disjunkten B noch bei π = 0.35. Der Überschuss über jede statische
+  W_E-Spur beträgt 0.293 [0.263, 0.322], 30/30. Die Überlappung 0–0.4 hat keinen nachweisbaren Einfluss. Nach Codex: starke Wirkung der Vorgeschichte, eine Festlegung im Netz ist nicht identifiziert.
+- **Mechanismus (Piloten, bekannte Seeds):** EXP-057: Eine volle Optimierer-Neuinit senkt π auf 0.11. **EXP-058: Nur das Momentum zu löschen reicht (π 0.12), obwohl die Schritte danach kleiner sind.**
+  Das Gedächtnis der ersten 25 Schritte sitzt demnach vor allem im Adam-Momentum (Kandidat N28, nach der Suche vom 27.09. nicht gefunden, vorläufig).
+- Weitere Piloten: EXP-035 (Warmup verzögert, n = 3), EXP-038 (Festlegung bei t = 150 doppelt vorhanden, 5/5), EXP-056 (Persistenz ohne geteilte Paare, 10/10; passive Spur erklärt 0.003–0.06).
+
+**Offene Grenzen:** eine Architekturfamilie, 2000 Schritte, konstruierte Splits, eine Aufgabe für P3; Funktion (P2) offen; N28 nur Pilot an bekannten Seeds, ohne Richtungsanalyse.
+Nach dem Einfrieren wurde `freq_ban.py` geändert (5aa8c34, 041f7a8). Eine erneute P1/P2/P3-Auswertung braucht deshalb einen Checkout von 733e829 bzw. f8adf45.
+Meine Fehler dieser Sitzung: Zeitstempel vor der Messung geschrieben (mehrfach korrigiert), Prüfungen am falschen Objekt (drei Fälle), eine Trainer-Änderung vor der Codex-Prüfung (nachgeholt).
+
+**Reproduktion:** `python lab/tools/confirm_p1.py --analyze lab/confirm/P1_manifest.json` bzw. `confirm_p2.py`/`confirm_p3.py` (aus 733e829/f8adf45); Blöcke `parallel_queue.py lab/confirm/P1_jobs.txt|P3_jobs.txt --workers 8`;
+EXP-056/057/058: `parallel_queue.py lab/experiments/<EXP>/jobs.txt --workers 8`, dann `guarded_run.py -- python lab/experiments/<EXP>/analyze.py`.
+
+**Nächste Aktion:** CPU-Programm neu starten (Befehl in [[STATE]]). N28 (Momentum) als Bestätigung an frischen Seeds registrieren, mit Codex-Prüfung, dann auf der GPU rechnen.
+Danach der P2-Nachfolger.
+
+**Runner:** Die geplante Aufgabe „GROKVERSE-Lab-Runner“ ist aktiv. Nächster Start laut `runner-state.json`: 2026-09-27 05:54:44Z = **07:54 Berlin**. Das CPU-Programm (EXP-041 …) läuft bis zur
+Sitzungsdeadline 07:19, dann beendet es der Wächter. Die Folgesitzung setzt mit demselben Befehl fort.

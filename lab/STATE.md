@@ -20,7 +20,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[NOVEL_DI
 
 - **CPU:** `python lab/tools/night_program.py --cpu --cpu-workers 3 --experiments EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`
   (EXP-035/038/041 fertig, EXP-036 läuft). Die Sitzungsdeadline bricht ab (kein Fehler). **Wiederaufnahme: derselbe Befehl.**
-- **GPU:** frei. N28, P2c, EXP-059…064 sind fertig und ausgewertet.
+- **GPU (seit 09:22):** [[confirm/P2d_REGISTRATION|P2d]] EINGEFROREN (c0cd65f): `python lab/tools/parallel_queue.py lab/confirm/P2d_jobs.txt --workers 7 > lab/runner/logs/p2d_block.log`.
+  **Wiederaufnahme: derselbe Befehl**, danach `guarded_run.py -- python lab/tools/confirm_p2d.py --analyze lab/confirm/P2d_manifest.json`. N28, P2c, EXP-059…065 fertig.
 
 ## Nächste Schritte (in dieser Reihenfolge)
 

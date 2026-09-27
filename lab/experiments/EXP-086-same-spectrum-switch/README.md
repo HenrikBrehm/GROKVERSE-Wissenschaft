@@ -38,3 +38,22 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-086-same-spectrum-switch/
 python lab/tools/parallel_queue.py lab/experiments/EXP-086-same-spectrum-switch/jobs.txt --workers 10
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-086-same-spectrum-switch/analyze.py
 ```
+
+## Nachtrag a (Sitzung 33, 22:28 Berlin gemessen, vor jedem EXP-086-Lauf): A2 zeigt bei F zum Teil *gegen* A
+
+Reine Rechnung auf den gespeicherten Split-Dateien (`gradient_overlap_s33.py`, `overlap_alignment_s33.py`, Ergebnis `gradient_overlap_s33.json`). Maß: Kosinus der Gradientenrichtungen erster Ordnung von W_E bei den Zielfrequenzen F (Frequenzinhalt X[k, c] = Σ_t e^{−2πikt/P} M(t, c − t) je Ausgabeklasse c, beide Operandenplätze; Realteil = Richtungen, wie sie sind; nahezu orthogonale Zufallszeilen von W_U angenommen, [[paper/draft]] §5).
+
+| Paar (Seeds 400–409) | cos bei F (Mittel, Spanne) |
+|---|---|
+| A gegen A2 | **−0.52** (−0.55 … −0.49) |
+| A gegen B (ω 0) | −0.53 (−0.56 … −0.50) |
+| R1 gegen R2 | −0.42 (−0.45 … −0.39) |
+| A gegen R1 | +0.06 (+0.04 … +0.09) |
+
+**Grund:** Alle Splits kommen aus demselben Pool (alle Paare ohne Testmenge). Ein zu A disjunkter Split trägt deshalb das Negativbild von A (Erwartungswert ≈ −0.60 · X_A bei Zufallsauswahl aus dem Rest: 3831 von 12 769 − 2554 − 3831 = 6384 Paaren). A2 hat zwar dieselbe Stärke auf F (Anteil 0.177 gegen 0.176), aber etwa ein Viertel seiner F-Leistung (0.52² ≈ 0.27) liegt entlang **−A**. Der Rest ist neu und orthogonal. Die README oben nannte „neue Phasen“; genauer ist: teilweise *umgekehrte* Richtungen.
+
+**Folgen für die Lesart (die Kriterien oben bleiben unverändert):**
+1. D = C_AB(25) − C_AA2(25) > 0 lässt sich **nicht** durch eine Richtungsumkehr bei F erklären, weil A2 und B dort gleich stark gegen A zeigen. Ein positives D spricht damit sauberer für den Mengenkonflikt als bisher angenommen.
+2. D ≈ 0 mit C_AA2(25) > 0 trennt „generische frühe Störung“ **nicht** von „Richtungsumkehr bei F“. Die R-Kontrolle trennt das auch nicht: R1 und R2 sind ebenfalls gegeneinander ausgerichtet (−0.42).
+3. **Vorhersage des Richtungsmodells an schon gesehenen Daten (EXP-056):** Mit wachsender Überlappung ω zeigt B bei F weniger gegen A (cos −0.53 / −0.28 / −0.04 bei ω 0 / 0.2 / 0.4). Ein Modell „Kosten = Umkehr halb aufgebauter Richtungen“ sagt also *sinkende* Kosten mit ω voraus. Gesehen wurden *steigende* (Mediane 0.71 / 1.07 / 1.04; 8/10, p = 0.055, Sitzung 32). Das spricht schwach gegen das Richtungsmodell und für ein Konkurrenzmodell (Kosten, solange die neuen Daten die alten Merkmale nicht aktiv abbauen). Post hoc, n. s., nur Hinweis.
+4. **Vorhersage vor dem Lauf (Konkurrenzmodell):** C_AA2(25) nahe 0 oder negativ (keine zweite Frequenzmenge), D > 0. Richtungsmodell und generisches Modell: C_AA2(25) ≈ C_AB(25).

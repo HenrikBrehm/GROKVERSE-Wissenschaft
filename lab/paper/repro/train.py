@@ -149,7 +149,8 @@ def train(a: argparse.Namespace) -> dict:
            "final_acc": {"train": accuracy(model, trx, try_, p), "test": accuracy(model, tex, tey, p)},
            "generalization_step": gen_step, "test_curve": test_curve, "sec_per_step": round((time.perf_counter() - t0) / a.steps, 5),
            "versions": {"python": platform.python_version(), "torch": torch.__version__, "numpy": np.__version__},
-           "platform": platform.platform(), "end_utc": datetime.now(timezone.utc).isoformat()}
+           "platform": platform.platform(), "end_utc": datetime.now(timezone.utc).isoformat(),
+           "status": "completed"}                     # s33: bound_block binds only runs marked completed (R7)
     (out / "result.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
     return res
 

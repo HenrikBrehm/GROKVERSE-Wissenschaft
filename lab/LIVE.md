@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 01:29 Berlin (23:29Z, vom Runner)
 - **Deadline:** 2026-09-27 04:29 Berlin (02:29Z)
-- **Zuletzt aktualisiert:** 03:09 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 03:12 Berlin (gemessen)
 - **Run-Fenster:** offen seit 02:25 (Freigabe des Nutzers, 03:00-Sperre aufgehoben), bis Sitzungsende 04:29.
 
 ## Gerade
 
-GPU: EXP-048 (nicht-modulare Addition) laeuft. CPU: Paket-B-Piloten (EXP-035). Ich lege derweil den Nachfolger fuer den Funktionstest EXP-051 fest.
+GPU: EXP-049 (Modellbreite 128/512) laeuft. CPU: Paket-B-Piloten (EXP-035, ~7 min je Lauf).
 
 ## Als Naechstes
 
@@ -18,6 +18,8 @@ Beobachten; Urteile je Versuch nach der Lesart-Notiz eintragen. Um ~04:20 Stand 
 
 ## Verlauf dieser Sitzung
 
+- 03:10 **EXP-048: Steuerung auch bei nicht-modularer Addition** (10/10, p 0.001; Aufgabe selbst noch nicht gelernt).
+- 03:10 EXP-055 (Nachfolger Funktionstest): Hauptdosis n. s.; bei Teildosen nutzen die Modelle die Zielfrequenzen staerker (10/10, nachtraeglich). Plan fuer saubere Bestaetigung notiert.
 - 03:06 EXP-051: formal "nicht genutzt", aber Bodeneffekt (Eingriff zu klein, alle Verluste 0). Kein Beleg; Nachfolger noetig.
 - 03:06 **EXP-047: Die Paarstruktur steuert, nicht die Token-Haeufigkeiten** (wie vorab aus der Theorie erwartet).
 - 03:01 **EXP-046: Steuerung gilt auch in der Diedergruppe D59** (nicht-abelsch; 10/10, p 0.001).

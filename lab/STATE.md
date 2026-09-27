@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]], Abschnitt „STATE-Archiv“)
 
-_Zuletzt aktualisiert: 2026-09-27, 02:36 Berlin (Sitzung 20, Deadline 04:29). Fenster seit 02:25 offen (Nutzer). Schritte 1–3 erledigt, GPU-Nachtprogramm läuft seit 02:34; Wiederaufnahme = derselbe Befehl (Schritt 4)._
+_Zuletzt aktualisiert: 2026-09-27, 03:28 Berlin (Sitzung 20, Deadline 04:29). Schritte 1–3 erledigt (Abnahme, Tests grün), GPU-001 bestanden, GPU-Programm bei EXP-044, CPU-Programm bei EXP-035. **Folgesitzung: Schritte 1–3 NICHT wiederholen, direkt Schritt 4/5 (dieselben Befehle setzen fort).**_
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/ASTRA_2026-09-26|Astra-Review]] · [[LESART-nacht-2026-09-27]]
 
@@ -51,7 +51,12 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[BACKLOG]] · [[reviews/
 
 ## Aktive Queue / laufende Jobs
 
-- **Sitzung 20, 02:34:** `python lab/tools/night_program.py > lab/runner/logs/night.log 2>&1` (GPU, beginnt mit GPU-001). Status: `lab/runner/logs/night_20260927T003426_351801Z/night_status.json`. Abnahme und Tests bestanden (JOURNAL s20 Z3). CPU-Programm (Schritt 5) startet nach dem GPU-001-Urteil. Vorher: Keine (Stand 22:05, Sitzung 14). Vorbereitet, ungetestet: GPU-001, EXP-043–049 (in `night_program.py`), EXP-050 (optional), CPU: `night_program.py --cpu`.
+- **GPU (seit 02:50):** `python lab/tools/night_program.py > lab/runner/logs/night2.log 2>&1`. Fertig: GPU-001 (PASS, J = 8), EXP-043, 046, 047, 051, 048, 049. Läuft: EXP-044, dann 045.
+  Die Sitzungsdeadline bricht laufende Jobs ab (Exit 124 = Ablehnung, kein Fehler). **Wiederaufnahme: derselbe Befehl** (Fertiges per Fingerprint übersprungen). Danach optional EXP-050 (`--experiments GPU-001,EXP-050`).
+- **CPU (seit 02:56, 1 Arbeiter × 4 Threads neben 8 GPU-Läufen):** `python lab/tools/night_program.py --cpu --experiments EXP-035,EXP-038,EXP-041,EXP-036,EXP-039,EXP-040,EXP-042,EXP-014 > lab/runner/logs/night_cpu.log 2>&1`.
+  ≈ 5–7 min je Lauf, mehrere Fenster. Wiederaufnahme: derselbe Befehl.
+- **Erledigt (Sitzung 20):** EXP-052 ausgewertet (4/4), EXP-055 (neu, P2-Pilot), `pilot_power.py` (n für P1). **Offen aus Schritt 8/9:** EXP-044 `pi_persistence.py` nach EXP-044; EXP-039/054/042 nach den CPU-Läufen; P1-Manifest (Entwurf → Codex → einfrieren).
+- Ergebnisse der Nacht: [[FINDINGS]] Abschnitt „Pilotnacht“, [[JOURNAL]] Sitzung 20.
 
 ## Drei Prioritäten (Regel 18c: Programm A/B/C)
 

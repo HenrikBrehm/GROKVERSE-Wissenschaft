@@ -64,4 +64,5 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 
 - **d:** §2 (Methoden) als Fließtext, unabhängig gegen den Code geprüft (9 Korrekturen). §3.3 um die Größenabschätzung von K4b ergänzt (Momentum-Schwanz, post hoc) und die Vorarbeiten zitiert.
 - **e:** Volltext/Abstract nachgeprüft: Salah & Yevick 2024 (schränkt K2 nicht ein, im Paper zitiert), Sweeney 2026, Pracher et al. 2026, Yang 2026, Xu 2026, Sevetlidis & Pavlidis 2026. **Die Deutung von K4b (erstes Moment trägt die frühe Exposition) ist bekannt**; K2 und K4/K4c bleiben nach unserer Suche nicht gefunden.
+- **c:** neue Repro-Skripte `repro/k4_resets.py` (K4d/K4e) und `repro/k4b.py` (K4/K4b), je unabhängig gegen die eingefrorenen Auswertungen gelesen; ungetestet. Fehlt noch: K2-Funktion (P2d/P2e).
 - **a/c:** Nachtbefehle statisch geprüft; zwei Befehlsfehler und vier kleinere Punkte vor der Nacht behoben (Details im JOURNAL).

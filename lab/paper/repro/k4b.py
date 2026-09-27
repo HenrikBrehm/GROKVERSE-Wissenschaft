@@ -135,7 +135,7 @@ def main() -> None:
                               "max_seed_abs_diff_pi": max(abs(r["pi"][k] - ref[r["seed"]]["pi"][k]) for r in both for k in diff) if both else None}
     (root / "k4b_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1), flush=True)
-    if a.compare_n28 and (not out["compare_n28"]["n_seeds"] or max(out["compare_n28"]["mean_abs_diff_pi"].values()) > a.tol):
+    if a.compare_n28 and (out["compare_n28"]["n_seeds"] != len(seeds) or max(out["compare_n28"]["mean_abs_diff_pi"].values()) > a.tol):
         raise SystemExit(f"[k4b] does not reproduce N28 within tol {a.tol}")
 
 

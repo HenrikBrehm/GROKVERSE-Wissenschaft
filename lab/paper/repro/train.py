@@ -116,11 +116,15 @@ def train(a: argparse.Namespace) -> dict:
         if sw is not None and step == a.switch_step:  # new train set from the next step on; optional reset of one part
             trx, try_ = X[sw].to(dev), Y[sw].to(dev)
             if a.reset_at_switch:
+                done = []
                 with torch.no_grad():
                     for nm, q in model.named_parameters():
                         if nm in RESET_PARTS[a.reset_at_switch]:
                             q.copy_(init[nm])
                             opt.state.pop(q, None)
+                            done.append(nm)
+                if sorted(done) != sorted(RESET_PARTS[a.reset_at_switch]):   # s27 review: no silent no-op reset (as freq_ban)
+                    raise SystemExit(f"reset part {a.reset_at_switch}: parameters not found ({done})")
             if a.reset_optim_part == "m":             # s27: zero exp_avg only; exp_avg_sq and the step counters (bias correction) kept
                 for q in model.parameters():
                     opt.state[q]["exp_avg"].zero_()

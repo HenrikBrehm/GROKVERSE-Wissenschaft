@@ -34,9 +34,9 @@ import k4c  # noqa: E402  (complement/accuracy/ablate, path setup, confirm_p1 he
 
 LAB, T, BUDGET = k4c.LAB, 50, 4000
 BLOCKS = {  # frozen definitions of N29b / N29c (confirm_n29b.py, confirm_n29c.py)
-    "n29b": {"seeds": (2300, 2319), "arms": {"normal": None, "rsattn": "attn", "rsmlp": "mlp"}, "reset": "rsattn", "control": "rsmlp",
+    "n29b": {"seeds": (2300, 2319), "rng": 292, "arms": {"normal": None, "rsattn": "attn", "rsmlp": "mlp"}, "reset": "rsattn", "control": "rsmlp",
              "summary": "N29b_summary.json"},
-    "n29c": {"seeds": (2320, 2339), "arms": {"normal": None, "rsvo": "vo", "rsqk": "qk"}, "reset": "rsvo", "control": "rsqk",
+    "n29c": {"seeds": (2320, 2339), "rng": 293, "arms": {"normal": None, "rsvo": "vo", "rsqk": "qk"}, "reset": "rsvo", "control": "rsqk",
              "summary": "N29c_summary.json"},
 }
 MIN_DIFF = {"H1": 0.5, "H2": 0.3}
@@ -73,7 +73,7 @@ def statistics(rows: list[dict], blk: dict) -> dict:
         return {k: {"mean_diff": float(v.mean() + MIN_DIFF[k])} for k, v in X.items()}
     tt = {k: k4c.c1.t_test_secondary(v) for k, v in X.items()}
     ph = k4c.c1.holm({k: v["p_one_sided"] for k, v in tt.items()})
-    rng = np.random.default_rng(29)
+    rng = np.random.default_rng(blk["rng"])   # as the frozen analyses (292 / 293)
     return {k: {"mean_diff": float(v.mean() + MIN_DIFF[k]), "sd": float(v.std(ddof=1)), "p_holm": ph[k],
                 "ci95_minus_min": k4c.c1.boot_ci(v, rng), "n_positive": int((v > 0).sum())} for k, v in X.items()}
 
@@ -139,11 +139,15 @@ def main() -> None:
         both = [r for r in rows if r["seed"] in ref_rows]
         diff = {arm: abs(float(np.mean([r[f"R_{arm}"] for r in both])) - float(np.mean([ref_rows[r["seed"]][f"R_{arm}"] for r in both])))
                 for arm in blk["arms"]} if both else {}
-        out["compare"] = {"n_seeds": len(both), "mean_abs_diff_R": diff,
+        frozen = ref.get("hypotheses", {})
+        cdiff = {k: abs(out[k]["mean_diff"] - frozen[k]["mean_diff"]) for k in MIN_DIFF if k in out and k in frozen and "mean_diff" in frozen[k]}
+        out["compare"] = {"n_seeds": len(both), "n_expected": len(seeds), "mean_abs_diff_R": diff, "contrast_abs_diff": cdiff,
                           "max_seed_abs_diff_R": max(abs(r[f"R_{arm}"] - ref_rows[r["seed"]][f"R_{arm}"]) for r in both for arm in blk["arms"]) if both else None}
     (root / f"k4_resets_{a.block}_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1), flush=True)
-    if a.compare and (not out["compare"]["n_seeds"] or max(out["compare"]["mean_abs_diff_R"].values()) > a.tol):
+    c = out.get("compare")
+    if a.compare and (c["n_seeds"] != c["n_expected"] or len(c["contrast_abs_diff"]) != len(MIN_DIFF)
+                      or max([*c["mean_abs_diff_R"].values(), *c["contrast_abs_diff"].values()]) > a.tol):
         raise SystemExit(f"[k4_resets] does not reproduce {a.block} within tol {a.tol}")
 
 

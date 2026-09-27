@@ -342,7 +342,7 @@ def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
         desc[a] = {"observed": sum(1 for t in ev if t[1]), "by_2000": sum(1 for t in ev if t[1] and t[0] <= 2000),
                    "median_bounded": float(np.median([min(t[0], CAP) for t in ev])),
                    "we_target_share_250_mean": float(np.mean([r["we_share_250"][a] for r in rows])),
-                   "first_crossing_median": float(np.median([r["first_crossing"][a] or CAP for r in rows])),
+                   "first_crossing_median": float(np.median([CAP if r["first_crossing"][a] is None else r["first_crossing"][a] for r in rows])),
                    "test_final_mean": float(np.mean([r["test_final"][a] for r in rows]))}
     out["descriptive"] = desc
     return out

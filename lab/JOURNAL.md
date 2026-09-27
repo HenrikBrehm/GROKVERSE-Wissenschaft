@@ -2795,3 +2795,9 @@ P2: „nicht auswertbar, nur beschreibend“ ist richtig, und der Wert aus 47 Se
 registrierter Konvergenzpunkt auf eigener Validierungsmenge, feste Ablations-Testmenge, geordnetes Nachziehen bis zu einer festen Zahl gemeinsam generalisierter Paare, Eignungsrate berichten,
 Power gegen den Abstand über log 1.05 (≈ 0.37 SD → grob 60–80 Paare); für „je Energieeinheit“ Dosen nahe 0.
 *Selbst geprüft und übernommen:* Wortlaut und Grenzen in [[FINDINGS]] (Abschnitt „BESTÄTIGT“), der Nachfolgeplan in [[BACKLOG]]. Verworfen: nichts.
+
+**Zyklus 16 (P3-Block ausgewertet, 05:39–06:05 gemessen).** *Frage:* Hält das Netz nach 25 Schritten auf A dessen Frequenzpräferenz gegen 2000 Schritte auf B ohne ein einziges geteiltes Paar,
+und zwar über eine statische W_E-Spur hinaus? *Block:* 240/240 Läufe Exit 0, gebunden. *Ergebnis (eingefroren ausgewertet):* ***bestätigt***. D̄ = 0.293 [0.263, 0.322], 30/30 > 0, t = 19.3,
+Holm-p 6·10⁻¹⁸. π(0) = 0.351, maximale statische Spur 0.057. Sekundär: Überlappung 0 → 0.4 ändert π nicht messbar (0.005 [−0.030, 0.042]). Der Pilot EXP-056 ist damit repliziert
+(an frischen Seeds, andere Split-Ströme). *Deutung (vorsichtig):* Zusammen mit EXP-038 (Festlegung doppelt vorhanden) spricht alles für eine sehr frühe Festlegung im Netz, die das weitere
+Training aktiv trägt. Nicht gezeigt: welcher Mechanismus (Adam-Momente, Gewichtsnorm, Struktur im Rest). *Stand:* Codex greift die Schlussfolgerung an, besonders die Frage, ob der reine B-Lauf der richtige Nullpunkt ist.

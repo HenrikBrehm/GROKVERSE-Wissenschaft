@@ -3111,6 +3111,6 @@ CRLF-Zeilenenden (sofort auf LF zurückgesetzt, Diff 28 Zeilen). *Folge für ein
 reproduziert (`git worktree add <dir> <commit>`), wie schon nach den EXP-057/058-Änderungen für P1. Das laufende CPU-Programm startet neue Läufe jetzt mit dem geänderten Trainer; für ihre Argumente ist das
 Verhalten unverändert (kein `--reset-at-switch`). Codex-Prüfung der Änderung läuft.
 
-**Zyklus 12 (Vorbereitung D₅₉ für Programm A, 10:55–10:58).** `group_train.py --save-model` (atomar, vor „completed“ geprüft). `save_model` geht nur in den Fingerabdruck ein, wenn gesetzt: Der gespeicherte
+**Zyklus 12 (Vorbereitung D₅₉ für Programm A, 10:50–10:54 gemessen).** `group_train.py --save-model` (atomar, vor „completed“ geprüft). `save_model` geht nur in den Fingerabdruck ein, wenn gesetzt: Der gespeicherte
 Fingerabdruck eines P1-D₅₉-Laufs (Seed 1000 F) wird exakt reproduziert; ein 30-Schritte-Lauf auf der CPU speichert ein ladbares Modell. Noch ohne Codex-Prüfung (geplant zusammen mit der D₅₉-Registrierung).
 Gleichwertigkeit `--reset-at-switch rest` alter gegen neuer freq_ban-Code (60 Schritte, CPU): bitgleich.

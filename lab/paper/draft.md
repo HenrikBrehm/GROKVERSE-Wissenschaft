@@ -49,7 +49,7 @@ representations (Chughtai et al. 2023; coset circuits in S₅/S₆: Stander et a
 the initialization (He et al. 2026a), analyses irrep selection with the full group table as data and names the role of the train–test split as open (He et al. 2026b, §6), and, within
 alternating gradient flow (Kunin et al. 2025), derives the order in which irreps are learned from the Fourier statistics of the input encoding under uniform data (Marchetti et al. 2026;
 with one-hot tokens, irreps of equal dimension tie). LeDoux (2026) shows that the *order* of training examples (minibatches) sets the fundamental frequency, while, under a fixed stride ordering,
-different random subsets of training pairs gave the same frequency (their §4.2.3, §5.3). Our lever is the *set* of training pairs under full-batch training with one-hot tokens, with the targets prescribed in advance through the pair mask.
+different random subsets of training pairs gave the same frequency (their §4.2.3, §5.3). Our lever is the *set* of training pairs under full-batch training with one-hot tokens, with the targets prescribed in advance through the pair mask. On the kernel side, Tomàs Bernal et al. (2026) find for recursive feature machines on modular arithmetic that generalization requires breaking a symmetry of the training set and that the learned features encode elements of the invariance group; there the training set decides *whether* a kernel generalizes, here *which* frequencies a transformer learns.
 More generally, data statistics select among redundant features (Hermann & Lampinen 2020), stage-wise learning follows data spectra in linear networks (Saxe et al. 2014), and neural
 networks fit low frequencies first in continuous input spaces (spectral bias / frequency principle; Rahaman et al. 2019; Xu et al. 2019). These do not address which discrete group
 frequencies a grokking network adopts.
@@ -58,13 +58,13 @@ frequencies a grokking network adopts.
 lasting cost of warm starting (Ash & Adams 2020) and the primacy bias (Nikishin et al. 2022) all describe early training that later data cannot fully undo. Closest to our setting,
 Lyle et al. (2025) relate grokking to the overwriting of early features and explain recovery by the effective learning rate; their warm-start experiments use CIFAR and treat modular
 arithmetic as stationary, without frequency analysis, so the effective learning rate is an alternative we must address for K4. LeDoux (2026, §3.4) conjectures a critical period in
-modular arithmetic without a switch experiment. Khanh (2026) uses the same model class and embedding power spectrum as a circuit identity and shows that transplanting another run's
+modular arithmetic without a switch experiment; Howe (2026a) reports a critical window of the first few thousand epochs for an auxiliary representational loss (a loss intervention, not a data switch). Khanh (2026) uses the same model class and embedding power spectrum as a circuit identity and shows that transplanting another run's
 weight direction overwrites it — a weight-space intervention, whereas we switch the data and measure when the frequency choice becomes persistent.
 
 **Partial resets.** Resetting layers or parameter groups is an established tool to restore plasticity or to probe module criticality (Nikishin et al. 2022; Zhou et al. 2022; Zhang et al.
 2022; Chatterji et al. 2020; Asadi et al. 2023 for optimizer resets). For transformers, Dong (2026) reports in language models up to 1.4B parameters that re-initializing only the
 query–key slices of attention restores the ability to learn a withheld capability, while value slices do nothing. Our reset results (K4d, K4e) concern a different quantity (persistence
-of an early frequency choice) and show the opposite ordering within attention (value path more than query/key); we report this as a contrast, not as a general statement about attention.
+of an early frequency choice) and show the opposite ordering within attention (value path more than query/key); we report this as a contrast, not as a general statement about attention. In our model family, Jia (2026) transfers or freezes embeddings, readout and internal blocks between modular tasks (query, key and value in one fused matrix), without resets at a data switch and without frequency analysis.
 
 ## 2 Setup
 

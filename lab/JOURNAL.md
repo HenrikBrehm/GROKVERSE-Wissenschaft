@@ -3451,3 +3451,11 @@ zu K4 zuerst stellen; im [[paper/robustness_plan]] war R2 nur skizziert („nach
 (N29-Protokoll, Zellen lr 2e-3 mit t ∈ {12, 25, 50} und wd 0.3 mit t ∈ {25, 50}, Holm über 4, n = 30 aus der N29-Streuung: Power 0.88 bei halbiertem Abstand; Seeds 2510–2539 in
 [[FINDINGS_DETAILS]] reserviert). *Entscheidung zur Abhängigkeit von EXP-040:* Das Warten auf EXP-040 ist nicht nötig. H2 bei lr 2e-3 liegt mit t = 12 unter beiden Uhren (Schritte, Λ) im
 Umstiegsbereich; die Uhrenfrage wird als Sekundärgröße (t = 25) ohne Urteil mitgemessen. Nur `py_compile`, kein Selbsttest (Fenster zu). Codex prüft (läuft).
+
+**Zyklus 2, Ergebnis (15:40).** Der Hilfsagent hat die Vorwärtszitate von 9 Ausgangsarbeiten gesichtet (Nanda et al. 2023 ≈ 280 Titel ab März 2026, Marchetti 7, LeDoux 1, Lyle 9, Chughtai ≈ 28,
+He a/b 8; Dong und Khanh 0, vermutlich Indexierungsverzug; dann HTTP 429). *Ergebnis:* **nichts, was K2, K2-Funktion, K4–K4c oder K4d/e einschränkt.** Engster neuer Treffer zu K2:
+Tomàs Bernal, Mallinar, Belkin 2026 (arXiv 2604.00316): Kernel (RFM), Symmetriebruch der Trainingsmenge entscheidet, **ob** generalisiert wird, nicht welche Frequenzen. Zu K4d/e: Jia 2026
+(2609.18078): gleiche Modellfamilie, Übertragen/Einfrieren von Komponenten; Q, K, V fusioniert, keine Resets, keine Frequenzen. Beides habe ich selbst am Abstract bzw. an den Aufbau-Angaben im
+HTML-Volltext nachgesehen; den Rest (Howe 2026a/b, Li & Sreedhar 2026, Swaroop 2026, Hidajat et al. 2026, Sweeney 2026) nur über die Abstract-Angaben des Agenten. *Übernommen:* Nachtrag in
+[[paper/related_work]] (mit Prüfgrad, Einschränkung „API nicht abgefragt“ korrigiert), drei Sätze in §1b des [[paper/draft]]. *Offen:* Zitate am PDF prüfen, Dong/Khanh später nachholen,
+Google Scholar. Neuheitsstand in [[FINDINGS]] unverändert („nach unserer Suche nicht gefunden“, jetzt mit Vorwärtszitaten bis 2026-09-23).

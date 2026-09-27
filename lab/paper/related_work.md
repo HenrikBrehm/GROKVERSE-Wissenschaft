@@ -450,3 +450,37 @@ Fazit (vorläufig, Grundlage für die menschliche Prüfung): K2 weiter „nach u
 
 *Ergänzung (14:57, von mir per WebFetch am HTML-Volltext geprüft):* Khanh 2026 (2607.06628), §3: 1-Schicht-Transformer, d = 128, Full-Batch-AdamW lr 1e-3, wd 1.0, β = (0.9, 0.98),
 50 % Split, Addition und Multiplikation mod 59; §7/App. A: Richtungstausch von Attention, MLP oder Unembedding allein verschiebt die Identität jeweils (Autoren: „suggestive“, drei Paare je Aufgabe).
+
+## Nachtrag Sitzung 26 (2026-09-27, 15:10–15:35 Berlin): Vorwärtszitate über die Semantic-Scholar-API
+
+**Korrektur der Einschränkung oben:** Die Semantic-Scholar-Graph-API ist über WebFetch erreichbar (`api.semanticscholar.org/graph/v1/paper/arXiv:<id>/citations`). Die Lücke „keine Vorwärtszitate“
+ist damit für Semantic Scholar teilweise geschlossen; Google Scholar bleibt ungeprüft.
+**Vorgehen:** Ein Claude-Hilfsagent (nur lesend) hat die zitierenden Arbeiten von 9 Ausgangsarbeiten gesichtet: Nanda et al. 2023 (≈ 280 Zitate ab 2026-03-01, alle Titel), Marchetti et al. 2026 (7, alle),
+LeDoux 2026 (1), Lyle et al. 2025 (9), Chughtai et al. 2023 (≈ 28 ab 2026-03), He et al. 2026a (6), He et al. 2026b (2), Dong 2026 und Khanh 2026 (je 0, **vermutlich Indexierungsverzug**, danach
+HTTP 429; nachholen). Kandidaten nach Titel, dann Abstract, die zwei engsten im HTML-Volltext. Prüfgrad wie oben: [A] Abstract, [L] Volltext (HTML, über das Zusammenfassungswerkzeug), [T] nur Titel.
+**Selbst nachgeprüft (Hauptagent):** die Abstracts von 2604.00316 und 2609.18078 und die Aufbau-Angaben von 2609.18078 im HTML-Volltext.
+
+**Ergebnis:** Keine der gesichteten Arbeiten schränkt K2, K2-Funktion, K4–K4c oder K4d/e ein. Neu zitierwürdig:
+
+- **Tomàs Bernal, Mallinar, Belkin (2026).** *Breaking Data Symmetry is Needed For Generalization in Feature Learning Kernels.* arXiv:2604.00316. https://arxiv.org/abs/2604.00316 [A, L]
+  Recursive Feature Machines (Kernel, **kein neuronales Netz**) auf modularer Arithmetik: Generalisierung „occurs only when a certain symmetry in the training set is broken“; die gelernten
+  Merkmalsmatrizen kodieren Elemente der Invarianzgruppe. *Abgrenzung:* Die Struktur der Trainingsmenge entscheidet dort, **ob** generalisiert wird, nicht **welche** Frequenzen gelernt werden; keine
+  Transformer, kein Datenwechsel. **Engster Vorläufer zu K2 auf der Kernel-Seite; Pflichtzitat, schränkt K2 nicht ein.**
+- **Jia (2026).** *Beyond Embedding Transfer: Component Roles in Grokking Transfer and Stability.* arXiv:2609.18078. https://arxiv.org/abs/2609.18078 [A, L]
+  Gleiche Modellfamilie (1-Schicht-Transformer mit Pre-LayerNorm, AdamW lr 1e-3, wd 1): Warmstart-Übertragung zwischen modularen Aufgaben, Übertragen/Einfrieren von W_E, W_U und inneren Blöcken.
+  Q, K, V sind **eine fusionierte Matrix** (Volltext: „single fused linear layer … qkv.weight“); keine Resets beim Datenwechsel, keine Frequenzanalyse. *Abgrenzung zu K4d/e:* Komponentenrollen ja,
+  aber weder Reset noch Trennung Wertepfad/QK. Zitieren.
+- **Howe (2026a).** *What Makes a Representational Prior Work? Feature Families, Label-Free Invariances, and Critical Windows in Grokking.* arXiv:2607.12735 [A]. Ein Hilfsverlust nur in den ersten
+  2000 Epochen bringt fast den ganzen Nutzen („critical window“). Fenster in Tausenden Epochen, Eingriff über den Verlust, nicht die Daten. Zitieren bei K4 (kritische Fenster).
+- **Howe (2026b).** *Structure-Specific Representational Priors Causally Control the Grokking Delay.* arXiv:2607.04333 [A]. Optional.
+- **Li, Sreedhar (2026).** *Natural Ungrokking: Asymmetric Control of Which Rules Survive Pretraining.* arXiv:2606.26050 [A]. Kleine Sprachmodelle: der Korpus entscheidet, welche Regeln bleiben;
+  Wiederzuführen der Daten stellt eine verdrängte Regel nicht wieder her. Analogie zu K2 (Daten wählen Merkmale) und K4 (Unumkehrbarkeit), anderes Setting. Zitieren.
+- **Swaroop (2026).** *Latent Algorithmic Structure Precedes Grokking.* arXiv:2603.23784 [A]. Frequenzen und Phasen schon während der Memorisation kodiert (ReLU-MLPs). Stützender Kontext zu K4.
+- **Hidajat, Stoll, An (2026).** *Grokking as Structural Inference: Transformers Need Bayesian Lottery Tickets.* arXiv:2605.15787 [A]. Theorie: Aufmerksamkeitszuteilung als Engpass. Optional zu K4d.
+- **Sweeney (2026).** *Optimizer Memory Makes Shuffle Order a First-Order Source of Fine-Tuning Noise.* arXiv:2606.29554 [A]. AdamW-Gedächtnis macht die Datenreihenfolge zu einem Effekt erster
+  Ordnung (Fine-Tuning). Optional zu K4b (Optimiererzustand trägt Datengeschichte).
+
+Nach Abstract als nicht einschlägig eingestuft (keine Paar-Steuerung, keine frühe Festlegung gegen einen Datenwechsel, keine Wertepfad/QK-Resets), u. a.: 2609.15047, 2609.27593, 2606.23044, 2607.07066,
+2605.08119 („spectral lock-in“ meint dort Eigenlücken im Update-Spektrum), 2608.25813, 2605.17704, 2605.24057, 2607.29503, 2609.12259, 2607.10116, 2603.07323, 2609.20166.
+**Offen für die menschliche Prüfung:** Zitate aus 2604.00316 und 2609.18078 vor der Übernahme ins Paper am PDF gegenprüfen (das Werkzeug fasst zusammen); Vorwärtszitate von Dong und Khanh nachholen;
+Google Scholar.

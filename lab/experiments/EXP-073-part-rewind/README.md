@@ -1,8 +1,8 @@
 ---
 id: EXP-073
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/unklar, neu/kandidat]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-059-momentum-exposure/README|EXP-059]]", "[[experiments/EXP-067-exclusion-part/README|EXP-067]]", "[[experiments/EXP-071-ov-lead-predicts/README|EXP-071]]", "[[confirm/N29b_REGISTRATION|N29b]]", "[[NOVEL_DIRECTIONS]]", "[[JOURNAL]]"]
 ---
 # EXP-073: Welcher Netzteil trägt die Zeitabhängigkeit der Festlegung? Teilweises Zurückspulen beim Datenwechsel (PILOT)
@@ -51,3 +51,16 @@ python lab/tools/guarded_run.py --min-minutes 5 -- python lab/tests/test_freq_ba
 python lab/tools/parallel_queue.py lab/experiments/EXP-073-part-rewind/jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-073-part-rewind/analyze.py
 ```
+
+## Ergebnis (Sitzung 36, 2026-09-28, Läufe 01:32–01:47, Auswertung 01:49 Berlin, gemessen)
+
+140/140 Läufe ok (GPU, `--workers 6`, Log `lab/runner/logs/exp073_s36.log`); `analyze.py` → `summary.json`. **Werkzeug gültig:** rwall = ref25 exakt
+(größte Abweichung je Richtung 0.0), 10/10 Seeds gültig. π-Mittel: ref25 0.30, ref50 1.05; rwwe 0.82, rwattn 0.91, rwvo 0.92, rwrest 0.76.
+**Median-q:** W_E 0.65, attn 0.82, vo 0.80, rest 0.62 → **Lesart nach Regel: *gemischt*** (Pilot, kein Urteil). Funktion R (Median): ref25 −0.55, ref50 0.98;
+W_E 0.61, attn 0.76, vo 0.91, rest 0.72. Loss-Sprung auf dem neuen Split durch das Zurückspulen (Median) negativ in allen Armen (W_E −0.24, rest −0.70).
+
+**Einordnung (Interpretation, post hoc):** Einzeln nimmt das Zurückspulen von W_E ≈ 35 % und das des Rests ≈ 38 % der Festigkeit der 25 Zusatzschritte weg,
+zusammen (rwall) 100 %. Die Summe der Einzelwirkungen (≈ 0.73) liegt unter 1: Die Teile halten sich teilweise gegenseitig (Teil-Redundanz), keiner ist allein Träger
+und keiner allein entbehrlich; die Attention (inkl. Wertepfad) trägt einzeln am wenigsten zur *Zeitabhängigkeit* bei, obwohl ihr Reset auf die Init (N29b/c) die Wirkung
+aufhebt. Das ist kein Widerspruch: Ein Reset auf die Init ist eine maximale Störung, das Zurückspulen um 25 Schritte eine kleine Zeitdosis. Seed 406 ist ein Ausreißer
+(π_50 0.64, W_E/rest-q < 0). Chimären-Einschränkung und bekannte Seeds wie oben. Siehe [[JOURNAL]] Sitzung 36 und [[LESART-nacht-2026-09-28]] Punkt 2.

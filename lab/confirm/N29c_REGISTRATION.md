@@ -32,3 +32,9 @@ python lab/tools/guarded_run.py -- python lab/tools/confirm_n29c.py --analyze la
 ## Codex-Prüfung vor dem Einfrieren (Sitzung 23, Ergebnis 11:59 Berlin)
 
 Kein Blocker (Zuordnung rsvo→vo, rsqk→qk, Run-IDs, Selbsttest-Anpassungen konsistent). Übernommen: Pilotwerte genauer gerundet und R(normal) EXP-064 zugeordnet.
+
+## EINGEFROREN (Sitzung 23)
+
+Manifest-Commit **3c9cb63**, Splits und Jobs committet; vor dem Einfrieren kein Lauf mit Seeds 2320–2339. Smoke (Seed 2320, rsvo, A→B) durch den eingefrorenen Lader: gebunden, Wert nicht angesehen.
+Abweichend von „Rechnen erst im nächsten Fenster“: Der Block startete 12:00 Berlin (7 GPU-Arbeiter), weil das Fenster noch offen war. Endet er nicht vor der Sitzungsdeadline 12:39, bricht der Wächter ab;
+gebundene Läufe bleiben gültig, derselbe Queue-Befehl setzt im nächsten Fenster fort (fertige werden übersprungen).

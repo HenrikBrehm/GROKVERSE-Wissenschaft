@@ -130,3 +130,11 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
   sekundär CE-Änderung in float64. Getrennt: Kurve bei gleichem Energieanteil (Abhängigkeit im natürlichen Maßstab).
 - **Modelle:** die gebundenen P2c-Modelle sind für eine *neue* Frage (anderes Maß) nutzbar, aber schon gesehen (R). Sauberer: frische Seeds.
 - **Pilot EXP-065 (Sitzung 22, 09:15):** an den P2c-Modellen eigene > Kontrolle in 80/80, Differenz je Seed 0.254 ± 0.038. Für P2d: Differenz der Abfälle als Primärgröße (immer definiert), frische Seeds, n ≈ 20 genügt; mehrere δ als Sekundärkurve.
+
+
+## P2e/D₅₉: funktionale Nutzung der gesteuerten Irreps (Sitzung 23, Programm A, noch nicht festgelegt)
+
+- **Stand:** P2d-Maß bei mul 113 / add 97 in [[experiments/EXP-066-p2d-other-tasks/README|EXP-066]] durchweg positiv, Bestätigung [[confirm/P2e_REGISTRATION|P2e]] vorbereitet.
+- **D₅₉ fehlt:** `group_train.py` speichert kein Modell (P1-Läufe haben nur Spektren). Nötig: Option `--save-model` im Trainer (gemeinsamer Trainer → Codex-Prüfung, Regel 18c),
+  Maß mit Projektion auf die isotypischen Irrep-Komponenten (`dihedral.irrep_basis`, 4 Spalten je 2-dim Irrep), Kontrollen aus nicht gesteuerten Irreps, sonst wie P2e.
+- **Priorität:** nach dem P2e-Ergebnis; D₅₉ ist die einzige nicht-abelsche Aufgabe und damit der härteste Verallgemeinerungstest für A.

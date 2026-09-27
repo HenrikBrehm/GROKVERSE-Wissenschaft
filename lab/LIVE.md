@@ -1,7 +1,7 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 32
+# LIVE: Laborsitzung 32 (beendet)
 
 - **Sitzungsstart:** 2026-09-27 20:29 Berlin (18:29Z, vom Runner)
 - **Deadline:** 2026-09-27 23:29 Berlin (21:29Z)
@@ -10,7 +10,7 @@ tags: [lab/live]
 
 ## Gerade
 
-Keine Läufe (gesperrt bis 01:30). Ergebnisse von EXP-018 und EXP-084 eingetragen; Abschlussarbeiten.
+**Sitzung beendet (22:10).** Nächster geplanter Start laut runner-state.json: **Mo 28.09. 00:04 Berlin** (22:04Z). Läufe erst ab 01:30.
 
 ## Als Nächstes
 
@@ -18,6 +18,8 @@ Ab 01:30: CPU EXP-040 (Seed 31 neu) → EXP-014; GPU: P2f-Smoke → P2f → EXP-
 
 ## Verlauf dieser Sitzung
 
+- 22:10 Sitzung beendet; Abschlussbericht im [[JOURNAL]], alles committet.
+- 22:08 C1/C2-Blocker: Wrapper statt Änderung an gegateter Datei; Abbildung 7 (EXP-084).
 - 22:05 **Läufe gestoppt** (Anweisung des Nutzers, Wächter gesperrt bis 01:30). P2f-Smoke abgelehnt, EXP-040 zu 6/8 fertig.
 - 22:04 **EXP-084: Vorhersage vor dem Lauf getroffen** (Sättigung mit dem Masken-Zielanteil; ε 1 verfehlt).
 - 21:58 **P2f eingefroren** (15539d8), Splits und Jobs committet.

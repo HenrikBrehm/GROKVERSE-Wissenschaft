@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-27 16:49 Berlin (14:49Z, vom Runner)
 - **Deadline:** 2026-09-27 19:49 Berlin (17:49Z)
-- **Zuletzt aktualisiert:** 17:27 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 17:34 Berlin (gemessen)
 - **Run-Fenster:** zu bis 00:00: kein Training, keine Tests; nur Auswertung gespeicherter Läufe, Denk- und Schreibarbeit.
 
 ## Gerade
@@ -18,6 +18,8 @@ Stand sichern (STATE); danach eine weitere offene Frage aus FINDINGS angehen ode
 
 ## Verlauf dieser Sitzung
 
+- 17:34 C2 verschärft (Fassung 3, a606ed0): Die alten Ziele müssen eine Nicht-Ziel-Kontrolle schlagen; sonst würde C2 womöglich nur eine Grundrate bestätigen. Codex: kein Blocker, Punkte übernommen.
+- 17:29 Rangerhaltung der alten Ziele gegen t: leicht über der Grundrate bis t = 25, deutlich ab t = 30 (parallel zu π).
 - 17:27 D₅₉ und P2d/P2e: Die Feinordnung überdauert im Transformer das Grokking; im MLP verblasst sie.
 - 17:26 Eigener Messfehler (mul-Basis) gefunden → dabei echten Fehler in `repro/k2.py` behoben.
 - 17:21 C3 nach Codex korrigiert (kein Blocker).

@@ -27,6 +27,6 @@ Angelegt 2026-09-27, Sitzung 24 (Laborsitzung, vom Runner gestartet), nach Regel
 | a Robustheit (lr, wd, train_frac) | Plan [[paper/robustness_plan]] (Sitzung 24); braucht Trainer-Optionen `--lr`, `--weight-decay`, `--train-frac` (gemeinsamer Trainer → Codex) | Optionen einbauen und prüfen lassen; Registrierung R1 einfrieren; frühestens in der Nacht 28./29.09. rechnen (Nacht 27./28. ist belegt) |
 | b Piloten bestätigen (EXP-048, 049, 045) | offen; EXP-075 (MLP-Persistenz) als Pilot für heute Nacht festgelegt | kleinen Bestätigungsblock für K2 an MLP/4× Breite/Integer-Addition registrieren, oder im Paper als Pilot berichten |
 | c Reproduktionspaket `lab/paper/repro/` | Ordner angelegt, leer | je Abbildung ein schlankes Skript (Training + Auswertung) mit Smoke-Modus; einmal im Fenster voll laufen lassen |
-| d Entwurf `lab/paper/draft.md` | Gerüst mit allen bestätigten Kernaussagen und Zahlen aus FINDINGS_DETAILS (Sitzung 24) | Abbildungsskripte unter `lab/paper/figures/`; Theorie-Abschnitt; nach P2f (D₅₉) ergänzen |
+| d Entwurf `lab/paper/draft.md` | Gerüst mit allen bestätigten Kernaussagen und Zahlen aus FINDINGS_DETAILS (Sitzung 24) | Abbildung 2 fertig (`figures/fig2_p1_delta_pow.py`, aus P1_summary.json); weitere Abbildungsskripte; Theorie-Abschnitt; nach P2f (D₅₉) ergänzen |
 | e Literatur `lab/paper/related_work.md` | in Arbeit (Sitzung 24, gründliche Suche mit Protokoll) | menschliche Prüfung |
 | f Entscheidungen des Nutzers | oben vorgelegt | — |

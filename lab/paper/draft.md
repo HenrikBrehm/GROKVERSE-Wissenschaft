@@ -110,6 +110,6 @@ code), operating under written rules set by the human author, who bears responsi
 ## Figures (to be produced by scripts under `lab/paper/figures/`, none yet)
 
 1. Mask spectrum vs learned spectrum for one engineered split (EXP-015/016 data).
-2. Δ_pow per task with CIs (P1 summary).
+2. Δ_pow per task with CIs (P1 summary) — **done:** `figures/fig2_p1_delta_pow.py` → `fig2_p1_delta_pow.png/.svg` (reads `lab/confirm/P1_summary.json`).
 3. π(t) curve and the N29 reversal (EXP-059 pilot curve clearly marked; N29 confirmed points).
 4. Reset contrasts (N29b, N29c).

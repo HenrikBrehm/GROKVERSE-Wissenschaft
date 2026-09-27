@@ -51,7 +51,7 @@ Alle 16 Läufe eines Seeds sind gebunden und über den gemeinsamen Lader geladen
 
 ## Bereits gesehene Daten und davon beeinflusste Entscheidungen
 
-Die Generalisierungszeiten von N28 (Seeds 2200–2229), P3 (1050–1079), EXP-020 (30–34) und EXP-041 (20–29) wurden in Sitzung 32 gelesen (`lab/confirm/speed_switch_cost_*_s32.py`, `speed_prefix_s32.py`). Beeinflusst sind die Hypothesen, die Wahl von 25/50, das Raster, der gemeinsame Horizont 2000 und n. Kein Lauf mit Seeds 2800–2829.
+Die Generalisierungszeiten von N28 (Seeds 2200–2229), P3 (1050–1079), EXP-020 (30–34) und EXP-041 (20–29) wurden in Sitzung 32 gelesen (`lab/confirm/speed_switch_cost_*_s32.py`, `speed_prefix_s32.py`). Beeinflusst sind die Hypothesen, die Wahl von 25/50, das Raster, der gemeinsame Horizont 2000 und n. *Ergänzt 21:12 (vor dem Einfrieren):* Zusätzlich gelesen wurden die Zeiten von EXP-059 und EXP-056 (Seeds 400–409, gleiche Splits und Init) als Trockenlauf der R6-Auswertung (`lab/confirm/speed_switch_curve_s32.py`). C(t) = 0.27 / 0.38 / 0.53 / 0.57 / 0.55 / 0.33 / −0.67 bei t = 10 / 15 / 20 / 25 / 30 / 35 / 50; H1, H2, S1 und S2 würden dort zutreffen. Dieser Trockenlauf hat an R6 nichts geändert (Hypothesen, Raster, n und Regeln standen vorher fest). Kein Lauf mit Seeds 2800–2829.
 
 ## Grenzen (vorab)
 

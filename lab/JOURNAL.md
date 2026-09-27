@@ -2774,3 +2774,8 @@ Manifest erzwingt die Registrierung nicht), 2 schwere Befunde (Herkunft unvollst
 *Selbst geprüft:* alle zutreffend, **alle übernommen** (54f1e73; Details in [[confirm/P3_REGISTRATION_DRAFT|P3]]). Die Aussage ist jetzt enger: Persistenz über eine statische additive W_E-Spur hinaus.
 Kontrolle = Maximum über c ∈ [0, 1], gültig nur bei L(A) − L(B) ≥ 2. Die Pilotvalidierung (echte EXP-056-Daten) liefert unverändert dieselben Werte, dort liegt das Maximum bei c = 1.
 Ein eigener Testfehler (Prüfung an die falsche Stelle eingefügt, „letzte Bindung“ nach mtime) ist behoben. Selbsttest grün. *Stand:* Codex prüft die Korrekturen im Vordergrund.
+
+**Zyklus 13 (P3 eingefroren, 05:13–05:18 gemessen).** Codex-Nachprüfung im Vordergrund (direkt über `codex-companion.mjs task`, 05:13): Die Punkte 1–4 und 6 sind geschlossen.
+Neu und übernommen (6a54652): Umbenennen trotz `run.lock` (jetzt Ablehnung), typstrenge Manifestprüfung, nicht-endliche L/Spur → ungültig. Selbsttest grün, Pilotvalidierung unverändert.
+**Eingefroren 05:17:** Manifest f8adf45 (58 Code-Hashes), Commit-Feld c0da64e, Splits 60 Paare + 30 Testmengen (Steuerstärke 0.185/0.184 je Stufe wie kalibriert), 240 Jobs.
+Die P3-Warteschlange startet automatisch nach dem P1-Block (`lab/runner/logs/p3_block.log`). P1-Block um 05:18: 203/420, keine Fehler.

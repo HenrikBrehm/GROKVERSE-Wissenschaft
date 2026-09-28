@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 18:19 Berlin (16:19Z, vom Runner)
 - **Deadline:** 2026-09-28 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 19:29 Berlin
+- **Zuletzt aktualisiert:** 19:38 Berlin
 - **Run-Fenster:** zu; laut Regel 20 **durchgehend ab heute 23:59 bis 06.10.** (Wächter geprüft). Diese Sitzung trainiert nicht.
 
 ## Gerade
 
-**Neuer Wochenplan (Regel 20) übernommen.** Priorität 1 ist L0 „Menge gegen Reihenfolge“ unter Minibatch (EXP-100). Entwurf, Trainer-Patch, Splits und Auswertung stehen; die unabhängige Prüfung der Auswertung läuft.
+Kurzfassung des Papers (≤ 8 Seiten): Einleitung, drei Ergebnisse und Grenzen stehen als Entwurf; unabhängige Prüfungen laufen.
 
 ## Als Nächstes
 
-Prüfbefund einarbeiten, dann Abschlussbericht (vor 21:09).
+Prüfbefunde einarbeiten, Abschlussbericht vor 21:09.
 
 ## Verlauf dieser Sitzung
 
+- 19:38 Kurzfassung: Einleitung + Ergebnisse 1–3 + Grenzen (≈ 2900 Wörter), Zahlen unabhängig bestätigt, viele Vorbehalte ergänzt.
+- 19:30 EXP-100 (L0) Fassung 2 nach Prüfung (eigene Ausgabeordner, Machbarkeitstest, fb30k).
 - 19:29 Paper-Schnittplan (≤ 8 Seiten) mit gemessenen Umfängen; Nanda-Skript und RFM-Code für Regel 20c vorbereitet.
 - 19:24 EXP-100 (L0): Splits, Trainer-Patch (geprüft, kein Blocker) und Auswertung stehen.
 - 19:14 **Regel 20 übernommen**: EXP-096 bis EXP-099 zurückgestellt, R10 läuft zu Ende, L0 hat Priorität. Erste tägliche Erklärung geschrieben.

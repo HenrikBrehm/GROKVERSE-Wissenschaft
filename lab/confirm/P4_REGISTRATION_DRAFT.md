@@ -50,3 +50,5 @@ Offene Punkte: Das trendbereinigte Maß aus EXP-048 `analyze.py` wiederverwenden
   „kein Code“ und „Code (fehlt)“ sind durch diesen Nachtrag überholt; `--save-model` (Tabelle, H4a) wird **nicht** gesetzt, P4 braucht kein Modell (width/intadd kennen die Option
   nicht); die Sperre gegen Überschreiben prüft jetzt `.npy` und `.json` vorab; der Selbsttest vergleicht Pilot- und P4-Strom am selben Seed. Nicht umgesetzt: ein synthetischer
   Ergebnisordner je Trainer im Selbsttest (die echten Pilot-Ergebnisfelder wurden von mir und Codex gegen `Expect` geprüft; der Smoke vor dem Block prüft den Lader an einem echten Lauf).
+
+- **Eingefroren (Sitzung 37, 2026-09-28, Berlin):** Selbsttest grün (Sitzung 37), Codex-Prüfung Sitzung 25 umgesetzt (oben). Manifest `lab/confirm/P4_manifest.json` (Entwurf ohne Notiz + `code_sha256`), Commit-ID im Feld `commit`. Das C3-Code-Tor liegt vor diesem Commit. Bereits gesehene Daten: wie oben (Piloten EXP-045/048/049); kein Lauf mit den P4-Seeds vor dem Einfrieren.

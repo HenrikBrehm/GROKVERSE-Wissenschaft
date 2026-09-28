@@ -88,7 +88,9 @@ LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "rese
              "rewind_at_switch": None, "rewind_from": None,
              "lr": None, "weight_decay": None, "train_frac": None,
              "plant_targets": None, "plant_c": None, "plant_noise": False, "beta1": None, "beta2": None,
-             "pre_switch_betas": None, "pre_switch_grad_every": 1}   # name -> default; in the fingerprint only if != default (s18, s21, s24, s39, s40, s42)
+             "pre_switch_betas": None, "pre_switch_grad_every": 1,
+             "batch_size": 0, "order": "iid", "optimizer": "adamw", "sgd_lr": None, "sgd_momentum": 0.9}   # name -> default; in the fingerprint only if != default (s18, s21, s24, s39, s40, s42, s43)
+ORDER_SALT = 100_043                  # L0 (session 43): own random stream for the minibatch order, independent of init and splits
 HP_OVERRIDES = ("lr", "weight_decay", "train_frac", "beta1", "beta2")   # session 24 (rule 19a), s39 betas (EXP-081): None = preset
 LOCK_NAME = "run.lock"
 
@@ -457,6 +459,24 @@ def run(a: argparse.Namespace) -> dict:
             raise SystemExit("--pre-switch-grad-every k needs k >= 1, --switch-split-file with --switch-step a multiple of k, "
                              "--condition baseline, and excludes the warmup, alternation, lr-scale, pre-switch-betas, reset and rewind options")
         run_id += f"_ge{gek}"
+    mbs = int(getattr(a, "batch_size", 0) or 0)
+    order = getattr(a, "order", "iid")
+    optim_name = getattr(a, "optimizer", "adamw")
+    if optim_name != "sgdm" and (getattr(a, "sgd_lr", None) is not None or float(getattr(a, "sgd_momentum", 0.9)) != 0.9):
+        raise SystemExit("--sgd-lr / --sgd-momentum only with --optimizer sgdm")   # review s43: else fingerprint != run id
+    if mbs or order != "iid" or optim_name != "adamw":   # L0 (session 43): minibatch, data order, SGD with momentum
+        sgd_lr, sgd_mom = getattr(a, "sgd_lr", None), float(getattr(a, "sgd_momentum", 0.9))
+        if (mbs < 0 or (order != "iid" and not mbs) or a.condition != "baseline" or a.warmup or a.alternate_every
+                or a.lr_scale != 1.0 or a.lr_scale_after_switch != 1.0 or psb is not None or gek != 1
+                or a.reset_at_switch or a.reset_optim_at_switch or a.reset_optim_part or a.rewind_at_switch
+                or a.log_update_norms or a.plant_targets is not None or a.split_value
+                or (optim_name == "sgdm" and not (sgd_lr is not None and np.isfinite(sgd_lr) and sgd_lr > 0 and 0 <= sgd_mom < 1))
+                or (optim_name == "sgdm" and (a.beta1 is not None or a.beta2 is not None))):
+            raise SystemExit("--batch-size/--order/--optimizer need --condition baseline, --order fixed/stride needs --batch-size > 0, "
+                             "--optimizer sgdm needs --sgd-lr > 0 and 0 <= --sgd-momentum < 1; excludes warmup, alternation, lr-scale, "
+                             "pre-switch options, resets, rewind, update norms, plant and split-value")
+        run_id += (f"_bs{mbs}" if mbs else "") + (f"_ord{order}" if order != "iid" else "") + (
+            f"_sgdm{float(sgd_lr)!r}_{sgd_mom!r}" if optim_name == "sgdm" else "")
     if (a.rewind_at_switch is None) != (a.rewind_from is None):
         raise SystemExit("--rewind-at-switch and --rewind-from go together")
     if a.rewind_at_switch:           # EXP-073 (session 24): one part back to its own state (weights + AdamW state) at step R
@@ -578,8 +598,11 @@ def run(a: argparse.Namespace) -> dict:
     keep_init = bool(a.warmup or a.reset_at_switch or a.lr_scale != 1.0 or a.we_init_scale != 1.0)
     init_params = [q.detach().clone() for q in model.parameters()] if keep_init else []   # EXP-035/038
     we_idx = next((i for i, q in enumerate(model.parameters()) if q is model.W_E), None) if keep_init else None
-    opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay,
-                            betas=psb if psb is not None else (cfg.beta1, cfg.beta2))
+    if optim_name == "sgdm":         # L0: SGD with momentum; weight decay applied by hand, decoupled, with AdamW's per-step shrink
+        opt = torch.optim.SGD(model.parameters(), lr=float(a.sgd_lr), momentum=float(a.sgd_momentum), weight_decay=0.0)
+    else:
+        opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay,
+                                betas=psb if psb is not None else (cfg.beta1, cfg.beta2))
     basis = fourier_basis(p)
 
     events: dict = {}
@@ -611,7 +634,8 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "plant_targets": plant_tg, "plant_c": a.plant_c, "plant_noise": a.plant_noise, "plant_delta_norm": plant_norm, "pre_switch_betas": list(psb) if psb else None, "pre_switch_grad_every": gek, "lr_scale_until": LR_SCALE_UNTIL, "lr_scale_after_switch": a.lr_scale_after_switch, "lr_after_switch_steps": LR_AFTER_SWITCH_STEPS, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "rewind_at_switch": a.rewind_at_switch, "rewind_from": a.rewind_from, "spectra_at": sorted(extra_spec),
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "plant_targets": plant_tg, "plant_c": a.plant_c, "plant_noise": a.plant_noise, "plant_delta_norm": plant_norm, "pre_switch_betas": list(psb) if psb else None, "pre_switch_grad_every": gek, "batch_size": mbs, "order": order, "optimizer": optim_name,
+           "sgd_lr": getattr(a, "sgd_lr", None), "sgd_momentum": getattr(a, "sgd_momentum", 0.9), "lr_scale_until": LR_SCALE_UNTIL, "lr_scale_after_switch": a.lr_scale_after_switch, "lr_after_switch_steps": LR_AFTER_SWITCH_STEPS, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "rewind_at_switch": a.rewind_at_switch, "rewind_from": a.rewind_from, "spectra_at": sorted(extra_spec),
            "device": a.device, "device_name": (torch.cuda.get_device_name(dev) if dev.type == "cuda" else platform.processor()),
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": {**cfg.to_dict(), "device": a.device},   # Astra 10: Config keeps 'cpu'; record the real device
@@ -681,13 +705,42 @@ def run(a: argparse.Namespace) -> dict:
     gen_thr = THRESHOLD_SETS["primary"][1]
     stop_at = a.steps
     ge_saved, ge_evals, ge_steps = None, 0, []
+    mb_rng = np.random.default_rng(np.random.SeedSequence([ORDER_SALT, a.seed]))
+    mb_ref, mb_order, mb_pos, mb_epoch, mb_log = None, None, 0, 0, []
+
+    def mb_new_order(x: torch.Tensor, fresh_set: bool):
+        """L0: index order of one epoch over the current train set x (rows (a, b, '='))."""
+        n = len(x)
+        if order == "stride":        # LeDoux 2026: sorted by (a mod floor(sqrt p), a); ties keep the train-set order
+            av = x[:, 0].detach().cpu().numpy()
+            idx = np.lexsort((np.arange(n), av, av % int(np.floor(np.sqrt(p)))))
+        elif order == "fixed" and not fresh_set and mb_order is not None:
+            return mb_order
+        else:
+            idx = mb_rng.permutation(n)
+        return torch.from_numpy(idx.astype(np.int64)).to(x.device)
     for step in range(1, a.steps + 1):
         model.train()
         if gek > 1 and step <= a.switch_step and (step - 1) % gek:    # EXP-095: Adam step on the stored (stale) gradient
             for q, g0 in zip(model.parameters(), ge_saved):
                 q.grad = None if g0 is None else g0.clone()
         else:
-            loss = F.cross_entropy(model.logits_last(trx)[:, :p], try_)
+            if mbs:                      # L0: next minibatch of the current epoch order
+                if mb_ref is not trx:
+                    mb_order, mb_pos, mb_ref = mb_new_order(trx, True), 0, trx
+                elif mb_pos >= len(trx):
+                    mb_order, mb_pos = mb_new_order(trx, False), 0
+                if mb_pos == 0:
+                    mb_epoch += 1
+                    if len(mb_log) < 4:  # first epochs: head and hash of the order (tests, audit)
+                        o = mb_order.cpu().numpy()
+                        flat = (trx[mb_order[:12], 0] * p + trx[mb_order[:12], 1]).cpu().numpy().tolist()
+                        mb_log.append({"step": step, "head_flat": flat, "sha": hashlib.sha256(o.tobytes()).hexdigest()[:16]})
+                bi = mb_order[mb_pos:mb_pos + mbs]
+                mb_pos += mbs
+                loss = F.cross_entropy(model.logits_last(trx[bi])[:, :p], try_[bi])
+            else:
+                loss = F.cross_entropy(model.logits_last(trx)[:, :p], try_)
             opt.zero_grad(set_to_none=True)
             loss.backward()
             ge_evals += 1
@@ -711,7 +764,14 @@ def run(a: argparse.Namespace) -> dict:
         log_un = bool(a.log_update_norms and a.switch_step - 4 <= step <= a.switch_step + a.log_update_norms)
         if log_un:                       # EXP-058: size of the actual parameter update around the switch
             before = [q.detach().clone() for q in model.parameters()]
+        if optim_name == "sgdm":
+            with torch.no_grad():        # L0: decoupled decay with AdamW's per-step shrink lr * wd, before the SGD step
+                for q in model.parameters():
+                    q.mul_(1 - cfg.lr * cfg.weight_decay)
         opt.step()
+        if mbs:
+            events["minibatch"] = {"batch_size": mbs, "order": order, "epochs_started": mb_epoch,
+                                   "steps_per_epoch": -(-len(trx) // mbs), "first_epochs": mb_log}
         if log_un:
             with torch.no_grad():
                 d2 = [float(((q - q0) ** 2).sum()) for q, q0 in zip(model.parameters(), before)]
@@ -953,6 +1013,12 @@ def main() -> None:
                     help="EXP-090: 'b1,b2' AdamW betas for steps 1..--switch-step; preset betas afterwards, moments rescaled so the bias-corrected moments stay continuous")
     ap.add_argument("--pre-switch-grad-every", type=int, default=1,
                     help="EXP-095: before the switch compute the gradient only every k steps and reuse it in between (1 = off)")
+    ap.add_argument("--batch-size", type=int, default=0, help="L0: minibatch size (0 = full batch, unchanged)")
+    ap.add_argument("--order", choices=("iid", "fixed", "stride"), default="iid",
+                    help="L0: minibatch order: iid (new permutation per epoch), fixed (one permutation), stride (sorted by (a mod floor(sqrt p), a))")
+    ap.add_argument("--optimizer", choices=("adamw", "sgdm"), default="adamw", help="L0: sgdm = SGD with momentum (decoupled matched decay)")
+    ap.add_argument("--sgd-lr", type=float, default=None, help="L0: learning rate of --optimizer sgdm")
+    ap.add_argument("--sgd-momentum", type=float, default=0.9, help="L0: momentum of --optimizer sgdm")
     ap.add_argument("--lr-scale", type=float, default=1.0,
                     help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
     ap.add_argument("--lr-scale-after-switch", type=float, default=1.0,

@@ -292,6 +292,76 @@ def test_pre_switch_grad_every(tmp: Path) -> None:
         assert r.returncode != 0, bad
 
 
+def test_minibatch_order(tmp: Path) -> None:
+    """L0 (session 43): --batch-size / --order / --optimizer sgdm. Defaults leave the fingerprint unchanged; stride sorts the
+    train pairs by (a mod 10, a) and repeats that order every epoch; iid reshuffles every epoch and is reproducible for a seed;
+    fixed repeats one permutation; the switch rebuilds the order for the new set; sgdm step 1 is linear (not a sign step);
+    invalid combinations are refused."""
+    import numpy as np
+    f1 = fb.run_fingerprint(ns())[0]
+    for k, v in (("batch_size", 0), ("order", "iid"), ("optimizer", "adamw"), ("sgd_lr", None), ("sgd_momentum", 0.9)):
+        assert fb.run_fingerprint(ns(**{k: v}))[0] == f1, f"default --{k} changed the fingerprint"
+    assert fb.run_fingerprint(ns(batch_size=256))[0] != f1 and fb.run_fingerprint(ns(batch_size=256, order="stride"))[0] != fb.run_fingerprint(ns(batch_size=256))[0]
+    out = tmp / "mb"
+    spl = ROOT / "lab/experiments/EXP-056-overlap-persistence/splits"
+    base = [sys.executable, str(FB), "--seed", "400", "--condition", "baseline", "--threads", "1", "--out-root", str(out),
+            "--split-file", str(spl / "seed400_w0_A.npy"), "--test-file", str(spl / "seed400_test.npy")]
+    run = lambda *x: subprocess.run(base + list(x), cwd=ROOT, capture_output=True, text=True, timeout=600)   # noqa: E731
+    n = len(np.load(spl / "seed400_w0_A.npy"))
+    spe = -(-n // 1024)
+    steps = str(3 * spe + 1)
+    for extra in (["--steps", steps, "--batch-size", "1024", "--order", "stride", "--spectra-at", "1"],
+                  ["--steps", steps, "--batch-size", "1024", "--spectra-at", "1"],
+                  ["--steps", steps, "--batch-size", "1024", "--order", "fixed", "--spectra-at", "1"],
+                  ["--steps", "2", "--optimizer", "sgdm", "--sgd-lr", "0.1", "--sgd-momentum", "0.0", "--spectra-at", "1"],
+                  ["--steps", "2", "--optimizer", "sgdm", "--sgd-lr", "1e-09", "--sgd-momentum", "0.0", "--spectra-at", "1"],
+                  ["--steps", "9", "--batch-size", "1024", "--order", "stride", "--spectra-at", "1",
+                   "--switch-split-file", str(spl / "seed400_w0_B.npy"), "--switch-step", "5"],
+                  ["--steps", "2", "--spectra-at", "1"]):
+        r = run(*extra)
+        assert r.returncode == 0, (extra, r.stdout + r.stderr)
+    d = {}
+    for k in ("w0_A_bs1024_ordstride", "w0_A_bs1024", "w0_A_bs1024_ordfixed", "sgdm0.1_0.0", "sgdm1e-09_0.0", "w0_A", "at5_bs1024_ordstride"):
+        hits = [h for h in out.glob(f"*{k}") if h.is_dir()]
+        assert len(hits) == 1, (k, list(out.iterdir()))
+        d[k] = hits[0]
+    ev = lambda k: json.loads((d[k] / "result.json").read_text(encoding="utf-8"))["events"]["minibatch"]   # noqa: E731
+    idx = np.load(spl / "seed400_w0_A.npy")
+    av, bv = idx // 113, idx % 113
+    want = idx[np.lexsort((np.arange(n), av, av % 10))][:12].tolist()
+    es, ei, ef = ev("w0_A_bs1024_ordstride"), ev("w0_A_bs1024"), ev("w0_A_bs1024_ordfixed")
+    assert es["first_epochs"][0]["head_flat"] == want, (es["first_epochs"][0]["head_flat"], want)
+    assert len(es["first_epochs"]) == 4 and len({e["sha"] for e in es["first_epochs"]}) == 1, es
+    assert len({e["sha"] for e in ef["first_epochs"]}) == 1 and ef["first_epochs"][0]["sha"] != es["first_epochs"][0]["sha"], ef
+    assert len({e["sha"] for e in ei["first_epochs"]}) == 4, ei
+    assert ei["steps_per_epoch"] == spe and ei["epochs_started"] == 4, ei
+    r = run("--steps", steps, "--batch-size", "1024", "--spectra-at", "1", "--force")
+    assert r.returncode == 0 and ev("w0_A_bs1024")["first_epochs"] == ei["first_epochs"], "iid order not reproducible"
+    snap = lambda k, s: np.load(d[k] / "we_snapshots.npy")[list(np.load(d[k] / "we_snapshot_steps.npy")).index(s)].astype(np.float64)   # noqa: E731
+    lam = 1e-3 * 1.0
+    D_sgd, D_def = snap("sgdm0.1_0.0", 1) - (1 - lam) * snap("sgdm0.1_0.0", 0), snap("w0_A", 1) - (1 - lam) * snap("w0_A", 0)
+    band = lambda X: float(np.mean(np.abs(np.abs(X) - 1e-3) <= 1e-4))   # noqa: E731
+    assert band(D_def) > 0.9 and band(D_sgd) < 0.3, (band(D_def), band(D_sgd))
+    D_dec = snap("sgdm1e-09_0.0", 1) - (1 - lam) * snap("sgdm1e-09_0.0", 0)      # tiny lr: only the decoupled decay acts
+    assert float(np.abs(D_dec).max()) < 1e-6, ("sgdm weight decay is not (1 - lr_adamw * wd)", float(np.abs(D_dec).max()))
+    esw = ev("at5_bs1024_ordstride")["first_epochs"]                           # order rebuilt for the new set after the switch
+    idxB = np.load(spl / "seed400_w0_B.npy")
+    aB = idxB // 113
+    wantB = idxB[np.lexsort((np.arange(len(idxB)), aB, aB % 10))][:12].tolist()
+    assert [e["step"] for e in esw][:3] == [1, 5, 6] and esw[2]["head_flat"] == wantB, esw
+    res = json.loads((d["sgdm0.1_0.0"] / "result.json").read_text(encoding="utf-8"))
+    assert res["optimizer"] == "sgdm" and res["sgd_lr"] == 0.1, res.get("optimizer")
+    for bad in (["--steps", "4", "--order", "stride"],                                   # order without minibatch
+                ["--steps", "4", "--optimizer", "sgdm"],                                 # sgdm without --sgd-lr
+                ["--steps", "4", "--batch-size", "64", "--lr-scale", "2"],
+                ["--steps", "4", "--batch-size", "-1"],
+                ["--steps", "4", "--sgd-lr", "0.1"],                                    # SGD flag without sgdm
+                ["--steps", "4", "--optimizer", "sgdm", "--sgd-lr", "inf"],
+                ["--steps", "4", "--optimizer", "sgdm", "--sgd-lr", "0.1", "--beta1", "0.8"]):
+        r = run(*bad)
+        assert r.returncode != 0, bad
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory() as t:
         tmp = Path(t)
@@ -302,7 +372,8 @@ def main() -> int:
                          ("rewind", lambda: test_rewind(tmp)),
                          ("hp_overrides", lambda: test_hp_overrides(tmp)),
                          ("pre_switch_betas", lambda: test_pre_switch_betas(tmp)),
-                         ("pre_switch_grad_every", lambda: test_pre_switch_grad_every(tmp))):
+                         ("pre_switch_grad_every", lambda: test_pre_switch_grad_every(tmp)),
+                         ("minibatch_order", lambda: test_minibatch_order(tmp))):
             fn()
             print(f"[test_freq_ban_fingerprint] {name} ok", flush=True)
     print("[test_freq_ban_fingerprint] all ok", flush=True)

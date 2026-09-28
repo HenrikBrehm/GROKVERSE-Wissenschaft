@@ -7,7 +7,7 @@ verwandt: ["[[experiments/EXP-012-init-gradient/README|EXP-012]]", "[[experiment
 ---
 # EXP-014: Wählt der Trainingssplit oder die Init die Frequenzen?
 
-**Status:** vorbereitet, **nicht ausgeführt**. Definition fixiert 2026-09-26 ~03:15 Berlin (Sitzung 4), bevor ein
+**Status:** abgeschlossen (Sitzung 39, Ergebnis unten). Ursprünglich: vorbereitet, **nicht ausgeführt**. Definition fixiert 2026-09-26 ~03:15 Berlin (Sitzung 4), bevor ein
 gekreuzter Lauf existierte. Code: Option `--split-seed` in `freq_ban.py` (Unit-Test
 `test_split_seed_leaves_init_rng_untouched` im Fenster ok, 10/10). Auswertung `analyze.py` (ungetestet).
 
@@ -66,4 +66,4 @@ Primärgröße wäre damit gut vereinbar.
 
 5/5 Einheiten gültig. **Primär (Nachtrag a, einseitig Split > Init):** D̄ = 0.4, p = 0.41 → **kein dominanter Faktor** (registrierte Lesart; `analyze.py` schreibt „kein Nachweis“). D je Paar: −2, +2, −2, +1, +3.
 Sekundär: Top-5-Überlappung mit der Baseline gleicher Init 0.7, gleichen Splits 0.9 je Lauf (Zufall 0.45; MC-p 0.15 bzw. 0.027). **Nachtrag b:** Die finalen Frequenzen liegen unter dem M0c des *benutzten* Splits weit vorn (r̄ 0.21), unter dem M0c des eigenen, nicht benutzten Splits der Init beim Zufall (0.55), unter der Init-Leistung E0 bei 0.31; benutzter Split besser in 5/5 Paaren (p = 1/32 ≈ 0.031, das kleinstmögliche p). Entspricht der Erwartung vor dem Lauf (0.2–0.3 gegen 0.5).
-**Lesart:** Die Mengenüberlappung (Top-5 gegen Top-5 zweier Läufe) ist zu grob, um Split und Init zu trennen; die Rangstruktur unter dem Masken-Spektrum des benutzten Splits zeigt dagegen in allen Paaren den Split. Pilot, n = 5, CPU, gesehene Seeds: keine Kernaussage; die Bestätigung ist [[confirm/R4_REGISTRATION_DRAFT|R4]] (läuft). Pilotstreuung für R4 (`R4_pilot_n.py`, nur Bericht): Δ_split (Spearman, 2000) = 0.33, 0.31, 0.17, 0.29, 0.37, SD 0.077 → Power bei n = 60 für Δ 0.10 ≈ 1.0 (beschreibend, n bleibt 60).
+**Lesart:** Die Mengenüberlappung (Top-5 gegen Top-5 zweier Läufe) ist zu grob, um Split und Init zu trennen; die Rangstruktur unter dem Masken-Spektrum des benutzten Splits zeigt dagegen in allen Paaren den Split. Pilot, n = 5, CPU, gesehene Seeds: keine Kernaussage; die Bestätigung ist [[confirm/R4_REGISTRATION_DRAFT|R4]] (fertig, Sitzung 39: H1a und H1b bestätigt). Pilotstreuung für R4 (`R4_pilot_n.py`, nur Bericht): Δ_split (Spearman, 2000) = 0.33, 0.31, 0.17, 0.29, 0.37, SD 0.077 → Power bei n = 60 für Δ 0.10 ≈ 1.0 (beschreibend, n bleibt 60).

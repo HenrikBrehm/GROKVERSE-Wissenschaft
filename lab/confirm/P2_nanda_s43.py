@@ -21,7 +21,8 @@ Readings fixed HERE, BEFORE computing (per task):
   'Ziele funktional (Nanda)'  r and e CI lower > 0
   'nicht'                     r and e CI upper < 0.1
   else 'gemischt'.
-Descriptive: accuracy of the unrestricted models on the unseen pairs, restr/excl in absolute terms, n generalised.
+Descriptive: accuracy of the unrestricted models on the unseen pairs, restr/excl in absolute terms (mul: over 112 classes, not comparable
+in absolute size to the add tasks), mask sizes n_own / n_unseen, n generalised.
 Not covered: D59 (non-abelian; needs an irrep projection).
 """
 from __future__ import annotations
@@ -147,9 +148,10 @@ def main() -> None:
             unseen_raw = ~(mask_of(idx["F"], p) | mask_of(idx["G"], p))
             row: dict = {"seed": s}
             for a in "FG":
-                L_raw = grid(t["raw"] / t["run"].format(s=s, a=a) / "model_final.pt", p)
+                L_raw = grid(t["raw"] / t["run"].format(s=s, a=a) / "model_final.pt", p, task)
                 L, labels, (own, unseen), n = to_group(L_raw, [mask_of(idx[a], p), unseen_raw], p, task)
                 row[a] = model_row(L, labels, n, metas[a]["targets"], metas[a]["other_targets"], own, unseen)
+                row[a]["n_own"], row[a]["n_unseen"] = int(own.sum()), int(unseen.sum())
             row["r"], row["e"] = (row["F"]["r"] + row["G"]["r"]) / 2, (row["F"]["e"] + row["G"]["e"]) / 2
             rows.append(row)
         r, e = np.array([x["r"] for x in rows]), np.array([x["e"] for x in rows])
@@ -189,6 +191,19 @@ def selftest() -> None:
     assert len(set(dlog_perm(113, GEN).tolist())) == 112          # 3 generates Z_113^*
     assert reading(np.full(8, 0.5) + np.linspace(-0.01, 0.01, 8), np.full(8, 0.5)) == "Ziele funktional (Nanda)"
     assert reading(np.zeros(8), np.zeros(8)) == "nicht"
+    import tempfile                                  # the real loading path: a random arch25k model through grid() (review s43)
+    import torch
+    from grokverse.config import get_config
+    from grokverse.models import build_model
+    for task in ("add", "mul"):
+        with tempfile.TemporaryDirectory() as tmp:
+            mp = Path(tmp) / "model_final.pt"
+            torch.save(build_model(get_config("arch25k", seed=1, steps=1, threads=1, p=13, task=task)).state_dict(), mp)
+            G = grid(mp, 13, task)
+            assert G.shape == (13, 13, 13) and np.isfinite(G).all()
+            Lg, lab, (m,), n = to_group(G, [np.ones((13, 13), bool)], 13, task, gen=2)
+            assert Lg.shape == (n, n, n) and m.sum() == n * n
+            model_row(Lg, lab, n, [1], [2], m, m)
     print("[P2_nanda] selftest ok", flush=True)
 
 

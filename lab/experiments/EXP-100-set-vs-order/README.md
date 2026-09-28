@@ -10,6 +10,13 @@ Zurück: [[LAB]] · [[FINDINGS]] (K2, R5; alle Kernaussagen Full-Batch) · Regel
 
 **Stand:** Entwurf (Sitzung 43, 2026-09-28, ≈ 19:35 Berlin, Fenster zu). Trainer-Optionen liegen seit 19:20 als `trainer_l0.patch` vor (Test `test_minibatch_order` zuerst geschrieben; ungetestet, statisch geprüft, Befunde eingearbeitet). Anwenden und committen erst nach `confirm_r10.py --analyze` (R10 bindet den Trainer-Hash). Achtung: Der Patch und der zurückgestellte EXP-097-Patch berühren dieselben Stellen, also nicht beide zugleich anwenden. `design.py` steht (19:22): Splits für die Seeds 3700–3707 erzeugt (numpy; Zielanteil F/G 0.177–0.194 wie P1; Zufallssplit R bei Zufallsniveau 0.09; O-Anteil in allen Splits ≈ Zufallsniveau 0.09–0.11), `calib.txt` (SGD-lr 0.03/0.1/0.3/1.0/3.0 an 2 Seeds) und `smoke.txt` (300 Schritte je neuer Option). `--jobs` verweigert, solange `SGD_LR` nicht aus der Kalibrierung gesetzt ist. `analyze.py` mit den Lesarten im Docstring steht (19:24, ungetestet; Selbsttest ab 23:59 über den Wächter). Vor dem Pilot-Block: statische Prüfung, dann `analyze.py` + `jobs.txt` committen (Festlegung). Pilot = Exploration; die Bestätigung folgt als eigene Registrierung (L0-R) mit Power aus diesem Pilot.
 
+> [!summary] Aktuell gültig (Stand Sitzung 44, 2026-09-28 abends; Einzelheiten in den Nachträgen unten)
+> - **Reihenfolge der Nacht:** Patch anwenden + Tests + Commit → `analyze.py --selftest`, `switch_analyze.py --selftest` → `smoke.txt` (3) → **`feas.txt` (12 Läufe: B 256 und 64)** → `feas_read.py` → falls Reihenfolge nur bei B 64 wirkt: `CONFLICT_B64 = True` in `design.py` + Vermerk → `calib.txt` → `SGD_LR` → `design.py --jobs > jobs.txt` → Commit → Pilot → `analyze.py` → `switch.txt` (64) → `switch_analyze.py`.
+> - **Vorhersage erster Ordnung (vor den Läufen):** B 256 ausgewaschen, B 64 an der Kante (nachgerechnet; Messerschneide).
+> - **Erwartung E2:** bei gleicher Schrittzahl fb ≥ iid256 ≥ iid64 (beschreibend).
+> - **Deutungssätze je Ausgang:** [[paper/L0_DEUTUNGEN]].
+> - Befehlsliste der Nacht: [[NACHT_2026-09-29]].
+
 ## Frage
 
 LeDoux zeigt bei p = 9973, 0.3 % Daten, Batch 256 und einer festen „Stride“-Reihenfolge (sortiert nach (a mod ⌊√p⌋, a)): Die gelernte Grundfrequenz ist die zur Reihenfolge duale Frequenz, über Seeds mit verschiedenen *zufälligen* Teilmengen gleich. Unsere Kernaussagen (K2: konstruierte Menge steuert die Frequenzen; R5: konstruierte Menge beschleunigt) sind alle Full-Batch ohne Reihenfolge. **L0:** (1) Hält K2/R5 unter i.i.d.-Minibatch (zwei Batchgrößen, AdamW) und mit SGD + Momentum? (2) Bevorzugt eine strukturierte Reihenfolge eine *andere* Frequenz als die Menge: Gewinnt die Menge, die Reihenfolge, oder hängt es vom Regime ab? Jeder Ausgang ist ein Befund und kommt so ins Paper.

@@ -177,3 +177,5 @@ EXP-097 ist ein Pilot (16 Seeds): jede dieser Formulierungen bleibt als Explorat
 | **Anhang** | §3.5 (Resets), §3.6 (D₅₉), §3.7, §3.10–§3.13, §3.15 + R10 (K5/Uhr), §4 Explorationen, §5 Theorie, Reproduktion, Verifikation | unbegrenzt |
 
 Abbildungen im Haupttext: Abb. 1 (Maske gegen gelernt), Abb. 2 (P1 Δ_pow), Abb. 6/8 (Wechselkosten), neue L0-Abbildung; Rest Anhang. **Vorgehen:** Kopie `draft_short.md` anlegen (alter Entwurf bleibt als Langfassung), dann abschnittsweise kürzen, jede Zahl gegen die Summaries prüfen lassen (unabhängige Prüfung), Abstract zuletzt.
+
+**Stand Schnitt (Sitzung 43):** [[paper/draft_short]] angelegt, bisher nur der Abstract-Entwurf (1428 Zeichen ohne L0-Satz) und die Gliederung. Unabhängige Zahlenprüfung läuft bzw. steht an.

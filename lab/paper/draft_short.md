@@ -85,7 +85,7 @@ Because all of these results use full-batch training, while LeDoux's order effec
 
 ## Abbildungen (Auswahl für den Haupttext) und Anhang
 
-**Haupttext (≤ 4 Abbildungen):** Abb. 1 Maske gegen gelerntes Spektrum (`figures/fig1_mask_vs_learned.py`) und P1-Δ_pow (`fig2_p1_delta_pow.py`) als ein zweiteiliges Bild; Abb. 2 R5-Zeiten (`figures/fig10_r5_speed.py`, aus `R5_summary.json`; Mediane im Skript gegen die eingefrorenen Werte geprüft); Abb. 3 Wechselkosten R6/R8 (`fig8_r6_r8_switch_cost.py`); Abb. 4 L0 (nach EXP-100/L0-Bestätigung; Skript fehlt).
+**Haupttext (≤ 4 Abbildungen):** Abb. 1 Maske gegen gelerntes Spektrum (`figures/fig1_mask_vs_learned.py`) und P1-Δ_pow (`fig2_p1_delta_pow.py`) als ein zweiteiliges Bild; Abb. 2 R5-Zeiten (`figures/fig10_r5_speed.py`, aus `R5_summary.json`; Mediane im Skript gegen die eingefrorenen Werte geprüft); Abb. 3 Wechselkosten R6/R8 (`fig8_r6_r8_switch_cost.py`); Abb. 4 L0 (`figures/fig11_l0_set_vs_order.py`, liest die EXP-100-Zusammenfassung; Zeichencode im Demo-Modus geprüft).
 **Anhang:** A Robustheit (R1/C1, P4/C3, R7, R2/C2); B Funktionsmaße und ihre Grenze (P2d/e/f, frühere Varianten P2/P2b/P2c, EXP-064/068; `fig3_ablation_contrast.py`, `fig5_margin_sensitivity.py`); C Festlegung im Detail (K4b, Resets K4d/e, Zeitsignatur `fig6_switch_cost.py`, `fig4_pi_curve.py`); D Uhr der Festlegung (R3, R9/K5 mit `fig9_r9_window_clock.py`, R10, EXP-095 mit Vorzeichen-Einschränkung); E D₅₉; F Explorationen und Negativbefunde (§4 der Langfassung); G Theorie erster Ordnung (§5); H Reproduktion und Verifikation; I Offenlegung der KI-Nutzung.
 
 ## Gliederung (nach dem Schnittplan in [[paper/STATUS]])

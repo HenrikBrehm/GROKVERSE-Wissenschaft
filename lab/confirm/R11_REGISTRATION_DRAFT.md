@@ -1,8 +1,8 @@
 ---
 id: R11
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-28
-tags: [confirm/entwurf]
+tags: [confirm/abgeschlossen, befund/positiv]
 ---
 # R11-Bestätigung (Entwurf): Legt sich die frühe Wahl auch bei add 97 und mul 113 zwischen 25 und 50 Schritten fest?
 
@@ -48,3 +48,15 @@ Unabhängige Prüfung (Claude-Agent, nur lesend; Codex ohne Guthaben): **kein Bl
 - **Power mit KI-Regel** (Simulation des Prüfers): add 97 H3 bei halbem Effekt und Pilot-SD 0.85 statt 0.89 (t-Test allein), bei 1.5 × SD 0.53 statt 0.60.
 - **Gleiche Init-Seeds für beide Aufgaben, nur Richtung F → G:** Aufgaben werden getrennt ausgewertet; Holm gilt bei beliebiger Abhängigkeit; F und G sind nach Konstruktion austauschbar.
 - Smoke-Befehle `--smoke-jobs` / `--smoke-check` ergänzt (siehe oben).
+
+## Ergebnis (Sitzung 46, 2026-09-29, 01:18 Berlin; unabhängig nachgerechnet 01:21)
+
+Eingefroren 14621ad6 (Manifest-Commit), Splits/Jobs committet, Smoke 3/3 geladen, Block 240/240 ohne Fehler (Log `lab/runner/logs/pq_20260928T225144_631647Z`, 5 GPU-Worker, ≈ 26 min). `confirm_r11.py --analyze`: 0 technische Fehler, 0 Ausschlüsse (kleinstes L(F) − L(G): add 97 3.59, mul 113 4.81), n = 30 je Aufgabe. **Lesart „K4 verallgemeinert bestätigt (alle 6)“.**
+
+| Aufgabe | π(25) | π(50) | H1 d = π(50) − π(25) | H2 π(50) − 0.5 | H3 0.5 − π(25) |
+|---|---|---|---|---|---|
+| add 97 | 0.377 | 0.899 | +0.522 [0.455, 0.589], 30/30, Holm-p 7.5·10⁻¹⁵ | +0.399 [0.348, 0.448], 30/30, 3.2·10⁻¹⁵ | +0.123 [0.066, 0.177], 23/30, 1.1·10⁻⁴ |
+| mul 113 | 0.270 | 0.737 | +0.467 [0.396, 0.540], 30/30, 9.3·10⁻¹³ | +0.237 [0.171, 0.303], 27/30, 1.3·10⁻⁷ | +0.230 [0.183, 0.275], 29/30, 1.2·10⁻¹⁰ |
+
+**Nachrechnung** (unabhängiger Agent, eigener numpy-Code ohne Import der Blockwerkzeuge: Gruppenleistung per cos/sin-Projektion statt FFT, eigene t-Verteilung, Holm, Bootstrap; `lab/confirm/R11_recheck_s46.py`): alle Mittel gleich bis 3·10⁻¹⁷, p-Werte bis 10⁻¹⁴ relativ; 240 Läufe vollständig, Hashes von Split/Test/Wechsel stimmen, Konfiguration wie registriert. Mit dem Zufallsstrom des Originals auch die KIs exakt.
+**Deutung (eng):** Die Festlegung zwischen 25 und 50 Schritten ist nicht an add 113 gebunden; sie gilt für einen anderen Modulus und für die Multiplikation (Gruppe Z₁₁₂). **Grenzen:** π ist ein Energiemaß der Einbettung (keine Ablation), eine Architektur, Full-Batch-AdamW, ein Wechselprotokoll.

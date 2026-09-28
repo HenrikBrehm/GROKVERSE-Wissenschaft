@@ -25,7 +25,14 @@ Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · [[NACHT_2026-09-29]]
 **In der Nacht (ab 23:59):**
 - **Die gelenkten Frequenzen tragen wirklich die Rechnung.** Man kann aus den Ausgaben eines fertigen Netzes alles herausfiltern außer den fünf Frequenzen, die wir über die Trainingspaare vorgegeben haben. Dann rechnet das Netz auf ungesehenen Aufgaben immer noch praktisch fehlerfrei. Lässt man stattdessen nur die fünf Frequenzen des anderen Splits übrig, liegt es völlig daneben. Das gilt für alle vier Aufgaben und alle 20 Netze je Aufgabe. *Grenze:* noch nicht unabhängig nachgerechnet; gemessen an schon bekannten Netzen.
 
-*(Weitere Nachtergebnisse folgen.)*
+*Nachtrag 01:22:* Die Nanda-Messung ist inzwischen von einem zweiten, unabhängigen Programm nachgerechnet: gleiche Zahlen, in jeder Aufgabe 20 von 20 Netzen.
+- **Die frühe Festlegung gilt auch bei anderen Aufgaben (R11).** Bisher war nur für Addition mod 113 bestätigt, dass die ersten 25–50 Schritte die spätere Frequenzwahl festlegen. Jetzt auch für Addition mod 97 und Multiplikation mod 113, mit je 30 neuen Netzen, vorher eingefroren: Wechselt man die Trainingsdaten nach 25 Schritten, setzt sich meist der zweite Datensatz durch (vom ersten bleiben im Mittel 27–38 % übrig); nach 50 Schritten bleibt überwiegend der erste (74–90 %). Alle sechs vorab formulierten Tests bestanden. *Grenze:* ein Energiemaß der Einbettung, keine Ablation; eine Architektur; unabhängige Nachrechnung läuft.
+- **Reihenfolge gegen Menge, erster Schritt (Machbarkeit).** Vorhersage 1 hat gestimmt: Bei Päckchen zu 256 wirkt eine feste Reihenfolge überhaupt nicht, bei 64 nur ganz knapp. Bei 16 wirkt sie stark, **aber dort lernt das Netz mit den normalen Einstellungen gar nichts** (auch nicht mit zufälliger Reihenfolge). Ein Netz, das nicht lernt, kann aber keinen fairen Wettstreit zwischen Menge und Reihenfolge zeigen. Deshalb testen wir jetzt, ob es bei 16 mit kleinerer Lernrate lernt.
+- **Vorhersage 2 (RFM) nicht prüfbar.** Die Recursive Feature Machine hat die Aufgabe bei 30 % Daten nicht gelernt (Testgenauigkeit 0.63–0.88 statt ≥ 0.95), auch nicht mit doppelt so vielen Schritten. Also können wir dort nichts über die Steuerung sagen, weder dafür noch dagegen.
+- **Vorhersage 4 knapp verfehlt („unklar“).** Unter Päckchen-Training lagen die genutzten Frequenzen beim 64.–71. Perzentil der eigenen Maske (bei 256 knapp unter der Schwelle 65). Wo die feste Reihenfolge wirkt (64), zieht sie die Wahl von der Maske weg, wie vorhergesagt. Nur 3 Netze je Zelle.
+- **Klassisches SGD ließ sich nicht einstellen:** Bei kleiner Lernrate lernt es nicht, bei größerer läuft es aus dem Ruder. Der SGD-Vergleich fällt deshalb aus („nicht auswertbar“).
+
+*(Weitere Ergebnisse folgen.)*
 
 ## Drei Fragen, die eine Jury stellen könnte
 

@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 21:49 Berlin (19:49Z, vom Runner)
 - **Deadline:** 2026-09-29 00:49 Berlin (22:49Z)
-- **Zuletzt aktualisiert:** 22:48 Berlin
+- **Zuletzt aktualisiert:** 22:56 Berlin
 - **Run-Fenster:** zu bis 23:59 (Wächter Exit 3 = „noch nicht“). Ab 23:59 durchgehend (Regel 20).
 
 ## Gerade
 
-Vorbereitung abgeschlossen; warte auf das Rechenfenster (23:59). Kleinere Paper-Arbeit bis dahin.
+Alles für die Nacht vorbereitet und geprüft. Warte auf das Rechenfenster (23:59); dann sofort R10 + Nanda.
 
 ## Als Nächstes
 
@@ -18,6 +18,7 @@ Vorbereitung abgeschlossen; warte auf das Rechenfenster (23:59). Kleinere Paper-
 
 ## Verlauf dieser Sitzung
 
+- 22:56 Paper: Konsistenzprüfung nach allen heutigen Änderungen (7 Punkte behoben, alle Zahlen stimmen); Abb. 1 als zweiteiliges Bild.
 - 22:48 Vorhersager (Maske gegen Init-Energie) an R4 kalibriert und unabhängig bestätigt: Maske 0.34, Init-Energie 0.19, Zufall 0.09; Gewicht eingefroren für den Test an unberührten Läufen heute Nacht.
 - 22:40 L0: Schalter CONFLICT_B16 + Auswertung (Standard aus, Joblisten unverändert). Vorab-Vorhersage an 18 unberührten Machbarkeitsläufen: Zufallssplits folgen ihrer eigenen Maske auch unter Minibatch.
 - 22:37 Vor dem Lauf geprüft: Nanda-Skript (Hash-Prüfung ergänzt) und EXP-103 (zweite Vergleichsregel) – keine Blocker.

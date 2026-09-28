@@ -1,0 +1,22 @@
+{
+ "cond": "mlp",
+ "seed": 2360,
+ "arm": "G",
+ "targets": [
+  13,
+  20,
+  25,
+  33,
+  38
+ ],
+ "other_targets": [
+  9,
+  14,
+  17,
+  31,
+  51
+ ],
+ "eps": 2.0,
+ "n": 3831,
+ "manifest_commit": "96503bfd"
+}

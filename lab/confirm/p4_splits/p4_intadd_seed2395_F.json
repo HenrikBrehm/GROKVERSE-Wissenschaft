@@ -1,0 +1,22 @@
+{
+ "cond": "intadd",
+ "seed": 2395,
+ "arm": "F",
+ "targets": [
+  17,
+  33,
+  40,
+  45,
+  47
+ ],
+ "other_targets": [
+  14,
+  23,
+  30,
+  32,
+  43
+ ],
+ "eps": 2.0,
+ "n": 3831,
+ "manifest_commit": "96503bfd"
+}

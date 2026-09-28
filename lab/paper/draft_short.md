@@ -43,6 +43,12 @@ Networks that grok modular arithmetic use a sparse set of Fourier features, and 
 
 **Only a change of targets costs (R8, 25 fresh seeds).** A switch at step 25 to a pair-disjoint split with the same five targets and matched steering strength did not delay grokking on average (−0.15 log2; 8/25 seeds slower), whereas the switch to other targets did (+0.66; 24/25); difference +0.81 [0.57, 1.04]. The delay is therefore not a generic cost of an early change of training pairs, nor of fewer destination updates alone. Because the same-target split has partly reversed wave phases, a pure phase conflict is not excluded.
 
+## 7 Discussion and limitations (Kurzfassung, Sitzung 43, ungeprüft)
+
+**What the three results say together.** In small transformers trained full-batch on group tasks, which pairs are shown decides which frequencies the embedding favours (Result 1). It changes how fast a network generalizes at fixed size (Result 2). Within the first 25 to 50 steps it also shapes what later data can still change (Result 3). None of this requires changing the tokens, the architecture or the loss.
+
+**Limitations.** (i) *Regime:* all core results use full-batch AdamW (lr 10⁻³, weight decay 1, β = 0.9/0.98) and a train fraction of 30 %. Minibatch training and data order are tested only in L0 (Section 6). (ii) *Scope:* steering (Result 1) holds in four tasks and several architectures. The random-split bias, the speed-up and the persistence results (R4, R5, Result 3) are shown for addition mod 113 in one architecture only. (iii) *Measures:* functional sensitivity follows spectral energy, and ablation contrasts do not separate reliance from energy. We make no claim about use beyond energy. Resets (Appendix) localize sensitivity, not mechanism. (iv) *Time scales* are counted in optimizer steps at one learning rate. The lock-in does not follow the step count alone, and its clock depends on Adam's moment windows (Appendix: R3, R9). (v) *Horizon:* final models are measured 2000–8000 steps after the relevant event. Much longer training is untested. (vi) *Design history:* many decisions were informed by pilots on seeds that were already used; each registration lists them, and every confirmation used fresh seeds and a frozen analysis manifest.
+
 ## Gliederung (nach dem Schnittplan in [[paper/STATUS]])
 
 1. Introduction and related work (LeDoux 2026: order; Tomàs Bernal, Mallinar, Belkin 2026: kernels; Fu et al. 2026; Karkada et al. 2026; He et al. 2026a; Sweeney 2026)

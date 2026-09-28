@@ -1,0 +1,17 @@
+{
+ "t25": {
+  "pairs": 42,
+  "delta_mem_mean": 32.61904761904762,
+  "delta_gap_mean": 515.5952380952381,
+  "gap_share": 0.940499457111835,
+  "n_gap_gt_mem": 38
+ },
+ "t50": {
+  "pairs": 59,
+  "delta_mem_mean": 92.20338983050847,
+  "delta_gap_mean": -245.16949152542372,
+  "gap_share": 1.602770083102493,
+  "n_gap_gt_mem": 9
+ },
+ "prediction_met": true
+}

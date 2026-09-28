@@ -1,11 +1,12 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 37
+# LIVE: Laborsitzung 37: **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-28 02:29 Berlin (00:29Z, vom Runner)
 - **Deadline:** 2026-09-28 05:29 Berlin (03:29Z)
-- **Zuletzt aktualisiert:** 04:45 Berlin
+- **Zuletzt aktualisiert:** 05:16 Berlin
+- **Nächster geplanter Start:** 2026-09-28 06:04 Berlin (runner-state.json `next_start_utc` 04:04Z)
 - **Run-Fenster:** heute bis 18:00.
 
 ## Gerade
@@ -18,7 +19,7 @@ Sitzung 38: R5 ins Paper, EXP-040/014 neu starten, EXP-078 → R7, dann die Blö
 
 ## Verlauf dieser Sitzung
 
-- 05:16 **R5 bestätigt:** E vs R ×6.5, E vs D ×7.5 (je 20/20).
+- 05:15 **R5 bestätigt:** E vs R ×6.5, E vs D ×7.5 (je 20/20).
 - 04:42 R6 post hoc: Kosten und Persistenz je Seed (Vorzeichen kippt zwischen t = 25 und 30).
 - 04:38 **R3, P4, R2, R4 eingefroren** (Smokes grün); Paper: Abb. 8, Achille-Parallele.
 - 04:26 EXP-085 (MLP) nicht auswertbar; beschreibend keine Wechselkosten.

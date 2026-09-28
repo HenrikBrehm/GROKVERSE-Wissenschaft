@@ -30,3 +30,5 @@ Zurück zu [[paper/robustness_plan]] · [[paper/STATUS]]. Entwurf Sitzung 24 (20
   dessen Hash in eingefrorenen Manifesten steht), Jobzeilen mit `--lr/--weight-decay/--train-frac` (seit Sitzung 24 im Trainer). **Codex-Prüfung vor dem Einfrieren.**
 - **Seeds:** frischer Block, vor der Nutzung in [[FINDINGS_DETAILS]] reservieren.
 - **Bereits gesehene Daten:** P1 (Maß, Mindesteffekt, Streuung). Zu anderen Hyperparametern wurde bisher nichts gemessen.
+
+- **Eingefroren (Sitzung 37, 2026-09-28, Berlin):** Manifest `lab/confirm/R1_manifest.json` (Seeds 2420–2509, ε aus der Kalibrierung, Code-Hashes über `--hash-code`), Commit-ID im Feld `commit`. Selbsttest vorher grün (Sitzung 37). Bereits gesehene Daten: wie oben (nur P1); keine R1-Läufe vor dem Einfrieren.

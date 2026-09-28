@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 21:49 Berlin (19:49Z, vom Runner)
 - **Deadline:** 2026-09-29 00:49 Berlin (22:49Z)
-- **Zuletzt aktualisiert:** 22:20 Berlin
+- **Zuletzt aktualisiert:** 22:27 Berlin
 - **Run-Fenster:** zu bis 23:59 (Wächter Exit 3 = „noch nicht“). Ab 23:59 durchgehend (Regel 20).
 
 ## Gerade
 
-Unabhängige Nachrechnung eines neuen Explorationsbefunds: Bei gewöhnlichen Zufallssplits (R4) sagt das Maskenspektrum des eigenen Splits die gelernten Frequenzen voraus, über die Init hinaus (Top-5 im Mittel beim 78. Perzentil der eigenen Maske gegen ≈ 50. beim anderen Split, 60/60 Einheiten).
+Paper-Kurzfassung weiter nach der Gutachter-Liste ([[paper/STATUS]]); ab 23:59 Nachtplan.
 
 ## Als Nächstes
 
@@ -18,6 +18,8 @@ Unabhängige Nachrechnung eines neuen Explorationsbefunds: Bei gewöhnlichen Zuf
 
 ## Verlauf dieser Sitzung
 
+- 22:27 Paper: Tabelle 1 mit allen 19 Bestätigungsblöcken; Zitate Gromov/Zhong ergänzt; Erklärung für den Nutzer (29.09.) um die Abendbefunde ergänzt.
+- 22:23 R4-Befund unabhängig bestätigt (auch kein Artefakt bei Schritt 0, Placebo null); in FINDINGS (Hinweis) und Paper §3 als Nachauswertung.
 - 22:20 R4 nachträglich (Exploration): eigenes Maskenspektrum sagt gelernte Frequenzen voraus, Kontrast 0.54 [0.52, 0.57] (Spearman, Schritt 2000), 60/60; Nachrechnung läuft.
 - 22:18 Simulierte Gutachter-Prüfung umgesetzt: Textkorrekturen; R5-RMST 5.8/6.9 (post hoc); L0-Machbarkeit um Batch 16 erweitert (nur dort kann die Reihenfolge laut erster Ordnung wirken).
 - 22:09 EXP-104 vor dem Lauf geprüft: 2 Blocker gefunden und behoben (Splitgröße 3842 braucht `--train-frac 0.3009`; Suchmuster der Auswertung), gemeinsame Testmenge je Seed. EXP-105 (Leiter Stufe 2) als Entwurf.

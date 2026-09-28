@@ -82,5 +82,48 @@ def main() -> None:
     print(json.dumps({k: v for k, v in out.items() if k != "mismatch"}, indent=1))
 
 
+CROSS = ("x_lr2e-3_wd0.5", "x_lr5e-4_wd2")                  # part B: lr*wd equal to the preset, lr and wd changed
+
+
+def cross() -> dict:
+    """Part B (session 44, fixed before any run): seeds 1000-1009, the P1 splits and inits, 2000 steps, lr*wd = 1e-3 as
+    the preset but lr x2 / wd x0.5 and lr x0.5 / wd x2. Paired with the stored P1 runs of the same seed.
+    Reading per cell on the seed-mean curves at t = 250..2000: m = mean_t |log(mean_X(t) / mean_P1(t))|;
+      "product form holds"  m < 0.10 in both cells;
+      "not only the product" m > 0.20 in at least one cell (then lr and wd act separately; direction reported);
+      else "unclear". Also the paired per-seed log ratio at t = 2000 with a bootstrap 95 % CI (descriptive)."""
+    out, rng = {}, np.random.default_rng(103)
+    for c in CROSS:
+        X, Pp = [], []
+        for s in range(1000, 1010):
+            T = {a: json.loads((LAB / f"confirm/splits/confirm_exp1_eps2.0_add113_seed{s}_{a}.json").read_text(encoding="utf-8"))["targets"] for a in "FG"}
+            for root, acc, pat in ((HERE / f"raw_{c}", X, "*"), (LAB / "confirm/raw", Pp, "devcuda")):
+                dd = {}
+                for a in "FG":
+                    hits = sorted(root.glob(f"EXP-016_baseline_seed{s}_thr1_confirm_exp1_eps2.0_add113_seed{s}_{a}_{pat}"))
+                    assert len(hits) == 1, (root, s, a, hits)
+                    r = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))
+                    assert r["status"] == "completed" and r["steps_completed"] == 2000, hits[0]
+                    dd[a] = (np.load(hits[0] / "spectra_steps.npy"), np.load(hits[0] / "spectra.npy"))
+                assert np.array_equal(dd["F"][0], dd["G"][0])
+                acc.append(delta(dd["F"][1], dd["G"][1], T["F"], T["G"]))
+                st = dd["F"][0]
+        X, Pp = np.array(X), np.array(Pp)
+        k = st > 0
+        m = float(np.mean(np.abs(np.log(X[:, k].mean(0) / Pp[:, k].mean(0)))))
+        lr2000 = np.log(X[:, -1] / Pp[:, -1])
+        bs = rng.choice(lr2000, size=(10000, len(lr2000))).mean(1)
+        out[c] = {"steps": st[k].tolist(), "mean_X": X[:, k].mean(0).round(3).tolist(), "mean_P1": Pp[:, k].mean(0).round(3).tolist(),
+                  "mean_abs_log_ratio": m, "paired_log_ratio_2000": {"mean": float(lr2000.mean()),
+                  "ci95": [float(np.quantile(bs, .025)), float(np.quantile(bs, .975))]}}
+    ms = [out[c]["mean_abs_log_ratio"] for c in CROSS]
+    out["reading"] = ("product form holds" if all(x < 0.10 for x in ms) else
+                      "not only the product" if any(x > 0.20 for x in ms) else "unclear")
+    (HERE / "summary_cross.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    print(json.dumps(out, indent=1))
+    return out
+
+
 if __name__ == "__main__":
-    main()
+    import sys
+    cross() if sys.argv[1:] == ["--cross"] else main()

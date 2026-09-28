@@ -12,6 +12,7 @@ und MLPs. Die Studie (`RESULTS.md`) ist historisch, neue Befunde stehen nur hier
 - [[STATE]]: aktueller Stand, nächste Aktion, Wiederaufnahme
 - [[NACHT_2026-09-28]]: geordnete Checkliste der Nacht 28.09. (Läufe 01:30–18:00)
 - [[NACHT_2026-09-29]]: geordnete Checkliste der Nacht 28./29.09. (R10 → L0, EXP-101, EXP-103; Sitzung 44)
+- Vorab festgelegte Deutungen (vor den Ergebnissen): [[paper/L0_DEUTUNGEN]] (L0, Sitzung 44) · [[paper/R10_DEUTUNGEN]] (R10, Sitzung 45)
 - [[JOURNAL]]: Protokoll aller Sitzungen
 - [[BACKLOG]]: priorisierte Forschungsfragen
 - [[NOVEL_DIRECTIONS]]: Kandidaten, die für die Forschung neu sein könnten, mit Literaturprüfung

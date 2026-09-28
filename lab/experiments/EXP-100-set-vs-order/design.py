@@ -50,7 +50,7 @@ FEAS_B16 = {"iid16": (16, "iid", "adamw", MB_STEPS), "stride16": (16, "stride", 
 # order excess 0.194 at L = 50, twice the set's target excess (firstorder_window_s45_b16.json). Feasibility only; kept OUT of
 # FEAS_EXTRA so that CONFLICT_B64 does not pull B = 16 into the pilot. A B = 16 conflict arm needs its own switch + code later.
 FEAS_ARMS = ("iid256", "stride256", "iid64", "stride64", "iid16", "stride16")
-CONFLICT_B64 = False   # s44: set True (and record in the README) if feas_read.py shows an order effect only at B = 64
+CONFLICT_B64 = True    # s46: set by the pre-fixed rule after feas_read.py (order effect at B = 64 by the rule; README)
 ALL_ARMS = dict(ARMS)            # s44: unchanged lookup for calib()/smoke(), also after SGD_DROPPED
 if SGD_DROPPED:
     ARMS = {k: v for k, v in ARMS.items() if k != "sgdm256"}

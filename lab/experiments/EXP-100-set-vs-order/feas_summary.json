@@ -1,0 +1,97 @@
+{
+ "B256": {
+  "rows": [
+   {
+    "seed": 3700,
+    "o_stride": 0.027185440511483864,
+    "o_iid": 0.007892792833573971,
+    "diff": 0.01929264767790989,
+    "peak_stride": 15,
+    "peak_in_O": false
+   },
+   {
+    "seed": 3701,
+    "o_stride": 0.004819064140182783,
+    "o_iid": 0.005165793267790706,
+    "diff": -0.000346729127607923,
+    "peak_stride": 25,
+    "peak_in_O": false
+   },
+   {
+    "seed": 3702,
+    "o_stride": 0.016087743534444133,
+    "o_iid": 0.016431969776178126,
+    "diff": -0.0003442262417339935,
+    "peak_stride": 15,
+    "peak_in_O": false
+   }
+  ],
+  "bad": [],
+  "order_effect": false
+ },
+ "B64": {
+  "rows": [
+   {
+    "seed": 3700,
+    "o_stride": 0.005135955255096085,
+    "o_iid": 0.35566494637790175,
+    "diff": -0.35052899112280567,
+    "peak_stride": 47,
+    "peak_in_O": false
+   },
+   {
+    "seed": 3701,
+    "o_stride": 0.0103331985346074,
+    "o_iid": 0.014666632128696388,
+    "diff": -0.0043334335940889875,
+    "peak_stride": 40,
+    "peak_in_O": false
+   },
+   {
+    "seed": 3702,
+    "o_stride": 0.07722982566581056,
+    "o_iid": 0.02694866799190523,
+    "diff": 0.05028115767390533,
+    "peak_stride": 15,
+    "peak_in_O": false
+   }
+  ],
+  "bad": [],
+  "order_effect": true
+ },
+ "B16": {
+  "rows": [
+   {
+    "seed": 3700,
+    "o_stride": 0.03097504631632627,
+    "o_iid": 0.002635194553880585,
+    "diff": 0.028339851762445686,
+    "peak_stride": 17,
+    "peak_in_O": false
+   },
+   {
+    "seed": 3701,
+    "o_stride": 0.8625855306863602,
+    "o_iid": 0.0029745054275135516,
+    "diff": 0.8596110252588467,
+    "peak_stride": 12,
+    "peak_in_O": true
+   },
+   {
+    "seed": 3702,
+    "o_stride": 0.8723586377286422,
+    "o_iid": 0.012116751445027163,
+    "diff": 0.860241886283615,
+    "peak_stride": 11,
+    "peak_in_O": true
+   }
+  ],
+  "bad": [],
+  "order_effect": true
+ },
+ "first_order_prediction": {
+  "B256_L50": "order washed out at first order",
+  "B64_L50": "order can act",
+  "B16_L50": "order can act"
+ }
+}

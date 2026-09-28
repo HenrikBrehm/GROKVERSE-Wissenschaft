@@ -1,0 +1,171 @@
+{
+ "note": "exploration; predictions fixed in the docstring before any EXP-100 run",
+ "cells": {
+  "B256_iid": {
+   "rows": [
+    {
+     "seed": 3700,
+     "status": "ok",
+     "top5_percentile": 0.6581818181818181,
+     "top5_in_O": 0.0,
+     "pred_overlap": 0.2
+    },
+    {
+     "seed": 3701,
+     "status": "ok",
+     "top5_percentile": 0.6363636363636364,
+     "top5_in_O": 0.0,
+     "pred_overlap": 0.4
+    },
+    {
+     "seed": 3702,
+     "status": "ok",
+     "top5_percentile": 0.6181818181818183,
+     "top5_in_O": 0.2,
+     "pred_overlap": 0.2
+    }
+   ],
+   "mean_percentile": 0.6375757575757576,
+   "mean_pred_overlap": 0.26666666666666666
+  },
+  "B256_stride": {
+   "rows": [
+    {
+     "seed": 3700,
+     "status": "ok",
+     "top5_percentile": 0.7527272727272727,
+     "top5_in_O": 0.2,
+     "pred_overlap": 0.2
+    },
+    {
+     "seed": 3701,
+     "status": "ok",
+     "top5_percentile": 0.6363636363636364,
+     "top5_in_O": 0.0,
+     "pred_overlap": 0.4
+    },
+    {
+     "seed": 3702,
+     "status": "ok",
+     "top5_percentile": 0.6181818181818183,
+     "top5_in_O": 0.2,
+     "pred_overlap": 0.2
+    }
+   ],
+   "mean_percentile": 0.6690909090909091,
+   "mean_pred_overlap": 0.26666666666666666
+  },
+  "B64_iid": {
+   "rows": [
+    {
+     "seed": 3700,
+     "status": "ok",
+     "top5_percentile": 0.7745454545454545,
+     "top5_in_O": 0.2,
+     "pred_overlap": 0.2
+    },
+    {
+     "seed": 3701,
+     "status": "ok",
+     "top5_percentile": 0.6327272727272727,
+     "top5_in_O": 0.0,
+     "pred_overlap": 0.2
+    },
+    {
+     "seed": 3702,
+     "status": "ok",
+     "top5_percentile": 0.72,
+     "top5_in_O": 0.2,
+     "pred_overlap": 0.2
+    }
+   ],
+   "mean_percentile": 0.709090909090909,
+   "mean_pred_overlap": 0.20000000000000004
+  },
+  "B64_stride": {
+   "rows": [
+    {
+     "seed": 3700,
+     "status": "ok",
+     "top5_percentile": 0.4727272727272728,
+     "top5_in_O": 0.0,
+     "pred_overlap": 0.2
+    },
+    {
+     "seed": 3701,
+     "status": "ok",
+     "top5_percentile": 0.530909090909091,
+     "top5_in_O": 0.0,
+     "pred_overlap": 0.2
+    },
+    {
+     "seed": 3702,
+     "status": "ok",
+     "top5_percentile": 0.4836363636363637,
+     "top5_in_O": 0.2,
+     "pred_overlap": 0.2
+    }
+   ],
+   "mean_percentile": 0.49575757575757584,
+   "mean_pred_overlap": 0.20000000000000004
+  },
+  "B16_iid": {
+   "rows": [
+    {
+     "seed": 3700,
+     "status": "ok",
+     "top5_percentile": 0.5781818181818182,
+     "top5_in_O": 0.0,
+     "pred_overlap": 0.0
+    },
+    {
+     "seed": 3701,
+     "status": "ok",
+     "top5_percentile": 0.4945454545454545,
+     "top5_in_O": 0.0,
+     "pred_overlap": 0.0
+    },
+    {
+     "seed": 3702,
+     "status": "ok",
+     "top5_percentile": 0.5563636363636364,
+     "top5_in_O": 0.2,
+     "pred_overlap": 0.2
+    }
+   ],
+   "mean_percentile": 0.5430303030303031,
+   "mean_pred_overlap": 0.06666666666666667
+  },
+  "B16_stride": {
+   "rows": [
+    {
+     "seed": 3700,
+     "status": "ok",
+     "top5_percentile": 0.5090909090909091,
+     "top5_in_O": 0.4,
+     "pred_overlap": 0.2
+    },
+    {
+     "seed": 3701,
+     "status": "ok",
+     "top5_percentile": 0.4581818181818182,
+     "top5_in_O": 0.2,
+     "pred_overlap": 0.0
+    },
+    {
+     "seed": 3702,
+     "status": "ok",
+     "top5_percentile": 0.5490909090909091,
+     "top5_in_O": 0.4,
+     "pred_overlap": 0.0
+    }
+   ],
+   "mean_percentile": 0.5054545454545455,
+   "mean_pred_overlap": 0.06666666666666667
+  }
+ },
+ "P_iid": "unclear",
+ "iid_mean_all": 0.6298989898989898,
+ "P_pred": "unclear",
+ "iid_pred_overlap_all": 0.17777777777777778
+}

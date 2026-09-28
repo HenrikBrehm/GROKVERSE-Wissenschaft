@@ -109,3 +109,23 @@ Regel 20b nennt ihn als sekundär; bisher nicht ausgearbeitet. `design.py --swit
 **Vorhersage an unberührten Fällen (Sitzung 45, 22:38 Berlin gemessen, vor jedem EXP-100-Lauf; Exploration, keine GPU-Kosten):** `mask_prediction_s45.py` prüft an den 18 Machbarkeitsläufen (Zufallssplit R, Seeds 3700–3702), ob der Befund aus R4 (post hoc: Top-5 der gelernten Frequenzen beim 78. Perzentil des eigenen M0c) unter Minibatch wiederkehrt. Vorab: „überträgt sich“, wenn jede Batchgröße bei i.i.d. im Mittel ≥ 0.65 liegt; „nicht“, wenn das Mittel über alle 9 i.i.d.-Läufe ≤ 0.55; sonst „unklar“. Beschreibend: Wirkt die Reihenfolge bei einer Batchgröße, sollten die Stride-Läufe dort tiefer liegen. Aufruf nach `feas_read.py`: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-100-set-vs-order/mask_prediction_s45.py`.
 
 **Schalter für einen B = 16-Konflikt vorbereitet (Sitzung 45, 22:39 Berlin gemessen, vor jedem Lauf; ungetestet bis zum Selbsttest im Fenster):** `design.py`: `CONFLICT_B16 = True` fügt iid16/stride16 auf F/G und R hinzu (+48 Läufe: 112 → 160, mit B 64 zusammen 192; per Ausführung aller vier Schalterkombinationen gezählt). `analyze.py` liest `Konflikt_B16` mit denselben Regeln wie B 64 (Schleife über 64 und 16 statt eines festen B 64-Blocks) und gibt Δ_pow bei iid16 beschreibend aus (erste Ordnung: nur 0.21 Epochen im Fenster). Selbsttest um den B 16-Fall ergänzt. Nur setzen, wenn `feas_read.py` eine Reihenfolgewirkung bei B = 16 zeigt, und das hier vor dem Block vermerken. Standard `False`; alle Joblisten byte-gleich.
+
+## Machbarkeit: Ergebnis und Entscheidungen (Sitzung 46, 2026-09-29, 01:05 Berlin; vor jedem Pilotlauf)
+
+18/18 Läufe fertig (Zufallssplit R, Seeds 3700–3702, 30 000 Schritte, GPU, Log `lab/runner/logs/pq_20260928T225157_241451Z`). `feas_read.py` (Regel aus Sitzung 43/45: „keine Wirkung“, wenn o(stride) − o(iid) ≤ 0.02 in allen 3 Seeds und kein stride-Lauf mit Spitze in O):
+
+| B | o(stride) − o(iid) je Seed | Spitze stride in O | Regel | Test-Gen. iid / stride (Endgenauigkeit) |
+|---|---|---|---|---|
+| 256 | +0.019, 0.000, 0.000 | 0/3 | keine Wirkung | 1.00 / 1.00 in allen Seeds |
+| 64 | −0.351, −0.005, **+0.050** | 0/3 | Wirkung (nur durch Seed 3702) | 0.98, 0.90, 0.98 / 0.73, 0.95, 0.62 |
+| 16 | +0.028, **+0.860, +0.860** | 2/3 | Wirkung | **0.73, 0.14, 0.12 / 0.09, 0.07, 0.05** |
+
+Vorhersage erster Ordnung (vorab): B 256 ausgewaschen ✓, B 64 „an der Kante“ ✓ (Wirkung nur knapp nach der Regel), B 16 „kann wirken“ ✓.
+
+**Wichtige Einschränkung bei B = 16:** Mit der Standard-Lernrate (AdamW 1e-3, wd 1) lernt das Netz bei B = 16 die Aufgabe in 30 000 Schritten nicht: Trainingsgenauigkeit iid 0.78 / 0.18 / 0.14, stride 0.11 / 0.08 / 0.06. Die starke Konzentration auf O (86 % der Gruppenleistung in 2/3 Seeds) entsteht also in einem Netz, das die Menge gar nicht lernt. Das ist kein Konflikt „Menge gegen Reihenfolge“ im Sinn der Frage (die Menge hat keine Chance, weil das i.i.d.-Netz selbst nicht lernt).
+
+**Entscheidungen (vor jedem Pilotlauf):**
+1. `CONFLICT_B64 = True` nach der vorab festgelegten Regel (Wirkung bei B = 64). Vermerk: Die Wirkung hängt an einem Seed (+0.05), keine stride-Spitze in O; dafür generalisieren 2/3 stride64-Läufe nicht (≥ 0.95). Pilot jetzt 144 Läufe.
+2. **Kein B = 16-Konfliktarm** (`CONFLICT_B16` bleibt aus): Der i.i.d.-Arm lernt bei B = 16 nicht, also sind weder K2 noch der Konflikt dort messbar. Berichtet wird der Befund selbst: „bei B = 16 mit den Standard-Hyperparametern lernt das Netz nicht; in diesem Zustand bestimmt eine feste Reihenfolge das W_E-Spektrum (2/3 Seeds)“. Eine B = 16-Variante mit angepasster Lernrate (z. B. Wurzelregel lr/4) wäre ein eigener, neu festzulegender Versuch, nicht Teil dieses Piloten.
+
+**Vorab-Vorhersage an unberührten Läufen (`mask_prediction_s45.py`, Sitzung 45 festgelegt):** P-iid **„unclear“** (Mittel 0.63; Regel verlangt ≥ 0.65 in jeder Batchgröße: B 256 0.638, B 64 0.709, B 16 0.543), P-pred **„unclear“** (Überlappung 0.18; B 256 0.27, B 64 0.20, B 16 0.07; Zufall 0.09). Beschreibend: In den Batchgrößen, in denen das Netz lernt (256, 64), liegen die gelernten Top-5 beim 64.–71. Perzentil des Maskenspektrums (voll Batch R4: 78.), bei B = 16 (lernt nicht) nahe Zufall. P-order (beschreibend): bei B = 64 zieht die feste Reihenfolge die Wahl vom Maskenspektrum weg (Perzentil 0.50 gegen 0.71 iid), wie vorhergesagt. n = 3 je Zelle, Exploration.

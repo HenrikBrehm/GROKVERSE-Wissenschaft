@@ -1,5 +1,5 @@
 diff --git a/lab/experiments/EXP-001-freq-ban/freq_ban.py b/lab/experiments/EXP-001-freq-ban/freq_ban.py
-index 35f94c50..9de4a766 100644
+index 35f94c50..6edb3031 100644
 --- a/lab/experiments/EXP-001-freq-ban/freq_ban.py
 +++ b/lab/experiments/EXP-001-freq-ban/freq_ban.py
 @@ -88,7 +88,9 @@ LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "rese
@@ -13,20 +13,23 @@ index 35f94c50..9de4a766 100644
  HP_OVERRIDES = ("lr", "weight_decay", "train_frac", "beta1", "beta2")   # session 24 (rule 19a), s39 betas (EXP-081): None = preset
  LOCK_NAME = "run.lock"
  
-@@ -457,6 +459,21 @@ def run(a: argparse.Namespace) -> dict:
+@@ -457,6 +459,24 @@ def run(a: argparse.Namespace) -> dict:
              raise SystemExit("--pre-switch-grad-every k needs k >= 1, --switch-split-file with --switch-step a multiple of k, "
                               "--condition baseline, and excludes the warmup, alternation, lr-scale, pre-switch-betas, reset and rewind options")
          run_id += f"_ge{gek}"
 +    mbs = int(getattr(a, "batch_size", 0) or 0)
 +    order = getattr(a, "order", "iid")
 +    optim_name = getattr(a, "optimizer", "adamw")
++    if optim_name != "sgdm" and (getattr(a, "sgd_lr", None) is not None or float(getattr(a, "sgd_momentum", 0.9)) != 0.9):
++        raise SystemExit("--sgd-lr / --sgd-momentum only with --optimizer sgdm")   # review s43: else fingerprint != run id
 +    if mbs or order != "iid" or optim_name != "adamw":   # L0 (session 43): minibatch, data order, SGD with momentum
 +        sgd_lr, sgd_mom = getattr(a, "sgd_lr", None), float(getattr(a, "sgd_momentum", 0.9))
 +        if (mbs < 0 or (order != "iid" and not mbs) or a.condition != "baseline" or a.warmup or a.alternate_every
 +                or a.lr_scale != 1.0 or a.lr_scale_after_switch != 1.0 or psb is not None or gek != 1
 +                or a.reset_at_switch or a.reset_optim_at_switch or a.reset_optim_part or a.rewind_at_switch
 +                or a.log_update_norms or a.plant_targets is not None or a.split_value
-+                or (optim_name == "sgdm" and not (sgd_lr is not None and sgd_lr > 0 and 0 <= sgd_mom < 1))):
++                or (optim_name == "sgdm" and not (sgd_lr is not None and np.isfinite(sgd_lr) and sgd_lr > 0 and 0 <= sgd_mom < 1))
++                or (optim_name == "sgdm" and (a.beta1 is not None or a.beta2 is not None))):
 +            raise SystemExit("--batch-size/--order/--optimizer need --condition baseline, --order fixed/stride needs --batch-size > 0, "
 +                             "--optimizer sgdm needs --sgd-lr > 0 and 0 <= --sgd-momentum < 1; excludes warmup, alternation, lr-scale, "
 +                             "pre-switch options, resets, rewind, update norms, plant and split-value")
@@ -35,7 +38,7 @@ index 35f94c50..9de4a766 100644
      if (a.rewind_at_switch is None) != (a.rewind_from is None):
          raise SystemExit("--rewind-at-switch and --rewind-from go together")
      if a.rewind_at_switch:           # EXP-073 (session 24): one part back to its own state (weights + AdamW state) at step R
-@@ -578,8 +595,11 @@ def run(a: argparse.Namespace) -> dict:
+@@ -578,8 +598,11 @@ def run(a: argparse.Namespace) -> dict:
      keep_init = bool(a.warmup or a.reset_at_switch or a.lr_scale != 1.0 or a.we_init_scale != 1.0)
      init_params = [q.detach().clone() for q in model.parameters()] if keep_init else []   # EXP-035/038
      we_idx = next((i for i, q in enumerate(model.parameters()) if q is model.W_E), None) if keep_init else None
@@ -49,7 +52,7 @@ index 35f94c50..9de4a766 100644
      basis = fourier_basis(p)
  
      events: dict = {}
-@@ -611,7 +631,8 @@ def run(a: argparse.Namespace) -> dict:
+@@ -611,7 +634,8 @@ def run(a: argparse.Namespace) -> dict:
             "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
             "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
             "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
@@ -59,7 +62,7 @@ index 35f94c50..9de4a766 100644
             "device": a.device, "device_name": (torch.cuda.get_device_name(dev) if dev.type == "cuda" else platform.processor()),
             "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
             "config": {**cfg.to_dict(), "device": a.device},   # Astra 10: Config keeps 'cpu'; record the real device
-@@ -681,13 +702,42 @@ def run(a: argparse.Namespace) -> dict:
+@@ -681,13 +705,42 @@ def run(a: argparse.Namespace) -> dict:
      gen_thr = THRESHOLD_SETS["primary"][1]
      stop_at = a.steps
      ge_saved, ge_evals, ge_steps = None, 0, []
@@ -103,7 +106,7 @@ index 35f94c50..9de4a766 100644
              opt.zero_grad(set_to_none=True)
              loss.backward()
              ge_evals += 1
-@@ -711,7 +761,14 @@ def run(a: argparse.Namespace) -> dict:
+@@ -711,7 +764,14 @@ def run(a: argparse.Namespace) -> dict:
          log_un = bool(a.log_update_norms and a.switch_step - 4 <= step <= a.switch_step + a.log_update_norms)
          if log_un:                       # EXP-058: size of the actual parameter update around the switch
              before = [q.detach().clone() for q in model.parameters()]
@@ -118,7 +121,7 @@ index 35f94c50..9de4a766 100644
          if log_un:
              with torch.no_grad():
                  d2 = [float(((q - q0) ** 2).sum()) for q, q0 in zip(model.parameters(), before)]
-@@ -953,6 +1010,12 @@ def main() -> None:
+@@ -953,6 +1013,12 @@ def main() -> None:
                      help="EXP-090: 'b1,b2' AdamW betas for steps 1..--switch-step; preset betas afterwards, moments rescaled so the bias-corrected moments stay continuous")
      ap.add_argument("--pre-switch-grad-every", type=int, default=1,
                      help="EXP-095: before the switch compute the gradient only every k steps and reuse it in between (1 = off)")
@@ -132,10 +135,10 @@ index 35f94c50..9de4a766 100644
                      help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
      ap.add_argument("--lr-scale-after-switch", type=float, default=1.0,
 diff --git a/lab/tests/test_freq_ban_fingerprint.py b/lab/tests/test_freq_ban_fingerprint.py
-index a2a79aae..6aa8c8e3 100644
+index a2a79aae..ee08f777 100644
 --- a/lab/tests/test_freq_ban_fingerprint.py
 +++ b/lab/tests/test_freq_ban_fingerprint.py
-@@ -292,6 +292,63 @@ def test_pre_switch_grad_every(tmp: Path) -> None:
+@@ -292,6 +292,76 @@ def test_pre_switch_grad_every(tmp: Path) -> None:
          assert r.returncode != 0, bad
  
  
@@ -161,11 +164,14 @@ index a2a79aae..6aa8c8e3 100644
 +                  ["--steps", steps, "--batch-size", "1024", "--spectra-at", "1"],
 +                  ["--steps", steps, "--batch-size", "1024", "--order", "fixed", "--spectra-at", "1"],
 +                  ["--steps", "2", "--optimizer", "sgdm", "--sgd-lr", "0.1", "--sgd-momentum", "0.0", "--spectra-at", "1"],
++                  ["--steps", "2", "--optimizer", "sgdm", "--sgd-lr", "1e-09", "--sgd-momentum", "0.0", "--spectra-at", "1"],
++                  ["--steps", "9", "--batch-size", "1024", "--order", "stride", "--spectra-at", "1",
++                   "--switch-split-file", str(spl / "seed400_w0_B.npy"), "--switch-step", "5"],
 +                  ["--steps", "2", "--spectra-at", "1"]):
 +        r = run(*extra)
 +        assert r.returncode == 0, (extra, r.stdout + r.stderr)
 +    d = {}
-+    for k in ("bs1024_ordstride", "bs1024", "bs1024_ordfixed", "sgdm0.1_0.0", "w0_A"):
++    for k in ("w0_A_bs1024_ordstride", "w0_A_bs1024", "w0_A_bs1024_ordfixed", "sgdm0.1_0.0", "sgdm1e-09_0.0", "w0_A", "at5_bs1024_ordstride"):
 +        hits = [h for h in out.glob(f"*{k}") if h.is_dir()]
 +        assert len(hits) == 1, (k, list(out.iterdir()))
 +        d[k] = hits[0]
@@ -173,25 +179,35 @@ index a2a79aae..6aa8c8e3 100644
 +    idx = np.load(spl / "seed400_w0_A.npy")
 +    av, bv = idx // 113, idx % 113
 +    want = idx[np.lexsort((np.arange(n), av, av % 10))][:12].tolist()
-+    es, ei, ef = ev("bs1024_ordstride"), ev("bs1024"), ev("bs1024_ordfixed")
++    es, ei, ef = ev("w0_A_bs1024_ordstride"), ev("w0_A_bs1024"), ev("w0_A_bs1024_ordfixed")
 +    assert es["first_epochs"][0]["head_flat"] == want, (es["first_epochs"][0]["head_flat"], want)
 +    assert len(es["first_epochs"]) == 4 and len({e["sha"] for e in es["first_epochs"]}) == 1, es
 +    assert len({e["sha"] for e in ef["first_epochs"]}) == 1 and ef["first_epochs"][0]["sha"] != es["first_epochs"][0]["sha"], ef
 +    assert len({e["sha"] for e in ei["first_epochs"]}) == 4, ei
 +    assert ei["steps_per_epoch"] == spe and ei["epochs_started"] == 4, ei
 +    r = run("--steps", steps, "--batch-size", "1024", "--spectra-at", "1", "--force")
-+    assert r.returncode == 0 and ev("bs1024")["first_epochs"] == ei["first_epochs"], "iid order not reproducible"
++    assert r.returncode == 0 and ev("w0_A_bs1024")["first_epochs"] == ei["first_epochs"], "iid order not reproducible"
 +    snap = lambda k, s: np.load(d[k] / "we_snapshots.npy")[list(np.load(d[k] / "we_snapshot_steps.npy")).index(s)].astype(np.float64)   # noqa: E731
 +    lam = 1e-3 * 1.0
 +    D_sgd, D_def = snap("sgdm0.1_0.0", 1) - (1 - lam) * snap("sgdm0.1_0.0", 0), snap("w0_A", 1) - (1 - lam) * snap("w0_A", 0)
 +    band = lambda X: float(np.mean(np.abs(np.abs(X) - 1e-3) <= 1e-4))   # noqa: E731
 +    assert band(D_def) > 0.9 and band(D_sgd) < 0.3, (band(D_def), band(D_sgd))
++    D_dec = snap("sgdm1e-09_0.0", 1) - (1 - lam) * snap("sgdm1e-09_0.0", 0)      # tiny lr: only the decoupled decay acts
++    assert float(np.abs(D_dec).max()) < 1e-6, ("sgdm weight decay is not (1 - lr_adamw * wd)", float(np.abs(D_dec).max()))
++    esw = ev("at5_bs1024_ordstride")["first_epochs"]                           # order rebuilt for the new set after the switch
++    idxB = np.load(spl / "seed400_w0_B.npy")
++    aB = idxB // 113
++    wantB = idxB[np.lexsort((np.arange(len(idxB)), aB, aB % 10))][:12].tolist()
++    assert [e["step"] for e in esw][:3] == [1, 5, 6] and esw[2]["head_flat"] == wantB, esw
 +    res = json.loads((d["sgdm0.1_0.0"] / "result.json").read_text(encoding="utf-8"))
 +    assert res["optimizer"] == "sgdm" and res["sgd_lr"] == 0.1, res.get("optimizer")
 +    for bad in (["--steps", "4", "--order", "stride"],                                   # order without minibatch
 +                ["--steps", "4", "--optimizer", "sgdm"],                                 # sgdm without --sgd-lr
 +                ["--steps", "4", "--batch-size", "64", "--lr-scale", "2"],
-+                ["--steps", "4", "--batch-size", "-1"]):
++                ["--steps", "4", "--batch-size", "-1"],
++                ["--steps", "4", "--sgd-lr", "0.1"],                                    # SGD flag without sgdm
++                ["--steps", "4", "--optimizer", "sgdm", "--sgd-lr", "inf"],
++                ["--steps", "4", "--optimizer", "sgdm", "--sgd-lr", "0.1", "--beta1", "0.8"]):
 +        r = run(*bad)
 +        assert r.returncode != 0, bad
 +
@@ -199,7 +215,7 @@ index a2a79aae..6aa8c8e3 100644
  def main() -> int:
      with tempfile.TemporaryDirectory() as t:
          tmp = Path(t)
-@@ -302,7 +359,8 @@ def main() -> int:
+@@ -302,7 +372,8 @@ def main() -> int:
                           ("rewind", lambda: test_rewind(tmp)),
                           ("hp_overrides", lambda: test_hp_overrides(tmp)),
                           ("pre_switch_betas", lambda: test_pre_switch_betas(tmp)),

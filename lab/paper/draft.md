@@ -399,6 +399,7 @@ code), operating under written rules set by the human author, who bears responsi
 5. **done:** `figures/fig5_margin_sensitivity.py` — K2-function D per seed with CI (P2d add 113; P2e mul 113, add 97); different step budgets, compare qualitatively.
 6. **done (exploration, §4, session 32):** `figures/fig6_switch_cost.py` — delay of generalization after a switch at t (pilot seeds 400–409, N28 at 25/50; post hoc) above the persistence π of the same pilot seeds; two panels, no second axis. Replace by the R6 curve once R6 has run.
 7. **done (exploration with a prediction fixed before the runs, §4, session 32):** `figures/fig7_dose_curve.py` — EXP-084 runs (time to generalization against the realised mask target share, censored runs open) with the M_share and M_eps predictions committed before any run; shows both the saturation (M_share) and the miss at ε = 1.
+8. **done (confirmed blocks, §3.8, session 37):** `figures/fig8_r6_r8_switch_cost.py` — R6 switch cost C(t) with 95 % bootstrap CI over 30 fresh seeds and the median π(t) of the same runs; R8 per-seed costs of a switch at 25 to other targets vs same targets with new pairs (25 fresh seeds). Reads only `R6_summary.json`/`R8_summary.json`.
 
 ## Reproduction (draft, session 27; scripts exist, none has been run end to end yet)
 

@@ -1,8 +1,8 @@
 ---
 id: EXP-101
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-28
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/unklar]
 ---
 # EXP-101 (Regel 20c): Steuert die Datenauswahl auch die Merkmale einer Recursive Feature Machine (RFM)? (Entwurf)
 
@@ -69,3 +69,8 @@ Bezug: [[NOVEL_DIRECTIONS]] N50 (braucht K2 einen Auswahldruck im Lerner?). EXP-
 `--analyze` über 30/30 Läufe (Seeds 1000–1009, Arme R/F/G, 30 Iterationen, Bandbreite 2.5): **Tor nicht bestanden.** Arm R erreicht in 0/10 Seeds Testgenauigkeit ≥ 0.95 an Iteration 30 (Werte an Iteration 30: 0.43–0.71). Nach der vorab festgelegten Lesart also „RFM grokt bei p = 113 / 30 % mit diesen Einstellungen (30 Iterationen) nicht“, keine K2-Lesart. Die Genauigkeit steigt aber in allen 10 R-Seeds noch deutlich (letzte 5 Iterationen +0.10 bis +0.20, Bedingung der Ausweichregel ≥ +0.05 erfüllt) → **die einzige vorab erlaubte Ausweichregel greift: einmal mit 60 Iterationen** (neue Dateien `_it60_`, die it30-Dateien bleiben). Gestartet 00:53 Berlin, zuerst Arm R (Tor), `--threads 2` (10 GPU-Prozesse laufen, CPU-Summe ≤ 12), dann F und G.
 
 Beschreibend (nur für die Akte, keine Lesart, weil das Tor gescheitert ist): Δ_pow an Iteration 30 −0.086 [−0.140, −0.034] (2/10 positiv), nach Iteration 1 −0.008, nach Iteration 5 −0.031; `dpow_offdiag` nur für 2 Seeds definiert. Eigene Einordnung (Vermutung, nicht getestet): Bei fehlender Generalisierung ist die AGOP noch von der Trainingsmenge selbst geprägt; ein negatives Δ_pow vor dem Groken sagt über K2 nichts.
+
+## Ergebnis Ausweichlauf 60 Iterationen (Sitzung 46, 01:13 Berlin): Tor endgültig nicht bestanden, keine K2-Lesart in RFM
+
+Arm R mit 60 Iterationen (Dateien `raw/*_R_it60_*`): Seeds 1000–1003 enden bei Testgenauigkeit **0.876, 0.787, 0.791, 0.627** und flachen ab (Seed 1000: +0.003 über die letzten 5 Iterationen). Das Tor verlangt ≥ 8/10 Seeds ≥ 0.95; nach 4 Fehlschlägen ist das nicht mehr erreichbar → Lauf nach Regel 14 („Frage beantwortet“) abgebrochen (Seeds 1004–1009 und die Arme F/G mit 60 Iterationen nicht gerechnet). Die einzige vorab erlaubte Ausweichregel ist damit verbraucht.
+**Lesart (vorab festgelegt):** „RFM grokt bei p = 113 / 30 % Trainingsanteil mit diesen Einstellungen (Gauß-Kern, Bandbreite 2.5, Potenz 1/2, bis 60 Iterationen) nicht“ → **keine K2-Lesart in RFM**. Das ist weder ein Beleg für noch gegen K2 in RFM. Einordnung: Mallinar et al. berichten Generalisierung ab etwa 25 % Trainingsanteil bei p = 61; bei p = 113 und 30 % reicht es hier nicht (0.63–0.88). Ein Test von K2 in RFM bräuchte einen höheren Trainingsanteil (z. B. 50 %, deren Standard) mit neu gebauten F/G-Splits; das wäre ein neuer, eigens festzulegender Versuch (BACKLOG), nicht Teil dieses Versuchs.

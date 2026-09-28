@@ -5,20 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-29 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 00:54 Berlin
+- **Zuletzt aktualisiert:** 01:12 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-R11 (Festlegung bei add 97 / mul 113, 240 GPU-Läufe) eingefroren und gestartet (5 Worker). Daneben L0-Machbarkeit (18 Läufe × 30 000 Schritte, 5 Worker). Ich suche derweil den Fehler im Selbsttest von `EXP-100/analyze.py`.
+GPU: R11 (138/240) und L0-SGD-Kalibrierung (10 Läufe) laufen. Danach startet automatisch die B = 16-Sonde (18 Läufe). CPU: RFM mit 60 Iterationen (Arm R). Ein unabhängiger Agent rechnet Nanda nach.
 
 ## Als Nächstes
 
-`feas_read.py` → Vorhersage-Test `mask_prediction_s45.py` → Kalibrierung SGD. EXP-101 (RFM) ins README eintragen.
+Kalibrierung lesen → `SGD_LR` setzen → L0-Pilot (144 Läufe) starten. R11 auswerten, sobald fertig.
 
 ## Verlauf dieser Sitzung
 
-- 00:53 L0-Machbarkeit gestartet (18 Läufe).
-- 00:52 R11 eingefroren (Manifest-Commit), Smoke 3/3 geladen, Block gestartet.
-- 00:51 L0-Smoke 3/3 ok (0.011 s/Schritt bei 3 GPU-Prozessen; Minibatch-Reihenfolge wird protokolliert).
-- 00:50 EXP-101 (RFM) ausgewertet: **Tor nicht bestanden** — RFM generalisiert auf dem Zufallssplit 30 % bei p = 113 nicht → keine K2-Lesart in RFM. `analyze.py --selftest` (L0) scheitert, `switch_analyze.py --selftest` ok, R11-Selbsttest ok.
+- 01:10 B = 16-Sonde festgelegt (lernt das Netz bei B = 16 mit kleinerer Lernrate oder weniger Weight Decay?).
+- 01:06 **L0-Machbarkeit:** B = 256 keine Reihenfolge-Wirkung (wie vorhergesagt); B = 64 knapp nach der Regel → Konfliktarm B = 64 kommt in den Piloten; B = 16: Reihenfolge dominiert, **aber das Netz lernt dort gar nicht** → kein Konfliktarm bei B = 16.
+- 01:05 Vorab-Vorhersage (Maskenspektrum) an unberührten Läufen: „unklar“ (knapp unter der Schwelle).
+- 01:00 R10 als §3.16 ins Paper (Langfassung).
+- 00:53 L0-Machbarkeit gestartet; RFM-Wiederholung mit 60 Iterationen gestartet.
+- 00:52 R11 eingefroren und gestartet (5 GPU-Worker).
+- 00:50 RFM (EXP-101): Tor nicht bestanden (generalisiert nach 30 Iterationen nicht, steigt aber noch) → Ausweichregel 60 Iterationen.

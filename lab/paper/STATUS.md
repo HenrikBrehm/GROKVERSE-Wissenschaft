@@ -139,6 +139,8 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 
 ## Vorab festgelegt (Sitzung 43, 18:59 Berlin, vor jedem Ergebnis): Wie R10 und EXP-097 den Paper-Text ändern
 
+*Nachtrag 19:14 (Regel 20):* EXP-096, EXP-097, EXP-098 sind zurückgestellt. Die Zeilen zu ihnen gelten nur, falls sie später doch gerechnet werden. R10 und R11 bleiben gültig. Neu hinzu kommt L0 (Hauptabschnitt 6 der Kurzfassung).
+
 | Ergebnis | Paper |
 |---|---|
 | R10 alle drei bestätigt | neuer §3.16 „Lock-in needs re-evaluated gradients“ (H1 e₈, H2 Äquivalenz g8 ≈ c8b mit Zähler-Vorbehalt); H3 (e₂₄) nur als „initial gradient only under Adam“, mit Verweis auf die Vorzeichen-Einschränkung; Abstract-Satz erst nach unabhängiger Prüfung |

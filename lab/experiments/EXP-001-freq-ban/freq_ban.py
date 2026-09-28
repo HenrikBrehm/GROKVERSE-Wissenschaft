@@ -86,7 +86,8 @@ FINGERPRINT_ARGS = ("seed", "condition", "t0", "m", "steps", "stop_after_gen", "
 FINGERPRINT_FILES = ("split_file", "test_file", "switch_split_file")
 LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "reset_optim_part": None, "log_update_norms": 0,
              "rewind_at_switch": None, "rewind_from": None,
-             "lr": None, "weight_decay": None, "train_frac": None}   # name -> default; in the fingerprint only if != default (s18, s21, s24)
+             "lr": None, "weight_decay": None, "train_frac": None,
+             "plant_targets": None, "plant_c": None, "plant_noise": False}   # name -> default; in the fingerprint only if != default (s18, s21, s24, s39)
 HP_OVERRIDES = ("lr", "weight_decay", "train_frac")   # session 24 (rule 19a robustness): None = preset value, unchanged behaviour
 LOCK_NAME = "run.lock"
 
@@ -399,6 +400,18 @@ def run(a: argparse.Namespace) -> dict:
         if a.we_init_scale <= 0:
             raise SystemExit("--we-init-scale needs s > 0")
         run_id += f"_wes{a.we_init_scale:g}"
+    plant_tg = None
+    if a.plant_targets is not None or a.plant_c is not None or a.plant_noise:   # EXP-087 (session 39): additive W_E plant after init
+        try:
+            plant_tg = sorted(int(x) for x in str(a.plant_targets).split(","))
+        except ValueError:
+            raise SystemExit("--plant-targets needs comma-separated integers")
+        if (a.plant_c is None or not np.isfinite(a.plant_c) or a.plant_c <= 0 or len(set(plant_tg)) != len(plant_tg)
+                or min(plant_tg) < 1 or max(plant_tg) > (a.p - 1) // 2 or a.arch != "transformer" or a.split_value
+                or a.we_init_scale != 1.0 or a.condition != "baseline"):
+            raise SystemExit("--plant-targets/--plant-c need distinct k in 1..(p-1)/2, a finite c > 0, --condition baseline, "
+                             "the transformer, no --split-value and no --we-init-scale")
+        run_id += f"_{'pn' if a.plant_noise else 'pl'}{a.plant_c:g}"
     if a.lr_scale_after_switch != 1.0:   # P3 ELR arm (session 18, Lyle et al. 2025): lr * c for the first
         # LR_AFTER_SWITCH_STEPS steps after --switch-step, full lr otherwise (1.0 = off)
         if (not np.isfinite(a.lr_scale_after_switch) or a.lr_scale_after_switch <= 0 or a.switch_split_file is None
@@ -526,6 +539,17 @@ def run(a: argparse.Namespace) -> dict:
             num = model.W_E[:p]
             mean = num.mean(dim=0, keepdim=True)
             model.W_E[:p] = mean + a.we_init_scale * (num - mean)
+    plant_norm = None
+    if plant_tg is not None:         # EXP-087: plant (or norm-matched noise) on W_E[:p]; numpy only, no torch RNG consumed
+        sys.path.insert(0, str(HERE.parent / "EXP-087-planted-signal-mediation"))
+        from plant import noise_delta, plant_delta
+        W0 = model.W_E.detach().cpu().numpy().astype(np.float64)[:p]
+        delta = plant_delta(W0, plant_tg, a.plant_c, a.seed)
+        if a.plant_noise:
+            delta = noise_delta(W0, float(np.linalg.norm(delta)), a.seed)
+        plant_norm = float(np.linalg.norm(delta))
+        with torch.no_grad():
+            model.W_E[:p] += torch.tensor(delta, dtype=model.W_E.dtype)
     dev = torch.device(a.device)       # rule 16: init is built on the CPU (identical weights), then moved
     model = model.to(dev)
     trx, try_, tex, tey = (t.to(dev) for t in (trx, try_, tex, tey))
@@ -565,7 +589,7 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "lr_scale_until": LR_SCALE_UNTIL, "lr_scale_after_switch": a.lr_scale_after_switch, "lr_after_switch_steps": LR_AFTER_SWITCH_STEPS, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "rewind_at_switch": a.rewind_at_switch, "rewind_from": a.rewind_from, "spectra_at": sorted(extra_spec),
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "plant_targets": plant_tg, "plant_c": a.plant_c, "plant_noise": a.plant_noise, "plant_delta_norm": plant_norm, "lr_scale_until": LR_SCALE_UNTIL, "lr_scale_after_switch": a.lr_scale_after_switch, "lr_after_switch_steps": LR_AFTER_SWITCH_STEPS, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "rewind_at_switch": a.rewind_at_switch, "rewind_from": a.rewind_from, "spectra_at": sorted(extra_spec),
            "device": a.device, "device_name": (torch.cuda.get_device_name(dev) if dev.type == "cuda" else platform.processor()),
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": {**cfg.to_dict(), "device": a.device},   # Astra 10: Config keeps 'cpu'; record the real device
@@ -869,6 +893,11 @@ def main() -> None:
                     help="P3 ELR arm: lr * c for the 500 steps after --switch-step, full lr otherwise (1.0 = off)")
     ap.add_argument("--we-init-scale", type=float, default=1.0,
                     help="EXP-040: scale the non-DC part of W_E[:p] by s right after init (checksum = plain init; 1.0 = off)")
+    ap.add_argument("--plant-targets", default=None,
+                    help="EXP-087: comma-separated k; add C x median init power at each k to W_E[:p] after init (off by default)")
+    ap.add_argument("--plant-c", type=float, default=None, help="EXP-087: planted power per target as a multiple C of the median")
+    ap.add_argument("--plant-noise", action="store_true",
+                    help="EXP-087: instead add norm-matched zero-mean noise (control RN)")
     ap.add_argument("--spectra-at", default="",
                     help="EXP-036 Nachtrag d: extra comma-separated steps with stored W_E spectra (logging only)")
     ap.add_argument("--p", type=int, default=113, help="EXP-043: modulus (default 113 = unchanged)")

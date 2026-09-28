@@ -195,7 +195,14 @@ def test_hp_overrides(tmp: Path) -> None:
     assert len(hits) == 1, list(out.iterdir())
     cfg = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))["config"]
     assert cfg["lr"] == 0.002 and cfg["weight_decay"] == 0.5 and cfg["train_frac"] == 0.3, cfg
-    for bad in (("--train-frac", "1.5"), ("--lr", "0"), ("--weight-decay", "-1"), ("--train-frac", "0.2")):   # 0.2: split file has 0.3
+    r = train(out, "--steps", "20", "--beta1", "0.8", "--beta2", "0.995")      # session 39 (EXP-081): betas reach the config
+    assert r.returncode == 0, r.stdout + r.stderr
+    hits = list(out.glob("*_b10.8_b20.995"))
+    assert len(hits) == 1, list(out.iterdir())
+    cfg = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))["config"]
+    assert cfg["beta1"] == 0.8 and cfg["beta2"] == 0.995 and cfg["lr"] == 0.001, cfg
+    assert fb.run_fingerprint(ns(beta1=None, beta2=None))[0] == f1 and fb.run_fingerprint(ns(beta2=0.95))[0] != f1
+    for bad in (("--train-frac", "1.5"), ("--lr", "0"), ("--weight-decay", "-1"), ("--train-frac", "0.2"), ("--beta1", "1"), ("--beta2", "0")):   # 0.2: split file has 0.3
         r = train(out, "--steps", "20", *bad)
         assert r.returncode != 0, bad
 

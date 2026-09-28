@@ -87,8 +87,8 @@ FINGERPRINT_FILES = ("split_file", "test_file", "switch_split_file")
 LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "reset_optim_part": None, "log_update_norms": 0,
              "rewind_at_switch": None, "rewind_from": None,
              "lr": None, "weight_decay": None, "train_frac": None,
-             "plant_targets": None, "plant_c": None, "plant_noise": False}   # name -> default; in the fingerprint only if != default (s18, s21, s24, s39)
-HP_OVERRIDES = ("lr", "weight_decay", "train_frac")   # session 24 (rule 19a robustness): None = preset value, unchanged behaviour
+             "plant_targets": None, "plant_c": None, "plant_noise": False, "beta1": None, "beta2": None}   # name -> default; in the fingerprint only if != default (s18, s21, s24, s39)
+HP_OVERRIDES = ("lr", "weight_decay", "train_frac", "beta1", "beta2")   # session 24 (rule 19a), s39 betas (EXP-081): None = preset
 LOCK_NAME = "run.lock"
 
 
@@ -348,7 +348,8 @@ def hp_overrides(a: argparse.Namespace) -> dict:
     """Rule 19a: optional overrides of the preset's lr / weight_decay / train_frac; {} (preset values) when not given."""
     out = {k: getattr(a, k, None) for k in HP_OVERRIDES if getattr(a, k, None) is not None}
     for k, v in out.items():
-        if not np.isfinite(v) or v < 0 or (k != "weight_decay" and v == 0) or (k == "train_frac" and not 0 < v < 1):
+        if (not np.isfinite(v) or v < 0 or (k != "weight_decay" and v == 0) or (k == "train_frac" and not 0 < v < 1)
+                or (k in ("beta1", "beta2") and not 0 < v < 1)):
             raise SystemExit(f"--{k.replace('_', '-')} out of range: {v!r}")
     return out
 
@@ -444,7 +445,7 @@ def run(a: argparse.Namespace) -> dict:
             raise SystemExit("--rewind-at-switch needs --switch-split-file, 0 <= --rewind-from < --switch-step, --condition baseline "
                              "and excludes the reset, alternation, warmup and lr-scale options")
         run_id += f"_rw{a.rewind_at_switch}{a.rewind_from}"
-    for k, tag in (("lr", "lr"), ("weight_decay", "wd"), ("train_frac", "tf")):   # rule 19a: distinct run ids for overrides
+    for k, tag in (("lr", "lr"), ("weight_decay", "wd"), ("train_frac", "tf"), ("beta1", "b1"), ("beta2", "b2")):   # rule 19a: distinct run ids for overrides
         if k in hp:
             run_id += f"_{tag}{float(hp[k])!r}"          # Codex s24: repr is injective for floats, :g is not
     if a.log_update_norms and (a.switch_split_file is None or a.log_update_norms < 1):
@@ -887,6 +888,8 @@ def main() -> None:
     ap.add_argument("--lr", type=float, default=None, help="rule 19a: override the preset learning rate (default: preset)")
     ap.add_argument("--weight-decay", type=float, default=None, help="rule 19a: override the preset AdamW weight decay (default: preset)")
     ap.add_argument("--train-frac", type=float, default=None, help="rule 19a: override the preset train fraction (split files must match)")
+    ap.add_argument("--beta1", type=float, default=None, help="EXP-081: override AdamW beta1 (default: preset 0.9)")
+    ap.add_argument("--beta2", type=float, default=None, help="EXP-081: override AdamW beta2 (default: preset 0.98)")
     ap.add_argument("--lr-scale", type=float, default=1.0,
                     help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
     ap.add_argument("--lr-scale-after-switch", type=float, default=1.0,

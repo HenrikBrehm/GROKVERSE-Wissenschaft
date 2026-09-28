@@ -45,3 +45,9 @@ Bei add 113 (1-Schicht-Transformer, Standard-Preset) verzögert ein Datenwechsel
 2. Power-Simulation, n festlegen.
 3. Prüfung (Codex, falls Guthaben; sonst unabhängige Claude-Prüfung, nur lesend).
 4. Manifest, Commit, Splits, Jobs, Smoke, Block, Analyse.
+
+## Stand Sitzung 37 (gemessen, vor jedem R8-Lauf)
+
+- **Code** `lab/tools/confirm_r8.py` geschrieben; Selbsttest über den Wächter **grün** (Bindung, Run-IDs, Jobformat, Split-Neubau deterministisch und disjunkt an zwei Seeds außerhalb des Blocks, Anteil A2 auf F innerhalb 0.005, Kosten- und Urteilsarithmetik).
+- **Power** (`R8_pilot_power.py` → `R8_pilot_power.json`, 2000 Ziehungen aus den 10 Pilotwerten): voller Effekt n = 20: 0.99; halber Effekt n = 20: 0.96, n = 25: 0.99, n = 30: 1.00 → **n = 20** nach der Regel.
+- S1 ist im Code präzisiert: *gestützt*, wenn die Obergrenze des 95-%-Bootstrap-KI von C_AA2 − 0.5·C_AB (je Seed) unter 0 liegt.

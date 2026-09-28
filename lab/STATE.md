@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-28, 18:47 Berlin (Sitzung 43, Fenster zu; Läufe ab 29.09. 00:00–13:00)._
+_Zuletzt aktualisiert: 2026-09-28, 18:54 Berlin (Sitzung 43, Fenster zu; Läufe ab 29.09. 00:00–13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -20,6 +20,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 - **Keine Prozesse** (Sitzung 43, 18:21 geprüft).
 - **R10 halb gerechnet:** eingefroren 7b583bdb (n = 48, Seeds 3500–3547, 480 GPU-Läufe). 268/480 gebunden (r10_raw/r10_bindings), 0 Fehler, Wächterstopp 17:52 regulär. **Ergebnisse ungesehen, nicht ansehen vor 480/480.**
 - **EXP-096 vorbereitet** (add 97 / mul 113, 160 GPU-Läufe, Seeds 3560–3575): Splits/Jobs/Smoke erzeugt und committet (a3bd9415, Sitzung 43). Selbsttest steht noch aus.
+- **EXP-098 vorbereitet** (K5 bei add 97 / mul 113, Pilot, Seeds 3660–3675, 160 GPU-Läufe; Splits/Jobs/Smoke committet 45d66cad; kein neuer Trainer-Code). Statische Prüfung: siehe JOURNAL Sitzung 43.
 - **EXP-097 vorbereitet** (Fassung 2, 3d34c7f8; Seeds 3600–3615, 160 GPU-Läufe; Splits/Jobs/Smoke committet). Die Trainer-Option liegt **nur als Patch** vor (`lab/experiments/EXP-097-sign-vs-staleness/trainer_psu.patch`): R10 bindet den Hash von `freq_ban.py` (da4d7bc0…). Den Patch erst nach `confirm_r10.py --analyze` anwenden.
 
 ## Nächste Schritte (Nacht 29.09., ab 00:00; alles über guarded_run.py bzw. parallel_queue.py)
@@ -30,7 +31,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 4. Nach 480/480: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r10.py --analyze lab/confirm/R10_manifest.json`. Ergebnis in [[confirm/R10_REGISTRATION_DRAFT|R10]], FINDINGS (K6-Kandidat), Paper §3.16 (falls bestätigt; sonst §4), unabhängig nachrechnen lassen.
 5. EXP-096-Block, dann `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-096-gradient-feedback-tasks/analyze.py`.
 6. **R11** ([[confirm/R11_REGISTRATION_DRAFT|R11]], K4 bei add 97 / mul 113, 240 GPU-Läufe ≈ 40 min), direkt nach Schritt 4: Prüfbefund aus Sitzung 43 im JOURNAL beachten, dann einfrieren laut Registrierung (Selbsttest → Manifest → Commit → Splits → Jobs → Smoke → Block → `--analyze`). Block neben dem EXP-096-Block (zusammen ≤ 10 GPU-Prozesse, z. B. 5 + 5).
-7. **Erst nach R11 `--analyze` UND dem Ende des EXP-096-Blocks** (beide mit dem eingefrorenen Trainer; R11 bindet den Hash von `freq_ban.py`): EXP-097 laut README: `git apply lab/experiments/EXP-097-sign-vs-staleness/trainer_psu.patch` → Trainer-Tests über den Wächter (9 Tests, neu `pre_switch_update`) → Trainer + Test committen → `analyze.py --selftest` → Smoke (3) → `--smoke-check` → Block (`--workers 8`) → `analyze.py`. Schlägt ein Test fehl: Patch zurücknehmen (`git checkout -- lab/experiments/EXP-001-freq-ban/freq_ban.py lab/tests/test_freq_ban_fingerprint.py`), Fehler im JOURNAL.
+6b. **EXP-098** (Befehle in der README): mit dem eingefrorenen Trainer, neben R11/EXP-096 oder direkt danach (GPU-Prozesse ≤ 10). Nicht mitten im Block den EXP-097-Patch anwenden.
+7. **Erst nach R11 `--analyze` UND dem Ende der Blöcke EXP-096 und EXP-098** (beide mit dem eingefrorenen Trainer; R11 bindet den Hash von `freq_ban.py`): EXP-097 laut README: `git apply lab/experiments/EXP-097-sign-vs-staleness/trainer_psu.patch` → Trainer-Tests über den Wächter (9 Tests, neu `pre_switch_update`) → Trainer + Test committen → `analyze.py --selftest` → Smoke (3) → `--smoke-check` → Block (`--workers 8`) → `analyze.py`. Schlägt ein Test fehl: Patch zurücknehmen (`git checkout -- lab/experiments/EXP-001-freq-ban/freq_ban.py lab/tests/test_freq_ban_fingerprint.py`), Fehler im JOURNAL.
 
 ## Prioritäten (Regel 18c + 19)
 

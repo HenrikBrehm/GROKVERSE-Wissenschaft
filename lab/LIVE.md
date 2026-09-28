@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 18:19 Berlin (16:19Z, vom Runner)
 - **Deadline:** 2026-09-28 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 18:50 Berlin
+- **Zuletzt aktualisiert:** 18:54 Berlin
 - **Run-Fenster:** zu (heute bis 18:00). Ab 29.09. 00:00–13:00. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
 
-Unabhängige Prüfung der neuen Bestätigung R11 läuft (Festlegung bei add 97 / mul 113, 240 GPU-Läufe für die Nacht).
+Statische Prüfung von EXP-098 läuft (Kernaussage K5 bei add 97 / mul 113, Pilot für die Nacht).
 
 ## Als Nächstes
 
-Prüfbefund einarbeiten, dann Nachtplan in STATE abschließen.
+Prüfbefund einarbeiten; Nachtplan in STATE final durchsehen.
 
 ## Verlauf dieser Sitzung
 
+- 18:54 **EXP-098 vorbereitet** (K5 bei anderen Aufgaben). Abb. 9 (R9) fürs Paper erstellt. R11 nach Prüfung Fassung 2 (kein Blocker).
 - 18:50 Neue Kandidatenidee N49: Adam in Fourier-Koordinaten für W_E (Vorzeichen je Frequenz statt je Token). Nachtplan geordnet: R10 → R11 + EXP-096 → EXP-097.
 - 18:47 **R11 vorbereitet**: Bestätigung der frühen Festlegung bei add 97 / mul 113 (n = 30, Power ≥ 0.89 bei halbem Effekt).
 - 18:42 Arkussinus-Gesetz sagt die Vorzeichen-Streuung grob voraus (0.148 statt 0.160).

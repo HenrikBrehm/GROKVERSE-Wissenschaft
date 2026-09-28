@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 18:19 Berlin (16:19Z, vom Runner)
 - **Deadline:** 2026-09-28 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 19:38 Berlin
+- **Zuletzt aktualisiert:** 20:00 Berlin
 - **Run-Fenster:** zu; laut Regel 20 **durchgehend ab heute 23:59 bis 06.10.** (Wächter geprüft). Diese Sitzung trainiert nicht.
 
 ## Gerade
 
-Kurzfassung des Papers (≤ 8 Seiten): Einleitung, drei Ergebnisse und Grenzen stehen als Entwurf; unabhängige Prüfungen laufen.
+Abschlussbericht geschrieben (JOURNAL). Bis zur Deadline arbeite ich noch an kleinen Punkten weiter; der Stand ist gesichert.
 
 ## Als Nächstes
 
-Prüfbefunde einarbeiten, Abschlussbericht vor 21:09.
+Nächste Sitzung **21:54 Berlin** (Runner). Läufe ab **23:59**: R10 fertig, Nanda (CPU), dann L0 (EXP-100) und R11 als GPU-Füllarbeit.
 
 ## Verlauf dieser Sitzung
 
+- 20:00 Abschlussbericht. Nachtplan geprüft (1 Blocker behoben). Nanda-Skript deckt jetzt auch mul 113 ab (geprüft, 1 Blocker behoben). Abb. 10 (R5).
 - 19:38 Kurzfassung: Einleitung + Ergebnisse 1–3 + Grenzen (≈ 2900 Wörter), Zahlen unabhängig bestätigt, viele Vorbehalte ergänzt.
 - 19:30 EXP-100 (L0) Fassung 2 nach Prüfung (eigene Ausgabeordner, Machbarkeitstest, fb30k).
 - 19:29 Paper-Schnittplan (≤ 8 Seiten) mit gemessenen Umfängen; Nanda-Skript und RFM-Code für Regel 20c vorbereitet.

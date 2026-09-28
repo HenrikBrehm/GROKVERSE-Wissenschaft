@@ -1,8 +1,8 @@
 ---
 id: R9
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-28
-tags: [confirm/entwurf, neu/kandidat]
+tags: [confirm/abgeschlossen, befund/positiv, neu/kandidat]
 ---
 # R9-Bestätigung (Entwurf): Tickt die frühe Festlegung in Λ, wenn Adams β-Fenster in Λ gemessen werden?
 
@@ -47,3 +47,12 @@ Unabhängige Prüfung (Claude-Agent, nur lesend; Codex ohne Guthaben): **kein Co
 3. **Ausschlussgrenze:** mehr als 6 von 36 Seeds mit L(A) − L(B) < 2 → *nicht auswertbar* (vorher 4 von 24, gleiche Quote).
 4. **H2 bleibt primär, mit enger Lesart:** Nach dem Wechsel steht der Adam-Zähler bei 100 (l100b) statt 25 (n25); v̂ nimmt neue Gradienten danach mit ≈ 0.023 statt ≈ 0.049 auf. Eine bestätigte Äquivalenz heißt deshalb „äquivalent trotz verschiedenem Zähler“, nicht „Λ erklärt alles“. Vorab genannte zählerfreie Prüfung: r_sep (Trennung beim Wechsel), beschreibend.
 5. **Kleinigkeiten:** Lesart-Text im Code korrigiert („nicht bestätigt“ statt leerem „teilweise:“; Selbsttest prüft jetzt alle drei Fälle); H2-Text ohne KI-Formulierung; Seed-Strom richtig benannt; offener Punkt 1 erledigt.
+
+## Ergebnis (Sitzung 40, 2026-09-28; Block 12:23–13:10 Berlin, 504/504 gebunden; `--analyze` am eingefrorenen Manifest 8b22879a über den Wächter)
+
+36/36 Seeds, 0 technische Ausfälle, 0 ausgeschlossen (L(A) − L(B) ≥ 2 überall). Ein Lauf (Seed 3322, n25 A→B) scheiterte im ersten Durchgang technisch an einem Windows-Dateizugriff beim Umbenennen von `result.json` (WinError 5); der unfertige Rest wurde von der Blocklogik als `.stale_…` beiseitegelegt und der Lauf im zweiten Durchgang derselben Jobliste neu gerechnet und gebunden.
+- **H1 bestätigt:** e₁ = π(l100) − π(l100b) = **+0.161** [0.132, 0.192], SD 0.093, **36/36** > 0, Holm-p 3·10⁻¹². KI-Untergrenze auch über 0.05 (beschreibend).
+- **H2 bestätigt:** d₁ = π(l100b) − π(n25) = **+0.015** [0.005, 0.027], SD 0.035, TOST Holm-p 3·10⁻¹⁶ (Äquivalenz ±0.1). Ein kleiner positiver Rest (KI ohne 0) passt zum vorab genannten Zählerunterschied; zählerfreie Lesart r_sep = 0.06.
+- **H3 bestätigt:** e₂ = π(c2b) − π(c2) = **+0.057** [0.042, 0.073], SD 0.048, **34/36**, Holm-p 1.5·10⁻⁸.
+- **Beschreibend:** d₂ = π(c2b) − π(n30) = −0.007 [−0.021, 0.009]. Trennung beim Wechsel: n25 0.034, l100 0.052, l100b 0.035; n30 0.047, c2 0.039, c2b 0.046.
+**Registrierte Lesart: „Fenster-Regel bestätigt (H1, H2, H3)“.** Bei Λ = 25 (lr × 0.25) und Λ = 30 (lr × 2) folgt die frühe Festlegung der aufsummierten Lernrate, sobald Adams β-Fenster ebenfalls in Λ gemessen werden (β′ = 1 − c(1 − β)); mit Standard-β weicht sie in beiden Richtungen ab, wie die in Schritten zählende β₁-Verzögerung vorhersagt. **Grenzen:** add 113, eine Architektur, Vollbatch, zwei (c, Λ)-Paare; H2 heißt „äquivalent innerhalb ±0.1 trotz verschiedenem Zähler nach dem Wechsel“ (kleiner Rest +0.015); Mechanismus (warum eine kürzere Verzögerung selektiver macht) offen.

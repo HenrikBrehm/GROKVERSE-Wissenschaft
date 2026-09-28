@@ -120,7 +120,11 @@ def main() -> None:
         out["secondary"] = {"pi_means": means, "sep_means": {c: float(col(f"sep_{c}").mean()) for c in D.CELLS},
                             "d100_mean": float(d100.mean()), "d100_ci95": boot_ci(d100) if len(ok) > 1 else None,
                             "f1_mean": float(f1.mean()), "f1_ci95": boot_ci(f1) if len(ok) > 1 else None,
-                            "t_eq": {c: t_equiv(means[c], curve) for c in ("l100", "l100b", "l100b1")}}
+                            "t_eq": {c: t_equiv(means[c], curve) for c in ("l100", "l100b", "l100b1")},
+                            "r_sep": None}   # Nachtrag a: counter-free reading of d_b from the separation at the switch
+        sm = out["secondary"]["sep_means"]
+        den = sm["l100"] - sm["n25"]
+        out["secondary"]["r_sep"] = float((sm["l100b"] - sm["n25"]) / den) if den != 0 else None
     else:
         out["primary"] = {"verdict": "nicht auswertbar"}
     out["rows"] = rows

@@ -49,3 +49,12 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-090-beta-window-lambda/jo
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-090-beta-window-lambda/analyze.py
 ```
 Selbsttest grün (Sitzung 40). Start erst nach der unabhängigen Prüfung von `--pre-switch-betas` (ohne Blocker).
+
+## Nachtrag a (Sitzung 40, ≈ 11:42 Berlin, nach der Code-Prüfung, vor dem Block; nur der Smoke lief, kein Ergebnis gelesen)
+
+Unabhängige Prüfung von `--pre-switch-betas` (Claude-Agent, nur lesend): **kein Blocker.** Zeitpunkt richtig (Updates 1 … t mit β′, ab t + 1 Standard; `state["step"]` = t beim Umschalten), torch 2.9.1+rocm liest `group["betas"]` in jedem Schritt für EMA und Bias-Korrektur (foreach und single-tensor), Umskalierung hält m̂/v̂ stetig; ohne sie fiele v̂ um 2.2× und der Schritt stiege um ≈ 1.48×. Smoke (Seed 3270, l100b beide Richtungen): Ereignisprüfung wahr, Faktoren m 1.086, v 2.200, Test 0.995–1.0.
+**Übernommen:**
+1. **(M1) Zähler nach dem Wechsel:** Der Schrittzähler steht beim Wechsel auf t (100 in l100/l100b/l100b1, 25 in n25). Danach wirken neue Gradienten mit (1 − β)/(1 − β^(t+k)); bei t = 100 behält v̂ das Gedächtnis vor dem Wechsel etwa doppelt so lange (Anteil nach 50 Schritten 0.33 gegen 0.19). **Der Primärkontrast e = π(l100) − π(l100b) ist davon frei** (beide Arme t = 100, gleiche Regeln nach dem Wechsel). **d_b und d100 enthalten den Zählerunterschied** (wie schon EXP-089). Deshalb zusätzlich, vorab festgelegt, als *zählerfreie Lesart von d_b* (beschreibend, ändert das Primärurteil nicht): die Trennung beim Wechsel, Anteil r = (sep(l100b) − sep(n25)) / (sep(l100) − sep(n25)) aus den Zellmitteln. H-β erwartet r ≈ 0, H-disk r ≈ 1. Weicht das Primärurteil zu d_b von dieser Lesart ab, wird das so berichtet.
+2. **β′-Werte:** exakte Angleichung wäre 0.9^(1/4) = 0.9740 und 0.98^(1/4) = 0.99496; wir bleiben bei der Regel erster Ordnung 1 − β′ = c(1 − β) (0.975/0.995). Der Unterschied im m-Fenster ist klein (0.975⁴ = 0.9037 statt 0.9).
+3. **Auswertung verlangt** die Ereignisprüfung des β-Wechsels (schon im Lader; ein Lauf ohne Ereignis ist ungültig). Frühstopp ist bei t ≤ 100 und `stop_after_gen` 2000 ausgeschlossen.
+**Nicht übernommen (Code bleibt):** Zähler beim Wechsel auf lr × t setzen: Das würde nur die l100b-Arme ändern und den Primärkontrast e verzerren. Kleinigkeiten (tautologische Ereignisprüfung, Fingerprint mit Rohstring, fehlender Test mit `--lr-scale` zusammen) dokumentiert; der Smoke deckt die Kombination ab.

@@ -136,3 +136,17 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 - **Sitzung 37, später (bis 04:05):** **a:** R1 bestätigt (6/6 Hyperparameter-Zellen) → §3.7; C1 bestätigt → §3.7. **B/Paper:** R6 bestätigt (Wechsel bei 25 verzögert das Grokking ≈ ×1.8, stärker als bei 50) → §3.8; EXP-086 (Pilot, Frequenzkonflikt) → §4; Bestätigung R8 eingefroren und läuft. §3.6–§3.8 jeweils unabhängig nachgerechnet: keine Zahlenfehler, Formulierungen ergänzt. Abstract: Robustheit gegen lr/wd/Trainingsanteil ergänzt. **Offen:** R5, R7 (nach EXP-078), P4, R2, R3, R4; §3-Umbau (Pending-Liste 3.9).
 
 **Stand Sitzung 43 (2026-09-28, 18:47 Berlin, Fenster zu):** **a/b:** Bestätigung [[confirm/R11_REGISTRATION_DRAFT|R11]] vorbereitet: Festlegung K4 bei add 97 und mul 113 (n = 30, Holm über 6). Schließt die Paper-Grenze „Persistenz nur bei add 113“ für das π-Maß; die Funktion (K4c) bleibt bei add 113. **d:** §4 EXP-095 um die Vorzeichen-Einschränkung ergänzt (post hoc; unabhängig geprüft, eine Zahl korrigiert). **e:** Literatur zu frischen Gradientenauswertungen nachgetragen ([[paper/related_work]], Nachtrag Sitzung 43). **d (Abbildung):** Abb. 9 zu R9/K5 (`figures/fig9_r9_window_clock.py`, π je Seed in allen sechs Zellen; liest nur `R9_summary.json`, prüft die Mittel gegen die registrierten Kontraste); §3.15 verweist darauf. **a (Verallgemeinerung):** Pilot [[experiments/EXP-098-window-clock-tasks/README|EXP-098]] (K5 bei add 97 / mul 113) für die Nacht vorbereitet.
+
+## Vorab festgelegt (Sitzung 43, 18:59 Berlin, vor jedem Ergebnis): Wie R10 und EXP-097 den Paper-Text ändern
+
+| Ergebnis | Paper |
+|---|---|
+| R10 alle drei bestätigt | neuer §3.16 „Lock-in needs re-evaluated gradients“ (H1 e₈, H2 Äquivalenz g8 ≈ c8b mit Zähler-Vorbehalt); H3 (e₂₄) nur als „initial gradient only under Adam“, mit Verweis auf die Vorzeichen-Einschränkung; Abstract-Satz erst nach unabhängiger Prüfung |
+| R10 nur H1 (+ ggf. H3) | §3.16 nur mit H1; H2 als nicht bestätigt berichten (kein Äquivalenzbeleg), §4-Text zu „coarse Adam step adds nothing“ entsprechend abschwächen |
+| R10 H1 nicht bestätigt | §4 EXP-095 bleibt Exploration, Satz „did not replicate on fresh seeds (R10)“; keine Kernaussage |
+| EXP-097 Q1 „Quantisierung erklärt“ | §4: „the weak lock-in with the initial gradient alone is largely Adam's sign quantisation“; §5-Satz zur ersten Ordnung wieder vorsichtig öffnen; N49 als nächster Versuch |
+| EXP-097 Q1 „teilweise“ oder „nicht“ + Q2 „Veraltung zählt/teilweise“ | §4: Veraltung trägt auch ohne Vorzeichen-Quantisierung (Obergrenze, Momentum-Schwanz-Vorbehalt) |
+| EXP-097 Q2 „erste Ordnung genügt“ | §4: „with linear steps the initial gradient locks in as well as fresh gradients“ → Aussage „first order explains little“ aus dem Paper streichen |
+| EXP-097 „nicht trennbar“ / „Boden“ / „unklar“ | nur Fußnote in §4, keine Umformulierung |
+
+EXP-097 ist ein Pilot (16 Seeds): jede dieser Formulierungen bleibt als Exploration gekennzeichnet.

@@ -211,3 +211,8 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 - **EXP-104 (P3, Exploration, nach L0, Sitzung 45):** [[experiments/EXP-104-flat-marginal-splits/README|EXP-104]] Steuer-Splits mit exakt flachen Häufigkeiten von a, b, c ([[NOVEL_DIRECTIONS]] N53); 12 GPU-Läufe, vor dem Lauf geprüft (2 Blocker behoben). Voraussetzung für die Häufigkeitskontrolle in EXP-105.
 - **EXP-105 (P2, Regel 20e, nach EXP-102/104):** [[experiments/EXP-105-lm-ladder-stage2/README|EXP-105]] Sprachmodell-Leiter Stufe 2, nur Entwurf.
 - **Idee, zurückgestellt (Regel 20a, Kernaussagen eingefroren):** Bestätigung an frischen Einheiten, dass das Maskenspektrum eines gewöhnlichen Zufallssplits die gelernten Frequenzen über die Init hinaus vorhersagt (post hoc an R4: Top-5 beim 78. Perzentil der eigenen Maske gegen ≈ 50., 60/60; JOURNAL Sitzung 45 Zyklus 7). Billig (R4-Aufbau, 2000 Schritte); nur als Anhang-Stütze, falls GPU frei ist und der Nutzer den Satz der Kernaussagen öffnet.
+
+## Sitzung 46: offene Linien aus L0-Machbarkeit und RFM
+
+- **L0-B16 (P2, nach dem L0-Piloten):** Bei B = 16 (240 Schritte je Epoche, LeDoux-näher) lernt das Netz mit AdamW 1e-3 / wd 1 in 30 000 Schritten nicht; eine feste Reihenfolge dominiert dann das W_E-Spektrum. Sonde mit kleinerer Lernrate bzw. weniger Weight Decay läuft ([[experiments/EXP-100-set-vs-order/README|EXP-100]], `b16probe.txt`). Lernt eine Variante: eigener Konfliktversuch bei B = 16 neu festlegen.
+- **RFM bei 50 % (P3):** [[experiments/EXP-101-rfm-k2/README|EXP-101]] Tor nicht bestanden (p = 113, 30 %, bis 60 Iterationen: 0.63–0.88). K2 in RFM bräuchte neu gebaute F/G-Splits bei höherem Trainingsanteil; nur wenn es zwischen Konkurrenzmodellen entscheidet (N50: braucht K2 einen Auswahldruck im Lerner?).

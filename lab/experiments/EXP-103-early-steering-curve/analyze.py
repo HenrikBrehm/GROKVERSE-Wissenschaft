@@ -42,7 +42,7 @@ def run(root: Path, s: int, a: str) -> Path:
     hits = sorted(root.glob(f"EXP-016_baseline_seed{s}_thr1_confirm_exp1_eps2.0_add113_seed{s}_{a}_devcuda"))
     assert len(hits) == 1, (root, s, a)
     r = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))
-    assert r["status"] == "completed", hits[0]
+    assert r["status"] == "completed" and r["steps_completed"] == (250 if root == HERE / "raw" else 2000), hits[0]
     return hits[0]
 
 
@@ -70,6 +70,7 @@ def main() -> None:
         pts = []
         for cell, t in EARLY:
             row = next(r for r in r1[cell] if r["t"] == t)
+            assert 0 < row["tau"] <= st[-1], row                      # no silent clamping
             ref = float(np.interp(row["tau"], st, mean))
             ref_lr = float(np.interp(t * LR[cell], st, mean)) if t * LR[cell] <= st[-1] else None
             pts.append({"cell": cell, "t": t, "tau": row["tau"], "cell_mean": row["cell_mean"], "P1_dense": ref,

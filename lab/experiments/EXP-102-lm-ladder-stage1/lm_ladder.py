@@ -153,6 +153,8 @@ def save_atomic(path: Path, arr=None, obj=None) -> None:
 def run(a: argparse.Namespace) -> None:
     if a.loss != "answer" and not a.full_softmax:
         raise SystemExit("--loss all/all_but_b needs --full-softmax")
+    if a.tie and not a.full_softmax:
+        raise SystemExit("--tie only with --full-softmax (design: the tie rung builds on the fs rung)")
     p = 113
     split = Path(a.split_file)
     raw = np.load(split)

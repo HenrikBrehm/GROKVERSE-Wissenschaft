@@ -112,8 +112,9 @@ def analyze() -> dict:
     common = sorted(set(D["all"]) & set(D["allnb"]))
     if len(common) >= 2:
         dd = np.array([D["all"][s] - D["allnb"][s] for s in common])
-        out["all_minus_allnb"] = {"n": len(dd), "mean": float(dd.mean()), "ci95": ci(dd, rng),
-                                  "reading": "p(b|a) adds steering" if ci(dd, rng)[0] > 0 else "no added steering shown"}
+        c = ci(dd, rng)                                        # review s44: one bootstrap draw for CI and reading
+        out["all_minus_allnb"] = {"n": len(dd), "mean": float(dd.mean()), "ci95": c,
+                                  "reading": "p(b|a) adds steering" if c[0] > 0 else "no added steering shown"}
     out["R_target_share"] = {r: {"n": len(v), "mean": float(np.mean(v)) if v else None, "chance": 10 / 56} for r, v in shares.items()}
     (HERE / "pilot_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "bad"}, indent=1))

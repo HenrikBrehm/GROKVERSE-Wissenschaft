@@ -159,17 +159,24 @@ def p_sign(x: np.ndarray) -> float:
     return float(sum(math.comb(n, i) for i in range(k, n + 1)) / 2 ** n) if n else 1.0
 
 
-def reading(ci_plant: tuple[float, float], ci_med: tuple[float, float], rp_observed: int, rn_ok: bool) -> str:
-    """README 'Lesart vorab' (fixed before the runs). RP censored in > 2 units -> L_med biased toward 0: M-med not claimable."""
+def reading(ci_plant: tuple[float, float], ci_med: tuple[float, float], rp_observed: int, rn_ok: bool, r_observed: int = 10) -> str:
+    """README 'Lesart vorab' + Nachtrag b (both fixed before any pilot result was read). RP censored in > 2 units -> L_med biased
+    toward 0: M-med not claimable; R censored in > 2 units -> L_plant biased toward 0: M-marker not claimable (Nachtrag b);
+    more than one reading met -> unklar (Nachtrag b: no order among readings)."""
     if not rn_ok:
         return "nicht auswertbar (Normkontrolle RN schneller als R)"
+    met = []
     if ci_plant[1] < 0.5:
-        return "M-marker gestützt"
+        met.append("M-marker" if r_observed >= 8 else "unklar (R zu oft zensiert für M-marker)")
     if ci_plant[0] > 1 and -0.5 <= ci_med[0] and ci_med[1] <= 0.5:
-        return "M-med gestützt" if rp_observed >= 8 else "unklar (RP zu oft zensiert für M-med)"
+        met.append("M-med" if rp_observed >= 8 else "unklar (RP zu oft zensiert für M-med)")
     if ci_plant[0] > 0 and ci_med[0] > 0.5:
-        return "M-data gestützt"
-    return "unklar"
+        met.append("M-data")
+    if len(met) > 1:
+        return "unklar (mehrere Lesarten erfüllt: " + ", ".join(met) + ")"
+    if not met:
+        return "unklar"
+    return met[0] if met[0].startswith("unklar") else met[0] + " gestützt"
 
 
 def summarize(rows: list[dict], rng: np.random.Generator) -> dict:
@@ -181,9 +188,10 @@ def summarize(rows: list[dict], rng: np.random.Generator) -> dict:
     L = {"L_plant": lr - lrp, "L_med": lrp - le2, "L_E": le2 - le2p, "L_noise": lr - lrn}
     stats = {k: {"mean": float(v.mean()), "ci95": boot_ci(v, rng), "p_sign_gt0": p_sign(v), "values": v.tolist()} for k, v in L.items()}
     rp_obs = sum(r["observed"]["RP"] for r in rows)
+    observed = {a: sum(r["observed"][a] for r in rows) for a in ARMS}
     rn_ok = stats["L_noise"]["ci95"][0] <= 0 or stats["L_noise"]["mean"] <= 0.5   # RN not clearly faster than R
-    return {"n_units": len(rows), "stats": stats, "rp_observed": rp_obs,
-            "reading": reading(tuple(stats["L_plant"]["ci95"]), tuple(stats["L_med"]["ci95"]), rp_obs, rn_ok)}
+    return {"n_units": len(rows), "stats": stats, "rp_observed": rp_obs, "observed_per_arm": observed,
+            "reading": reading(tuple(stats["L_plant"]["ci95"]), tuple(stats["L_med"]["ci95"]), rp_obs, rn_ok, observed["R"])}
 
 
 def analyze(c: float) -> None:
@@ -202,7 +210,10 @@ def analyze(c: float) -> None:
         ev = {a: r5.event(L.res["dense"], int(L.res["steps_completed"])) for a, L in runs.items()}
         rows.append({"unit": u, "logb": {a: lb(t) for a, t in ev.items()}, "observed": {a: t[1] for a, t in ev.items()},
                      "times": {a: list(t) for a, t in ev.items()},
-                     "share_250": {a: share_250(L, targets(u)) for a, L in runs.items()}})
+                     "share_250": {a: share_250(L, targets(u)) for a, L in runs.items()},
+                     # Nachtrag b (registered secondary): final top-5 W_E frequencies of each arm vs the planted/steered targets
+                     "final_top5_on_targets": {a: len(set(L.res.get("final_top_m_freqs") or []) & set(targets(u)))
+                                               for a, L in runs.items()}})
     out = {"c": c, "technical_failures": bad, "rows": rows}
     if bad:
         out["reading"] = "nicht auswertbar (technische Ausfälle)"
@@ -246,6 +257,9 @@ def selftest() -> None:
     assert summarize(fake(0.0, 2.5), g)["reading"] == "M-marker gestützt"
     assert summarize(fake(2.5, 0.0, cens_rp=3), g)["reading"].startswith("unklar")
     assert summarize(fake(2.5, 0.0, noise=2.5), g)["reading"].startswith("nicht auswertbar")
+    assert reading((0.1, 0.4), (0.6, 1.0), 10, True).startswith("unklar (mehrere")      # Nachtrag b: marker + data both met
+    assert reading((-0.2, 0.3), (0.0, 0.2), 10, True, r_observed=7).startswith("unklar (R zu oft")
+    assert reading((-0.2, 0.3), (0.0, 0.2), 10, True, r_observed=8) == "M-marker gestützt"
     print("[exp087] selftest ok")
 
 

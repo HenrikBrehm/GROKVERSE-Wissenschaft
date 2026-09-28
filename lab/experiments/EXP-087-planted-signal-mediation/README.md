@@ -45,6 +45,16 @@ R5 (Seeds 2720–2779, bestätigt; Zielanteil je Arm), R5 post hoc innerhalb der
 - `design.py`: Splits (eigener Strom `TAG 20261087`, Konstruktion E2 mit den R5-Helfern `wave`/`keyed`), Kalibrierjobs (3 Einheiten × 4 C, 250 Schritte, nur R+P), Wahl von C (Mittel am nächsten an 0.30, Gleichstand → kleineres C), Pilotjobs, Auswertung mit Ereignis und Dichteprüfung aus R5, Lesart wie oben. **Präzisierung der Lesart (vorab):** M-med nur, wenn R+P in ≥ 8/10 Einheiten beobachtet (sonst ist L_med durch Zensur zu 0 verzerrt → *unklar*); R+N gilt als „nicht schneller als R“, wenn die untere KI-Grenze von L_noise ≤ 0 oder das Mittel ≤ 0.5 ist. Selbsttest grün (08:19). Eine Einheit mit einem technischen Ausfall → ganzer Pilot *nicht auswertbar* (streng, wie R5).
 - Offen: Trainer-Option (`--plant-targets`, `--plant-c`, `--plant-noise`) erst nach R4.
 
+## Nachtrag b (Sitzung 39, 09:20 Berlin, gemessen; Pilot läuft, **kein Pilotergebnis gelesen**)
+
+Nach der unabhängigen Code-Prüfung (Claude-Agent, nur lesend; Codex ohne Guthaben): kein Blocker. Übernommen, vor jeder Auswertung festgelegt:
+1. **Zensur des R-Arms** drückt L_plant Richtung 0 und begünstigt fälschlich M-marker → *M-marker* nur, wenn R in ≥ 8/10 Einheiten beobachtet ist, sonst *unklar*. Beobachtete Zahl je Arm wird berichtet.
+2. **Keine Rangfolge der Lesarten:** Sind mehrere Lesarten zugleich erfüllt (z. B. M-marker und M-data), lautet das Urteil *unklar*.
+3. **Sekundär ergänzt** (war registriert, fehlte im Code): finale Top-5-Frequenzen je Arm, Überlappung mit den eingepflanzten/gesteuerten Zielen.
+4. **Kalibrierung überschießt** (R+P bei 250: 0.40 gegen E2 ≈ 0.30): das schiebt L_med nach unten; ein L_med-KI unter −0.5 ergibt *unklar*, keine falsche Lesart. Wird beim Lesen genannt.
+5. **Herkunft der Kalibrierung:** Die 12 Kalibrierläufe tragen `git_commit cf66d125`, weil der Trainer-Diff noch nicht committet war; der Diff war derselbe wie in c8b59b48 (danach unverändert committet). Die Pilotläufe tragen c8b59b48.
+6. Nicht übernommen (nur Hinweis, betrifft EXP-087 nicht): Kombination `--plant-*` mit Warmup/Reset/Rewind wird nicht abgelehnt (ein Reset stellt dann das *eingepflanzte* W_E wieder her); Run-ID enthält die Ziele nicht (der Fingerprint verhindert Verwechslungen).
+
 ## Nächste Schritte
 
 1. Nach R2/R4: Option `--plant-targets/--plant-amp` in `freq_ban.py` (Standard aus, alte Run-IDs unverändert, Fingerprint nur bei Nutzung), Test, unabhängige Prüfung.

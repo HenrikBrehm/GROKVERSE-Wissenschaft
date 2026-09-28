@@ -102,5 +102,5 @@ Abnahmeregel Fall 1 (Gleichwertigkeit bitgleich, Sitzung 37) → Schwellen der S
 | `k4_resets.py --block n29b` | R normal 0.860, Attention-Reset −0.628, MLP-Reset 0.793; H1 1.489, H2 1.421 (je 20/20) | N29b: Abweichung exakt 0 → **reproduziert** | 2162 s |
 | `k4_resets.py --block n29c` | R normal 0.814, VO-Reset −0.036, QK-Reset 0.716; H1 0.850 (16/20), H2 0.752 (17/20), 17/20 generalisiert | N29c: Abweichung exakt 0 → **reproduziert** | 2305 s |
 | `k2_function.py` (P2d, add 113, 20 Seeds) | D = 0.2496 [0.2291, 0.2699], 20/20, bestätigt | P2d: eingefroren 0.2496, max. Abweichung je Seed 7.4·10⁻⁸ (Schwelle 0.02) → **reproduziert** | 886 s |
-| übrige (k4b, k2 mul 113 / add 97, k2_function_p2e) | k4b lief an der Sitzungsdeadline; Wiederaufnahme mit derselben Kette (fertige Läufe werden wiederverwendet) | – | – |
+| übrige (k4b, k2 mul 113 / add 97, k2_function_p2e) | 15:37 angehalten (GPU für EXP-094; „EXIT 1“ bei k2 mul = dieser Abbruch); Wiederaufnahme mit derselben Kette (fertige Läufe werden wiederverwendet) | – | – |
 

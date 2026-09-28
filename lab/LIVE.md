@@ -5,19 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 08:09 Berlin (06:09Z, vom Runner)
 - **Deadline:** 2026-09-28 11:09 Berlin (09:09Z)
-- **Zuletzt aktualisiert:** 09:28 Berlin
+- **Zuletzt aktualisiert:** 10:24 Berlin
 - **Run-Fenster:** heute bis 18:00.
 
 ## Gerade
 
-EXP-088 registriert (gemeinsame Dosiskurve: Liegen eingepflanztes und datengesteuertes frühes Zielsignal auf einer Kurve „Anteil → Grokking-Zeit“?). Eine unabhängige Prüfung vor dem Lauf läuft; danach 140 GPU-Läufe (≈ 50 min).
+Sitzungsabschluss. Eine unabhängige Prüfung des neuen Trainer-Zusatzes `--beta1/--beta2` (für EXP-081) läuft noch. Keine Läufe aktiv.
 
 ## Als Nächstes
 
-EXP-088 rechnen und auswerten; Abschlussbericht vor 11:00.
+Nächste Sitzung: EXP-081 (Optimierer-Uhr) vorbereiten und rechnen; EXP-087/088 ins Paper (§4). Nächster geplanter Start laut runner-state.json: 11:44 Berlin (oder direkt nach dieser Sitzung).
 
 ## Verlauf dieser Sitzung
 
+- 10:20 Trainer-Zusatz `--beta1/--beta2` für EXP-081 (Tests grün).
+- 10:17 **EXP-088 fertig:** *unklar*. Eingepflanztes und datengesteuertes Frühsignal liegen nahe an einer gemeinsamen Dosiskurve (Eingriff ≈ ×1.3 wirksamer, 17/20); der frühe Zielanteil ist der Hauptmittler der Split-Beschleunigung.
+- 09:40 Abstract-Satz zu R4 geprüft und korrigiert; Paper-STATUS aktualisiert.
 - 09:25 EXP-088 entworfen, Code-Selbsttest grün, registriert (ec46a05b).
 - 09:22 **EXP-083:** Größen-Erklärung für VO/QK *widersprochen* (QK nimmt mehr Bewegung zurück, wirkt aber schwächer; 20/20); Attention/MLP *unklar*.
 - 09:19 **EXP-087 Pilot:** registriert *unklar*; Einpflanzen beschleunigt einen Zufallssplit ×11 (10/10) und ist schneller als der konstruierte Split; der frühe Zielanteil ordnet die Zeit über alle Arme.

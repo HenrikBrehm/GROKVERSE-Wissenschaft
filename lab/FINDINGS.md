@@ -46,7 +46,7 @@ Zurück zu [[LAB]]. Stand Sitzung 24, 2026-09-27, 13:00 Berlin. Wortlaute, Konfi
 
 1. **Funktion folgt Energie** (EXP-064 post hoc, EXP-068): Bei gleicher entfernter Energie hat die dominante Menge keinen Vorteil. Alle Funktionsbefunde sind mit „mehr Amplitude, entlang derer das Netz empfindlich ist“ vereinbar.
 2. Persistenz- und Reset-Befunde (K4–K4e) nur bei add 113 und einer Architektur; Resets zeigen Empfindlichkeit, keinen Mechanismus (Gewichte und Optimiererzustand gemeinsam).
-3. Keine nicht-modulare Aufgabe bestätigt; keine tiefere Architektur bestätigt.
+3. Keine nicht-modulare Aufgabe bestätigt; keine tiefere Architektur bestätigt. *Stand Sitzung 43:* für K2 überholt (P4: Integer-Addition, MLP, 4× Breite; R7: 2 Schichten, je bestätigt). Für Festlegung/Persistenz gilt die Grenze weiter; add 97 / mul 113 prüft [[confirm/R11_REGISTRATION_DRAFT|R11]] (vorbereitet).
 4. K2 bei EXP-016 hatte abhängige Seeds (Astra 5); die Bestätigungen P1ff. nutzen getrennte Ströme.
 
 ## Einordnung in die Literatur (Suchen dokumentiert in [[NOVEL_DIRECTIONS]] und [[FINDINGS_DETAILS]])

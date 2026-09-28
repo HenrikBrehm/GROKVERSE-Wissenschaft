@@ -317,9 +317,17 @@ def selftest() -> None:
     M = torch.eye(2 * p, dtype=DTYPE) + 0.05 * (A @ A.T)
     K = gauss_kernel(Xtr, Xtr, M, L)
     alpha = torch.linalg.solve(K, Ytr)
-    fast, dense = agop_update(Xtr, ab, alpha, K, M, L, p), dense_update(Xtr, alpha, K, M, L)
+    # session 45 (diagnosed in the window, _diag_s45.py): compare the AGOP BEFORE the square root. The one-hot AGOP has two
+    # structural null directions (constant block sums), whose roundoff eigenvalues (~1e-16) psd_sqrt turns into ~1e-8, so the
+    # post-sqrt matrices differ by ~2e-9 although the two AGOPs agree to ~1e-15. The run path is unchanged.
+    global psd_sqrt
+    keep_sqrt, psd_sqrt = psd_sqrt, (lambda X: X)
+    try:
+        fast, dense = agop_update(Xtr, ab, alpha, K, M, L, p), dense_update(Xtr, alpha, K, M, L)
+    finally:
+        psd_sqrt = keep_sqrt
     err = float((fast - dense).abs().max() / dense.abs().max())
-    print(f"fast vs dense AGOP: rel. max error {err:.2e}")
+    print(f"fast vs dense AGOP (before sqrt): rel. max error {err:.2e}")
     assert err < 1e-10
     B = torch.randn(7, 7, dtype=DTYPE)
     S = psd_sqrt(B @ B.T)
@@ -346,7 +354,7 @@ def selftest() -> None:
         Kx = gk.gaussian_M(Xtr, Xtr, L, M)
         assert float((Kx - K).abs().max()) < 1e-12
         Mx, _ = gk.gaussian_M_update(Xtr, Xtr, L, M, alpha, K=Kx, centering=True, agop_power=0.5)
-        err2 = float((Mx - fast).abs().max() / Mx.abs().max())
+        err2 = float((Mx - psd_sqrt(fast)).abs().max() / Mx.abs().max())   # s45: fast is now the pre-sqrt AGOP
         print(f"fast vs external get_grads: rel. max error {err2:.2e}")
         assert err2 < 1e-8
     else:

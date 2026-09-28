@@ -45,7 +45,7 @@ R5 (Seeds 2720–2779, bestätigt; Zielanteil je Arm), R5 post hoc innerhalb der
 - `design.py`: Splits (eigener Strom `TAG 20261087`, Konstruktion E2 mit den R5-Helfern `wave`/`keyed`), Kalibrierjobs (3 Einheiten × 4 C, 250 Schritte, nur R+P), Wahl von C (Mittel am nächsten an 0.30, Gleichstand → kleineres C), Pilotjobs, Auswertung mit Ereignis und Dichteprüfung aus R5, Lesart wie oben. **Präzisierung der Lesart (vorab):** M-med nur, wenn R+P in ≥ 8/10 Einheiten beobachtet (sonst ist L_med durch Zensur zu 0 verzerrt → *unklar*); R+N gilt als „nicht schneller als R“, wenn die untere KI-Grenze von L_noise ≤ 0 oder das Mittel ≤ 0.5 ist. Selbsttest grün (08:19). Eine Einheit mit einem technischen Ausfall → ganzer Pilot *nicht auswertbar* (streng, wie R5).
 - Offen: Trainer-Option (`--plant-targets`, `--plant-c`, `--plant-noise`) erst nach R4.
 
-## Nachtrag b (Sitzung 39, 09:20 Berlin, gemessen; Pilot läuft, **kein Pilotergebnis gelesen**)
+## Nachtrag b (Sitzung 39, committet 09:11:20 Berlin laut `git log` (f05e4e50); Pilot lief, **kein Pilotergebnis gelesen**)
 
 Nach der unabhängigen Code-Prüfung (Claude-Agent, nur lesend; Codex ohne Guthaben): kein Blocker. Übernommen, vor jeder Auswertung festgelegt:
 1. **Zensur des R-Arms** drückt L_plant Richtung 0 und begünstigt fälschlich M-marker → *M-marker* nur, wenn R in ≥ 8/10 Einheiten beobachtet ist, sonst *unklar*. Beobachtete Zahl je Arm wird berichtet.

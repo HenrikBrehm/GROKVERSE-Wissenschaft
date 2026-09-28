@@ -59,5 +59,5 @@ Offene Punkte: Das trendbereinigte Maß aus EXP-048 `analyze.py` wiederverwenden
 - **H4a MLP** (geteiltes Embedding, Δ_pow bei 10 000): **8.89** [7.86, 9.84]; bei 2000 (sekundär) 2.35; 30/30 Arme generalisiert (Median-Test 1.0).
 - **H4b Transformer d = 512** (Δ_pow bei 2000): **7.84** [7.23, 8.38]; 30/30 Arme generalisiert.
 - **H4c Integer-Addition** (trendbereinigtes Δ_pow bei 2000): **2.35** [2.05, 2.72]; roh (sekundär) 2.24. **Keiner** der 30 Arme generalisiert (Median-Test 0.26): Die Steuerung der W_E-Frequenzen gilt hier ohne Generalisierung innerhalb von 2000 Schritten.
-Alle KI-Untergrenzen liegen weit über dem Mindesteffekt 1; die Piloten (MLP 7.68 bei 10 000, Breite und Integer ≈ 2.2–2.5 laut Pilot) haben sich übertragen.
+Alle KI-Untergrenzen liegen weit über dem Mindesteffekt 1; die Piloten (MLP 7.68 bei 10 000, Breite 7.82, Integer 2.23) haben sich übertragen.
 **C3** (eigene Familie, an denselben Läufen, Tor vor dem Manifest): Die Zielrangfolge in W_E bei 2000 folgt dem Maskenspektrum, S = **0.30** [0.20, 0.40], p = 5·10⁻⁶, bereinigt 0.30 [0.19, 0.40] → ***bestätigt*** (MLP 0.27, d512 0.31, Integer 0.32; Init-Korrelation beschreibend 0.17; `C3_summary.json`).

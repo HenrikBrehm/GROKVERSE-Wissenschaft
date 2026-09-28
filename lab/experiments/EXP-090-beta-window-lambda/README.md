@@ -1,8 +1,8 @@
 ---
 id: EXP-090
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-28
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 ---
 # EXP-090: Kommt die stärkere Festlegung vieler kleiner Schritte von Adams Fenstern, die in Schritten zählen? (Pilot)
 
@@ -58,3 +58,14 @@ Unabhängige Prüfung von `--pre-switch-betas` (Claude-Agent, nur lesend): **kei
 2. **β′-Werte:** exakte Angleichung wäre 0.9^(1/4) = 0.9740 und 0.98^(1/4) = 0.99496; wir bleiben bei der Regel erster Ordnung 1 − β′ = c(1 − β) (0.975/0.995). Der Unterschied im m-Fenster ist klein (0.975⁴ = 0.9037 statt 0.9).
 3. **Auswertung verlangt** die Ereignisprüfung des β-Wechsels (schon im Lader; ein Lauf ohne Ereignis ist ungültig). Frühstopp ist bei t ≤ 100 und `stop_after_gen` 2000 ausgeschlossen.
 **Nicht übernommen (Code bleibt):** Zähler beim Wechsel auf lr × t setzen: Das würde nur die l100b-Arme ändern und den Primärkontrast e verzerren. Kleinigkeiten (tautologische Ereignisprüfung, Fingerprint mit Rohstring, fehlender Test mit `--lr-scale` zusammen) dokumentiert; der Smoke deckt die Kombination ab.
+
+## Ergebnis (Sitzung 40, 2026-09-28; 224/224 GPU-Läufe 11:39–11:58 Berlin laut Queue-Log; `analyze.py` über den Wächter; Pilot)
+
+16/16 Seeds gültig, keine technischen Ausfälle, alle β-Wechsel-Ereignisse geprüft.
+- **Primär, registriert: *H-β gestützt*.** e = π(l100) − π(l100b) = **+0.161** [0.099, 0.229], 15/16 > 0. d_b = π(l100b) − π(n25) = **+0.002** [−0.024, +0.024] (SD 0.05, 10/16 > 0), ganz in ±0.1.
+- **Zählerfreie Lesart (Nachtrag a):** Trennung beim Wechsel n25 0.037, l100 0.056, l100b 0.038 → r = **0.04** (H-β erwartet ≈ 0, H-disk ≈ 1). Stimmt mit dem Primärurteil überein.
+- **Sekundär:** Replikation EXP-089 d100 = +0.163 [0.092, 0.236] (EXP-089: +0.24). Nur das m-Fenster angeglichen (l100b1): f1 = π(l100) − π(l100b1) = +0.188 [0.120, 0.259]; l100b1 − n25 = −0.025 (5/16 > 0). Zusätzlich β₂ angeglichen (l100b − l100b1): +0.027 (13/16 > 0), klein. Zellmittel π: n25 0.33, n33 0.52, n45 0.87, l100 0.49, l100b 0.33, l100b1 0.31; t_eq l100 31.8, l100b **25.1**, l100b1 unter 25 (außerhalb der Kurve).
+
+**Lesart (Interpretation, Pilot):** Werden Adams Mittelungsfenster in Lernratensumme gleich lang gemacht, verschwindet der Vorsprung der vielen kleinen Schritte vollständig: Die Festlegung folgt dann genau der Λ-Uhr (l100b liegt auf n25, KI ±0.024). Schon das Fenster des ersten Moments (β₁) allein erklärt den ganzen Effekt; das β₂-Fenster wirkt klein und in Gegenrichtung (wie in EXP-081). **Die „Mischuhr“ aus R3/EXP-089 ist also keine Eigenschaft der Schrittweite (H-disk verworfen für diesen Fall), sondern Adams Momentum-Verzögerung, die in Schritten zählt.** Zusammen mit EXP-081 (längeres β₁-Fenster → weniger Festlegung beim Wechsel; Momentum-Schwanz trägt mit der vorhergesagten Größe bei) ergibt sich ein einfaches Bild: Die frühe Festlegung tickt in Λ, gemessen mit einem Optimierer, dessen β₁-Verzögerung in Λ konstant ist. Eine längere Verzögerung (in Λ) macht die Bewegung vor dem Wechsel weniger selektiv.
+**Grenzen:** Pilot, 16 frische Seeds, kein eingefrorenes Manifest; add 113, eine Architektur, ein Λ und ein c; Fensterangleichung erster Ordnung; der Zählerunterschied nach dem Wechsel (t = 100 gegen 25) steckt in d_b, die zählerfreie Lesart stimmt aber überein; Vollbatch (bei Minibatches käme Rauschen als weitere Schrittgröße hinzu).
+**Folge:** Kandidat für eine Bestätigung (eingefrorenes Manifest, frische Seeds, zweite Λ-/c-Stufe, z. B. c = 2 mit β′ = 1 − 2(1 − β) = 0.8/0.96 und c = 0.5), dann Kernaussage in FINDINGS und Paper §3.10.

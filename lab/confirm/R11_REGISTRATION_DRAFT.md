@@ -22,7 +22,7 @@ Je Aufgabe (add 97, mul 113):
 - **H2 (Persistenz bei 50):** π(50) − 0.5 > 0 (mehr als die Hälfte der F-Neigung bleibt). Wie H1. Pilot: +0.36 (SD 0.13) / +0.22 (SD 0.15).
 - **H3 (Umstieg bei 25):** 0.5 − π(25) > 0 (der zweite Split setzt sich überwiegend durch). Wie H1. Pilot: +0.13 (SD 0.12) / +0.28 (SD 0.17).
 - **Lesart:** alle 6 → „K4 verallgemeinert bestätigt“, sonst Liste der bestätigten. Nicht bestätigte H3 bei bestätigten H1/H2 hieße: Die Festlegung wächst und hält bei 50, aber schon bei 25 überwiegt die erste Wahl (früheres Fenster als bei add 113). Das wäre ein Befund, kein Fehlschlag.
-- **Beschreibend:** π-Mittel je t und Aufgabe, Vergleich mit dem Piloten und mit add 113 (EXP-020: 0.41 / 0.74).
+- **Beschreibend:** π-Mittel je t und Aufgabe (im Code); der Vergleich mit dem Piloten und mit add 113 (EXP-020: 0.41 / 0.74) erfolgt nur im Text.
 - **Was die Bestätigung heißt und was nicht:** W_E-Energiemaß (π), keine Funktion/Ablation (K4c bleibt add 113). Eine Architektur (1 Schicht), eine Richtung (F → G).
 
 ## Umfang, n
@@ -39,3 +39,12 @@ Je Aufgabe (add 97, mul 113):
 ## Bereits gesehene Daten und davon beeinflusste Entscheidungen
 
 EXP-044 (Seeds 80–89, beide Aufgaben: π bei 25/50/150, Gültigkeitsmaße L(F) − L(G), Wahl von t = 25/50 und der Schwellen 0.5 und 2), EXP-020/P3/N28/N29 (add 113), EXP-096 benutzt dieselbe Splitkonstruktion mit anderen Seeds (3560–3575). Keine R11-Seeds wurden je benutzt.
+
+## Fassung 2 (Sitzung 43, nach der Prüfung vor dem Einfrieren, vor jedem R11-Lauf): verbindlich, ersetzt Abweichendes oben
+
+Unabhängige Prüfung (Claude-Agent, nur lesend; Codex ohne Guthaben): **kein Blocker, nichts Größeres.** Geprüft und bestätigt: Run-IDs (gleiches Muster wie die EXP-044-Rohdaten), 240 eindeutige Jobzeilen, die `check_job` annimmt; Lader-Erwartungen an gespeicherten Pilotläufen (config p/task/lr/wd/train_frac/β, Schnappschuss am Ende); Importe (keine Namenskollision EXP-043/046, alle geladenen Module in CODE_FILES); π identisch mit `pi_persistence.py`; Holm nur über auswertbare Hypothesen; Selbsttest-Fälle; Splits (Größen, Überlappung ≈ 0.375, disjunkte Ziele, Neubau identisch). Übernommen:
+- **Nicht-endliche Log-Verhältnisse** gelten jetzt als technischer Fehler (vorher als Ausschluss).
+- **Offenlegung Zufallsströme:** Der Split-Strom von Seed s (`default_rng(s + 44017)`, EXP-044) ist derselbe Generator wie der G-Zielstrom von Seed s + 16 (`default_rng(s' + 44001)`, EXP-043); in 3620–3649 betrifft das s = 3620–3633 (bei mul ebenso, +500000 auf beiden Seiten). Die statistische Abhängigkeit ist vernachlässigbar (verschiedene Verwendungen der Ziehungen). Wir ändern das Protokoll nicht, legen es aber offen.
+- **Power mit KI-Regel** (Simulation des Prüfers): add 97 H3 bei halbem Effekt und Pilot-SD 0.85 statt 0.89 (t-Test allein), bei 1.5 × SD 0.53 statt 0.60.
+- **Gleiche Init-Seeds für beide Aufgaben, nur Richtung F → G:** Aufgaben werden getrennt ausgewertet; Holm gilt bei beliebiger Abhängigkeit; F und G sind nach Konstruktion austauschbar.
+- Smoke-Befehle `--smoke-jobs` / `--smoke-check` ergänzt (siehe oben).

@@ -183,10 +183,13 @@ def seed_row(man: dict, task: str, p: int, s: int) -> dict:
         return {"seed": s, "valid": False, "technical": True, "reason": "; ".join(bad[:4])}
     lr = lambda x: float(np.log(x[[k - 1 for k in F]].sum() / x[[k - 1 for k in G]].sum()))   # noqa: E731
     LF, LG = lr(pw["F"]), lr(pw["G"])
+    Lt = {t: lr(pw[str(t)]) for t in man["switch_steps"]}
+    if not all(np.isfinite(x) for x in [LF, LG, *Lt.values()]):     # review s43: a zero power sum is technical, not an exclusion
+        return {"seed": s, "valid": False, "technical": True, "reason": "non-finite log ratio"}
     r: dict = {"seed": s, "technical": False, "LF_minus_LG": LF - LG, "valid": bool(LF - LG >= MIN_LFLG)}
     if r["valid"]:
         for t in man["switch_steps"]:
-            r[f"pi_{t}"] = (lr(pw[str(t)]) - LG) / (LF - LG)
+            r[f"pi_{t}"] = (Lt[t] - LG) / (LF - LG)
     return r
 
 

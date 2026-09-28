@@ -191,7 +191,7 @@ Abbildungen im Haupttext: Abb. 1 (Maske gegen gelernt), Abb. 2 (P1 Δ_pow), Abb.
 
 **Nachtrag Sitzung 44 (21:30):** [[paper/L0_DEUTUNGEN]]: Deutungssätze für jeden L0-Ausgang, vor jedem Ergebnis festgelegt.
 
-## Nachtrag Sitzung 45 (2026-09-28, 21:50–22:25 Berlin): Bildunterschriften und simulierte Gutachter-Prüfung
+## Nachtrag Sitzung 45 (2026-09-28, 21:50–22:18 Berlin): Bildunterschriften und simulierte Gutachter-Prüfung
 
 - **d:** Bildunterschriften Abb. 1–4 in [[paper/draft_short]] (unabhängig geprüft, 2 Fehler in Abb. 3 behoben, Abb. 3 neu gezeichnet). R10-Deutungen vorab: [[paper/R10_DEUTUNGEN]].
 - **Simulierte Gutachter-Prüfung** (unabhängiger Claude-Agent als Workshop-Gutachter, nur lesend). **Umgesetzt:** u_S definiert; „statische additive Spur“ definiert; R6 C(25) +0.85 gegen R8 C_AB +0.66 als getrennte Schätzungen mit überlappenden KI erklärt (KI von C_AB selbst nachgerechnet: [0.48, 0.83]); R5 um RMST ergänzt (post hoc, `lab/confirm/R5_posthoc_rmst_s45.py`: alle Zensuren administrativ bei 8000, RMST-Verhältnisse 5.8 [4.6, 7.6] und 6.9 [6.0, 8.1]); §1 „nach 50 Schritten sogar früher“. **L0:** Machbarkeit um B = 16 erweitert (erste Ordnung: nur dort kann die Reihenfolge wirken; README EXP-100).

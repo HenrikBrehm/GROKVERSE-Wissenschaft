@@ -230,7 +230,7 @@ def selftest() -> None:
     for r in rows:
         r["o_stride256"] = 0.2 + rng.normal(0, 0.01)          # the order acts on o, the set keeps the peak
     assert verdict(rows)["Konflikt"] == "Menge gewinnt", verdict(rows)
-    v = verdict([mk(s, 0.0, 0.0, True, True) for s in range(8)])
+    v = verdict([mk(s, 0.0, -0.5, True, True) for s in range(8)])   # s46: stride mean -0.5, not 0 (CI lower must be <= 0 robustly)
     assert (v["K2_MB"], v["Konflikt"], v["Reihenfolge_allein"]) == ("Menge steuert kaum", "Reihenfolge gewinnt", "wirkt"), v
     v = verdict([mk(s, 5.0, 5.0, True, True) for s in range(8)])
     assert v["Konflikt"] == "beide wirken", v
@@ -245,7 +245,7 @@ def selftest() -> None:
         D.ARMS = {**base, **D.FEAS_EXTRA}      # what CONFLICT_B64 = True does (R_ARMS part: see design.py)
         rows = [mk(s, 5.0, 5.0, False, False) for s in range(8)]
         for r in rows:
-            r["dpow_end_stride64"], r["o_stride64"], r["peakO_stride64"] = 0.0 + rng.normal(0, 0.3), 0.3, [True, True]
+            r["dpow_end_stride64"], r["o_stride64"], r["peakO_stride64"] = -0.5 + rng.normal(0, 0.3), 0.3, [True, True]  # s46: was 0.0 (flaky CI)
             r["R_o_stride64"], r["R_o_iid64"], r["R_peakO_stride64"] = 0.3, 0.1 + rng.normal(0, 0.01), True
         v = verdict(rows)
         assert v["Konflikt"] == "Konflikt nicht pruefbar (Reihenfolge wirkt nicht)", v

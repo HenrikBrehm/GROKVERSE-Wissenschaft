@@ -3,7 +3,7 @@ tags: [lab/einstieg]
 ---
 # GROKVERSE-Labor: Einstieg
 
-**Erklärungen für den Nutzer (Regel 20h):** [[paper/erklaerung/ERKLAERUNG_2026-09-28|28.09.]]
+**Erklärungen für den Nutzer (Regel 20h):** [[paper/erklaerung/ERKLAERUNG_2026-09-28|28.09.]] · [[paper/erklaerung/ERKLAERUNG_2026-09-29|29.09.]] (Vorhersagen vor den Läufen)
 
 Das autonome Forschungslabor zu GROKVERSE: Grokking bei modularer Addition (p = 113), Transformer
 und MLPs. Die Studie (`RESULTS.md`) ist historisch, neue Befunde stehen nur hier unter `lab/`.

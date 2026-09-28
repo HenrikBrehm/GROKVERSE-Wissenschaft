@@ -25,6 +25,14 @@ Networks that grok modular arithmetic use a sparse set of Fourier features, and 
 
 **What this shows and what it does not.** The prescribed frequencies are enriched causally by the choice of training pairs, in four tasks, with fixed one-hot tokens and full-batch training. Whether the steering survives minibatch training and competing order signals is tested in Section 6 (L0). LeDoux (2026) reports the same frequency across random training subsets under a structured example order at p = 9973. That is plausibly a different regime, dominated by the order signal, with ≈ 80× more pairs, whose random mask fluctuations are correspondingly smaller.
 
+## 4 Result 2: engineered splits generalize earlier (R5; Kurzfassung, Sitzung 43, ungeprüft)
+
+**Design (pre-registered, 20 fresh units, addition mod 113, 8000 steps).** Per unit, seven training sets of 3831 pairs share one held-out test set and one initialization: a uniform random split R, engineered splits (ε = 1, 2, 8), and for each primary engineered split a control D with exactly the same number of training pairs per output value (per anti-diagonal), but with positions drawn uniformly within each anti-diagonal. The event is a stable rise of test accuracy to ≥ 0.95 after train accuracy ≥ 0.99; times are bounded at 8000 steps.
+
+**Result.** The engineered split generalized in ×6.5 [5.3, 7.9] fewer steps than the random split and ×7.5 [6.5, 8.6] fewer than the matched control (geometric means of bounded time ratios; 20/20 units in the same direction for both; Holm-p 2·10⁻⁵). A stronger concentration of the mask spectrum was faster (ε = 1 took ×14.4 [12.4, 16.6] as long as ε = 8; secondary). Median bounded times were 775–813 steps (ε = 2), 6163 (R) and 6850–7513 (D). By step 8000, 16/20 random-split units and 14/20 and 11/20 control units had generalized.
+
+**What this shows and what it does not.** At matched per-output counts the arrangement of the pairs, which carries the spectral concentration of the mask, produces the speed-up; the output marginals alone do not. "Earlier" means an earlier stable rise within 8000 steps, not a higher final accuracy. That early task-aligned embedding structure shortens the grokking delay is known from other interventions (Howe 2026b; GrokTransfer). The contribution here is that the choice of training pairs alone produces it, at matched size, initialization and test set. Post hoc, a higher early target share goes with earlier generalization; whether the speed-up runs entirely through this early signal is open.
+
 ## Gliederung (nach dem Schnittplan in [[paper/STATUS]])
 
 1. Introduction and related work (LeDoux 2026: order; Tomàs Bernal, Mallinar, Belkin 2026: kernels; Fu et al. 2026; Karkada et al. 2026; He et al. 2026a; Sweeney 2026)

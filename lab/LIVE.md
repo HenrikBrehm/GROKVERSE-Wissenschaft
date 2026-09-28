@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 21:49 Berlin (19:49Z, vom Runner)
 - **Deadline:** 2026-09-29 00:49 Berlin (22:49Z)
-- **Zuletzt aktualisiert:** 22:04 Berlin
+- **Zuletzt aktualisiert:** 22:09 Berlin
 - **Run-Fenster:** zu bis 23:59 (Wächter Exit 3 = „noch nicht“). Ab 23:59 durchgehend (Regel 20).
 
 ## Gerade
 
-Ein unabhängiger Agent prüft den neu vorbereiteten Versuch [[experiments/EXP-104-flat-marginal-splits/README|EXP-104]] (Splits mit exakt flachen Zahl-Häufigkeiten), bevor er je läuft.
+Ein unabhängiger Agent liest die Kurzfassung des Papers als kritischer Workshop-Gutachter (Regel 20d); danach sortiere und prüfe ich die Einwände.
 
 ## Als Nächstes
 
@@ -18,6 +18,7 @@ Ein unabhängiger Agent prüft den neu vorbereiteten Versuch [[experiments/EXP-1
 
 ## Verlauf dieser Sitzung
 
+- 22:09 EXP-104 vor dem Lauf geprüft: 2 Blocker gefunden und behoben (Splitgröße 3842 braucht `--train-frac 0.3009`; Suchmuster der Auswertung), gemeinsame Testmenge je Seed. EXP-105 (Leiter Stufe 2) als Entwurf.
 - 22:03 EXP-104 vorbereitet (12 GPU-Läufe, 2 Seeds, Exploration, nach L0): Steuern flache Splits, und blockiert ihre Symmetrie das Grokking?
 - 22:02 N53, Nachtrag: 10 Tauschzüge (< 1 % der Paare) brechen die Symmetrie, Häufigkeiten bleiben exakt flach, Zielanteil 0.64–0.73. Die Zugzahl regelt die Steuerstärke.
 - 22:00 N53 (neu, reine Rechnung): Split {a − λb ∈ D} hat exakt gleich viele a, b und c und trotzdem Zielanteil 0.66–0.72 (P1: 0.17–0.19). Risiko: Verschiebungssymmetrie (vgl. Tomàs Bernal et al.).

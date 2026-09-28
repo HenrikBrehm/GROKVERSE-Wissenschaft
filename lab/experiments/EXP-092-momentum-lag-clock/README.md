@@ -1,8 +1,8 @@
 ---
 id: EXP-092
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-28
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 ---
 # EXP-092: Sagt eine „Momentum-Verzögerungs-Uhr“ die Festlegung in ungesehenen Zellen voraus? (Pilot, Exploration)
 
@@ -52,6 +52,11 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-092-momentum-lag-clock/jo
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-092-momentum-lag-clock/analyze.py
 ```
 
-## Ergebnis
+## Ergebnis (Sitzung 41, 2026-09-28; Block 13:32–14:26 Berlin, 256/256 ok; `analyze.py` über den Wächter; `summary.json`)
 
-(noch nicht gelaufen)
+16/16 Seeds gültig. **Registrierte Lesart: „Lag-Uhr gestützt“.**
+- **P1:** MAE über die fünf ungesehenen Zellen: Lag-Uhr **0.029**, Λ-Uhr 0.067, Schritt-Uhr 0.149; δ_Λ KI [0.022, 0.054], δ_S KI [0.040, 0.199] (beide > 0).
+- **P2:** b_up = π(b08) − π(n25) = **+0.083** [0.046, 0.123] (14/16); b_dn = π(n25) − π(b095) = **+0.037** [0.016, 0.061] (13/16). β₁ *nur vor dem Wechsel* verschiebt die Festlegung also bei gleicher Lernrate und gleichem Λ, in der vorhergesagten Richtung (Λ- und Schritt-Uhr sagen 0).
+- **Beschreibend:** Zellmittel π: n20 0.265, n25 0.361, n30 0.459, b08 0.444, b095 0.324, c05 0.426, c4 0.195. Beobachtet − Lag-Vorhersage (je Seed geeicht, post hoc): n20 −0.004, b08 +0.013, b095 +0.015, c05 +0.005 (KIs schließen 0 ein), **c4 −0.107 [−0.16, −0.06]** (3/16 > 0). Spearman über 7 Zellen: Lag 0.96, Λ 0.64, Schritte 0.68.
+- **Selektivität beim Wechsel (beschreibend):** b08 gegen n25 log f +0.083, log N +0.069; n25 gegen b095 log f +0.045, log N +0.024; mehr Zeit (n30 gegen n25) log f +0.053, log N +0.175. **c4** ist die unselektivste Zelle: gegen n20 log N +0.150, aber log f −0.044 (f 0.166 gegen 0.173).
+- **Einordnung:** Die Verzögerungs-Uhr Λ_eff = c·t − c·lag(β₁, t) sagt vier von fünf ungesehenen Zellen innerhalb ±0.015 voraus (β₁ vor dem Wechsel 0.8/0.95, c = 0.5, t = 20), mit derselben Eichung. Sie versagt bei **c = 4, t = 6** (wenige, sehr große Schritte): Die Festlegung ist dort viel schwächer, als Λ_eff sagt, und die frühe Bewegung ist groß, aber unselektiv. Post-hoc-Kandidat (nicht geprüft): Adams erste Schritte sind fast vorzeichenartig (m̂/√v̂ ≈ ±1 aus ein, zwei Gradienten) und damit maximal unselektiv; bei c = 4 fällt ein großer Teil von Λ in diese ersten Schritte. Alternativ: Überschießen bei lr 4e-3. **Grenzen:** Pilot, 16 Seeds, eine Aufgabe, π = W_E-Energiemaß, lineare Eichung über n25/n30 (Extrapolation bei n20, b095, c4); das Lag-Maß ist das mittlere Alter des bias-korrigierten ersten Moments (erste Ordnung).

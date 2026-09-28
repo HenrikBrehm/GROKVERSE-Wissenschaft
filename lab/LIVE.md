@@ -1,23 +1,25 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 41
+# LIVE: Laborsitzung 41: **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-28 13:20 Berlin (11:20Z, vom Runner)
 - **Deadline:** 2026-09-28 16:19 Berlin (14:19Z)
-- **Zuletzt aktualisiert:** 15:37 Berlin
+- **Zuletzt aktualisiert:** 15:57 Berlin
 - **Run-Fenster:** heute bis 18:00 (Deadline früher).
 
 ## Gerade
 
-GPU rechnet **EXP-094** (bleibt der Nachteil großer Lernraten, wenn man Adams Fenster angleicht? 192 Läufe) und das Reproduktionspaket (K4b). Beides wird an der Deadline 16:19 vom Wächter beendet, falls nicht fertig, und in der nächsten Sitzung (16:54) fortgesetzt.
+**Sitzung beendet.** Keine Läufe aktiv. Heute: R9 ins Paper, One-Pager, Reproduktionspaket (5 Blöcke exakt reproduziert), und neue Mechanismus-Piloten zur Frage, *wann* sich die frühe Wahl festlegt: Es kommt darauf an, wie zielgenau die ersten Schritte sind. Große, seltene Schritte sind unselektiver. Adams Mittelungsfenster erklären davon nur einen Teil. Nächster geplanter Start laut runner-state.json: **16:54 Berlin** (Fenster heute bis 18:00).
 
 ## Als Nächstes
 
-Stand sichern, Abschlussbericht; nächste Sitzung: EXP-094 fertig + auswerten, Repro-Rest.
+Repro-Rest (k4b, mul/add 97, P2e) weiterrechnen; Unterschritt-Versuch entwerfen (Trainer-Option, vorher prüfen).
 
 ## Verlauf dieser Sitzung
 
+- 15:55 **EXP-094: teilweise.** Gleicht man Adams Fenster an, halbiert sich der Nachteil großer Schritte; ein mit der Schrittgröße wachsender Rest bleibt.
+- 15:37 Repro-Kette angehalten, damit EXP-094 vor der Deadline fertig wird (wird später fortgesetzt).
 - 15:36 EXP-094 vorab festgelegt und gestartet.
 - 15:33 **Neu (post hoc):** Über 15 Einstellungen hängt die Persistenz fast nur davon ab, *wie zielgenau* die frühe Bewegung ist (R² 0.93), nicht wie weit sie ging.
 - 15:31 **EXP-093: Die Lag-Uhr gilt nicht allgemein.** Bei gleicher Lernratensumme legen größere, seltenere Schritte immer schwächer fest (0.27 → 0.09).

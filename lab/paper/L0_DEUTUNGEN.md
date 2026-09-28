@@ -5,7 +5,7 @@ datum: 2026-09-28
 tags: [lab/paper]
 verwandt: ["[[paper/draft_short]]", "[[experiments/EXP-100-set-vs-order/README|EXP-100]]", "[[NOVEL_DIRECTIONS]]"]
 ---
-# L0: Deutungssätze je Ausgang, vor jedem Ergebnis festgelegt (Sitzung 44, 2026-09-28, 21:32 Berlin)
+# L0: Deutungssätze je Ausgang, vor jedem Ergebnis festgelegt (Sitzung 44, 2026-09-28, 21:30 Berlin)
 
 Zurück: [[paper/STATUS]] · Kurzfassung §6 · Lesarten maschinell in `lab/experiments/EXP-100-set-vs-order/analyze.py`, `feas_read.py`, `switch_analyze.py`.
 Zweck: Die Deutung jedes möglichen Ausgangs steht fest, bevor die Läufe da sind. Beim Einsetzen nur Zahlen (Mittel, KI, n) ergänzen; Abweichungen vom Wortlaut im JOURNAL begründen. Alles Pilot-Wortlaut (Exploration, 8 Seeds); eine Bestätigung (L0-R) hat eigene Sätze.

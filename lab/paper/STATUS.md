@@ -189,4 +189,4 @@ Abbildungen im Haupttext: Abb. 1 (Maske gegen gelernt), Abb. 2 (P1 Δ_pow), Abb.
 
 **Nachtrag Sitzung 44 (21:30):** **d:** Kurzfassung §6 (L0-Methode) um die Begründung der Machbarkeit bei B = 256 und 64 ergänzt (Vorhersage erster Ordnung, an der Kante bei B = 64; geprüft, Wortlaut verschärft). Der Absatz zur Zerlegung des Δ_pow-Wachstums geht nach der Nachrechnung **nicht** ins Paper (Anteil vom Bezugspunkt abhängig; die lr·wd-Uhr entscheidet EXP-103 Teil B).
 
-**Nachtrag Sitzung 44 (21:32):** [[paper/L0_DEUTUNGEN]]: Deutungssätze für jeden L0-Ausgang, vor jedem Ergebnis festgelegt.
+**Nachtrag Sitzung 44 (21:30):** [[paper/L0_DEUTUNGEN]]: Deutungssätze für jeden L0-Ausgang, vor jedem Ergebnis festgelegt.

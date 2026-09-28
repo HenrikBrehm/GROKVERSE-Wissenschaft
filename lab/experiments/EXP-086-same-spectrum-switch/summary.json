@@ -1,0 +1,35 @@
+{
+ "n_valid": 10,
+ "broken": [],
+ "primary_D_AB_minus_AA2": {
+  "mean": 0.8233127785440348,
+  "pos": 9,
+  "nonzero": 10,
+  "p_one_sided": 0.0107421875
+ },
+ "C_AB_25": {
+  "mean": 0.5682830004900953,
+  "pos": 8,
+  "nonzero": 10,
+  "p_one_sided": 0.0546875
+ },
+ "C_AA2_25": {
+  "mean": -0.2550297780539396,
+  "pos": 4,
+  "nonzero": 10,
+  "p_one_sided": 0.828125
+ },
+ "C_AA2_50": {
+  "mean": -0.9788443981887406,
+  "pos": 0,
+  "nonzero": 10,
+  "p_one_sided": 1.0
+ },
+ "C_RR_25": {
+  "mean": -0.8046543955482065,
+  "pos": 0,
+  "nonzero": 10,
+  "p_one_sided": 1.0
+ },
+ "reading": "gest\u00fctzt"
+}

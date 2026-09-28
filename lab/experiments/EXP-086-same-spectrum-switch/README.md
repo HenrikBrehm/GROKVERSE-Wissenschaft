@@ -1,8 +1,8 @@
 ---
 id: EXP-086
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet, programm/B, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, programm/B, neu/kandidat]
 ---
 # EXP-086: Kostet ein Wechsel zu einem Split mit *denselben* Zielfrequenzen auch Grokking-Zeit? (Kontrolle zu N43, Pilot)
 
@@ -57,3 +57,16 @@ Reine Rechnung auf den gespeicherten Split-Dateien (`gradient_overlap_s33.py`, `
 2. D ≈ 0 mit C_AA2(25) > 0 trennt „generische frühe Störung“ **nicht** von „Richtungsumkehr bei F“. Die R-Kontrolle trennt das auch nicht: R1 und R2 sind ebenfalls gegeneinander ausgerichtet (−0.42).
 3. **Vorhersage des Richtungsmodells an schon gesehenen Daten (EXP-056):** Mit wachsender Überlappung ω zeigt B bei F weniger gegen A (cos −0.53 / −0.28 / −0.04 bei ω 0 / 0.2 / 0.4). Ein Modell „Kosten = Umkehr halb aufgebauter Richtungen“ sagt also *sinkende* Kosten mit ω voraus. Gesehen wurden *steigende* (Mediane 0.71 / 1.07 / 1.04; 8/10, p = 0.055, Sitzung 32). Das spricht schwach gegen das Richtungsmodell und für ein Konkurrenzmodell (Kosten, solange die neuen Daten die alten Merkmale nicht aktiv abbauen). Post hoc, n. s., nur Hinweis.
 4. **Vorhersage vor dem Lauf (Konkurrenzmodell):** C_AA2(25) nahe 0 oder negativ (keine zweite Frequenzmenge), D > 0. Richtungsmodell und generisches Modell: C_AA2(25) ≈ C_AB(25).
+
+## Ergebnis (Sitzung 37, 2026-09-28, Läufe 02:31–02:46, Auswertung 02:46 Berlin, gemessen)
+
+90/90 Läufe ok (GPU, `--workers 7`, daneben das CPU-Programm), 10/10 Seeds gültig, keine defekten Läufe. **Primär gestützt:** D = C_AB(25) − C_AA2(25) = **+0.82** log2, 9/10 positiv, p = 0.011 (exakter einseitiger Vorzeichentest).
+
+| Größe (log2, Mittel über 10 Seeds) | Wert | positiv |
+|---|---|---|
+| C_AB(25) (Wechsel zu B, andere Ziele) | +0.57 | 8/10 |
+| C_AA2(25) (Wechsel zu A2, gleiche Ziele) | −0.26 | 4/10 |
+| C_AA2(50) | −0.98 | 0/10 |
+| C_RR(25) (Zufallssplit zu Zufallssplit) | −0.80 | 0/10 |
+
+**Lesart nach der vorab festgelegten Regel: *Frequenzkonflikt*** (D > 0 gestützt, C_AA2(25) nahe 0 bzw. negativ). Die Vorhersage vor dem Lauf (Nachtrag a, Punkt 4, Konkurrenzmodell) ist getroffen; Richtungsmodell und generisches Modell (C_AA2(25) ≈ C_AB(25)) nicht. Ein früher Wechsel kostet also nicht an sich Zeit: Ein Wechsel auf neue Paare mit *denselben* Zielfrequenzen beschleunigt eher (bei 50 in 10/10 Seeds, zwischen Zufallssplits bei 25 ebenfalls in 10/10), obwohl A2 bei F in erster Ordnung genauso gegen A zeigt wie B (cos −0.52 gegen −0.53). Die Verzögerung braucht eine *andere Zielmenge*. **Grenzen:** Pilot an bekannten Seeds (400–409; C_AB(25) stammt aus EXP-056), n = 10; die Beschleunigung durch neue Paare ist ein eigener Effekt (mehr verschiedene Trainingspaare insgesamt) und hier nicht getrennt. Programm B, [[FINDINGS]] Zeitsignatur; [[JOURNAL]] Sitzung 37.

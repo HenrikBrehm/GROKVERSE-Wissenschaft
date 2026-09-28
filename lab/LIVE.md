@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 18:19 Berlin (16:19Z, vom Runner)
 - **Deadline:** 2026-09-28 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 18:34 Berlin
+- **Zuletzt aktualisiert:** 18:39 Berlin
 - **Run-Fenster:** zu (heute bis 18:00). Ab 29.09. 00:00–13:00. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
 
-Warte auf die unabhängige Prüfung des EXP-097-Codes (Trainer-Patch + Auswertung). Daneben: Paper-Absatz zu EXP-095 um die Vorzeichen-Einschränkung ergänzen.
+Nachprüfung der geänderten EXP-097-Punkte läuft (Agent, nur lesend). Danach nächste Denkfrage: Was folgt aus EXP-095/097 für die Theorie im Paper (§5)?
 
 ## Als Nächstes
 
-Prüfbefunde einarbeiten; danach Paper §4 (EXP-095-Grenze quantifizieren) mit unabhängiger Prüfung.
+Prüfbefund einarbeiten; dann Nacht-Checkliste in STATE final prüfen.
 
 ## Verlauf dieser Sitzung
 
+- 18:38 EXP-097 Fassung 2 nach Prüfung (kein Blocker; W_E-Token-Block normiert, primär sA, relativer Boden, schärferer Test). Paper §4 nach Prüfung korrigiert (1 Zahl: 45 % statt 46 %).
+- 18:35 Nur g24 ist Vorzeichenabstieg; g8 und die großen Schritte sind weniger quantisiert als normal → Hauptbefund „Auswertungen zählen“ nicht direkt betroffen.
 - 18:36 JOURNAL, LAB, BACKLOG, FINDINGS, NOVEL_DIRECTIONS nachgeführt.
 - 18:32 **EXP-097 vorbereitet** (Veraltung gegen Vorzeichenschritt, 2 × 2, 160 GPU-Läufe). Designfehler vor dem Lauf behoben (leerer Adam-Zustand hätte den Boden getroffen). Trainer-Option als Patch, weil R10 den Trainer-Hash bindet.
 - 18:26 **Nachtrag b zu EXP-095:** Mit eingefrorenem Gradienten macht Adam reine Vorzeichenschritte; das erklärt ≈ 56 % [53, 59] des Selektivitätsverlusts von g24 („teilweise“).

@@ -621,7 +621,7 @@ Die meisten genannten Arbeiten standen schon hier (Kleinman 2024, Frankle 2020, 
 - **Sweeney 2026:** nimmt das *Prinzip* von R9 vorweg (Momente im Schritttakt statt τ = η·k); in §3.15 und im One-Pager als Vorarbeit genannt, R9 als Anwendung.
 - **AlQuabeh et al. 2025, arXiv 2505.15624** [nur laut Neuheitsprüfung, nicht selbst gelesen]: gleichmäßiges Token-Sampling beschleunigt Grokking (Minibatch). Abgrenzung zu R5: unsere Kontrolle D hält die Anzahl der Paare je Ausgabe fest, der Vorsprung bleibt (×7.5); vor Übernahme ins Paper Abstract prüfen.
 
-## Nachtrag Sitzung 43 (2026-09-28, ≈ 18:45 Berlin): Einordnung von EXP-095 (frische Gradientenauswertungen) und der Vorzeichen-Einschränkung
+## Nachtrag Sitzung 43 (2026-09-28, ≈ 18:36 Berlin, gemessen): Einordnung von EXP-095 (frische Gradientenauswertungen) und der Vorzeichen-Einschränkung
 
 Suche am 28.09. durch einen Recherche-Agenten (nur lesend; Websuche + arXiv-API; Semantic Scholar HTTP 429, Google Scholar nicht erreicht). Begriffe: „stale gradient feature learning implicit bias asynchronous SGD staleness“, „gradient reuse multiple optimizer steps lazy“, arXiv-API abs:"stale gradient" AND abs:feature (0 Treffer), „reusing gradients / gradient recycling“, „delayed gradient descent implicit regularization“, „one gradient step feature learning“, „multi-step vs giant step“, „number of gradient evaluations vs number of steps“, „early phase“, „silent alignment“, „rich-get-richer feature learning“, „saddle-to-saddle“, „AGF modular arithmetic“, „grokking optimizer momentum early Fourier“, „Grokfast“, „grokking lazy to rich“. Prüfgrad wie oben: [A] Abstract, [S] Snippet.
 

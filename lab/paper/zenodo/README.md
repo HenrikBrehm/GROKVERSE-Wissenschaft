@@ -26,3 +26,5 @@ Zurück zu [[paper/STATUS]]. Angelegt Sitzung 43 (2026-09-28). Hochladen braucht
 **Metadaten:** `zenodo_metadata_DRAFT.json` (Felder `<NUTZER>` offen).
 
 **Werkzeug:** `make_package.py` packt nur git-verfolgte Dateien eines Commits (Trockenlauf Sitzung 43: 4753 Dateien, 81.9 MB) in ein ZIP mit `SHA256SUMS` unter `out/` (git-ignoriert). Hochladen gibt es nicht. **Nächste Schritte:** Trockenlauf durchsehen (enthält `training/grokverse` der ursprünglichen Studie → Rechte klären), Geheimnis-Scan vor jedem Bau.
+
+**Scan (Sitzung 43, 20:05, alle 4758 Nicht-npy-Dateien des Trockenlaufs):** keine Schlüssel oder Passwörter (ein Fehltreffer: der Regex-Name `_SEED_TOKEN`), keine E-Mail-Adresse. **Aber:** 7 Dateien enthalten absolute Pfade mit dem Benutzernamen (`C:/Users/…`): `lab/paper/repro/README.md`, `k2.py`, `k2_function.py`, `k2_function_p2e.py`, `k4_resets.py`, `k4b.py`, `k4c.py` (venv-Pfad für die GPU). **Vor dem Paketbau** diese Pfade relativ machen oder über eine Umgebungsvariable setzen und die Skripte danach einmal im Smoke-Modus prüfen. Die Nutzerin/der Nutzer entscheidet, ob der Name im Paket stehen darf.

@@ -27,6 +27,8 @@ Gilt der EXP-095-Befund (weniger Gradientenauswertungen bei gleichen 24 Adam-Sch
 
 EXP-095 (Zellen, Effektgrößen, T/R post hoc), EXP-044/074 (Splitbau, π-Niveaus bei add 97 / mul 113 an den Seeds 80–89). Keine Seeds aus diesen Blöcken. c8b entfällt (kein Kern der Frage; Zählervorbehalt).
 
+**Hinweis vor dem Lauf (Sitzung 43, ändert keine Lesart):** Nach [[experiments/EXP-095-gradient-feedback/README|EXP-095]] Nachtrag b ist der g24-Arm unter Adam ein Vorzeichenabstieg entlang g₀; etwa die Hälfte seiner Zielanteil-Lücke kann Quantisierung sein. e24 wird deshalb als „nur Anfangsgradient unter Adam“ berichtet, nicht als „erste Ordnung“. e8 ist davon nach der beschreibenden Zellprüfung (g8 weniger quantisiert als n24) nicht direkt betroffen. Trennung: [[experiments/EXP-097-sign-vs-staleness/README|EXP-097]].
+
 ## Befehle (ab 00:00, alles über den Wächter bzw. parallel_queue)
 
 ```

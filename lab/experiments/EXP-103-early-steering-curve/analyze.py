@@ -83,6 +83,19 @@ def main() -> None:
 
 
 CROSS = ("x_lr2e-3_wd0.5", "x_lr5e-4_wd2")                  # part B: lr*wd equal to the preset, lr and wd changed
+P1_GRID = (0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000)          # stored P1 spectra (the reading uses only these steps)
+
+
+def curve_of(root: Path, s: int, pat: str, T: dict) -> tuple[np.ndarray, np.ndarray]:
+    dd = {}
+    for a in "FG":
+        hits = sorted(root.glob(f"EXP-016_baseline_seed{s}_thr1_confirm_exp1_eps2.0_add113_seed{s}_{a}_{pat}"))
+        assert len(hits) == 1, (root, s, a, hits)
+        r = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))
+        assert r["status"] == "completed" and r["steps_completed"] == 2000, hits[0]
+        dd[a] = (np.load(hits[0] / "spectra_steps.npy"), np.load(hits[0] / "spectra.npy"))
+    assert np.array_equal(dd["F"][0], dd["G"][0])
+    return dd["F"][0], delta(dd["F"][1], dd["G"][1], T["F"], T["G"])
 
 
 def cross() -> dict:
@@ -93,29 +106,39 @@ def cross() -> dict:
       "not only the product" m > 0.20 in at least one cell (then lr and wd act separately; direction reported);
       else "unclear". Also the paired per-seed log ratio at t = 2000 with a bootstrap 95 % CI (descriptive)."""
     out, rng = {}, np.random.default_rng(103)
+    Xs = {}
     for c in CROSS:
-        X, Pp = [], []
+        X, Pp, stX, stP = [], [], None, None
         for s in range(1000, 1010):
             T = {a: json.loads((LAB / f"confirm/splits/confirm_exp1_eps2.0_add113_seed{s}_{a}.json").read_text(encoding="utf-8"))["targets"] for a in "FG"}
-            for root, acc, pat in ((HERE / f"raw_{c}", X, "*"), (LAB / "confirm/raw", Pp, "devcuda")):
-                dd = {}
-                for a in "FG":
-                    hits = sorted(root.glob(f"EXP-016_baseline_seed{s}_thr1_confirm_exp1_eps2.0_add113_seed{s}_{a}_{pat}"))
-                    assert len(hits) == 1, (root, s, a, hits)
-                    r = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))
-                    assert r["status"] == "completed" and r["steps_completed"] == 2000, hits[0]
-                    dd[a] = (np.load(hits[0] / "spectra_steps.npy"), np.load(hits[0] / "spectra.npy"))
-                assert np.array_equal(dd["F"][0], dd["G"][0])
-                acc.append(delta(dd["F"][1], dd["G"][1], T["F"], T["G"]))
-                st = dd["F"][0]
+            sx, dx = curve_of(HERE / f"raw_{c}", s, "*", T)             # new runs: dense early steps + the 250 grid
+            sp, dp = curve_of(LAB / "confirm/raw", s, "devcuda", T)      # stored P1 runs: 250 grid only
+            assert (stX is None or np.array_equal(stX, sx)) and (stP is None or np.array_equal(stP, sp))
+            stX, stP = sx, sp
+            X.append(dx)
+            Pp.append(dp)
         X, Pp = np.array(X), np.array(Pp)
-        k = st > 0
-        m = float(np.mean(np.abs(np.log(X[:, k].mean(0) / Pp[:, k].mean(0)))))
-        lr2000 = np.log(X[:, -1] / Pp[:, -1])
+        Xs[c] = (stX, X)
+        common = [int(t) for t in stP if t > 0 and t in set(stX.tolist()) and t in P1_GRID]
+        ix, ip = [list(stX).index(t) for t in common], [list(stP).index(t) for t in common]
+        m = float(np.mean(np.abs(np.log(X[:, ix].mean(0) / Pp[:, ip].mean(0)))))
+        lr2000 = np.log(X[:, list(stX).index(2000)] / Pp[:, list(stP).index(2000)])
         bs = rng.choice(lr2000, size=(10000, len(lr2000))).mean(1)
-        out[c] = {"steps": st[k].tolist(), "mean_X": X[:, k].mean(0).round(3).tolist(), "mean_P1": Pp[:, k].mean(0).round(3).tolist(),
+        out[c] = {"steps": common, "mean_X": X[:, ix].mean(0).round(3).tolist(), "mean_P1": Pp[:, ip].mean(0).round(3).tolist(),
+                  "early_mean_X": {int(t): float(X[:, k].mean()) for k, t in enumerate(stX) if 0 < t < 250},
                   "mean_abs_log_ratio": m, "paired_log_ratio_2000": {"mean": float(lr2000.mean()),
                   "ci95": [float(np.quantile(bs, .025)), float(np.quantile(bs, .975))]}}
+    st, X1 = Xs[CROSS[0]]
+    st2, X2 = Xs[CROSS[1]]
+    assert np.array_equal(st, st2)
+    early = {}
+    for t in (10, 25, 50, 100, 200):                     # descriptive (N51): same lr*wd, lr x2 vs x0.5, same seeds/splits
+        if t in st:
+            d = X1[:, list(st).index(t)] - X2[:, list(st).index(t)]
+            bs = rng.choice(d, size=(10000, len(d))).mean(1)
+            early[t] = {"lr2e-3_minus_lr5e-4": float(d.mean()), "ci95": [float(np.quantile(bs, .025)), float(np.quantile(bs, .975))],
+                        "n_pos": int((d > 0).sum())}
+    out["early_cross_difference"] = early
     ms = [out[c]["mean_abs_log_ratio"] for c in CROSS]
     out["reading"] = ("product form holds" if all(x < 0.10 for x in ms) else
                       "not only the product" if any(x > 0.20 for x in ms) else "unclear")

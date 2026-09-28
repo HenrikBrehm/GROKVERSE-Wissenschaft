@@ -1,8 +1,8 @@
 ---
 id: EXP-087
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-28
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/unklar, neu/kandidat]
 verwandt: ["[[NOVEL_DIRECTIONS]]", "[[confirm/R5_REGISTRATION_DRAFT|R5]]", "[[experiments/EXP-040-we-init-scale/README|EXP-040]]", "[[FINDINGS]]", "[[JOURNAL]]"]
 ---
 # EXP-087: Läuft die Split-Beschleunigung ganz über das frühe W_E-Zielsignal? Eingepflanztes Signal auf einem Zufallssplit (Pilot, Entwurf)
@@ -59,3 +59,24 @@ Nach der unabhängigen Code-Prüfung (Claude-Agent, nur lesend; Codex ohne Gutha
 
 1. Nach R2/R4: Option `--plant-targets/--plant-amp` in `freq_ban.py` (Standard aus, alte Run-IDs unverändert, Fingerprint nur bei Nutzung), Test, unabhängige Prüfung.
 2. `jobs.txt`, `analyze.py` mit Selbsttest (Lesart oben fest), Kalibrierung, dann Pilot.
+
+## Ergebnis (Sitzung 39, 2026-09-28; Pilot 50 GPU-Läufe, C = 2, `design.py --analyze 2` über den Wächter; Exploration, keine Kernaussage)
+
+10/10 Einheiten gültig, keine technischen Ausfälle, Init-Prüfsummen je Einheit gleich. Beobachtet (Ereignis ≤ 8000): R 7/10, R+P 10/10, E2 10/10, E2+P 10/10, R+N 8/10.
+
+| Größe (log2, gepaart) | Mittel | 95-%-KI | Vorzeichen |
+|---|---|---|---|
+| L_plant = b(R) − b(R+P) | **+3.42** | [3.08, 3.75] | 10/10 > 0 (p = 2⁻¹⁰); untere Schranke, R 3× zensiert |
+| L_med = b(R+P) − b(E2) | **−0.63** | [−0.99, −0.20] | 1/10 > 0: R+P *schneller* als E2 |
+| L_E = b(E2) − b(E2+P) | +1.45 | [1.20, 1.67] | 10/10 |
+| L_noise = b(R) − b(R+N) | −0.09 | [−0.33, 0.12] | Normkontrolle ohne Wirkung → gültig |
+
+**Registrierte Lesart: *unklar*.** L_plant erfüllt M-med (Untergrenze > 1), aber das L_med-KI liegt teilweise unter −0.5, also außerhalb des Fensters [−0.5, 0.5]; M-data (L_med-Untergrenze > 0.5) und M-marker (L_plant-Obergrenze < 0.5) sind klar verfehlt. Nachtrag b, Punkt 4 hatte genau diesen Fall vorhergesehen: Die Kalibrierung überschoss (R+P hatte bei 250 einen Zielanteil von 0.40, E2 0.31).
+
+Beschreibend je Arm (Zielanteil bei 250 / geometrisches Mittel der Zeit / finale Top-5 auf den Zielen): R 0.085 / 5222 / 0.7 · R+N 0.084 / 5574 / 0.3 · E2 0.310 / 757 / 3.7 · **R+P 0.401 / 489 / 3.3** · E2+P 0.502 / 276 / 3.5.
+- Das Einpflanzen allein (ohne Datensteuerung) **reicht**, um die Beschleunigung des konstruierten Splits zu erreichen und zu übertreffen. Es steuert auch die finalen Frequenzen fast so stark wie der Split (3.3 gegen 3.7 von 5 Zielen). Eine gleich große unstrukturierte Änderung (R+N) bewirkt nichts.
+- **Über alle fünf Arme ordnet der Zielanteil bei 250 die Zeit exakt**, egal ob der Anteil aus den Daten, aus dem Eingriff oder aus beidem kommt. *Post hoc, über Versuche hinweg (andere Einheiten):* Die R5-Dosisarme liegen auf derselben Linie (E1 0.12 / 5283, E2 0.30 / 920, E8 0.48 / 368). Log-linear zwischen E2 und E8 interpoliert ergibt ein Anteil von 0.40 ≈ 550 Schritte, R+P brauchte 489.
+- **Lesart (Interpretation, nicht registriert):** Die Daten passen zu einem gemeinsamen Mittler „früher W_E-Zielanteil“. Ein zusätzlicher Datenbeitrag des Splits ist nicht zu sehen (M-data verfehlt). Der vorab festgelegte Mediationstest ist aber wegen der Dosis-Fehlanpassung formal unentschieden. Der saubere Test ist ein Vergleich auf gleicher Dosis-Achse: Liegen eingepflanzte und datengesteuerte Arme auf derselben Kurve „Anteil bei 250 → Zeit“? → Folgeversuch [[experiments/EXP-088-common-dose-curve/README|EXP-088]] (Entwurf).
+- **Literatur:** Dass gut ausgerichtete Einbettungen das Grokking beschleunigen, ist bekannt (Howe 2026, arXiv 2607.04333; GrokTransfer, arXiv 2504.13292; siehe N47). Neu wäre höchstens die quantitative Gleichwertigkeit von datengetriebenem und eingepflanztem Frühsignal, und auch das nur nach unserer Suche.
+- **Grenzen:** Pilot, n = 10, add 113, eine Architektur, ein C; R 3/10 zensiert (L_plant ist eine untere Schranke); der Anteilsvergleich über R5 und EXP-087 hinweg ist post hoc und nutzt verschiedene Einheiten.
+

@@ -212,6 +212,7 @@ tested MLP reset (20 paired seeds, Holm-p 4.7·10⁻¹²). Resetting only W_V, W
 17/20 (N29c). *Relation to prior work:* in language models the ordering is reversed (query–key reset restores, value reset does not; Dong 2026); we report our ordering for this
 setting only. A possible reading (untested): our switch keeps the task and hence the routing requirement (attend to both operands) and changes only which frequencies the
 content carries, which passes through the value/output path; a withheld capability in a language model plausibly requires new routing (query–key).
+*Is the stronger reset simply the one that removes more movement? (exploration EXP-083, seen seeds, reading fixed before the runs; session 39):* we re-ran the first 50 steps of every N29b/N29c seed and split (gated: initialization checksums and W_E at steps 0 and 50 equal to the frozen block's snapshots within 10⁻³) and measured ‖W(50) − W(0)‖_F per reset part, i.e. what each reset removes. The query/key reset removes *more* than the value/output reset, in absolute terms (7.41 vs 5.70) and relative to the part's initial norm (0.46 vs 0.36), in 20/20 seeds each, yet it has the smaller effect; for this pair a pure size explanation is contradicted. For attention vs MLP the two scales disagree (the MLP reset removes more in absolute terms, 9.82 vs 9.37; attention more relative to its norm, 0.41 vs 0.39; each 20/20), so that pair stays unclear.
 
 ### 3.6 D59: functional sensitivity after grokking (K2-function D59; P2f 15539d8) and mask-spectrum order of the steered irreps (C4)
 
@@ -298,10 +299,6 @@ Each unit crosses two initializations with two random splits (4 runs of 8000 ste
 So an ordinary 30 % random split already biases which of the equally good frequencies a network learns (H1b; the rank signature H1a concerns all 56 frequencies before grokking, not the key frequencies), and descriptively more strongly than the initialization. Descriptively it is far from determining the choice: networks trained on the same split share on average about one of their five strongest frequencies, against about one half without a shared split; there is no same-split, same-initialization ceiling in this design. Engineered splits are much stronger (in add 113 about 0.80 of the W_E group power on the five prescribed targets at step 2000, post hoc, §3.1), but that is a different measure at a different step. In the pilot EXP-014 (CPU, 5 units; §4) the registered top-5 contrast between split and initialization was not significant, while the rank structure under the used split's mask spectrum pointed to the split in 5/5 pairs.
 **Limits:** one task (add 113), one architecture and optimizer setting; similarity of whole spectra, no ablation, so this is a statement about representation energy, not about use; the split's lever is measured only as a shared-split contrast, not attributed to a split property (the mask-spectrum association, §4, is not tested here); "more than the initialization" is descriptive.
 
-### 3.15 Pending (registered or prepared, not run)
-
-- Exploration **EXP-083** (how much each reset at the 50-step switch undoes: ‖W(50) − W(0)‖ per reset part on the N29b/N29c seeds, gated against the stored step-50 embeddings; addresses whether the stronger reset simply removes more displacement).
-Whatever this shows replaces this list; nothing here is a result.
 
 ## 4 Explorations and negative results (not claims)
 

@@ -1,8 +1,8 @@
 ---
 id: EXP-083
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet, programm/B, paper]
+tags: [exp/abgeschlossen, befund/unklar, programm/B, paper]
 ---
 # EXP-083: Nimmt der Attention-Reset nur mehr Bewegung zurück als der MLP-Reset? (Exploration, bekannte Seeds)
 
@@ -34,3 +34,11 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-083-reset-displace
 ## Ergebnis
 
 (noch keins)
+
+## Ergebnis (Sitzung 39, 2026-09-28, ≈ 09:22 Berlin laut Wächter; 80/80 Läufe GPU, `measure.py` über den Wächter)
+
+Alle Tore bestanden (Init-Prüfsumme; W_E bei 0 und 50 = eingefrorene Blockschnappschüsse, ≤ 1e-3), sonst gäbe es keine Zahlen. `summary.json`.
+- **N29c, VO gegen QK: *Größen-Erklärung widersprochen*** (registriert, absolut und relativ gleich): Der schwächer wirkende QK-Reset nimmt mehr Verschiebung zurück, absolut ‖ΔW‖ 7.41 gegen 5.70 (Median-Verhältnis VO/QK 0.77), relativ 0.46 gegen 0.36 (0.77), jeweils in 20/20 Seeds. Der stärkere Effekt des VO-Resets (K4e) ist also nicht dadurch erklärt, dass er mehr Bewegung entfernt.
+- **N29b, Attention gegen MLP: *unklar*** (registriert): Absolut nimmt der MLP-Reset mehr zurück (9.82 gegen 9.37, 20/20 MLP größer → „widersprochen“), relativ zur Init-Norm der Attention-Reset (0.41 gegen 0.39, 20/20 → „offen“). Absolut und relativ widersprechen sich, also *unklar*.
+- Exploration an bekannten Seeds, kein FINDINGS-Urteil; im Paper §3.5 als beschreibender Zusatz.
+

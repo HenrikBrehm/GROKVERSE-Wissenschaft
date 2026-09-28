@@ -22,7 +22,10 @@ Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · [[NACHT_2026-09-29]]
 - **Kleinere Päckchen für den Reihenfolge-Test.** Die Rechnung sagt: Nur wenn ein Durchgang durch die Daten viel länger dauert als die 25–50 Schritte, in denen das Netz sich festlegt, kann eine feste Reihenfolge gegen die Menge ankommen. Deshalb testen wir heute Nacht zusätzlich Päckchen zu 16 Beispielen (240 Schritte je Durchgang).
 - **Ein neuer Split-Typ (Idee N53):** Paare so auswählen, dass jede Zahl in jeder Rolle genau gleich oft vorkommt und trotzdem fünf Frequenzen stark betont sind. Damit kann man später in einem Sprachmodell ausschließen, dass nur die Häufigkeit der Zahlen wirkt. Noch nicht trainiert.
 
-*(Nachtergebnisse folgen.)*
+**In der Nacht (ab 23:59):**
+- **Die gelenkten Frequenzen tragen wirklich die Rechnung.** Man kann aus den Ausgaben eines fertigen Netzes alles herausfiltern außer den fünf Frequenzen, die wir über die Trainingspaare vorgegeben haben. Dann rechnet das Netz auf ungesehenen Aufgaben immer noch praktisch fehlerfrei. Lässt man stattdessen nur die fünf Frequenzen des anderen Splits übrig, liegt es völlig daneben. Das gilt für alle vier Aufgaben und alle 20 Netze je Aufgabe. *Grenze:* noch nicht unabhängig nachgerechnet; gemessen an schon bekannten Netzen.
+
+*(Weitere Nachtergebnisse folgen.)*
 
 ## Drei Fragen, die eine Jury stellen könnte
 

@@ -8,7 +8,7 @@ tags: [exp/vorbereitet]
 
 Zurück: [[LAB]] · [[FINDINGS]] (K2, R5; alle Kernaussagen Full-Batch) · Regel 20b (Priorität 1) · Anlass: LeDoux 2026 (arXiv 2603.25047), Notiz in [[paper/related_work]] (Nachtrag Sitzung 43, 19:20) · Begründung [[paper/outreach/DECISION_2026-09-28]]
 
-**Stand:** Entwurf (Sitzung 43, 2026-09-28, ≈ 19:35 Berlin, Fenster zu). Trainer-Optionen liegen seit 19:20 als `trainer_l0.patch` vor (Test `test_minibatch_order` zuerst geschrieben; ungetestet, statische Prüfung läuft). Anwenden und committen erst nach `confirm_r10.py --analyze` (R10 bindet den Trainer-Hash). Achtung: Der Patch und der zurückgestellte EXP-097-Patch berühren dieselben Stellen, also nicht beide zugleich anwenden. Noch offen: `design.py` (Splits ohne O, Jobs), `analyze.py`, SGD-lr-Kalibrierung. Pilot = Exploration; die Bestätigung folgt als eigene Registrierung (L0-R) mit Power aus diesem Pilot.
+**Stand:** Entwurf (Sitzung 43, 2026-09-28, ≈ 19:35 Berlin, Fenster zu). Trainer-Optionen liegen seit 19:20 als `trainer_l0.patch` vor (Test `test_minibatch_order` zuerst geschrieben; ungetestet, statische Prüfung läuft). Anwenden und committen erst nach `confirm_r10.py --analyze` (R10 bindet den Trainer-Hash). Achtung: Der Patch und der zurückgestellte EXP-097-Patch berühren dieselben Stellen, also nicht beide zugleich anwenden. `design.py` steht (19:22): Splits für die Seeds 3700–3707 erzeugt (numpy; Zielanteil F/G 0.177–0.194 wie P1; Zufallssplit R bei Zufallsniveau 0.09; O-Anteil in allen Splits ≈ Zufallsniveau 0.09–0.11), `calib.txt` (SGD-lr 0.1/0.3/1.0 an 2 Seeds) und `smoke.txt` (300 Schritte je neuer Option). `--jobs` verweigert, solange `SGD_LR` nicht aus der Kalibrierung gesetzt ist. Noch offen: `analyze.py` mit eingefrorenen Lesarten. Pilot = Exploration; die Bestätigung folgt als eigene Registrierung (L0-R) mit Power aus diesem Pilot.
 
 ## Frage
 
@@ -43,6 +43,16 @@ LeDoux zeigt bei p = 9973, 0.3 % Daten, Batch 256 und einer festen „Stride“-
 ## Nötige Trainer-Optionen (Patch nach R10)
 
 `--batch-size B` (0 = voll, Standard), `--order {iid, fixed, stride}` (eigener Zufallsstrom, Epoche = ⌈n/B⌉ Schritte, nach einem Datenwechsel neu aufgebaut), `--optimizer {adamw, sgdm}` mit `--sgd-momentum`. Alles andere unverändert; Standardwerte ändern keinen alten Lauf (Fingerprint nur bei Abweichung). Tests zuerst: (1) B = n und `iid` gibt bitgleich den Full-Batch-Lauf? (nur, wenn die Reihenfolge die Summe nicht ändert; sonst Toleranz), (2) `stride` erzeugt genau die sortierte Reihenfolge, jede Epoche gleich, (3) `iid` mischt je Epoche neu und ist über den Seed reproduzierbar, (4) SGD-Schritt = −lr·(Momentum-Puffer) ohne Adam-Zustand. Dann unabhängige Prüfung.
+
+## Ablauf in der Nacht (nach R10 `--analyze` und dem Patch-Commit)
+
+```
+python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/smoke.txt --workers 3     # s/Schritt messen, events.minibatch lesen
+python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/calib.txt --workers 6     # SGD-lr wählen, SGD_LR in design.py setzen, README
+python lab/experiments/EXP-100-set-vs-order/design.py --jobs > lab/experiments/EXP-100-set-vs-order/jobs.txt   # nach analyze.py + Commit
+python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/jobs.txt --workers 8
+```
+Laufzeit schätzen, bevor der Block startet: 30 000 Minibatch-Schritte je Lauf, 84 solche Läufe. Ist das länger als ≈ 3 h, das Budget auf 15 000 Schritte senken (vor dem Block festlegen).
 
 ## Bereits gesehene Daten und davon beeinflusste Entscheidungen
 

@@ -1,4 +1,5 @@
-"""Rule 20c (session 43): Nanda restricted / excluded loss on the STORED P2d (add 113) and P2e (mul 113, add 97) models with the
+"""Rule 20c (session 43): Nanda restricted / excluded loss on the STORED P2d (add 113), P2e (mul 113, add 97) and P2f (D59) models
+(4 tasks x 20 seeds x arms F/G = 160 models) with the
 published sum-direction operator (Nanda et al. 2023; the study's `nanda_exact`, training/grokverse/analysis/mask_protocols.py —
 NOT the old outer-product `legacy_broad_mask`). Absicherung ohne neues Training; the models were analysed before only with the P2
 margin measure, so this is a new measure on known models (not a confirmation). UNTESTED. Loads torch models: run under the guard:
@@ -21,6 +22,12 @@ Readings fixed HERE, BEFORE computing (per task):
   'Ziele funktional (Nanda)'  r and e CI lower > 0
   'nicht'                     r and e CI upper < 0.1
   else 'gemischt'.
+Pre-run review (session 45, before any run; readings above unchanged): the readings use ALL 20 seeds per task, including models
+that did not generalise (P2e mul 113 19/20, P2f D59 17/20 generalised). Descriptive only: the same r/e means over the seeds whose
+two models both reach acc_unseen >= 0.9 ("generalised-only"). Every model file is checked against its sha256 in the block's
+bindings before loading; the output is never overwritten and is saved after each task; it records the git commit.
+Nanda's operator projects per output class onto cos/sin(w_k(i + j)), which is broader than the joint cos(w_k(i + j - c)) form;
+this reproduces the study operator and is described that way in the paper.
 Descriptive: accuracy of the unrestricted models on the unseen pairs, restr/excl in absolute terms (mul: over 112 classes, not comparable
 in absolute size to the add tasks), mask sizes n_own / n_unseen, n generalised.
 D59 (P2f): the analogue of the sum directions are the matrix coefficients rho_k(g h)_ij of the key 2-dim irreps (Schur
@@ -47,6 +54,25 @@ TASKS = {"add113": {"p": 113, "task": "add", "seeds": range(2230, 2250), "raw": 
          "D59": {"p": 118, "task": "D", "n": 59, "seeds": range(2340, 2360), "raw": LAB / "confirm/p2f_raw", "spl": LAB / "confirm/p2f_splits",
                  "run": "EXP-046_seed{s}_p2f_D59_seed{s}_{a}_devcuda", "stem": "p2f_D59_seed{s}_{a}"}}
 GEN, N_BOOT, HI = 3, 10_000, 0.1
+BIND = {"add113": "p2d_bindings", "mul113": "p2e_bindings", "add97": "p2e_bindings", "D59": "p2f_bindings"}   # review s45
+OUT = LAB / "confirm/P2_nanda_s43.json"
+
+
+def bound_hashes(dirname: str) -> dict[str, set[str]]:
+    """path (repo-relative, posix) -> set of sha256 recorded in the block's binding files."""
+    out: dict[str, set[str]] = {}
+    for f in sorted((LAB / "confirm" / dirname).glob("*.json")):
+        for path, h in json.loads(f.read_text(encoding="utf-8")).get("files", {}).items():
+            out.setdefault(path, set()).add(h)
+    return out
+
+
+def check_bound(path: Path, bound: dict[str, set[str]]) -> None:
+    import hashlib
+    rel = path.relative_to(ROOT).as_posix()
+    h = hashlib.sha256(path.read_bytes()).hexdigest()
+    if h not in bound.get(rel, set()):
+        raise SystemExit(f"[P2_nanda] {rel}: sha256 not in the block's bindings, refusing to load")
 
 
 def sum_basis(n: int, K: list[int]) -> np.ndarray:
@@ -163,16 +189,24 @@ def reading(r: np.ndarray, e: np.ndarray) -> str:
 
 
 def main() -> None:
-    out: dict = {}
+    import subprocess
+    if OUT.exists():
+        raise SystemExit(f"[P2_nanda] {OUT} exists: never overwrite (move it aside by hand if a rerun is intended)")
+    commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    out: dict = {"_meta": {"git_commit": commit, "note": "rule 20c, new measure on known models (not a confirmation)"}}
+    tmp = OUT.with_suffix(".partial.json")
     for name, t in TASKS.items():
         p, task, rows = t["p"], t["task"], []
+        bound = bound_hashes(BIND[name])
         for s in t["seeds"]:
             metas = {a: json.loads((t["spl"] / (t["stem"].format(s=s, a=a) + ".json")).read_text(encoding="utf-8")) for a in "FG"}
             idx = {a: np.load(t["spl"] / (t["stem"].format(s=s, a=a) + ".npy")) for a in "FG"}
             unseen_raw = ~(mask_of(idx["F"], p) | mask_of(idx["G"], p))
             row: dict = {"seed": s}
             for a in "FG":
-                L_raw = grid(t["raw"] / t["run"].format(s=s, a=a) / "model_final.pt", p, task)
+                mp = t["raw"] / t["run"].format(s=s, a=a) / "model_final.pt"
+                check_bound(mp, bound)
+                L_raw = grid(mp, p, task)
                 L, labels, (own, unseen), n = to_group(L_raw, [mask_of(idx[a], p), unseen_raw], p, task)
                 row[a] = model_row(L, labels, n, metas[a]["targets"], metas[a]["other_targets"], own, unseen, t.get("n"))
                 row[a]["n_own"], row[a]["n_unseen"] = int(own.sum()), int(unseen.sum())
@@ -183,8 +217,13 @@ def main() -> None:
                      "e_ci95": boot_ci(e), "reading": reading(r, e),
                      "n_generalised": int(sum(min(x["F"]["acc_unseen"], x["G"]["acc_unseen"]) >= 0.9 for x in rows)),
                      "rows": rows}
+        gen = [x for x in rows if min(x["F"]["acc_unseen"], x["G"]["acc_unseen"]) >= 0.9]   # descriptive, review s45
+        out[name]["generalised_only"] = {"n": len(gen), "r_mean": float(np.mean([x["r"] for x in gen])) if gen else None,
+                                         "e_mean": float(np.mean([x["e"] for x in gen])) if gen else None}
         print(name, {k: v for k, v in out[name].items() if k != "rows"}, flush=True)
-    (LAB / "confirm/P2_nanda_s43.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+        tmp.write_text(json.dumps(out, indent=1), encoding="utf-8")                        # keep partial results on a crash
+    OUT.write_text(json.dumps(out, indent=1), encoding="utf-8")
+    tmp.unlink()
 
 
 def selftest() -> None:

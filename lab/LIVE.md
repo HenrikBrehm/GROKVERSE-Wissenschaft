@@ -1,17 +1,17 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 38: **Abschlussbericht geschrieben**
+# LIVE: Laborsitzung 38: **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-28 05:19 Berlin (03:19Z, vom Runner)
 - **Deadline:** 2026-09-28 08:19 Berlin (06:19Z)
-- **Zuletzt aktualisiert:** 07:42 Berlin
+- **Zuletzt aktualisiert:** 07:59 Berlin
 - **Nächster geplanter Start:** 2026-09-28 08:54 Berlin (runner-state.json `next_start_utc` 06:54Z)
 - **Run-Fenster:** heute bis 18:00.
 
 ## Gerade
 
-Abschlussbericht steht im JOURNAL. Heute bestätigt: **P4, R7, C2, C3**; R2 gilt nur in einem Bereich; R3 *Λ-Uhr nicht bestätigt*. R4 (57/240) und EXP-014 laufen bis zur Deadline 08:19 und werden vom Wächter beendet.
+**Sitzung beendet.** Heute bestätigt: **P4, R7, C2, C3**; R2 gilt nur in einem Bereich; R3 *Λ-Uhr nicht bestätigt*. R4 (85/240) läuft bis zur Deadline 08:19 und wird dann vom Wächter beendet; EXP-014 (CPU) ist regulär gestoppt (9 Läufe fertig). Nächster Start: **08:54 Berlin**.
 
 ## Als Nächstes
 
@@ -19,6 +19,7 @@ Sitzung 39 (08:54): R4 mit 8 Workern fertig rechnen, auswerten, ins Paper.
 
 ## Verlauf dieser Sitzung
 
+- 07:59 Sitzung beendet (Paper §5b/§6 aktualisiert und geprüft).
 - 07:42 Abschlussbericht.
 - 07:40 R2/C2-Paperabschnitt geprüft (Zensur der Zeitkosten bei wd 0.3 ergänzt).
 - 07:35 **R2:** Übergang bei lr 2e-3 bestätigt, bei wd 0.3 nicht (Umstieg fehlt, dort kaum Generalisierung). **C2 bestätigt** (alte Ziele behalten ihre Rangfolge, ρ̄ 0.61).

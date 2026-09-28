@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 20:19 Berlin (18:19Z, vom Runner)
 - **Deadline:** 2026-09-28 23:19 Berlin (21:19Z)
-- **Zuletzt aktualisiert:** 21:47 Berlin
+- **Zuletzt aktualisiert:** 21:48 Berlin
 - **Run-Fenster:** zu (Wächter: outside_window); öffnet 23:59, also nach dieser Sitzung. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
@@ -18,6 +18,7 @@ Nächste Sitzung **23:54 Berlin** (Runner). Läufe ab **23:59**: R10 fertig → 
 
 ## Verlauf dieser Sitzung
 
+- 21:48 Nachtrag nach dem Bericht: Literatur zum R5-Umfeld gesichtet (nichts Einschränkendes).
 - 21:47 Sitzung beendet (86+ Commits, 21 Zyklen, alles ungetestet vorbereitet oder nachträglich an gespeicherten Daten gerechnet).
 - 21:43 Nachtdokumente auf Widersprüche geprüft (15 Punkte behoben: GPU-/Thread-Grenzen, Stichtag `git apply` für die R10-Nachrechnung, Start vor 23:59, SGD ohne Treffer, gitignore).
 - 21:33 L0: Deutungssätze je Ausgang vorab festgelegt; Literatur (Barak et al. 2022, Lin 2026).

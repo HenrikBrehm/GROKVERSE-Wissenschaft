@@ -1,8 +1,8 @@
 ---
 id: EXP-089
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-28
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 ---
 # EXP-089: Wächst die Festlegung bei fester Lernratensumme Λ mit der Schrittzahl? (Pilot, „Teil C“ von EXP-081)
 
@@ -59,3 +59,14 @@ Selbsttest grün (Sitzung 40). Splits in `splits/`, Jobs in `jobs.txt` (`design.
 ## Literatur zur Deutung (Sitzung 40, 10:48, nach der Registrierung, vor jedem Ergebnis; ändert keine Lesart)
 
 Suche 2026-09-28 (WebSearch: „implicit bias of Adam backward error analysis“, „implicit gradient regularization“). Dass endliche Schritte die Bahn gegenüber dem Gradientenfluss systematisch verändern, ist bekannt: Bei GD bestraft die Rückwärtsfehleranalyse die Gradientennorm mit Gewicht ∝ Schrittweite (Barrett & Dherin, *Implicit Gradient Regularization*, [arXiv 2009.11162](https://arxiv.org/abs/2009.11162)); bei Adam/RMSProp hängt der Korrekturterm von Hyperparametern und Trainingsphase ab und wirkt auf eine (gestörte) 1-Norm der Gradienten, meist hemmend (Cattaneo, Klusowski & Shigida, ICML 2024, [arXiv 2309.00079](https://arxiv.org/abs/2309.00079)). Bei festem Λ unterscheiden sich unsere Zellen genau in diesem Korrekturterm (Schrittweite 4× kleiner bei t = 100). Eine Abweichung von der Λ-Uhr wäre damit **erwartbar in der Art, nicht in Richtung und Größe**; welche Richtung die Festlegung nimmt, sagt keine der beiden Arbeiten für unsere Größe π voraus. Die Einordnung „Mischuhr“ wäre deshalb als Diskretisierungseffekt zu lesen, nicht als eigene Uhr.
+
+## Ergebnis (Sitzung 40, 2026-09-28; 120/120 GPU-Läufe 10:43–11:04 Berlin laut Queue-Log, parallel zu EXP-081; `analyze.py` über den Wächter; Pilot)
+
+10/10 Seeds gültig, keine technischen Ausfälle.
+- **Primär:** d100 = π(0.25, 100) − π(1, 25) = **+0.24**, SD 0.15, 95-%-KI **[0.17, 0.34]**, 10/10 Seeds > 0 → ***Mischuhr gestützt*** (registriert).
+- **Sekundär:** d50 = +0.09 [0.04, 0.15]. Zellmittel π: Standard t = 25 / 33 / 45: 0.32 / 0.56 / 0.84; Λ = 25 bei t = 50: 0.40, bei t = 100: 0.56. Gleichwertiger Standardschritt t_eq = **27.8** (t = 50) und **32.8** (t = 100); Exponent 1 − a = 0.15 bzw. 0.19.
+- **Gegen die vorab genannte Vorhersage der Mischuhr mit a = 0.8** (τ ≈ 28.7 bzw. 33): getroffen, bei t = 100 fast genau. In π lag die Vorhersage (0.36 / 0.49 aus der EXP-059-Kurve) etwas niedriger als beobachtet, weil die Standardkurve dieser Seeds steiler ist (π(33) 0.56 statt ≈ 0.45); über t_eq, auf der eigenen Kurve der Seeds, passt sie.
+
+**Lesart (Interpretation, Pilot):** Bei gleicher Lernratensumme legt sich das Modell mit mehr, kleineren Schritten stärker fest; ein Faktor 4 in der Schrittzahl wirkt wie ≈ 30 % mehr Λ. Weder die reine Λ-Uhr (d = 0) noch die Schrittuhr (π nach 100 Schritten ≫ 1) beschreibt das. Die Mischuhr τ ≈ Λ^0.8 · t^0.2 aus der R3-Lücke sagt die Größe richtig voraus, an unabhängigen Seeds und mit einer anderen Messgröße (π statt Genauigkeit). Das spricht dafür, dass die R3-Lücke echt ist und nicht an der Messgröße lag.
+**Mechanismus offen:** Vollbatch-Training, gleicher Weight-Decay-Faktor und gleicher Momentum-Schwanz (in allen Zellen gleich) schließen Minibatch-Rauschen, Decay und den Schwanz als einfache Erklärung aus. Übrig bleiben Diskretisierungseffekte (Rückwärtsfehler-Terme ∝ Schrittweite, Literatur oben: größere Schritte weichen stärker vom Fluss ab) und Adams schrittweise Normierung/Bias-Korrektur. Die Richtung heißt: Der feinere Pfad (näher am Fluss) legt sich *stärker* fest; größere Schritte „verschwenden“ einen Teil von Λ.
+**Grenzen:** Pilot, 10 Seeds, ein Λ, eine Aufgabe (add 113), eine Architektur; t_eq aus Zellmitteln und linearer Interpolation; π-Kurve nichtlinear. Eine Bestätigung bräuchte frische Seeds, eingefrorenes Manifest und eine zweite Λ-Stufe (z. B. Λ = 12.5 mit t = 12/25/50 oder ×8 in t), damit die Potenzform geprüft und nicht nur ein Punkt getroffen wird.

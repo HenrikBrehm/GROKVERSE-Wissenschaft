@@ -1,6 +1,8 @@
 """R8 power (session 37, before freezing): resample the 10 EXP-086 pilot seed differences D = C_AB(25) - C_AA2(25) with
 replacement, n in (20, 25, 30); power of p = max(p_flip exact, p_sign) < 0.05 at the pilot mean and with every value shifted
-down by half the pilot mean (winner's curse). Rule (registration): smallest n with power >= 0.8 at half effect, else 30.
+down by half the pilot mean (winner's curse); plus a normal model (pilot SD, mean = half the pilot mean), added after the
+independent review (session 37: the 10-value bootstrap flatters the sign test). Rule: smallest n with power >= 0.8 at half effect
+in BOTH models, else 30.
   python lab/confirm/R8_pilot_power.py > lab/confirm/R8_pilot_power.json
 """
 import json
@@ -28,6 +30,13 @@ for label, shift in (("full", 0.0), ("half_effect_shift", D.mean() / 2)):
             x = rng.choice(D - shift, size=n, replace=True)
             hits += max(r6.p_flip(x, rng), r6.p_sign(x)) < 0.05
         out[label][str(n)] = hits / out["sims"]
-ns = [n for n in (20, 25, 30) if out["half_effect_shift"][str(n)] >= 0.8]
+out["normal_half_effect"] = {}
+for n in (20, 25, 30):
+    hits = 0
+    for _ in range(out["sims"]):
+        x = rng.normal(D.mean() / 2, D.std(ddof=1), n)
+        hits += max(r6.p_flip(x, rng), r6.p_sign(x)) < 0.05
+    out["normal_half_effect"][str(n)] = hits / out["sims"]
+ns = [n for n in (20, 25, 30) if min(out["half_effect_shift"][str(n)], out["normal_half_effect"][str(n)]) >= 0.8]
 out["n_rule"] = ns[0] if ns else 30
 print(json.dumps(out, indent=1))

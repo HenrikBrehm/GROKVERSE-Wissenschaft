@@ -1,5 +1,5 @@
 """R8 confirmation (FINDINGS programme B, time signature of the lock-in): does only a switch to OTHER target frequencies cost
-grokking time? Session 37, UNTESTED (selftest only inside the run window).
+grokking time? Session 37; selftest green (session 37), independent read-only review without blocker (session 37).
 
 Registration: lab/confirm/R8_REGISTRATION_DRAFT.md (pilot EXP-086, seeds 400-409, seen).
 Per seed s: A, B, test exactly as N28/R6 (EXP-053 overlap_split, omega = 0, calibrated eps); A2 = the EXP-086 construction (same target
@@ -47,7 +47,7 @@ CAL = LAB / "experiments/EXP-053-p3-overlap-design/calibration.json"
 BUDGET, CAP, T_SW, ALPHA, OMEGA, SALT, SHARE_TOL = 2000, 2000, 25, 0.05, 0.0, 88_001, 0.005
 TIE = 1e-9
 PURPOSE = {"phases": 0, "keys": 1}
-N_UNITS = 20                                      # set from the power simulation before freezing (registration: 20/25/30)
+N_UNITS = 25                                      # power rule (R8_pilot_power.json, bootstrap AND normal model at half effect)
 REGISTERED = {"seeds": list(range(3100, 3100 + N_UNITS)), "switch_step": T_SW, "device": "cuda", "threads": 1}
 CODE_FILES = ("lab/tools/confirm_r8.py", "lab/tools/confirm_r6.py", "lab/tools/confirm_n28.py", "lab/tools/confirm_p1.py",
               "lab/tools/confirm_splits.py", "lab/tools/result_loader.py", "lab/tools/paket_a_device.py", FB,
@@ -95,7 +95,8 @@ def build(seed: int) -> dict:
     assert len(d["A"]) == len(d["B"]) == ov.N_TRAIN and not np.intersect1d(d["A"], d["B"]).size
     assert not np.intersect1d(test, np.union1d(d["A"], d["B"])).size
     meta = {"seed": seed, "omega": OMEGA, "targets": {"A": F, "B": G}, "eps_A2": float(mid), "share_A_F": goal,
-            "share_A2_F": ov.share(A2, F), "share_B_G": ov.share(d["B"], G)}
+            "share_A2_F": ov.share(A2, F), "share_B_G": ov.share(d["B"], G), "share_A2_G": ov.share(A2, G),
+            "overlap_A2_B": int(np.intersect1d(A2, d["B"]).size)}
     return {"A": A, "B": d["B"], "A2": A2, "test": test, "meta": meta}
 
 

@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 20:19 Berlin (18:19Z, vom Runner)
 - **Deadline:** 2026-09-28 23:19 Berlin (21:19Z)
-- **Zuletzt aktualisiert:** 21:14 Berlin
+- **Zuletzt aktualisiert:** 21:28 Berlin
 - **Run-Fenster:** zu (Wächter: outside_window); öffnet 23:59, also nach dieser Sitzung. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
 
-Prüfung des Wechselteils von L0 läuft (nur lesend). Danach Abschluss vorbereiten (Deadline 23:19).
+Vorbereitung abgeschlossen; letzte Prüfungen und Abschlussbericht vorbereiten (Deadline 23:19).
 
 ## Als Nächstes
 
@@ -18,6 +18,8 @@ Nächste Sitzung 23:54 Berlin; ab 23:59 R10 fertig → L0. Füllarbeit: EXP-101 
 
 ## Verlauf dieser Sitzung
 
+- 21:28 Nachtrag: Warum wächst Δ_pow? Eigene Ziele halten sich, alle anderen Frequenzen zerfallen mit ≈ 0.5–0.75 der Weight-Decay-Rate (nachgerechnet; mein „85 %“ war falsch bezogen). EXP-103 Teil B entscheidet die lr·wd-Uhr, vorgezogen.
+- 21:24 Nachtplan abgesichert (Patch passt, R10-Hashes gleich, GPU ≤ 10, CPU ≤ 12 Threads).
 - 21:14 L0 sekundär vorbereitet: Wechsel bei 25/50 Schritten unter Minibatch (64 Läufe, Lesarten vorab).
 - 21:11 Zwischenbilanz nach 12 Zyklen; Paper §6 um die Machbarkeitsbegründung ergänzt (geprüft).
 - 21:07 EXP-100: Konflikt-Auswertung auch für Batch 64 vorbereitet (Regeln unverändert).

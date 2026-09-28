@@ -209,7 +209,12 @@ def run_one(seed: int, arm: str) -> None:
     t0 = time.time()
     h = rfm(idx, P, ITERS)
     M = h.pop("M_final")
-    np.save(out.with_suffix(".M.npy"), M.numpy())
+    out.parent.mkdir(parents=True, exist_ok=True)               # s45: the first real run failed here (raw/ did not exist)
+    mp = out.with_suffix(".M.npy")
+    tmp = mp.with_name(mp.name + ".tmp")
+    with open(tmp, "wb") as fh:                                   # atomic like write_atomic (Astra point 3)
+        np.save(fh, M.numpy())
+    os.replace(tmp, mp)
     rec = {"status": "error" if "error" in h else "completed", "seed": seed, "arm": arm, "p": P, "task": "add",
            "iters": ITERS, "bandwidth": BANDWIDTH, "ridge": 0.0, "agop_power": 0.5, "centering": True,
            "targets": meta.get("targets"), "split_file": str(sp.relative_to(ROOT)).replace("\\", "/"),

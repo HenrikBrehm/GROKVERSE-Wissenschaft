@@ -1,0 +1,60 @@
+{
+ "note": "post hoc exploration on stored R4 runs (units seen for Delta_split only)",
+ "M0c_t2000": {
+  "mean_contrast": 0.5423185805422648,
+  "ci95": [
+   0.5180312642401458,
+   0.5670935079175211
+  ],
+  "units_positive": 60,
+  "mean_rho_own": 0.5533843130553656
+ },
+ "M0c_t8000": {
+  "mean_contrast": 0.2851441102756892,
+  "ci95": [
+   0.26029842361585787,
+   0.3104585326953747
+  ],
+  "units_positive": 60,
+  "mean_rho_own": 0.3006180223285486
+ },
+ "M0_t2000": {
+  "mean_contrast": 0.4221944064707223,
+  "ci95": [
+   0.39572238123718395,
+   0.4489962406015037
+  ],
+  "units_positive": 60,
+  "mean_rho_own": 0.42580741626794255
+ },
+ "M0_t8000": {
+  "mean_contrast": 0.22442868534973803,
+  "ci95": [
+   0.19860117623604467,
+   0.2510017016974254
+  ],
+  "units_positive": 60,
+  "mean_rho_own": 0.22677916381863752
+ },
+ "reading": "the random split's mask spectrum predicts its learned frequencies beyond the init",
+ "secondary_top5": {
+  "top5_pct_t2000": {
+   "mean_own": 0.7833636363636365,
+   "mean_own_minus_other": 0.28236363636363637,
+   "ci95": [
+    0.2607727272727273,
+    0.30462121212121207
+   ],
+   "units_positive": 60
+  },
+  "top5_pct_t8000": {
+   "mean_own": 0.7572272727272727,
+   "mean_own_minus_other": 0.2535909090909091,
+   "ci95": [
+    0.23225719696969696,
+    0.2749545454545455
+   ],
+   "units_positive": 60
+  }
+ }
+}

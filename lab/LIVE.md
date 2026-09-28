@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 21:49 Berlin (19:49Z, vom Runner)
 - **Deadline:** 2026-09-29 00:49 Berlin (22:49Z)
-- **Zuletzt aktualisiert:** 22:09 Berlin
+- **Zuletzt aktualisiert:** 22:20 Berlin
 - **Run-Fenster:** zu bis 23:59 (Wächter Exit 3 = „noch nicht“). Ab 23:59 durchgehend (Regel 20).
 
 ## Gerade
 
-Ein unabhängiger Agent liest die Kurzfassung des Papers als kritischer Workshop-Gutachter (Regel 20d); danach sortiere und prüfe ich die Einwände.
+Unabhängige Nachrechnung eines neuen Explorationsbefunds: Bei gewöhnlichen Zufallssplits (R4) sagt das Maskenspektrum des eigenen Splits die gelernten Frequenzen voraus, über die Init hinaus (Top-5 im Mittel beim 78. Perzentil der eigenen Maske gegen ≈ 50. beim anderen Split, 60/60 Einheiten).
 
 ## Als Nächstes
 
@@ -18,6 +18,8 @@ Ein unabhängiger Agent liest die Kurzfassung des Papers als kritischer Workshop
 
 ## Verlauf dieser Sitzung
 
+- 22:20 R4 nachträglich (Exploration): eigenes Maskenspektrum sagt gelernte Frequenzen voraus, Kontrast 0.54 [0.52, 0.57] (Spearman, Schritt 2000), 60/60; Nachrechnung läuft.
+- 22:18 Simulierte Gutachter-Prüfung umgesetzt: Textkorrekturen; R5-RMST 5.8/6.9 (post hoc); L0-Machbarkeit um Batch 16 erweitert (nur dort kann die Reihenfolge laut erster Ordnung wirken).
 - 22:09 EXP-104 vor dem Lauf geprüft: 2 Blocker gefunden und behoben (Splitgröße 3842 braucht `--train-frac 0.3009`; Suchmuster der Auswertung), gemeinsame Testmenge je Seed. EXP-105 (Leiter Stufe 2) als Entwurf.
 - 22:03 EXP-104 vorbereitet (12 GPU-Läufe, 2 Seeds, Exploration, nach L0): Steuern flache Splits, und blockiert ihre Symmetrie das Grokking?
 - 22:02 N53, Nachtrag: 10 Tauschzüge (< 1 % der Paare) brechen die Symmetrie, Häufigkeiten bleiben exakt flach, Zielanteil 0.64–0.73. Die Zugzahl regelt die Steuerstärke.

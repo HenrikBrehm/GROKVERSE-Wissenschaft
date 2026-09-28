@@ -13,7 +13,8 @@ Readings (fixed here; bootstrap 95 % CI over valid seeds, 10 000 resamples, seed
   minibatch   d_mb = pi_iid256(50) - pi_iid256(25):
               "Fenster wie Full-Batch"      d_mb CI > 0
               "Fenster verschoben/fehlt"    d_mb CI contains 0 (then report pi_iid256(25) and (50): both >= 0.5 -> locks
-                                            earlier than 25 steps; both < 0.5 -> later than 50 or not at all)
+                                            earlier than 25 steps; both < 0.5 -> later than 50 or not at all;
+                                            otherwise "(gemischt)")
               "umgekehrt"                   d_mb CI < 0
 Descriptive: pi per cell, paired d_mb - d_fb, epochs at the switch (t / 15 at B = 256), generalisation step per run.
 Note (N52): at B = 256 an epoch is 15 steps, so both switch times lie after at least one full epoch.
@@ -29,6 +30,7 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parents[1] / "tools"))    # review s44: do not rely on analyze.py's side effect
 sys.path.insert(0, str(HERE))
 import analyze as A  # noqa: E402  (shared loader, EXP-043 group power, bootstrap)
 import design as D  # noqa: E402
@@ -45,7 +47,7 @@ def pi_pair(LF: float, LG: float, LFG: float, LGF: float) -> float:
     return ((LFG - LG) / (LF - LG) + (LGF - LF) / (LG - LF)) / 2
 
 
-def load_switch(s: int, arm: str, first: str, second: str, t: int) -> np.ndarray | str:
+def load_switch(s: int, arm: str, first: str, second: str, t: int) -> dict | str:
     total = D.ARMS[arm][3] + t
     pat = f"EXP-020_baseline_seed{s}_thr*_seed{s}_{first}_to_seed{s}_{second}_at{t}{A.suffix(arm)}{A.SUF}"
     L = load_run(find_run(HERE / "raw_switch", pat),
@@ -55,7 +57,12 @@ def load_switch(s: int, arm: str, first: str, second: str, t: int) -> np.ndarray
     if L.status != "ok":
         return f"seed {s} {arm} {first}->{second}@{t}: {L.status}: {L.reason}"
     pw = A._a43.group_power(L.snapshot(total), "add", 113)[0]
-    return pw if np.isfinite(pw).all() else f"seed {s} {arm} {first}->{second}@{t}: non-finite"
+    if not np.isfinite(pw).all():
+        return f"seed {s} {arm} {first}->{second}@{t}: non-finite"
+    r = L.res
+    gen = (r.get("transitions") or {}).get("primary", {}).get("generalization", {}).get("first_crossing_step")
+    spe = r.get("events", {}).get("minibatch", {}).get("steps_per_epoch", 1) if D.ARMS[arm][0] else 1
+    return {"end": pw, "t_gen": gen, "epochs_at_switch": t / spe}
 
 
 def seed_pis(s: int) -> dict:
@@ -74,7 +81,9 @@ def seed_pis(s: int) -> dict:
             out["errors"].append(f"seed {s} {arm}: pure runs not separated (L_F - L_G = {LF - LG:.2f})")
             continue
         for t in D.SWITCH_T:
-            out[f"pi_{arm}_{t}"] = pi_pair(LF, LG, logratio(sw[("F", "G", t)], F, G), logratio(sw[("G", "F", t)], F, G))
+            out[f"pi_{arm}_{t}"] = pi_pair(LF, LG, logratio(sw[("F", "G", t)]["end"], F, G), logratio(sw[("G", "F", t)]["end"], F, G))
+            out[f"tgen_{arm}_{t}"] = [sw[(a, b, t)]["t_gen"] for a, b in (("F", "G"), ("G", "F"))]
+            out[f"epochs_at_switch_{arm}_{t}"] = sw[("F", "G", t)]["epochs_at_switch"]
     return out
 
 
@@ -91,11 +100,17 @@ def reading(rows: list[dict]) -> dict:
     if mb == "Fenster verschoben/fehlt":
         p25, p50 = float(col("pi_iid256_25").mean()), float(col("pi_iid256_50").mean())
         mb += (" (legt vor 25 Schritten fest)" if min(p25, p50) >= 0.5 else
-               " (legt nach 50 Schritten oder nicht fest)" if max(p25, p50) < 0.5 else "")
+               " (legt nach 50 Schritten oder nicht fest)" if max(p25, p50) < 0.5 else " (gemischt)")
     return {"n": len(ok), "reference": ref, "minibatch": mb if ref == "Referenz repliziert" else f"{mb} (nur beschreibend)",
             "d_fb": {"mean": float(d_fb.mean()), "ci95": c_fb}, "d_mb": {"mean": float(d_mb.mean()), "ci95": c_mb},
             "d_mb_minus_d_fb": {"mean": float((d_mb - d_fb).mean()), "ci95": A.boot_ci(d_mb - d_fb)},
-            "pi_means": {k: float(col(k).mean()) for k in need}}
+            "pi_means": {k: float(col(k).mean()) for k in need},
+            "tgen_median": {f"{a}_{t}": (float(np.median(g)) if (g := [x for r in ok for x in r.get(f"tgen_{a}_{t}", [])
+                                                                         if x is not None]) else None)
+                            for a in D.SWITCH_ARMS for t in D.SWITCH_T},
+            "n_generalised": {f"{a}_{t}": sum(x is not None for r in ok for x in r.get(f"tgen_{a}_{t}", []))
+                              for a in D.SWITCH_ARMS for t in D.SWITCH_T},
+            "epochs_at_switch": {f"{a}_{t}": ok[0].get(f"epochs_at_switch_{a}_{t}") for a in D.SWITCH_ARMS for t in D.SWITCH_T}}
 
 
 def main() -> None:

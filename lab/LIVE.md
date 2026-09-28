@@ -1,23 +1,28 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 45
+# LIVE: Laborsitzung 45: **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-28 21:49 Berlin (19:49Z, vom Runner)
 - **Deadline:** 2026-09-29 00:49 Berlin (22:49Z)
-- **Zuletzt aktualisiert:** 00:03 Berlin
+- **Zuletzt aktualisiert:** 00:35 Berlin
 - **Run-Fenster:** offen seit 23:59 (durchgehend bis 06.10.); Grenze dieser Sitzung 00:49.
 
 ## Gerade
 
-R10 rechnet (8 GPU-Worker, ≈ 2 min je Lauf; wird in der nächsten Sitzung fertig). RFM-Reproduktionstest (p = 61) läuft auf der CPU.
+**Sitzung beendet** (00:35). R10 fertig und nachgerechnet, Nanda fertig, L0-Trainer-Patch angewendet und getestet. Der letzte RFM-Lauf endet mit dem Wächter um 00:49. Abschlussbericht im JOURNAL.
 
 ## Als Nächstes
 
-RFM-Tor prüfen → RFM-Läufe; Nanda unabhängig nachrechnen; vor 00:49 Stand sichern. Nächste Sitzung: R10 fertig → Auswertung → Nachrechnung → L0-Patch ([[NACHT_2026-09-29]]).
+Nächster Runner-Start laut runner-state.json **29.09. 01:24 Berlin**: R11 einfrieren + starten, L0 Smoke → Machbarkeit (18 Läufe) → Vorhersage-Test, EXP-101 fortsetzen, EXP-103 Teil A, Nanda nachrechnen.
 
 ## Verlauf dieser Sitzung
 
+- 00:35 Sitzung beendet (Bericht im JOURNAL).
+- 00:34 L0-Trainer-Patch angewendet, alle Trainer-Tests grün, committet.
+- 00:27 R10 unabhängig nachgerechnet: alle Zahlen gleich.
+- 00:23 **R10 fertig:** weniger Gradientenauswertungen → schwächere Festlegung (H1, H3 bestätigt); Äquivalenz H2 nicht gezeigt.
+- 00:08 RFM: Tor bestanden (p = 61 generalisiert); Hauptlauf läuft.
 - 00:03 **Nanda (Regel 20c): in allen vier Aufgaben tragen die gesteuerten Frequenzen die Lösung** (je 20/20; auf eigene Ziele beschränkt Fehler ≈ 0, auf fremde 11–18). RFM-Selbsttest: Testfehler diagnostiziert (Matrixwurzel verstärkt Rundung), korrigiert.
 - 23:59 Fenster offen: R10-Queue und Nanda gestartet.
 - 22:56 Paper: Konsistenzprüfung nach allen heutigen Änderungen (7 Punkte behoben, alle Zahlen stimmen); Abb. 1 als zweiteiliges Bild.

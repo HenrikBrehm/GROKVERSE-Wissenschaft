@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-28, 22:05 Berlin (Sitzung 45 läuft, Start 21:50, Deadline 00:49; Läufe ab 23:59 nach [[NACHT_2026-09-29]]) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend 28.09. 23:59 bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 00:36 Berlin (Sitzung 45 beendet; Abschlussbericht im JOURNAL; nächster Runner-Start laut runner-state.json 01:24 Berlin) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,7 +17,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Aktive Queue / laufende Jobs
 
-- **Sitzung 45, Nacht (Stand 00:26):** **R10 fertig** (480/480, `R10_summary.json`: H1, H3 bestätigt; H2 nicht; Lesart „teilweise: H1, H3“; Deutung nach [[paper/R10_DEUTUNGEN]]). **Unabhängige Nachrechnung läuft** (`lab/confirm/R10_recheck_s45.py`, Agent). Erst wenn sie da ist und stimmt: `git apply` L0-Patch → Trainer-Tests → Commit (Schritt 5 im Nachtplan). Fehlt die Nachrechnung beim Sitzungsstart: `R10_recheck_s45.py` über den Wächter laufen lassen, falls vorhanden, sonst nach dem Plan neu beauftragen. **Nanda erledigt** (alle vier „Ziele funktional“, Nachrechnung mit Inferenz steht aus). **EXP-101** Hauptlauf läuft/fortsetzbar (`--run --seeds 1000-1009 --arms R,F,G --threads 4`, dann `--analyze`). **EXP-103 Teil B** läuft (`parallel_queue.py …/jobs_cross.txt --workers 6`, fortsetzbar); Teil A (`jobs.txt`) danach; Auswertung zuerst Teil A.
+- **Sitzung 45 beendet (00:36):** **R10 fertig + nachgerechnet** (H1, H3 bestätigt; H2 nicht). **L0-Trainer-Patch angewendet, Tests grün, committet (11e28020)** → Trainer ab jetzt bis zum Ende von R11 und L0 nicht mehr ändern. **Nanda** fertig (alle vier „Ziele funktional“), Nachrechnung mit Inferenz offen. **EXP-101** 21/30 fertig (fortsetzbar: `--run --seeds 1000-1009 --arms R,F,G --threads 4`, dann `--analyze`). **EXP-103 Teil B** 39/40 (Job 24: GPU-Startfehler, `jobs_cross.txt` erneut; fertige Läufe prüfen), Teil A offen. Keine Prozesse außer dem RFM-Lauf, den der Wächter um 00:49 beendet (eine halbe RFM-Datei ist nicht möglich, Ausgaben atomar).
 - **R10 halb gerechnet:** eingefroren 7b583bdb (n = 48, Seeds 3500–3547, 480 GPU-Läufe). 268/480 gebunden, 0 Fehler, Wächterstopp 17:52 regulär. **Ergebnisse ungesehen, nicht ansehen vor 480/480.** Regel 20a: zu Ende rechnen, Ergebnis in den Anhang (K5/R9/R10-Nebenabschnitt).
 - **Zurückgestellt nach Regel 20a (Mechanismus-/Detailversuche, NICHT starten; Vorbereitung bleibt erhalten):** EXP-096 (a3bd9415), EXP-097 (Patch `trainer_psu.patch`), EXP-098 (45d66cad), EXP-099 (Patch `trainer_wef.patch`, setzt auf psu auf). Entwurf R11 (Festlegung K4 bei add 97/mul 113, `confirm_r11.py`, Fassung 2): als GPU-Füllarbeit nach dem L0-Patch-Commit einfrieren (siehe Schritt 8).
 - **Trainer-Hash:** R10 bindet `freq_ban.py` (da4d7bc0…). Änderungen am Trainer (z. B. Minibatch für L0) erst nach `confirm_r10.py --analyze` committen; bis dahin nur als Patch.

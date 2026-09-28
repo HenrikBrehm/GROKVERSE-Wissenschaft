@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 02:29 Berlin (00:29Z, vom Runner)
 - **Deadline:** 2026-09-28 05:29 Berlin (03:29Z)
-- **Zuletzt aktualisiert:** 02:53 Berlin
+- **Zuletzt aktualisiert:** 03:18 Berlin
 - **Run-Fenster:** heute bis 18:00.
 
 ## Gerade
 
-R1-Block läuft (Robustheit K2 gegen Lernrate/Weight Decay/Trainingsanteil, 180 GPU-Läufe, 7 parallel, ≈ 45/180). CPU: EXP-040 Wechselstufe (32 Läufe, ≈ 3 h, läuft über die Deadline hinaus weiter in Sitzung 38).
+R6-Block läuft (480 GPU-Läufe, ≈ 110/480, voraussichtlich fertig ≈ 04:40). R8 (Bestätigung Frequenzkonflikt) ist geschrieben, der Selbsttest ist grün, eine unabhängige Prüfung läuft. CPU: EXP-040.
 
 ## Als Nächstes
 
-R1 auswerten (+ C1), dann R6-Block (480 Läufe), R5-Block (140 × 8000), EXP-085, EXP-078 → R7.
+R8 einfrieren, danach R6 auswerten, dann R8-Block (≈ 20 min). R5 folgt in Sitzung 38.
 
 ## Verlauf dieser Sitzung
 
+- 03:17 **R8** entworfen und programmiert (n = 20, Power 0.96 bei halbem Effekt).
+- 03:05 **R1 bestätigt** in allen 6 Hyperparameter-Zellen; **C1 bestätigt** (S = 0.45); Paper §3.7 geprüft.
 - 02:50 **R5 eingefroren** (n = 20; Codex ohne Guthaben, Ersatzprüfung ohne Blocker), Smoke grün.
 - 02:46 **EXP-086: Frequenzkonflikt** – ein früher Wechsel kostet nur bei anderen Zielfrequenzen Zeit (D = +0.82 log2, 9/10, p = 0.011; Pilot).
 - 02:46 R1-Block gestartet.

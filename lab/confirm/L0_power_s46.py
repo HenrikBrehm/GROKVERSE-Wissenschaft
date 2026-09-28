@@ -12,7 +12,11 @@ one-sided t-test at alpha/k <= 0.025 is implied). Monte Carlo 4000 repetitions p
 Output: for each hypothesis and n in 6..60 the power at (half effect, pilot SD) and (half effect, 1.5 SD); the smallest n with
 power >= 0.8 in the pessimistic case is the recommendation. Decision rule for the registration: n = max over H1/H2 of that n,
 at least 10, rounded up to a multiple of 2.
-  python lab/confirm/L0_power_s46.py [--k 3]
+  python lab/confirm/L0_power_s46.py [--k 3] [--exp106]
+With --exp106 (added session 46 before any EXP-106 result): statistics from lab/experiments/EXP-106-l0-b16-long-epochs/summary.json,
+  H2b dpow_end_iid16w (K2 at B = 16, weight decay 0.1)
+  H3o o_stride16w - o_iid16w (order moves energy onto O at B = 16; per seed, mean over F/G)
+  H3d dpow_end_stride16w (the set still steers under the conflicting order)
 """
 from __future__ import annotations
 
@@ -70,11 +74,21 @@ def power(d: float, s: float, n: int, level: float, rng: np.random.Generator) ->
 
 def main() -> None:
     k = int(sys.argv[sys.argv.index("--k") + 1]) if "--k" in sys.argv else 3
+    if "--exp106" in sys.argv:
+        rows = [r for r in json.loads((LAB / "experiments/EXP-106-l0-b16-long-epochs/summary.json").read_text(encoding="utf-8"))["rows"]
+                if r.get("valid")]
+        stats = {"H2b": [r["dpow_end_iid16w"] for r in rows], "H3o": [r["o_stride16w"] - r["o_iid16w"] for r in rows],
+                 "H3d": [r["dpow_end_stride16w"] for r in rows]}
+        return report(k, rows, stats, ("H2b", "H3o", "H3d"))
     rows = [r for r in json.loads(SUMMARY.read_text(encoding="utf-8"))["rows"] if r.get("valid")]
     stats = {"H1": [r["dpow_end_iid256"] for r in rows],
              "H2": [r["dpow_end_iid64"] for r in rows],
              "H3c": [r["dpow_end_stride64"] - r["dpow_end_iid64"] for r in rows
                      if "dpow_end_stride64" in r and "dpow_end_iid64" in r]}
+    report(k, rows, stats, ("H1", "H2"))
+
+
+def report(k: int, rows: list, stats: dict, rule_hyps: tuple) -> None:
     rng = np.random.default_rng(46)
     out = {"k": k, "n_pilot": len(rows), "hyp": {}}
     for h, xs in stats.items():
@@ -88,7 +102,7 @@ def main() -> None:
         out["hyp"][h] = {"pilot_mean": float(xs.mean()), "pilot_sd": s, "n_pilot": len(xs), "half_effect": d,
                          "n_recommended_pessimistic": rec,
                          "power_at": {str(n): [round(a, 3), round(b, 3)] for n, (a, b) in curve.items() if n in (8, 10, 12, 16, 20, 24, 30, 40)}}
-    ns = [out["hyp"][h].get("n_recommended_pessimistic") for h in ("H1", "H2") if isinstance(out["hyp"].get(h), dict)]
+    ns = [out["hyp"][h].get("n_recommended_pessimistic") for h in rule_hyps if isinstance(out["hyp"].get(h), dict)]
     ns = [n for n in ns if n is not None]
     out["n_rule"] = (max(10, max(ns)) + 1) // 2 * 2 if ns else None
     print(json.dumps(out, indent=1))

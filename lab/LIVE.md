@@ -5,21 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 05:19 Berlin (03:19Z, vom Runner)
 - **Deadline:** 2026-09-28 08:19 Berlin (06:19Z)
-- **Zuletzt aktualisiert:** 06:23 Berlin
+- **Zuletzt aktualisiert:** 06:44 Berlin
 - **Run-Fenster:** heute bis 18:00.
 
 ## Gerade
 
-- GPU: **R2-Block** (13/300 fertig, 6 Worker) und **R7-Block** (14/36, 2 Worker).
+- GPU: **R2-Block** (103/300, 6 Worker) und **R4-Block** (1/240, 2 Worker; wird erst in der nächsten Sitzung fertig).
 - CPU: EXP-014 (4 Threads).
-- Paper: P4/C3 als §3.11 geschrieben, unabhängige Prüfung läuft.
+- Paper: R7 als §3.12, Prüfung läuft.
 
 ## Als Nächstes
 
-R7 → `--analyze`; R2 → `--analyze`, C2, `R2_time.py`; dann R4 (≈ 1.6 h, evtl. nächste Sitzung).
+R2 → Auswertung + C2 + `R2_time.py`, falls vor 08:19 fertig; sonst nächste Sitzung.
 
 ## Verlauf dieser Sitzung
 
+- 06:47 **R7 bestätigt:** K2 auch im 2-Schicht-Transformer (Δ_pow 6.15, 10/10). R4 gestartet.
+- 06:33 P4/C3-Paperabschnitt geprüft (Testname korrigiert, MLP-Init-Ordnung ergänzt).
 - 06:23 **P4 bestätigt** in allen drei Bedingungen (MLP, 4× Breite, Integer-Addition; je 15/15); **C3 bestätigt** (S = 0.30).
 - 06:08 R3-Paperabschnitt geprüft (Zahlen richtig, Formulierungen vorsichtiger).
 - 05:57 **R3 fertig:** Schrittuhr widerlegt (beide Zellen 0/20); Λ-Uhr registriert *nicht bestätigt* (doppelte Lernrate bestätigt, halbe nur in der Richtung).

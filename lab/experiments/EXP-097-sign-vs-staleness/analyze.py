@@ -185,7 +185,7 @@ def selftest() -> None:
     assert verdict(w(0.19, 0.06, None, 0.1))["Q1"] == "Quantisierung teilweise"
     assert verdict(w(0.19, 0.0, None, 0.15))["Q1"] == "Quantisierung nicht"
     assert verdict(w(0.19, 0.0, 0.28, 0.15))["Q2"] == "Veraltung zaehlt"
-    assert verdict(w(0.19, 0.0, 0.28, 0.06))["Q2"] == "Veraltung teilweise"
+    assert verdict(w(0.25, 0.0, 0.28, 0.06))["Q2"] == "Veraltung teilweise"   # margin: 0.06/0.28 vs 0.5 * 0.25/0.30
     assert verdict(w(0.19, 0.0, 0.28, 0.0))["Q2"] == "erste Ordnung genuegt"
     assert verdict(w(0.19, 0.0, 0.28, -0.12))["Q2"] == "erste Ordnung besser"
     assert verdict(w(0.19, 0.0, 0.10, 0.0))["Q2"] == "Boden"

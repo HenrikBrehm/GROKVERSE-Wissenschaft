@@ -1,0 +1,83 @@
+[guard] start at 2026-09-28T07:30:45.087526+02:00 Berlin, hard timeout 49.0 min (binding: session_budget)
+{
+ "manifest_commit": "40a577c3",
+ "min_diff": 0.3,
+ "n_planned": 30,
+ "hypotheses": {
+  "n": 30,
+  "n_technical": 0,
+  "n_generalised": 1,
+  "H1_lr2": {
+   "mean_minus_min": 0.6692443226311668,
+   "mean_diff": 0.9692443226311669,
+   "sd": 0.07656257699634442,
+   "ci95_minus_min": [
+    0.6387542417123466,
+    0.6866746606630122
+   ],
+   "n_positive": 30,
+   "t": 47.87720402943819,
+   "p": 1.8637484366695577e-29,
+   "p_holm": 7.454993746678231e-29,
+   "verdict": "best\u00e4tigt"
+  },
+  "H2_lr2": {
+   "mean_minus_min": 0.31273166275123987,
+   "mean_diff": 0.6127316627512398,
+   "sd": 0.26158291196196665,
+   "ci95_minus_min": [
+    0.22089336987731667,
+    0.40506607282693813
+   ],
+   "n_positive": 26,
+   "t": 6.548217727611247,
+   "p": 1.791176995388904e-07,
+   "p_holm": 3.582353990777808e-07,
+   "verdict": "best\u00e4tigt"
+  },
+  "H1_wd03": {
+   "mean_minus_min": 0.5343252414513183,
+   "mean_diff": 0.8343252414513183,
+   "sd": 0.16230553431974656,
+   "ci95_minus_min": [
+    0.4748432197859567,
+    0.5904295549464892
+   ],
+   "n_positive": 30,
+   "t": 18.031547045754394,
+   "p": 1.3337414141791003e-17,
+   "p_holm": 4.0012242425373005e-17,
+   "verdict": "best\u00e4tigt"
+  },
+  "H2_wd03": {
+   "mean_minus_min": -0.12482380579483163,
+   "mean_diff": 0.17517619420516836,
+   "sd": 0.15875613739566147,
+   "ci95_minus_min": [
+    -0.17781453928478205,
+    -0.06710307361002348
+   ],
+   "n_positive": 5,
+   "t": -4.306530460430675,
+   "p": 0.9999134611924889,
+   "p_holm": 0.9999134611924889,
+   "verdict": "nicht best\u00e4tigt"
+  },
+  "robust": {
+   "lr2": "\u00dcbergang best\u00e4tigt",
+   "wd03": "\u00dcbergang nicht best\u00e4tigt"
+  },
+  "timing_lr2_t25": {
+   "mean": 0.5624380057426259,
+   "sd": 0.24922348728837845,
+   "ci95": [
+    0.47490798747063434,
+    0.6520727290524666
+   ],
+   "n_positive": 30,
+   "reading": "Festhalten bei t = 25"
+  },
+  "descriptive_generalised_only": null
+ }
+}
+[guard] completed (exit 0) after 40.9 s

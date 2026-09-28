@@ -1,0 +1,25 @@
+{
+ "T1_wd03_25_vs_50": {
+  "n_seeds": 30,
+  "mean": 1.3360574387540465,
+  "pos": 29,
+  "nonzero": 29,
+  "p_one_sided": 1.862645149230957e-09,
+  "reading": "gest\u00fctzt"
+ },
+ "T2_lr2_12_vs_50": {
+  "n_seeds": 30,
+  "mean": 2.0289349251357227,
+  "pos": 30,
+  "nonzero": 30,
+  "p_one_sided": 9.313225746154785e-10,
+  "reading": "gest\u00fctzt"
+ },
+ "T3_lr2_25_vs_50": {
+  "n_seeds": 30,
+  "mean": 1.4748909422825283,
+  "pos": 30,
+  "nonzero": 30,
+  "p_one_sided": 9.313225746154785e-10
+ }
+}

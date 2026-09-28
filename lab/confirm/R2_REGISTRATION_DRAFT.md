@@ -1,8 +1,8 @@
 ---
 id: R2-registrierung
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-27
-tags: [lab/bestaetigung, lab/paper, exp/vorbereitet]
+tags: [lab/bestaetigung, lab/paper, exp/abgeschlossen, befund/unklar]
 verwandt: ["[[paper/robustness_plan]]", "[[paper/STATUS]]", "[[confirm/N29_REGISTRATION|N29]]", "[[confirm/R1_REGISTRATION_DRAFT|R1]]", "[[FINDINGS]]", "[[experiments/EXP-039-lr-clock/README|EXP-039]]", "[[JOURNAL]]"]
 ---
 # R2-Bestätigung (Regel 19a): Hält der K4c-Übergang bei doppelter Lernrate und kleinerem Weight Decay? Registrierungsentwurf (Sitzung 26)
@@ -56,3 +56,13 @@ python lab/tools/guarded_run.py -- python lab/tools/confirm_r2.py --analyze lab/
 Keine Blocker. Bestätigt: Run-IDs wie `freq_ban.py`, `lr`/`weight_decay` in der result.json geprüft, alt/neu je Richtung, Vorzeichen, Joborder, Holm über 4, Power-Zahlen. Übernommen: (1) D25-Konfundierung (oben); (2) die ergebnisabhängig ausgewählte Teilmenge der generalisierten Seeds enthält keine t-, p- oder Holm-Werte mehr; (3) `train_frac` = 0.3 wird in jeder result.json mitgeprüft. Nur vermerkt: Der Selbsttest über geladene Module erfasst per `exec_module` geladene Dateien nicht vollständig; Codex hat die Ketten von Hand verfolgt und keine Lücke in `CODE_FILES` gefunden (gleiche Einschränkung wie N29). Code danach weiter ungetestet (nur `py_compile`).
 
 - **Eingefroren (Sitzung 37, 2026-09-28, Berlin):** Selbsttest grün (Sitzung 37), Codex-Prüfung Sitzung 26 ohne Blocker, Punkte eingearbeitet. Manifest `lab/confirm/R2_manifest.json` (Entwurf ohne Notiz + `code_sha256`), Commit-ID im Feld `commit`. Das C2-Code-Tor liegt vor diesem Commit. Bereits gesehene Daten: wie oben; kein Lauf mit den R2-Seeds 2510–2539 vor dem Einfrieren.
+
+## Ergebnis (Sitzung 38, 2026-09-28, 07:34 Berlin gemessen; Block 300/300 ok, GPU, 06:20–07:30; `--analyze` über den Wächter, `R2_summary.json`, Log `R2_block_s38.log`/`R2_analyze_s38.log`)
+
+n = 30 (Seeds 2510–2539), 0 technische Ausfälle. Holm über 4:
+- **lr 2e-3: Übergang robust** (beide bestätigt). H1_lr2 (Festhalten bei 50): 0.97, minus 0.3 **+0.67** [0.64, 0.69], 30/30, Holm-p 7e-29. H2_lr2 (Umstieg bei 12): 0.61, minus 0.3 **+0.31** [0.22, 0.41], 26/30 über 0.3, Holm-p 3.6e-7.
+- **wd 0.3: Übergang *nicht* robust.** H1_wd03 (Festhalten bei 50): 0.83, minus 0.3 **+0.53** [0.47, 0.59], 30/30, *bestätigt*. H2_wd03 (Umstieg bei 25): nur 0.18, minus 0.3 **−0.12** [−0.18, −0.07], 5/30, *nicht bestätigt*.
+- **Generalisierung (registriert berichtet):** alle lr2-Läufe bis auf einen mit Basis ≥ 0.9; bei wd 0.3 nach Wechsel bei 25 nur 2/30 bzw. 5/30 (Median-Basisgenauigkeit 0.34/0.46), nach Wechsel bei 50 24/30 bzw. 25/30. Nur 1/30 Seeds in allen Läufen generalisiert (daher keine beschreibende Teilmenge). **H2_wd03 misst also überwiegend die Abhängigkeit nicht generalisierter Netze** (registrierte Grenze); das Ergebnis heißt „bei wd 0.3 nach Wechsel bei 25 und 4000 Schritten kein Umstieg auf die neuen Frequenzen und meist keine Generalisierung“, nicht „bei wd 0.3 wird festgehalten“.
+- Sekundär (ohne Urteil): lr2 bei t = 25: D25 = 0.56 [0.47, 0.65], 30/30 → *Festhalten bei t = 25* (nicht als Uhrtest lesbar, Codex s26).
+- **C2** (eigene Familie, an den t = 50-Läufen): Die alten Ziele behalten ihre Rangfolge vom Wechselzeitpunkt, ρ̄ = **0.61** [0.54, 0.68], Überschuss über die Nicht-Ziel-Kontrolle 0.45 [0.38, 0.51], bereinigt 0.60 [0.53, 0.66], 30/30, p ≤ 5·10⁻⁶ (Monte-Carlo-Untergrenze) → ***bestätigt*** (`C2_summary.json`).
+- **R2_time** (vor jedem R2-Lauf festgelegt, beschreibend, außerhalb der Familie): T1 wd 0.3, Wechsel @25 langsamer als @50: +1.34 log2, 29/29, p 1.9e-9 → *gestützt*; T2 lr 2e-3, @12 langsamer als @50: +2.03, 30/30 → *gestützt*; T3 lr 2e-3 @25 gegen @50: +1.47, 30/30 (beschreibend; die Λ-Uhr ließe ≈ 0 erwarten, aber lr bleibt nach dem Wechsel verdoppelt). b = min(erster Test ≥ 0.95, 4000).

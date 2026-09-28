@@ -1,0 +1,90 @@
+[guard] start at 2026-09-28T07:31:51.227350+02:00 Berlin, hard timeout 47.9 min (binding: session_budget)
+{
+ "registration": "lab/confirm/C2_REGISTRATION.md (Fassung 3)",
+ "gate": {
+  "registration": "lab/confirm/C2_REGISTRATION.md",
+  "fassung": "3",
+  "code_sha256": {
+   "lab/confirm/C2_analyze.py": "adac148f3ba2609c586e5d568511a62085e8d355672b87a88397583deae31121",
+   "lab/confirm/rank_tools.py": "f0f7464ea1a392f68bb537aaeb7d3b1b6c212e1a4073dd159f882736f41f6fbf",
+   "lab/confirm/P1_posthoc_within.py": "d62db4c56c2cde725dc5978d9aa5de3c6040e3c284d2d1d1766d040b6da1f57f"
+  },
+  "note": "code gate, session 28, before any R2 run (after the Codex recheck of Fassung 3); the analysis requires the last commit of this file and the registration to be an ancestor of the R2 manifest commit",
+  "gate_commit": "a606ed08eac807f2cab7e6c3d89acedc74db393d"
+ },
+ "r2_manifest_commit": "40a577c3",
+ "code_sha256": {
+  "lab/confirm/C2_analyze.py": "adac148f3ba2609c586e5d568511a62085e8d355672b87a88397583deae31121",
+  "lab/confirm/rank_tools.py": "f0f7464ea1a392f68bb537aaeb7d3b1b6c212e1a4073dd159f882736f41f6fbf",
+  "lab/confirm/P1_posthoc_within.py": "d62db4c56c2cde725dc5978d9aa5de3c6040e3c284d2d1d1766d040b6da1f57f"
+ },
+ "primary": {
+  "n": 30,
+  "n_planned": 30,
+  "mean": 0.6141666666666665,
+  "mean_ctrl": 0.1657666666666667,
+  "excess_over_ctrl": 0.4484000000000001,
+  "excess_ci95": [
+   0.3753682291666666,
+   0.5141708333333332
+  ],
+  "sd": 0.18910899672854847,
+  "n_positive": 30,
+  "p": 4.9999750001249995e-06,
+  "ci95": [
+   0.5433333333333332,
+   0.6775
+  ],
+  "adjusted_coef": 0.5983385695337703,
+  "adjusted_ci95": [
+   0.5250085080017729,
+   0.6622827695815828
+  ],
+  "mean_if_missing_were_minus_1": 0.6141666666666665,
+  "verdict": "bestätigt"
+ },
+ "descriptive_per_run_means": {
+  "lr2@12": {
+   "rho_old_switch": 0.125,
+   "rho_ctrl": 0.04686666666666666,
+   "rho_old_M0c_first": 0.05500000000000001,
+   "rho_old_M0c_second": 0.06333333333333332,
+   "rho_new_switch": 0.25500000000000006,
+   "rho_new_M0c_second": 0.25499999999999995
+  },
+  "lr2@25": {
+   "rho_old_switch": 0.5,
+   "rho_ctrl": 0.03634999999999999,
+   "rho_old_M0c_first": 0.3633333333333333,
+   "rho_old_M0c_second": 0.18000000000000002,
+   "rho_new_switch": 0.11333333333333336,
+   "rho_new_M0c_second": 0.035
+  },
+  "lr2@50": {
+   "rho_old_switch": 0.6333333333333333,
+   "rho_ctrl": 0.041925,
+   "rho_old_M0c_first": 0.42999999999999994,
+   "rho_old_M0c_second": 0.22333333333333336,
+   "rho_new_switch": 0.075,
+   "rho_new_M0c_second": 0.028333333333333332
+  },
+  "wd03@25": {
+   "rho_old_switch": 0.4133333333333333,
+   "rho_ctrl": 0.3182916666666667,
+   "rho_old_M0c_first": 0.19666666666666668,
+   "rho_old_M0c_second": 0.24166666666666667,
+   "rho_new_switch": 0.38833333333333336,
+   "rho_new_M0c_second": 0.27166666666666667
+  },
+  "wd03@50": {
+   "rho_old_switch": 0.5950000000000002,
+   "rho_ctrl": 0.2896083333333333,
+   "rho_old_M0c_first": 0.47333333333333333,
+   "rho_old_M0c_second": 0.2033333333333333,
+   "rho_new_switch": 0.3516666666666667,
+   "rho_new_M0c_second": 0.14333333333333328
+  }
+ },
+ "bad": []
+}
+[guard] completed (exit 0) after 103.2 s

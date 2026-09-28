@@ -4,11 +4,13 @@ lab/confirm/L0_REGISTRATION_DRAFT.md lists the pilot as seen data). UNTESTED. Ne
 lab/experiments/EXP-100-set-vs-order/trainer_l0.patch (applied and committed before freezing).
 
 Protocol: add 113, the EXP-100 construction (EXP-053/P1 splits with omega = 0 and calibrated eps, target sets drawn WITHOUT the
-stride-order frequencies O), own streams SeedSequence([100200, seed, purpose]); per seed arms F and G; minibatch AdamW with
+stride-order frequencies O); the target draw uses its own stream SeedSequence([100200, seed, 0]), test set, phases and keys come
+from EXP-053's streams (salt 53001) as in P1; per seed arms F and G; minibatch AdamW with
 i.i.d. order at batch 256 (H1) and 64 (H2); fixed budget (--stop-after-gen = budget).
 Primary family (Holm, alpha 0.05): H1 Delta_pow(end) > 0 at batch 256; H2 the same at batch 64 (one-sided t-test; confirmed =
 Holm-p < 0.05 and bootstrap CI lower bound > 0). H3 (conflict with the stride order) only if the pilot showed an order effect.
-Validity: any technical failure -> 'nicht auswertbar'; a non-finite Delta_pow is technical.
+Validity: any technical failure -> 'nicht auswertbar'; a non-finite Delta_pow or a load/transform exception is technical.
+Smoke: check_job accepts only full-budget lines, so the smoke job through the frozen loader costs one full run (plan the time).
 
   python lab/tools/confirm_l0.py --hash-code | --splits M | --jobs M | --run M -- <cmd> | --analyze M | --selftest
 """
@@ -73,6 +75,7 @@ def stem(s: int, arm: str) -> str:
 
 
 def write_splits(man: dict) -> None:
+    require_set()
     SPL.mkdir(parents=True, exist_ok=True)
     if any((SPL / f"{stem(s, a)}.npy").exists() for s in man["seeds"] for a in ("F", "G", "test")):
         raise SystemExit("L0 splits exist already: never overwrite")
@@ -97,6 +100,8 @@ def split_mismatch(s: int) -> str | None:
 
 
 def trainer_jobs(man: dict) -> list[str]:
+    if man.get("budget") is None or not man.get("seeds"):
+        raise SystemExit("scaffold: manifest without seeds/budget (set N_SEEDS and BUDGET from the pilot first)")
     out, bud = [], man["budget"]
     spec = ",".join(str(x) for x in sorted({50, 250, 2000, bud} | set(range(2500, bud + 1, 2500))))
     for s in man["seeds"]:
@@ -124,12 +129,29 @@ def run_dir(cmd: list[str]) -> Path:
     return RAW / expected_run_id(cmd)
 
 
+def require_set() -> None:
+    if N_SEEDS is None or BUDGET is None or not 1 <= N_SEEDS <= 80:
+        raise SystemExit("scaffold: set N_SEEDS (1..80, seeds 3720-3799) and BUDGET from the pilot first")
+
+
+_a43 = None
+
+
+def a43():
+    global _a43
+    if _a43 is None:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("exp043_analyze", LAB / "experiments/EXP-043-generalize-steering/analyze.py")
+        _a43 = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(_a43)
+    return _a43
+
+
 BLOCK = Block(name="confirm_l0", raw=RAW, bind=BIND, code_files=CODE_FILES, registered=REGISTERED, trainer_jobs=trainer_jobs,
               run_dir=run_dir, script="lab/tools/confirm_l0.py")
 
 
 def one_run(man: dict, s: int, a: str, bs: int) -> np.ndarray | str:
-    import importlib.util
     sp, te = SPL / f"{stem(s, a)}.npy", SPL / f"{stem(s, 'test')}.npy"
     cmd = ["x", FB, "--seed", str(s), "--threads", str(man["threads"]), "--device", man["device"], "--split-file", str(sp),
            "--batch-size", str(bs)]
@@ -146,12 +168,12 @@ def one_run(man: dict, s: int, a: str, bs: int) -> np.ndarray | str:
     r = L.res
     if r.get("batch_size") != bs or r.get("order", "iid") != "iid" or r.get("optimizer", "adamw") != "adamw":
         return f"{tag}: defekt: recorded batch/order/optimizer differ"
-    if L.res.get("fingerprint_fields", {}).get("split_file_sha256") != sha(sp):
-        return f"{tag}: defekt: split bytes differ"
-    spec = importlib.util.spec_from_file_location("exp043_analyze", LAB / "experiments/EXP-043-generalize-steering/analyze.py")
-    a43 = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(a43)
-    pw = a43.group_power(L.snapshot(man["budget"]), "add", 113)[0]
+    if (why := BLOCK.unbound(man, d)) or L.res.get("fingerprint_fields", {}).get("split_file_sha256") != sha(sp):
+        return f"{tag}: defekt after load: {why or 'split bytes differ'}"
+    try:
+        pw = a43().group_power(L.snapshot(man["budget"]), "add", 113)[0]
+    except Exception as ex:   # any load/transform failure is technical, never an abort (as confirm_r10/r11)
+        return f"{tag}: defekt: {type(ex).__name__}: {ex}"
     return pw if np.isfinite(pw).all() else f"{tag}: defekt: non-finite power"
 
 
@@ -171,6 +193,10 @@ def verdict(rows: list[dict], n_planned: int, rng_: np.random.Generator) -> dict
 
 
 def analyze(manifest: Path) -> None:
+    require_set()
+    stale = LAB / "confirm" / "L0_summary.json"
+    if stale.exists():
+        stale.unlink()
     man = json.loads(manifest.read_text(encoding="utf-8"))
     BLOCK.check_manifest(manifest, man)
     bad = [m for m in (split_mismatch(s) for s in man["seeds"]) if m]
@@ -185,7 +211,8 @@ def analyze(manifest: Path) -> None:
             pF, pG = one_run(man, s, "F", bs), one_run(man, s, "G", bs)
             d = None if isinstance(pF, str) or isinstance(pG, str) else c1.delta_pow_checked(pF, pG, F, G)
             if d is None:
-                row["technical"], row["reason"] = True, f"{arm}: {pF if isinstance(pF, str) else pG if isinstance(pG, str) else 'dpow not finite'}"
+                why = pF if isinstance(pF, str) else pG if isinstance(pG, str) else "dpow not finite or a target power sum <= 0"
+                row["technical"], row["reason"] = True, f"{arm}: {why}"
                 break
             row[f"dpow_{arm}"] = d
         rows.append(row)
@@ -195,8 +222,7 @@ def analyze(manifest: Path) -> None:
 
 
 def selftest() -> None:
-    if N_SEEDS is None or BUDGET is None:
-        raise SystemExit("scaffold: set N_SEEDS and BUDGET from the pilot before the selftest can pass")
+    require_set()
     man = {**REGISTERED, "python": "PY"}
     BLOCK.check_registered(man)
     tj = trainer_jobs(man)

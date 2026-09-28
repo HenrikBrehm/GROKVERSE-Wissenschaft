@@ -8,7 +8,7 @@ tags: [exp/vorbereitet]
 
 Zurück: [[LAB]] · [[FINDINGS]] (K2) · Regel 20e/f/g · Vorstufe [[experiments/EXP-102-lm-ladder-stage1/README|EXP-102]] · Kontrolle aus [[experiments/EXP-104-flat-marginal-splits/README|EXP-104]] / [[NOVEL_DIRECTIONS]] N53 · Einordnung (vor Zitat prüfen): Fu et al. 2026 (arXiv 2604.20817; Einzel-Token-Addition von Grund auf erzeugt dort oft keine Perioden), Zhou/Fu/Sharan/Jia 2024, Engels et al. 2024, Kantamneni & Tegmark 2025, Karkada et al. 2026
 
-**Stand:** nur Entwurf (Sitzung 45, 2026-09-28, ≈ 22:08 Berlin). Kein Code, keine Downloads. Frühestens ab ≈ Fr 02.10., nach L0 und nach EXP-102 Stufe 1 und EXP-104. Alle Zahlen unten sind Planwerte, nicht gemessen.
+**Stand:** nur Entwurf (Sitzung 45, 2026-09-28, 22:06 Berlin gemessen). Kein Code, keine Downloads. Frühestens ab ≈ Fr 02.10., nach L0 und nach EXP-102 Stufe 1 und EXP-104. Alle Zahlen unten sind Planwerte, nicht gemessen.
 
 ## Frage
 

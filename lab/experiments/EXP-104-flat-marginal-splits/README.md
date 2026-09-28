@@ -8,7 +8,7 @@ tags: [exp/vorbereitet, neu/kandidat]
 
 Zurück: [[LAB]] · [[FINDINGS]] (K2, Mechanismus „Paarstruktur, nicht Häufigkeiten“; Kontrolle für die Sprachmodell-Leiter, Regel 20e) · [[NOVEL_DIRECTIONS]] N53 · Vorgänger [[experiments/EXP-047-marginal-control/README|EXP-047]] (a/b-Häufigkeiten gleich, Paare gemischt) · [[experiments/EXP-102-lm-ladder-stage1/README|EXP-102]]
 
-**Stand:** vorbereitet (Sitzung 45, 2026-09-28, ≈ 22:15 Berlin), ungetestet. **Startet erst nach L0** als GPU-Füllarbeit in freien Plätzen (Regel 20: L0 hat Vorrang; kein Mechanismus-Detailversuch im Sinn von 20a, sondern Vorbereitung der Leiter-Kontrolle). 12 Läufe, 2 Seeds: **Exploration**, kein Urteil über K2.
+**Stand:** vorbereitet (Sitzung 45, 2026-09-28, 22:03 Berlin gemessen), ungetestet. **Startet erst nach L0** als GPU-Füllarbeit in freien Plätzen (Regel 20: L0 hat Vorrang; kein Mechanismus-Detailversuch im Sinn von 20a, sondern Vorbereitung der Leiter-Kontrolle). 12 Läufe, 2 Seeds: **Exploration**, kein Urteil über K2.
 
 **Bezug zu FINDINGS:** K2 sagt, die Auswahl der Paare steuert die Frequenzen. EXP-047 zeigte im Klassifikationsmodell, dass a/b-Häufigkeiten allein kaum steuern. In einem Sprachmodell (gebundene Embeddings, Verlust auf allen Positionen) können Token-Häufigkeiten W_E aber direkt prägen. Die P1-Splits tragen die Ziele auch in count(a), count(b) (0.165, 0.225). Ein Split ohne jedes Häufigkeitssignal ist deshalb die saubere Kontrolle für die Leiter.
 

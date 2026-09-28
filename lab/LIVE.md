@@ -5,21 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 05:19 Berlin (03:19Z, vom Runner)
 - **Deadline:** 2026-09-28 08:19 Berlin (06:19Z)
-- **Zuletzt aktualisiert:** 05:57 Berlin
+- **Zuletzt aktualisiert:** 06:23 Berlin
 - **Run-Fenster:** heute bis 18:00.
 
 ## Gerade
 
-- GPU: **R7-Block** (8/36 fertig, 2 Worker) und **P4-Block** (19/90 fertig, 6 Worker).
+- GPU: **R2-Block** (13/300 fertig, 6 Worker) und **R7-Block** (14/36, 2 Worker).
 - CPU: EXP-014 (4 Threads).
-- Paper: R3 als §3.10 geschrieben, unabhängige Prüfung läuft.
+- Paper: P4/C3 als §3.11 geschrieben, unabhängige Prüfung läuft.
 
 ## Als Nächstes
 
-P4 → `--analyze` + C3; R7 → `--analyze`; dann R2 (+C2), dann R4.
+R7 → `--analyze`; R2 → `--analyze`, C2, `R2_time.py`; dann R4 (≈ 1.6 h, evtl. nächste Sitzung).
 
 ## Verlauf dieser Sitzung
 
+- 06:23 **P4 bestätigt** in allen drei Bedingungen (MLP, 4× Breite, Integer-Addition; je 15/15); **C3 bestätigt** (S = 0.30).
+- 06:08 R3-Paperabschnitt geprüft (Zahlen richtig, Formulierungen vorsichtiger).
 - 05:57 **R3 fertig:** Schrittuhr widerlegt (beide Zellen 0/20); Λ-Uhr registriert *nicht bestätigt* (doppelte Lernrate bestätigt, halbe nur in der Richtung).
 - 05:43 **EXP-078:** Steuerung überträgt sich auf 2 Schichten (Δ_pow 5.84, 10/10); **R7 eingefroren** (n = 10), Block läuft.
 - 05:28 **EXP-040 fertig:** *unklar* (registriert); die W_E-Init-Skala verschiebt das Festlegungsfenster nicht (3/4 Seeds) → gegen die Amplitudenschwelle.

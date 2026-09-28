@@ -25,6 +25,8 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 
 **Nachtrag zur Kurzfassung (Sitzung 26):** Zu (1) gibt es einen engen Vorläufer auf der Kernel-Seite: Tomàs Bernal, Mallinar, Belkin 2026 (arXiv 2604.00316) zeigen, dass eine absichtlich symmetrische Trainingsmenge bestimmt, welche Gruppenstruktur ein Feature-Learning-Kernel lernt. Unser Beitrag ist damit enger zu formulieren: Auswahl *vorgegebener Fourier-Frequenzen* in *Transformern* über das Spektrum einer Paarmaske ohne eingebaute Symmetrie. Vor jeder Einreichung bitte diese Arbeit selbst lesen. Zu (3)/(4) fand die Suche nach zitierenden Arbeiten (Semantic Scholar, bis 2026-09-23) nichts Einschränkendes.
 
+**Stand Sitzung 38 (2026-09-28, 06:24 Berlin):** Zusätzlich bestätigt und im Entwurf (je unabhängig nachgerechnet): **R5** (§3.9, konstruierte Splits groken ×6.5 früher als Zufall, ×7.5 früher als eine je Ausgabe abgeglichene Kontrolle), **R3** (§3.10, Festlegung folgt nicht der Schrittzahl allein; Λ-Uhr nicht bestätigt), **P4/C3** (§3.11, K2 im MLP, bei 4× Breite und für Integer-Addition; Prüfung läuft). Pilot EXP-078 (2 Schichten) positiv, Bestätigung R7 läuft; R2 läuft; R4 offen. Neue verwandte Arbeit: Howe 2026 (arXiv 2607.04333, strukturierte Priors verkürzen die Grokking-Verzögerung kausal) → R5 als Anwendung dieses Mechanismus über die Datenauswahl einordnen, nicht als neuer Mechanismus.
+
 ## Offen für den Nutzer (nicht vom Labor zu entscheiden)
 
 1. **Autorschaft und Rechte an der ursprünglichen GROKVERSE-Studie** (RESULTS.md, docs/, training/): Wer sind die Autoren? Darf der Trainingscode der Studie im Reproduktionspaket veröffentlicht werden, unter welcher Lizenz?

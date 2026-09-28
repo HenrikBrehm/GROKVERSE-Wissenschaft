@@ -43,6 +43,8 @@ SGD_LR: float | None = None      # set from the calibration before the pilot (do
 ARMS = {"fb": (0, "iid", "adamw", FB_STEPS), "fb30k": (0, "iid", "adamw", MB_STEPS), "iid256": (256, "iid", "adamw", MB_STEPS), "iid64": (64, "iid", "adamw", MB_STEPS),
         "sgdm256": (256, "iid", "sgdm", MB_STEPS), "stride256": (256, "stride", "adamw", MB_STEPS)}
 R_ARMS = ("iid256", "stride256")
+FEAS_EXTRA = {"stride64": (64, "stride", "adamw", MB_STEPS)}   # s44: first-order window prediction -> feasibility also at B = 64
+FEAS_ARMS = ("iid256", "stride256", "iid64", "stride64")
 ROOTS = {"fb30k": "raw_fb30k"}   # plan review s43 (blocker): fb and fb30k have the same run id (steps are not in it)
 PY = (LAB.parent / ".venv-gpu/Scripts/python.exe").as_posix()
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
@@ -92,7 +94,7 @@ def write_splits() -> None:
 
 
 def line(s: int, split: str, arm: str, sgd_lr: float | None = None, steps: int | None = None, root: str = "raw") -> str:
-    bs, order, opt, budget = ARMS[arm]
+    bs, order, opt, budget = {**ARMS, **FEAS_EXTRA}[arm]
     budget = steps or budget
     spec = ",".join(str(x) for x in sorted({50, 250, 2000, budget} | set(range(2500, budget + 1, 2500))))
     cmd = (f"{PY} {FB} --seed {s} --condition baseline --threads 1 --device cuda --test-file {REL}/splits/seed{s}_test.npy "
@@ -117,7 +119,9 @@ def feas() -> list[str]:
     Pre-set rule: if o(R-stride) - o(R-iid) <= 0.02 in all 3 seeds and no peak lies in O, the conflict arm is run in a
     second, order-favouring regime as well (train fraction 0.05 is NOT possible with the P1 splits; use --batch-size 64 stride)
     and the README records this before the block."""
-    return [line(s, "R", arm, root="raw_feas") for s in SEEDS[:3] for arm in R_ARMS]
+    # session 44 (before any run): also B = 64 (iid vs stride), since the first-order window prediction
+    # (firstorder_window_s44.py) says the order is washed out at B = 256 and can act only at B = 64; read with feas_read.py
+    return [line(s, "R", arm, root="raw_feas") for s in SEEDS[:3] for arm in FEAS_ARMS]
 
 
 def jobs() -> list[str]:

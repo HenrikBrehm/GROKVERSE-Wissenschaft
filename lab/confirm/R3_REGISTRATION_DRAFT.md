@@ -1,8 +1,8 @@
 ---
 id: R3-registrierung
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-27
-tags: [lab/bestaetigung, lab/paper, exp/vorbereitet]
+tags: [lab/bestaetigung, lab/paper, exp/abgeschlossen, befund/unklar]
 verwandt: ["[[FINDINGS]]", "[[confirm/N29_REGISTRATION|N29]]", "[[confirm/R2_REGISTRATION_DRAFT|R2]]", "[[experiments/EXP-039-lr-clock/README|EXP-039]]", "[[experiments/EXP-040-we-init-scale/README|EXP-040]]", "[[experiments/EXP-059-momentum-exposure/README|EXP-059]]", "[[paper/STATUS]]", "[[JOURNAL]]"]
 ---
 # R3-Bestätigung: Tickt die Festlegung in aufsummierter Lernrate (Λ) oder in Schritten? Registrierungsentwurf (Sitzung 26)
@@ -64,3 +64,12 @@ python lab/tools/guarded_run.py -- python lab/tools/confirm_r3.py --analyze lab/
 Keine Blocker. Bestätigt: `--lr-scale` wirkt genau in den Schritten 1 … t, ab t + 1 Standard-Lernrate, kein Reset; Run-IDs, Vorzeichen, Joborder, Holm über 2, Power-Zahlen, keine Lücke in `CODE_FILES` (Modul-Selbsttest bleibt wie bei R2 nicht vollständig). Übernommen: (1) „Nachtraining gleich“ → „gleich spezifiziert, abgesehen vom getragenen Zustand“; (2) **weitere Gegenerklärungen**, die das Zwei-Zellen-Muster der Λ-Uhr ohne einen wörtlichen Λ-Mechanismus erzeugen können: Adams Bias-Korrektur und schrittabhängige Momente, Überschießen bzw. Nichtlinearität durch größere frühe Schritte. Ein Ergebnis *Λ-Uhr bestätigt* heißt deshalb nur: Die Festlegung skaliert in diesen zwei Zellen wie Λ, nicht, dass Λ der Mechanismus ist; (3) die Ausgabe von `confirm_r3.py` sagt jetzt ausdrücklich, dass *nicht bestätigt* keine Bestätigung der Schrittuhr ist.
 
 - **Eingefroren (Sitzung 37, 2026-09-28, Berlin):** Selbsttest grün (Sitzung 37), Codex-Prüfung Sitzung 26 ohne Blocker und eingearbeitet (oben). Manifest `lab/confirm/R3_manifest.json` (Entwurf ohne Notiz + `code_sha256`), Commit-ID im Feld `commit`. Bereits gesehene Daten: wie oben; kein Lauf mit den R3-Seeds vor dem Einfrieren.
+
+## Ergebnis (Sitzung 38, 2026-09-28, 05:56 Berlin gemessen; Block 80/80 ok, GPU, 05:36–05:53; `--analyze` über den Wächter, `R3_summary.json`, Log `R3_block_s38.log`/`R3_analyze_s38.log`)
+
+**Registrierte Lesart: *Λ-Uhr nicht bestätigt* (keine Bestätigung der Schrittuhr).** n = 20, 0 technische Ausfälle, alle 20 generalisiert.
+- **HL_hold** (lrs2, t = 25, Λ = 50): acc_neu − acc_alt = 0.70; minus 0.3: +0.40 [0.27, 0.51], 18/20 über der Mindestdifferenz (20/20 > 0), Holm-p 5.4·10⁻⁶ → ***bestätigt***. Das Modell hält nach 25 Schritten doppelter Lernrate fest wie sonst erst nach 50.
+- **HL_switch** (lrs05, t = 50, Λ = 25): acc_alt − acc_neu = 0.32; minus 0.3: +0.02 [−0.09, 0.14], 9/20 über der Mindestdifferenz (18/20 > 0), Holm-p 0.37 → ***nicht bestätigt***. Das Modell steigt nach 50 Schritten halber Lernrate überwiegend um, aber schwächer als nach der Mindestdifferenz verlangt.
+- **Sekundär (Schrittuhr):** Umstieg bei lrs2@25 −0.70, Festhalten bei lrs05@50 −0.32, je 0/20 in Richtung der Schrittuhr → *passt nicht zur Schrittuhr*.
+- *Beschreibend, post hoc (nicht registriert; Anker aus dem Piloten N29 an anderen Seeds: Standard t = 25 Umstieg 0.603, t = 50 Festhalten 0.903):* Beide Zellen liegen im Mittel ≈ 86 % (lrs2) bzw. ≈ 81 % (lrs05) des Weges vom Schrittuhr-Anker zum Λ-Anker.
+**Lesart:** Die Schrittuhr ist in beiden Zellen klar widerlegt (Richtung 20/20 bzw. 18/20 gegen sie). Die Λ-Uhr sagt die Richtung in beiden Zellen richtig und die Größe in einer; bei halber Lernrate bleibt nach Λ = 25 etwas mehr Festlegung als nach 25 Standardschritten. Nach der Registrierung spricht das „für eine Mischung oder eine Größe, die weder Λ noch Schritte ist“ (z. B. Adams schrittabhängige Momente oder Bias-Korrektur, siehe Codex-Nachtrag). Kernaussage für das Paper: *Die Festlegung skaliert nicht mit der Schrittzahl; eine frühe Erhöhung der Lernrate beschleunigt sie wie vorhergesagt, eine Senkung verzögert sie überwiegend, aber nicht vollständig im Verhältnis von Λ.*

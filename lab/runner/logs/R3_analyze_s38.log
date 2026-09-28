@@ -1,0 +1,82 @@
+[guard] start at 2026-09-28T05:55:26.492845+02:00 Berlin, hard timeout 144.3 min (binding: session_budget)
+{
+ "manifest_commit": "51b117f6",
+ "min_diff": 0.3,
+ "n_planned": 20,
+ "hypotheses": {
+  "n": 20,
+  "n_technical": 0,
+  "n_generalised": 20,
+  "HL_hold": {
+   "mean_minus_min": 0.39537000783085363,
+   "mean_diff": 0.6953700078308536,
+   "sd": 0.2832647492196275,
+   "ci95_minus_min": [
+    0.27206171691464365,
+    0.5114917776037587
+   ],
+   "n_positive": 18,
+   "t": 6.2420348187338455,
+   "p": 2.6958298891519725e-06,
+   "p_holm": 5.391659778303945e-06,
+   "verdict": "bestätigt"
+  },
+  "HL_switch": {
+   "mean_minus_min": 0.02015465935787002,
+   "mean_diff": 0.32015465935787,
+   "sd": 0.2719330422706675,
+   "ci95_minus_min": [
+    -0.09234142521534848,
+    0.13754306969459668
+   ],
+   "n_positive": 9,
+   "t": 0.3314579795911096,
+   "p": 0.3719633073066926,
+   "p_holm": 0.3719633073066926,
+   "verdict": "nicht bestätigt"
+  },
+  "lambda_clock": "Λ-Uhr nicht bestätigt (keine Bestätigung der Schrittuhr; siehe step_clock_secondary)",
+  "step_clock_secondary": {
+   "S_switch_lrs2": {
+    "mean_diff": -0.6953700078308536,
+    "ci95_minus_min": [
+     -1.11060273101018,
+     -0.8733440191855912
+    ],
+    "n_positive": 0
+   },
+   "S_hold_lrs05": {
+    "mean_diff": -0.32015465935786985,
+    "ci95_minus_min": [
+     -0.7390270164447925,
+     -0.5049701448707911
+    ],
+    "n_positive": 0
+   },
+   "reading": "passt nicht zur Schrittuhr"
+  },
+  "descriptive_generalised_only": {
+   "HL_hold": {
+    "mean_minus_min": 0.39537000783085363,
+    "mean_diff": 0.6953700078308536,
+    "sd": 0.2832647492196275,
+    "ci95_minus_min": [
+     0.275841327329679,
+     0.5116912196554424
+    ],
+    "n_positive": 18
+   },
+   "HL_switch": {
+    "mean_minus_min": 0.02015465935787002,
+    "mean_diff": 0.32015465935787,
+    "sd": 0.2719330422706675,
+    "ci95_minus_min": [
+     -0.09285801683633514,
+     0.13802124119028972
+    ],
+    "n_positive": 9
+   }
+  }
+ }
+}
+[guard] completed (exit 0) after 16.8 s

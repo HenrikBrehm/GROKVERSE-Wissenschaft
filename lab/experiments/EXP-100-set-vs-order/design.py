@@ -133,6 +133,24 @@ def jobs() -> list[str]:
     return out + [line(s, "R", arm) for s in SEEDS for arm in R_ARMS]
 
 
+SWITCH_T = (25, 50)          # s44: secondary L0 part (rule 20b): data switch F -> G / G -> F under minibatch
+SWITCH_ARMS = ("fb", "iid256")
+
+
+def switch_jobs() -> list[str]:
+    """Switch at t in SWITCH_T, then the arm's budget (total budget + t, as N28), both directions, pilot seeds; own root
+    raw_switch. The pure F/G runs of the same seed and arm come from the pilot block (raw). Read with switch_analyze.py."""
+    out = []
+    for s in SEEDS:
+        for arm in SWITCH_ARMS:
+            budget = ARMS[arm][3]
+            for t in SWITCH_T:
+                for first, second in (("F", "G"), ("G", "F")):
+                    out.append(line(s, first, arm, steps=budget + t, root="raw_switch")
+                               + f" --switch-split-file {REL}/splits/seed{s}_{second}.npy --switch-step {t}")
+    return out
+
+
 def smoke() -> list[str]:
     s = SEEDS[0]
     return [line(s, "F", "iid256", steps=300, root="raw_smoke"), line(s, "F", "stride256", steps=300, root="raw_smoke"),
@@ -145,6 +163,8 @@ if __name__ == "__main__":
         print("\n".join(jobs()))
     elif arg == ["--calib"]:
         print("\n".join(calib()))
+    elif arg == ["--switch"]:
+        print("\n".join(switch_jobs()))
     elif arg == ["--feas"]:
         print("\n".join(feas()))
     elif arg == ["--smoke"]:

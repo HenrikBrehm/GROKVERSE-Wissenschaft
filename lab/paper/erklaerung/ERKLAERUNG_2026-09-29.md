@@ -13,6 +13,8 @@ Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · [[NACHT_2026-09-29]]
 2. **Recursive Feature Machine (EXP-101).** Ein Lernverfahren ohne „Sparzwang“ könnte alle Frequenzen gleichzeitig nutzen. Dann würde die Datenauswahl dort wenig steuern. Das wäre ein Hinweis, dass unsere Steuerung einen Lerner braucht, der sich für wenige Frequenzen entscheiden muss.
 3. **Frühe Kurve (EXP-103).** Die Abweichung der ersten Punkte in Abb. 12 ist vermutlich nur ein Rechenartefakt (wir kannten die Standardkurve nur bei Schritt 0 und 250).
 
+4. **Zufallssplits unter Päckchen-Training (neu, 28.09. abends).** Bei gewöhnlichen Zufallssplits nutzt das Netz vor allem Frequenzen, die im Muster seiner eigenen Trainingspaare stark sind. Wir sagen voraus, dass das auch beim Training in Päckchen gilt (die fünf stärksten Frequenzen im Mittel mindestens beim 65. Perzentil der eigenen Maske), und dass eine feste Reihenfolge das dort abschwächt, wo sie überhaupt wirkt. Getestet an 18 Läufen, die heute Nacht zum ersten Mal gerechnet werden.
+
 ## Was heute herauskam
 
 **Schon am späten Abend des 28.09. (ohne neue Läufe, an gespeicherten Daten, unabhängig nachgerechnet):**

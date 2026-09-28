@@ -361,7 +361,9 @@ def reproduce() -> None:
     h.pop("M_final")
     write_atomic(HERE / f"reproduce_p61_it{ITERS}.json", {"p": p, "frac": 0.5, "iters": ITERS, "seconds": round(time.time() - t0, 1),
                                                "env": env(), **h})
-    print(f"p 61 / 50 %: final test acc {h['test_acc'][-1]:.4f}, {time.time() - t0:.0f} s")
+    ok = h["test_acc"][-1] >= GATE_ACC                         # fixed before any run: otherwise blocker, no pilot runs
+    print(f"p 61 / 50 %: final test acc {h['test_acc'][-1]:.4f}, {time.time() - t0:.0f} s -> "
+          f"{'PASS' if ok else 'FAIL (blocker: own RFM does not reproduce the original setting)'}")
 
 
 def seed_list(s: str) -> list[int]:

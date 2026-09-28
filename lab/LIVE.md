@@ -5,19 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 18:19 Berlin (16:19Z, vom Runner)
 - **Deadline:** 2026-09-28 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 18:54 Berlin
+- **Zuletzt aktualisiert:** 19:00 Berlin
 - **Run-Fenster:** zu (heute bis 18:00). Ab 29.09. 00:00–13:00. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
 
-Statische Prüfung von EXP-098 läuft (Kernaussage K5 bei add 97 / mul 113, Pilot für die Nacht).
+Nachtplan steht (R10 → R11 + EXP-096 + EXP-098 → EXP-097). Ich prüfe noch einmal die Befehlsfolge in STATE auf Lücken.
 
 ## Als Nächstes
 
-Prüfbefund einarbeiten; Nachtplan in STATE final durchsehen.
+Abschlussbericht vorbereiten; bis zur Deadline weitere Denkarbeit.
 
 ## Verlauf dieser Sitzung
 
+- 19:00 R9 nachgesehen: Beim K5-Effekt ist die frühe Bewegung mit kurzen Adam-Fenstern kaum vorzeichen-quantisiert und selektiver (36/36), bei lr × 2 nicht (Hinweis).
+- 19:05 FINDINGS wieder auf eine Seite gebracht (Historie wortgleich nach FINDINGS_DETAILS). Paper-Folgen der Nachtergebnisse vorab festgelegt.
+- 18:58 EXP-098 geprüft (kein Blocker), Offenlegungen ergänzt.
 - 18:54 **EXP-098 vorbereitet** (K5 bei anderen Aufgaben). Abb. 9 (R9) fürs Paper erstellt. R11 nach Prüfung Fassung 2 (kein Blocker).
 - 18:50 Neue Kandidatenidee N49: Adam in Fourier-Koordinaten für W_E (Vorzeichen je Frequenz statt je Token). Nachtplan geordnet: R10 → R11 + EXP-096 → EXP-097.
 - 18:47 **R11 vorbereitet**: Bestätigung der frühen Festlegung bei add 97 / mul 113 (n = 30, Power ≥ 0.89 bei halbem Effekt).

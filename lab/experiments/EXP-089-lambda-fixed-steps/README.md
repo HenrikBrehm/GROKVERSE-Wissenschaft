@@ -55,3 +55,7 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-089-lambda-fixed-steps/jo
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-089-lambda-fixed-steps/analyze.py
 ```
 Selbsttest grün (Sitzung 40). Splits in `splits/`, Jobs in `jobs.txt` (`design.py --jobs`).
+
+## Literatur zur Deutung (Sitzung 40, 10:48, nach der Registrierung, vor jedem Ergebnis; ändert keine Lesart)
+
+Suche 2026-09-28 (WebSearch: „implicit bias of Adam backward error analysis“, „implicit gradient regularization“). Dass endliche Schritte die Bahn gegenüber dem Gradientenfluss systematisch verändern, ist bekannt: Bei GD bestraft die Rückwärtsfehleranalyse die Gradientennorm mit Gewicht ∝ Schrittweite (Barrett & Dherin, *Implicit Gradient Regularization*, [arXiv 2009.11162](https://arxiv.org/abs/2009.11162)); bei Adam/RMSProp hängt der Korrekturterm von Hyperparametern und Trainingsphase ab und wirkt auf eine (gestörte) 1-Norm der Gradienten, meist hemmend (Cattaneo, Klusowski & Shigida, ICML 2024, [arXiv 2309.00079](https://arxiv.org/abs/2309.00079)). Bei festem Λ unterscheiden sich unsere Zellen genau in diesem Korrekturterm (Schrittweite 4× kleiner bei t = 100). Eine Abweichung von der Λ-Uhr wäre damit **erwartbar in der Art, nicht in Richtung und Größe**; welche Richtung die Festlegung nimmt, sagt keine der beiden Arbeiten für unsere Größe π voraus. Die Einordnung „Mischuhr“ wäre deshalb als Diskretisierungseffekt zu lesen, nicht als eigene Uhr.

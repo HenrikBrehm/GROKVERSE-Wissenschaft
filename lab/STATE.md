@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-28, 20:46 Berlin (Sitzung 44, Fenster zu, nur Vorbereitung; nächster Runner-Start 23:54) (Sitzung 43; **Regel 20 Wochenplan gilt**; Rechenfenster durchgehend 28.09. 23:59 bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-28, 20:45 Berlin (Sitzung 44, Fenster zu, nur Vorbereitung; nächster Runner-Start 23:54) (Sitzung 43; **Regel 20 Wochenplan gilt**; Rechenfenster durchgehend 28.09. 23:59 bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 

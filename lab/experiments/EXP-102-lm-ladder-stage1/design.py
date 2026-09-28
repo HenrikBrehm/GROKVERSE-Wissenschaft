@@ -14,10 +14,12 @@ Rungs (one switch each, run on F and G; R only where named):
   R: all and allnb (p(b|a) is ~uniform on a random split, the difference should vanish there)
 Minibatch (rung 4) follows after L0 with the batch size chosen there. Budget 2000 steps (P1 reads Delta_pow at 2000).
 
-Why the allnb control (session 44, from overlap_split.weights): the pair weight is 1 + eps * mean_k cos(2 pi k a / p +
-phi_k(a + b)), so the train-set p(b | a) depends on a through the target frequencies k. With loss on all positions the
-model must predict b after "a (+)", i.e. learn p(b | a), which rewards target-frequency features of a directly,
-without any arithmetic. "all" alone therefore cannot tell format from this extra supervision.
+Why the allnb control (session 44). CORRECTED after pba_spectrum_s44.py (computed before any run): the pair weight is
+1 + eps * mean_k cos(2 pi k a / p + phi_k(a + b)); at fixed b the conditional p(b | a) carries NO target power over a
+(share 0.088, chance 0.089), the target structure sits in (a, c) coordinates (0.18) and in the marginals (count(b): 0.225,
+count(a): 0.165 on the F targets; R: 0.074 / 0.089). With loss on all positions the model must predict b after "a (+)",
+so it learns the target-structured marginal p(b), mostly in the output layer; with tied embeddings (a real LM ties and
+predicts every position) that goes straight into W_E. Hence the pair tieall / tieallnb in addition to all / allnb.
 
   python lab/experiments/EXP-102-lm-ladder-stage1/design.py            # splits -> splits/ (never overwrites)
   python lab/experiments/EXP-102-lm-ladder-stage1/design.py --jobs     # pilot job lines
@@ -40,8 +42,9 @@ SEEDS = tuple(range(3800, 3810))
 SALT = 102_100
 STEPS = 2000
 RUNGS = {"r0": "", "op": "--op-token", "fs": "--full-softmax", "tie": "--full-softmax --tie",
-         "all": "--full-softmax --loss all", "allnb": "--full-softmax --loss all_but_b"}
-R_RUNGS = ("all", "allnb")
+         "all": "--full-softmax --loss all", "allnb": "--full-softmax --loss all_but_b",
+         "tieall": "--full-softmax --tie --loss all", "tieallnb": "--full-softmax --tie --loss all_but_b"}   # s44, see below
+R_RUNGS = ("all", "allnb", "tieall", "tieallnb")
 PY = (LAB.parent / ".venv-gpu/Scripts/python.exe").as_posix()
 REL = "lab/experiments/EXP-102-lm-ladder-stage1"
 

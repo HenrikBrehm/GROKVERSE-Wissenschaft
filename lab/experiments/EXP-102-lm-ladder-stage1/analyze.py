@@ -9,6 +9,8 @@ Per rung r: mean, bootstrap 95 % CI over seeds (10 000 resamples, rng 102), n po
   (else)     "holds, not weaker than r0" or "unclear"
 The first rung in the order op, fs, tie, all that "breaks" is the ladder result (rule 20e: itself a finding).
 Pair-structure control: paired D = Delta(all) - Delta(allnb); "p(b|a) as a target adds steering" if its CI > 0.
+(Session 44, before any run: the same for the tied pair, D_tie = Delta(tieall) - Delta(tieallnb); the b target mainly
+carries the marginal p(b), see design.py; the label "p(b|a)" in the output means "the b-position target".)
 Random split R (descriptive): target share of the seed's F and G targets (10 of 56 frequencies; chance 0.179) for
 rungs all and allnb; a clear excess under "all" but not "allnb" would show the extra supervision creating a preference
 on its own (not expected on R, where p(b|a) is ~uniform).
@@ -30,7 +32,8 @@ import design  # noqa: E402
 
 P, STEP, BOOT = 113, 2000, 10_000
 FLAGS = {"r0": (0, 0, 0, "answer"), "op": (1, 0, 0, "answer"), "fs": (0, 1, 0, "answer"), "tie": (0, 1, 1, "answer"),
-         "all": (0, 1, 0, "all"), "allnb": (0, 1, 0, "all_but_b")}
+         "all": (0, 1, 0, "all"), "allnb": (0, 1, 0, "all_but_b"),
+         "tieall": (0, 1, 1, "all"), "tieallnb": (0, 1, 1, "all_but_b")}
 
 
 def power(W: np.ndarray) -> np.ndarray:
@@ -109,6 +112,12 @@ def analyze() -> dict:
             row["reading"] = "holds" if row["ci95"][0] > 0 else "unclear"
         out["rungs"][r] = row
     out["first_break"] = next((r for r in ("op", "fs", "tie", "all") if out["rungs"].get(r, {}).get("reading") == "breaks"), None)
+    common_t = sorted(set(D["tieall"]) & set(D["tieallnb"]))
+    if len(common_t) >= 2:
+        dt = np.array([D["tieall"][s] - D["tieallnb"][s] for s in common_t])
+        ct = ci(dt, rng)
+        out["tieall_minus_tieallnb"] = {"n": len(dt), "mean": float(dt.mean()), "ci95": ct,
+                                        "reading": "b target adds steering (tied)" if ct[0] > 0 else "no added steering shown"}
     common = sorted(set(D["all"]) & set(D["allnb"]))
     if len(common) >= 2:
         dd = np.array([D["all"][s] - D["allnb"][s] for s in common])

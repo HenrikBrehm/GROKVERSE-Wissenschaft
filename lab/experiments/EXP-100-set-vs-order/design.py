@@ -40,12 +40,15 @@ SALT = 100_100
 FB_STEPS, MB_STEPS = 2000, 30_000
 SGD_LRS = (0.03, 0.1, 0.3, 1.0, 3.0)   # calibration grid (widened, review s43)
 SGD_LR: float | None = None      # set from the calibration before the pilot (documented in the README)
+SGD_DROPPED = False              # s44: True if no calibration lr generalises -> sgdm256 leaves the arms (README: 'nicht auswertbar')
 ARMS = {"fb": (0, "iid", "adamw", FB_STEPS), "fb30k": (0, "iid", "adamw", MB_STEPS), "iid256": (256, "iid", "adamw", MB_STEPS), "iid64": (64, "iid", "adamw", MB_STEPS),
         "sgdm256": (256, "iid", "sgdm", MB_STEPS), "stride256": (256, "stride", "adamw", MB_STEPS)}
 R_ARMS = ("iid256", "stride256")
 FEAS_EXTRA = {"stride64": (64, "stride", "adamw", MB_STEPS)}   # s44: first-order window prediction -> feasibility also at B = 64
 FEAS_ARMS = ("iid256", "stride256", "iid64", "stride64")
 CONFLICT_B64 = False   # s44: set True (and record in the README) if feas_read.py shows an order effect only at B = 64
+if SGD_DROPPED:
+    ARMS = {k: v for k, v in ARMS.items() if k != "sgdm256"}
 if CONFLICT_B64:       # one switch: conflict arm stride64 on F/G and the R pair iid64/stride64 (review s44: R_ARMS must grow too)
     ARMS = {**ARMS, **FEAS_EXTRA}
     R_ARMS = R_ARMS + ("iid64", "stride64")

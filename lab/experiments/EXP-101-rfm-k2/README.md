@@ -26,7 +26,7 @@ Wird K2 (konstruierte Trainingssplits steuern die gelernten Frequenzen) auch in 
 
 Wrapper `run_rfm.py` (nach der Installation), Nachbau eines Originalergebnisses als Gleichwertigkeitsprüfung, statische Prüfung, dann Pilot.
 
-## Fassung 2 (Sitzung 44, 2026-09-28, ≈ 20:27 Berlin, Fenster zu): ohne Installation, Code steht (ungetestet)
+## Fassung 2 (Sitzung 44, 2026-09-28, ≈ 20:27 Berlin, Fenster zu): ohne Installation, Code steht (ungetestet); ersetzt Abweichendes oben (Installation, `run_rfm.py`)
 
 **Entscheidung:** Keine Installation. Der Gauß-Kern-Pfad der Originalarbeit braucht nur torch, numpy und `scipy.linalg.sqrtm`; jax/neural-tangents betreffen nur den NTK-Kern, wandb nur das Logging, sklearn nur ihren Zufallssplit. `rfm_k2.py` ist eine eigene Umsetzung desselben Algorithmus (`--kernel_type gaussian --ridge 0 --agop_power 0.5`, Zentrierung wie im Original, M₀ = I, Bandbreite 2.5), mit zwei rein numerischen Änderungen: (1) Die AGOP nutzt die One-hot-Struktur (Summe über Zeilen mit a_i = v) statt des dichten n × c × d-Produkts (O(n·m·c) statt O(n·m·c·d)); (2) die PSD-Wurzel per `eigh` (negative Eigenwerte auf 0) statt `sqrtm` (globales Python hat kein scipy; für symmetrische PSD-Matrizen dieselbe Hauptwurzel). Der externe Code wird nur im Selbsttest importiert (mit einem `sqrtm`-Ersatz), nicht im Trainingspfad, und nicht committet (GPL-3.0). Damit entfällt Regel-20f-Aufwand und jedes Risiko für `.venv-gpu`. Läuft mit dem globalen Python (torch 2.13 CPU) über den Wächter.
 

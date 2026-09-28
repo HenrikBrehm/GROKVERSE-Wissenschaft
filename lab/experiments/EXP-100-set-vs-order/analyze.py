@@ -192,8 +192,8 @@ def conflict_reading(ok: list[dict], col, st: str, iid: str, ci_st: list[float])
 
 
 def main() -> None:
-    if D.SGD_LR is None:
-        raise SystemExit("SGD_LR is not set in design.py")
+    if D.SGD_LR is None and not D.SGD_DROPPED:
+        raise SystemExit("SGD_LR is not set in design.py (or set SGD_DROPPED = True after a failed calibration)")
     rows = [seed_row(s) for s in D.SEEDS]
     out = {"primary": verdict(rows), "rows": [{k: v for k, v in r.items()} for r in rows]}
     (HERE / "summary.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")

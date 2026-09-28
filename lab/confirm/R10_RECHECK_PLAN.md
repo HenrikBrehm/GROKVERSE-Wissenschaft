@@ -5,7 +5,9 @@ tags: [lab/confirm]
 
 Zurück: [[confirm/R10_REGISTRATION_DRAFT|R10]] · [[STATE]] Schritt 2
 
-**Wann:** direkt nach `confirm_r10.py --analyze` und **vor** dem L0-Patch-Commit (danach verweigert `check_code`; sonst nur über `git worktree add <dir> 7b583bdb`).
+**Wann:** direkt nach `confirm_r10.py --analyze` und **vor `git apply` des L0-Patches** (`check_code` hasht die Dateien im Arbeitsbaum; nach dem Anwenden verweigert es; sonst nur über `git worktree add <dir> 7b583bdb`).
+
+**Wie:** Skript `lab/confirm/R10_recheck_s45.py` (eigener Code des Agenten, nur lesend), Aufruf `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/R10_recheck_s45.py` mit dem globalen Python. Dort gibt es **kein scipy**: t-Verteilung (unvollständige Beta-Funktion) selbst implementieren oder die vorhandene Hilfsfunktion aus `lab/tools/confirm_p1.py` (`_betainc`) nachbauen, nicht importieren.
 
 **Auftrag an den Prüf-Agenten (nur lesend, eigener Code, `confirm_r10.py` NICHT importieren):**
 1. Aus `lab/confirm/R10_manifest.json` Seeds (3500–3547), Zellen (n24, g8, c8b, g24, reine Läufe) und Budget lesen; Läufe in `lab/confirm/r10_raw/` über Run-ID-Muster finden; je Lauf `status == completed`, Schrittzahl, Split-Hash gegen `lab/confirm/r10_splits/` prüfen.

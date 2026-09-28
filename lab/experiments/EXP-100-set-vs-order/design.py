@@ -6,12 +6,15 @@ drawn WITHOUT the stride-order frequencies O = {11, 12, 22, 23, 34, 45} (spectru
 uniform random split R of the same size from the same pool (same test set). Own streams: SeedSequence([100100, seed, purpose]).
 Arms (F and G each, R only where named):
   fb        full batch, AdamW, 2000 steps (P1 reference)
+  fb30k     full batch, AdamW, 30 000 steps (budget-matched reference; review s43)
   iid256    batch 256, iid order, AdamW, 30 000 steps (2000 epochs)
   iid64     batch 64,  iid order, AdamW, 30 000 steps (500 epochs)
   sgdm256   batch 256, iid order, SGD momentum 0.9, lr SGD_LR (set after the calibration), 30 000 steps
   stride256 batch 256, stride order (a mod 10, a), AdamW, 30 000 steps (conflict arm)
   R: iid256 and stride256 (order alone on a random split)
-Every run: --stop-after-gen = budget (fixed budget), W_E snapshots at 0, 50, 250, 2000 and at the end.
+Every run: --stop-after-gen = budget (fixed budget), W_E snapshots at 0, 50, 250, 2000, every 2500 steps and at the end.
+Smoke, calibration and feasibility write to their own out-roots (raw_smoke, raw_calib, raw_feas): same run ids as the pilot
+would otherwise be skipped or refused and would leak into the pilot (review s43, blocker).
 
   python lab/experiments/EXP-100-set-vs-order/design.py            # splits -> splits/, never overwrites
   python lab/experiments/EXP-100-set-vs-order/design.py --calib    # SGD lr calibration jobs (seeds 3700-3701, split F)
@@ -35,9 +38,9 @@ SEEDS = tuple(range(3700, 3708))
 O = (11, 12, 22, 23, 34, 45)
 SALT = 100_100
 FB_STEPS, MB_STEPS = 2000, 30_000
-SGD_LRS = (0.1, 0.3, 1.0)       # calibration grid
+SGD_LRS = (0.03, 0.1, 0.3, 1.0, 3.0)   # calibration grid (widened, review s43)
 SGD_LR: float | None = None      # set from the calibration before the pilot (documented in the README)
-ARMS = {"fb": (0, "iid", "adamw", FB_STEPS), "iid256": (256, "iid", "adamw", MB_STEPS), "iid64": (64, "iid", "adamw", MB_STEPS),
+ARMS = {"fb": (0, "iid", "adamw", FB_STEPS), "fb30k": (0, "iid", "adamw", MB_STEPS), "iid256": (256, "iid", "adamw", MB_STEPS), "iid64": (64, "iid", "adamw", MB_STEPS),
         "sgdm256": (256, "iid", "sgdm", MB_STEPS), "stride256": (256, "stride", "adamw", MB_STEPS)}
 R_ARMS = ("iid256", "stride256")
 PY = (LAB.parent / ".venv-gpu/Scripts/python.exe").as_posix()
@@ -87,12 +90,12 @@ def write_splits() -> None:
     print(f"[exp100] wrote splits for {len(SEEDS)} seeds", flush=True)
 
 
-def line(s: int, split: str, arm: str, sgd_lr: float | None = None, steps: int | None = None) -> str:
+def line(s: int, split: str, arm: str, sgd_lr: float | None = None, steps: int | None = None, root: str = "raw") -> str:
     bs, order, opt, budget = ARMS[arm]
     budget = steps or budget
-    spec = ",".join(str(x) for x in sorted({50, 250, 2000, budget}))
+    spec = ",".join(str(x) for x in sorted({50, 250, 2000, budget} | set(range(2500, budget + 1, 2500))))
     cmd = (f"{PY} {FB} --seed {s} --condition baseline --threads 1 --device cuda --test-file {REL}/splits/seed{s}_test.npy "
-           f"--out-root {REL}/raw --split-file {REL}/splits/seed{s}_{split}.npy --steps {budget} --stop-after-gen {budget} "
+           f"--out-root {REL}/{root} --split-file {REL}/splits/seed{s}_{split}.npy --steps {budget} --stop-after-gen {budget} "
            f"--spectra-at {spec}")
     if bs:
         cmd += f" --batch-size {bs}" + (f" --order {order}" if order != "iid" else "")
@@ -104,7 +107,16 @@ def line(s: int, split: str, arm: str, sgd_lr: float | None = None, steps: int |
 
 
 def calib() -> list[str]:
-    return [line(s, "F", "sgdm256", lr) for s in SEEDS[:2] for lr in SGD_LRS]
+    """Choose the SMALLEST lr of the grid that generalises (test >= 0.95) in BOTH seeds within 50 % of the budget."""
+    return [line(s, "F", "sgdm256", lr, root="raw_calib") for s in SEEDS[:2] for lr in SGD_LRS]
+
+
+def feas() -> list[str]:
+    """Feasibility before the block (review s43): does the stride order move anything at 30 % data? R-stride vs R-iid, 3 seeds.
+    Pre-set rule: if o(R-stride) - o(R-iid) <= 0.02 in all 3 seeds and no peak lies in O, the conflict arm is run in a
+    second, order-favouring regime as well (train fraction 0.05 is NOT possible with the P1 splits; use --batch-size 64 stride)
+    and the README records this before the block."""
+    return [line(s, "R", arm, root="raw_feas") for s in SEEDS[:3] for arm in R_ARMS]
 
 
 def jobs() -> list[str]:
@@ -114,7 +126,8 @@ def jobs() -> list[str]:
 
 def smoke() -> list[str]:
     s = SEEDS[0]
-    return [line(s, "F", "iid256", steps=300), line(s, "F", "stride256", steps=300), line(s, "F", "sgdm256", 0.1, steps=300)]
+    return [line(s, "F", "iid256", steps=300, root="raw_smoke"), line(s, "F", "stride256", steps=300, root="raw_smoke"),
+            line(s, "F", "sgdm256", 0.1, steps=300, root="raw_smoke")]
 
 
 if __name__ == "__main__":
@@ -123,6 +136,8 @@ if __name__ == "__main__":
         print("\n".join(jobs()))
     elif arg == ["--calib"]:
         print("\n".join(calib()))
+    elif arg == ["--feas"]:
+        print("\n".join(feas()))
     elif arg == ["--smoke"]:
         print("\n".join(smoke()))
     elif not arg:

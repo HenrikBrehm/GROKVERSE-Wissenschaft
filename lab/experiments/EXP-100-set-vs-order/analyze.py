@@ -13,14 +13,18 @@ Bootstrap over seeds (10 000, rng 100). Readings fixed here (pilot; the confirma
   K2-MB   'Menge steuert unter Minibatch'   dpow_end CI lower > 0 in iid256 AND iid64
           'Menge steuert kaum'              dpow_end CI upper < 1 in iid256 AND iid64   (P1 minimum effect 1)
           else 'gemischt'.  sgdm256 reported separately ('nicht auswertbar' if fewer than 6 seeds generalise in both splits).
-  Konflikt (stride256 on F/G, 2 x n runs)
-          'Menge gewinnt'       dpow_end(stride) CI lower > 0 and peak outside O in >= 75 % of the runs
-          'Reihenfolge gewinnt' peak in O in >= 75 % of the runs and dpow_end(stride) CI lower <= 0
-          else 'beide wirken'
+  Konflikt (stride256 on F/G, 2 x n runs; Fassung 2 after review s43: the order must be shown to act at all)
+          order_acts = R-alone 'wirkt' OR paired CI lower bound of o(stride256) - o(iid256) on F/G > 0
+          not order_acts        -> 'Konflikt nicht pruefbar (Reihenfolge wirkt nicht)'
+          'Menge gewinnt'       order_acts, dpow_end(stride) CI lower > 0 and peak outside O in >= 75 % of the runs
+          'Reihenfolge gewinnt' order_acts, peak in O in >= 75 % of the runs and dpow_end(stride) CI lower <= 0
+          else 'beide wirken'.  Also reported: paired dpow(stride) - dpow(iid256), share of runs with a frequency of O in the top 5.
   Reihenfolge allein (R): 'wirkt' if peak in O in >= 75 % of R-stride runs; 'wirkt nicht' if <= 25 % and the paired CI of
           o(R-stride) - o(R-iid) contains 0; else 'unklar'.
 Descriptive: all dpow means/CIs (end, 2000), o means per arm, t_gen per arm (steps and epochs), E-iid256 vs R-iid256 t_gen (R5).
-Fewer than 6 valid seeds (all 10 engineered runs ok) -> everything 'nicht auswertbar'.
+Valid seed: the engineered runs of fb, fb30k, iid256, iid64 and stride256 all ok with a finite dpow (delta_pow_checked);
+fewer than 6 valid seeds -> everything 'nicht auswertbar'. Runs that never generalise stay valid; the number of generalised
+runs per arm is reported. fb30k (full batch, same 30 000 steps) separates 'minibatch' from 'long training' in K2-MB.
 """
 from __future__ import annotations
 
@@ -95,8 +99,12 @@ def seed_row(s: int) -> dict:
         a, b = runs[("F", arm)], runs[("G", arm)]
         if isinstance(a, str) or isinstance(b, str):
             continue
-        row[f"dpow_end_{arm}"] = c1.delta_pow(a["end"], b["end"], F, G)
-        row[f"dpow_2k_{arm}"] = c1.delta_pow(a["at2k"], b["at2k"], F, G)
+        de, d2 = c1.delta_pow_checked(a["end"], b["end"], F, G), c1.delta_pow_checked(a["at2k"], b["at2k"], F, G)
+        if de is None or d2 is None:
+            row["errors"].append(f"seed {s} {arm}: delta_pow not finite")
+            continue
+        row[f"dpow_end_{arm}"], row[f"dpow_2k_{arm}"] = de, d2
+        row[f"top5O_{arm}"] = [bool(set(int(k) + 1 for k in np.argsort(-x["end"])[:5]) & set(D.O)) for x in (a, b)]
         row[f"o_{arm}"] = (o_share(a["end"]) + o_share(b["end"])) / 2
         row[f"peakO_{arm}"] = [peak_in_o(a["end"]), peak_in_o(b["end"])]
         row[f"tgen_{arm}"] = [a["t_gen"], b["t_gen"]]
@@ -106,7 +114,7 @@ def seed_row(s: int) -> dict:
         if not isinstance(r, str):
             row[f"R_o_{arm}"], row[f"R_peakO_{arm}"], row[f"R_tgen_ep_{arm}"] = (
                 o_share(r["end"]), peak_in_o(r["end"]), None if r["t_gen"] is None else r["t_gen"] / r["spe"])
-    row["valid"] = all(f"dpow_end_{arm}" in row for arm in ("fb", "iid256", "iid64", "stride256"))
+    row["valid"] = all(f"dpow_end_{arm}" in row for arm in ("fb", "fb30k", "iid256", "iid64", "stride256"))
     return row
 
 
@@ -121,7 +129,7 @@ def verdict(rows: list[dict]) -> dict:
     if len(ok) < MIN_VALID:
         return {"n": len(ok), "K2_MB": "nicht auswertbar", "Konflikt": "nicht auswertbar", "Reihenfolge_allein": "nicht auswertbar"}
     col = lambda k, rs=ok: np.array([r[k] for r in rs], dtype=float)   # noqa: E731
-    ci = {arm: boot_ci(col(f"dpow_end_{arm}")) for arm in ("fb", "iid256", "iid64", "stride256")}
+    ci = {arm: boot_ci(col(f"dpow_end_{arm}")) for arm in ("fb", "fb30k", "iid256", "iid64", "stride256")}
     if ci["iid256"][0] > 0 and ci["iid64"][0] > 0:
         k2 = "Menge steuert unter Minibatch"
     elif ci["iid256"][1] < 1 and ci["iid64"][1] < 1:
@@ -130,12 +138,8 @@ def verdict(rows: list[dict]) -> dict:
         k2 = "gemischt"
     peaks = [p for r in ok for p in r["peakO_stride256"]]
     frac_o = float(np.mean(peaks))
-    if ci["stride256"][0] > 0 and 1 - frac_o >= SHARE:
-        conflict = "Menge gewinnt"
-    elif frac_o >= SHARE and ci["stride256"][0] <= 0:
-        conflict = "Reihenfolge gewinnt"
-    else:
-        conflict = "beide wirken"
+    o_diff_ci = boot_ci(col("o_stride256") - col("o_iid256"))
+    dpow_diff = col("dpow_end_stride256") - col("dpow_end_iid256")
     rr = [r for r in ok if "R_o_stride256" in r and "R_o_iid256" in r]
     if rr:
         fo = float(np.mean([r["R_peakO_stride256"] for r in rr]))
@@ -144,12 +148,26 @@ def verdict(rows: list[dict]) -> dict:
         alone = "wirkt" if fo >= SHARE else ("wirkt nicht" if fo <= 1 - SHARE and cio[0] <= 0 <= cio[1] else "unklar")
     else:
         fo, cio, alone = None, None, "nicht auswertbar"
+    order_acts = alone == "wirkt" or o_diff_ci[0] > 0
+    if not order_acts:
+        conflict = "Konflikt nicht pruefbar (Reihenfolge wirkt nicht)"
+    elif ci["stride256"][0] > 0 and 1 - frac_o >= SHARE:
+        conflict = "Menge gewinnt"
+    elif frac_o >= SHARE and ci["stride256"][0] <= 0:
+        conflict = "Reihenfolge gewinnt"
+    else:
+        conflict = "beide wirken"
     sg = [r for r in rows if "dpow_end_sgdm256" in r and all(t is not None for t in r["tgen_sgdm256"])]
     out = {"n": len(ok), "K2_MB": k2, "Konflikt": conflict, "Reihenfolge_allein": alone,
            "dpow_end": {arm: {"mean": float(col(f"dpow_end_{arm}").mean()), "ci95": ci[arm]} for arm in ci},
            "dpow_2k": {arm: float(col(f"dpow_2k_{arm}").mean()) for arm in ci},
            "o_share": {arm: float(col(f"o_{arm}").mean()) for arm in ci},
-           "stride_peak_in_O_fraction": frac_o, "R_stride_peak_in_O_fraction": fo, "R_o_diff_ci95": cio,
+           "stride_peak_in_O_fraction": frac_o, "o_diff_stride_minus_iid_ci95": o_diff_ci,
+           "dpow_stride_minus_iid": {"mean": float(dpow_diff.mean()), "ci95": boot_ci(dpow_diff)},
+           "top5_has_O_fraction": {arm: float(np.mean([t for r in ok for t in r[f"top5O_{arm}"]])) for arm in ci},
+           "n_generalised": {arm: int(sum(t is not None for r in ok for t in r[f"tgen_{arm}"])) for arm in ci},
+           "R5_tgen_epochs_median": {"E_iid256": float(np.median([t for r in ok for t in r["tgen_ep_iid256"] if t is not None] or [np.nan])),
+                                     "R_iid256": float(np.median([r["R_tgen_ep_iid256"] for r in ok if r.get("R_tgen_ep_iid256") is not None] or [np.nan]))}, "R_stride_peak_in_O_fraction": fo, "R_o_diff_ci95": cio,
            "sgdm256": ({"n": len(sg), "dpow_end_mean": float(np.mean([r["dpow_end_sgdm256"] for r in sg])),
                         "dpow_end_ci95": boot_ci(np.array([r["dpow_end_sgdm256"] for r in sg]))}
                        if len(sg) >= MIN_VALID else {"n": len(sg), "reading": "nicht auswertbar"})}
@@ -170,17 +188,24 @@ def selftest() -> None:
 
     def mk(s: int, k2: float, stride: float, peak_o: bool, r_peak_o: bool) -> dict:
         r = {"seed": s, "valid": True, "errors": []}
-        for arm in ("fb", "iid256", "iid64", "stride256", "sgdm256"):
+        for arm in ("fb", "fb30k", "iid256", "iid64", "stride256", "sgdm256"):
             r[f"dpow_end_{arm}"] = (stride if arm == "stride256" else k2) + rng.normal(0, 0.3)
             r[f"dpow_2k_{arm}"] = r[f"dpow_end_{arm}"]
-            r[f"o_{arm}"] = 0.1
+            r[f"o_{arm}"] = (0.3 if (arm == "stride256" and r_peak_o) else 0.1) + rng.normal(0, 0.01)
             r[f"peakO_{arm}"] = [peak_o, peak_o]
+            r[f"top5O_{arm}"] = [peak_o, peak_o]
             r[f"tgen_{arm}"] = [1000, 1000]
+            r[f"tgen_ep_{arm}"] = [100.0, 100.0]
         r["R_o_stride256"], r["R_o_iid256"] = 0.1 + rng.normal(0, 0.01), 0.1 + rng.normal(0, 0.01)
         r["R_peakO_stride256"] = r_peak_o
         return r
     v = verdict([mk(s, 5.0, 5.0, False, False) for s in range(8)])
-    assert (v["K2_MB"], v["Konflikt"], v["Reihenfolge_allein"]) == ("Menge steuert unter Minibatch", "Menge gewinnt", "wirkt nicht"), v
+    assert (v["K2_MB"], v["Konflikt"], v["Reihenfolge_allein"]) == ("Menge steuert unter Minibatch",
+                                                                     "Konflikt nicht pruefbar (Reihenfolge wirkt nicht)", "wirkt nicht"), v
+    rows = [mk(s, 5.0, 5.0, False, False) for s in range(8)]
+    for r in rows:
+        r["o_stride256"] = 0.2 + rng.normal(0, 0.01)          # the order acts on o, the set keeps the peak
+    assert verdict(rows)["Konflikt"] == "Menge gewinnt", verdict(rows)
     v = verdict([mk(s, 0.0, 0.0, True, True) for s in range(8)])
     assert (v["K2_MB"], v["Konflikt"], v["Reihenfolge_allein"]) == ("Menge steuert kaum", "Reihenfolge gewinnt", "wirkt"), v
     v = verdict([mk(s, 5.0, 5.0, True, True) for s in range(8)])

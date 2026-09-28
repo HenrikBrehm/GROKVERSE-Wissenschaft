@@ -44,11 +44,25 @@ LeDoux zeigt bei p = 9973, 0.3 % Daten, Batch 256 und einer festen „Stride“-
 
 `--batch-size B` (0 = voll, Standard), `--order {iid, fixed, stride}` (eigener Zufallsstrom, Epoche = ⌈n/B⌉ Schritte, nach einem Datenwechsel neu aufgebaut), `--optimizer {adamw, sgdm}` mit `--sgd-momentum`. Alles andere unverändert; Standardwerte ändern keinen alten Lauf (Fingerprint nur bei Abweichung). Tests zuerst: (1) B = n und `iid` gibt bitgleich den Full-Batch-Lauf? (nur, wenn die Reihenfolge die Summe nicht ändert; sonst Toleranz), (2) `stride` erzeugt genau die sortierte Reihenfolge, jede Epoche gleich, (3) `iid` mischt je Epoche neu und ist über den Seed reproduzierbar, (4) SGD-Schritt = −lr·(Momentum-Puffer) ohne Adam-Zustand. Dann unabhängige Prüfung.
 
+## Fassung 2 nach der statischen Prüfung (Sitzung 43, 19:31, vor jedem Lauf; verbindlich, ersetzt Abweichendes oben)
+
+Prüfer (Claude-Agent, nur lesend, Splits im Speicher byte-genau nachgebaut, O dreifach nachgerechnet): Monkeypatch, Budget-Erzwingung, Run-ID-Muster und Lader stimmen. Übernommen:
+- **Blocker behoben:** Smoke, Kalibrierung und Machbarkeit schreiben nach `raw_smoke`, `raw_calib`, `raw_feas`. Sonst hätten gleiche Run-IDs Pilotläufe verweigert oder die Kalibrierläufe zu Pilotdaten gemacht.
+- **Konflikt-Lesart:** „Menge gewinnt“ nur, wenn die Reihenfolge überhaupt wirkt (R allein „wirkt“ oder gepaartes KI von o(stride256) − o(iid256) > 0). Sonst gilt **„Konflikt nicht prüfbar (Reihenfolge wirkt nicht)“**. Ohne diese Bedingung wäre „Menge gewinnt“ schon bei einer wirkungslosen Reihenfolge herausgekommen, denn die Spitze liegt zufällig in ≈ 90 % der Läufe außerhalb von O. Zusätzlich berichtet: Δ_pow(stride) − Δ_pow(iid256) gepaart, Anteil der Läufe mit einer O-Frequenz unter den Top 5.
+- **Machbarkeit vor dem Block** (`feas.txt`: R-stride256 gegen R-iid256, 3 Seeds): LeDoux arbeitete bei 0.3 % Daten, wo i.i.d. scheitert. Hier gibt es 30 % Daten und 15 Schritte je Epoche, und Adams β₂ mittelt über mehr als 3 Epochen. **Vorab festgelegte Regel:** Ist o(R-stride) − o(R-iid) in allen 3 Seeds ≤ 0.02 und liegt keine Spitze in O, dann läuft der Konflikt-Arm zusätzlich mit Batch 64 und Stride-Reihenfolge. Das wird vor dem Block hier eingetragen. Ein „Reihenfolge wirkt nicht bei 30 % Daten“ ist selbst ein Befund (Abgrenzung zu LeDoux).
+- **Budget-gleiche Referenz:** Arm `fb30k` (Full-Batch, 30 000 Schritte), damit sich „Minibatch“ von „langem Training“ trennen lässt. Schnappschüsse alle 2500 Schritte.
+- **SGD-Kalibrierung:** Raster 0.03/0.1/0.3/1.0/3.0. Gewählt wird das kleinste lr, das in beiden Seeds innerhalb von 50 % des Budgets generalisiert.
+- `delta_pow_checked` (nicht-endlich → ungültig), Zahl der generalisierten Läufe je Arm, R5-Zeiten (Median in Epochen, E gegen R) jetzt im Ergebnis. Die Gültigkeit umfasst fb, fb30k, iid256, iid64 und stride256.
+- Hinweis: `analyze.py` braucht torch (EXP-043-Import), also das globale Python über den Wächter.
+
+Umfang jetzt: 8 Seeds × (6 Arme × F/G + 2 R) = 112 Läufe, dazu Machbarkeit (6), Kalibrierung (10), Smoke (3).
+
 ## Ablauf in der Nacht (nach R10 `--analyze` und dem Patch-Commit)
 
 ```
 python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/smoke.txt --workers 3     # s/Schritt messen, events.minibatch lesen
-python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/calib.txt --workers 6     # SGD-lr wählen, SGD_LR in design.py setzen, README
+python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/feas.txt --workers 6      # Machbarkeit: wirkt Stride bei 30 % Daten? Regel oben
+python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/calib.txt --workers 8     # SGD-lr wählen (Regel oben), SGD_LR in design.py setzen, README
 python lab/experiments/EXP-100-set-vs-order/design.py --jobs > lab/experiments/EXP-100-set-vs-order/jobs.txt   # nach analyze.py + Commit
 python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/jobs.txt --workers 8
 ```

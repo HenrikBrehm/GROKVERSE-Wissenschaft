@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 18:19 Berlin (16:19Z, vom Runner)
 - **Deadline:** 2026-09-28 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 19:04 Berlin
+- **Zuletzt aktualisiert:** 19:09 Berlin
 - **Run-Fenster:** zu (heute bis 18:00). Ab 29.09. 00:00–13:00. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
 
-Nachtplan ist vollständig und geprüft. Ich nutze die Restzeit für Denkarbeit und bereite den Abschlussbericht vor.
+Statische Prüfung von EXP-099 läuft (Adam in Fourier-Koordinaten: macht das die frühe Frequenzwahl selektiver oder gleicht es sie an?).
 
 ## Als Nächstes
 
-Abschlussbericht vor 21:09.
+Prüfbefund einarbeiten; Abschlussbericht vor 21:09.
 
 ## Verlauf dieser Sitzung
 
+- 19:09 **EXP-099 vorbereitet** (Adam in Fourier-Koordinaten für W_E, neue Trainer-Option als Patch hinter EXP-097).
 - 19:04 R9-Nachauswertung korrigiert: Das Maß hängt an der Toleranz, und die Lesart bleibt „unklar“. Die EXP-095-Aussage ist bei allen Toleranzen stabil. N49 hat jetzt zwei konkurrierende Vorhersagen.
 - 19:00 R9 nachgesehen: Beim K5-Effekt ist die frühe Bewegung mit kurzen Adam-Fenstern kaum vorzeichen-quantisiert und selektiver (36/36), bei lr × 2 nicht (Hinweis).
 - 18:58 FINDINGS wieder auf eine Seite gebracht (Historie wortgleich nach FINDINGS_DETAILS). Paper-Folgen der Nachtergebnisse vorab festgelegt.

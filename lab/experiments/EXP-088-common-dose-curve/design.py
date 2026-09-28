@@ -163,6 +163,36 @@ def unit_residuals(units: list[dict]) -> tuple[np.ndarray, float]:
     return np.array(r), beta
 
 
+def interp_residuals(units: list[dict]) -> np.ndarray:
+    """Nachtrag a (sensitivity to curve shape): per unit, the data curve is the piecewise-linear line through its own three
+    data arms (sorted by s; beyond the ends the end segment is extended, at most RANGE_PAD by eligibility). No shared slope."""
+    r = []
+    for un in units:
+        pts = sorted((un["s"][a], un["y"][a]) for a in DATA_EPS)
+        xs, ys = np.array([q[0] for q in pts]), np.array([q[1] for q in pts])
+        res = []
+        for k in PLANT_C:
+            if not eligible(un, k):
+                continue
+            x = un["s"][k]
+            i = int(np.clip(np.searchsorted(xs, x) - 1, 0, len(xs) - 2))
+            dx = xs[i + 1] - xs[i]
+            pred = ys[i] if dx <= 0 else ys[i] + (ys[i + 1] - ys[i]) * (x - xs[i]) / dx
+            res.append(un["y"][k] - pred)
+        r.append(np.mean(res) if res else np.nan)
+    return np.array(r)
+
+
+def arm_residuals(units: list[dict]) -> dict[str, dict]:
+    """descriptive (Nachtrag a): residual per plant arm against the primary linear curve, eligible units only"""
+    beta, a = fit_curve(units)
+    out = {}
+    for k in PLANT_C:
+        v = np.array([un["y"][k] - (a[un["unit"]] + beta * un["s"][k]) for un in units if eligible(un, k)])
+        out[k] = {"n_eligible": int(len(v)), "mean": float(v.mean()) if len(v) else None}
+    return out
+
+
 def reading(ci90: tuple[float, float], ci95: tuple[float, float], n_eligible: int) -> str:
     if n_eligible < MIN_UNITS:
         return "nicht auswertbar (zu wenige Einheiten mit Eingriffsarmen im Datenbereich)"
@@ -175,24 +205,38 @@ def reading(ci90: tuple[float, float], ci95: tuple[float, float], n_eligible: in
     return "unklar"
 
 
+def cis(boot: np.ndarray) -> tuple[tuple[float, float], tuple[float, float]]:
+    return ((float(np.quantile(boot, 0.05)), float(np.quantile(boot, 0.95))),
+            (float(np.quantile(boot, 0.025)), float(np.quantile(boot, 0.975))))
+
+
 def verdict(units: list[dict], rng: np.random.Generator) -> dict:
+    """Nachtrag a: curve fitted on ALL uncensored units (point estimate and every bootstrap resample alike); the bootstrap
+    resamples all uncensored units and averages r_u over the eligible ones. Sensitivity: per-unit piecewise-linear curve;
+    if its reading differs from the primary one -> 'abhängig von der Kurvenform'."""
     r, beta = unit_residuals(units)
-    keep = [un for un, v in zip(units, r) if np.isfinite(v)]
-    n = len(keep)
+    ri = interp_residuals(units)
+    n = int(np.isfinite(r).sum())
     if n < MIN_UNITS:
         return {"n_eligible": n, "beta": beta, "reading": reading((0, 0), (0, 0), n)}
-    r = r[np.isfinite(r)]
-    boot = []
+    boot, boot_i = [], []
     for _ in range(N_BOOT):
-        idx = rng.integers(0, n, n)
-        sample = [dict(keep[i], unit=j) for j, i in enumerate(idx)]     # relabel so duplicated units keep own intercepts
+        idx = rng.integers(0, len(units), len(units))
+        sample = [dict(units[i], unit=j) for j, i in enumerate(idx)]     # relabel so duplicated units keep own intercepts
         rb, _ = unit_residuals(sample)
-        boot.append(np.nanmean(rb))
-    boot = np.array(boot)
-    ci90 = (float(np.quantile(boot, 0.05)), float(np.quantile(boot, 0.95)))
-    ci95 = (float(np.quantile(boot, 0.025)), float(np.quantile(boot, 0.975)))
-    return {"n_eligible": n, "beta": beta, "mean_residual": float(r.mean()), "ci90": ci90, "ci95": ci95,
-            "n_positive": int((r > 0).sum()), "residuals": r.tolist(), "reading": reading(ci90, ci95, n)}
+        boot.append(np.nanmean(rb) if np.isfinite(rb).any() else np.nan)
+        boot_i.append(np.nanmean(ri[idx]) if np.isfinite(ri[idx]).any() else np.nan)
+    boot, boot_i = np.array(boot), np.array(boot_i)
+    ci90, ci95 = cis(boot[np.isfinite(boot)])
+    si90, si95 = cis(boot_i[np.isfinite(boot_i)])
+    primary = reading(ci90, ci95, n)
+    sens = reading(si90, si95, int(np.isfinite(ri).sum()))
+    fin = r[np.isfinite(r)]
+    return {"n_eligible": n, "beta": beta, "mean_residual": float(fin.mean()), "ci90": ci90, "ci95": ci95,
+            "n_positive": int((fin > 0).sum()), "residuals": r.tolist(), "primary_reading": primary,
+            "sensitivity": {"mean_residual": float(np.nanmean(ri)), "ci90": si90, "ci95": si95, "reading": sens},
+            "per_arm": arm_residuals(units),
+            "reading": primary if primary == sens else f"abhängig von der Kurvenform (linear: {primary}; stückweise: {sens})"}
 
 
 def analyze() -> None:

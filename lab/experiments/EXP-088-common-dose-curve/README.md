@@ -36,6 +36,14 @@ Zurück: [[LAB]] · Vorgänger [[experiments/EXP-087-planted-signal-mediation/RE
 | **Was dagegen spräche (M-curve)** | Residuen deutlich ≠ 0: Dann hängt die Zeit nicht nur vom frühen Anteil ab, und der Anteil ist kein vollständiger Mittler |
 | **Grenzen** | Der Anteil bei 250 wird *nach* dem Eingriff gemessen; bei den Eingriffsarmen enthält er den eingepflanzten Teil (das ist gewollt: gleiche Dosis-Achse), aber die Dosis entsteht auf verschiedenen Wegen (bei Schritt 0 gesetzt oder bis 250 gelernt). Die eingepflanzten Richtungen sind zufällig, nicht gelernt. Eine Architektur, add 113. Lineare Datenkurve über einen schmalen Anteilsbereich. Äquivalenz heißt „innerhalb ×1.41“, nicht Gleichheit |
 
+## Nachtrag a (Sitzung 39, vor jeder Auswertung; Läufe gestartet ≈ 09:31, kein Ergebnis gelesen)
+
+Nach der Vorab-Prüfung (Claude-Agent, nur lesend; kein Blocker):
+1. **Kurvenform:** Die R5-Punkte sind in log2 b gegen s konvex. Eine lineare Datenkurve verschiebt die Residuen je nach Lage um bis zu ≈ ±0.17 (in der Mitte negativ, an den Rändern positiv). **Registrierte Sensitivitätsanalyse:** je Einheit die stückweise lineare Kurve durch ihre drei Datenarme (keine gemeinsame Steigung; jenseits der Enden wird das Endsegment verlängert, höchstens 0.03 durch die Zulässigkeit). Dieselbe Lesart mit Bootstrap über Einheiten. **Weichen primäre und Sensitivitätslesart voneinander ab, lautet das Urteil „abhängig von der Kurvenform“.**
+2. **Schätzer:** Die Kurve wird auf allen unzensierten Einheiten angepasst, im Punktschätzer wie in jeder Bootstrap-Stichprobe. Resampelt werden alle unzensierten Einheiten, gemittelt wird r_u über die zulässigen.
+3. **Tragweite:** P1 und P4 liegen voraussichtlich oft am Rand des Datenbereichs. Das Urteil stützt sich deshalb vor allem auf P2. Residuen je Eingriffsarm werden beschreibend berichtet. P1/P2/P4 teilen je Einheit dieselben Richtungen (nur die Skala unterscheidet sich) und sind nicht unabhängig.
+4. **Grenzen ergänzt:** Messfehler in s schwächt β um ≈ 5–10 %; am Rand verschiebt das die Residuen um ≈ 0.05. Das Ereignisgitter (25 Schritte ≈ 0.14 log2 bei b ≈ 250) kann P4 am Boden abflachen.
+
 ## Bereits gesehene Daten und davon beeinflusste Entscheidungen
 
 EXP-087 (Seeds 3200–3212, Pilot und Kalibrierung, alle Arme gesehen), R5 (Seeds 2720–2779, Anteil und Zeit je Arm, post hoc innerhalb der Arme). Beeinflusst: Wahl der Dosis-Achse (Anteil bei 250), der C-Werte (aus der EXP-087-Kalibrierung), der ε-Werte (Bereich der R5-Arme), der Äquivalenzgrenze (EXP-087: R+P gegen E2 −0.63 log2 bei um 0.09 höherem Anteil; die R5-Kurve fällt um ≈ 1.3 log2 je 0.18 Anteil) und die Zulässigkeitsregel (keine Extrapolation). Die Richtung des EXP-087-Befunds (Eingriff leicht schneller) ist bekannt. Deshalb ist die Primärfrage zweiseitig (Äquivalenz), nicht einseitig. Keine Läufe mit den Seeds 3230–3249.

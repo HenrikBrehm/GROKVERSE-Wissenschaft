@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 10:29 Berlin (08:29Z, vom Runner)
 - **Deadline:** 2026-09-28 13:29 Berlin (11:29Z)
-- **Zuletzt aktualisiert:** 12:10 Berlin
+- **Zuletzt aktualisiert:** 12:13 Berlin
 - **Run-Fenster:** heute bis 18:00.
 
 ## Gerade
 
-Alle Läufe ausgewertet. Ich baue den Code für die Bestätigung R9 (Adam-Fenster in Lernratensumme), damit sie in der nächsten Sitzung eingefroren und gerechnet werden kann.
+Alle Läufe ausgewertet. Code für die Bestätigung R9 fertig (Selbsttest grün). Eine unabhängige Prüfung vor dem Einfrieren läuft; ohne Blocker friere ich R9 ein und rechne es noch in dieser Sitzung (336 GPU-Läufe ≈ 35 min).
 
 ## Als Nächstes
 
-`confirm_r9.py` (Entwurf, ungetestet) → Prüfung → Einfrieren → 336 GPU-Läufe.
+Prüfergebnis → Einfrieren → Splits → Smoke → Block → Auswertung.
 
 ## Verlauf dieser Sitzung
 
+- 12:12 `confirm_r9.py` geschrieben, Selbsttest grün; Seeds 3300–3323 reserviert.
 - 12:08 Paper §4/§3.10 zu den Optimierer-Piloten geprüft und korrigiert.
 - 12:06 **EXP-091 fertig:** Auch bei doppelter Lernrate wirkt die Fenster-Regel (+0.05, 10/10).
 - 12:02 Bestätigung R9 entworfen (n = 24).

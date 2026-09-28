@@ -1,7 +1,7 @@
 """EXP-100 feasibility reader (session 44, written before any run). Applies the rule fixed in session 43 (README, design.feas)
 per batch size: "no order effect at B" if o(R-stride_B) - o(R-iid_B) <= 0.02 in all 3 seeds and no stride run has its peak
 frequency in O. o = share of the W_E group power (k = 1..56, number rows) at O at the end of the run.
-Also prints the first-order window prediction (firstorder_window_s44.json) next to it: B = 256 washed out, B = 64 can act.
+Also prints the first-order window prediction (firstorder_window_s44.json) next to it: B = 256 washed out; B = 64 large within the first epoch, at the edge at L = 50 (knife-edge after recomputation).
 Consequence (README): no effect at 256 but an effect at 64 -> the conflict arm also runs with B = 64 (stride64) in the
 pilot; no effect at either -> "conflict not testable at 30 % data" (reported as a finding, abgrenzung to LeDoux).
 

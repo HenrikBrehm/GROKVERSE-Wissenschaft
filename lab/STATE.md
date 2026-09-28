@@ -21,7 +21,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 - **R10 halb gerechnet:** eingefroren 7b583bdb (n = 48, Seeds 3500–3547, 480 GPU-Läufe). 268/480 gebunden (r10_raw/r10_bindings), 0 Fehler, Wächterstopp 17:52 regulär. **Ergebnisse ungesehen, nicht ansehen vor 480/480.**
 - **EXP-096 vorbereitet** (add 97 / mul 113, 160 GPU-Läufe, Seeds 3560–3575): Splits/Jobs/Smoke erzeugt und committet (a3bd9415, Sitzung 43). Selbsttest steht noch aus.
 - **EXP-098 vorbereitet** (K5 bei add 97 / mul 113, Pilot, Seeds 3660–3675, 160 GPU-Läufe; Splits/Jobs/Smoke committet 45d66cad; kein neuer Trainer-Code). Statische Prüfung: siehe JOURNAL Sitzung 43.
-- **EXP-097 vorbereitet** (Fassung 2, 3d34c7f8; Seeds 3600–3615, 160 GPU-Läufe; Splits/Jobs/Smoke committet). Die Trainer-Option liegt **nur als Patch** vor (`lab/experiments/EXP-097-sign-vs-staleness/trainer_psu.patch`): R10 bindet den Hash von `freq_ban.py` (da4d7bc0…). Den Patch erst nach `confirm_r10.py --analyze` anwenden.
+- **EXP-097 vorbereitet** (Fassung 2, 3d34c7f8; Seeds 3600–3615, 160 GPU-Läufe; Splits/Jobs/Smoke committet). Die Trainer-Option liegt **nur als Patch** vor (`lab/experiments/EXP-097-sign-vs-staleness/trainer_psu.patch`): R10 und R11 binden den Hash von `freq_ban.py` (da4d7bc0…). Den Patch erst anwenden, wenn R10 und R11 ausgewertet und die Blöcke EXP-096/EXP-098 fertig sind (Schritt 7).
+- **R11 entworfen** (Fassung 2 nach Prüfung, kein Blocker; `lab/tools/confirm_r11.py`, ungetestet; Seeds 3620–3649, 240 GPU-Läufe). Einfrieren in der Nacht laut [[confirm/R11_REGISTRATION_DRAFT|R11]] (Smoke über `--smoke-jobs`/`--smoke-check`).
 
 ## Nächste Schritte (Nacht 29.09., ab 00:00; alles über guarded_run.py bzw. parallel_queue.py)
 

@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 16:00 Berlin (14:00Z, vom Runner)
 - **Deadline:** 2026-09-28 18:59 Berlin (16:59Z)
-- **Zuletzt aktualisiert:** 17:33 Berlin
+- **Zuletzt aktualisiert:** 17:57 Berlin
 - **Run-Fenster:** heute bis 18:00 (Wächter), ab 29.09. wieder 00:00–13:00.
 
 ## Gerade
 
-**R10 eingefroren und gestartet** (Bestätigung von EXP-095 an 48 frischen Seeds; Smoke grün). Bis 18:00 rechnen 4 GPU-Worker, der Rest kommt in der Nacht. Stand 17:32: R10 114/480, keine Fehler. Repro: P2e bitgenau; mul 113 dritter Versuch mit 4 Workern (zweimal GPU-Startfehler unter Last), 45/100.
+Fenster zu (18:00). R10: 268/480 Läufe fertig, 0 Fehler, Rest in der Nacht. **Reproduktionspaket vollständig** (alle neun Skripte exakt bzw. ≤ 10⁻⁷). Jetzt Denkarbeit ohne Training: Auswertung gespeicherter EXP-095-Schnappschüsse (post hoc) zur Frage *Rückkopplung oder Korrektur?*
 
 ## Als Nächstes
 
-Läufe beobachten; um ≈ 17:57 beendet der Wächter sie. Danach Stand sichern und die Sitzung abschließen.
+Abschlussbericht vor 18:50.
 
 ## Verlauf dieser Sitzung
 
+- 17:52 Wächter stoppt R10 regulär (268/480, 0 Fehler).
+- 17:36 Repro **mul 113 exakt** → Paket vollständig.
 - 17:26 Repro mul 113: 2. technischer Fehler („No HIP GPUs“), dritter Versuch mit weniger Last.
 - 17:20 Repro **P2e reproduziert** (Abweichung ≤ 9·10⁻⁸).
 - 17:15 R10-Block gestartet (4 Worker).

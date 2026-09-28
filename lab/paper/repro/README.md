@@ -103,5 +103,7 @@ Abnahmeregel Fall 1 (Gleichwertigkeit bitgleich, Sitzung 37) → Schwellen der S
 | `k4_resets.py --block n29c` | R normal 0.814, VO-Reset −0.036, QK-Reset 0.716; H1 0.850 (16/20), H2 0.752 (17/20), 17/20 generalisiert | N29c: Abweichung exakt 0 → **reproduziert** | 2305 s |
 | `k2_function.py` (P2d, add 113, 20 Seeds) | D = 0.2496 [0.2291, 0.2699], 20/20, bestätigt | P2d: eingefroren 0.2496, max. Abweichung je Seed 7.4·10⁻⁸ (Schwelle 0.02) → **reproduziert** | 886 s |
 | `k4b.py` (N28, 30 Seeds; Sitzung 42, GPU geteilt mit EXP-095) | π normal25 0.340, m25 0.189, m35 0.410, normal50 0.998; H1 0.101 [0.077, 0.126], H2 0.120 [0.090, 0.152] (je 29/30) | N28: max. Abweichung je Seed 4.4·10⁻¹⁶ → **reproduziert** | 1867 s (unter Last) |
-| übrige (k2 mul 113 / add 97, k2_function_p2e) | laufen in Sitzung 42 (`repro_s42.sh`); zuvor 15:37 angehalten (GPU für EXP-094; „EXIT 1“ bei k2 mul = dieser Abbruch); Wiederaufnahme mit derselben Kette (fertige Läufe werden wiederverwendet) | – | – |
+| `k2.py --task add --p 97` (50 Seeds × 2) | Δ_pow 6.112 [5.794, 6.431], 50/50 | P1 (add 97): max. Abweichung je Seed 3.6·10⁻¹⁵ → **reproduziert** | 841 s (unter Last) |
+| `k2.py --task mul --p 113` | Sitzung 42, 16:32: ein Trainerprozess scheiterte technisch („No HIP GPUs are available“, 14 GPU-Prozesse gleichzeitig), kein Codefehler; neu mit weniger Last | – | – |
+| übrige (k2_function_p2e) | läuft in Sitzung 42 (`repro_s42.sh`); zuvor 15:37 angehalten (GPU für EXP-094; „EXIT 1“ bei k2 mul = dieser Abbruch); Wiederaufnahme mit derselben Kette (fertige Läufe werden wiederverwendet) | – | – |
 

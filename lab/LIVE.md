@@ -5,19 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 16:00 Berlin (14:00Z, vom Runner)
 - **Deadline:** 2026-09-28 18:59 Berlin (16:59Z)
-- **Zuletzt aktualisiert:** 16:56 Berlin
+- **Zuletzt aktualisiert:** 17:01 Berlin
 - **Run-Fenster:** heute bis 18:00 (Wächter), ab 29.09. wieder 00:00–13:00.
 
 ## Gerade
 
-**EXP-095 fertig: Die frühe Festlegung braucht frische Gradienten unterwegs.** Wird der Gradient in den ersten 24 Schritten nur 3-mal neu berechnet, legt das Modell genauso schwach fest wie mit 3 großen Schritten (Unterschied 0.000). Nur mit dem Anfangsgradienten bewegt es sich sogar weiter, aber ungezielt. Jetzt: FINDINGS, Paper §4, LAB nachführen. Repro läuft weiter (k2 mul 113).
+Die Bestätigung **R10** für den EXP-095-Befund ist vorbereitet (48 frische Seeds, Code-Selbsttest grün). Ein unabhängiger Agent prüft sie vor dem Einfrieren. Gerechnet wird in der Nacht. Die Repro-Kette rechnet P2e, danach mul 113 neu.
 
 ## Als Nächstes
 
-Paper-Absatz unabhängig prüfen lassen; Repro-Rest eintragen; Nachtplanung (Bestätigung EXP-092–095-Linie?).
+Prüfbefunde zu R10 einarbeiten; Repro-Ergebnisse eintragen; Sitzungsabschluss vor 18:50.
 
 ## Verlauf dieser Sitzung
 
+- 17:00 R10-Registrierung und Code (n = 48; Power 0.92/1.00/0.99 bei halbem Effekt).
+- 16:58 Paper-Absatz zu EXP-095 geprüft: Zahlen stimmen; drei Formulierungen vorsichtiger („Rückkopplung“ war nur vermutet).
+- 16:49 Repro **k2 add 97 bitgenau**; k2 mul 113 technisch gescheitert (GPU unter Last), wird neu gerechnet.
 - 16:54 **EXP-095: „Auswertungen zählen“** (e8 = +0.14, g8 = c8b genau; nur Anfangsgradient: π 0.10 statt 0.28).
 - 16:32 Repro **K4b bitgenau** (N28, 30 Seeds).
 

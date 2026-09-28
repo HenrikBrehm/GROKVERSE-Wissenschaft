@@ -8,7 +8,7 @@ tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 
 Zurück: [[LAB]] · [[FINDINGS]] (größte offene Frage: Was macht die frühe Wahl fest?) · Vorläufer [[experiments/EXP-089-lambda-fixed-steps/README|EXP-089]] (Nachtrag a: H-β), [[experiments/EXP-081-optimizer-clock/README|EXP-081]] (β₁ als Hebel) · [[confirm/R3_REGISTRATION_DRAFT|R3]] · [[JOURNAL]] Sitzung 40.
 
-**Festgelegt:** Sitzung 40, 2026-09-28, ≈ 11:50 Berlin, vor jedem EXP-090-Lauf. Pilot/Exploration (16 frische Seeds, kein eingefrorenes Manifest).
+**Festgelegt:** Sitzung 40, 2026-09-28, Commit 11:38 Berlin (035ed917; die frühere Angabe „≈ 11:50“ war nicht gemessen), vor jedem EXP-090-Lauf. Pilot/Exploration (16 frische Seeds, kein eingefrorenes Manifest).
 
 ## Konkurrenzmodelle
 
@@ -50,7 +50,7 @@ python lab/tools/guarded_run.py -- python lab/experiments/EXP-090-beta-window-la
 ```
 Selbsttest grün (Sitzung 40). Start erst nach der unabhängigen Prüfung von `--pre-switch-betas` (ohne Blocker).
 
-## Nachtrag a (Sitzung 40, ≈ 11:42 Berlin, nach der Code-Prüfung, vor dem Block; nur der Smoke lief, kein Ergebnis gelesen)
+## Nachtrag a (Sitzung 40, Commit 11:39 Berlin (8127533f; „≈ 11:42“ war nicht gemessen), nach der Code-Prüfung, vor dem Block; nur der Smoke lief, kein Ergebnis gelesen)
 
 Unabhängige Prüfung von `--pre-switch-betas` (Claude-Agent, nur lesend): **kein Blocker.** Zeitpunkt richtig (Updates 1 … t mit β′, ab t + 1 Standard; `state["step"]` = t beim Umschalten), torch 2.9.1+rocm liest `group["betas"]` in jedem Schritt für EMA und Bias-Korrektur (foreach und single-tensor), Umskalierung hält m̂/v̂ stetig; ohne sie fiele v̂ um 2.2× und der Schritt stiege um ≈ 1.48×. Smoke (Seed 3270, l100b beide Richtungen): Ereignisprüfung wahr, Faktoren m 1.086, v 2.200, Test 0.995–1.0.
 **Übernommen:**

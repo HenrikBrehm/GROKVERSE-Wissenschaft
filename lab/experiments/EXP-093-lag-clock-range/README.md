@@ -8,7 +8,7 @@ tags: [exp/vorbereitet, neu/kandidat]
 
 Zurück: [[LAB]] · [[FINDINGS]] (K5, offene Mechanismusfrage) · [[NOVEL_DIRECTIONS]] N48 · Vorgänger [[experiments/EXP-092-momentum-lag-clock/README|EXP-092]] · [[confirm/R9_REGISTRATION_DRAFT|R9]]
 
-**Festgelegt vor jedem EXP-093-Lauf** (Sitzung 41, 2026-09-28, ≈ 14:35 Berlin; `design.py`, `analyze.py`, Selbsttest grün über den Wächter).
+**Festgelegt vor jedem EXP-093-Lauf** (Sitzung 41, 2026-09-28, 14:29 Berlin gemessen; `design.py`, `analyze.py`, Selbsttest grün über den Wächter).
 
 ## Warum dieser Versuch (Bezug, Regel 15b)
 

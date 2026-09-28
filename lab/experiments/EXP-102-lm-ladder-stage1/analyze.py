@@ -46,7 +46,7 @@ def delta_pow(pF, pG, F, G) -> float | None:
 
 def run_dir(seed: int, split: str, rung: str, root: str = "raw") -> Path:
     op, fs, tie, loss = FLAGS[rung]
-    return HERE / root / f"lad_seed{seed}_seed{seed}_{split}_op{op}_fs{fs}_tie{tie}_loss{loss}_B0_steps{STEP}_cuda"
+    return HERE / root / f"lad_seed{seed}_seed{seed}_{split}_op{op}_fs{fs}_tie{tie}_loss{loss}_B0_steps{STEP}_thr1_cuda"
 
 
 def load_power(seed: int, split: str, rung: str) -> np.ndarray | str:
@@ -127,7 +127,7 @@ def selftest() -> None:
     assert abs(pw[2] - P) < 1e-9 and np.abs(np.delete(pw, 2)).max() < 1e-9      # |W|^2 = P, all at k = 3
     assert abs(delta_pow(np.array([4.0, 1.0]), np.array([1.0, 4.0]), [1], [2]) - 2 * np.log(4)) < 1e-12
     assert delta_pow(np.array([0.0, 1.0]), np.array([1.0, 4.0]), [1], [2]) is None
-    assert run_dir(3800, "F", "tie").name == "lad_seed3800_seed3800_F_op0_fs1_tie1_lossanswer_B0_steps2000_cuda"
+    assert run_dir(3800, "F", "tie").name == "lad_seed3800_seed3800_F_op0_fs1_tie1_lossanswer_B0_steps2000_thr1_cuda"
     print("selftest ok")
 
 

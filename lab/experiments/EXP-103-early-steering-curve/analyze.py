@@ -75,6 +75,7 @@ def main() -> None:
             ref_lr = float(np.interp(t * LR[cell], st, mean)) if t * LR[cell] <= st[-1] else None
             pts.append({"cell": cell, "t": t, "tau": row["tau"], "cell_mean": row["cell_mean"], "P1_dense": ref,
                         "abs_log_ratio": abs(float(np.log(row["cell_mean"] / ref))),
+                        "log_ratio": float(np.log(row["cell_mean"] / ref)),          # s44: signed, reported with the reading
                         "abs_log_ratio_lr": None if ref_lr is None else abs(float(np.log(row["cell_mean"] / ref_lr)))})
         out["points"] = pts
         e = [p["abs_log_ratio"] for p in pts]

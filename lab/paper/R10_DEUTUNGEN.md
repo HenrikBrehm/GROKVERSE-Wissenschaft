@@ -23,3 +23,5 @@ Zurück: [[paper/STATUS]] · Registrierung: [[confirm/R10_REGISTRATION_DRAFT|R10
 | H1 bestätigt, H3 nicht | unerwartet (H3 ist der stärkere Kontrast im Piloten): Zahlen berichten, Satz „inconsistent pattern; not interpreted“, Ursache im JOURNAL prüfen (Technik vor Inhalt). |
 
 **Technisch nicht auswertbar** (Ausfälle über der Registrierungsgrenze, Code-Tor verweigert): so berichten, keine Teilauswertung als Befund.
+
+**Ergebnis (Sitzung 45, 00:23 Berlin; nachgerechnet 00:27):** Ausgang „H1 und H3 bestätigt, H2 nicht“ → Satz: “With 24 Adam steps held fixed, fewer gradient evaluations along the path gave weaker persistence (e₈ = 0.147 [0.115, 0.181], e₂₄ = 0.234 [0.201, 0.266]; n = 48). Equivalence of 3 evaluations and 3 large steps was not shown (r₈ = 0.057 [0.038, 0.078]); the counter difference after the switch confounds this contrast. This is a property of Adam with stale gradients, which includes near-sign steps; it does not isolate fresh directional information.”

@@ -77,3 +77,12 @@ Line numbers refer to lab/paper/draft.md.
 *Nachtrag (Sitzung 30, vom Laboragenten):* Janati et al. 2026 steht inzwischen in [[paper/related_work]] (Autoren und Titel per arXiv-Abstract). Die Zitate He et al. 2026 → 2026a, Kleinman et al. → 2023, 2024 und Frankle et al. 2020 → Frankle, Schwab und Morcos 2020 sind im Entwurf eindeutig gemacht. Die übrigen Punkte oben (fehlende Venues, URLs, Prüfgrade) sind offen für die menschliche Prüfung.
 
 *Nachtrag (Sitzung 30):* Venues, volle Titel und URLs der Preprints wurden gegen die arXiv-Abstractseiten geprüft, siehe [[paper/references_venues_check]]. Nur Tomàs Bernal et al. und Sevetlidis & Pavlidis nennen eine Venue (AISTATS 2026). Die Titel von Dong und Khanh sind hier gekürzt. Zu klären bleiben die Namensform von Tomàs Bernal und die Schreibung „Gharda“ Sokar in Lyle et al.
+
+## Ergänzt Sitzung 45 (für [[paper/draft_short]]; aus [[paper/related_work]] übernommen, menschlich zu prüfen)
+
+- Gromov (2023). *Grokking Modular Arithmetic*. Venue MISSING; arXiv:2301.02679. https://arxiv.org/abs/2301.02679. [K]
+- Zhong, Liu, Tegmark, Andreas (2023). *The Clock and the Pizza: Two Stories in Mechanistic Explanation of Neural Networks*. NeurIPS 2023. https://arxiv.org/abs/2306.17844. [S]
+- Kumar, Bordelon, Gershman, Pehlevan (2024). *Grokking as the Transition from Lazy to Rich Training Dynamics*. ICLR 2024. https://arxiv.org/abs/2310.06110. [K]
+- Liu, Michaud, Tegmark (2023). *Omnigrok: Grokking Beyond Algorithmic Data*. ICLR 2023. https://arxiv.org/abs/2210.01117. [K] (Titelzusatz aus dem Gedächtnis, am Original prüfen)
+- Khanh, Viet, Trung, Duc (2026). *The Weight Norm Sets the Grokking Timescale: A Causal Delay Law*. Venue MISSING; arXiv:2606.13753. [A] — im Kurztext als „Khanh et al. 2026“, nicht verwechseln mit „Khanh 2026“ (arXiv:2607.06628).
+- GrokTransfer: Autoren/Titel MISSING; arXiv:2504.13292. [S/A] (vor dem Zitat vollständige Angabe nachholen)

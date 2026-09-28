@@ -16,6 +16,12 @@ Readings, fixed before any run (session 44):
              wd-independent alignment driven by Adam's lr-sized steps, then an lr*wd drift). Reported as
              abs_log_ratio_lr; descriptive, it does not change the reading above.
 Cell means come from lab/confirm/R1_posthoc_lrwd_time_s44.json (seen data).
+Pre-run review (session 45, before any run; the rules above unchanged): the 1e-4 check assumes bit-reproducible GPU runs
+across trainer commits (P1 came from 10 commits). Second rule fixed now: if the strict check fails but every seed's relative
+difference at step 250 is < 1e-3, the curve counts as comparable with the flag 'approx'; max / median |diff| and the max
+relative difference are always reported. The secondary tau_lr reading exists only for 2 of the 4 points (wd 0.3 at t = 500
+and 750 give tau_lr > 250). Part B additionally reports the signed mean log ratio per cell and the early difference at
+t = 75 and 150. The job lines were written by hand in session 44 (no design script); they are checked above.
 
   python lab/tools/parallel_queue.py lab/experiments/EXP-103-early-steering-curve/jobs.txt --workers 4
   python lab/tools/guarded_run.py -- python lab/experiments/EXP-103-early-steering-curve/analyze.py
@@ -47,7 +53,7 @@ def run(root: Path, s: int, a: str) -> Path:
 
 
 def main() -> None:
-    curves, mism = [], []
+    curves, mism, diffs = [], [], []
     for s in range(1000, 1050):
         T = {a: json.loads((LAB / f"confirm/splits/confirm_exp1_eps2.0_add113_seed{s}_{a}.json").read_text(encoding="utf-8"))["targets"] for a in "FG"}
         dF, dG = run(HERE / "raw", s, "F"), run(HERE / "raw", s, "G")
@@ -57,11 +63,15 @@ def main() -> None:
         oF, oG = run(LAB / "confirm/raw", s, "F"), run(LAB / "confirm/raw", s, "G")
         ost = list(np.load(oF / "spectra_steps.npy"))
         old = delta(np.load(oF / "spectra.npy")[ost.index(250)], np.load(oG / "spectra.npy")[ost.index(250)], T["F"], T["G"])
+        diffs.append((abs(d[list(st).index(250)] - old), abs(d[list(st).index(250)] - old) / max(abs(old), 1e-12)))
         if abs(d[list(st).index(250)] - old) > 1e-4:
             mism.append([s, float(d[list(st).index(250)]), float(old)])
         curves.append(d)
-    out: dict = {"steps": st.tolist(), "n_mismatch_250": len(mism), "mismatch": mism}
-    if mism:
+    dd = np.array(diffs)
+    out: dict = {"steps": st.tolist(), "n_mismatch_250": len(mism), "mismatch": mism, "max_abs_diff_250": float(dd[:, 0].max()),
+                 "median_abs_diff_250": float(np.median(dd[:, 0])), "max_rel_diff_250": float(dd[:, 1].max())}
+    out["check"] = "exact" if not mism else "approx (rel < 1e-3), flagged" if dd[:, 1].max() < 1e-3 else "failed"
+    if out["check"] == "failed":
         out["reading"] = "not comparable"
     else:
         mean = np.mean(curves, 0)
@@ -80,6 +90,8 @@ def main() -> None:
         out["points"] = pts
         e = [p["abs_log_ratio"] for p in pts]
         out["reading"] = ("artefact" if all(x < 0.10 for x in e) else "real" if sum(x > 0.20 for x in e) >= 2 else "unclear")
+        if out["check"] != "exact":
+            out["reading"] += " (approx check, flagged)"
     (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "mismatch"}, indent=1))
 
@@ -128,13 +140,15 @@ def cross() -> dict:
         bs = rng.choice(lr2000, size=(10000, len(lr2000))).mean(1)
         out[c] = {"steps": common, "mean_X": X[:, ix].mean(0).round(3).tolist(), "mean_P1": Pp[:, ip].mean(0).round(3).tolist(),
                   "early_mean_X": {int(t): float(X[:, k].mean()) for k, t in enumerate(stX) if 0 < t < 250},
-                  "mean_abs_log_ratio": m, "paired_log_ratio_2000": {"mean": float(lr2000.mean()),
+                  "mean_abs_log_ratio": m,
+                  "mean_log_ratio": float(np.mean(np.log(X[:, ix].mean(0) / Pp[:, ip].mean(0)))),   # s45: signed direction
+                  "paired_log_ratio_2000": {"mean": float(lr2000.mean()),
                   "ci95": [float(np.quantile(bs, .025)), float(np.quantile(bs, .975))]}}
     st, X1 = Xs[CROSS[0]]
     st2, X2 = Xs[CROSS[1]]
     assert np.array_equal(st, st2)
     early = {}
-    for t in (10, 25, 50, 100, 200):                     # descriptive (N51): same lr*wd, lr x2 vs x0.5, same seeds/splits
+    for t in (10, 25, 50, 75, 100, 150, 200):                     # descriptive (N51): same lr*wd, lr x2 vs x0.5, same seeds/splits
         if t in st:
             d = X1[:, list(st).index(t)] - X2[:, list(st).index(t)]
             bs = rng.choice(d, size=(10000, len(d))).mean(1)
@@ -145,7 +159,7 @@ def cross() -> dict:
     out["reading"] = ("product form holds" if all(x < 0.10 for x in ms) else
                       "not only the product" if any(x > 0.20 for x in ms) else "unclear")
     a_sum = HERE / "summary.json"                        # s44: pairing with old P1 runs is valid only if part A's check passed
-    a_ok = a_sum.exists() and json.loads(a_sum.read_text(encoding="utf-8")).get("n_mismatch_250") == 0
+    a_ok = a_sum.exists() and json.loads(a_sum.read_text(encoding="utf-8")).get("check", "failed") != "failed"   # s45: exact or approx
     out["pairing_validated_by_part_A"] = a_ok
     if not a_ok:
         out["reading"] += " (nur beschreibend: Teil-A-Prüfung fehlt oder nicht bestanden)"

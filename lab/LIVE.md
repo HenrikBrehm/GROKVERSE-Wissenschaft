@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 21:49 Berlin (19:49Z, vom Runner)
 - **Deadline:** 2026-09-29 00:49 Berlin (22:49Z)
-- **Zuletzt aktualisiert:** 22:56 Berlin
-- **Run-Fenster:** zu bis 23:59 (Wächter Exit 3 = „noch nicht“). Ab 23:59 durchgehend (Regel 20).
+- **Zuletzt aktualisiert:** 00:03 Berlin
+- **Run-Fenster:** offen seit 23:59 (durchgehend bis 06.10.); Grenze dieser Sitzung 00:49.
 
 ## Gerade
 
-Alles für die Nacht vorbereitet und geprüft. Warte auf das Rechenfenster (23:59); dann sofort R10 + Nanda.
+R10 rechnet (8 GPU-Worker, ≈ 2 min je Lauf; wird in der nächsten Sitzung fertig). RFM-Reproduktionstest (p = 61) läuft auf der CPU.
 
 ## Als Nächstes
 
-23:59: `--check`, dann R10 fertig rechnen (8 GPU-Worker) + Nanda auf der CPU ([[NACHT_2026-09-29]]). EXP-104 erst nach L0.
+RFM-Tor prüfen → RFM-Läufe; Nanda unabhängig nachrechnen; vor 00:49 Stand sichern. Nächste Sitzung: R10 fertig → Auswertung → Nachrechnung → L0-Patch ([[NACHT_2026-09-29]]).
 
 ## Verlauf dieser Sitzung
 
+- 00:03 **Nanda (Regel 20c): in allen vier Aufgaben tragen die gesteuerten Frequenzen die Lösung** (je 20/20; auf eigene Ziele beschränkt Fehler ≈ 0, auf fremde 11–18). RFM-Selbsttest: Testfehler diagnostiziert (Matrixwurzel verstärkt Rundung), korrigiert.
+- 23:59 Fenster offen: R10-Queue und Nanda gestartet.
 - 22:56 Paper: Konsistenzprüfung nach allen heutigen Änderungen (7 Punkte behoben, alle Zahlen stimmen); Abb. 1 als zweiteiliges Bild.
 - 22:48 Vorhersager (Maske gegen Init-Energie) an R4 kalibriert und unabhängig bestätigt: Maske 0.34, Init-Energie 0.19, Zufall 0.09; Gewicht eingefroren für den Test an unberührten Läufen heute Nacht.
 - 22:40 L0: Schalter CONFLICT_B16 + Auswertung (Standard aus, Joblisten unverändert). Vorab-Vorhersage an 18 unberührten Machbarkeitsläufen: Zufallssplits folgen ihrer eigenen Maske auch unter Minibatch.

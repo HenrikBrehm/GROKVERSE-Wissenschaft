@@ -40,7 +40,7 @@ SALT = 100_100
 FB_STEPS, MB_STEPS = 2000, 30_000
 SGD_LRS = (0.03, 0.1, 0.3, 1.0, 3.0)   # calibration grid (widened, review s43)
 SGD_LR: float | None = None      # set from the calibration before the pilot (documented in the README)
-SGD_DROPPED = False              # s44: True if no calibration lr generalises -> sgdm256 leaves the arms (README: 'nicht auswertbar')
+SGD_DROPPED = True               # s46: calibration without a hit (README) -> sgdm256 leaves the arms ('nicht auswertbar')
 ARMS = {"fb": (0, "iid", "adamw", FB_STEPS), "fb30k": (0, "iid", "adamw", MB_STEPS), "iid256": (256, "iid", "adamw", MB_STEPS), "iid64": (64, "iid", "adamw", MB_STEPS),
         "sgdm256": (256, "iid", "sgdm", MB_STEPS), "stride256": (256, "stride", "adamw", MB_STEPS)}
 R_ARMS = ("iid256", "stride256")

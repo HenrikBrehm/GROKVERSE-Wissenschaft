@@ -1,8 +1,8 @@
 ---
 id: EXP-085
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet, programm/B, neu/kandidat]
+tags: [exp/abgeschlossen, befund/unklar, programm/B, neu/kandidat]
 ---
 # EXP-085: Kostet ein Datenwechsel im Festlegungsfenster auch in der MLP-Architektur Grokking-Zeit? (Pilot, bekannte Seeds)
 
@@ -38,3 +38,8 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-085-mlp-switch-cost/smoke
 python lab/tools/parallel_queue.py lab/experiments/EXP-085-mlp-switch-cost/jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-085-mlp-switch-cost/analyze.py
 ```
+
+## Ergebnis (Sitzung 37, 2026-09-28, Läufe 04:12–04:24, Auswertung 04:25 Berlin, gemessen)
+
+120/120 Läufe ok (GPU, `--workers 7`), 10/10 Seeds gültig. **Lesart nach Regel S2: *nicht auswertbar*.** Nur 5 Seeds erfüllen L(A) − L(B) ≥ 2 (Regel: ≥ 8); dasselbe Trennproblem wie EXP-075.
+Beschreibend (kein Urteil): mittleres C(t) = −0.06 / −0.10 / −0.29 / −0.81 / −1.29 log2 bei t = 10 / 25 / 50 / 100 / 200. Positiv sind 1 / 1 / 1 / 0 / 0 von 10 Seeds. Median-π (5 Seeds) = −0.02 / 0.13 / 0.51 / 1.13 / 1.45. Im MLP verzögert ein früher Wechsel das Grokking bei keinem t, auch nicht dort, wo π noch klein ist (t = 10, 25). Im Transformer liegt C(25) bei +0.85 (R6). Das spricht vorläufig dafür, dass die Zeitkosten im Festlegungsfenster an die Attention-Architektur gebunden sind. Ein Urteil ist das nicht: bekannte Seeds, π nur an 5 Seeds, andere Zeitskala (MLP groks nach ≈ 3500–7600 Schritten). Programm B; keine Nachträge. [[JOURNAL]] Sitzung 37.

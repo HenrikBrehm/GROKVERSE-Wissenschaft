@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 20:19 Berlin (18:19Z, vom Runner)
 - **Deadline:** 2026-09-28 23:19 Berlin (21:19Z)
-- **Zuletzt aktualisiert:** 20:43 Berlin
+- **Zuletzt aktualisiert:** 20:52 Berlin
 - **Run-Fenster:** zu (Wächter: outside_window); öffnet 23:59, also nach dieser Sitzung. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
 
-Nächste Denkarbeit wählen (Fenster zu). Vorbereitet sind jetzt EXP-101 (RFM), EXP-102 (Sprachmodell-Leiter), EXP-103 (lr·wd-Zeit, frühe Kurve + gekreuzte Zellen).
+Prüfung der Auswerteskripte EXP-102/EXP-103 läuft (nur lesend). Danach Befunde einarbeiten.
 
 ## Als Nächstes
 
@@ -18,6 +18,9 @@ Nächste Sitzung 23:54 Berlin; ab 23:59 R10 fertig → L0. Füllarbeit: EXP-101 
 
 ## Verlauf dieser Sitzung
 
+- 20:52 EXP-103 Teil B: frühe Spektren (10–200) für den Zwei-Uhren-Test; N51-Gegenhinweis notiert.
+- 20:49 Paper §3.7: nachträglicher Absatz zur lr·wd-Zeit (geprüft, 1 Formulierung korrigiert); EXP-100: Erwartung vor dem Piloten; tägliche Erklärung ergänzt.
+- 20:46 Abb. 12 (R1 über Schritte vs. t·lr·wd); L0-SGD-Arm geprüft (kein Fehler).
 - 20:43 EXP-103 vorbereitet: dichte frühe P1-Kurve + gekreuzte Zellen lr 2e-3/wd 0.5 und lr 5e-4/wd 2 (gepaart mit P1).
 - 20:42 Nachrechnung R1: Zahlen stimmen; Deutung eingeschränkt (4 Zellen, kleine Reste, Produktform ungeprüft).
 - 20:39 **R1 post hoc:** Δ_pow-Größen der lr/wd-Zellen liegen ab τ = t·lr·wd ≥ 250 auf der P1-Kurve (±4 %); vorab-Lesart nur „teilweise“ (Abweichung bei τ < 250).

@@ -1,8 +1,8 @@
 ---
 id: EXP-081
-status: laufend
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/laufend, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, befund/negativ, neu/kandidat]
 ---
 # EXP-081: Welche Uhr legt die Frequenzwahl fest? β₁ und β₂ als Hebel (Pilot, Entwurf)
 
@@ -112,3 +112,15 @@ Primär: gepaarte Differenz π(β₂) − π(0.98) bei t = 33 je Zelle mit Boots
 - **Status:** Exploration/Pilot (10 Seeds, kein eingefrorenes Manifest). Kein Urteil mit Bestätigungscharakter.
 
 **Ablauf:** Smoke = die vier Nicht-Referenz-Reinläufe von Seed 830 (`smoke.txt`, Stabilität β₂ = 0.95 bei wd 1 prüfen), dann `python lab/tools/parallel_queue.py lab/experiments/EXP-081-optimizer-clock/jobs.txt --workers 8` (fertige Läufe werden übersprungen), dann `python lab/tools/guarded_run.py -- python lab/experiments/EXP-081-optimizer-clock/analyze.py`. Erwartete Dauer ≈ 50 min (EXP-059: 200 Läufe ≈ 20 min bei 8 Workern).
+
+## Ergebnis (Sitzung 40, 2026-09-28; 500/500 GPU-Läufe 10:36–11:25 Berlin laut Queue-Log, teils parallel zu EXP-089; `analyze.py` über den Wächter; Pilot)
+
+Alle 5 Zellen 10/10 Seeds gültig (L(A) − L(B) im Mittel 6.6–7.6), keine technischen Ausfälle, keine Instabilität bei β₂ = 0.95.
+- **Teil A (N38, Momentum-Schwanz), registriert: *N38 gestützt*.** Abfall π_n25 − π_m25: β₁ 0.8 / 0.9 / 0.95 = **0.083 / 0.144 / 0.194** (Mittel geordnet); Kontrast Abfall(0.95) − Abfall(0.8) = +0.11 (Median +0.08), **9/10** positiv, einseitiger Vorzeichentest p = 0.011.
+  Beschreibend: geschätzter Schwanz (Abfall / Steigung π(20 → 30)) **2.7 / 8.0 / 17.4** Update-Äquivalente gegen vorhergesagt 4.0–4.5 / 8.7–10.8 / 16–24: Größenordnung und Anstieg getroffen, β₁ = 0.8 und 0.9 etwas unter der Spanne (die Umrechnung über eine lineare Steigung ist grob).
+- **Teil B (N37, β₂-Skalierung), registriert: *N37 verworfen*.** π(β₂, 33) − π(ref, 33): β₂ 0.95: **−0.054** [−0.080, −0.032]; β₂ 0.995: **+0.015** [0.001, 0.034]; beide KI in ±0.15. N37 sagte ≈ +0.5 bzw. −0.5 voraus. Beschreibend π bei t = 25/33/45: ref 0.36/0.52/0.88, β₂ 0.95 0.34/0.46/0.75, β₂ 0.995 0.37/0.53/0.93. Das Vorzeichen bei β₂ = 0.95 (weniger Festlegung, 10/10 Seeds bei t = 33) widerspricht auch der kleinen Vorhersage der Verschiebungsuhr (≈ +0.03 bis +0.08); der Effekt ist klein.
+- **Post hoc (nicht registriert, nach Hinweis aus der EXP-089-Gegenprüfung gezielt angesehen):** Die Festlegung **ohne** Schwanz, π_m25, fällt mit wachsendem β₁ stark: **0.34 / 0.21 / 0.13**, streng geordnet in **9/10** Seeds (0.8 > 0.95 in 10/10). Mit Schwanz (π_n25: 0.43 / 0.36 / 0.33, geordnet 8/10) gleicht der längere Schwanz das zum Teil aus. Bei t = 20 ist die Ordnung schwach (5/10).
+
+**Lesart (Interpretation, Pilot):** (1) Der Momentum-Schwanz trägt zur Festlegung bei, und zwar in der Größe, die das skalare Adam-Modell vorhersagt (N38, jetzt mit einem Eingriff an frischen Seeds statt post hoc). (2) Das Festlegungsfenster skaliert **nicht** mit dem β₂-Horizont (N37 verworfen). (3) Neu und wichtiger: Ein längeres β₁-Fenster senkt die Festlegung, die bis zum Wechsel im Zustand steckt, deutlich. Das passt zur führenden Deutung von [[experiments/EXP-089-lambda-fixed-steps/README|EXP-089]] (Nachtrag a): Adams Mittelungsfenster zählen in Schritten; ein kürzeres Fenster (bei EXP-089: relativ zu Λ) macht die Bewegung vor dem Wechsel selektiver. Die β₂-Richtung ist entgegengesetzt, aber klein. Beides zusammen: Die „Uhr“ der Festlegung ist keine reine Λ- oder Schrittuhr, sondern hängt an β₁ als Verzögerung.
+**Grenzen:** Pilot, 10 Seeds, add 113, eine Architektur; π_m25-Befund post hoc; β₁ verändert auch die Steigung von π und die Anfangsrampe nach dem Wechsel (beide Arme gleich, aber nicht der Kurvenvergleich über Zellen); Umrechnung in Update-Äquivalente über eine lineare Steigung.
+**Folge:** Ein gemeinsamer Nachfolger für EXP-081/089 (Bestätigung, frische Seeds, eingefrorenes Manifest): H-β1 „kürzeres β₁-Fenster → mehr Festlegung im Zustand beim Wechsel“ über π_m bzw. die Trennung beim Wechsel, und der EXP-089-Test mit β-Fenstern, die in Λ gleich bleiben (phasenabhängige β-Option im Trainer nötig).

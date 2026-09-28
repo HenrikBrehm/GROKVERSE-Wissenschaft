@@ -23,7 +23,8 @@ Readings fixed HERE, BEFORE computing (per task):
   else 'gemischt'.
 Descriptive: accuracy of the unrestricted models on the unseen pairs, restr/excl in absolute terms (mul: over 112 classes, not comparable
 in absolute size to the add tasks), mask sizes n_own / n_unseen, n generalised.
-Not covered: D59 (non-abelian; needs an irrep projection).
+D59 (P2f): the analogue of the sum directions are the matrix coefficients rho_k(g h)_ij of the key 2-dim irreps (Schur
+orthogonal), orthonormalized together with the constant; labels are the composition table (EXP-046 dihedral.py).
 """
 from __future__ import annotations
 
@@ -42,7 +43,9 @@ TASKS = {"add113": {"p": 113, "task": "add", "seeds": range(2230, 2250), "raw": 
          "mul113": {"p": 113, "task": "mul", "seeds": range(2270, 2290), "raw": LAB / "confirm/p2e_raw", "spl": LAB / "confirm/p2e_splits",
                     "run": "EXP-043_baseline_seed{s}_thr1_p2e_mul113_seed{s}_{a}_mul113_devcuda", "stem": "p2e_mul113_seed{s}_{a}"},
          "add97": {"p": 97, "task": "add", "seeds": range(2270, 2290), "raw": LAB / "confirm/p2e_raw", "spl": LAB / "confirm/p2e_splits",
-                   "run": "EXP-043_baseline_seed{s}_thr1_p2e_add97_seed{s}_{a}_add97_devcuda", "stem": "p2e_add97_seed{s}_{a}"}}
+                   "run": "EXP-043_baseline_seed{s}_thr1_p2e_add97_seed{s}_{a}_add97_devcuda", "stem": "p2e_add97_seed{s}_{a}"},
+         "D59": {"p": 118, "task": "D", "n": 59, "seeds": range(2340, 2360), "raw": LAB / "confirm/p2f_raw", "spl": LAB / "confirm/p2f_splits",
+                 "run": "EXP-046_seed{s}_p2f_D59_seed{s}_{a}_devcuda", "stem": "p2f_D59_seed{s}_{a}"}}
 GEN, N_BOOT, HI = 3, 10_000, 0.1
 
 
@@ -56,9 +59,24 @@ def sum_basis(n: int, K: list[int]) -> np.ndarray:
     return B / np.linalg.norm(B, axis=1, keepdims=True)
 
 
-def project(L: np.ndarray, n: int, K: list[int], which: str) -> np.ndarray:
-    """L [n, n, C]: 'restricted' = projection onto const + sum directions of K; 'excluded' = L minus the sum-direction part."""
-    B = sum_basis(n, K)
+def dihedral_basis(nd: int, K: list[int]) -> np.ndarray:
+    """D_nd (order 2 nd): constant plus the 4 matrix coefficients rho_k(g h)_ij per key irrep k, orthonormalized. [m, G*G]."""
+    sys.path.insert(0, str(LAB / "experiments/EXP-046-dihedral-steering"))
+    from dihedral import compose_table, rho
+    T = compose_table(nd)
+    rows = [np.ones(T.size)]
+    for k in K:
+        R = rho(nd, k)[T]                               # [G, G, 2, 2]
+        rows += [R[..., i, j].ravel() for i in range(2) for j in range(2)]
+    Q, _ = np.linalg.qr(np.array(rows).T)
+    B = Q.T
+    return B * np.sign(B[0].sum())                      # constant row first, positive
+
+
+def project(L: np.ndarray, n: int, K: list[int], which: str, basis=None) -> np.ndarray:
+    """L [n, n, C]: 'restricted' = projection onto const + key directions of K; 'excluded' = L minus the key-direction part.
+    basis: [m, n*n] orthonormal with the constant first (default: sum directions of Z_n)."""
+    B = sum_basis(n, K) if basis is None else basis
     X = L.reshape(n * n, -1)
     coef = B @ X
     P = B.T @ coef
@@ -86,7 +104,7 @@ def grid(model_path: Path, p: int, task: str) -> np.ndarray:
     import torch
     from grokverse.config import get_config
     from grokverse.models import build_model
-    cfg = get_config("arch25k", seed=0, steps=1, threads=1, p=p, task=task)
+    cfg = get_config("arch25k", seed=0, steps=1, threads=1, p=p, task="add" if task == "D" else task)   # D59: as group_train.py
     model = build_model(cfg)
     model.load_state_dict(torch.load(model_path, map_location="cpu"))
     model.eval()
@@ -100,6 +118,10 @@ def to_group(L: np.ndarray, masks: list[np.ndarray], p: int, task: str, gen: int
     """Return (grid over Z_n x Z_n x Z_n, labels [n, n], masks in group coordinates, n)."""
     if task == "add":
         return L, (np.arange(p)[:, None] + np.arange(p)[None, :]) % p, masks, p
+    if task == "D":                                   # EXP-046 element order already is the group; labels = composition table
+        sys.path.insert(0, str(LAB / "experiments/EXP-046-dihedral-steering"))
+        from dihedral import compose_table
+        return L, compose_table(p // 2), masks, p
     g = dlog_perm(p, gen)
     n = p - 1
     Lg = L[np.ix_(g, g, g)]                         # rows a = g^i, b = g^j, output class g^m at position m
@@ -112,12 +134,14 @@ def mask_of(idx: np.ndarray, p: int) -> np.ndarray:
     return m
 
 
-def model_row(L: np.ndarray, labels: np.ndarray, n: int, T: list[int], U: list[int], own: np.ndarray, unseen: np.ndarray) -> dict:
+def model_row(L: np.ndarray, labels: np.ndarray, n: int, T: list[int], U: list[int], own: np.ndarray, unseen: np.ndarray,
+              nd: int | None = None) -> dict:
     c_un, a_un = ce(L, unseen, labels)
     out = {"ce_unseen": c_un, "acc_unseen": a_un}
     for name, K in (("T", T), ("U", U)):
-        out[f"restr_{name}"] = ce(project(L, n, K, "restricted"), unseen, labels)[0]
-        out[f"excl_{name}"] = ce(project(L, n, K, "excluded"), own, labels)[0]
+        B = dihedral_basis(nd, K) if nd else None
+        out[f"restr_{name}"] = ce(project(L, n, K, "restricted", B), unseen, labels)[0]
+        out[f"excl_{name}"] = ce(project(L, n, K, "excluded", B), own, labels)[0]
     out["r"] = float(np.log(out["restr_U"]) - np.log(out["restr_T"]))
     out["e"] = float(np.log(out["excl_T"]) - np.log(out["excl_U"]))
     return out
@@ -150,7 +174,7 @@ def main() -> None:
             for a in "FG":
                 L_raw = grid(t["raw"] / t["run"].format(s=s, a=a) / "model_final.pt", p, task)
                 L, labels, (own, unseen), n = to_group(L_raw, [mask_of(idx[a], p), unseen_raw], p, task)
-                row[a] = model_row(L, labels, n, metas[a]["targets"], metas[a]["other_targets"], own, unseen)
+                row[a] = model_row(L, labels, n, metas[a]["targets"], metas[a]["other_targets"], own, unseen, t.get("n"))
                 row[a]["n_own"], row[a]["n_unseen"] = int(own.sum()), int(unseen.sum())
             row["r"], row["e"] = (row["F"]["r"] + row["G"]["r"]) / 2, (row["F"]["e"] + row["G"]["e"]) / 2
             rows.append(row)
@@ -189,6 +213,18 @@ def selftest() -> None:
     Lg, lab, _, n = to_group(Lm, [np.ones((q, q), bool)], q, "mul", gen=gq)
     assert n == q - 1 and all(Lg[i, j, lab[i, j]] == 1.0 for i in range(n) for j in range(n))
     assert len(set(dlog_perm(113, GEN).tolist())) == 112          # 3 generates Z_113^*
+    sys.path.insert(0, str(LAB / "experiments/EXP-046-dihedral-steering"))
+    from dihedral import compose_table, rho
+    nd, G = 5, 10                                    # D5: basis orthonormal; a pure irrep-1 circuit is reproduced by T=[1], not by U=[2]
+    Bd = dihedral_basis(nd, [1, 2])
+    assert np.allclose(Bd @ Bd.T, np.eye(len(Bd)), atol=1e-9) and len(Bd) == 9
+    Td = compose_table(nd)
+    r1 = rho(nd, 1)
+    Ld = 5 * np.einsum("ghij,cij->ghc", r1[Td], r1)   # score(c) = tr(rho(gh) rho(c)^T) is maximal at c = gh
+    fullg = np.ones((G, G), bool)
+    Lg2, labg, _, ng = to_group(Ld, [fullg], G, "D")
+    rowd = model_row(Lg2, labg, ng, [1], [2], fullg, fullg, nd)
+    assert rowd["restr_T"] < rowd["restr_U"] and rowd["excl_T"] > rowd["excl_U"], rowd
     assert reading(np.full(8, 0.5) + np.linspace(-0.01, 0.01, 8), np.full(8, 0.5)) == "Ziele funktional (Nanda)"
     assert reading(np.zeros(8), np.zeros(8)) == "nicht"
     import tempfile                                  # the real loading path: a random arch25k model through grid() (review s43)

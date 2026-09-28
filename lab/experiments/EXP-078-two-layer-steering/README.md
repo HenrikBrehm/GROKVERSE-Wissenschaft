@@ -1,8 +1,8 @@
 ---
 id: EXP-078
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/positiv]
 verwandt: ["[[FINDINGS]]", "[[confirm/P1_REGISTRATION_DRAFT|P1]]", "[[experiments/EXP-049-width-steering/README|EXP-049]]", "[[confirm/P4_REGISTRATION_DRAFT|P4]]", "[[paper/STATUS]]", "[[JOURNAL]]"]
 ---
 # EXP-078: Steuert die Split-Zusammensetzung auch in einem 2-Schicht-Transformer die gelernten Frequenzen? (PILOT)
@@ -70,3 +70,10 @@ Die Herleitung in [[paper/draft]] §5.2 braucht nur (i) nahezu gleichverteilte A
 ## Nachtrag (Sitzung 34, 23:14 Berlin gemessen, vor jedem EXP-078-Lauf)
 
 Anlass: unabhängige Prüfung der Bestätigung [[confirm/R7_REGISTRATION_DRAFT|R7]]. Bisher warf `analyze.py` eine Einheit ganz hinaus, wenn nur das Spektrum bei 10 000 fehlte oder nicht endlich war; dann wäre `n_valid` < 10 und R7 nie einfrierbar, obwohl der primäre Schritt 2000 in Ordnung ist. **Geändert:** Nur Schritt 2000 zählt für die Gültigkeit einer Einheit. Ein Fehler bei 10 000 setzt `D10000 = None` und steht unter `problems_secondary_10000`; die Sekundärgröße wird über die übrigen Einheiten berichtet. Lesart, Schwellen und Primärgröße bleiben unverändert. Abgestürzte oder fehlende Jobs dürfen **vor der ersten Auswertung** unverändert neu gestartet werden. Die `summary.json` wird im selben Commit wie das Log ihres Auswertungslaufs committet (R7 Fassung 3). Code ungetestet bis zum Selbsttest im Fenster.
+
+## Ergebnis (Sitzung 38, 2026-09-28, 05:36 Berlin gemessen; GPU, 20/20 Läufe ok, 8 parallel, 05:20–05:35; `summary.json` im selben Commit wie das Auswertungslog, e2d742da)
+
+**Lesart (vorab): *Steuerung überträgt sich auf zwei Schichten (Pilot)*.** 10/10 gültige Einheiten, keine Probleme (auch nicht bei 10 000).
+- Primär Δ_pow(2L) bei 2000: **5.84** [5.37, 6.37] (SD 0.84), 10/10 positiv, exakter einseitiger Test p = 1/1024.
+- Sekundär: bei 10 000 10.02 [9.52, 10.58] (10/10); gepaarte Differenz 2L − 1L bei 2000 **−2.42** [−3.51, −1.39] (0/10 positiv): Bei gleicher Schrittzahl ist die Steuerung im 2-Schicht-Modell schwächer als in einer Schicht, wächst aber bis 10 000 weiter. Beide Arme generalisiert in 10/10 Einheiten.
+- Grenzen wie oben (Pilot, bekannte Seeds, nur W_E). Bestätigung: [[confirm/R7_REGISTRATION_DRAFT|R7]], eingefroren 6e2d8070 (n = 10 nach der n-Regel), Block läuft.

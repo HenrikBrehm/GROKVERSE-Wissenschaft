@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-28, 19:45 Berlin (Sitzung 43; **Regel 20 Wochenplan gilt**; Rechenfenster durchgehend 28.09. 23:59 bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-28, 19:46 Berlin (Sitzung 43; **Regel 20 Wochenplan gilt**; Rechenfenster durchgehend 28.09. 23:59 bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -19,7 +19,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Keine Prozesse** (Sitzung 43, 18:21 geprüft).
 - **R10 halb gerechnet:** eingefroren 7b583bdb (n = 48, Seeds 3500–3547, 480 GPU-Läufe). 268/480 gebunden, 0 Fehler, Wächterstopp 17:52 regulär. **Ergebnisse ungesehen, nicht ansehen vor 480/480.** Regel 20a: zu Ende rechnen, Ergebnis in den Anhang (K5/R9/R10-Nebenabschnitt).
-- **Zurückgestellt nach Regel 20a (Mechanismus-/Detailversuche, NICHT starten; Vorbereitung bleibt erhalten):** EXP-096 (a3bd9415), EXP-097 (Patch `trainer_psu.patch`), EXP-098 (45d66cad), EXP-099 (Patch `trainer_wef.patch`, setzt auf psu auf). Entwurf R11 (Festlegung K4 bei add 97/mul 113, `confirm_r11.py`, Fassung 2) ebenfalls zurückgestellt; nur rechnen, wenn L0 die GPU nicht auslastet (Regel 20i) und die Paper-Planung ihn braucht.
+- **Zurückgestellt nach Regel 20a (Mechanismus-/Detailversuche, NICHT starten; Vorbereitung bleibt erhalten):** EXP-096 (a3bd9415), EXP-097 (Patch `trainer_psu.patch`), EXP-098 (45d66cad), EXP-099 (Patch `trainer_wef.patch`, setzt auf psu auf). Entwurf R11 (Festlegung K4 bei add 97/mul 113, `confirm_r11.py`, Fassung 2): als GPU-Füllarbeit nach dem L0-Patch-Commit einfrieren (siehe Schritt 8).
 - **Trainer-Hash:** R10 bindet `freq_ban.py` (da4d7bc0…). Änderungen am Trainer (z. B. Minibatch für L0) erst nach `confirm_r10.py --analyze` committen; bis dahin nur als Patch.
 
 ## Nächste Schritte (Regel 20, verbindliche Reihenfolge; Läufe ab 28.09. 23:59 über guarded_run.py / parallel_queue.py)
@@ -31,6 +31,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 5. **Paper schärfen (Regel 20d, Ziel ≈ Do 01.10.):** [[paper/draft_short]] hat Abstract (1659 Zeichen + L0-Platz), Einleitung, Aufbau, Ergebnisse 1–3, L0-Methode und Grenzen (≈ 4100 Wörter), jeder Abschnitt unabhängig geprüft und korrigiert. Offen: L0-Ergebnis, Abbildungsauswahl, Anhang-Struktur, Tomàs Bernal im PDF. Zenodo: Entwurf `lab/paper/zenodo/` (Metadaten mit Nutzer-Platzhaltern, `make_package.py --dry-run`: 4753 Dateien, 82 MB), nicht hochladen.
 6. **Täglich (Regel 20h):** `lab/paper/erklaerung/ERKLAERUNG_<datum>.md` (eine Seite, einfaches Deutsch, 3 Jury-Fragen mit Antworten), in [[LAB]] verlinken.
 7. Ab ≈ Fr 02.10. nach L0: Sprachmodell-Leiter (Regel 20e), vorher Checkpoints (20g); Downloads nur nach 20f, alles im JOURNAL.
+8. **GPU-Auslastung (Regel 20i) und Trainer-Hash, empfohlene Reihenfolge:** R10 fertig und ausgewertet → L0-Patch anwenden, testen, committen → **erst jetzt** R11 einfrieren (bindet dann den Trainer mit L0-Optionen; Standardverhalten unverändert) und als GPU-Füllarbeit neben den seriellen L0-Schritten (Smoke, Machbarkeit, Kalibrierung) rechnen (zusammen ≤ 10 GPU-Prozesse). Danach den Trainer bis zum Ende von R11 und L0 nicht mehr ändern. R11 stärkt Kernaussage 3 des Papers (bisher nur add 113) und ist kein Mechanismus-Detailversuch.
 
 ## Prioritäten (Regel 20 geht vor; 18c + 19)
 

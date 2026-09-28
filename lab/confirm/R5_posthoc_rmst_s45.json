@@ -1,0 +1,55 @@
+{
+ "note": "post hoc exploration on the frozen R5 summary; registered estimand remains the geometric-mean ratio",
+ "arms": {
+  "E8_0": {
+   "rmst": 373.75,
+   "km_median": 350.0,
+   "censored": 0
+  },
+  "E2_0": {
+   "rmst": 1057.5,
+   "km_median": 775.0,
+   "censored": 0
+  },
+  "E2_1": {
+   "rmst": 917.5,
+   "km_median": 800.0,
+   "censored": 0
+  },
+  "E1_0": {
+   "rmst": 5516.25,
+   "km_median": 5350.0,
+   "censored": 1
+  },
+  "R": {
+   "rmst": 6151.25,
+   "km_median": 5950.0,
+   "censored": 4
+  },
+  "D_0": {
+   "rmst": 6596.25,
+   "km_median": 6825.0,
+   "censored": 6
+  },
+  "D_1": {
+   "rmst": 6936.25,
+   "km_median": 7400.0,
+   "censored": 9
+  }
+ },
+ "RMST_R_over_E2A": {
+  "ratio": 5.81678486997636,
+  "ci95": [
+   4.557539975863629,
+   7.595786199095022
+  ]
+ },
+ "RMST_D_over_E2": {
+  "ratio": 6.898767078284731,
+  "ci95": [
+   5.967049768850085,
+   8.13727422008953
+  ]
+ },
+ "reading": "consistent with the registered result"
+}

@@ -29,6 +29,10 @@ Je Zelle Residuum r_c = π(c) − Lag-Vorhersage (je Seed über n25/n30 geeicht)
 
 EXP-092 (Wahl der Frage, Λ = 24 wie dort c4, Schwelle ±0.03 wie dort), R9 (c = 2 post hoc auf der Kurve), EXP-091 (c = 2 stabil). Keine Seeds aus diesen Blöcken.
 
+## Nachtrag a (Sitzung 41, 14:55 Berlin, während des Blocks, **vor dem Lesen jedes EXP-093-Ergebnisses**; beschreibend, ändert die Lesart nicht)
+
+Zweites Modell zum Vergleich: **Lag + halber Schritt**. Jeder Schritt wendet seinen Gradienten c Λ-Einheiten lang an (Euler-Diskretisierung), das ergibt zusätzlich ≈ c/2 Verzögerung: x = c·t − c·lag(β₁, t) − c/2. Post hoc an EXP-092 (gesehen): c05 unverändert gut, c4-Residuum −0.107 → ≈ −0.07 (nur zum Teil erklärt). Relative Vorhersage (n25 = 0, n30 = 1): c2 −0.68, c3 −0.86, c4 −0.96, c6 −1.06, c8 −1.11 (reine Lag-Uhr: −0.57, −0.64, −0.62, −0.49, −0.31). Die beiden Modelle trennen sich vor allem bei c6/c8: Lag allein sagt dort *höhere*, Lag + c/2 *niedrigere* Festlegung als bei c4. Nach dem Lauf wird beschreibend die MAE beider Modelle über c2–c8 berichtet.
+
 ## Befehle
 
 ```

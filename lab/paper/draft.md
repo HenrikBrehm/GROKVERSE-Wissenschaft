@@ -245,6 +245,9 @@ The steering holds in every cell. Its size varies (preset, P1: 8.24) and is smal
 
 ### 3.8 Pending robustness blocks (registered drafts, not run; session 26)
 
+- **R6** (frozen 5b2bca6, running in session 37: does a data switch in the middle of the lock-in window, t = 25, delay grokking, and more than at t = 50? 30 fresh seeds, Holm over 2; [[confirm/R6_REGISTRATION_DRAFT|R6]]).
+- **R8** (frozen d79f97d: is the switch cost specific to a change of target frequencies? A→B vs A→A2 with the same targets and new pairs, 25 fresh seeds; pilot EXP-086 in §4; [[confirm/R8_REGISTRATION_DRAFT|R8]]).
+- **R5** (frozen 12a2db4: does an engineered split speed up grokking against a matched control? 20 fresh units; [[confirm/R5_REGISTRATION_DRAFT|R5]]).
 - **R2** (K4c at lr 2e-3 and at wd 0.3; 30 fresh seeds, Holm over 4; [[confirm/R2_REGISTRATION_DRAFT|R2]]).
 - **R3** (does the lock-in follow summed learning rate or step count? lr × 2 for 25 steps vs × 0.5 for 50 steps before the switch only; 20 fresh seeds, Holm over 2; [[confirm/R3_REGISTRATION_DRAFT|R3]]).
 - **P4** (K2 in a shared-embedding MLP, at 4× width, and for non-modular integer addition; [[confirm/P4_REGISTRATION_DRAFT|P4]]).

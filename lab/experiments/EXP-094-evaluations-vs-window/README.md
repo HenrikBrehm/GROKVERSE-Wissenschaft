@@ -1,8 +1,8 @@
 ---
 id: EXP-094
-status: laufend
+status: abgeschlossen
 datum: 2026-09-28
-tags: [exp/laufend, neu/kandidat]
+tags: [exp/abgeschlossen, befund/unklar, neu/kandidat]
 ---
 # EXP-094: Zählen bei großen Schritten die Gradientenauswertungen oder nur Adams Fenster? (Pilot, Exploration)
 
@@ -42,4 +42,10 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 
 ## Ergebnis
 
-(läuft; gestartet Sitzung 41 kurz vor der Deadline, Rest in der nächsten Sitzung mit demselben Befehl)
+Sitzung 41, 2026-09-28; Block 15:36–15:53 Berlin, 192/192 ok; `analyze.py` über den Wächter; `summary.json`. 16/16 Seeds gültig.
+**Registrierte Lesart: „teilweise“** (d4-KI-Untergrenze 0.023 knapp unter 0.03).
+- Rückstand nach Angleichung der Fenster gegen n24 (π 0.329): **d2 +0.032** [0.015, 0.053] (15/16), **d4 +0.051** [0.023, 0.079] (15/16), **d8 +0.174** [0.127, 0.219] (16/16). Wächst mit c.
+- Was die Angleichung bei c = 4 bringt: **m4 = π(c4b) − π(c4) = +0.049** [0.019, 0.082] (12/16); ohne Angleichung Rückstand c4 ≈ 0.10 (π 0.229), mit ≈ 0.05 (π 0.277).
+- Zellmittel π: n24 0.329, c2b 0.296, c4 0.229, c4b 0.277, c8b 0.155. Zielanteil f: 0.178 / 0.176 / 0.163 / 0.171 / 0.161; Norm fast gleich (c8b etwas kleiner, 2.18).
+- **Prospektive Prüfung der Post-hoc-Geraden π(f):** MAE 0.045; Rangfolge der Zellen getroffen, aber alle Vorhersagen zu niedrig (n24: 0.287 gegen 0.329). Die Gerade überträgt die Ordnung, nicht das Niveau (anderer Seed-Block).
+**Einordnung:** Adams in Schritten feste Fenster erklären bei großen Schritten einen Teil des Rückstands (bei c = 4 etwa die Hälfte, wie in R9 bei c = 2 der größte Teil). Ein zweiter Anteil bleibt, wächst mit c und dominiert bei c = 8 (3 Schritte, β₁′ 0.2): Bei gleichem Λ und in Λ angeglichenen Fenstern legen wenige große Schritte schwächer fest und bewegen W_E weniger zielgenau. Passend zu „Zielgenauigkeit wächst mit der Zahl der Gradientenauswertungen“, aber nicht getrennt von Diskretisierung/Überschießen. **Grenzen:** Pilot, eine Aufgabe, W_E-Energiemaß; bei c = 8 ist die β′-Angleichung extrem (β₁′ 0.2, β₂′ 0.84 über 3 Schritte).

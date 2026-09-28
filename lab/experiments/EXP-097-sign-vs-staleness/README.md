@@ -47,7 +47,7 @@ eA = π(n24) − π(g24), **sA = π(L24) − π(g24)**, eL = π(L1) − π(L24);
 
 EXP-095 (Zellmittel, Nachtrag a und b, alle gesehen), EXP-057 (Boden bei leerem Adam-Zustand → Schattenzustand), EXP-092/093/094. Keine Seeds aus diesen Blöcken. Die Schwelle 0.5 · eA und die Werte HI = 0.03 / EQ = 0.05 sind aus EXP-095 übernommen. Der Schattenzustand folgt aus EXP-057 (leerer Adam-Zustand beim Wechsel: π 0.30 → 0.11). Fassung 2 (vor jedem Lauf, nach der statischen Prüfung durch einen Claude-Agenten): W_E-Blocknormierung, Q1 mit sA als primärem Kontrast, relativer statt absoluter Boden, Vorbehalt zum Momentum-Schwanz, schärferer Trainer-Test (RMS des ersten Schritts, Adam-Moment protokolliert).
 
-## Reihenfolge und Befehle (ab 00:00; erst NACH der R10-Auswertung, weil R10 den Trainer-Hash bindet)
+## Reihenfolge und Befehle (ab 00:00; erst NACH den Auswertungen von R10 und R11 und nach dem EXP-096-Block, weil R10/R11 den Trainer-Hash binden)
 
 ```
 git apply lab/experiments/EXP-097-sign-vs-staleness/trainer_psu.patch      # erst nach confirm_r10.py --analyze

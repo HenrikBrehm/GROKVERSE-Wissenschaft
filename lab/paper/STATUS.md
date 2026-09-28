@@ -150,3 +150,13 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 | EXP-097 „nicht trennbar“ / „Boden“ / „unklar“ | nur Fußnote in §4, keine Umformulierung |
 
 EXP-097 ist ein Pilot (16 Seeds): jede dieser Formulierungen bleibt als Exploration gekennzeichnet.
+
+| Ergebnis (Verallgemeinerung) | Paper |
+|---|---|
+| R11 alle 6 bestätigt | §3 neuer Abschnitt „Lock-in generalizes to add 97 and mul 113 (π measure)“; Grenze „persistence only add 113“ in §6 auf „function (K4c) only add 113; one architecture“ einschränken |
+| R11 H1/H2 bestätigt, H3 nicht | wie oben, aber „at t = 25 the first choice already dominates in <Aufgabe>“: Fenster früher als bei add 113, als Befund |
+| R11 H1 nicht bestätigt (eine Aufgabe) | Grenze bleibt; §6 nennt die Aufgabe, in der sich die Festlegung nicht bestätigt |
+| EXP-098 „verallgemeinert“ (beide) | §4-Absatz (Exploration) nach §3.15: „the window rule held in add 97 and mul 113 (pilot)“; Bestätigung erst mit eigenem Block |
+| EXP-098 „nur Richtung“ / „nicht verallgemeinert“ / „unklar“ | §3.15-Grenzen: „tested at add 113 only; a pilot in add 97/mul 113 gave <Lesart>“ |
+| EXP-096 „verallgemeinert“ / sonst | §4 EXP-095-Absatz um einen Satz zur Verallgemeinerung ergänzen (Pilot) bzw. „not replicated in <Aufgabe>“ |
+

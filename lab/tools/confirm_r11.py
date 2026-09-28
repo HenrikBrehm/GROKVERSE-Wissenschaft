@@ -263,6 +263,9 @@ def selftest() -> None:
                                        "_at25_add97_devcuda"), sw[0]
     assert sum(i.endswith("_at50_mul113_devcuda") for i in ids) == 30
     assert all(j.startswith("python lab/tools/confirm_r11.py --run M -- ") for j in BLOCK.jobs(man, "M"))
+    sm = smoke_jobs(man)
+    assert len(sm) == 3 and "--switch-step" not in sm[0] and "--switch-step 25 " in sm[1] and "--switch-step 50 " in sm[2], sm
+    assert all("--seed 3620 " in x and "--task add " in x for x in sm), sm
     BLOCK.check_job(man, shlex.split(tj[0]))
     for foreign in (shlex.split(tj[0]) + ["--force"], [x if x != "3620" else "3621" for x in shlex.split(tj[0])]):
         try:
@@ -307,5 +310,32 @@ def selftest() -> None:
     print("[confirm_r11] selftest ok", flush=True)
 
 
+def smoke_jobs(man: dict) -> list[str]:
+    """Smoke = first job line (pure F, add 97, first seed) and its two switch lines (t = 25 and 50); BLOCK.jobs order."""
+    j = BLOCK.jobs(man, "lab/confirm/R11_manifest.json")
+    s0, (t0, p0) = man["seeds"][0], man["tasks"][0]
+    sw = [x for x in j if f"--seed {s0} " in x and f"--task {t0} " in x and "--switch-step" in x]
+    return [j[0]] + sw
+
+
+def smoke_check(manifest: Path) -> None:
+    """Loader status of the three smoke runs only (no values, writes nothing)."""
+    man = json.loads(manifest.read_text(encoding="utf-8"))
+    BLOCK.check_manifest(manifest, man)
+    (task, p), s = man["tasks"][0], man["seeds"][0]
+    got = [one_run(man, task, p, s, k) for k in ("F",) + tuple(str(t) for t in man["switch_steps"])]
+    bad = [g for g in got if isinstance(g, str)]
+    print(f"[confirm_r11] smoke-check: {len(got) - len(bad)}/{len(got)} loaded" + ("" if not bad else " | " + " | ".join(bad)), flush=True)
+    if bad:
+        raise SystemExit(1)
+
+
 if __name__ == "__main__":
-    BLOCK.cli(sys.argv[1:], analyze, write_splits, selftest)
+    if len(sys.argv) == 3 and sys.argv[1] == "--smoke-check":
+        smoke_check(Path(sys.argv[2]))
+    elif len(sys.argv) == 3 and sys.argv[1] == "--smoke-jobs":
+        _m = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))
+        BLOCK.check_manifest(Path(sys.argv[2]), _m)
+        print("\n".join(smoke_jobs(_m)))
+    else:
+        BLOCK.cli(sys.argv[1:], analyze, write_splits, selftest)

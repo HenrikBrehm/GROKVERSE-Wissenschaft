@@ -1,0 +1,29 @@
+{
+ "code_digest": "b2f71924ff1d6a15578a50cc9067a3682a3fda3a0c1216b98213f2f881db1a72",
+ "manifest_commit": "6e2d8070",
+ "cmd": [
+  "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe",
+  "lab/paper/repro/train.py",
+  "--seed",
+  "2904",
+  "--split-file",
+  "lab/confirm/r7_splits/r7_seed2904_G.npy",
+  "--steps",
+  "2000",
+  "--device",
+  "cuda",
+  "--threads",
+  "1",
+  "--out",
+  "lab/confirm/r7_raw/r7_1L_seed2904_G"
+ ],
+ "exit": 0,
+ "t0_ns": 1790570342547945700,
+ "t1_ns": 1790570380978844400,
+ "run_dir": "r7_1L_seed2904_G",
+ "files": {
+  "lab/confirm/r7_raw/r7_1L_seed2904_G/result.json": "75cb3db32828d3578cc8ff657ba6aea37d8276017b4f88c681c6e33cb781c8c4",
+  "lab/confirm/r7_raw/r7_1L_seed2904_G/spectra.npy": "17cc38f1442a38fa207ffec7707e9946d4aeb5b77dc13b81889c3626a9ba2967",
+  "lab/confirm/r7_raw/r7_1L_seed2904_G/spectra_steps.npy": "36bfc1e562d175a278ea92700186ef38eb5159d2bcd71914d8ab76b29e21143e"
+ }
+}

@@ -1,0 +1,29 @@
+{
+ "code_digest": "b2f71924ff1d6a15578a50cc9067a3682a3fda3a0c1216b98213f2f881db1a72",
+ "manifest_commit": "6e2d8070",
+ "cmd": [
+  "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe",
+  "lab/experiments/EXP-078-two-layer-steering/train2l.py",
+  "--seed",
+  "2902",
+  "--split-file",
+  "lab/confirm/r7_splits/r7_seed2902_F.npy",
+  "--steps",
+  "10000",
+  "--device",
+  "cuda",
+  "--threads",
+  "1",
+  "--out",
+  "lab/confirm/r7_raw/r7_2L_seed2902_F"
+ ],
+ "exit": 0,
+ "t0_ns": 1790567259250000800,
+ "t1_ns": 1790567559455208800,
+ "run_dir": "r7_2L_seed2902_F",
+ "files": {
+  "lab/confirm/r7_raw/r7_2L_seed2902_F/result.json": "63b8e73e84c9575048c0ed7b9561e86ed6a4e88bc70222d3d0e16e9307cbd675",
+  "lab/confirm/r7_raw/r7_2L_seed2902_F/spectra.npy": "93dd08442d81c416a7f4ab6886a8ca6571c110bb33bf9430e0204ff8888dd1e6",
+  "lab/confirm/r7_raw/r7_2L_seed2902_F/spectra_steps.npy": "8a494959c29bac881106fd9ffb69b617b91a0bd9dcbc4ec88b156356a2475ba2"
+ }
+}

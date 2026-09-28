@@ -1,0 +1,184 @@
+{
+ "manifest_commit": "6e2d8070",
+ "min_effect": 1.0,
+ "limit": 0.5,
+ "pilot": {
+  "summary": "lab/experiments/EXP-078-two-layer-steering/summary.json",
+  "summary_sha256": "31fc2d38b3fe8ad42d2395632d0cced6a8334ee72dd3d1b23911c88072d767a0",
+  "reading": "Steuerung \u00fcbertr\u00e4gt sich auf zwei Schichten (Pilot)",
+  "mean_D2000": 5.836140720424682,
+  "sd_D2000": 0.8431532712751263,
+  "n_units": 10
+ },
+ "result": {
+  "primary_D2000": {
+   "n": 10,
+   "mean": 6.147931191271711,
+   "sd": 0.514021381294417,
+   "ci95": [
+    5.86129286326619,
+    6.467974354274668
+   ],
+   "p_one_sided_exact": 0.0009765625,
+   "n_positive": 10
+  },
+  "n_technical": 0,
+  "verdict": "best\u00e4tigt",
+  "limit_reading": "nicht belegt",
+  "secondary_D10000": {
+   "n": 10,
+   "mean": 9.975886852333034,
+   "sd": 0.6963497748175539,
+   "ci95": [
+    9.547350819128928,
+    10.359642192877564
+   ],
+   "p_one_sided_exact": 0.0009765625,
+   "n_positive": 10
+  },
+  "secondary_paired_2L_minus_1L_at2000": {
+   "n": 10,
+   "mean": -2.697879242969018,
+   "sd": 0.8427944865802027,
+   "ci95": [
+    -3.156221564843623,
+    -2.1759601929470826
+   ],
+   "p_one_sided_exact": 1.0,
+   "n_positive": 0
+  },
+  "n_units_2L_generalised_both": 10
+ },
+ "rows": [
+  {
+   "seed": 2900,
+   "technical": false,
+   "D2000": 6.057026583037565,
+   "D10000": 9.608934810120534,
+   "reason_10000": null,
+   "test_acc_2L_F": 1.0,
+   "gen_step_2L_F": 1600,
+   "test_acc_2L_G": 0.9932870864868164,
+   "gen_step_2L_G": 1925,
+   "D1L_2000": 9.560152055638445,
+   "reason_1L": null
+  },
+  {
+   "seed": 2901,
+   "technical": false,
+   "D2000": 6.067191128940731,
+   "D10000": 9.886046167854019,
+   "reason_10000": null,
+   "test_acc_2L_F": 1.0,
+   "gen_step_2L_F": 1900,
+   "test_acc_2L_G": 1.0,
+   "gen_step_2L_G": 1675,
+   "D1L_2000": 8.831256268177306,
+   "reason_1L": null
+  },
+  {
+   "seed": 2902,
+   "technical": false,
+   "D2000": 6.137512923615022,
+   "D10000": 10.15779432877958,
+   "reason_10000": null,
+   "test_acc_2L_F": 1.0,
+   "gen_step_2L_F": 1250,
+   "test_acc_2L_G": 1.0,
+   "gen_step_2L_G": 1625,
+   "D1L_2000": 9.370474592279532,
+   "reason_1L": null
+  },
+  {
+   "seed": 2903,
+   "technical": false,
+   "D2000": 6.186751258739144,
+   "D10000": 8.891831602245043,
+   "reason_10000": null,
+   "test_acc_2L_F": 0.9997762441635132,
+   "gen_step_2L_F": 1300,
+   "test_acc_2L_G": 0.9998881220817566,
+   "gen_step_2L_G": 2175,
+   "D1L_2000": 9.672504379444511,
+   "reason_1L": null
+  },
+  {
+   "seed": 2904,
+   "technical": false,
+   "D2000": 5.44890905627249,
+   "D10000": 10.526041949565158,
+   "reason_10000": null,
+   "test_acc_2L_F": 1.0,
+   "gen_step_2L_F": 925,
+   "test_acc_2L_G": 1.0,
+   "gen_step_2L_G": 3000,
+   "D1L_2000": 7.241057805509971,
+   "reason_1L": null
+  },
+  {
+   "seed": 2905,
+   "technical": false,
+   "D2000": 7.255079000804144,
+   "D10000": 10.930507896372673,
+   "reason_10000": null,
+   "test_acc_2L_F": 0.9973148703575134,
+   "gen_step_2L_F": 1325,
+   "test_acc_2L_G": 1.0,
+   "gen_step_2L_G": 1050,
+   "D1L_2000": 9.71808895451007,
+   "reason_1L": null
+  },
+  {
+   "seed": 2906,
+   "technical": false,
+   "D2000": 5.80258383313447,
+   "D10000": 10.036316622741754,
+   "reason_10000": null,
+   "test_acc_2L_F": 1.0,
+   "gen_step_2L_F": 1750,
+   "test_acc_2L_G": 0.9998881220817566,
+   "gen_step_2L_G": 1700,
+   "D1L_2000": 9.235561983281604,
+   "reason_1L": null
+  },
+  {
+   "seed": 2907,
+   "technical": false,
+   "D2000": 6.640588104131647,
+   "D10000": 10.412291550916345,
+   "reason_10000": null,
+   "test_acc_2L_F": 1.0,
+   "gen_step_2L_F": 1950,
+   "test_acc_2L_G": 1.0,
+   "gen_step_2L_G": 1050,
+   "D1L_2000": 7.656217230118524,
+   "reason_1L": null
+  },
+  {
+   "seed": 2908,
+   "technical": false,
+   "D2000": 6.2582434200254635,
+   "D10000": 8.818324976175024,
+   "reason_10000": null,
+   "test_acc_2L_F": 1.0,
+   "gen_step_2L_F": 1600,
+   "test_acc_2L_G": 0.9978742599487305,
+   "gen_step_2L_G": 1550,
+   "D1L_2000": 9.441937261084718,
+   "reason_1L": null
+  },
+  {
+   "seed": 2909,
+   "technical": false,
+   "D2000": 5.625426604016422,
+   "D10000": 10.49077861856021,
+   "reason_10000": null,
+   "test_acc_2L_F": 1.0,
+   "gen_step_2L_F": 2175,
+   "test_acc_2L_G": 0.9873573780059814,
+   "gen_step_2L_G": 1525,
+   "D1L_2000": 7.730853812362595,
+   "reason_1L": null
+  }
+ ]
+}

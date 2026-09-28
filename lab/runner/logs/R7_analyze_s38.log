@@ -1,0 +1,54 @@
+[guard] start at 2026-09-28T06:43:34.706396+02:00 Berlin, hard timeout 96.2 min (binding: session_budget)
+{
+ "manifest_commit": "6e2d8070",
+ "min_effect": 1.0,
+ "limit": 0.5,
+ "pilot": {
+  "summary": "lab/experiments/EXP-078-two-layer-steering/summary.json",
+  "summary_sha256": "31fc2d38b3fe8ad42d2395632d0cced6a8334ee72dd3d1b23911c88072d767a0",
+  "reading": "Steuerung überträgt sich auf zwei Schichten (Pilot)",
+  "mean_D2000": 5.836140720424682,
+  "sd_D2000": 0.8431532712751263,
+  "n_units": 10
+ },
+ "result": {
+  "primary_D2000": {
+   "n": 10,
+   "mean": 6.147931191271711,
+   "sd": 0.514021381294417,
+   "ci95": [
+    5.86129286326619,
+    6.467974354274668
+   ],
+   "p_one_sided_exact": 0.0009765625,
+   "n_positive": 10
+  },
+  "n_technical": 0,
+  "verdict": "bestätigt",
+  "limit_reading": "nicht belegt",
+  "secondary_D10000": {
+   "n": 10,
+   "mean": 9.975886852333034,
+   "sd": 0.6963497748175539,
+   "ci95": [
+    9.547350819128928,
+    10.359642192877564
+   ],
+   "p_one_sided_exact": 0.0009765625,
+   "n_positive": 10
+  },
+  "secondary_paired_2L_minus_1L_at2000": {
+   "n": 10,
+   "mean": -2.697879242969018,
+   "sd": 0.8427944865802027,
+   "ci95": [
+    -3.156221564843623,
+    -2.1759601929470826
+   ],
+   "p_one_sided_exact": 1.0,
+   "n_positive": 0
+  },
+  "n_units_2L_generalised_both": 10
+ }
+}
+[guard] completed (exit 0) after 2.8 s

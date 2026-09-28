@@ -1,8 +1,8 @@
 ---
 id: R7-registrierung-entwurf
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-27
-tags: [lab/bestaetigung, exp/vorbereitet, lab/paper]
+tags: [lab/bestaetigung, exp/abgeschlossen, befund/positiv, lab/paper]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-078-two-layer-steering/README|EXP-078]]", "[[confirm/P4_REGISTRATION_DRAFT|P4]]", "[[confirm/P1_REGISTRATION_DRAFT|P1]]", "[[paper/STATUS]]"]
 ---
 # R7-Bestätigung: K2 im 2-Schicht-Transformer (ENTWURF Fassung 3, nicht eingefroren, Code ungetestet)
@@ -92,3 +92,10 @@ Die Codex-Nachprüfung von Fassung 2 brach am leeren Guthaben ab (Regel 12). Sta
 6. `--splits`; `--jobs` ohne Wächter → `R7_jobs.txt`.
 7. **Smoke = die vier Jobzeilen des ersten Seeds** (2L F/G = Zeilen 1–2, 1L F/G = Zeilen 2n + 1 und 2n + 2) über `parallel_queue.py`, dann `guarded_run.py -- python lab/tools/confirm_r7.py --smoke-check lab/confirm/R7_manifest.json`. Das durchläuft den echten Ladepfad (gebundene Bytes, `check_result`, Spektren, `seed_row`) und zeigt nur, welche Felder definiert sind, keine Werte. Nicht grün → Blocker notieren, nicht umgehen.
 8. Block über `parallel_queue.py`, dann `--analyze`.
+
+## Ergebnis (Sitzung 38, 2026-09-28, 06:44 Berlin gemessen; Block 40/40 ok inkl. Smoke, GPU, 05:43–06:43; `--analyze` über den Wächter, `R7_summary.json`, Log `R7_block_s38.log`/`R7_analyze_s38.log`)
+
+**Registrierte Lesart: *bestätigt*.** n = 10 (Seeds 2900–2909, n-Regel aus EXP-078), 0 technische Ausfälle.
+- **H7** Δ_pow(2L) bei Schritt 2000: **6.15** [5.86, 6.47] (SD 0.51), 10/10 positiv, exakter einseitiger Vorzeichentest p = 2⁻¹⁰ = 0.00098; KI-Untergrenze weit über dem Mindesteffekt 1. Äquivalenzlesart („keine Steuerung von Belang“): *nicht belegt*.
+- Sekundär: bei 10 000 9.98 [9.55, 10.36] (10/10); gepaarte Differenz 2L − 1L bei 2000 **−2.70** [−3.16, −2.18] (0/10): bei gleicher Schrittzahl schwächer als die 1-Schicht-Steuerung derselben Seeds und Splits; alle 10 Einheiten mit beiden 2L-Armen generalisiert.
+- Der Pilot (5.84, −2.42) hat sich übertragen. Aussage gilt ausdrücklich „bei gleicher Schrittzahl“ und nur für W_E.

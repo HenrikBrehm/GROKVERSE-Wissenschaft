@@ -1,0 +1,10 @@
+[guard] start at 2026-09-28T05:36:03.865232+02:00 Berlin, hard timeout 163.7 min (binding: session_budget)
+{
+ "summary": "lab/experiments/EXP-078-two-layer-steering/summary.json",
+ "summary_sha256": "31fc2d38b3fe8ad42d2395632d0cced6a8334ee72dd3d1b23911c88072d767a0",
+ "reading": "Steuerung überträgt sich auf zwei Schichten (Pilot)",
+ "mean_D2000": 5.836140720424682,
+ "sd_D2000": 0.8431532712751263,
+ "n_units": 10
+}
+[guard] completed (exit 0) after 1.7 s

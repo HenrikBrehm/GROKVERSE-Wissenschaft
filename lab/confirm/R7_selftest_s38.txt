@@ -1,0 +1,9 @@
+[guard] start at 2026-09-28T05:36:22.451930+02:00 Berlin, hard timeout 163.4 min (binding: session_budget)
+[confirm_r7] r7_2L_seed2900_F already bound, skipped
+[confirm_r7] r7_2L_seed2900_F: completed but not bound; refused
+[confirm_r7] r7_2L_seed2900_G: no new result.json, nothing usable bound
+[confirm_r7] r7_2L_seed2900_G: result.json not 'completed', nothing bound
+[confirm_r7] unfinished/unbound leftover moved to r7_1L_seed2900_F.stale_1790566593245974000
+[confirm_r7] r7_2L_seed2900_G: run.lock present (live or crashed trainer); refused, check by hand
+[confirm_r7] selftest ok
+[guard] completed (exit 0) after 10.9 s

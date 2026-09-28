@@ -48,7 +48,7 @@ T1 = "lab/paper/repro/train.py"
 PILOT = "lab/experiments/EXP-078-two-layer-steering/summary.json"
 PILOT_SEEDS = list(range(1000, 1010))
 P, ALPHA, MIN_EFFECT, LIMIT, EPS, EXPERIMENT = 113, 0.05, 1.0, 0.5, 2.0, 10
-N_UNITS: int | None = None                    # = n_rule(pilot), set after EXP-078, then selftest, then freeze
+N_UNITS: int | None = 10                      # = n_rule(pilot) (session 38, EXP-078 summary e2d742da), then selftest, then freeze
 N_ALLOWED = (10, 15, 20)                      # exact sign-flip enumeration up to 2^20 (Codex s33 blocker)
 N_SIM = 1000                                  # outer simulations of the n rule (Codex s33: 400 too coarse)
 SEED_MIN, SEED_MAX = 2900, 2929

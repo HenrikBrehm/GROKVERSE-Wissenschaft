@@ -23,7 +23,7 @@ Zurück: [[LAB]] · [[FINDINGS]] · Regel 20b (Priorität 1) · Pilot [[experime
 
 ## Offene Punkte vor dem Einfrieren
 
-n aus der Pilotstreuung (Power ≥ 0.8 bei halbem Piloteffekt, Holm und KI-Regel eingerechnet; kleine Piloten schönen die Power, also eher größer). Mindesteffekt, Budget (30 000 oder 15 000 Schritte, nach gemessener Laufzeit), Code `confirm_l0.py` nach dem Muster von `confirm_r11.py` (Bindung, Lader, Split-Neubau), unabhängige Prüfung, Smoke durch den eingefrorenen Lader.
+n aus der Pilotstreuung (Power ≥ 0.8 bei halbem Piloteffekt, Holm und KI-Regel eingerechnet; kleine Piloten schönen die Power, also eher größer). Mindesteffekt, Budget (30 000 oder 15 000 Schritte, nach gemessener Laufzeit), Code-Gerüst `lab/tools/confirm_l0.py` steht (20:01; nach `confirm_r11.py`: Bindung, Lader, Split-Neubau, Holm über H1/H2; `N_SEEDS`/`BUDGET` noch None, der Selbsttest verweigert bis dahin; H3 wird nach dem Piloten ergänzt; ungetestet), unabhängige Prüfung, Smoke durch den eingefrorenen Lader.
 
 ## Bereits gesehene Daten
 

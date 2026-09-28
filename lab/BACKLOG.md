@@ -201,3 +201,10 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 
 - **EXP-097 (Priorität 2, nach R10 und EXP-096):** [[experiments/EXP-097-sign-vs-staleness/README|EXP-097]] vorbereitet. Mit eingefrorenem Gradienten macht Adam reine Vorzeichenschritte; Binarisierung erklärt post hoc ≈ 56 % der Selektivitätslücke von g24. Der 2 × 2-Versuch trennt Veraltung von Quantisierung (Adam-Zustand im Schatten). Trainer-Patch erst nach `confirm_r10.py --analyze` anwenden (R10 bindet den Trainer-Hash).
 - **Folge für die Rückkopplungs-/Korrekturfrage (Sitzung 42, Priorität 2 dort):** Der norm-angeglichene g24-Arm entfällt vorerst: Er änderte nur die Größe von sign(g₀), nicht die Richtung. EXP-097 ist der schärfere Test. Kommt „Veraltung zählt“ heraus, folgt die Trennung Rückkopplung gegen Korrektur mit linearen Schritten (z. B. nur Ziel- bzw. nur Nicht-Ziel-Anteil auffrischen).
+
+## Sitzung 44: Regel-20-Linien und lr·wd-Zeit
+
+- **EXP-100 (P1, Regel 20b, L0):** [[experiments/EXP-100-set-vs-order/README|EXP-100]] Menge gegen Reihenfolge unter Minibatch; vorbereitet (Sitzung 43), startet nach R10 `--analyze` und dem Patch-Commit. Sitzung 44: beschreibende Erwartung vor dem Piloten (gleiche lr·wd-Zeit bei gleicher Schrittzahl).
+- **EXP-101 (P1, Regel 20c):** [[experiments/EXP-101-rfm-k2/README|EXP-101]] K2 in einer Gauß-RFM, ohne Installation, geprüft; CPU, parallel zu R10. Entscheidet auch [[NOVEL_DIRECTIONS]] N50 (braucht K2 einen Auswahldruck?).
+- **EXP-102 (P2, Regel 20e, ab ≈ Fr 02.10.):** [[experiments/EXP-102-lm-ladder-stage1/README|EXP-102]] Sprachmodell-Leiter Stufe 1; Trainer geprüft (Blocker behoben), Splits 3800–3809, 140 Jobs; Kontrollarm „Verlust außer b“.
+- **EXP-103 (P3, Füllarbeit):** [[experiments/EXP-103-early-steering-curve/README|EXP-103]] Teil A dichte frühe P1-Kurve (Artefakt τ < 250?), Teil B gekreuzte Zellen mit Preset-lr·wd (Produktform; frühe Σ lr-Uhr, N51). 140 kurze GPU-Läufe.

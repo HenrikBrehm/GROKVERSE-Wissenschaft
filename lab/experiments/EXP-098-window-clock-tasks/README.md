@@ -28,6 +28,8 @@ Splits nach EXP-044 (je Aufgabe und Seed: gemeinsame Testmenge, F und G mit disj
 - **Beschreibend:** Zellmittel von π, Zielanteil f und Norm N der W_E-Bewegung beim Wechsel.
 - **Erwartung (vorab):** „verallgemeinert“ bei beiden Aufgaben. Der Mechanismus (Adams β₁-Verzögerung macht die frühe Bewegung unselektiver) hängt nicht an der Aufgabe. Bei mul 113 legt das Netz bis t = 25 schwächer fest (EXP-044: π(25) 0.22). Der Unterschied e₁ könnte dort kleiner sein.
 
+**Unterschiede zu R9 (statische Prüfung Sitzung 43, vor jedem Lauf; offengelegt, nicht geändert):** (a) R9 nutzte EXP-053-Splits in beiden Richtungen (A → B und B → A, π gemittelt); hier EXP-044-Splits und nur F → G (wie EXP-044; π ist über die reinen Läufe normiert). (b) Gültigkeit hier L(F) − L(G) ≥ 1 wie EXP-096, in R9 ≥ 2. (c) Äquivalenz hier als 95-%-Bootstrap-KI innerhalb ±0.1, strenger als R9s TOST (≈ 90 %). (d) „nur Richtung“ umfasst auch ein d₁-KI, das zu breit für eine Entscheidung ist; das ist keine Widerlegung der Λ-Uhr. (e) Bei mul 113 (π(25) ≈ 0.22 im Piloten) ist ±0.1 relativ weit. (f) Bei n25/l100 prüft der Lader nicht ausdrücklich, dass kein β-Wechsel protokolliert ist; die Run-ID schließt das aus.
+
 ## Bereits gesehene Daten und davon beeinflusste Entscheidungen
 
 R9 und die Piloten EXP-089/090 (Zellen, β′-Regel, Äquivalenzgrenze ±0.1), EXP-044 (Splitkonstruktion, π(25)). Die Seeds sind neu.

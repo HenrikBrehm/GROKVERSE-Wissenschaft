@@ -1,8 +1,8 @@
 ---
 id: EXP-081
-status: vorbereitet
+status: laufend
 datum: 2026-09-27
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/laufend, neu/kandidat]
 ---
 # EXP-081: Welche Uhr legt die Frequenzwahl fest? β₁ und β₂ als Hebel (Pilot, Entwurf)
 

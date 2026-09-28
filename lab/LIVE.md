@@ -1,23 +1,27 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 42
+# LIVE: Laborsitzung 42: **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-28 16:00 Berlin (14:00Z, vom Runner)
 - **Deadline:** 2026-09-28 18:59 Berlin (16:59Z)
-- **Zuletzt aktualisiert:** 17:57 Berlin
+- **Zuletzt aktualisiert:** 18:11 Berlin
 - **Run-Fenster:** heute bis 18:00 (Wächter), ab 29.09. wieder 00:00–13:00.
 
 ## Gerade
 
-Fenster zu (18:00). R10: 268/480 Läufe fertig, 0 Fehler, Rest in der Nacht. **Reproduktionspaket vollständig** (alle neun Skripte exakt bzw. ≤ 10⁻⁷). Jetzt Denkarbeit ohne Training: Auswertung gespeicherter EXP-095-Schnappschüsse (post hoc) zur Frage *Rückkopplung oder Korrektur?*
+**Sitzung beendet.** Keine Läufe aktiv. Heute: **EXP-095**: Die frühe Festlegung braucht frische Gradienten unterwegs. Mit nur 3 Auswertungen in den ersten 24 Schritten legt das Modell so schwach fest wie mit 3 großen Schritten; mit nur dem Anfangsgradienten bewegen sich vor allem die falschen Frequenzen zu stark. **Reproduktionspaket vollständig** (alle neun Skripte exakt). Bestätigung **R10** eingefroren, 268/480 gerechnet. EXP-096 (andere Aufgaben) vorbereitet. Nächster geplanter Start laut runner-state.json: **19:34 Berlin** (Läufe erst ab 00:00).
 
 ## Als Nächstes
 
-Abschlussbericht vor 18:50.
+Nacht: R10 fertigrechnen und auswerten, dann EXP-096.
 
 ## Verlauf dieser Sitzung
 
+- 18:11 Sitzung beendet (Abschlussbericht im JOURNAL).
+- 18:10 EXP-096 statisch geprüft, vier kleine Korrekturen.
+- 18:02 EXP-096 vorbereitet (add 97 / mul 113).
+- 17:58 Post hoc: ohne Auffrischung wachsen die Nicht-Ziele ×1.48; bei seltener Auffrischung wachsen die Ziele weniger.
 - 17:52 Wächter stoppt R10 regulär (268/480, 0 Fehler).
 - 17:36 Repro **mul 113 exakt** → Paket vollständig.
 - 17:26 Repro mul 113: 2. technischer Fehler („No HIP GPUs“), dritter Versuch mit weniger Last.

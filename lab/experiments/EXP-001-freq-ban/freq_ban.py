@@ -88,7 +88,7 @@ LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "rese
              "rewind_at_switch": None, "rewind_from": None,
              "lr": None, "weight_decay": None, "train_frac": None,
              "plant_targets": None, "plant_c": None, "plant_noise": False, "beta1": None, "beta2": None,
-             "pre_switch_betas": None}   # name -> default; in the fingerprint only if != default (s18, s21, s24, s39, s40)
+             "pre_switch_betas": None, "pre_switch_grad_every": 1}   # name -> default; in the fingerprint only if != default (s18, s21, s24, s39, s40, s42)
 HP_OVERRIDES = ("lr", "weight_decay", "train_frac", "beta1", "beta2")   # session 24 (rule 19a), s39 betas (EXP-081): None = preset
 LOCK_NAME = "run.lock"
 
@@ -449,6 +449,14 @@ def run(a: argparse.Namespace) -> dict:
             raise SystemExit("--pre-switch-betas needs 'b1,b2' in (0, 1), --switch-split-file, and excludes the reset, rewind, "
                              "alternation and --beta1/--beta2 options")
         run_id += f"_psb{psb[0]!r}_{psb[1]!r}"
+    gek = int(getattr(a, "pre_switch_grad_every", 1))
+    if gek != 1:                     # EXP-095 (session 42): before the switch a fresh gradient only every k steps, reused in between
+        if (gek < 1 or a.switch_split_file is None or a.switch_step is None or a.switch_step % gek or a.condition != "baseline"
+                or a.warmup or a.alternate_every or a.lr_scale != 1.0 or a.lr_scale_after_switch != 1.0 or psb is not None
+                or a.reset_at_switch or a.reset_optim_at_switch or a.reset_optim_part or a.rewind_at_switch):
+            raise SystemExit("--pre-switch-grad-every k needs k >= 1, --switch-split-file with --switch-step a multiple of k, "
+                             "--condition baseline, and excludes the warmup, alternation, lr-scale, pre-switch-betas, reset and rewind options")
+        run_id += f"_ge{gek}"
     if (a.rewind_at_switch is None) != (a.rewind_from is None):
         raise SystemExit("--rewind-at-switch and --rewind-from go together")
     if a.rewind_at_switch:           # EXP-073 (session 24): one part back to its own state (weights + AdamW state) at step R
@@ -603,7 +611,7 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "plant_targets": plant_tg, "plant_c": a.plant_c, "plant_noise": a.plant_noise, "plant_delta_norm": plant_norm, "pre_switch_betas": list(psb) if psb else None, "lr_scale_until": LR_SCALE_UNTIL, "lr_scale_after_switch": a.lr_scale_after_switch, "lr_after_switch_steps": LR_AFTER_SWITCH_STEPS, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "rewind_at_switch": a.rewind_at_switch, "rewind_from": a.rewind_from, "spectra_at": sorted(extra_spec),
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "plant_targets": plant_tg, "plant_c": a.plant_c, "plant_noise": a.plant_noise, "plant_delta_norm": plant_norm, "pre_switch_betas": list(psb) if psb else None, "pre_switch_grad_every": gek, "lr_scale_until": LR_SCALE_UNTIL, "lr_scale_after_switch": a.lr_scale_after_switch, "lr_after_switch_steps": LR_AFTER_SWITCH_STEPS, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "rewind_at_switch": a.rewind_at_switch, "rewind_from": a.rewind_from, "spectra_at": sorted(extra_spec),
            "device": a.device, "device_name": (torch.cuda.get_device_name(dev) if dev.type == "cuda" else platform.processor()),
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": {**cfg.to_dict(), "device": a.device},   # Astra 10: Config keeps 'cpu'; record the real device
@@ -672,11 +680,20 @@ def run(a: argparse.Namespace) -> dict:
     dense_eval(0); spectrum(0)
     gen_thr = THRESHOLD_SETS["primary"][1]
     stop_at = a.steps
+    ge_saved, ge_evals, ge_steps = None, 0, []
     for step in range(1, a.steps + 1):
         model.train()
-        loss = F.cross_entropy(model.logits_last(trx)[:, :p], try_)
-        opt.zero_grad(set_to_none=True)
-        loss.backward()
+        if gek > 1 and step <= a.switch_step and (step - 1) % gek:    # EXP-095: Adam step on the stored (stale) gradient
+            for q, g0 in zip(model.parameters(), ge_saved):
+                q.grad = None if g0 is None else g0.clone()
+        else:
+            loss = F.cross_entropy(model.logits_last(trx)[:, :p], try_)
+            opt.zero_grad(set_to_none=True)
+            loss.backward()
+            ge_evals += 1
+            if gek > 1 and step <= a.switch_step:
+                ge_saved = [None if q.grad is None else q.grad.detach().clone() for q in model.parameters()]
+                ge_steps.append(step)
         if proj is not None and step > ban_from:   # amendment 2026-09-25: projected gradient
             with torch.no_grad():
                 model.W_E.grad[:p] = proj @ model.W_E.grad[:p]
@@ -733,6 +750,7 @@ def run(a: argparse.Namespace) -> dict:
         if a.rewind_at_switch and step == a.rewind_from:          # EXP-073: state after the update of step R
             rw_snap = rewind_snapshot()
         if switch_idx is not None and step == a.switch_step:     # EXP-020: new train set from the next step on
+            ge_saved = None
             old = data["train_idx"].numpy()
             sub = {"G_minus_F": np.setdiff1d(switch_idx.numpy(), old), "F_minus_G": np.setdiff1d(old, switch_idx.numpy()),
                    "F_and_G": np.intersect1d(old, switch_idx.numpy())}    # Codex review: new pairs separately
@@ -866,6 +884,8 @@ def run(a: argparse.Namespace) -> dict:
             write("running")
         if step >= stop_at:
             break
+    if gek > 1:
+        events["pre_switch_grad_every"] = {"k": gek, "eval_steps_pre_switch": ge_steps, "evals_total": ge_evals}
     if step % SPECTRUM_EVERY and step not in extra_spec:
         spectrum(step)
     final_power = freq_power(model.W_E.detach().cpu().numpy().astype(np.float64)[:p], basis)
@@ -931,6 +951,8 @@ def main() -> None:
     ap.add_argument("--beta2", type=float, default=None, help="EXP-081: override AdamW beta2 (default: preset 0.98)")
     ap.add_argument("--pre-switch-betas", default=None,
                     help="EXP-090: 'b1,b2' AdamW betas for steps 1..--switch-step; preset betas afterwards, moments rescaled so the bias-corrected moments stay continuous")
+    ap.add_argument("--pre-switch-grad-every", type=int, default=1,
+                    help="EXP-095: before the switch compute the gradient only every k steps and reuse it in between (1 = off)")
     ap.add_argument("--lr-scale", type=float, default=1.0,
                     help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
     ap.add_argument("--lr-scale-after-switch", type=float, default=1.0,

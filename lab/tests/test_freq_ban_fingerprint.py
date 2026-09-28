@@ -250,6 +250,48 @@ def test_pre_switch_betas(tmp: Path) -> None:
     assert rn.returncode != 0, "--pre-switch-betas without a switch accepted"
 
 
+def test_pre_switch_grad_every(tmp: Path) -> None:
+    """EXP-095 (session 42): --pre-switch-grad-every k. Before the switch the gradient is computed only at steps 1, 1+k, ...
+    and reused in between (same Adam steps, lr, betas); after the switch every step evaluates. Two Adam steps on one reused
+    gradient move W_E almost exactly like one step at 2x lr (m_hat = g, v_hat = g^2), unlike two plain steps.
+    Fingerprint/run id change only when given; invalid combinations are refused."""
+    import numpy as np
+    f1 = fb.run_fingerprint(ns())[0]
+    assert fb.run_fingerprint(ns(pre_switch_grad_every=1))[0] == f1, "default --pre-switch-grad-every changed the fingerprint"
+    assert fb.run_fingerprint(ns(pre_switch_grad_every=2))[0] != f1, "fingerprint ignores --pre-switch-grad-every"
+    out = tmp / "ge"
+    spl = ROOT / "lab/experiments/EXP-056-overlap-persistence/splits"
+    base = [sys.executable, str(FB), "--seed", "400", "--condition", "baseline", "--threads", "1", "--out-root", str(out),
+            "--split-file", str(spl / "seed400_w0_A.npy"), "--test-file", str(spl / "seed400_test.npy")]
+    sw = ["--switch-split-file", str(spl / "seed400_w0_B.npy")]
+    run = lambda *x: subprocess.run(base + list(x), cwd=ROOT, capture_output=True, text=True, timeout=600)   # noqa: E731
+    for extra in (sw + ["--steps", "14", "--switch-step", "10", "--spectra-at", "2,10", "--pre-switch-grad-every", "2"],
+                  sw + ["--steps", "14", "--switch-step", "10", "--spectra-at", "2,10"],
+                  ["--steps", "2", "--spectra-at", "1,2", "--lr-scale", "2"]):
+        r = run(*extra)
+        assert r.returncode == 0, (extra, r.stdout + r.stderr)
+    d = {}
+    for k in ("at10_ge2", "at10", "lrs2"):
+        hits = [h for h in out.glob(f"*{k}") if h.is_dir()]
+        assert len(hits) == 1, (k, list(out.iterdir()))
+        d[k] = hits[0]
+    snap = lambda k, s: np.load(d[k] / "we_snapshots.npy")[list(np.load(d[k] / "we_snapshot_steps.npy")).index(s)]   # noqa: E731
+    ref = snap("lrs2", 1)
+    near, plain = np.linalg.norm(snap("at10_ge2", 2) - ref), np.linalg.norm(snap("at10", 2) - ref)
+    assert near < 0.1 * plain, ("reused gradient does not act like one 2x step", near, plain)
+    assert not np.array_equal(snap("at10_ge2", 10), snap("at10", 10)), "--pre-switch-grad-every had no effect"
+    res = json.loads((d["at10_ge2"] / "result.json").read_text(encoding="utf-8"))
+    ev = res["events"]["pre_switch_grad_every"]
+    assert ev["k"] == 2 and ev["eval_steps_pre_switch"] == [1, 3, 5, 7, 9] and ev["evals_total"] == 5 + 4, ev
+    assert res["pre_switch_grad_every"] == 2, res.get("pre_switch_grad_every")
+    for bad in (sw + ["--steps", "14", "--switch-step", "10", "--pre-switch-grad-every", "3"],      # t not a multiple of k
+                sw + ["--steps", "14", "--switch-step", "10", "--pre-switch-grad-every", "0"],
+                sw + ["--steps", "14", "--switch-step", "10", "--pre-switch-grad-every", "2", "--lr-scale", "2"],
+                ["--steps", "14", "--pre-switch-grad-every", "2"]):                                    # no switch
+        r = run(*bad)
+        assert r.returncode != 0, bad
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory() as t:
         tmp = Path(t)
@@ -259,7 +301,8 @@ def main() -> int:
                          ("integration", lambda: test_integration(tmp)),
                          ("rewind", lambda: test_rewind(tmp)),
                          ("hp_overrides", lambda: test_hp_overrides(tmp)),
-                         ("pre_switch_betas", lambda: test_pre_switch_betas(tmp))):
+                         ("pre_switch_betas", lambda: test_pre_switch_betas(tmp)),
+                         ("pre_switch_grad_every", lambda: test_pre_switch_grad_every(tmp))):
             fn()
             print(f"[test_freq_ban_fingerprint] {name} ok", flush=True)
     print("[test_freq_ban_fingerprint] all ok", flush=True)

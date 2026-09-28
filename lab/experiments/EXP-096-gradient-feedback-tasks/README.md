@@ -38,7 +38,7 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-096-gradient-feedback-tas
 python lab/tools/parallel_queue.py lab/experiments/EXP-096-gradient-feedback-tasks/jobs.txt --workers 8
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-096-gradient-feedback-tasks/analyze.py
 ```
-Vor dem Block: Code und Jobs committen (Festlegung). Nach dem Smoke einmal `analyze.py` laufen lassen und nur prüfen, dass die drei Smoke-Läufe ohne Laderfehler gefunden werden (Werte nicht lesen).
+Vor dem Block: Code und Jobs committen (Festlegung). Nach dem Smoke `python lab/tools/guarded_run.py -- python lab/experiments/EXP-096-gradient-feedback-tasks/analyze.py --smoke-check` (nur Laderstatus der drei Smoke-Läufe, keine Werte, schreibt nichts). `design.py`/`--jobs`/`--smoke` sind reines numpy und laufen ohne Wächter. *Statische Prüfung (Claude-Agent, Sitzung 42, 18:10): keine Absturzfehler, Globs passen zu den Run-IDs; übernommen: vollständige Fehlerliste, `--smoke-check`, Prüfung von switch_step, Datei sauber schließen.*
 
 ## Ergebnis
 

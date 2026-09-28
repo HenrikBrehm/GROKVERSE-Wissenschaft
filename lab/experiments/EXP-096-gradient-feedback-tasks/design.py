@@ -48,7 +48,8 @@ def write_splits() -> None:
                 with open(out / f"{stem(task, p, s)}_{'test' if name == 'test' else 'train_' + name}.npy", "xb") as f:
                     np.save(f, idx.astype(np.int64))
             meta = {"seed": s, "task": task, "p": p, "targets": T, "overlap_FG_train": int(np.intersect1d(sets["F"], sets["G"]).size)}
-            (out / f"{stem(task, p, s)}.json").open("x", encoding="utf-8").write(json.dumps(meta, indent=1))
+            with (out / f"{stem(task, p, s)}.json").open("x", encoding="utf-8") as f:
+                f.write(json.dumps(meta, indent=1))
     print(f"[exp096] wrote splits for {len(SEEDS)} seeds x {len(TASKS)} tasks", flush=True)
 
 

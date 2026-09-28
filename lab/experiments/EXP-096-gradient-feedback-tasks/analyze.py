@@ -51,6 +51,8 @@ def load(task: str, p: int, s: int, kind: str):
     tag = f"{task}{p} seed {s} {kind}"
     if L.status != "ok":
         return f"{tag}: {L.status}: {L.reason}"
+    if switch and L.res.get("switch_step") != D.T_SWITCH:
+        return f"{tag}: switch_step {L.res.get('switch_step')} != {D.T_SWITCH}"
     if switch:
         ev = L.res.get("events", {}).get("pre_switch_grad_every")
         if k != 1 and (L.res.get("pre_switch_grad_every") != k or not ev
@@ -68,7 +70,7 @@ def seed_row(task: str, p: int, s: int) -> dict:
     runs = {k: load(task, p, s, k) for k in ("F", "G", *D.CELLS)}
     bad = [v for v in runs.values() if isinstance(v, str)]
     if bad:
-        return {"seed": s, "valid": False, "reason": "; ".join(bad[:3])}
+        return {"seed": s, "valid": False, "reason": "; ".join(bad)}
     lr = lambda pw: float(np.log(pw[[k - 1 for k in F]].sum() / pw[[k - 1 for k in G]].sum()))   # noqa: E731
     lf, lg = lr(runs["F"][0]), lr(runs["G"][0])
     if not lf - lg >= MIN_LFLG:
@@ -140,5 +142,12 @@ def selftest() -> None:
     print("[exp096] selftest ok", flush=True)
 
 
+def smoke_check() -> None:
+    """Loader status of the three smoke runs only (seed 3560); prints ok/error, no values, writes nothing."""
+    for task, p, kind in (("add", 97, "F"), ("add", 97, "g24"), ("mul", 113, "g24")):
+        r = load(task, p, D.SEEDS[0], kind)
+        print(f"[exp096] smoke {task}{p} {kind}: {r if isinstance(r, str) else 'ok'}", flush=True)
+
+
 if __name__ == "__main__":
-    selftest() if sys.argv[1:] == ["--selftest"] else main()
+    {"--selftest": selftest, "--smoke-check": smoke_check}.get(sys.argv[1] if sys.argv[1:] else "", main)()

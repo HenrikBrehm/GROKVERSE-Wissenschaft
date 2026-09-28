@@ -114,3 +114,8 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 - **d (neu, post hoc):** §6: Die Festlegung klingt nach dem Grokking nicht ab; bis 4000 Schritte nach dem Wechsel wird der Sieger leicht geschärft (N29, 20 Seeds, Regel vor dem Lesen festgelegt). Damit ist der Gutachtereinwand „vielleicht verschwindet die Persistenz bei längerem Training“ für diesen Horizont beantwortet.
 - **e:** Der Literaturvermerk „Critical Learning Periods in Grokking“ ist geklärt: kein eigenständiges Paper (2606.15497 ist das AI-Scientist-Paper).
 - **Für dich:** Eine eigene Mechanismusidee zu den Wechselkosten (Aufräumen alter Frequenzen) ist widerlegt, eine zweite habe ich wegen eines eigenen Rechenfehlers (gemeinsamer Term) nicht registriert. Beides steht im JOURNAL; im Paper ändert sich dadurch nichts.
+
+## Nachtrag Sitzung 36 (2026-09-28, 01:30–02:39, gemessen)
+
+- **a/b/d:** **P2f bestätigt** (D₅₉ nach 12 000 Schritten, 20 frische Seeds): D = 0.233 [0.214, 0.253], 20/20 positiv, p = 2e-15; S1 bestätigt (ρ = −0.60, p = 0.004); **C4 bestätigt** (Feinordnung der Ziel-Irreps durch das Maskenspektrum, S = 0.37 [0.23, 0.51]). Damit gilt K2-Funktion auch für die nicht-abelsche Gruppe nach dem Grokking → in §3 des Entwurfs einarbeiten (nächste Sitzung). Registrierte Nebenprüfungen: EXP-021 bestätigt (gerade Oberwellen, §5.4(ii) angepasst), EXP-019 M0c besser für die Endfrequenzen (§5.3 angepasst).
+- Exploration: EXP-073 (Zurückspulen, *gemischt*), EXP-079 (Kopf-Symmetrie, beschreibend). Offen: Repro-Gleichwertigkeit, R1/R6/R5/R7/R3/P4/R2/R4 ([[NACHT_2026-09-28]]).

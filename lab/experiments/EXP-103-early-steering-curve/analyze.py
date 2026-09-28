@@ -11,6 +11,10 @@ Readings, fixed before any run (session 44):
   real       two or more of them outside 0.20 -> "early steering does not tick in lr*wd" (e.g. weight decay has not acted
              yet; then compare with tau = sum lr, i.e. t * lr / 1e-3).
   (else)     "unclear".
+  secondary  (session 44, after the independent recomputation, before any run) the same four points against the dense
+             curve read at the summed learning rate only, tau_lr = t * lr / 1e-3 (two-phase alternative: an early,
+             wd-independent alignment driven by Adam's lr-sized steps, then an lr*wd drift). Reported as
+             abs_log_ratio_lr; descriptive, it does not change the reading above.
 Cell means come from lab/confirm/R1_posthoc_lrwd_time_s44.json (seen data).
 
   python lab/tools/parallel_queue.py lab/experiments/EXP-103-early-steering-curve/jobs.txt --workers 4
@@ -26,6 +30,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 LAB = HERE.parents[1]
 EARLY = [("wd0.3", 250), ("wd0.3", 500), ("wd0.3", 750), ("lr5e-4", 250)]
+LR = {"wd0.3": 1.0, "lr5e-4": 0.5}                      # lr relative to the preset (tau_lr = t * LR)
 
 
 def delta(pF, pG, F, G):
@@ -66,8 +71,10 @@ def main() -> None:
         for cell, t in EARLY:
             row = next(r for r in r1[cell] if r["t"] == t)
             ref = float(np.interp(row["tau"], st, mean))
+            ref_lr = float(np.interp(t * LR[cell], st, mean)) if t * LR[cell] <= st[-1] else None
             pts.append({"cell": cell, "t": t, "tau": row["tau"], "cell_mean": row["cell_mean"], "P1_dense": ref,
-                        "abs_log_ratio": abs(float(np.log(row["cell_mean"] / ref)))})
+                        "abs_log_ratio": abs(float(np.log(row["cell_mean"] / ref))),
+                        "abs_log_ratio_lr": None if ref_lr is None else abs(float(np.log(row["cell_mean"] / ref_lr)))})
         out["points"] = pts
         e = [p["abs_log_ratio"] for p in pts]
         out["reading"] = ("artefact" if all(x < 0.10 for x in e) else "real" if sum(x > 0.20 for x in e) >= 2 else "unclear")

@@ -23,3 +23,5 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 ```
 
 **Bereits gesehene Daten:** P1 (alle 50 Seeds, Schritte 0–2000 im 250er-Raster), R1 (alle Zellen, Schritte 0–2000), die Nachauswertung Sitzung 44. Die Zellwerte bei τ < 250 sind bekannt; unbekannt ist nur die dichte P1-Kurve.
+
+**Fassung 2 (Sitzung 44, nach der unabhängigen Nachrechnung, vor jedem Lauf):** Zusätzlich beschreibend der Vergleich derselben vier Punkte mit der dichten Kurve in Σ lr (τ_lr = t·lr/10⁻³): Zwei-Phasen-Alternative des Prüfers (frühe, vom Weight Decay unabhängige Ausrichtung durch Adams lr-große Schritte, danach eine lr·wd-Drift). Das würde auch erklären, warum die Zellen mit kleinem lr·wd bei freier Anpassung 11–15 % „schneller“ laufen als lr·wd vorhersagt und warum lr 5e-4 und wd 0.3 bei t = 250 fast gleich sind (2.87/2.80). Ändert die Lesart oben nicht. **Nicht abgedeckt, für später:** eine gekreuzte Zelle mit gleichem lr·wd wie das Preset (z. B. lr 2e-3 mit wd 0.5), die Produktform lr·wd gegen getrennte Exponenten, und Läufe über 2000 Schritte (lr 2e-3 fällt nach Schritt 1500 wieder ab).

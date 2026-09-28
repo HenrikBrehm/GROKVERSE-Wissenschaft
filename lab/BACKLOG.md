@@ -188,3 +188,11 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 - **N37** (nach R3): Fenster am β₂-Horizont? Test mit `--beta2` erst, wenn R3 die Λ-Uhr nicht bestätigt.
 - **Repro:** `repro/k4c.py` geschrieben und geprüft (keine Blocker); nach der Gleichwertigkeit voll laufen lassen (80 Läufe).
 - **Literatur:** Vorwärtszitate (Semantic Scholar) ohne einschränkenden Treffer; Dong/Khanh noch ohne Zitatliste (HTTP 429) → später nachholen.
+
+## Sitzung 42: Warum braucht die frühe Festlegung neu ausgewertete Gradienten? (nach EXP-095, Programm B/C)
+
+- **R10 (Priorität 1, Nacht 29.09.):** Bestätigung des EXP-095-Befunds, [[confirm/R10_REGISTRATION_DRAFT|R10]] (n = 48, einfrieren nach der Prüfung).
+- **Rückkopplung gegen Korrektur der veralteten Richtung (Priorität 2, noch nicht festgelegt):** Trennender Eingriff: bei eingefrorenem Gradienten (g24) die Schrittweite so drosseln, dass die Norm der Bewegung der von n24 entspricht. Legt g24 dann genauso schwach fest, fehlt die Selbstverstärkung; holt es auf, war es Überschießen. Alternativ: Gradient an den bewegten Parametern auswerten, aber nur seine Projektion auf die Zielfrequenzen (oder nur die Nicht-Ziel-Anteile) auffrischen. Das braucht eine weitere Trainer-Option, also vorher Prüfung.
+- **Anzahl gegen Abstand (Priorität 3):** 3 Auswertungen früh gebündelt (Schritte 1, 2, 3, danach eingefroren) gegen gleichmäßig verteilt (1, 9, 17), bei gleichem Λ.
+- **Verallgemeinerung (Regel 15c):** derselbe g8/g24-Aufbau bei mul 113 oder add 97 (Splitbau für Wechselpaare dort nötig).
+- **Theorie:** Der Befund begrenzt die Reichweite der ersten Ordnung (§5) für die Persistenz; Anschluss an AGF bzw. das Lotteriebild mit exponentiellem Gewinnerwachstum (arXiv 2602.16849) prüfen.

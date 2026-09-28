@@ -34,3 +34,12 @@ Zellen je Seed: rein A/B, n24, g8 (`--pre-switch-grad-every 8`), g24 (`… 24`),
 ## Bereits gesehene Daten und davon beeinflusste Entscheidungen
 
 EXP-095 (Richtung, Effektgrößen und SD aller drei Hypothesen, Wahl von k = 8/24 und Äquivalenzgrenze ±0.05 aus der Pilot-KI von r₈ ±0.035), EXP-094 (c8b-Zelle, d8), EXP-093 (Λ = 24), R9 (β′-Regel, Blockaufbau). Keine Seeds aus diesen Blöcken.
+
+## Fassung 2 (Sitzung 42, 17:12 Berlin gemessen; nach der Prüfung vor dem Einfrieren, vor jedem R10-Lauf): verbindlich, ersetzt Abweichendes oben
+
+Unabhängige Prüfung (Claude-Agent, nur lesend; Codex ohne Guthaben): **kein Code-Blocker.** Run-IDs (Reihenfolge `_lrs`, `_psb`, `_ge`, `_dev` wie im Trainer), Befehlsnachbau in `one_run`, Lader (Schnappschuss bei 0 vorhanden), Gradientenplan-Prüfung, Statistik (Richtungen, TOST, Holm), Pilot-SDs und Power geprüft, CODE_FILES vollständig. Übernommen, selbst nachgerechnet:
+1. **Zählerunterschied nach dem Wechsel (Major, betrifft H2):** c8b wechselt mit Adam-Zähler 3, g8 mit 24. Gewicht des ersten neuen Gradienten in m̂: 0.1/(1 − 0.9⁴) ≈ 0.29 gegen 0.1/(1 − 0.9²⁵) ≈ 0.108 (in v̂ 0.26 gegen 0.050); c8b nimmt den neuen Split also schneller auf. Ein r₈ ≈ 0 kann deshalb auch eine Aufhebung zweier Effekte sein. **H2-Lesart eng:** „g8 und c8b äquivalent innerhalb ±0.05 *trotz* verschiedenem Zähler nach dem Wechsel“, nicht „der grobe Adam-Schritt fügt nichts hinzu“. Zählerfreie beschreibende Prüfung: Zielanteil f und Norm N der Bewegung beim Wechsel (vor jedem Schritt danach). H1 und H3 vergleichen Zellen mit gleichem t = 24 und gleichem Zähler und sind davon nicht betroffen.
+2. **Was H1/H3 messen:** „weniger Auswertungen unter Adam“. Dazu gehören die fast vorzeichenartigen Schritte bei eingefrorenem Gradienten (m̂/√v̂ → ±1 auch für schwache Koordinaten), die größere Bewegung (g24: N 2.87 gegen 2.36) und ein aus veralteten Gradienten gebauter Adam-Zustand beim Wechsel, nicht nur Richtungsinformation.
+3. **H1 ist schwächer als das Pilotkriterium** (dort KI-Untergrenze > 0.03 und e₈ ≥ 0.5 d₈; hier > 0). Die H2-Power gilt für wahres r₈ = 0; bei r₈ = 0.02 sinkt sie auf ≈ 0.85.
+4. **Smoke erweitert:** erste Jobzeile (rein A) + je eine **n24**-, g8-, g24- und c8b-Zeile (5 Zeilen), danach ein lesender Aufruf von `one_run` auf die Smoke-Läufe (Lader- und Planprüfung inkl. k = 1 ohne Ereignis). Selbsttest um zwei TOST-Fälle ergänzt (r₈ ≈ −0.14; Mittel ≈ 0 bei SD ≈ 0.35), grün über den Wächter.
+

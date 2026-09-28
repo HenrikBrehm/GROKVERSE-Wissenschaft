@@ -12,7 +12,8 @@ Primary family (Holm over 3, alpha 0.05):
   H1  e8 = pi(n24) - pi(g8); one-sided t-test of e8 > 0; 'bestätigt' = Holm p < 0.05 and bootstrap CI lower bound of e8 > 0
   H2  r8 = pi(g8) - pi(c8b) inside +-0.05; TOST p = max of the two one-sided t-test p; 'bestätigt' = Holm p < 0.05
   H3  e24 = pi(n24) - pi(g24); one-sided t-test of e24 > 0; 'bestätigt' = Holm p < 0.05 and bootstrap CI lower bound of e24 > 0
-Descriptive: e24 - e8; target share and norm of the W_E displacement at the switch per cell (EXP-092 selectivity).
+Descriptive: e24 - e8; target share and norm of the W_E displacement at the switch per cell (EXP-092 selectivity; taken before
+any post-switch step, so free of the Adam step-counter difference after the switch: c8b switches at counter 3, the others at 24).
 Validity: any technical failure -> 'nicht auswertbar'. Seeds with L(A) - L(B) < 2 are excluded and counted; more than 8 -> 'nicht auswertbar'.
 
   python lab/tools/confirm_r10.py --hash-code | --splits M | --jobs M | --run M -- <cmd> | --analyze M | --selftest
@@ -336,6 +337,10 @@ def selftest() -> None:
     assert all(v[h]["verdict"] == "nicht bestätigt" for h in HYP) and v["reading"] == "nicht bestätigt", v
     part = [mk(e8=0.14 + jit(i), r8=0.14 + jit(i + 1), e24=jit(i + 2)) for i in range(48)]
     assert verdict(part, 48, rng)["reading"] == "teilweise: H1"
+    neg = [mk(e8=0.14 + jit(i), r8=-0.14 + jit(i + 1), e24=0.19 + jit(i + 2)) for i in range(48)]      # TOST fails below
+    assert verdict(neg, 48, rng)["H2"]["verdict"] == "nicht bestätigt"
+    wide = [mk(e8=0.14 + jit(i), r8=25 * jit(i + 1), e24=0.19 + jit(i + 2)) for i in range(48)]     # mean ~0, SD ~0.35
+    assert abs(np.mean([r["pi_g8"] - r["pi_c8b"] for r in wide])) < 0.05 and verdict(wide, 48, rng)["H2"]["verdict"] == "nicht bestätigt"
     assert verdict(yes[:47], 48, rng)["verdict"] == "nicht auswertbar"
     assert verdict(yes[:47] + [{"seed": 1, "valid": False, "technical": True}], 48, rng)["verdict"] == "nicht auswertbar"
     assert verdict(yes[:39] + [{**yes[0], "valid": False}] * 9, 48, rng)["verdict"] == "nicht auswertbar"

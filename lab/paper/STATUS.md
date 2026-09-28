@@ -121,3 +121,5 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 - Exploration: EXP-073 (Zurückspulen, *gemischt*), EXP-079 (Kopf-Symmetrie, beschreibend). Offen: Repro-Gleichwertigkeit, R1/R6/R5/R7/R3/P4/R2/R4 ([[NACHT_2026-09-28]]).
 
 - **Sitzung 37 (2026-09-28):** **d:** P2f/S1/C4 in §3.6 eingearbeitet (ersetzt „Pending“), Abstract und Einleitung angepasst („in all four tasks … after grokking in 37/40 runs“); unabhängige Zahlenprüfung: keine Zahlenfehler, fünf Formulierungen korrigiert. **c:** Repro-Gleichwertigkeit bestanden (K2 und K4d bitgleich). **a:** R1 eingefroren (6298e67), Splits und Jobs committet, Smoke durch den Lader grün.
+
+- **Sitzung 37, später (bis 04:05):** **a:** R1 bestätigt (6/6 Hyperparameter-Zellen) → §3.7; C1 bestätigt → §3.7. **B/Paper:** R6 bestätigt (Wechsel bei 25 verzögert das Grokking ≈ ×1.8, stärker als bei 50) → §3.8; EXP-086 (Pilot, Frequenzkonflikt) → §4; Bestätigung R8 eingefroren und läuft. §3.6–§3.8 jeweils unabhängig nachgerechnet: keine Zahlenfehler, Formulierungen ergänzt. Abstract: Robustheit gegen lr/wd/Trainingsanteil ergänzt. **Offen:** R5, R7 (nach EXP-078), P4, R2, R3, R4; §3-Umbau (Pending-Liste 3.9).

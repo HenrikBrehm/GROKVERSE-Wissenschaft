@@ -11,11 +11,12 @@ ratio of the final W_E group power, against the pure A/B runs of the seed, EXP-0
   c2    : --lr-scale 2,                  t = 15                  (Lambda = 30, windows 2x longer in Lambda)
   c2b   : --lr-scale 2, --pre-switch-betas 0.8,0.96, t = 15     (windows equal in Lambda to n30)
 Primary family (Holm over 3, alpha 0.05):
-  H1  e1 = pi(l100) - pi(l100b); one-sided t-test of e1 - 0.05 > 0; 'bestätigt' = Holm p < 0.05 and bootstrap CI lower bound of e1 > 0.05
+  H1  e1 = pi(l100) - pi(l100b); one-sided t-test of e1 > 0; 'bestätigt' = Holm p < 0.05 and bootstrap CI lower bound of e1 > 0
+      (Fassung 2 after the pre-freeze review: the 0.05 margin had power ~0.12 at half the pilot effect; 0.05 is reported descriptively)
   H2  d1 = pi(l100b) - pi(n25) inside +-0.1; TOST p = max of the two one-sided t-test p; 'bestätigt' = Holm p < 0.05
   H3  e2 = pi(c2b) - pi(c2); one-sided t-test of e2 > 0; 'bestätigt' = Holm p < 0.05 and bootstrap CI lower bound of e2 > 0
 Descriptive: d2 = pi(c2b) - pi(n30); separation at the switch (counter-free reading, EXP-090 Nachtrag a).
-Validity: any technical failure -> 'nicht auswertbar'. Seeds with L(A) - L(B) < 2 are excluded and counted; more than 4 -> 'nicht auswertbar'.
+Validity: any technical failure -> 'nicht auswertbar'. Seeds with L(A) - L(B) < 2 are excluded and counted; more than 6 -> 'nicht auswertbar'.
 
   python lab/tools/confirm_r9.py --hash-code | --splits M | --jobs M | --run M -- <cmd> | --analyze M | --selftest
 """
@@ -44,13 +45,13 @@ SPL = LAB / "confirm" / "r9_splits"
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 CAL = LAB / "experiments/EXP-053-p3-overlap-design/calibration.json"
 BUDGET, ALPHA, OMEGA, P = 2000, 0.05, 0.0, 113
-MIN_E1, EQ, MIN_LALB, MAX_EXCLUDED = 0.05, 0.1, 2.0, 4
+MIN_E1, EQ, MIN_LALB, MAX_EXCLUDED = 0.0, 0.1, 2.0, 6
 LR_SCALE_UNTIL = 250
 CELLS = {"n25": {"c": 1.0, "t": 25, "psb": None}, "n30": {"c": 1.0, "t": 30, "psb": None},
          "l100": {"c": 0.25, "t": 100, "psb": None}, "l100b": {"c": 0.25, "t": 100, "psb": [0.975, 0.995]},
          "c2": {"c": 2.0, "t": 15, "psb": None}, "c2b": {"c": 2.0, "t": 15, "psb": [0.8, 0.96]}}
 HYP = ("H1", "H2", "H3")
-REGISTERED = {"seeds": list(range(3300, 3324)), "budget": 2000, "device": "cuda", "threads": 1,
+REGISTERED = {"seeds": list(range(3300, 3336)), "budget": 2000, "device": "cuda", "threads": 1,
               "cells": {k: dict(v) for k, v in CELLS.items()}}
 CODE_FILES = ("lab/tools/confirm_r9.py", "lab/tools/bound_block.py", "lab/tools/confirm_p1.py", "lab/tools/confirm_p2.py",
               "lab/tools/confirm_splits.py", "lab/tools/result_loader.py", "lab/tools/trainer_guard.py", "lab/tools/paket_a_device.py",
@@ -238,6 +239,7 @@ def test_family(rows: list[dict], rng: np.random.Generator) -> dict:
                "n_positive": int((X[s] > 0).sum()), "p": p[h], "p_holm": ph[h], "verdict": "bestätigt" if ok[h] else "nicht bestätigt"}
            for h, s in (("H1", "e1"), ("H2", "d1"), ("H3", "e2"))}
     out["d2_descriptive"] = {"mean": float(X["d2"].mean()), "ci95": ci["d2"]}
+    out["e1_above_0p05_descriptive"] = bool(ci["e1"][0] > 0.05)
     return out
 
 
@@ -248,8 +250,9 @@ def verdict(rows: list[dict], n_planned: int, rng: np.random.Generator) -> dict:
     if n_tech > 0 or len(rows) != n_planned or n_excl > MAX_EXCLUDED or len(ok) < 3:
         return {"n": len(rows), "n_technical": n_tech, "n_excluded": n_excl, "verdict": "nicht auswertbar"}
     out = {"n": len(ok), "n_technical": 0, "n_excluded": n_excl, **test_family(ok, rng)}
-    out["reading"] = ("Fenster-Regel bestätigt (H1, H2, H3)" if all(out[h]["verdict"] == "bestätigt" for h in HYP)
-                      else "teilweise: " + ", ".join(h for h in HYP if out[h]["verdict"] == "bestätigt") or "nicht bestätigt")
+    conf = [h for h in HYP if out[h]["verdict"] == "bestätigt"]
+    out["reading"] = ("Fenster-Regel bestätigt (H1, H2, H3)" if len(conf) == len(HYP)
+                      else ("teilweise: " + ", ".join(conf)) if conf else "nicht bestätigt")
     sm = {c: float(np.mean([r[f"sep_{c}"] for r in ok])) for c in CELLS}
     den = sm["l100"] - sm["n25"]
     out["sep_means"], out["r_sep_c025"] = sm, (float((sm["l100b"] - sm["n25"]) / den) if den != 0 else None)
@@ -279,7 +282,7 @@ def selftest() -> None:
     for k, v in CELLS.items():                      # beta' = 1 - c (1 - beta) where given (first-order window matching)
         if v["psb"]:
             assert abs(v["psb"][0] - (1 - v["c"] * 0.1)) < 1e-12 and abs(v["psb"][1] - (1 - v["c"] * 0.02)) < 1e-12, k
-    for bad in ({"seeds": list(range(3300, 3323))}, {"budget": 2000.0}, {"threads": True},
+    for bad in ({"seeds": list(range(3300, 3335))}, {"budget": 2000.0}, {"threads": True},
                 {"cells": {k: v for k, v in CELLS.items() if k != "c2b"}},
                 {"cells": {**CELLS, "l100b": {"c": 0.25, "t": 100, "psb": [0.97, 0.995]}}}):
         try:
@@ -288,7 +291,7 @@ def selftest() -> None:
         except SystemExit:
             pass
     tj = trainer_jobs(man)
-    assert len(tj) == 24 * 14 and len(set(tj)) == len(tj) and all("r9_raw" in j and "\\" not in j for j in tj)
+    assert len(tj) == 36 * 14 and len(set(tj)) == len(tj) and all("r9_raw" in j and "\\" not in j for j in tj)
     ids = [expected_run_id(shlex.split(j)) for j in tj]
     assert len(set(ids)) == len(ids)
     assert ids[0] == "EXP-018_baseline_seed3300_thr1_r9_seed3300_w0_A_devcuda", ids[0]
@@ -311,16 +314,18 @@ def selftest() -> None:
                 "pi_c2": base + 0.05, "pi_c2b": base + 0.05 + e2, **{f"sep_{c}": 0.04 for c in CELLS}}
     rng = np.random.default_rng(0)
     jit = lambda i: 0.01 * ((i * 7) % 5 - 2)   # noqa: E731
-    yes = [mk(e1=0.16 + jit(i), d1=jit(i + 1), e2=0.05 + jit(i + 2), n=jit(i + 3)) for i in range(24)]
-    v = verdict(yes, 24, rng)
+    yes = [mk(e1=0.16 + jit(i), d1=jit(i + 1), e2=0.05 + jit(i + 2), n=jit(i + 3)) for i in range(36)]
+    v = verdict(yes, 36, rng)
     assert all(v[h]["verdict"] == "bestätigt" for h in HYP) and v["reading"].startswith("Fenster-Regel bestätigt"), v
-    no = [mk(e1=jit(i), d1=0.16 + jit(i + 1), e2=jit(i + 2)) for i in range(24)]
-    v = verdict(no, 24, rng)
-    assert all(v[h]["verdict"] == "nicht bestätigt" for h in HYP), v
-    assert verdict(yes[:23], 24, rng)["verdict"] == "nicht auswertbar"
-    assert verdict(yes[:23] + [{"seed": 1, "valid": False, "technical": True}], 24, rng)["verdict"] == "nicht auswertbar"
-    assert verdict(yes[:19] + [{**yes[0], "valid": False}] * 5, 24, rng)["verdict"] == "nicht auswertbar"
-    assert verdict(yes[:20] + [{**yes[0], "valid": False}] * 4, 24, rng)["n_excluded"] == 4
+    no = [mk(e1=jit(i), d1=0.16 + jit(i + 1), e2=jit(i + 2)) for i in range(36)]
+    v = verdict(no, 36, rng)
+    assert all(v[h]["verdict"] == "nicht bestätigt" for h in HYP) and v["reading"] == "nicht bestätigt", v
+    part = [mk(e1=0.16 + jit(i), d1=0.16 + jit(i + 1), e2=jit(i + 2)) for i in range(36)]
+    assert verdict(part, 36, rng)["reading"] == "teilweise: H1"
+    assert verdict(yes[:35], 36, rng)["verdict"] == "nicht auswertbar"
+    assert verdict(yes[:35] + [{"seed": 1, "valid": False, "technical": True}], 36, rng)["verdict"] == "nicht auswertbar"
+    assert verdict(yes[:29] + [{**yes[0], "valid": False}] * 7, 36, rng)["verdict"] == "nicht auswertbar"
+    assert verdict(yes[:30] + [{**yes[0], "valid": False}] * 6, 36, rng)["n_excluded"] == 6
     F, G = ov.targets(3300)
     assert not set(F) & set(G) and len(F) == len(G) == 5
     selftest_binding(BLOCK, tj[0], tj[2], tj[3])

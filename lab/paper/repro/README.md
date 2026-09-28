@@ -91,3 +91,14 @@ Weder die Gleichwertigkeit noch irgendein voller Repro-Lauf ist bisher gelaufen.
 3. Gilt (a), aber nicht (b): Ich berichte „im Urteil reproduziert, im Wert abweichend“ mit beiden Zahlen. Ich wähle dann keine neue Schwelle.
 4. Gilt (a) nicht: „nicht reproduziert“ im Paper-Abschnitt Reproduction, Ursache suchen, keine erneute Wahl der Seeds.
 Grenze: Bei gleichen Seeds ist (b) ein weiches Kriterium, denn die KI beschreiben Seed-Streuung, nicht Rechenrauschen. Deshalb verlangt Stufe 2 zusätzlich das Urteil (a).
+
+## Erster vollständiger Lauf (Sitzung 41, 2026-09-28, GPU RX 7900 XT, `.venv-gpu` torch 2.9.1+rocm7.2.1; Befehlskette `lab/runner/logs/repro_s41.sh`, Log `repro_s41.log`; parallel lief EXP-092/093 mit 6 Workern, Laufzeiten deshalb unter Last)
+
+Abnahmeregel Fall 1 (Gleichwertigkeit bitgleich, Sitzung 37) → Schwellen der Skripte unverändert.
+| Skript | Ergebnis | Vergleich mit eingefrorener Zusammenfassung | Laufzeit |
+|---|---|---|---|
+| `k2.py` (add 113, 50 Seeds × 2) | Δ_pow 8.236 [7.924, 8.545], 50/50 | P1: max. Abweichung je Seed 3.6·10⁻¹⁵ → **reproduziert** | 679 s |
+| `k4c.py` (N29, 20 Seeds) | H1 0.903 (20/20), H2 0.603 (17/20), 19/20 generalisiert | N29: Abweichung aller Mittel und je Seed exakt 0 → **reproduziert** | 1493 s |
+| `k4_resets.py --block n29b` | R normal 0.860, Attention-Reset −0.628, MLP-Reset 0.793; H1 1.489, H2 1.421 (je 20/20) | N29b: Abweichung exakt 0 → **reproduziert** | 2162 s |
+| übrige (n29c, k2_function, k4b, k2 mul/add 97, k2_function_p2e) | laufen bzw. offen; Wiederaufnahme mit derselben Kette (fertige Läufe werden wiederverwendet) | – | – |
+

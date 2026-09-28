@@ -5,17 +5,25 @@ pi, validity, loading and displacement selectivity as EXP-092/095 (functions imp
 experiment's design; the run lookup knows the '_ge{k}' and '_psu{update}' suffixes and checks the recorded schedule/update).
 Paired over seeds, 95 % percentile bootstrap (10 000, rng 97):
   eA = pi(n24) - pi(g24)     (Adam: initial gradient only vs fresh; replication of EXP-095 e24 = +0.187)
-  eL = pi(L1) - pi(L24)      (linear normalised steps: initial gradient only vs fresh; staleness WITHOUT sign quantisation)
-Readings (in this order):
-  'nicht trennbar'           eA CI lower <= 0.03 (the EXP-095 deficit does not replicate)
-  'Boden'                    mean pi(L1) < 0.10 (the fresh linear arm itself hardly locks in; eL not interpretable)
-  'Veraltung zaehlt'         eL CI lower > 0.03 and mean eL >= 0.5 mean eA
-  'teilweise'                eL CI lower > 0.03 and mean eL < 0.5 mean eA
+  sA = pi(L24) - pi(g24)     (same stale gradient AND identical Adam state at the switch; only the pre-switch weight path differs:
+                              linear vs sign steps) -> Q1: how much of eA is sign quantisation of the weight path?
+  eL = pi(L1) - pi(L24)      (linear pre-switch weight path: fresh vs initial gradient only) -> Q2: staleness without sign
+                              quantisation of the weight path (the post-switch momentum tail of L24 is still sign(g0)-like,
+                              as in g24; so eL is an upper bound for pure staleness, review session 43)
+Q1 readings (in this order): eA CI lower <= 0.03 -> 'nicht trennbar';
+  'Quantisierung erklaert'    sA CI lower > 0.03 and mean sA >= 0.5 mean eA
+  'Quantisierung teilweise'   sA CI lower > 0.03 and mean sA < 0.5 mean eA
+  'Quantisierung nicht'       sA CI inside [-0.05, +0.05]
+  else 'unklar'.
+Q2 readings (in this order): eA CI lower <= 0.03 -> 'nicht trennbar';
+  'Boden'                    mean pi(L1) < 0.5 mean pi(n24) (the fresh linear arm locks in much less; eL not comparable)
+  'Veraltung zaehlt'         eL CI lower > 0.03 and mean eL / mean pi(L1) >= 0.5 mean eA / mean pi(n24)  (relative deficits)
+  'Veraltung teilweise'      eL CI lower > 0.03, relative deficit smaller
   'erste Ordnung genuegt'    eL CI inside [-0.05, +0.05]
   'erste Ordnung besser'     eL CI upper < -0.03
-  else 'unklar'. Fewer than 10 valid seeds -> 'nicht auswertbar'.
-Secondary (descriptive): sA = pi(L24) - pi(g24) (sign quantisation at the stale direction), pi(L1) - pi(n24); cell means of pi,
-selectivity f and norm N at the switch; share q of W_E displacement entries that are sign steps (|D| within 10 % of the unit).
+  else 'unklar'. Fewer than 10 valid seeds -> 'nicht auswertbar' (both).
+Secondary (descriptive): pi(L1) - pi(n24); cell means of pi, selectivity f and norm N at the switch; share q of W_E
+displacement entries that are sign steps (|D| within 10 % of the unit).
 """
 from __future__ import annotations
 
@@ -38,7 +46,7 @@ E = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(E)
 E.D, E.SPL, E.RAW = D, HERE / "splits", HERE / "raw"
 
-MIN_VALID, N_BOOT, HI, EQ, FLOOR = 10, 10_000, 0.03, 0.05, 0.10
+MIN_VALID, N_BOOT, HI, EQ, FLOOR_REL = 10, 10_000, 0.03, 0.05, 0.5
 LR, WD = 1e-3, 1.0
 DECAY = (1 - LR * WD) ** D.T_SW
 UNIT = LR * sum((1 - LR * WD) ** j for j in range(D.T_SW))
@@ -105,26 +113,31 @@ def boot_ci(x: np.ndarray, seed: int = 97) -> list[float]:
 def verdict(pis: dict[str, np.ndarray]) -> dict:
     n = len(pis["n24"])
     if n < MIN_VALID:
-        return {"n": n, "verdict": "nicht auswertbar"}
-    d = {"eA": pis["n24"] - pis["g24"], "eL": pis["L1"] - pis["L24"], "sA": pis["L24"] - pis["g24"],
+        return {"n": n, "Q1": "nicht auswertbar", "Q2": "nicht auswertbar"}
+    d = {"eA": pis["n24"] - pis["g24"], "sA": pis["L24"] - pis["g24"], "eL": pis["L1"] - pis["L24"],
          "L1_minus_n24": pis["L1"] - pis["n24"]}
     ci = {k: boot_ci(v) for k, v in d.items()}
     m = {k: float(x.mean()) for k, x in d.items()}
+    inside = lambda k: -EQ <= ci[k][0] and ci[k][1] <= EQ   # noqa: E731
     if ci["eA"][0] <= HI:
-        v = "nicht trennbar"
-    elif pis["L1"].mean() < FLOOR:
-        v = "Boden"
-    elif ci["eL"][0] > HI and m["eL"] >= 0.5 * m["eA"]:
-        v = "Veraltung zaehlt"
-    elif ci["eL"][0] > HI:
-        v = "teilweise"
-    elif -EQ <= ci["eL"][0] and ci["eL"][1] <= EQ:
-        v = "erste Ordnung genuegt"
-    elif ci["eL"][1] < -HI:
-        v = "erste Ordnung besser"
+        q1 = q2 = "nicht trennbar"
     else:
-        v = "unklar"
-    return {"n": n, "mean": m, "ci95": ci, "pos": {k: int((x > 0).sum()) for k, x in d.items()}, "verdict": v}
+        if ci["sA"][0] > HI:
+            q1 = "Quantisierung erklaert" if m["sA"] >= 0.5 * m["eA"] else "Quantisierung teilweise"
+        else:
+            q1 = "Quantisierung nicht" if inside("sA") else "unklar"
+        pL1, pn = float(pis["L1"].mean()), float(pis["n24"].mean())
+        if pL1 < FLOOR_REL * pn:
+            q2 = "Boden"
+        elif ci["eL"][0] > HI:
+            q2 = "Veraltung zaehlt" if m["eL"] / pL1 >= 0.5 * m["eA"] / pn else "Veraltung teilweise"
+        elif inside("eL"):
+            q2 = "erste Ordnung genuegt"
+        elif ci["eL"][1] < -HI:
+            q2 = "erste Ordnung besser"
+        else:
+            q2 = "unklar"
+    return {"n": n, "mean": m, "ci95": ci, "pos": {k: int((x > 0).sum()) for k, x in d.items()}, "Q1": q1, "Q2": q2}
 
 
 def main() -> None:
@@ -140,7 +153,7 @@ def main() -> None:
                             "dnorm_means": {c: float(col(f"dnorm_{c}").mean()) for c in D.CELLS},
                             "sign_share_means": {c: float(col(f"q_{c}").mean()) for c in D.CELLS}}
     else:
-        out["primary"] = {"verdict": "nicht auswertbar"}
+        out["primary"] = {"Q1": "nicht auswertbar", "Q2": "nicht auswertbar"}
     out["rows"] = rows
     (HERE / "summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1))
@@ -165,14 +178,21 @@ def selftest() -> None:
     rng = np.random.default_rng(0)
     nz = lambda: rng.normal(0, 0.02, 16)   # noqa: E731
     base = 0.30 + nz()
-    w = lambda eA, l1, eL: {"n24": base, "g24": base - eA + nz(), "L1": l1 + nz(), "L24": l1 - eL + nz()}   # noqa: E731
-    assert verdict(w(0.19, 0.28, 0.15))["verdict"] == "Veraltung zaehlt"
-    assert verdict(w(0.19, 0.28, 0.06))["verdict"] == "teilweise"
-    assert verdict(w(0.19, 0.28, 0.0))["verdict"] == "erste Ordnung genuegt"
-    assert verdict(w(0.19, 0.28, -0.12))["verdict"] == "erste Ordnung besser"
-    assert verdict(w(0.19, 0.05, 0.0))["verdict"] == "Boden"
-    assert verdict(w(0.0, 0.28, 0.15))["verdict"] == "nicht trennbar"
-    assert verdict({k: v[:9] for k, v in w(0.19, 0.28, 0.15).items()})["verdict"] == "nicht auswertbar"
+    w = lambda eA, sA, l1, eL: {"n24": base, "g24": base - eA + nz(), "L24": base - eA + sA + nz() * 0 if l1 is None   # noqa: E731
+                                else l1 - eL + nz(), "L1": (base - eA + sA + eL if l1 is None else l1) + nz()}
+    v = verdict(w(0.19, 0.15, None, 0.03))
+    assert v["Q1"] == "Quantisierung erklaert", v
+    assert verdict(w(0.19, 0.06, None, 0.1))["Q1"] == "Quantisierung teilweise"
+    assert verdict(w(0.19, 0.0, None, 0.15))["Q1"] == "Quantisierung nicht"
+    assert verdict(w(0.19, 0.0, 0.28, 0.15))["Q2"] == "Veraltung zaehlt"
+    assert verdict(w(0.19, 0.0, 0.28, 0.06))["Q2"] == "Veraltung teilweise"
+    assert verdict(w(0.19, 0.0, 0.28, 0.0))["Q2"] == "erste Ordnung genuegt"
+    assert verdict(w(0.19, 0.0, 0.28, -0.12))["Q2"] == "erste Ordnung besser"
+    assert verdict(w(0.19, 0.0, 0.10, 0.0))["Q2"] == "Boden"
+    v = verdict(w(0.0, 0.1, 0.28, 0.15))
+    assert v["Q1"] == v["Q2"] == "nicht trennbar", v
+    v = verdict({k: x[:9] for k, x in w(0.19, 0.1, 0.28, 0.15).items()})
+    assert v["Q1"] == v["Q2"] == "nicht auswertbar", v
     W0 = rng.normal(0, 1, (113, 128))
     assert sign_share(DECAY * W0 - UNIT * np.sign(rng.normal(0, 1, W0.shape)), W0) > 0.999
     assert sign_share(DECAY * W0 + UNIT * rng.normal(0, 1, W0.shape), W0) < 0.2

@@ -90,17 +90,18 @@ def load(s: int, kind: str, cell: str | None = None):
 E.load = load        # seed_row looks load up in its module at call time
 
 
-def sign_share(W_t: np.ndarray, W_0: np.ndarray) -> float:
+def sign_share(W_t: np.ndarray, W_0: np.ndarray, tol: float = 0.1) -> float:
     Dd = W_t.astype(np.float64) - DECAY * W_0.astype(np.float64)
-    return float(np.mean(np.abs(np.abs(Dd) - UNIT) <= 0.1 * UNIT))
+    return float(np.mean(np.abs(np.abs(Dd) - UNIT) <= tol * UNIT))
 
 
 def seed_row(s: int) -> dict:
     r = E.seed_row(s)
     if r["valid"]:
         for cell in D.CELLS:
-            q = [sign_share(*load(s, kind, cell)[1:]) for kind in ("AB", "BA")]
-            r[f"q_{cell}"] = float(np.mean(q))
+            runs = [load(s, kind, cell)[1:] for kind in ("AB", "BA")]
+            for tol, key in ((0.05, "q05"), (0.1, "q"), (0.2, "q20")):   # session 43: tolerance dependence, descriptive
+                r[f"{key}_{cell}"] = float(np.mean([sign_share(*w, tol=tol) for w in runs]))
     return r
 
 
@@ -151,7 +152,9 @@ def main() -> None:
         out["secondary"] = {"pi_means": {c: float(p.mean()) for c, p in pis.items()},
                             "fsel_means": {c: float(col(f"fsel_{c}").mean()) for c in D.CELLS},
                             "dnorm_means": {c: float(col(f"dnorm_{c}").mean()) for c in D.CELLS},
-                            "sign_share_means": {c: float(col(f"q_{c}").mean()) for c in D.CELLS}}
+                            "sign_share_means": {c: float(col(f"q_{c}").mean()) for c in D.CELLS},
+                            "sign_share_means_tol05": {c: float(col(f"q05_{c}").mean()) for c in D.CELLS},
+                            "sign_share_means_tol20": {c: float(col(f"q20_{c}").mean()) for c in D.CELLS}}
     else:
         out["primary"] = {"Q1": "nicht auswertbar", "Q2": "nicht auswertbar"}
     out["rows"] = rows

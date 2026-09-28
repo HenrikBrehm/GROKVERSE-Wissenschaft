@@ -73,3 +73,7 @@ Laufzeit schätzen, bevor der Block startet: 30 000 Minibatch-Schritte je Lauf, 
 ## Bereits gesehene Daten und davon beeinflusste Entscheidungen
 
 P1/P4/R5 (Full-Batch-Größen von Δ_pow und der Beschleunigung), LeDoux (Methode, Batch 256), Slingshot (SGD-Risiko). Keine L0-Seeds benutzt.
+
+## Erwartung vor dem Piloten (Sitzung 44, 20:49; beschreibend, entscheidet nichts, ändert keine Lesart)
+
+Aus der R1-Nachauswertung (Sitzung 44, draft §3.7, post hoc): Die Größe von Δ_pow folgt bis Schritt 2000 weitgehend der Zeit t·lr·wd. Alle AdamW-Arme von L0 haben dasselbe lr und wd, also bei gleicher Schrittzahl dieselbe lr·wd-Zeit. **Erwartung E1:** Wäre die Steuerung reine Mengeneigenschaft und der Minibatch-Rauschterm unwichtig, läge Δ_pow(iid256, t = 2000) nahe Δ_pow(fb, 2000). **Erwartung E2 (wahrscheinlicher):** Rauschen vergrößert Adams zweites Moment und verkleinert die normierten Schritte; bei Batch 64 kommt jede Zahl nur ≈ 1–2-mal je Batch vor (dünne Gradienten auf W_E-Zeilen). Daher die Rangfolge fb ≥ iid256 ≥ iid64 bei gleicher Schrittzahl, mit iid256 innerhalb von ≈ 30 % von fb. Berichtet wird das gepaarte Verhältnis bei 2000 und am Ende. Weicht es stark ab (iid256 < 0.5 × fb), ist das kein Befund gegen K2, sondern ein Hinweis, dass die Zeit unter Minibatch anders läuft; die registrierte Lesart („KI > 0“) bleibt maßgeblich.

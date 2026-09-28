@@ -1,8 +1,8 @@
 ---
 id: EXP-093
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-28
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/negativ, neu/kandidat]
 ---
 # EXP-093: Bis zu welcher Lernrate gilt die Momentum-Verzögerungs-Uhr? (Pilot, Exploration)
 
@@ -42,6 +42,12 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-093-lag-clock-range/jobs.
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-093-lag-clock-range/analyze.py
 ```
 
-## Ergebnis
+## Ergebnis (Sitzung 41, 2026-09-28; Block 14:30–15:30 Berlin, 288/288 ok; `analyze.py` über den Wächter; `summary.json`)
 
-(noch nicht gelaufen)
+16/16 Seeds gültig. **Registrierte Lesart: „gemischt“** (c2 *offen*, c3–c8 *verfehlt*; keine Zelle *trifft*).
+- Residuum gegen die Lag-Uhr (je Seed geeicht): c2 **−0.039** [−0.074, −0.004], c3 −0.099 [−0.156, −0.045], c4 −0.132 [−0.185, −0.078] (repliziert EXP-092: −0.107), c6 −0.176 [−0.238, −0.113], c8 **−0.247** [−0.312, −0.182]; Eichprüfung n20 −0.044 [−0.092, +0.009]. Streng monoton in c (Spearman −1; ebenso gegen 2/t, beide Ordnungen fallen hier zusammen).
+- Zellmittel π bei **festem Λ = 24**: c2 0.271, c3 0.204, c4 0.173, c6 0.143, c8 0.092 (n20 0.225, n25 0.373, n30 0.485). Die Lag-Uhr sagte für c2–c8 fast gleiche Werte voraus (c8 sogar leicht höher).
+- **Selektivität und Größe der frühen Bewegung** (beschreibend): Norm ‖W_E(t) − W_E(0)‖ bei allen c fast gleich (2.31 → 2.27), Zielanteil fällt monoton (0.175 → 0.161; n25 0.186).
+- **Nachtrag a (vorher notiert):** MAE über c2–c8 Lag-Uhr 0.138, Lag + c/2 0.093; beobachtete relative Lage (n25 = 0, n30 = 1): c2 −0.92, c3 −1.52, c4 −1.81, c6 −2.08, c8 −2.53 (Lag + c/2 sagte −0.68 … −1.11). Die Euler-Verzögerung erklärt also nur einen Teil.
+
+**Einordnung (Exploration, negativ für die Lag-Uhr als allgemeines Gesetz):** Die Momentum-Verzögerungs-Uhr gilt in diesem Aufbau nur für c ≤ 1 (EXP-092: c = 0.5, β₁-Änderungen, t = 20) und knapp nicht mehr bei c = 2 (hier −0.04; in R9 lag c = 2 bei t = 15 post hoc auf der Kurve). Bei gleichem Λ gilt: **Je größer und seltener die Schritte, desto schwächer die Festlegung**, obwohl die Bewegung gleich groß ist. Sie ist nur weniger zielgenau. Das passt zur Tiefpass-Lesart aus Zyklus 3/4 in allgemeinerer Form: Die Zielgenauigkeit wächst mit der Zahl der *Gradientenauswertungen*, nicht nur mit Λ. Wenige große Schritte wenden frühe, breite Gradienten lange an. Offen und nicht getrennt: Diskretisierung (Lag + c/2 erklärt einen Teil), vorzeichenartige frühe Adam-Schritte, Überschießen. **Folgen:** K5 (R9) bleibt unberührt, betrifft aber nur c = 0.25 und c = 2 mit angeglichenen β. Die Lag-Uhr darf nicht als allgemeine Festlegungsuhr formuliert werden. Ein trennender Versuch braucht eine Trainer-Option (z. B. Gradienten k-mal pro großem Schritt neu auswerten = c Unterschritte à lr, gegen einen Schritt à c·lr bei gleichem Adam-Zustand) → nächste Sitzung vorbereiten, vorher prüfen. **Grenzen:** Pilot, 16 Seeds, eine Aufgabe, π = W_E-Energiemaß, lineare Eichung (Extrapolation bis −2.5 Eichabstände).

@@ -21,6 +21,9 @@ Bootstrap over seeds (10 000, rng 100). Readings fixed here (pilot; the confirma
           else 'beide wirken'.  Also reported: paired dpow(stride) - dpow(iid256), share of runs with a frequency of O in the top 5.
   Reihenfolge allein (R): 'wirkt' if peak in O in >= 75 % of R-stride runs; 'wirkt nicht' if <= 25 % and the paired CI of
           o(R-stride) - o(R-iid) contains 0; else 'unklar'.
+  Konflikt_B64 / Konflikt_B16 (only if design.py's CONFLICT_B64 / CONFLICT_B16 is set after the feasibility step): the same
+          Konflikt and Reihenfolge-allein rules for stride64 vs iid64 and stride16 vs iid16 (s44 / s45); K2_B16_descriptive = the
+          dpow_end CI of iid16, descriptive only (not part of K2-MB).
 Descriptive: all dpow means/CIs (end, 2000), o means per arm, t_gen per arm (steps and epochs), E-iid256 vs R-iid256 t_gen (R5).
 Valid seed: the engineered runs of fb, fb30k, iid256, iid64 and stride256 all ok with a finite dpow (delta_pow_checked);
 fewer than 6 valid seeds -> everything 'nicht auswertbar'. Runs that never generalise stay valid; the number of generalised
@@ -234,10 +237,12 @@ def selftest() -> None:
     assert verdict([mk(s, 5.0, 5.0, False, False) for s in range(5)])["K2_MB"] == "nicht auswertbar"
     assert suffix("stride256") == "_bs256_ordstride" and suffix("iid64") == "_bs64" and suffix("fb") == ""
     assert D.ROOTS["fb30k"] != "raw"           # fb and fb30k share the run id, so they need separate roots
-    assert "Konflikt_B64" not in verdict([mk(s, 5.0, 5.0, False, False) for s in range(8)])
     keep = D.ARMS                              # s44: B = 64 conflict path (only when stride64 is added to ARMS)
+    base = {k: v for k, v in keep.items() if k not in {**D.FEAS_EXTRA, **D.FEAS_B16}}   # s45 review: independent of the switches
     try:
-        D.ARMS = {**keep, **D.FEAS_EXTRA}      # what CONFLICT_B64 = True does (R_ARMS part: see design.py)
+        D.ARMS = base
+        assert "Konflikt_B64" not in verdict([mk(s, 5.0, 5.0, False, False) for s in range(8)])
+        D.ARMS = {**base, **D.FEAS_EXTRA}      # what CONFLICT_B64 = True does (R_ARMS part: see design.py)
         rows = [mk(s, 5.0, 5.0, False, False) for s in range(8)]
         for r in rows:
             r["dpow_end_stride64"], r["o_stride64"], r["peakO_stride64"] = 0.0 + rng.normal(0, 0.3), 0.3, [True, True]
@@ -246,7 +251,7 @@ def selftest() -> None:
         assert v["Konflikt"] == "Konflikt nicht pruefbar (Reihenfolge wirkt nicht)", v
         assert (v["Konflikt_B64"]["Konflikt"], v["Konflikt_B64"]["Reihenfolge_allein"]) == ("Reihenfolge gewinnt", "wirkt"), v
         assert suffix("stride64") == "_bs64_ordstride"
-        D.ARMS = {**keep, **D.FEAS_B16}        # s45: what CONFLICT_B16 = True does (iid16 and stride16 join the arms)
+        D.ARMS = {**base, **D.FEAS_B16}        # s45: what CONFLICT_B16 = True does (iid16 and stride16 join the arms)
         rows = [mk(s, 5.0, 5.0, False, False) for s in range(8)]
         for r in rows:
             r["dpow_end_iid16"], r["o_iid16"], r["peakO_iid16"] = 5.0 + rng.normal(0, 0.3), 0.1, [False, False]

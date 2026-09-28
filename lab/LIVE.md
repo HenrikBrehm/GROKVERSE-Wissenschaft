@@ -5,21 +5,25 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 05:19 Berlin (03:19Z, vom Runner)
 - **Deadline:** 2026-09-28 08:19 Berlin (06:19Z)
-- **Zuletzt aktualisiert:** 06:44 Berlin
+- **Zuletzt aktualisiert:** 07:44 Berlin
 - **Run-Fenster:** heute bis 18:00.
 
 ## Gerade
 
-- GPU: **R2-Block** (103/300, 6 Worker) und **R4-Block** (1/240, 2 Worker; wird erst in der nächsten Sitzung fertig).
-- CPU: EXP-014 (4 Threads).
-- Paper: R7 als §3.12, Prüfung läuft.
+- GPU: **R4-Block** (≈ 54/240, 2 Worker) läuft bis zur Deadline; Rest in Sitzung 39 (dann mit 8 Workern).
+- CPU: EXP-014 (Job 8).
+- Schreibe den Abschlussbericht.
 
 ## Als Nächstes
 
-R2 → Auswertung + C2 + `R2_time.py`, falls vor 08:19 fertig; sonst nächste Sitzung.
+Sitzung 39: R4 fertig rechnen und auswerten, ins Paper; danach EXP-087 / EXP-081 (Trainer-Sperre fällt nach R4).
 
 ## Verlauf dieser Sitzung
 
+- 07:42 R2/C2-Paperabschnitt geprüft (Zensur der Zeitkosten bei wd 0.3 ergänzt).
+- 07:36 **R2:** Übergang bei lr 2e-3 bestätigt, bei wd 0.3 nicht (Umstieg fehlt, dort kaum Generalisierung). **C2 bestätigt** (alte Ziele behalten ihre Rangfolge, ρ̄ 0.61).
+- 07:07 Abstract ergänzt, unabhängig geprüft (zwei Überdehnungen korrigiert).
+- 06:56 R7-Abschnitt geprüft (keine Fehler); neuer Versuchsentwurf **EXP-087** (Mediation der Beschleunigung).
 - 06:44 **R7 bestätigt:** K2 auch im 2-Schicht-Transformer (Δ_pow 6.15, 10/10). R4 gestartet.
 - 06:33 P4/C3-Paperabschnitt geprüft (Testname korrigiert, MLP-Init-Ordnung ergänzt).
 - 06:23 **P4 bestätigt** in allen drei Bedingungen (MLP, 4× Breite, Integer-Addition; je 15/15); **C3 bestätigt** (S = 0.30).

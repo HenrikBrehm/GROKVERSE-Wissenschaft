@@ -5,20 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 10:29 Berlin (08:29Z, vom Runner)
 - **Deadline:** 2026-09-28 13:29 Berlin (11:29Z)
-- **Zuletzt aktualisiert:** 10:45 Berlin
+- **Zuletzt aktualisiert:** 11:32 Berlin
 - **Run-Fenster:** heute bis 18:00.
 
 ## Gerade
 
-**EXP-081 läuft** (500 GPU-Läufe, 8 Worker; ≈ 13 Läufe/min → fertig ≈ 11:20). Frage: Legt β₁ über den Momentum-Schwanz fest, wie stark die frühe Frequenzwahl nach einem Datenwechsel hält (N38)? Skaliert das Fenster mit β₂ (N37)?
-**EXP-089 läuft daneben** (120 Läufe, 4 Worker): Hält die Festlegung bei gleicher Lernratensumme Λ nach 100 kleinen Schritten stärker als nach 25 normalen?
+Beide Blöcke ausgewertet. Ich baue jetzt eine Trainer-Option für den entscheidenden Test: Liegt die stärkere Festlegung nach vielen kleinen Schritten an Adams Mittelungsfenstern (β), die in Schritten zählen?
 
 ## Als Nächstes
 
-Fortschritt alle ~10 min prüfen; nach dem Block `analyze.py`, Ergebnis dokumentieren.
+Option `--pre-switch-betas` + Tests + unabhängige Prüfung, dann Pilot EXP-090 (≈ 20 min GPU).
 
 ## Verlauf dieser Sitzung
 
+- 11:28 **EXP-081 fertig:** Teil A *N38 gestützt* (Momentum-Schwanz trägt zur Festlegung bei, wächst mit β₁; 9/10); Teil B *N37 verworfen* (β₂ skaliert das Fenster nicht). Post hoc: längeres β₁-Fenster → deutlich weniger Festlegung beim Wechsel (9/10).
+- 11:22 EXP-089 gegengeprüft: Effekt hält; Deutung korrigiert (führend: Adams β-Fenster zählen in Schritten).
+- 11:05 **EXP-089 fertig: Mischuhr gestützt** (Pilot): bei gleicher Lernratensumme hält die Wahl nach 100 kleinen Schritten stärker fest als nach 25 normalen (+0.24, 10/10); Größe wie vorhergesagt (τ ≈ Λ^0.8·t^0.2). Unabhängige Gegenprüfung läuft.
 - 10:45 EXP-089 registriert (vor jedem Ergebnis), Smoke ok, Block gestartet.
 - 10:41 Paper §4: EXP-087/088 eingearbeitet, unabhängig geprüft (keine Zahlenfehler; 6 Formulierungen korrigiert).
 - 10:37 EXP-081-Block gestartet (Smoke ok: alle vier β-Zellen stabil, generalisiert).

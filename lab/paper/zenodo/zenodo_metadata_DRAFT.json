@@ -1,0 +1,28 @@
+{
+ "_status": "ENTWURF (Sitzung 43, 2026-09-28). NICHT hochladen. Felder mit <NUTZER> entscheidet der Nutzer (Regel 19f/20d).",
+ "title": "Training-set composition steers and locks in the Fourier features of grokking transformers: code, registrations and frozen results",
+ "upload_type": "software",
+ "description": "Reproduction package for the preprint draft (lab/paper/draft_short.md): pre-registration documents, frozen analysis manifests with code hashes, frozen result summaries, slim reproduction scripts (lab/paper/repro), figure scripts, and the trainer. All results use small transformers on modular arithmetic and the dihedral group D59.",
+ "creators": [
+  {
+   "name": "<NUTZER: Autorinnen/Autoren und Reihenfolge>",
+   "affiliation": "<NUTZER>"
+  }
+ ],
+ "license": "<NUTZER: Lizenz (z. B. MIT für eigenen Code); Rechte an der ursprünglichen GROKVERSE-Studie klären>",
+ "keywords": [
+  "grokking",
+  "modular arithmetic",
+  "Fourier features",
+  "data selection",
+  "mechanistic interpretability",
+  "pre-registration"
+ ],
+ "related_identifiers": [
+  {
+   "relation": "isSupplementTo",
+   "identifier": "<NUTZER: arXiv-ID oder URL, falls vorhanden>"
+  }
+ ],
+ "notes": "AI use: planning, code and text were produced substantially by AI agents (Claude, with Codex reviews); responsibility lies with the human authors. Excluded from the package: lab/external/rfm-grokking (GPL-3.0, third party), raw run directories (large), .venv-gpu."
+}

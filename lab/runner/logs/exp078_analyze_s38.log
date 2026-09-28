@@ -1,0 +1,42 @@
+[guard] start at 2026-09-28T05:35:43.446703+02:00 Berlin, hard timeout 164.0 min (binding: session_budget)
+{
+ "n_valid": 10,
+ "problems": [],
+ "problems_secondary_10000": [],
+ "primary_D2000": {
+  "n": 10,
+  "mean": 5.836140720424682,
+  "sd": 0.8431532712751263,
+  "ci95": [
+   5.3712020208515945,
+   6.365313357185535
+  ],
+  "p_one_sided": 0.0009765625,
+  "n_positive": 10
+ },
+ "reading": "Steuerung überträgt sich auf zwei Schichten (Pilot)",
+ "secondary_D10000": {
+  "n": 10,
+  "mean": 10.018769959555538,
+  "sd": 0.8885933373640399,
+  "ci95": [
+   9.516720287409841,
+   10.575620175330704
+  ],
+  "p_one_sided": 0.0009765625,
+  "n_positive": 10
+ },
+ "secondary_paired_2L_minus_1L_at2000": {
+  "n": 10,
+  "mean": -2.417295959468826,
+  "sd": 1.781524513935557,
+  "ci95": [
+   -3.5113766734531366,
+   -1.3901199416934304
+  ],
+  "p_one_sided": 1.0,
+  "n_positive": 0
+ },
+ "n_generalised_both_arms": 10
+}
+[guard] completed (exit 0) after 1.0 s

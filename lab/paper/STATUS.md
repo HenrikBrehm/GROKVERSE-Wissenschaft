@@ -179,3 +179,5 @@ EXP-097 ist ein Pilot (16 Seeds): jede dieser Formulierungen bleibt als Explorat
 Abbildungen im Haupttext: Abb. 1 (Maske gegen gelernt), Abb. 2 (P1 Δ_pow), Abb. 6/8 (Wechselkosten), neue L0-Abbildung; Rest Anhang. **Vorgehen:** Kopie `draft_short.md` anlegen (alter Entwurf bleibt als Langfassung), dann abschnittsweise kürzen, jede Zahl gegen die Summaries prüfen lassen (unabhängige Prüfung), Abstract zuletzt.
 
 **Stand Schnitt (Sitzung 43):** [[paper/draft_short]] angelegt, bisher nur der Abstract-Entwurf (1428 Zeichen ohne L0-Satz) und die Gliederung. Unabhängige Zahlenprüfung läuft bzw. steht an.
+
+**Stand Schnitt (19:39):** [[paper/draft_short]] hat Abstract (1659 Zeichen + L0-Platz), Einleitung, Ergebnisse 1–3 und Diskussion/Grenzen, je unabhängig geprüft (alle Zahlen richtig; Vorbehalte und Geltungsbereich korrigiert). Fehlt: §2 Aufbau (kurz), §6 L0 (nach EXP-100), Abbildungsauswahl, Anhang-Verweise. **Für die menschliche Prüfung:** Tomàs Bernal et al. 2026 im PDF lesen (unsere Lesart „symmetrische Splits wählen die kodierte Untergruppe“ ist noch nicht am Volltext geprüft).

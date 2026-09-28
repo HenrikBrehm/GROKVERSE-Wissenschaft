@@ -1,6 +1,6 @@
 {
  "note": "calibration on seen R4 runs (exploration); a is frozen for the later out-of-sample test",
- "git_commit": "5e398bf18204d410b6c0cb867f63de99afd705a9",
+ "git_commit": "cd5ff0e5457c537b3e10722fe366fe528c993fd9",
  "n_runs": 240,
  "chance_overlap": 0.08928571428571429,
  "overlap_t2000": {
@@ -41,5 +41,13 @@
    "init_only": 0.17666666666666667,
    "combined_at_a_frozen": 0.3625
   }
- }
+ },
+ "mask_minus_init_t2000": {
+  "mean": 0.14416666666666664,
+  "ci95": [
+   0.1125,
+   0.17666666666666664
+  ]
+ },
+ "placebo_other_unit_mask_t2000": 0.09833333333333334
 }

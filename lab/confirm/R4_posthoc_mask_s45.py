@@ -27,7 +27,7 @@ LAB = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(LAB / "experiments/EXP-043-generalize-steering"))
 from make_split import mask_power  # noqa: E402
 
-P, K, UNITS, STEPS = 113, 56, 60, (2000, 8000)
+P, K, UNITS, STEPS = 113, 56, 60, (250, 2000, 8000)   # 250 added in session 45 after the review (descriptive; primary stays t = 2000)
 RAW, SPL = LAB / "confirm/r4_raw", LAB / "confirm/r4_splits"
 
 

@@ -53,6 +53,21 @@ def main() -> None:
     out["a_frozen"] = best
     out["summary"] = {f"t{t}": {"mask_only": out[f"overlap_t{t}"][1.0], "init_only": out[f"overlap_t{t}"][0.0],
                                 "combined_at_a_frozen": out[f"overlap_t{t}"][best]} for t in (2000, 8000)}
+    # session 45, after the independent recomputation (numbers were quoted from it): unit bootstrap of mask-only minus init-only
+    # at t = 2000 and the placebo with another unit's split (u + 1 mod 60, same s)
+    mo = np.array([overlap(r["pm"], r[2000]) for r in runs]).reshape(UNITS, 4).mean(1)
+    io = np.array([overlap(r["pi"], r[2000]) for r in runs]).reshape(UNITS, 4).mean(1)
+    rng = np.random.default_rng(1)
+    bi = rng.integers(0, UNITS, (20000, UNITS))
+    d = mo - io
+    out["mask_minus_init_t2000"] = {"mean": float(d.mean()), "ci95": [float(np.quantile(d[bi].mean(1), 0.025)),
+                                                                     float(np.quantile(d[bi].mean(1), 0.975))]}
+    pl = []
+    for i, r in enumerate(runs):
+        u, s = i // 4, i % 2
+        other = pct(m0c(np.load(SPL / f"r4_u{(u + 1) % UNITS}_s{s}.npy")))
+        pl.append(overlap(other, r[2000]))
+    out["placebo_other_unit_mask_t2000"] = float(np.mean(pl))
     (LAB / "confirm/R4_posthoc_predictor_s45.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if not k.startswith("overlap_")}, indent=1))
     print("curve t2000:", out["overlap_t2000"])

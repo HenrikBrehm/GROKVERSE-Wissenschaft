@@ -2,8 +2,13 @@
 
 Per seed (3850, 3851): ten distinct target frequencies drawn from 1..56 (first five F, last five G), for each arm the flat split
 S(1, D) of flat_marginal_split_s45.py, then m random swap moves (m = 0, 10, 500) that keep the counts of a, b and c exactly flat.
-Test set = complement (freq_ban default). Writes splits/s{seed}_{arm}_m{m}.npy + .json and prints the job lines.
+Review fixes (session 45, before any run): |S| = 3842 is not round(0.3 p^2) = 3831, and freq_ban checks that count, so every job
+passes --train-frac 0.3009 (round(0.3009 * 12769) = 3842; run ids get "_tf0.3009"). Test set: one common held-out set per seed,
+the pairs outside all six train splits of the seed (--test-file; freq_ban then names the run EXP-018_...), so every arm and every m
+is judged on the same pairs. The json key "m0_target_share" is the share of the M0 MASK spectrum of that file (not "m = 0").
+Writes splits/s{seed}_{arm}_m{m}.npy + .json and splits/s{seed}_test.npy; prints the job lines.
   python lab/experiments/EXP-104-flat-marginal-splits/design.py --splits
+  python lab/experiments/EXP-104-flat-marginal-splits/design.py --test
   python lab/experiments/EXP-104-flat-marginal-splits/design.py --jobs > lab/experiments/EXP-104-flat-marginal-splits/jobs.txt
 """
 from __future__ import annotations
@@ -21,7 +26,7 @@ sys.path.insert(0, str(LAB / "experiments/EXP-102-lm-ladder-stage1"))
 from flat_marginal_split_s45 import K, P, best_D, fold, mask_power, split_idx  # noqa: E402
 
 SEEDS, MOVES, ARMS = (3850, 3851), (0, 10, 500), ("F", "G")
-STEPS, SPECTRA_AT = 8000, "250,2000"
+STEPS, SPECTRA_AT, TF = 8000, "250,2000", 0.3009
 PY = "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe"
 SPL, RAW = HERE / "splits", HERE / "raw"
 
@@ -77,6 +82,17 @@ def make_splits() -> None:
                 print(out.name, len(flat), round(meta["m0_target_share"], 3))
 
 
+def make_test() -> None:
+    for seed in SEEDS:
+        out = SPL / f"s{seed}_test.npy"
+        if out.exists():
+            raise SystemExit(f"{out} exists: never overwrite")
+        used = np.unique(np.concatenate([np.load(SPL / f"s{seed}_{arm}_m{m}.npy") for arm in ARMS for m in MOVES]))
+        test = np.setdiff1d(np.arange(P * P), used).astype(np.int64)
+        np.save(out, test)
+        print(out.name, len(test))
+
+
 def jobs() -> None:
     for seed in SEEDS:
         for m in MOVES:
@@ -84,13 +100,15 @@ def jobs() -> None:
                 split = (SPL / f"s{seed}_{arm}_m{m}.npy").relative_to(LAB.parent).as_posix()
                 print(f"{PY} lab/experiments/EXP-001-freq-ban/freq_ban.py --seed {seed} --condition baseline --threads 1 "
                       f"--device cuda --out-root {RAW.relative_to(LAB.parent).as_posix()} --steps {STEPS} --split-file {split} "
-                      f"--spectra-at {SPECTRA_AT}")
+                      f"--spectra-at {SPECTRA_AT} --train-frac {TF} "
+                      f"--test-file {(SPL / f's{seed}_test.npy').relative_to(LAB.parent).as_posix()}")
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--splits", action="store_true")
+    g.add_argument("--test", action="store_true")
     g.add_argument("--jobs", action="store_true")
     a = ap.parse_args()
-    make_splits() if a.splits else jobs()
+    make_splits() if a.splits else make_test() if a.test else jobs()

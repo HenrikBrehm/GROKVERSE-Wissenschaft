@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-28, 21:47 Berlin (Sitzung 44 beendet, Abschlussbericht im JOURNAL; nächster Runner-Start 23:54, Läufe ab 23:59) (Sitzung 43; **Regel 20 Wochenplan gilt**; Rechenfenster durchgehend 28.09. 23:59 bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-28, 22:05 Berlin (Sitzung 45 läuft, Start 21:50, Deadline 00:49; Läufe ab 23:59 nach [[NACHT_2026-09-29]]) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend 28.09. 23:59 bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -46,6 +46,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 8. **GPU-Auslastung (Regel 20i) und Trainer-Hash, empfohlene Reihenfolge:** R10 fertig, ausgewertet und nachgerechnet → L0-Patch anwenden, testen, committen → **erst jetzt** R11 einfrieren (bindet dann den Trainer mit L0-Optionen; Standardverhalten unverändert) und als GPU-Füllarbeit neben den seriellen L0-Schritten (Smoke, Machbarkeit, Kalibrierung) rechnen: **R11 mit `--workers 5`, L0 mit höchstens 5** (Smoke 3), zusammen ≤ 10 GPU-Prozesse; die Worker-Zahlen in R11-Registrierung und EXP-100-README sind entsprechend gesetzt. Danach den Trainer bis zum Ende von R11 und L0 nicht mehr ändern. R11 stärkt Kernaussage 3 des Papers (bisher nur add 113) und ist kein Mechanismus-Detailversuch.
 
 **Sitzung 44 (neu, niedrige Priorität, GPU-Füllarbeit nach R10):** [[experiments/EXP-103-early-steering-curve/README|EXP-103]] (Teil A 100 × 250 Schritte `jobs.txt`, Teil B 40 × 2000 Schritte `jobs_cross.txt` mit lr·wd wie Preset, gepaart mit P1; `--workers` nur in freien GPU-Plätzen, Summe ≤ 10; kein Mechanismus-Detailversuch im Sinn von 20a, sondern Anhang-Stütze für R1/Paper (19a/20d) und Füllarbeit (20i); Lesarten in `analyze.py` bzw. `--cross`; Hypothese [[NOVEL_DIRECTIONS]] N51 „zwei Uhren“). Anlass: R1 post hoc (JOURNAL Zyklus 4): Δ_pow-Größen der lr/wd-Zellen liegen ab τ = t·lr·wd ≥ 250 auf der P1-Kurve (vorab-Lesart nur „teilweise“ wegen τ < 250). [[experiments/EXP-102-lm-ladder-stage1/README|EXP-102]]: Splits 3800–3809, `design.py --jobs` (200, inkl. Paar gebunden + alle Positionen mit/ohne b), `lm_ladder.py` geprüft.
+
+**Sitzung 45 (bis 23:59, ohne Läufe):** Bildunterschriften Abb. 1–4 in [[paper/draft_short]] (unabhängig geprüft, Abb. 3 neu gezeichnet); R10-Deutungen vorab in [[paper/R10_DEUTUNGEN]] (beim Einsetzen der Zahlen nur diese Sätze nehmen); neu N53 → [[experiments/EXP-104-flat-marginal-splits/README|EXP-104]] (flache Steuer-Splits, 12 GPU-Läufe, Exploration, **erst nach L0**, `--workers 2` in freien Plätzen).
 
 ## Prioritäten (Regel 20 geht vor; 18c + 19)
 

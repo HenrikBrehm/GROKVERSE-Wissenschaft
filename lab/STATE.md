@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-28, 19:09 Berlin (Sitzung 43, Fenster zu; Läufe ab 29.09. 00:00–13:00)._
+_Zuletzt aktualisiert: 2026-09-28, 19:14 Berlin (Sitzung 43; **Regel 20 Wochenplan gilt**; Rechenfenster durchgehend 28.09. 23:59 bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -18,31 +18,26 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 ## Aktive Queue / laufende Jobs
 
 - **Keine Prozesse** (Sitzung 43, 18:21 geprüft).
-- **R10 halb gerechnet:** eingefroren 7b583bdb (n = 48, Seeds 3500–3547, 480 GPU-Läufe). 268/480 gebunden (r10_raw/r10_bindings), 0 Fehler, Wächterstopp 17:52 regulär. **Ergebnisse ungesehen, nicht ansehen vor 480/480.**
-- **EXP-096 vorbereitet** (add 97 / mul 113, 160 GPU-Läufe, Seeds 3560–3575): Splits/Jobs/Smoke erzeugt und committet (a3bd9415, Sitzung 43). Selbsttest steht noch aus.
-- **EXP-098 vorbereitet** (K5 bei add 97 / mul 113, Pilot, Seeds 3660–3675, 160 GPU-Läufe; Splits/Jobs/Smoke committet 45d66cad; kein neuer Trainer-Code). Statische Prüfung: siehe JOURNAL Sitzung 43.
-- **EXP-097 vorbereitet** (Fassung 2, 3d34c7f8; Seeds 3600–3615, 160 GPU-Läufe; Splits/Jobs/Smoke committet). Die Trainer-Option liegt **nur als Patch** vor (`lab/experiments/EXP-097-sign-vs-staleness/trainer_psu.patch`): R10 und R11 binden den Hash von `freq_ban.py` (da4d7bc0…). Den Patch erst anwenden, wenn R10 und R11 ausgewertet und die Blöcke EXP-096/EXP-098 fertig sind (Schritt 7).
-- **EXP-099 vorbereitet** (N49: Adam in DFT-Koordinaten für W_E; Seeds 3680–3695, 192 GPU-Läufe; Commit 88407b05). Trainer-Option `--we-fourier-adam` als `lab/experiments/EXP-099-fourier-adam/trainer_wef.patch`, **setzt auf den EXP-097-Patch auf** (erst psu, dann wef).
-- **R11 entworfen** (Fassung 2 nach Prüfung, kein Blocker; `lab/tools/confirm_r11.py`, ungetestet; Seeds 3620–3649, 240 GPU-Läufe). Einfrieren in der Nacht laut [[confirm/R11_REGISTRATION_DRAFT|R11]] (Smoke über `--smoke-jobs`/`--smoke-check`).
+- **R10 halb gerechnet:** eingefroren 7b583bdb (n = 48, Seeds 3500–3547, 480 GPU-Läufe). 268/480 gebunden, 0 Fehler, Wächterstopp 17:52 regulär. **Ergebnisse ungesehen, nicht ansehen vor 480/480.** Regel 20a: zu Ende rechnen, Ergebnis in den Anhang (K5/R9/R10-Nebenabschnitt).
+- **Zurückgestellt nach Regel 20a (Mechanismus-/Detailversuche, NICHT starten; Vorbereitung bleibt erhalten):** EXP-096 (a3bd9415), EXP-097 (Patch `trainer_psu.patch`), EXP-098 (45d66cad), EXP-099 (Patch `trainer_wef.patch`, setzt auf psu auf). Entwurf R11 (Festlegung K4 bei add 97/mul 113, `confirm_r11.py`, Fassung 2) ebenfalls zurückgestellt; nur rechnen, wenn L0 die GPU nicht auslastet (Regel 20i) und die Paper-Planung ihn braucht.
+- **Trainer-Hash:** R10 bindet `freq_ban.py` (da4d7bc0…). Änderungen am Trainer (z. B. Minibatch für L0) erst nach `confirm_r10.py --analyze` committen; bis dahin nur als Patch.
 
-## Nächste Schritte (Nacht 29.09., ab 00:00; alles über guarded_run.py bzw. parallel_queue.py)
+## Nächste Schritte (Regel 20, verbindliche Reihenfolge; Läufe ab 28.09. 23:59 über guarded_run.py / parallel_queue.py)
 
-1. `python lab/tools/guarded_run.py --check`; kein STOP; Prozesse prüfen (`tasklist | grep -i python`). In `lab/confirm/r10_raw/` nach `run.lock` ohne `result.json` suchen (Wächterstopp): beiseitelegen (umbenennen `.stale_s42`), nicht löschen.
-2. **R10 fertig:** `python lab/tools/parallel_queue.py lab/confirm/R10_jobs.txt --workers 8` (im Hintergrund; gebundene Läufe werden übersprungen; ≈ 212 Läufe, grob 30–40 min). GPU-Prozesse insgesamt ≤ 10 (HIP-Startfehler bei 12–14).
-3. **Parallel dazu (≤ 2 weitere GPU-Worker):** EXP-096-Selbsttest `python lab/tools/guarded_run.py -- python lab/experiments/EXP-096-gradient-feedback-tasks/analyze.py --selftest`, Smoke `parallel_queue.py .../smoke.txt --workers 2`, dann `analyze.py --smoke-check` über den Wächter. Der Block (`jobs.txt --workers 8`) läuft erst nach R10.
-4. Nach 480/480: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r10.py --analyze lab/confirm/R10_manifest.json`. Ergebnis in [[confirm/R10_REGISTRATION_DRAFT|R10]], FINDINGS (K6-Kandidat), Paper §3.16 (falls bestätigt; sonst §4), unabhängig nachrechnen lassen.
-5. EXP-096-Block, dann `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-096-gradient-feedback-tasks/analyze.py`.
-6. **R11** ([[confirm/R11_REGISTRATION_DRAFT|R11]], K4 bei add 97 / mul 113, 240 GPU-Läufe ≈ 40 min), direkt nach Schritt 4: Prüfbefund aus Sitzung 43 im JOURNAL beachten, dann einfrieren laut Registrierung (Selbsttest → Manifest → Commit → Splits → Jobs → Smoke → Block → `--analyze`). Block neben dem EXP-096-Block (zusammen ≤ 10 GPU-Prozesse, z. B. 5 + 5).
-6b. **EXP-098** (Befehle in der README): mit dem eingefrorenen Trainer, neben R11/EXP-096 oder direkt danach (GPU-Prozesse ≤ 10). Nicht mitten im Block den EXP-097-Patch anwenden.
-7. **Erst nach R11 `--analyze` UND dem Ende der Blöcke EXP-096 und EXP-098** (beide mit dem eingefrorenen Trainer; R11 bindet den Hash von `freq_ban.py`): EXP-097 laut README: `git apply lab/experiments/EXP-097-sign-vs-staleness/trainer_psu.patch` → Trainer-Tests über den Wächter (9 Tests, neu `pre_switch_update`) → Trainer + Test committen → `analyze.py --selftest` → Smoke (3) → `--smoke-check` → Block (`--workers 8`) → `analyze.py`. Schlägt ein Test fehl: Patch zurücknehmen (`git checkout -- lab/experiments/EXP-001-freq-ban/freq_ban.py lab/tests/test_freq_ban_fingerprint.py`), Fehler im JOURNAL.
+1. `python lab/tools/guarded_run.py --check` (ab 23:59 allowed); kein STOP; Prozesse prüfen. In `lab/confirm/r10_raw/` nach `run.lock` ohne `result.json` suchen: beiseitelegen (`.stale_s42`), nicht löschen.
+2. **R10 fertig:** `python lab/tools/parallel_queue.py lab/confirm/R10_jobs.txt --workers 8` (≈ 212 Läufe, 30–40 min; GPU-Prozesse ≤ 10). Danach `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r10.py --analyze lab/confirm/R10_manifest.json`; Ergebnis in R10, FINDINGS, Paper-Anhang (Entscheidungstabelle in [[paper/STATUS]]), unabhängig nachrechnen.
+3. **PRIORITÄT 1, L0 „Menge gegen Reihenfolge“ (Regel 20b):** (a) LeDoux 2026 (arXiv 2603.25047) im Volltext lesen: Methode der Reihenfolge, p, Datenanteil, Batchgröße, Optimierer; Notiz in [[paper/related_work]]. (b) Trainer-Option für i.i.d.-Minibatch (AdamW, zwei Batchgrößen), SGD mit Momentum und eine feste Reihenfolge (Konflikt-Arm: Reihenfolge bevorzugt eine andere Frequenz als die Menge). Test zuerst, unabhängige Prüfung, commit **erst nach R10 `--analyze`**. (c) Pilot (bekannte oder frische Seeds, als Exploration gekennzeichnet): K2 (Δ_pow) und R5 (Zeit bis Grokking); sekundär Wechsel bei 25/50 unter Minibatch. (d) Registrierung mit Power aus dem Pilot, eingefrorenes Manifest, Holm, frische Seeds, Bestätigungsblock. Jeder Ausgang ist ein Befund.
+4. **Absicherung ohne neues Training (Regel 20c):** Nandas restricted/excluded loss an gespeicherten P2d/P2e/P2f-Modellen (nur eigene Zielfrequenzen, korrekte Same-Frequency-Masken, nicht das äußere Produkt aus dem alten BWKI-Code); K2 in RFM mit `git clone https://github.com/nmallinar/rfm-grokking` (Download im JOURNAL festhalten). Auswertungen, die Modelle laden, über den Wächter.
+5. **Paper schärfen (Regel 20d, Ziel ≈ Do 01.10.):** ≤ 8 Seiten, 3 Kernaussagen (K2 + R4; R5; K4c/R6/R8) + L0; Rest in den Anhang; Abstract < 1920 Zeichen; Einordnung Tomàs Bernal, Fu et al. 2026, Karkada et al. 2026, LeDoux-Zitat, Sweeney 2026; Zenodo-Paket vorbereiten, nicht hochladen.
+6. **Täglich (Regel 20h):** `lab/paper/erklaerung/ERKLAERUNG_<datum>.md` (eine Seite, einfaches Deutsch, 3 Jury-Fragen mit Antworten), in [[LAB]] verlinken.
+7. Ab ≈ Fr 02.10. nach L0: Sprachmodell-Leiter (Regel 20e), vorher Checkpoints (20g); Downloads nur nach 20f, alles im JOURNAL.
 
-8. **Nach EXP-097:** EXP-099 laut README (`git apply .../trainer_wef.patch` → 10 Trainer-Tests → commit → Selbsttest → Smoke → `--smoke-check` → Block → `analyze.py`).
+## Prioritäten (Regel 20 geht vor; 18c + 19)
 
-## Prioritäten (Regel 18c + 19)
-
-1. **B/K5-Linie:** R10 (Bestätigung EXP-095) und EXP-096 (Verallgemeinerung, Regel 15c).
-2. **Paper:** R10 → §3.16/§4; Literatur zu „frische Gradienten“ (Sitzung 43) in [[paper/related_work]].
-3. **C** ruht (EXP-076: einfachste AGF-Brücke negativ).
+1. **L0** Menge gegen Reihenfolge unter Minibatch (Pilot → Registrierung → Bestätigung).
+2. **Absicherung** Nanda restricted/excluded (P2d/e/f), K2 in RFM.
+3. **Paper** ≤ 8 Seiten, 3 Kernaussagen + L0, Zenodo-Paket; tägliche ERKLAERUNG.
+4. R10 zu Ende (Anhang). Mechanismus-Versuche (EXP-096–099) ruhen.
 
 ## Blocker / Hinweise
 

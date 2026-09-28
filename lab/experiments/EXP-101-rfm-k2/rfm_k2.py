@@ -236,6 +236,11 @@ def load(seed: int, arm: str) -> dict | None:
     return r
 
 
+def participation(P: np.ndarray) -> float | None:
+    P = np.clip(P, 0, None)
+    return float(P.sum() ** 2 / (P ** 2).sum()) if (P ** 2).sum() > 0 else None
+
+
 def boot_ci(d: np.ndarray, rng: np.random.Generator) -> list[float]:
     m = rng.choice(d, size=(BOOT, len(d)), replace=True).mean(1)
     return [float(np.quantile(m, 0.025)), float(np.quantile(m, 0.975))]
@@ -254,7 +259,10 @@ def analyze(seeds: list[int]) -> dict:
             continue
         T = {"F": r["F"]["targets"], "G": r["G"]["targets"]}
         row = {"seed": s, "acc_R": r["R"]["test_acc"][-1] if r["R"] else None,
-               "acc_F": r["F"]["test_acc"][-1], "acc_G": r["G"]["test_acc"][-1]}
+               "acc_F": r["F"]["test_acc"][-1], "acc_G": r["G"]["test_acc"][-1],
+               # descriptive: how sparse is the RFM spectrum at all? participation ratio (sum P)^2 / sum P^2 over k
+               # (56 = flat, 1 = one frequency); the transformer uses ~5 frequencies
+               "pr": {a: participation(np.array(r[a]["spec_offdiag"][-1])) for a in "RFG" if r[a]}}
         for key, it in (("dpow", -1), ("dpow_offdiag", -1), ("dpow_iter5", EARLY_ITER)):
             spec = "spec_offdiag" if key == "dpow_offdiag" else "spec"
             row[key] = delta_pow(np.array(r["F"][spec][it]), np.array(r["G"][spec][it]), T["F"], T["G"])

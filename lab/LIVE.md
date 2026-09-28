@@ -10,14 +10,15 @@ tags: [lab/live]
 
 ## Gerade
 
-Abschlussbericht steht im JOURNAL. Der R5-Block läuft bis zur Deadline (05:29) und wird dann vom Wächter beendet; das CPU-Programm (EXP-040) ebenso. Nächster Start des Runners: **06:04 Berlin** (Sitzung 38).
+Abschlussbericht steht im JOURNAL. **R5 fertig und bestätigt** (konstruierte Splits groken ×6.5–7.5 schneller, 20/20). Das CPU-Programm (EXP-040) wird an der Deadline vom Wächter beendet. Nächster Start des Runners: **06:04 Berlin** (Sitzung 38).
 
 ## Als Nächstes
 
-Sitzung 38: R5 fortsetzen und auswerten, EXP-040/014 neu starten, EXP-078 → R7, dann die Blöcke R3, P4, R2, R4.
+Sitzung 38: R5 ins Paper, EXP-040/014 neu starten, EXP-078 → R7, dann die Blöcke R3, P4, R2, R4.
 
 ## Verlauf dieser Sitzung
 
+- 05:16 **R5 bestätigt:** E vs R ×6.5, E vs D ×7.5 (je 20/20).
 - 04:42 R6 post hoc: Kosten und Persistenz je Seed (Vorzeichen kippt zwischen t = 25 und 30).
 - 04:38 **R3, P4, R2, R4 eingefroren** (Smokes grün); Paper: Abb. 8, Achille-Parallele.
 - 04:26 EXP-085 (MLP) nicht auswertbar; beschreibend keine Wechselkosten.

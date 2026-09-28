@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 20:19 Berlin (18:19Z, vom Runner)
 - **Deadline:** 2026-09-28 23:19 Berlin (21:19Z)
-- **Zuletzt aktualisiert:** 20:52 Berlin
+- **Zuletzt aktualisiert:** 21:03 Berlin
 - **Run-Fenster:** zu (Wächter: outside_window); öffnet 23:59, also nach dieser Sitzung. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
 
-Prüfung der Auswerteskripte EXP-102/EXP-103 läuft (nur lesend). Danach Befunde einarbeiten.
+Nächsten Zyklus wählen. Vorbereitet für die Nacht: R10 → L0 (Machbarkeit jetzt B = 256 und 64), EXP-101 (CPU), EXP-103 (GPU-Füllarbeit).
 
 ## Als Nächstes
 
@@ -18,6 +18,8 @@ Nächste Sitzung 23:54 Berlin; ab 23:59 R10 fertig → L0. Füllarbeit: EXP-101 
 
 ## Verlauf dieser Sitzung
 
+- 21:03 **L0-Vorhersage erster Ordnung:** Bei Batch 256 wäscht sich die Stride-Reihenfolge im Festlegungsfenster aus; bei Batch 64 ist sie in der ersten Epoche groß (bei 50 Schritten an der Kante, nachgerechnet). Machbarkeit auf B = 64 erweitert.
+- 20:59 Auswerteskripte EXP-102/103 geprüft (1 Major behoben); Plan für die R10-Nachrechnung abgelegt.
 - 20:52 EXP-103 Teil B: frühe Spektren (10–200) für den Zwei-Uhren-Test; N51-Gegenhinweis notiert.
 - 20:49 Paper §3.7: nachträglicher Absatz zur lr·wd-Zeit (geprüft, 1 Formulierung korrigiert); EXP-100: Erwartung vor dem Piloten; tägliche Erklärung ergänzt.
 - 20:46 Abb. 12 (R1 über Schritte vs. t·lr·wd); L0-SGD-Arm geprüft (kein Fehler).

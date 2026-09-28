@@ -13,7 +13,7 @@ Statistics as the frozen analysis (one-sided t-test, Holm with the P2b placehold
 --compare-n28 compares the per-arm mean pi with lab/confirm/N28_summary.json (same seeds 2200-2229) and fails above --tol.
 
   python lab/tools/guarded_run.py -- python lab/paper/repro/k4b.py --smoke                  # 1 seed, 300 steps, CPU
-  python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/k4b.py --device cuda --workers 8 --compare-n28
+  python lab/tools/guarded_run.py -- $PWD/.venv-gpu/Scripts/python.exe lab/paper/repro/k4b.py --device cuda --workers 8 --compare-n28
 """
 from __future__ import annotations
 

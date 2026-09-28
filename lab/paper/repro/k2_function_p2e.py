@@ -10,7 +10,7 @@ group order, equal-norm step along own vs 4 control sets, margin drop on pairs o
 --compare-p2e compares mean D per task with lab/confirm/P2e_summary.json and fails above --tol.
 
   python lab/tools/guarded_run.py -- python lab/paper/repro/k2_function_p2e.py --smoke       # 1 seed, 300 steps, CPU
-  python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/k2_function_p2e.py --device cuda --workers 8 --compare-p2e
+  python lab/tools/guarded_run.py -- $PWD/.venv-gpu/Scripts/python.exe lab/paper/repro/k2_function_p2e.py --device cuda --workers 8 --compare-p2e
 """
 from __future__ import annotations
 

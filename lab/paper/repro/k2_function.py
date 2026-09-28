@@ -12,7 +12,7 @@ control_sets, validity, verdict; model loading and margin evaluation as there):
 --compare-p2d compares mean D with lab/confirm/P2d_summary.json (same seeds) and fails above --tol.
 
   python lab/tools/guarded_run.py -- python lab/paper/repro/k2_function.py --smoke           # 1 seed, 300 steps, CPU
-  python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/k2_function.py --device cuda --workers 8 --compare-p2d
+  python lab/tools/guarded_run.py -- $PWD/.venv-gpu/Scripts/python.exe lab/paper/repro/k2_function.py --device cuda --workers 8 --compare-p2d
 """
 from __future__ import annotations
 

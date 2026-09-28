@@ -44,7 +44,7 @@ mit einem gespeicherten Lauf an allen gemeinsamen Schritten.
 **Gleichwertigkeitsprüfung (ab 00:00, GPU, gleiche Umgebung wie die Blöcke; Abnahme: relative Abweichung ≤ 1e-4 an allen gemeinsamen Schritten, Bitgleichheit wird nur berichtet):**
 
 ```
-G="C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe"   # s27 audit: absolute path (relative venv paths fail in CreateProcess); bash syntax, run from Git Bash
+G="$PWD/.venv-gpu/Scripts/python.exe"   # s27 audit: absolute path (relative venv paths fail in CreateProcess); bash syntax, run from Git Bash in the repo root ($PWD expands to it; Git Bash converts /c/... for python.exe)
 # K2 (P1, Seed 1000, Arm F, 2000 Schritte)
 python lab/tools/guarded_run.py -- $G lab/paper/repro/train.py --seed 1000 --steps 2000 --device cuda   --split-file lab/confirm/splits/confirm_exp1_eps2.0_add113_seed1000_F.npy --out lab/paper/repro/out/eq_p1_1000F   --compare-to lab/confirm/raw/EXP-016_baseline_seed1000_thr1_confirm_exp1_eps2.0_add113_seed1000_F_devcuda --tol 1e-4
 # K4d (N29b, Seed 2300, Wechsel bei 50 mit Attention-Reset, 4050 Schritte)
@@ -56,27 +56,27 @@ Schrittzahl; beide sind damit gleich lang. Besteht die Prüfung, folgen die Skri
 
 **K2-Skript `repro/k2.py` (Sitzung 25, ungetestet):** baut die P1-Splits (Versuchs-ID 1, ε = 2), trainiert F/G je Seed mit `repro/train.py`, berichtet Δ_pow bei 2000 (Mittel, Bootstrap-KI,
 Vorzeichentest) und mit `--compare-p1` die größte Abweichung je Seed zur eingefrorenen P1-Zusammenfassung. Smoke: `python lab/tools/guarded_run.py -- python lab/paper/repro/k2.py --smoke`
-(2 Seeds, 200 Schritte, CPU). Voll (GPU, ≈ 100 Läufe à 2000 Schritte): `python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/k2.py --device cuda --workers 8 --compare-p1`. Erst nach bestandener
+(2 Seeds, 200 Schritte, CPU). Voll (GPU, ≈ 100 Läufe à 2000 Schritte): `python lab/tools/guarded_run.py -- $PWD/.venv-gpu/Scripts/python.exe lab/paper/repro/k2.py --device cuda --workers 8 --compare-p1`. Erst nach bestandener
 Gleichwertigkeit (oben) laufen lassen. D₅₉ fehlt (anderer Trainer).
 
 **K4c-Skript `repro/k4c.py` (Sitzung 26, ungetestet):** baut die N29-Splits (`overlap_split`, ω = 0, kalibriertes ε), trainiert je Seed A→B und B→A bei t ∈ {25, 50} für t + 4000 Schritte mit
 `repro/train.py --save-model`, entfernt am Endmodell die alten bzw. neuen Zielfrequenzen aus W_E[:113] und misst die Genauigkeit auf der zurückgehaltenen Testmenge; H1/H2 wie N29 (t-Test, Holm,
 Bootstrap-KI über die Hilfsfunktionen von `confirm_p1`). `--compare-n29` vergleicht je Seed acc_alt/acc_neu mit `lab/confirm/N29_summary.json` (Abnahme ≤ 0.02). Smoke:
 `python lab/tools/guarded_run.py -- python lab/paper/repro/k4c.py --smoke` (1 Seed, 300 Schritte nach dem Wechsel, CPU). Voll (GPU, 80 Läufe, nach N29 ≈ 17 min mit 7–8 Arbeitern):
-`python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/k4c.py --device cuda --workers 8 --compare-n29`. Erst nach bestandener Gleichwertigkeit (oben).
+`python lab/tools/guarded_run.py -- $PWD/.venv-gpu/Scripts/python.exe lab/paper/repro/k4c.py --device cuda --workers 8 --compare-n29`. Erst nach bestandener Gleichwertigkeit (oben).
 
 **K4d/K4e-Skript `repro/k4_resets.py` (Sitzung 27, 16:27, ungetestet):** baut die N29b-/N29c-Splits wie `k4c.py`, trainiert je Seed A→B und B→A bei t = 50 für 4050 Schritte in drei Armen (`--block n29b`: normal, Attention-, MLP-Reset;
 `--block n29c`: normal, VO-, QK-Reset) mit `repro/train.py`, misst R = acc_neu − acc_alt und prüft H1/H2 wie eingefroren. `--compare` vergleicht das mittlere R je Arm mit `N29b_summary.json`/`N29c_summary.json` (Abnahme ≤ 0.05).
-Smoke: `python lab/tools/guarded_run.py -- python lab/paper/repro/k4_resets.py --block n29b --smoke`. Voll (GPU, je 120 Läufe): `python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/k4_resets.py --block n29b --device cuda --workers 8 --compare`.
+Smoke: `python lab/tools/guarded_run.py -- python lab/paper/repro/k4_resets.py --block n29b --smoke`. Voll (GPU, je 120 Läufe): `python lab/tools/guarded_run.py -- $PWD/.venv-gpu/Scripts/python.exe lab/paper/repro/k4_resets.py --block n29b --device cuda --workers 8 --compare`.
 Erst nach bestandener Gleichwertigkeit von `train.py`. Offen im Paket: K2-Funktion (P2d/P2e) und K4/K4b (P3/N28).
 
 **K4/K4b-Skript `repro/k4b.py` (Sitzung 27, 16:29, ungetestet):** baut die N28-Splits, trainiert rein A/B (2000 Schritte) und die Wechselarme normal@25, m@25, m@35, normal@50 (t + 2000) mit `repro/train.py` (neue Option `--reset-optim-part m`,
 wie `freq_ban.py`; Standardpfad unverändert), berechnet π aus dem Endspektrum und H1/H2 wie N28. `--compare-n28` vergleicht das mittlere π je Arm mit `N28_summary.json` (Abnahme ≤ 0.05). Smoke: `python lab/tools/guarded_run.py -- python lab/paper/repro/k4b.py --smoke`.
-Voll (GPU, 300 Läufe): `python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/k4b.py --device cuda --workers 8 --compare-n28`. Offen im Paket: K2-Funktion (P2d/P2e); P3 (Überschuss über die statische Spur) nicht als eigenes Skript.
+Voll (GPU, 300 Läufe): `python lab/tools/guarded_run.py -- $PWD/.venv-gpu/Scripts/python.exe lab/paper/repro/k4b.py --device cuda --workers 8 --compare-n28`. Offen im Paket: K2-Funktion (P2d/P2e); P3 (Überschuss über die statische Spur) nicht als eigenes Skript.
 
 **K2-Funktion-Skript `repro/k2_function.py` (Sitzung 27, 16:33, ungetestet):** baut die P2d-Splits (`confirm_splits`, Versuchs-ID 4, ε = 2, Seeds 2230–2249), trainiert F/G je 4000 Schritte mit `repro/train.py` und wendet die **eingefrorene** P2d-Messung an
 (Funktionen aus `confirm_p2d.py` nur gelesen importiert). `--compare-p2d` vergleicht das mittlere D mit `P2d_summary.json` (Abnahme ≤ 0.02 Logit-Einheiten). Smoke: `python lab/tools/guarded_run.py -- python lab/paper/repro/k2_function.py --smoke`.
-Voll (GPU, 40 Läufe): `python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/k2_function.py --device cuda --workers 8 --compare-p2d`. Nicht abgedeckt: P2e (mul 113, add 97).
+Voll (GPU, 40 Läufe): `python lab/tools/guarded_run.py -- $PWD/.venv-gpu/Scripts/python.exe lab/paper/repro/k2_function.py --device cuda --workers 8 --compare-p2d`. Nicht abgedeckt: P2e (mul 113, add 97).
 
 **K2-Funktion mul 113 / add 97, `repro/k2_function_p2e.py` (Sitzung 27, 16:40, ungetestet):** P2e-Splits (Versuchs-ID 5, Seeds 2270–2289), 8000 Schritte mit `repro/train.py`, eingefrorene P2e-Messung und -Auswertung (Holm über beide Aufgaben) aus `confirm_p2e.py` importiert.
 `--compare-p2e` vergleicht das mittlere D je Aufgabe (≤ 0.02). Smoke: `python lab/tools/guarded_run.py -- python lab/paper/repro/k2_function_p2e.py --smoke`. Voll (GPU, 80 Läufe à 8000 Schritte): wie oben mit `--device cuda --workers 8 --compare-p2e`.

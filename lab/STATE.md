@@ -17,7 +17,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Aktive Queue / laufende Jobs
 
-- **Keine Prozesse** (Sitzung 43, zuletzt 20:00 geprüft).
+- **Sitzung 45, 23:59:** R10-Queue gestartet (`parallel_queue.py lab/confirm/R10_jobs.txt --workers 8`, Log unter `lab/runner/logs/pq_*`), dazu Nanda (CPU). **Wiederaufnahme:** Queue einfach erneut starten (gebundene Läufe werden übersprungen); `run.lock` ohne `result.json` beiseitelegen (`.stale_s45`); Nanda schreibt `P2_nanda_s43.json` (bei Abbruch `.partial.json` beiseitelegen und neu starten).
 - **R10 halb gerechnet:** eingefroren 7b583bdb (n = 48, Seeds 3500–3547, 480 GPU-Läufe). 268/480 gebunden, 0 Fehler, Wächterstopp 17:52 regulär. **Ergebnisse ungesehen, nicht ansehen vor 480/480.** Regel 20a: zu Ende rechnen, Ergebnis in den Anhang (K5/R9/R10-Nebenabschnitt).
 - **Zurückgestellt nach Regel 20a (Mechanismus-/Detailversuche, NICHT starten; Vorbereitung bleibt erhalten):** EXP-096 (a3bd9415), EXP-097 (Patch `trainer_psu.patch`), EXP-098 (45d66cad), EXP-099 (Patch `trainer_wef.patch`, setzt auf psu auf). Entwurf R11 (Festlegung K4 bei add 97/mul 113, `confirm_r11.py`, Fassung 2): als GPU-Füllarbeit nach dem L0-Patch-Commit einfrieren (siehe Schritt 8).
 - **Trainer-Hash:** R10 bindet `freq_ban.py` (da4d7bc0…). Änderungen am Trainer (z. B. Minibatch für L0) erst nach `confirm_r10.py --analyze` committen; bis dahin nur als Patch.

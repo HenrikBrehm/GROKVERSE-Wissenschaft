@@ -939,7 +939,7 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
 - **Ergebnis (Sitzung 36, 01:31):** *nicht auswertbar* nach der vorab festgelegten Regel. Transformer P1: 99/107 Nicht-Ziel-Glieder gerade Oberwellen (erwartet 9.3 %, p = 8e-92), ungerade 3k 9/107 (p = 0.67). MLP EXP-045: **0 Nicht-Ziel-Glieder in 20 Läufen** (Top-5 = Ziele). Die MLP-Seite braucht ein Maß ohne Top-5-Schnitt (Energieanteil auf fold(2k)); das wäre ein neuer Versuch, kein Nachtrag. `lab/confirm/N45_even_harmonics_s35.json`, [[JOURNAL]] Sitzung 36.
 
 
-## N46: Mengen- oder Phasenkonflikt? Die Wechselkosten gegen die Gegenrichtung erster Ordnung bei gleicher Zielmenge (Sitzung 37, 04:40 gemessen, vor jeder Rechnung) #neu/kandidat
+## N46: Mengen- oder Phasenkonflikt? Die Wechselkosten gegen die Gegenrichtung erster Ordnung bei gleicher Zielmenge (Sitzung 37, 04:38 gemessen, vor jeder Rechnung) #neu/kandidat
 
 Zurück: N43 · [[confirm/R8_REGISTRATION_DRAFT|R8]] (bestätigt: nur ein Wechsel der Zielmenge kostet) · [[FINDINGS]] größte offene Frage.
 - **Offener Rest von R8:** A2 hat dieselben Zielfrequenzen, aber neue, teilweise umgekehrte Wellenphasen (cos −0.52 zu A bei F). Trotzdem kostet A→A2 nichts. Das spricht schon gegen einen *reinen* Phasenkonflikt, schließt ihn aber nicht aus, weil nur eine Phasenlage geprüft ist.

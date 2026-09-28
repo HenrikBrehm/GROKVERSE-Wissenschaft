@@ -102,5 +102,6 @@ Abnahmeregel Fall 1 (Gleichwertigkeit bitgleich, Sitzung 37) → Schwellen der S
 | `k4_resets.py --block n29b` | R normal 0.860, Attention-Reset −0.628, MLP-Reset 0.793; H1 1.489, H2 1.421 (je 20/20) | N29b: Abweichung exakt 0 → **reproduziert** | 2162 s |
 | `k4_resets.py --block n29c` | R normal 0.814, VO-Reset −0.036, QK-Reset 0.716; H1 0.850 (16/20), H2 0.752 (17/20), 17/20 generalisiert | N29c: Abweichung exakt 0 → **reproduziert** | 2305 s |
 | `k2_function.py` (P2d, add 113, 20 Seeds) | D = 0.2496 [0.2291, 0.2699], 20/20, bestätigt | P2d: eingefroren 0.2496, max. Abweichung je Seed 7.4·10⁻⁸ (Schwelle 0.02) → **reproduziert** | 886 s |
-| übrige (k4b, k2 mul 113 / add 97, k2_function_p2e) | 15:37 angehalten (GPU für EXP-094; „EXIT 1“ bei k2 mul = dieser Abbruch); Wiederaufnahme mit derselben Kette (fertige Läufe werden wiederverwendet) | – | – |
+| `k4b.py` (N28, 30 Seeds; Sitzung 42, GPU geteilt mit EXP-095) | π normal25 0.340, m25 0.189, m35 0.410, normal50 0.998; H1 0.101 [0.077, 0.126], H2 0.120 [0.090, 0.152] (je 29/30) | N28: max. Abweichung je Seed 4.4·10⁻¹⁶ → **reproduziert** | 1867 s (unter Last) |
+| übrige (k2 mul 113 / add 97, k2_function_p2e) | laufen in Sitzung 42 (`repro_s42.sh`); zuvor 15:37 angehalten (GPU für EXP-094; „EXIT 1“ bei k2 mul = dieser Abbruch); Wiederaufnahme mit derselben Kette (fertige Läufe werden wiederverwendet) | – | – |
 

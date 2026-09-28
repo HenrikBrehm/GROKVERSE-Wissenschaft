@@ -1,0 +1,51 @@
+[guard] start at 2026-09-28T06:20:20.518205+02:00 Berlin, hard timeout 119.4 min (binding: session_budget)
+{
+ "registration": "lab/confirm/C3_REGISTRATION.md",
+ "gate": {
+  "registration": "lab/confirm/C3_REGISTRATION.md",
+  "code_sha256": {
+   "lab/confirm/C3_analyze.py": "c6281a95bd1369338d1ef99a15f3de667fcd0efca7432a7840e8d92b39305ce2",
+   "lab/confirm/C1_analyze.py": "cf935f517fecd3a3395ed8535589c3984c14c3e1b14162dabf71a725fd8eb1d6",
+   "lab/confirm/rank_tools.py": "f0f7464ea1a392f68bb537aaeb7d3b1b6c212e1a4073dd159f882736f41f6fbf",
+   "lab/confirm/P1_posthoc_within.py": "d62db4c56c2cde725dc5978d9aa5de3c6040e3c284d2d1d1766d040b6da1f57f"
+  },
+  "note": "code gate, session 28, before any P4 run (after Codex review)",
+  "gate_commit": "96380b23d5eaba6d513ba705ec4500e4b2aea029"
+ },
+ "p4_manifest_commit": "96503bfd",
+ "code_sha256": {
+  "lab/confirm/C3_analyze.py": "c6281a95bd1369338d1ef99a15f3de667fcd0efca7432a7840e8d92b39305ce2",
+  "lab/confirm/C1_analyze.py": "cf935f517fecd3a3395ed8535589c3984c14c3e1b14162dabf71a725fd8eb1d6",
+  "lab/confirm/rank_tools.py": "f0f7464ea1a392f68bb537aaeb7d3b1b6c212e1a4073dd159f882736f41f6fbf",
+  "lab/confirm/P1_posthoc_within.py": "d62db4c56c2cde725dc5978d9aa5de3c6040e3c284d2d1d1766d040b6da1f57f"
+ },
+ "primary": {
+  "counts": {
+   "mlp": 15,
+   "d512": 15,
+   "intadd": 15
+  },
+  "S": 0.3022222222222222,
+  "p": 4.9999750001249995e-06,
+  "ci95": [
+   0.19999999999999998,
+   0.40111111111111114
+  ],
+  "adjusted_coef": 0.2963481785825019,
+  "adjusted_ci95": [
+   0.1942127853174695,
+   0.3969586200185285
+  ],
+  "cell_means": {
+   "mlp": 0.2700000000000001,
+   "d512": 0.31333333333333335,
+   "intadd": 0.3233333333333333
+  },
+  "missing_seeds": 0,
+  "S_if_missing_were_minus_1": 0.3022222222222222,
+  "verdict": "bestätigt"
+ },
+ "descriptive_mean_rho_init": 0.17333333333333334,
+ "dropped": []
+}
+[guard] completed (exit 0) after 84.8 s

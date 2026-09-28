@@ -1,8 +1,8 @@
 ---
 id: P4-registrierung-entwurf
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-27
-tags: [lab/bestaetigung, exp/vorbereitet, lab/paper]
+tags: [lab/bestaetigung, exp/abgeschlossen, befund/positiv, lab/paper]
 verwandt: ["[[paper/STATUS]]", "[[FINDINGS]]", "[[experiments/EXP-045-mlp-steering/README|EXP-045]]", "[[experiments/EXP-048-intadd-steering/README|EXP-048]]", "[[experiments/EXP-049-width-steering/README|EXP-049]]", "[[confirm/P1_REGISTRATION_DRAFT|P1]]"]
 ---
 # P4-Bestätigung (Regel 19b): K2 in der MLP-Architektur, bei 4× Breite und für nicht-modulare Addition. **ENTWURF, nicht eingefroren, kein Code**
@@ -52,3 +52,12 @@ Offene Punkte: Das trendbereinigte Maß aus EXP-048 `analyze.py` wiederverwenden
   Ergebnisordner je Trainer im Selbsttest (die echten Pilot-Ergebnisfelder wurden von mir und Codex gegen `Expect` geprüft; der Smoke vor dem Block prüft den Lader an einem echten Lauf).
 
 - **Eingefroren (Sitzung 37, 2026-09-28, Berlin):** Selbsttest grün (Sitzung 37), Codex-Prüfung Sitzung 25 umgesetzt (oben). Manifest `lab/confirm/P4_manifest.json` (Entwurf ohne Notiz + `code_sha256`), Commit-ID im Feld `commit`. Das C3-Code-Tor liegt vor diesem Commit. Bereits gesehene Daten: wie oben (Piloten EXP-045/048/049); kein Lauf mit den P4-Seeds vor dem Einfrieren.
+
+## Ergebnis (Sitzung 38, 2026-09-28, 06:21 Berlin gemessen; Block 90/90 ok, GPU, 05:55–06:19; `--analyze` über den Wächter, `P4_summary.json`, Log `P4_block_s38.log`/`P4_analyze_s38.log`)
+
+**Alle drei Hypothesen *bestätigt*** (Holm über 3, je n = 15, 0 technische Ausfälle, je 15/15 positiv, Holm-p 9.2·10⁻⁵ = kleinster möglicher Wert des Tests):
+- **H4a MLP** (geteiltes Embedding, Δ_pow bei 10 000): **8.89** [7.86, 9.84]; bei 2000 (sekundär) 2.35; 30/30 Arme generalisiert (Median-Test 1.0).
+- **H4b Transformer d = 512** (Δ_pow bei 2000): **7.84** [7.23, 8.38]; 30/30 Arme generalisiert.
+- **H4c Integer-Addition** (trendbereinigtes Δ_pow bei 2000): **2.35** [2.05, 2.72]; roh (sekundär) 2.24. **Keiner** der 30 Arme generalisiert (Median-Test 0.26): Die Steuerung der W_E-Frequenzen gilt hier ohne Generalisierung innerhalb von 2000 Schritten.
+Alle KI-Untergrenzen liegen weit über dem Mindesteffekt 1; die Piloten (MLP 7.68 bei 10 000, Breite und Integer ≈ 2.2–2.5 laut Pilot) haben sich übertragen.
+**C3** (eigene Familie, an denselben Läufen, Tor vor dem Manifest): Die Zielrangfolge in W_E bei 2000 folgt dem Maskenspektrum, S = **0.30** [0.20, 0.40], p = 5·10⁻⁶, bereinigt 0.30 [0.19, 0.40] → ***bestätigt*** (MLP 0.27, d512 0.31, Integer 0.32; Init-Korrelation beschreibend 0.17; `C3_summary.json`).

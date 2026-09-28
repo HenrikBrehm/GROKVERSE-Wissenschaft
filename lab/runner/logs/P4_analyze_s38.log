@@ -1,0 +1,62 @@
+[guard] start at 2026-09-28T06:20:07.421141+02:00 Berlin, hard timeout 119.6 min (binding: session_budget)
+{
+ "manifest_commit": "96503bfd",
+ "min_effect": 1.0,
+ "conditions": {
+  "mlp": {
+   "n": 15,
+   "mean": 8.893369867749,
+   "sd": 2.018875394428066,
+   "p": 3.0517578125e-05,
+   "ci95": [
+    7.855315017836737,
+    9.841449602848948
+   ],
+   "n_positive": 15,
+   "n_technical": 0,
+   "secondary_mean": 2.3522675955891903,
+   "secondary_n": 15,
+   "median_test_acc": 1.0,
+   "n_arms_generalised": 30,
+   "p_holm": 9.1552734375e-05,
+   "verdict": "bestätigt"
+  },
+  "d512": {
+   "n": 15,
+   "mean": 7.837088629369365,
+   "sd": 1.1765508929637534,
+   "p": 3.0517578125e-05,
+   "ci95": [
+    7.226938361903513,
+    8.384499817868937
+   ],
+   "n_positive": 15,
+   "n_technical": 0,
+   "secondary_mean": null,
+   "secondary_n": 0,
+   "median_test_acc": 1.0,
+   "n_arms_generalised": 30,
+   "p_holm": 9.1552734375e-05,
+   "verdict": "bestätigt"
+  },
+  "intadd": {
+   "n": 15,
+   "mean": 2.3534459557111846,
+   "sd": 0.691037061485686,
+   "p": 3.0517578125e-05,
+   "ci95": [
+    2.0497897724387726,
+    2.7211822828003456
+   ],
+   "n_positive": 15,
+   "n_technical": 0,
+   "secondary_mean": 2.241289252970785,
+   "secondary_n": 15,
+   "median_test_acc": 0.255202516913414,
+   "n_arms_generalised": 0,
+   "p_holm": 9.1552734375e-05,
+   "verdict": "bestätigt"
+  }
+ }
+}
+[guard] completed (exit 0) after 5.5 s

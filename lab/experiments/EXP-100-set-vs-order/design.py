@@ -18,7 +18,7 @@ would otherwise be skipped or refused and would leak into the pilot (review s43,
 
   python lab/experiments/EXP-100-set-vs-order/design.py            # splits -> splits/, never overwrites
   python lab/experiments/EXP-100-set-vs-order/design.py --calib    # SGD lr calibration jobs (seeds 3700-3701, split F)
-  python lab/experiments/EXP-100-set-vs-order/design.py --jobs     # all pilot jobs (refuses while SGD_LR is None)
+  python lab/experiments/EXP-100-set-vs-order/design.py --jobs     # all pilot jobs (refuses while SGD_LR is None, unless SGD_DROPPED)
   python lab/experiments/EXP-100-set-vs-order/design.py --smoke    # seed 3700: one short job per new option combination
 """
 from __future__ import annotations
@@ -47,6 +47,7 @@ R_ARMS = ("iid256", "stride256")
 FEAS_EXTRA = {"stride64": (64, "stride", "adamw", MB_STEPS)}   # s44: first-order window prediction -> feasibility also at B = 64
 FEAS_ARMS = ("iid256", "stride256", "iid64", "stride64")
 CONFLICT_B64 = False   # s44: set True (and record in the README) if feas_read.py shows an order effect only at B = 64
+ALL_ARMS = dict(ARMS)            # s44: unchanged lookup for calib()/smoke(), also after SGD_DROPPED
 if SGD_DROPPED:
     ARMS = {k: v for k, v in ARMS.items() if k != "sgdm256"}
 if CONFLICT_B64:       # one switch: conflict arm stride64 on F/G and the R pair iid64/stride64 (review s44: R_ARMS must grow too)
@@ -101,7 +102,7 @@ def write_splits() -> None:
 
 
 def line(s: int, split: str, arm: str, sgd_lr: float | None = None, steps: int | None = None, root: str = "raw") -> str:
-    bs, order, opt, budget = {**ARMS, **FEAS_EXTRA}[arm]
+    bs, order, opt, budget = {**ALL_ARMS, **ARMS, **FEAS_EXTRA}[arm]
     budget = steps or budget
     spec = ",".join(str(x) for x in sorted({50, 250, 2000, budget} | set(range(2500, budget + 1, 2500))))
     cmd = (f"{PY} {FB} --seed {s} --condition baseline --threads 1 --device cuda --test-file {REL}/splits/seed{s}_test.npy "

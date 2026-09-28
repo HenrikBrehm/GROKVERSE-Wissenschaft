@@ -25,7 +25,7 @@ Zweck: Die Deutung jedes möglichen Ausgangs steht fest, bevor die Läufe da sin
 ## Reihenfolge allein (`Reihenfolge_allein`, Zufallssplit R)
 - **„wirkt“:** *On a random split the stride order alone selects its dual frequency, replicating LeDoux's effect at 30 % data.*
 - **„wirkt nicht“:** *On a random split the stride order alone does not select its frequencies at 30 % data.*
-- **„unklar“:** *On a random split the stride order shifts the peak into O in some runs but neither criterion is met (peak in O in between 25 % and 75 % of runs, or an order-share difference whose CI excludes 0 without a peak shift); we report it as unclear.*
+- **„unklar“:** *On a random split the evidence for an order effect is intermediate, and neither criterion is met (peak in O in between 25 % and 75 % of runs, or an order-share difference whose CI excludes 0 without a peak shift); we report it as unclear.*
 
 ## Festlegungsfenster unter Minibatch (`switch_analyze.py`)
 - **„Fenster wie Full-Batch“:** *The early lock-in of Result 3 also appears under i.i.d. minibatches of 256 (a switch after 50 steps keeps more of the old choice than after 25).*

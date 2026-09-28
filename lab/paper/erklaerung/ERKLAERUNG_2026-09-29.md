@@ -15,9 +15,16 @@ Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · [[NACHT_2026-09-29]]
 
 ## Was heute herauskam
 
-*(wird von der Nachtsitzung ergänzt)*
+**Schon am späten Abend des 28.09. (ohne neue Läufe, an gespeicherten Daten, unabhängig nachgerechnet):**
+- **Auch ein ganz normaler Zufallssplit lenkt.** Jede Auswahl von Trainingspaaren hat ein „Maskenspektrum“: wie stark jede Frequenz im Muster der gezeigten Paare steckt. Bei 60 Einheiten mit gewöhnlichen Zufallssplits lagen die fünf Frequenzen, die ein Netz am stärksten nutzt, im Mittel beim 78. Perzentil der eigenen Maske. Beim anderen, gleich großen Split derselben Einheit lagen sie nur beim 50. Perzentil, also beim Zufall (60 von 60 Einheiten). Unsere konstruierten Splits drehen also nur stärker an einem Regler, der immer schon da ist. *Grenze:* nachträglich gerechnet, eine Aufgabe; dass es genau über das Maskenspektrum läuft, ist nicht bewiesen.
+- **Kleinere Päckchen für den Reihenfolge-Test.** Die Rechnung sagt: Nur wenn ein Durchgang durch die Daten viel länger dauert als die 25–50 Schritte, in denen das Netz sich festlegt, kann eine feste Reihenfolge gegen die Menge ankommen. Deshalb testen wir heute Nacht zusätzlich Päckchen zu 16 Beispielen (240 Schritte je Durchgang).
+- **Ein neuer Split-Typ (Idee N53):** Paare so auswählen, dass jede Zahl in jeder Rolle genau gleich oft vorkommt und trotzdem fünf Frequenzen stark betont sind. Damit kann man später in einem Sprachmodell ausschließen, dass nur die Häufigkeit der Zahlen wirkt. Noch nicht trainiert.
+
+*(Nachtergebnisse folgen.)*
 
 ## Drei Fragen, die eine Jury stellen könnte
+
+0. **„Wenn schon Zufallssplits lenken, ist euer Ergebnis dann nicht trivial?“** – Nein: Beim Zufall ist der Effekt klein und nicht steuerbar (die gemeinsamen Top-Frequenzen zweier Netze mit gleichem Split: etwa eine von fünf). Mit konstruierten Splits wählt man die Frequenzen vorher aus, und das Netz folgt in 50 von 50 Fällen. Dass beides in dieselbe Richtung zeigt, macht die Erklärung einheitlicher.
 
 1. **„Warum schreibt ihr Vorhersagen auf, bevor ihr rechnet?“** – Damit wir uns hinterher nicht selbst etwas zurechtlegen. Jede Vorhersage steht mit Uhrzeit in git, bevor der passende Lauf startet.
 2. **„Was ist eine Epoche?“** – Ein kompletter Durchgang durch alle Trainingsbeispiele. Bei 3831 Beispielen und Päckchen zu 256 sind das 15 Schritte.

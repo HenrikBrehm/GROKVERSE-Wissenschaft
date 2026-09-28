@@ -937,3 +937,12 @@ Alle Einordnungen bleiben „nach unserer Suche vom 2026-09-26/27 nicht gefunden
 - **Lesart (vorab):** (i) Transformer 2k p < 0.01 **und** MLP 2k p ≥ 0.05 → „gerade Oberwellen in W_E nur im Transformer“ (Exploration; passt zu He et al. für das MLP); (ii) beide p < 0.01 → kein Transformer-Merkmal; (iii) Transformer nicht p < 0.01 → widerspricht der EXP-016-Exploration, EXP-021 abwarten; MLP mit < 8 Nicht-Ziel-Gliedern → nicht auswertbar; MLP 0.01 ≤ p < 0.05 → unklar. **Vorhersage:** (i).
 - **Grenzen:** Das MLP ist kein One-hot-Netz wie bei He et al. (gemeinsame Einbettung, dann W_in); F und G teilen die Init; die Null behandelt Frequenzen als unabhängig. Keine Neuheitssuche über die zwei Anfragen hinaus.
 - **Ergebnis (Sitzung 36, 01:31):** *nicht auswertbar* nach der vorab festgelegten Regel. Transformer P1: 99/107 Nicht-Ziel-Glieder gerade Oberwellen (erwartet 9.3 %, p = 8e-92), ungerade 3k 9/107 (p = 0.67). MLP EXP-045: **0 Nicht-Ziel-Glieder in 20 Läufen** (Top-5 = Ziele). Die MLP-Seite braucht ein Maß ohne Top-5-Schnitt (Energieanteil auf fold(2k)); das wäre ein neuer Versuch, kein Nachtrag. `lab/confirm/N45_even_harmonics_s35.json`, [[JOURNAL]] Sitzung 36.
+
+
+## N46: Mengen- oder Phasenkonflikt? Die Wechselkosten gegen die Gegenrichtung erster Ordnung bei gleicher Zielmenge (Sitzung 37, 04:40 gemessen, vor jeder Rechnung) #neu/kandidat
+
+Zurück: N43 · [[confirm/R8_REGISTRATION_DRAFT|R8]] (bestätigt: nur ein Wechsel der Zielmenge kostet) · [[FINDINGS]] größte offene Frage.
+- **Offener Rest von R8:** A2 hat dieselben Zielfrequenzen, aber neue, teilweise umgekehrte Wellenphasen (cos −0.52 zu A bei F). Trotzdem kostet A→A2 nichts. Das spricht schon gegen einen *reinen* Phasenkonflikt, schließt ihn aber nicht aus, weil nur eine Phasenlage geprüft ist.
+- **Idee:** Bei gleicher Zielmenge F und gleicher Stärke die Ausrichtung von A2 zu A in erster Ordnung (cos bei F) gezielt variieren, z. B. −0.5 / 0 / +0.3. Positive Ausrichtung verlangt Überlappung mit A (ω > 0) oder eine Auswahl nach der Phase von A. Dieselbe Konstruktion gibt es für B (andere Ziele). Vorhersage des Mengenmodells: C_AA2 ≈ 0 bei jeder Ausrichtung, C_AB > 0 bei jeder. Vorhersage des Phasenmodells: C_AA2 steigt mit negativer Ausrichtung.
+- **Kosten:** Splits reine numpy-Rechnung; 2000-Schritt-Läufe, ≈ 7 je Seed. Zuerst ein Pilot mit 10 bekannten Seeds.
+- **Priorität:** niedrig bis mittel. Erst nach den eingefrorenen Blöcken (R5, R3, P4, R2, R4, R7). Neuheit nicht geprüft (baut auf N43 auf; dortige Suchen vom 2026-09-27/28).

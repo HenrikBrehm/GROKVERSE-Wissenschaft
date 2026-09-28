@@ -1,8 +1,8 @@
 ---
 id: EXP-074
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/unklar]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-044-generalize-lockin/README|EXP-044]]", "[[experiments/EXP-067-exclusion-part/README|EXP-067]]", "[[experiments/EXP-069-attention-part/README|EXP-069]]", "[[confirm/N29b_REGISTRATION|N29b]]", "[[confirm/N29c_REGISTRATION|N29c]]", "[[JOURNAL]]"]
 ---
 # EXP-074: Gilt das Reset-Muster (Attention/Wertepfad, nicht MLP/Muster) auch bei add 97 und mul 113? (PILOT)
@@ -40,3 +40,9 @@ Anlass: Post hoc an N29b/N29c (Sitzung 32, Zyklen 12–13) verzögerten Resets b
 - **Gültigkeit:** alle fünf Arme und der G-Lauf je Einheit, gleiche Test- und Init-Prüfsumme; mindestens 16 Einheiten, sonst *nicht auswertbar*.
 - **Was dagegen spräche:** Q1 nicht in der Mehrheit, dann ist die VO-Verzögerung aus N29c aufgaben- oder blockspezifisch.
 - **Befehle (im Fenster, nach den EXP-074-Läufen):** `python lab/tools/guarded_run.py -- python lab/experiments/EXP-074-reset-other-tasks/time_cost.py --selftest`, dann ohne `--selftest`. Ungetestet (nur Syntaxprüfung).
+
+## Ergebnis (Sitzung 36, 2026-09-28, Läufe 02:18–02:26, Auswertung 02:27 Berlin, gemessen)
+
+100/100 Läufe ok (GPU, `--workers 8`). **Lesart nach Regel: *unklar* für beide Aufgaben.** add 97 (10 gültig): Median Δπ attn 0.32 (5/10 > 0.3), vo 0.25, qk −0.01, mlp 0.07.
+mul 113 (9 gültig): attn 0.31 (5/9), vo 0.28, qk −0.00, mlp −0.00. Die Rangfolge wie bei add 113 (Attention/Wertepfad senken π, QK und MLP praktisch nicht) zeigt sich in beiden Aufgaben,
+aber schwächer als die Schwelle für „verallgemeinert“ (attn ≥ 0.4, ≥ 8/10 über 0.3). `time_cost.py` wurde in dieser Sitzung nicht mehr gerechnet (offen). [[JOURNAL]] Sitzung 36.

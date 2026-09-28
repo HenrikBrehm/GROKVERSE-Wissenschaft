@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 18:19 Berlin (16:19Z, vom Runner)
 - **Deadline:** 2026-09-28 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 19:00 Berlin
+- **Zuletzt aktualisiert:** 19:04 Berlin
 - **Run-Fenster:** zu (heute bis 18:00). Ab 29.09. 00:00–13:00. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
 
-Nachtplan steht (R10 → R11 + EXP-096 + EXP-098 → EXP-097). Ich prüfe noch einmal die Befehlsfolge in STATE auf Lücken.
+Nachtplan ist vollständig und geprüft. Ich nutze die Restzeit für Denkarbeit und bereite den Abschlussbericht vor.
 
 ## Als Nächstes
 
-Abschlussbericht vorbereiten; bis zur Deadline weitere Denkarbeit.
+Abschlussbericht vor 21:09.
 
 ## Verlauf dieser Sitzung
 
+- 19:04 R9-Nachauswertung korrigiert: Das Maß hängt an der Toleranz, und die Lesart bleibt „unklar“. Die EXP-095-Aussage ist bei allen Toleranzen stabil. N49 hat jetzt zwei konkurrierende Vorhersagen.
 - 19:00 R9 nachgesehen: Beim K5-Effekt ist die frühe Bewegung mit kurzen Adam-Fenstern kaum vorzeichen-quantisiert und selektiver (36/36), bei lr × 2 nicht (Hinweis).
 - 18:58 FINDINGS wieder auf eine Seite gebracht (Historie wortgleich nach FINDINGS_DETAILS). Paper-Folgen der Nachtergebnisse vorab festgelegt.
 - 18:57 EXP-098 geprüft (kein Blocker), Offenlegungen ergänzt.

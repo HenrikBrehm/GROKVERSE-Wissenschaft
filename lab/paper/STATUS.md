@@ -160,3 +160,20 @@ EXP-097 ist ein Pilot (16 Seeds): jede dieser Formulierungen bleibt als Explorat
 | EXP-098 „nur Richtung“ / „nicht verallgemeinert“ / „unklar“ | §3.15-Grenzen: „tested at add 113 only; a pilot in add 97/mul 113 gave <Lesart>“ |
 | EXP-096 „verallgemeinert“ / sonst | §4 EXP-095-Absatz um einen Satz zur Verallgemeinerung ergänzen (Pilot) bzw. „not replicated in <Aufgabe>“ |
 
+## Schnittplan (Regel 20d, Sitzung 43, 19:29; Ziel ≈ Do 01.10.)
+
+**Ist-Stand (gezählt):** Entwurf ≈ 21 600 Wörter; Abstract 4655 Zeichen (Ziel < 1920); §4 Explorationen allein ≈ 5700 Wörter. Ziel Haupttext ≤ 8 Seiten (≈ 4500–5000 Wörter inklusive Abbildungsunterschriften).
+
+| Teil | Neuer Ort | Umfang (Richtwert) |
+|---|---|---|
+| Abstract | neu schreiben, 3 Kernaussagen + L0, < 1920 Zeichen | 250 Wörter |
+| §1 Einleitung + §1b Verwandte Arbeiten | zusammenlegen; neu: LeDoux (Reihenfolge), Tomàs Bernal (Kernel), Fu et al. 2026, Karkada et al. 2026, Sweeney 2026; „nach unserer Suche nicht gefunden“ | 900 |
+| §2 Aufbau | kürzen, Minibatch-Protokoll für L0 ergänzen | 600 |
+| **Kernaussage 1: Datenauswahl steuert die Frequenzen** | §3.1 (K2) + §3.2 (Funktion) + §3.14 (R4, Zufallssplit) + ein Satz zu R1/P4/R7 (Robustheit, Details im Anhang) | 900 |
+| **Kernaussage 2: konstruierte Splits beschleunigen** | §3.9 (R5) | 450 |
+| **Kernaussage 3: Festlegung in 25–50 Schritten** | §3.3 (K4/K4b) + §3.4 (K4c) + §3.8 (R6/R8) | 900 |
+| **L0: Menge gegen Reihenfolge** | neu nach EXP-100 und Bestätigung | 450 |
+| Diskussion + Grenzen | §5b + §6 gekürzt; §5 Theorie als 1 Absatz, Rest Anhang | 600 |
+| **Anhang** | §3.5 (Resets), §3.6 (D₅₉), §3.7, §3.10–§3.13, §3.15 + R10 (K5/Uhr), §4 Explorationen, §5 Theorie, Reproduktion, Verifikation | unbegrenzt |
+
+Abbildungen im Haupttext: Abb. 1 (Maske gegen gelernt), Abb. 2 (P1 Δ_pow), Abb. 6/8 (Wechselkosten), neue L0-Abbildung; Rest Anhang. **Vorgehen:** Kopie `draft_short.md` anlegen (alter Entwurf bleibt als Langfassung), dann abschnittsweise kürzen, jede Zahl gegen die Summaries prüfen lassen (unabhängige Prüfung), Abstract zuletzt.

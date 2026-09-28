@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 21:49 Berlin (19:49Z, vom Runner)
 - **Deadline:** 2026-09-29 00:49 Berlin (22:49Z)
-- **Zuletzt aktualisiert:** 22:40 Berlin
+- **Zuletzt aktualisiert:** 22:48 Berlin
 - **Run-Fenster:** zu bis 23:59 (Wächter Exit 3 = „noch nicht“). Ab 23:59 durchgehend (Regel 20).
 
 ## Gerade
 
-L0 vorbereitet für den Fall „Reihenfolge wirkt nur bei Batch 16“ (Schalter + Auswertung); unabhängige Prüfung läuft. Danach Warten auf 23:59.
+Vorbereitung abgeschlossen; warte auf das Rechenfenster (23:59). Kleinere Paper-Arbeit bis dahin.
 
 ## Als Nächstes
 
@@ -18,6 +18,7 @@ L0 vorbereitet für den Fall „Reihenfolge wirkt nur bei Batch 16“ (Schalter 
 
 ## Verlauf dieser Sitzung
 
+- 22:48 Vorhersager (Maske gegen Init-Energie) an R4 kalibriert und unabhängig bestätigt: Maske 0.34, Init-Energie 0.19, Zufall 0.09; Gewicht eingefroren für den Test an unberührten Läufen heute Nacht.
 - 22:40 L0: Schalter CONFLICT_B16 + Auswertung (Standard aus, Joblisten unverändert). Vorab-Vorhersage an 18 unberührten Machbarkeitsläufen: Zufallssplits folgen ihrer eigenen Maske auch unter Minibatch.
 - 22:37 Vor dem Lauf geprüft: Nanda-Skript (Hash-Prüfung ergänzt) und EXP-103 (zweite Vergleichsregel) – keine Blocker.
 - 22:27 Paper: Tabelle 1 mit allen 19 Bestätigungsblöcken; Zitate Gromov/Zhong ergänzt; Erklärung für den Nutzer (29.09.) um die Abendbefunde ergänzt.

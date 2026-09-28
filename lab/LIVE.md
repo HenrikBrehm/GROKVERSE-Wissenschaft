@@ -10,7 +10,7 @@ tags: [lab/live]
 
 ## Gerade
 
-**Sitzung beendet** (00:35). R10 fertig und nachgerechnet, Nanda fertig, L0-Trainer-Patch angewendet und getestet. Der letzte RFM-Lauf endet mit dem Wächter um 00:49. Abschlussbericht im JOURNAL.
+**Sitzung beendet** (00:35). R10 fertig und nachgerechnet, Nanda fertig, L0-Trainer-Patch angewendet und getestet. RFM (EXP-101) ist mit allen 30 Läufen fertig geworden; keine Prozesse mehr. Abschlussbericht im JOURNAL.
 
 ## Als Nächstes
 

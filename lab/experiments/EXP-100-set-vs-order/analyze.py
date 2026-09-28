@@ -60,7 +60,7 @@ def suffix(arm: str) -> str:
 def load(s: int, split: str, arm: str):
     bs, order, opt, budget = D.ARMS[arm]
     pat = f"EXP-018_baseline_seed{s}_thr*_seed{s}_{split}{suffix(arm)}{SUF}"
-    L = load_run(find_run(RAW, pat), Expect(seed=s, device="cuda", max_steps=budget, split_file=SPL / f"seed{s}_{split}.npy",
+    L = load_run(find_run(HERE / D.ROOTS.get(arm, "raw"), pat), Expect(seed=s, device="cuda", max_steps=budget, split_file=SPL / f"seed{s}_{split}.npy",
                                             test_file=SPL / f"seed{s}_test.npy", config={"p": 113, "task": "add"},
                                             snapshots_at=(budget, 2000)))
     tag = f"seed {s} {split} {arm}"
@@ -212,6 +212,7 @@ def selftest() -> None:
     assert v["Konflikt"] == "beide wirken", v
     assert verdict([mk(s, 5.0, 5.0, False, False) for s in range(5)])["K2_MB"] == "nicht auswertbar"
     assert suffix("stride256") == "_bs256_ordstride" and suffix("iid64") == "_bs64" and suffix("fb") == ""
+    assert D.ROOTS["fb30k"] != "raw"           # fb and fb30k share the run id, so they need separate roots
     print("[exp100] selftest ok", flush=True)
 
 

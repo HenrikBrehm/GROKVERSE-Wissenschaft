@@ -8,7 +8,7 @@ tags: [exp/vorbereitet]
 
 Zurück: [[LAB]] · [[FINDINGS]] (K2, R5; alle Kernaussagen Full-Batch) · Regel 20b (Priorität 1) · Anlass: LeDoux 2026 (arXiv 2603.25047), Notiz in [[paper/related_work]] (Nachtrag Sitzung 43, 19:20) · Begründung [[paper/outreach/DECISION_2026-09-28]]
 
-**Stand:** Entwurf (Sitzung 43, 2026-09-28, ≈ 19:35 Berlin, Fenster zu). Trainer-Optionen liegen seit 19:20 als `trainer_l0.patch` vor (Test `test_minibatch_order` zuerst geschrieben; ungetestet, statische Prüfung läuft). Anwenden und committen erst nach `confirm_r10.py --analyze` (R10 bindet den Trainer-Hash). Achtung: Der Patch und der zurückgestellte EXP-097-Patch berühren dieselben Stellen, also nicht beide zugleich anwenden. `design.py` steht (19:22): Splits für die Seeds 3700–3707 erzeugt (numpy; Zielanteil F/G 0.177–0.194 wie P1; Zufallssplit R bei Zufallsniveau 0.09; O-Anteil in allen Splits ≈ Zufallsniveau 0.09–0.11), `calib.txt` (SGD-lr 0.1/0.3/1.0 an 2 Seeds) und `smoke.txt` (300 Schritte je neuer Option). `--jobs` verweigert, solange `SGD_LR` nicht aus der Kalibrierung gesetzt ist. `analyze.py` mit den Lesarten im Docstring steht (19:24, ungetestet; Selbsttest ab 23:59 über den Wächter). Vor dem Pilot-Block: statische Prüfung, dann `analyze.py` + `jobs.txt` committen (Festlegung). Pilot = Exploration; die Bestätigung folgt als eigene Registrierung (L0-R) mit Power aus diesem Pilot.
+**Stand:** Entwurf (Sitzung 43, 2026-09-28, ≈ 19:35 Berlin, Fenster zu). Trainer-Optionen liegen seit 19:20 als `trainer_l0.patch` vor (Test `test_minibatch_order` zuerst geschrieben; ungetestet, statisch geprüft, Befunde eingearbeitet). Anwenden und committen erst nach `confirm_r10.py --analyze` (R10 bindet den Trainer-Hash). Achtung: Der Patch und der zurückgestellte EXP-097-Patch berühren dieselben Stellen, also nicht beide zugleich anwenden. `design.py` steht (19:22): Splits für die Seeds 3700–3707 erzeugt (numpy; Zielanteil F/G 0.177–0.194 wie P1; Zufallssplit R bei Zufallsniveau 0.09; O-Anteil in allen Splits ≈ Zufallsniveau 0.09–0.11), `calib.txt` (SGD-lr 0.03/0.1/0.3/1.0/3.0 an 2 Seeds) und `smoke.txt` (300 Schritte je neuer Option). `--jobs` verweigert, solange `SGD_LR` nicht aus der Kalibrierung gesetzt ist. `analyze.py` mit den Lesarten im Docstring steht (19:24, ungetestet; Selbsttest ab 23:59 über den Wächter). Vor dem Pilot-Block: statische Prüfung, dann `analyze.py` + `jobs.txt` committen (Festlegung). Pilot = Exploration; die Bestätigung folgt als eigene Registrierung (L0-R) mit Power aus diesem Pilot.
 
 ## Frage
 
@@ -57,14 +57,16 @@ Prüfer (Claude-Agent, nur lesend, Splits im Speicher byte-genau nachgebaut, O d
 
 Umfang jetzt: 8 Seeds × (6 Arme × F/G + 2 R) = 112 Läufe, dazu Machbarkeit (6), Kalibrierung (10), Smoke (3).
 
+**Planprüfung Sitzung 43 (Blocker behoben):** `fb` und `fb30k` hatten dieselbe Run-ID (Schritte gehören nicht zur ID) → `fb30k` schreibt nach `raw_fb30k`, `analyze.py` lädt von dort. **GPU-Prozesse:** zusammen mit R11 höchstens 10 (z. B. R11 5 Worker, L0 höchstens 5; Smoke 3).
+
 ## Ablauf in der Nacht (nach R10 `--analyze` und dem Patch-Commit)
 
 ```
 python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/smoke.txt --workers 3     # s/Schritt messen, events.minibatch lesen
-python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/feas.txt --workers 6      # Machbarkeit: wirkt Stride bei 30 % Daten? Regel oben
-python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/calib.txt --workers 8     # SGD-lr wählen (Regel oben), SGD_LR in design.py setzen, README
+python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/feas.txt --workers 5      # Machbarkeit: wirkt Stride bei 30 % Daten? Regel oben
+python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/calib.txt --workers 5     # SGD-lr wählen (Regel oben), SGD_LR in design.py setzen, README
 python lab/experiments/EXP-100-set-vs-order/design.py --jobs > lab/experiments/EXP-100-set-vs-order/jobs.txt   # nach analyze.py + Commit
-python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/jobs.txt --workers 8
+python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/jobs.txt --workers 5   # neben R11 (5); allein bis 8
 ```
 Laufzeit schätzen, bevor der Block startet: 30 000 Minibatch-Schritte je Lauf, 84 solche Läufe. Ist das länger als ≈ 3 h, das Budget auf 15 000 Schritte senken (vor dem Block festlegen).
 

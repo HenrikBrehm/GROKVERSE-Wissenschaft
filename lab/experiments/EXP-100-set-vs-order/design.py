@@ -43,6 +43,7 @@ SGD_LR: float | None = None      # set from the calibration before the pilot (do
 ARMS = {"fb": (0, "iid", "adamw", FB_STEPS), "fb30k": (0, "iid", "adamw", MB_STEPS), "iid256": (256, "iid", "adamw", MB_STEPS), "iid64": (64, "iid", "adamw", MB_STEPS),
         "sgdm256": (256, "iid", "sgdm", MB_STEPS), "stride256": (256, "stride", "adamw", MB_STEPS)}
 R_ARMS = ("iid256", "stride256")
+ROOTS = {"fb30k": "raw_fb30k"}   # plan review s43 (blocker): fb and fb30k have the same run id (steps are not in it)
 PY = (LAB.parent / ".venv-gpu/Scripts/python.exe").as_posix()
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 REL = "lab/experiments/EXP-100-set-vs-order"
@@ -120,7 +121,7 @@ def feas() -> list[str]:
 
 
 def jobs() -> list[str]:
-    out = [line(s, x, arm, SGD_LR) for s in SEEDS for arm in ARMS for x in "FG"]
+    out = [line(s, x, arm, SGD_LR, root=ROOTS.get(arm, "raw")) for s in SEEDS for arm in ARMS for x in "FG"]
     return out + [line(s, "R", arm) for s in SEEDS for arm in R_ARMS]
 
 

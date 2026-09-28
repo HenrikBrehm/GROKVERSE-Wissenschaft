@@ -52,6 +52,8 @@ Splits, `jobs.txt`, `smoke.txt` sind schon erzeugt (`design.py`, reines numpy). 
 
 **Zurückgestellt nach Regel 20a** (Wochenplan: keine Mechanismus-Detailversuche). **Vor jedem Start zu beheben (MAJOR):** Mit vollem Batch und fast konstantem Gradienten ist Adams frühe Bewegung in *jeder* Basis ein Vorzeichenschritt. In DFT-Koordinaten bewegt sich damit jeder Koeffizient um ±lr, und die Leistung je Frequenz ist nahezu gleichverteilt (numpy-Beispiel des Prüfers: Zielanteil 0.054 = Gleichverteilung, egal wie stark der Gradient auf den Zielen liegt). „V2“ ist damit fast konstruktionsbedingt, und g24F ist exakt gleichverteilt. Ein V2-Ergebnis sagt nichts darüber, ob die Token-Streuung (V1) existiert. **Korrektur:** einen rotationsinvarianten Arm ergänzen (linear normierte Schritte wie EXP-097 `normgd`, lr·g/rms(g) ist in beiden Basen gleich): f(normgd) − f(tok) misst die Streuung, f(normgd) − f(four) die Angleichung. Oder die Gleichverteilungsvorhersage für n24F vorab festlegen. Q2 (S bei 2000) ist mit der Lerngeschwindigkeit verwechselt → Generalisierungsschritt, Train-Genauigkeit und S bei 250 beschreibend ergänzen. Kleinere Punkte: `max_coord_dev` prüft nur die Orthonormalität von B (besser: Bᵀ·W_E[:p] gegen C vor dem Schritt); der Test erkennt eine fehlende `W_E.grad = None`-Zeile nicht. Code des Patches sonst ohne Befund (alle erlaubten Pfade geprüft).
 
+**Hinweis (Planprüfung Sitzung 43):** Dieser Trainer-Patch teilt Stellen mit `lab/experiments/EXP-100-set-vs-order/trainer_l0.patch` (gleiche Basis 35f94c50). Nach dem L0-Commit muss er neu aufgesetzt werden (Rebase), bevor dieser Versuch laufen kann (Regel 20a: ohnehin zurückgestellt).
+
 ## Ergebnis
 
 *(noch nicht ausgeführt)*

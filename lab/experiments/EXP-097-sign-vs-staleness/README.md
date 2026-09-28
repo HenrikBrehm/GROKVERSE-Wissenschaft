@@ -61,6 +61,8 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 ```
 Splits, `jobs.txt` und `smoke.txt` sind schon erzeugt (`design.py`, reines numpy, Sitzung 43). Scheitert der Trainer-Test: EXP-097 nicht starten, Fehler im JOURNAL. Laufen R10-Reste noch, den Patch NICHT anwenden (R10 würde jeden weiteren Lauf und `--analyze` verweigern).
 
+**Hinweis (Planprüfung Sitzung 43):** Dieser Trainer-Patch teilt Stellen mit `lab/experiments/EXP-100-set-vs-order/trainer_l0.patch` (gleiche Basis 35f94c50). Nach dem L0-Commit muss er neu aufgesetzt werden (Rebase), bevor dieser Versuch laufen kann (Regel 20a: ohnehin zurückgestellt).
+
 ## Ergebnis
 
 *(noch nicht ausgeführt)*

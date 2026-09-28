@@ -263,14 +263,17 @@ def analyze(seeds: list[int]) -> dict:
                # descriptive: how sparse is the RFM spectrum at all? participation ratio (sum P)^2 / sum P^2 over k
                # (56 = flat, 1 = one frequency); the transformer uses ~5 frequencies
                "pr": {a: participation(np.array(r[a]["spec_offdiag"][-1])) for a in "RFG" if r[a]}}
-        for key, it in (("dpow", -1), ("dpow_offdiag", -1), ("dpow_iter5", EARLY_ITER)):
+        for key, it in (("dpow", -1), ("dpow_offdiag", -1), ("dpow_iter5", EARLY_ITER), ("dpow_iter1", 1)):
             spec = "spec_offdiag" if key == "dpow_offdiag" else "spec"
             row[key] = delta_pow(np.array(r["F"][spec][it]), np.array(r["G"][spec][it]), T["F"], T["G"])
+        # descriptive (s44): Delta_pow per iteration; iteration 1 = first AGOP update from M_0 = I, the RFM counterpart
+        # of the first-order account (the first update is fixed by the split and the initial kernel predictor)
+        row["dpow_curve"] = [delta_pow(np.array(a), np.array(b), T["F"], T["G"]) for a, b in zip(r["F"]["spec"], r["G"]["spec"])]
         rows.append(row)
     accR = [r["acc_R"] for r in rows if r["acc_R"] is not None]
     gate = len(accR) >= 8 and sum(a >= GATE_ACC for a in accR) >= 8
     out = {"n": len(rows), "missing": missing, "gate_passed": gate, "rows": rows}
-    for key in ("dpow", "dpow_offdiag", "dpow_iter5"):
+    for key in ("dpow", "dpow_offdiag", "dpow_iter5", "dpow_iter1"):
         d = np.array([r[key] for r in rows if r[key] is not None])
         if len(d) >= 2:
             out[key] = {"n": len(d), "mean": float(d.mean()), "ci95": boot_ci(d, rng), "n_pos": int((d > 0).sum())}

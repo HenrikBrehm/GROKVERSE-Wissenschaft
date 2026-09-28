@@ -45,7 +45,11 @@ ARMS = {"fb": (0, "iid", "adamw", FB_STEPS), "fb30k": (0, "iid", "adamw", MB_STE
         "sgdm256": (256, "iid", "sgdm", MB_STEPS), "stride256": (256, "stride", "adamw", MB_STEPS)}
 R_ARMS = ("iid256", "stride256")
 FEAS_EXTRA = {"stride64": (64, "stride", "adamw", MB_STEPS)}   # s44: first-order window prediction -> feasibility also at B = 64
-FEAS_ARMS = ("iid256", "stride256", "iid64", "stride64")
+FEAS_B16 = {"iid16": (16, "iid", "adamw", MB_STEPS), "stride16": (16, "stride", "adamw", MB_STEPS)}   # s45 (simulated review,
+# before any run): B = 256/64 are 15/60 steps per epoch, far from LeDoux's ~1170; first order at B = 16 (240 steps per epoch):
+# order excess 0.194 at L = 50, twice the set's target excess (firstorder_window_s45_b16.json). Feasibility only; kept OUT of
+# FEAS_EXTRA so that CONFLICT_B64 does not pull B = 16 into the pilot. A B = 16 conflict arm needs its own switch + code later.
+FEAS_ARMS = ("iid256", "stride256", "iid64", "stride64", "iid16", "stride16")
 CONFLICT_B64 = False   # s44: set True (and record in the README) if feas_read.py shows an order effect only at B = 64
 ALL_ARMS = dict(ARMS)            # s44: unchanged lookup for calib()/smoke(), also after SGD_DROPPED
 if SGD_DROPPED:
@@ -102,7 +106,7 @@ def write_splits() -> None:
 
 
 def line(s: int, split: str, arm: str, sgd_lr: float | None = None, steps: int | None = None, root: str = "raw") -> str:
-    bs, order, opt, budget = {**ALL_ARMS, **ARMS, **FEAS_EXTRA}[arm]
+    bs, order, opt, budget = {**ALL_ARMS, **ARMS, **FEAS_EXTRA, **FEAS_B16}[arm]
     budget = steps or budget
     spec = ",".join(str(x) for x in sorted({50, 250, 2000, budget} | set(range(2500, budget + 1, 2500))))
     cmd = (f"{PY} {FB} --seed {s} --condition baseline --threads 1 --device cuda --test-file {REL}/splits/seed{s}_test.npy "

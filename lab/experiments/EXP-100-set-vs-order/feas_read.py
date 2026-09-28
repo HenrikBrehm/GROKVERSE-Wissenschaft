@@ -4,6 +4,10 @@ frequency in O. o = share of the W_E group power (k = 1..56, number rows) at O a
 Also prints the first-order window prediction (firstorder_window_s44.json) next to it: B = 256 washed out; B = 64 large within the first epoch, at the edge at L = 50 (knife-edge after recomputation).
 Consequence (README): no effect at 256 but an effect at 64 -> the conflict arm also runs with B = 64 (stride64) in the
 pilot; no effect at either -> "conflict not testable at 30 % data" (reported as a finding, abgrenzung to LeDoux).
+Session 45 (before any run): B = 16 added (240 steps per epoch; first order: order excess 0.194 at L = 50,
+firstorder_window_s45_b16.json), same rule. Effect at 16 but not at 64/256 -> "the order acts only when an epoch is much
+longer than the lock-in window" (N52); a B = 16 conflict arm then needs its own switch and analysis code (README), decided
+before the pilot block. The first-order prediction printed is the s45 file (it contains B = 256, 64 and 16).
 
   PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-100-set-vs-order/feas_read.py
 """
@@ -39,7 +43,7 @@ def end_power(seed: int, B: int, stride: bool) -> np.ndarray | str:
 
 def main() -> None:
     out = {}
-    for B in (256, 64):
+    for B in (256, 64, 16):
         rows, bad = [], []
         for s in SEEDS:
             st, ii = end_power(s, B, True), end_power(s, B, False)
@@ -51,7 +55,7 @@ def main() -> None:
                          "peak_stride": int(np.argmax(st)) + 1, "peak_in_O": int(np.argmax(st)) + 1 in O})
         effect = None if bad else not (all(r["diff"] <= 0.02 for r in rows) and not any(r["peak_in_O"] for r in rows))
         out[f"B{B}"] = {"rows": rows, "bad": bad, "order_effect": effect}
-    pred = json.loads((HERE / "firstorder_window_s44.json").read_text(encoding="utf-8"))["summary"]
+    pred = json.loads((HERE / "firstorder_window_s45_b16.json").read_text(encoding="utf-8"))["summary"]
     out["first_order_prediction"] = {k: v["prediction"] for k, v in pred.items() if v["prediction"]}
     (HERE / "feas_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps(out, indent=1))

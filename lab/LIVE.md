@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 18:19 Berlin (16:19Z, vom Runner)
 - **Deadline:** 2026-09-28 21:19 Berlin (19:19Z)
-- **Zuletzt aktualisiert:** 20:09 Berlin
+- **Zuletzt aktualisiert:** 20:10 Berlin
 - **Run-Fenster:** zu; laut Regel 20 **durchgehend ab heute 23:59 bis 06.10.** (Wächter geprüft). Diese Sitzung trainiert nicht.
 
 ## Gerade
 
-**Sitzung beendet** (20:09). Keine Läufe aktiv. Abschlussbericht im JOURNAL.
+**Sitzung beendet** (20:10). Keine Läufe aktiv. Abschlussbericht im JOURNAL.
 
 ## Als Nächstes
 
@@ -18,6 +18,7 @@ Nächste Sitzung **21:54 Berlin** (Runner). Läufe ab **23:59**: R10 fertig, Nan
 
 ## Verlauf dieser Sitzung
 
+- 20:10 Nachtrag: Nanda-Maß auch für D₅₉ (numpy-geprüft). Nächster Runner-Start 21:54, Läufe ab 23:59.
 - 20:09 Sitzung beendet. Zuletzt: L0-Bestätigungsgerüst (geprüft), Tomàs Bernal im Volltext geprüft, Zenodo-Scan, Abb. 11 vorbereitet.
 - 20:00 Abschlussbericht. Nachtplan geprüft (1 Blocker behoben). Nanda-Skript deckt jetzt auch mul 113 ab (geprüft, 1 Blocker behoben). Abb. 10 (R5).
 - 19:38 Kurzfassung: Einleitung + Ergebnisse 1–3 + Grenzen (≈ 2900 Wörter), Zahlen unabhängig bestätigt, viele Vorbehalte ergänzt.

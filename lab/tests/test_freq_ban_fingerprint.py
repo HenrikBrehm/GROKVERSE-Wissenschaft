@@ -207,6 +207,49 @@ def test_hp_overrides(tmp: Path) -> None:
         assert r.returncode != 0, bad
 
 
+def test_pre_switch_betas(tmp: Path) -> None:
+    """EXP-090 (session 40): --pre-switch-betas. Preset values reproduce the plain switch run bitwise; other values act exactly in
+    steps 1..t (W_E at t equals a --beta1/--beta2 run); the beta switch keeps the bias-corrected moments continuous (event check);
+    fingerprint/run id change only when given; invalid combinations are refused."""
+    import numpy as np
+    import torch
+    f1 = fb.run_fingerprint(ns())[0]
+    assert fb.run_fingerprint(ns(pre_switch_betas=None))[0] == f1, "default --pre-switch-betas changed the fingerprint"
+    assert fb.run_fingerprint(ns(pre_switch_betas="0.975,0.995"))[0] != f1, "fingerprint ignores --pre-switch-betas"
+    out = tmp / "psb"
+    spl = ROOT / "lab/experiments/EXP-056-overlap-persistence/splits"
+    base = [sys.executable, str(FB), "--seed", "400", "--condition", "baseline", "--threads", "1", "--out-root", str(out),
+            "--split-file", str(spl / "seed400_w0_A.npy"), "--switch-split-file", str(spl / "seed400_w0_B.npy"),
+            "--test-file", str(spl / "seed400_test.npy"), "--save-model", "--steps", "25", "--switch-step", "10", "--spectra-at", "10,25"]
+    run = lambda *x: subprocess.run(base + list(x), cwd=ROOT, capture_output=True, text=True, timeout=600)   # noqa: E731
+    for extra in ((), ("--pre-switch-betas", "0.9,0.98"), ("--pre-switch-betas", "0.8,0.95"), ("--beta1", "0.8", "--beta2", "0.95")):
+        r = run(*extra)
+        assert r.returncode == 0, (extra, r.stdout + r.stderr)
+    d = {}
+    for k in ("at10", "at10_psb0.9_0.98", "at10_psb0.8_0.95", "at10_b10.8_b20.95"):
+        hits = [h for h in out.glob(f"*{k}") if h.is_dir()]
+        assert len(hits) == 1, (k, list(out.iterdir()))
+        d[k] = hits[0]
+    m = {k: torch.load(v / "model_final.pt", map_location="cpu") for k, v in d.items()}
+    assert all(torch.equal(m["at10"][n], m["at10_psb0.9_0.98"][n]) for n in m["at10"]), "preset pre-switch betas != plain run"
+    snap = lambda k: np.load(d[k] / "we_snapshots.npy")[list(np.load(d[k] / "we_snapshot_steps.npy")).index(10)]   # noqa: E731
+    assert np.array_equal(snap("at10_psb0.8_0.95"), snap("at10_b10.8_b20.95")), "pre-switch betas not used in steps 1..t"
+    assert not np.array_equal(snap("at10_psb0.8_0.95"), snap("at10")), "pre-switch betas had no effect"
+    assert not torch.equal(m["at10_psb0.8_0.95"]["W_E"], m["at10_b10.8_b20.95"]["W_E"]), "preset betas not restored after the switch"
+    res = json.loads((d["at10_psb0.8_0.95"] / "result.json").read_text(encoding="utf-8"))
+    ev = res["events"]["pre_switch_betas"]
+    assert ev["check"] is True and ev["pre"] == [0.8, 0.95] and ev["post"] == [0.9, 0.98] and ev["step"] == 10.0, ev
+    assert abs(ev["factor_m"] - (1 - 0.9 ** 10) / (1 - 0.8 ** 10)) < 1e-12, ev
+    assert res["pre_switch_betas"] == [0.8, 0.95] and res["config"]["beta1"] == 0.9, res.get("pre_switch_betas")   # top level, like lr_scale
+    for bad in (("--pre-switch-betas", "0.9"), ("--pre-switch-betas", "1,0.98"), ("--pre-switch-betas", "0.9,0.98", "--beta1", "0.8"),
+                ("--pre-switch-betas", "0.9,0.98", "--reset-optim-part", "m")):
+        r = run(*bad)
+        assert r.returncode != 0, bad
+    rn = subprocess.run([x for x in base if x not in ("--switch-split-file", str(spl / "seed400_w0_B.npy"), "--switch-step", "10")]
+                        + ["--pre-switch-betas", "0.8,0.95"], cwd=ROOT, capture_output=True, text=True, timeout=600)
+    assert rn.returncode != 0, "--pre-switch-betas without a switch accepted"
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory() as t:
         tmp = Path(t)
@@ -215,7 +258,8 @@ def main() -> int:
                          ("verify_artifacts", lambda: test_verify_artifacts(tmp)),
                          ("integration", lambda: test_integration(tmp)),
                          ("rewind", lambda: test_rewind(tmp)),
-                         ("hp_overrides", lambda: test_hp_overrides(tmp))):
+                         ("hp_overrides", lambda: test_hp_overrides(tmp)),
+                         ("pre_switch_betas", lambda: test_pre_switch_betas(tmp))):
             fn()
             print(f"[test_freq_ban_fingerprint] {name} ok", flush=True)
     print("[test_freq_ban_fingerprint] all ok", flush=True)

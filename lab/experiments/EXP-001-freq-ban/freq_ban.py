@@ -87,7 +87,8 @@ FINGERPRINT_FILES = ("split_file", "test_file", "switch_split_file")
 LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "reset_optim_part": None, "log_update_norms": 0,
              "rewind_at_switch": None, "rewind_from": None,
              "lr": None, "weight_decay": None, "train_frac": None,
-             "plant_targets": None, "plant_c": None, "plant_noise": False, "beta1": None, "beta2": None}   # name -> default; in the fingerprint only if != default (s18, s21, s24, s39)
+             "plant_targets": None, "plant_c": None, "plant_noise": False, "beta1": None, "beta2": None,
+             "pre_switch_betas": None}   # name -> default; in the fingerprint only if != default (s18, s21, s24, s39, s40)
 HP_OVERRIDES = ("lr", "weight_decay", "train_frac", "beta1", "beta2")   # session 24 (rule 19a), s39 betas (EXP-081): None = preset
 LOCK_NAME = "run.lock"
 
@@ -436,6 +437,18 @@ def run(a: argparse.Namespace) -> dict:
         if a.switch_split_file is None or a.reset_optim_at_switch or a.reset_at_switch:
             raise SystemExit("--reset-optim-part needs --switch-split-file and excludes the other reset options")
         run_id += f"_ro{a.reset_optim_part}"
+    psb = None
+    if a.pre_switch_betas is not None:   # EXP-090 (session 40): AdamW betas for steps 1..switch_step, preset betas afterwards
+        try:
+            psb = tuple(float(x) for x in str(a.pre_switch_betas).split(","))
+        except ValueError:
+            raise SystemExit("--pre-switch-betas needs 'b1,b2'")
+        if (len(psb) != 2 or not all(np.isfinite(x) and 0 < x < 1 for x in psb) or a.switch_split_file is None
+                or a.reset_optim_at_switch or a.reset_optim_part or a.reset_at_switch or a.rewind_at_switch
+                or a.alternate_every or a.beta1 is not None or a.beta2 is not None):
+            raise SystemExit("--pre-switch-betas needs 'b1,b2' in (0, 1), --switch-split-file, and excludes the reset, rewind, "
+                             "alternation and --beta1/--beta2 options")
+        run_id += f"_psb{psb[0]!r}_{psb[1]!r}"
     if (a.rewind_at_switch is None) != (a.rewind_from is None):
         raise SystemExit("--rewind-at-switch and --rewind-from go together")
     if a.rewind_at_switch:           # EXP-073 (session 24): one part back to its own state (weights + AdamW state) at step R
@@ -558,7 +571,7 @@ def run(a: argparse.Namespace) -> dict:
     init_params = [q.detach().clone() for q in model.parameters()] if keep_init else []   # EXP-035/038
     we_idx = next((i for i, q in enumerate(model.parameters()) if q is model.W_E), None) if keep_init else None
     opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay,
-                            betas=(cfg.beta1, cfg.beta2))
+                            betas=psb if psb is not None else (cfg.beta1, cfg.beta2))
     basis = fourier_basis(p)
 
     events: dict = {}
@@ -590,7 +603,7 @@ def run(a: argparse.Namespace) -> dict:
            "ban_from_step": None if a.condition in ("baseline",) + INIT_CONDITIONS else ban_from,
            "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
            "stop_after_generalization": a.stop_after_gen, "split_seed": a.split_seed, "split_file": a.split_file, "test_file": a.test_file, "switch_split_file": a.switch_split_file,
-           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "plant_targets": plant_tg, "plant_c": a.plant_c, "plant_noise": a.plant_noise, "plant_delta_norm": plant_norm, "lr_scale_until": LR_SCALE_UNTIL, "lr_scale_after_switch": a.lr_scale_after_switch, "lr_after_switch_steps": LR_AFTER_SWITCH_STEPS, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "rewind_at_switch": a.rewind_at_switch, "rewind_from": a.rewind_from, "spectra_at": sorted(extra_spec),
+           "switch_step": a.switch_step, "split_value": a.split_value, "warmup": a.warmup, "lr_scale": a.lr_scale, "we_init_scale": a.we_init_scale, "plant_targets": plant_tg, "plant_c": a.plant_c, "plant_noise": a.plant_noise, "plant_delta_norm": plant_norm, "pre_switch_betas": list(psb) if psb else None, "lr_scale_until": LR_SCALE_UNTIL, "lr_scale_after_switch": a.lr_scale_after_switch, "lr_after_switch_steps": LR_AFTER_SWITCH_STEPS, "alternate_every": a.alternate_every, "reset_at_switch": a.reset_at_switch, "rewind_at_switch": a.rewind_at_switch, "rewind_from": a.rewind_from, "spectra_at": sorted(extra_spec),
            "device": a.device, "device_name": (torch.cuda.get_device_name(dev) if dev.type == "cuda" else platform.processor()),
            "init_checksum_shared": init_checksum.hexdigest(), "max_steps": a.steps,
            "config": {**cfg.to_dict(), "device": a.device},   # Astra 10: Config keeps 'cpu'; record the real device
@@ -730,6 +743,32 @@ def run(a: argparse.Namespace) -> dict:
                                    for k, v in sub.items() if len(v)},
                                 **{f"n_{k}": int(len(v)) for k, v in sub.items()}}
             trx, try_ = data["all_x"][switch_idx].to(dev), data["all_y"][switch_idx].to(dev)
+            if psb is not None:      # EXP-090: preset betas from the next step on; moments rescaled so m_hat, v_hat stay continuous
+                post = (cfg.beta1, cfg.beta2)
+                params = list(model.parameters())
+                snap = [q.detach().clone() for q in params]
+                hat_before, factors = [], None
+                with torch.no_grad():
+                    for q in params:
+                        st = opt.state[q]
+                        s = float(st["step"])
+                        f1, f2 = (1 - post[0] ** s) / (1 - psb[0] ** s), (1 - post[1] ** s) / (1 - psb[1] ** s)
+                        hat_before.append((st["exp_avg"] / (1 - psb[0] ** s), st["exp_avg_sq"] / (1 - psb[1] ** s)))
+                        st["exp_avg"].mul_(f1)
+                        st["exp_avg_sq"].mul_(f2)
+                        factors = factors or (f1, f2, s)
+                    for g in opt.param_groups:
+                        g["betas"] = post
+                check = (all(torch.equal(q, s0) for q, s0 in zip(params, snap))
+                         and all(g["betas"] == post for g in opt.param_groups)
+                         and all(torch.allclose(opt.state[q]["exp_avg"] / (1 - post[0] ** float(opt.state[q]["step"])), mb, rtol=1e-5, atol=1e-12)
+                                 and torch.allclose(opt.state[q]["exp_avg_sq"] / (1 - post[1] ** float(opt.state[q]["step"])), vb, rtol=1e-5, atol=1e-20)
+                                 for q, (mb, vb) in zip(params, hat_before)))
+                events["pre_switch_betas"] = {"pre": list(psb), "post": list(post), "step": factors[2] if factors else None,
+                                              "factor_m": factors[0] if factors else None, "factor_v": factors[1] if factors else None,
+                                              "check": check}
+                if not check:
+                    raise SystemExit("[exp] EXP-090 beta switch check failed")
             if a.reset_at_switch:    # EXP-038: selected parameters back to their init, their AdamW state cleared
                 params = list(model.parameters())
                 if a.reset_at_switch in RESET_PARTS:      # EXP-067: one named part of the rest
@@ -890,6 +929,8 @@ def main() -> None:
     ap.add_argument("--train-frac", type=float, default=None, help="rule 19a: override the preset train fraction (split files must match)")
     ap.add_argument("--beta1", type=float, default=None, help="EXP-081: override AdamW beta1 (default: preset 0.9)")
     ap.add_argument("--beta2", type=float, default=None, help="EXP-081: override AdamW beta2 (default: preset 0.98)")
+    ap.add_argument("--pre-switch-betas", default=None,
+                    help="EXP-090: 'b1,b2' AdamW betas for steps 1..--switch-step; preset betas afterwards, moments rescaled so the bias-corrected moments stay continuous")
     ap.add_argument("--lr-scale", type=float, default=1.0,
                     help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
     ap.add_argument("--lr-scale-after-switch", type=float, default=1.0,

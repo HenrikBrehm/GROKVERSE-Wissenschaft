@@ -1,8 +1,8 @@
 ---
 id: EXP-040
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-26
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/unklar, neu/kandidat]
 ---
 # EXP-040: Fällt die Festlegung, wenn das Datensignal die Init-Amplitude von W_E einholt?
 
@@ -113,3 +113,12 @@ Selbsttest danach ok. Urteilsregel unverändert. EXP-040 läuft in einer später
 ## Literatur zur Init-Skala (2026-09-27, Sitzung 29, vor 18:10 Berlin, gemessen; ändert keine Regel)
 
 Die im Abschnitt „Neuheit“ offen gelassene gezielte Suche ist nachgeholt ([[paper/related_work]], Nachtrag Sitzung 29): kein Treffer, der die Verschiebung eines Festlegungsfensters durch die Init-Skala prüft. Neu als Kontext: Khanh et al. 2026 (arXiv 2606.13753) finden eine Grokking-Verzögerung ∝ exp(7.5 ρ) bei geklemmter Gewichtsnorm ρ; das stützt den schon notierten Ausfallgrund (s = 2 → gen_F später → Zelle *unklar*). Das Urteil hängt davon nicht ab; wird s = 2 mehrheitlich *unklar*, ist das als erwarteter Ausfall, nicht als Befund gegen H40 zu lesen.
+
+## Ergebnis (Sitzung 38, 2026-09-28, 05:27 Berlin gemessen; CPU, Läufe 27./28.09., Auswertung `analyze.py` über den Wächter, `summary.json`)
+
+**Registriertes Urteil: *unklar*** (Regel oben: nicht alle Seeds *unverändert*). Alle 4 Seeds mit beiden Skalen vollständig und gültig (Init-Prüfsummen, Konfiguration, Hashes gleich).
+- Seeds 30, 32, 34: in **beiden** Skalen Fenster (25, 50] → Seed-Klasse *unverändert*. Seed 31: s = 0.5 nicht monoton (d: −2, −3, −3, −1, +2) → *unklar*; s = 2 Fenster (0, 25], also **früher**, nicht später.
+- **Keine der 8 Zellen** zeigt die von H40 vorhergesagte Verschiebung (s = 0.5 → (12, 25], s = 2 → (50, 100]); 7/8 liegen bei (25, 50], eine (Seed 31, s = 2) in der Gegenrichtung.
+- Beschreibend (Nachtrag b/c, 14 Zellen aus EXP-039 + EXP-040): CV Λ(hi) 0.33 < CV R(hi) 0.57, also **umgekehrt** zur H40-Erwartung (unter H40 sollte R konstanter sein); R(hi) in [0.5, 2] in 9/14 Zellen, aber alle vier s = 2-Zellen liegen bei 0.16–0.31 (< 0.5): Das Datensignal holt die hochskalierte Init beim Festlegen nicht ein. Nach Nachtrag c ist H40 „in dieser Form falsch“ für s = 2.
+- gen_F: s = 0.5 450–1225, s = 2 1300–2275 Schritte (größere Init groks später, wie Khanh et al. 2026 erwarten lassen).
+**Lesart:** Formal *unklar*, weil ein Seed nicht klassifizierbar ist. Inhaltlich spricht nichts für die Amplitudenschwelle: Das Fenster bleibt bei einer Vervierfachung der Init-Amplitude (0.5 → 2) in 3/4 Seeds gleich, und die Invarianzprüfung bevorzugt die Λ-/Schrittuhr. Zusammen mit EXP-039 (Λ-Uhr besser) und EXP-059 (Momentum = Vorschritte) ist eine **Optimierer-Zeit-Uhr** die sparsamste Erklärung; ein Mechanismus ist damit nicht belegt (n = 4, bekannte Seeds, Einschränkung aus Nachtrag a: s ändert auch W_E gegen W_pos). Keine Nachträge; eine saubere Prüfung der Uhr ist die eingefrorene Bestätigung R3 (Λ gegen Schritt).

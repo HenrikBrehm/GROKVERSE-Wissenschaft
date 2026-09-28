@@ -39,6 +39,12 @@ Zurück: [[LAB]] · [[NOVEL_DIRECTIONS]] N47 · Anlass [[confirm/R5_REGISTRATION
 
 R5 (Seeds 2720–2779, bestätigt; Zielanteil je Arm), R5 post hoc innerhalb der Arme (ρ −0.64 bis −0.79), EXP-040 (W_E-Init-Skala verschiebt das Festlegungsfenster nicht), EXP-042/EXP-084 (Dosis). Beeinflusst: Wahl der Kalibriergröße (Anteil bei 250), Horizont 8000, Ereignisdefinition. Keine Läufe mit den Seeds 3200–3212.
 
+## Nachtrag a (Sitzung 39, 2026-09-28, vor jedem EXP-087-Lauf): Code
+
+- `plant.py`: Eingriff (Selbsttest grün über den Wächter, 08:17). Parametrisierung: eingepflanzte Leistung je Zielfrequenz = C × Median der Init-Frequenzleistung, α = √(C·Median/2). Das Amplitudengitter {0.5, 1, 2, 4} × Median-Amplitude entspricht **C ∈ {0.5, 2, 8, 32}** (Leistung 2m²). R+N: zufällige, über die Zahlen mittelwertfreie Matrix mit derselben Frobenius-Norm wie der Einpflanz-Zusatz (eigener Strom).
+- `design.py`: Splits (eigener Strom `TAG 20261087`, Konstruktion E2 mit den R5-Helfern `wave`/`keyed`), Kalibrierjobs (3 Einheiten × 4 C, 250 Schritte, nur R+P), Wahl von C (Mittel am nächsten an 0.30, Gleichstand → kleineres C), Pilotjobs, Auswertung mit Ereignis und Dichteprüfung aus R5, Lesart wie oben. **Präzisierung der Lesart (vorab):** M-med nur, wenn R+P in ≥ 8/10 Einheiten beobachtet (sonst ist L_med durch Zensur zu 0 verzerrt → *unklar*); R+N gilt als „nicht schneller als R“, wenn die untere KI-Grenze von L_noise ≤ 0 oder das Mittel ≤ 0.5 ist. Selbsttest grün (08:19). Eine Einheit mit einem technischen Ausfall → ganzer Pilot *nicht auswertbar* (streng, wie R5).
+- Offen: Trainer-Option (`--plant-targets`, `--plant-c`, `--plant-noise`) erst nach R4.
+
 ## Nächste Schritte
 
 1. Nach R2/R4: Option `--plant-targets/--plant-amp` in `freq_ban.py` (Standard aus, alte Run-IDs unverändert, Fingerprint nur bei Nutzung), Test, unabhängige Prüfung.

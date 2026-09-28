@@ -153,17 +153,21 @@ def verdict(rows: list[dict]) -> dict:
            "sgdm256": ({"n": len(sg), "dpow_end_mean": float(np.mean([r["dpow_end_sgdm256"] for r in sg])),
                         "dpow_end_ci95": boot_ci(np.array([r["dpow_end_sgdm256"] for r in sg]))}
                        if len(sg) >= MIN_VALID else {"n": len(sg), "reading": "nicht auswertbar"})}
-    if "stride64" in D.ARMS:     # s44: fallback of the feasibility rule; same readings, B = 64 against iid64
-        ok64 = [r for r in ok if "dpow_end_stride64" in r]
-        if len(ok64) < MIN_VALID:
-            out["Konflikt_B64"] = {"n": len(ok64), "Konflikt": "nicht auswertbar"}
-        else:
-            c64 = conflict_reading(ok64, lambda k, rs=ok64: np.array([r[k] for r in rs], dtype=float), "stride64", "iid64",
-                                   boot_ci(np.array([r["dpow_end_stride64"] for r in ok64], dtype=float)))
-            out["Konflikt_B64"] = {"n": len(ok64), "Konflikt": c64["conflict"], "Reihenfolge_allein": c64["alone"],
-                                   "stride_peak_in_O_fraction": c64["frac_o"], "o_diff_stride_minus_iid_ci95": c64["o_diff_ci"],
-                                   "dpow_stride_minus_iid": {"mean": float(c64["dpow_diff"].mean()), "ci95": boot_ci(c64["dpow_diff"])},
-                                   "R_stride_peak_in_O_fraction": c64["fo"], "R_o_diff_ci95": c64["cio"]}
+    for B in (64, 16):           # s44: B = 64 fallback of the feasibility rule; s45: same for B = 16 (CONFLICT_B16), same readings
+        if f"stride{B}" not in D.ARMS or f"iid{B}" not in D.ARMS:
+            continue
+        okB = [r for r in ok if f"dpow_end_stride{B}" in r and f"dpow_end_iid{B}" in r]
+        if len(okB) < MIN_VALID:
+            out[f"Konflikt_B{B}"] = {"n": len(okB), "Konflikt": "nicht auswertbar"}
+            continue
+        cB = conflict_reading(okB, lambda k, rs=okB: np.array([r[k] for r in rs], dtype=float), f"stride{B}", f"iid{B}",
+                              boot_ci(np.array([r[f"dpow_end_stride{B}"] for r in okB], dtype=float)))
+        out[f"Konflikt_B{B}"] = {"n": len(okB), "Konflikt": cB["conflict"], "Reihenfolge_allein": cB["alone"],
+                                 "stride_peak_in_O_fraction": cB["frac_o"], "o_diff_stride_minus_iid_ci95": cB["o_diff_ci"],
+                                 "dpow_stride_minus_iid": {"mean": float(cB["dpow_diff"].mean()), "ci95": boot_ci(cB["dpow_diff"])},
+                                 "R_stride_peak_in_O_fraction": cB["fo"], "R_o_diff_ci95": cB["cio"]}
+        if B == 16:              # s45: K2 at B = 16 itself (first order: only 0.21 epochs in the lock-in window), descriptive
+            out["K2_B16_descriptive"] = {"dpow_end_iid16_ci95": boot_ci(np.array([r["dpow_end_iid16"] for r in okB], dtype=float))}
     return out
 
 
@@ -242,6 +246,16 @@ def selftest() -> None:
         assert v["Konflikt"] == "Konflikt nicht pruefbar (Reihenfolge wirkt nicht)", v
         assert (v["Konflikt_B64"]["Konflikt"], v["Konflikt_B64"]["Reihenfolge_allein"]) == ("Reihenfolge gewinnt", "wirkt"), v
         assert suffix("stride64") == "_bs64_ordstride"
+        D.ARMS = {**keep, **D.FEAS_B16}        # s45: what CONFLICT_B16 = True does (iid16 and stride16 join the arms)
+        rows = [mk(s, 5.0, 5.0, False, False) for s in range(8)]
+        for r in rows:
+            r["dpow_end_iid16"], r["o_iid16"], r["peakO_iid16"] = 5.0 + rng.normal(0, 0.3), 0.1, [False, False]
+            r["dpow_end_stride16"], r["o_stride16"], r["peakO_stride16"] = 5.0 + rng.normal(0, 0.3), 0.2 + rng.normal(0, 0.01), [False, False]
+            r["R_o_stride16"], r["R_o_iid16"], r["R_peakO_stride16"] = 0.3, 0.1 + rng.normal(0, 0.01), True
+        v = verdict(rows)
+        assert "Konflikt_B64" not in v and v["Konflikt_B16"]["Konflikt"] == "Menge gewinnt", v
+        assert v["K2_B16_descriptive"]["dpow_end_iid16_ci95"][0] > 0, v
+        assert suffix("stride16") == "_bs16_ordstride" and suffix("iid16") == "_bs16"
     finally:
         D.ARMS = keep
     print("[exp100] selftest ok", flush=True)

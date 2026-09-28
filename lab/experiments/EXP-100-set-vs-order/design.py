@@ -57,6 +57,10 @@ if SGD_DROPPED:
 if CONFLICT_B64:       # one switch: conflict arm stride64 on F/G and the R pair iid64/stride64 (review s44: R_ARMS must grow too)
     ARMS = {**ARMS, **FEAS_EXTRA}
     R_ARMS = R_ARMS + ("iid64", "stride64")
+CONFLICT_B16 = False   # s45: set True (and record in the README) if feas_read.py shows an order effect at B = 16; adds iid16 and
+if CONFLICT_B16:       # stride16 on F/G and on R (analyze.py reads Konflikt_B16 with the same rules; K2 at B = 16 descriptive)
+    ARMS = {**ARMS, **FEAS_B16}
+    R_ARMS = R_ARMS + ("iid16", "stride16")
 ROOTS = {"fb30k": "raw_fb30k"}   # plan review s43 (blocker): fb and fb30k have the same run id (steps are not in it)
 PY = (LAB.parent / ".venv-gpu/Scripts/python.exe").as_posix()
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"

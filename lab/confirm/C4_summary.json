@@ -1,0 +1,188 @@
+{
+ "registration": "lab/confirm/C4_REGISTRATION.md",
+ "gate": {
+  "registration": "lab/confirm/C4_REGISTRATION.md",
+  "code_sha256": {
+   "lab/confirm/C4_analyze.py": "97a449f3aee5ed7a28de1d7b44bfe817336a4e1d51ad3c9ad79cf63420771116",
+   "lab/confirm/C1_analyze.py": "cf935f517fecd3a3395ed8535589c3984c14c3e1b14162dabf71a725fd8eb1d6",
+   "lab/confirm/rank_tools.py": "f0f7464ea1a392f68bb537aaeb7d3b1b6c212e1a4073dd159f882736f41f6fbf",
+   "lab/confirm/P1_posthoc_within.py": "d62db4c56c2cde725dc5978d9aa5de3c6040e3c284d2d1d1766d040b6da1f57f"
+  },
+  "note": "code gate, session 28, before any P2f run (after Codex review)",
+  "gate_commit": "c8801d34aa41c72575b62f1c2393d17e60d4842b"
+ },
+ "p2f_manifest_commit": "15539d8",
+ "code_sha256": {
+  "lab/confirm/C4_analyze.py": "97a449f3aee5ed7a28de1d7b44bfe817336a4e1d51ad3c9ad79cf63420771116",
+  "lab/confirm/C1_analyze.py": "cf935f517fecd3a3395ed8535589c3984c14c3e1b14162dabf71a725fd8eb1d6",
+  "lab/confirm/rank_tools.py": "f0f7464ea1a392f68bb537aaeb7d3b1b6c212e1a4073dd159f882736f41f6fbf",
+  "lab/confirm/P1_posthoc_within.py": "d62db4c56c2cde725dc5978d9aa5de3c6040e3c284d2d1d1766d040b6da1f57f"
+ },
+ "primary": {
+  "counts": {
+   "all": 20
+  },
+  "S": 0.37249999999999994,
+  "p": 0.00014499927500362497,
+  "ci95": [
+   0.225,
+   0.5075000000000001
+  ],
+  "adjusted_coef": 0.3606363507814612,
+  "adjusted_ci95": [
+   0.22388644039742334,
+   0.4885124636057841
+  ],
+  "cell_means": {
+   "all": 0.37249999999999994
+  },
+  "missing_seeds": 0,
+  "S_if_missing_were_minus_1": 0.37249999999999994,
+  "verdict": "bestätigt"
+ },
+ "descriptive_generalized_arms": 37,
+ "descriptive_counted_arms": 40,
+ "dropped": [],
+ "rows": [
+  {
+   "seed": 2340,
+   "unit_rho": 0.4,
+   "rho_init_F": -0.6,
+   "rho_init_G": -0.1,
+   "generalized_arms": 1
+  },
+  {
+   "seed": 2341,
+   "unit_rho": 0.7,
+   "rho_init_F": 0.7,
+   "rho_init_G": 0.2,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2342,
+   "unit_rho": 0.0,
+   "rho_init_F": -0.2,
+   "rho_init_G": 0.6,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2343,
+   "unit_rho": 0.25,
+   "rho_init_F": -0.3,
+   "rho_init_G": 0.1,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2344,
+   "unit_rho": 0.4,
+   "rho_init_F": 0.2,
+   "rho_init_G": 0.1,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2345,
+   "unit_rho": -0.5,
+   "rho_init_F": 0.3,
+   "rho_init_G": 0.0,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2346,
+   "unit_rho": 0.8,
+   "rho_init_F": -0.1,
+   "rho_init_G": 0.7,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2347,
+   "unit_rho": 0.4,
+   "rho_init_F": 0.7,
+   "rho_init_G": -0.5,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2348,
+   "unit_rho": 0.75,
+   "rho_init_F": 0.6,
+   "rho_init_G": 1.0,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2349,
+   "unit_rho": 0.6,
+   "rho_init_F": 0.2,
+   "rho_init_G": 0.3,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2350,
+   "unit_rho": 0.25,
+   "rho_init_F": 0.1,
+   "rho_init_G": 0.3,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2351,
+   "unit_rho": 0.6000000000000001,
+   "rho_init_F": 0.2,
+   "rho_init_G": 0.3,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2352,
+   "unit_rho": 0.30000000000000004,
+   "rho_init_F": 0.5,
+   "rho_init_G": -0.1,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2353,
+   "unit_rho": 0.24999999999999997,
+   "rho_init_F": 0.3,
+   "rho_init_G": 0.1,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2354,
+   "unit_rho": 0.5,
+   "rho_init_F": -0.7,
+   "rho_init_G": 0.8,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2355,
+   "unit_rho": 0.6,
+   "rho_init_F": 0.6,
+   "rho_init_G": 0.5,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2356,
+   "unit_rho": -0.09999999999999998,
+   "rho_init_F": 0.4,
+   "rho_init_G": -0.6,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2357,
+   "unit_rho": 0.04999999999999999,
+   "rho_init_F": -0.8,
+   "rho_init_G": 0.3,
+   "generalized_arms": 2
+  },
+  {
+   "seed": 2358,
+   "unit_rho": 0.8500000000000001,
+   "rho_init_F": 0.9,
+   "rho_init_G": -0.5,
+   "generalized_arms": 1
+  },
+  {
+   "seed": 2359,
+   "unit_rho": 0.35,
+   "rho_init_F": -0.9,
+   "rho_init_G": 0.2,
+   "generalized_arms": 1
+  }
+ ]
+}

@@ -16,6 +16,8 @@ Zurück zu [[LAB]]. Stand Sitzung 24, 2026-09-27, 13:00 Berlin. Wortlaute, Konfi
 |---|---|---|---|
 | **K2** | Konstruierte Trainingssplits steuern, welche Frequenzen/Irreps W_E lernt: add 113, mul 113, add 97, D₅₉ | P1 (50 Seeds je Aufgabe) | bestätigt |
 | **K2-Funktion** | Gleich große W_E-Schritte entlang der gesteuerten Frequenzen senken den Logit-Abstand stärker als entlang von Kontrollen: add 113, mul 113, add 97 | P2d, P2e (je 20 Seeds) | bestätigt; **folgt der Energie**, keine Nutzung darüber hinaus belegt (EXP-068) |
+| **K2-Funktion D₅₉** | Dasselbe Funktionsmaß in Irrep-Form bei der nicht-abelschen Gruppe D₅₉ nach 12 000 Schritten (17/20 Seeds generalisiert) | P2f (20 frische Seeds, Sitzung 36) | bestätigt: D = 0.233, 95-%-KI [0.214, 0.253], 20/20 positiv, p = 2e-15; Sekundär S1 bestätigt: höherer Eigenenergieanteil bei 2000 → früheres Grokking, ρ = −0.60, p = 0.004 (3 zensierte Arme) |
+| **C4** | Bei D₅₉ nach 12 000 Schritten ordnet das Maskenspektrum die fünf Ziel-Irreps in der W_E-Energie (bereinigt um Irrep-Index und Init) | C4 an P2f (20 Seeds) | bestätigt: S = 0.37 [0.23, 0.51], p = 1.4e-4; bereinigt 0.36 [0.22, 0.49]; Korrelation, kein Mechanismus |
 | **K4 / K4b** | Schon 25 Schritte auf dem ersten Split prägen das Endspektrum nach einem Wechsel; ein gelöschtes Adam-Momentum wirkt wie weniger Vorschritte | P3, N28 | bestätigt |
 | **K4c** | Wechsel nach 25 Schritten: Endmodell auf die neuen Frequenzen angewiesen; nach 50: auf die alten | N29 | bestätigt (Ablationskontrast) |
 | **K4d** | Reset der Attention (Gewichte + AdamW-Zustand) beim Wechsel nach 50 Schritten senkt diesen Kontrast stark, stärker als der geprüfte MLP-Reset | N29b | bestätigt (Reset-Empfindlichkeit, kein Speicherort) |
@@ -23,7 +25,7 @@ Zurück zu [[LAB]]. Stand Sitzung 24, 2026-09-27, 13:00 Berlin. Wortlaute, Konfi
 
 **Explorationen mit Gewicht für die Planung (bekannte Seeds, kein Urteil):**
 - **D₅₉ groks, die Steuerung überlebt** ([[experiments/EXP-072-d59-grok/README|EXP-072]], 5 Seeds × 2 Arme): 9/10 generalisieren (erster Test ≥ 0.9 bei Median 4575 Schritten); am Ende tragen die eigenen Ziel-Irreps 0.90–0.99 der W_E-Energie;
-  Irrep-Form des K2-Funktionsmaßes D = 0.22 ± 0.02 (5/5). K2 aus P1 (2000 Schritte) betraf also nur die Phase vor dem Grokking. Bestätigung: [[confirm/P2f_REGISTRATION|P2f]] (vorbereitet).
+  Irrep-Form des K2-Funktionsmaßes D = 0.22 ± 0.02 (5/5). K2 aus P1 (2000 Schritte) betraf also nur die Phase vor dem Grokking. Bestätigung: [[confirm/P2f_REGISTRATION|P2f]] (vorbereitet; **Sitzung 36: bestätigt**, siehe Tabelle).
 - **Festlegung ist keine Schwelle:** π steigt glatt mit der Zahl der Schritte auf dem ersten Split (EXP-059: 0.01 → 1.05 für t = 10 → 50). Weder der W_E-Vorsprung (EXP-060) noch die OV-Ausrichtung
   (EXP-070, [[experiments/EXP-071-ov-lead-predicts/README|EXP-071]]) erklären den zeitlichen Verlauf besser als die Schrittzahl; OV sagt π je Seed höchstens schwach voraus (r = 0.45, p = 0.09, n = 10).
 

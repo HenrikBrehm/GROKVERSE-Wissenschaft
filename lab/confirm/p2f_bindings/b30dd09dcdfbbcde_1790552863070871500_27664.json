@@ -1,0 +1,33 @@
+{
+ "code_digest": "6bd85c2c615dc04daddb0b2b530ece50dcd26ca52717b5648d9dbefd7d3dfae8",
+ "manifest_commit": "15539d8",
+ "cmd": [
+  "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe",
+  "lab/experiments/EXP-046-dihedral-steering/group_train.py",
+  "--seed",
+  "2341",
+  "--n",
+  "59",
+  "--steps",
+  "12000",
+  "--threads",
+  "1",
+  "--device",
+  "cuda",
+  "--split-file",
+  "lab/confirm/p2f_splits/p2f_D59_seed2341_G.npy",
+  "--out-root",
+  "lab/confirm/p2f_raw",
+  "--save-model"
+ ],
+ "exit": 0,
+ "t0_ns": 1790552863070871500,
+ "t1_ns": 1790553158543981000,
+ "run_dir": "EXP-046_seed2341_p2f_D59_seed2341_G_devcuda",
+ "files": {
+  "lab/confirm/p2f_raw/EXP-046_seed2341_p2f_D59_seed2341_G_devcuda/model_final.pt": "ce084f5f3ff91c95dfae3da672064fcf9413faeb11f8c2ebf68fad64b6007103",
+  "lab/confirm/p2f_raw/EXP-046_seed2341_p2f_D59_seed2341_G_devcuda/result.json": "91428bb85028a06a39fa9456f6074d97297ff91c6c97a2e883e350ef82c52cb8",
+  "lab/confirm/p2f_raw/EXP-046_seed2341_p2f_D59_seed2341_G_devcuda/spectra.npy": "ed43f22dbf0e8b7c3742bb49d0cb88b9eddcc6f17d6099fce9998f988cb8d081",
+  "lab/confirm/p2f_raw/EXP-046_seed2341_p2f_D59_seed2341_G_devcuda/spectra_steps.npy": "92c20c3671bfe97ee67045d3b9eff77fae320ec2ef085a9afd5cc3efd9f94670"
+ }
+}

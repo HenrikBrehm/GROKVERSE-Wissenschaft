@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 20:19 Berlin (18:19Z, vom Runner)
 - **Deadline:** 2026-09-28 23:19 Berlin (21:19Z)
-- **Zuletzt aktualisiert:** 21:07 Berlin
+- **Zuletzt aktualisiert:** 21:14 Berlin
 - **Run-Fenster:** zu (Wächter: outside_window); öffnet 23:59, also nach dieser Sitzung. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
 
-Prüfung der EXP-100-Auswertung (B = 64-Konfliktweg) läuft (nur lesend).
+Prüfung des Wechselteils von L0 läuft (nur lesend). Danach Abschluss vorbereiten (Deadline 23:19).
 
 ## Als Nächstes
 
@@ -18,6 +18,8 @@ Nächste Sitzung 23:54 Berlin; ab 23:59 R10 fertig → L0. Füllarbeit: EXP-101 
 
 ## Verlauf dieser Sitzung
 
+- 21:14 L0 sekundär vorbereitet: Wechsel bei 25/50 Schritten unter Minibatch (64 Läufe, Lesarten vorab).
+- 21:11 Zwischenbilanz nach 12 Zyklen; Paper §6 um die Machbarkeitsbegründung ergänzt (geprüft).
 - 21:07 EXP-100: Konflikt-Auswertung auch für Batch 64 vorbereitet (Regeln unverändert).
 - 21:05 EXP-102: eigene Begründung des Kontrollarms per Rechnung widerlegt (p(b|a) trägt die Ziele nicht, die Randverteilung von b schon); Paar „gebunden + alle Positionen“ ergänzt.
 - 21:03 **L0-Vorhersage erster Ordnung:** Bei Batch 256 wäscht sich die Stride-Reihenfolge im Festlegungsfenster aus; bei Batch 64 ist sie in der ersten Epoche groß (bei 50 Schritten an der Kante, nachgerechnet). Machbarkeit auf B = 64 erweitert.

@@ -1,8 +1,8 @@
 ---
 id: EXP-099
-status: vorbereitet
+status: zurückgestellt
 datum: 2026-09-28
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/vorbereitet, neu/kandidat]  # zurückgestellt nach Regel 20a
 ---
 # EXP-099: Bestimmt Adams Koordinatenbasis, welche Frequenzen die frühe Bewegung wählt? (Pilot, Exploration)
 
@@ -47,6 +47,10 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-099-fourier-adam/jobs.txt
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-099-fourier-adam/analyze.py
 ```
 Splits, `jobs.txt`, `smoke.txt` sind schon erzeugt (`design.py`, reines numpy). Scheitert ein Test: Patch zurücknehmen, Fehler im JOURNAL, EXP-099 nicht starten.
+
+## Statische Prüfung (Sitzung 43, 19:15) und Status
+
+**Zurückgestellt nach Regel 20a** (Wochenplan: keine Mechanismus-Detailversuche). **Vor jedem Start zu beheben (MAJOR):** Mit vollem Batch und fast konstantem Gradienten ist Adams frühe Bewegung in *jeder* Basis ein Vorzeichenschritt. In DFT-Koordinaten bewegt sich damit jeder Koeffizient um ±lr, und die Leistung je Frequenz ist nahezu gleichverteilt (numpy-Beispiel des Prüfers: Zielanteil 0.054 = Gleichverteilung, egal wie stark der Gradient auf den Zielen liegt). „V2“ ist damit fast konstruktionsbedingt, und g24F ist exakt gleichverteilt. Ein V2-Ergebnis sagt nichts darüber, ob die Token-Streuung (V1) existiert. **Korrektur:** einen rotationsinvarianten Arm ergänzen (linear normierte Schritte wie EXP-097 `normgd`, lr·g/rms(g) ist in beiden Basen gleich): f(normgd) − f(tok) misst die Streuung, f(normgd) − f(four) die Angleichung. Oder die Gleichverteilungsvorhersage für n24F vorab festlegen. Q2 (S bei 2000) ist mit der Lerngeschwindigkeit verwechselt → Generalisierungsschritt, Train-Genauigkeit und S bei 250 beschreibend ergänzen. Kleinere Punkte: `max_coord_dev` prüft nur die Orthonormalität von B (besser: Bᵀ·W_E[:p] gegen C vor dem Schritt); der Test erkennt eine fehlende `W_E.grad = None`-Zeile nicht. Code des Patches sonst ohne Befund (alle erlaubten Pfade geprüft).
 
 ## Ergebnis
 

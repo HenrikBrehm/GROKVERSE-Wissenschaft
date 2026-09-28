@@ -5,19 +5,25 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 13:20 Berlin (11:20Z, vom Runner)
 - **Deadline:** 2026-09-28 16:19 Berlin (14:19Z)
-- **Zuletzt aktualisiert:** 14:33 Berlin
+- **Zuletzt aktualisiert:** 15:37 Berlin
 - **Run-Fenster:** heute bis 18:00 (Deadline früher).
 
 ## Gerade
 
-GPU rechnet: **EXP-093** (bis zu welcher Lernrate gilt die neue „Momentum-Verzögerungs-Uhr“? 288 Läufe, fertig ≈ 15:25) und das **Reproduktionspaket** (jetzt Reset-Versuche K4d/K4e).
+GPU rechnet **EXP-094** (bleibt der Nachteil großer Lernraten, wenn man Adams Fenster angleicht? 192 Läufe) und das Reproduktionspaket (K4b). Beides wird an der Deadline 16:19 vom Wächter beendet, falls nicht fertig, und in der nächsten Sitzung (16:54) fortgesetzt.
 
 ## Als Nächstes
 
-EXP-093 auswerten, Paper §4 ergänzen, Stand sichern vor der Deadline 16:19.
+Stand sichern, Abschlussbericht; nächste Sitzung: EXP-094 fertig + auswerten, Repro-Rest.
 
 ## Verlauf dieser Sitzung
 
+- 15:36 EXP-094 vorab festgelegt und gestartet.
+- 15:33 **Neu (post hoc):** Über 15 Einstellungen hängt die Persistenz fast nur davon ab, *wie zielgenau* die frühe Bewegung ist (R² 0.93), nicht wie weit sie ging.
+- 15:31 **EXP-093: Die Lag-Uhr gilt nicht allgemein.** Bei gleicher Lernratensumme legen größere, seltenere Schritte immer schwächer fest (0.27 → 0.09).
+- 15:30 Repro: auch K4e und K2-Funktion exakt reproduziert.
+- 14:45 Paper-Abschnitte zu EXP-092 und Mechanismus unabhängig geprüft (keine Zahlenfehler; eine Literaturaussage zu Sweeney auf das Belegte reduziert).
+- 14:39 **Repro K4d bitgenau** (Attention-Reset). Jetzt K4e.
 - 14:30 EXP-093 vorab festgelegt und gestartet (Gültigkeitsbereich der Uhr, Lernrate ×2 bis ×8).
 - 14:28 **EXP-092: Lag-Uhr gestützt.** Sie sagt neue Einstellungen gut voraus (Fehler 0.03 gegen 0.07/0.15 für die einfachen Uhren), versagt aber bei 4-facher Lernrate (wenige große Schritte, unselektive Bewegung).
 - 14:20 Neuheitsprüfung des Nutzer-Assistenten eingearbeitet (Sweeney, Kleinman, LeDoux, He).

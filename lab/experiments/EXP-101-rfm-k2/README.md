@@ -60,4 +60,4 @@ Laufzeit geschätzt (nicht gemessen): ≈ 5 s je Iteration bei n = 3831, also �
 
 Bezug: [[NOVEL_DIRECTIONS]] N50 (braucht K2 einen Auswahldruck im Lerner?). EXP-101 ist dafür der Test ohne die lr·wd-Verwechslung von R1.
 
-**Zusatz (Sitzung 44, 21:24, vor jedem Lauf; beschreibend, ändert keine Lesart):** Δ_pow je Iteration (`dpow_curve`) und nach der ersten AGOP-Iteration (`dpow_iter1`). Iteration 1 ist das RFM-Gegenstück zur Theorie erster Ordnung (erste Aktualisierung aus M₀ = I, nur durch Split und anfänglichen Kernprädiktor bestimmt). Damit lässt sich sehen, ob eine anfängliche Steuerung im weiteren Verlauf verstärkt (wie beim Transformer) oder verwaschen wird (Erwartung N50).
+**Zusatz (Sitzung 44, 21:22, vor jedem Lauf; beschreibend, ändert keine Lesart):** Δ_pow je Iteration (`dpow_curve`) und nach der ersten AGOP-Iteration (`dpow_iter1`). Iteration 1 ist das RFM-Gegenstück zur Theorie erster Ordnung (erste Aktualisierung aus M₀ = I, nur durch Split und anfänglichen Kernprädiktor bestimmt). Damit lässt sich sehen, ob eine anfängliche Steuerung im weiteren Verlauf verstärkt (wie beim Transformer) oder verwaschen wird (Erwartung N50).

@@ -196,3 +196,8 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 - **Anzahl gegen Abstand (Priorität 3):** 3 Auswertungen früh gebündelt (Schritte 1, 2, 3, danach eingefroren) gegen gleichmäßig verteilt (1, 9, 17), bei gleichem Λ.
 - **Verallgemeinerung (Regel 15c):** derselbe g8/g24-Aufbau bei mul 113 oder add 97 (Splitbau für Wechselpaare dort nötig).
 - **Theorie:** Der Befund begrenzt die Reichweite der ersten Ordnung (§5) für die Persistenz; Anschluss an AGF bzw. das Lotteriebild mit exponentiellem Gewinnerwachstum (arXiv 2602.16849) prüfen.
+
+## Sitzung 43: Vorzeichenschritt oder Veraltung? (nach EXP-095 Nachtrag b)
+
+- **EXP-097 (Priorität 2, nach R10 und EXP-096):** [[experiments/EXP-097-sign-vs-staleness/README|EXP-097]] vorbereitet. Mit eingefrorenem Gradienten macht Adam reine Vorzeichenschritte; Binarisierung erklärt post hoc ≈ 56 % der Selektivitätslücke von g24. Der 2 × 2-Versuch trennt Veraltung von Quantisierung (Adam-Zustand im Schatten). Trainer-Patch erst nach `confirm_r10.py --analyze` anwenden (R10 bindet den Trainer-Hash).
+- **Folge für die Rückkopplungs-/Korrekturfrage (Sitzung 42, Priorität 2 dort):** Der norm-angeglichene g24-Arm entfällt vorerst: Er änderte nur die Größe von sign(g₀), nicht die Richtung. EXP-097 ist der schärfere Test. Kommt „Veraltung zählt“ heraus, folgt die Trennung Rückkopplung gegen Korrektur mit linearen Schritten (z. B. nur Ziel- bzw. nur Nicht-Ziel-Anteil auffrischen).

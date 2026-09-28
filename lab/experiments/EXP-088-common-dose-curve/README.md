@@ -1,8 +1,8 @@
 ---
 id: EXP-088
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-28
-tags: [exp/vorbereitet, neu/kandidat, programm/C]
+tags: [exp/abgeschlossen, befund/unklar, neu/kandidat, programm/C]
 verwandt: ["[[experiments/EXP-087-planted-signal-mediation/README|EXP-087]]", "[[confirm/R5_REGISTRATION_DRAFT|R5]]", "[[NOVEL_DIRECTIONS]]", "[[FINDINGS]]", "[[JOURNAL]]"]
 ---
 # EXP-088: Liegen datengesteuertes und eingepflanztes frühes W_E-Zielsignal auf *einer* Dosiskurve „Anteil bei 250 → Grokking-Zeit“?
@@ -57,3 +57,15 @@ python lab/experiments/EXP-088-common-dose-curve/design.py --jobs > lab/experime
 python lab/tools/parallel_queue.py lab/experiments/EXP-088-common-dose-curve/jobs.txt --workers 8
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-088-common-dose-curve/design.py --analyze
 ```
+
+## Ergebnis (Sitzung 39, 2026-09-28; 140/140 GPU-Läufe 09:30–10:17 Berlin laut Queue-Log; `design.py --analyze` über den Wächter)
+
+Keine technischen Ausfälle, keine zensierte Einheit, 20/20 Einheiten mit zulässigem Eingriffsarm (P2 in 20, P1 in 4, P4 in 7).
+- **Primär (lineare Datenkurve, β = −6.4 log2 je Anteilseinheit):** mittleres Residuum **−0.39 log2** (≈ ×1.31 schneller, als der Anteil vorhersagt), 90-%-KI [−0.52, −0.27], 95-%-KI [−0.55, −0.24]; 17/20 Einheiten negativ. **Lesart: *unklar*** (90-%-KI nicht ganz in [−0.5, 0.5]; 95-%-Obergrenze nicht unter −0.5).
+- **Sensitivität (stückweise linear je Einheit, Nachtrag a):** −0.39 [90 %: −0.54, −0.25] → ebenfalls *unklar*; die Kurvenform ändert nichts.
+- **Je Arm (beschreibend):** P1 −0.27 (n = 4), P2 −0.38 (n = 20), P4 −0.75 (n = 7).
+- **Beschreibend je Arm (Anteil bei 250 / geometrisches Zeitmittel / finale Top-5 auf den Zielen):** R 0.09 / 5733 / 0.40 · P1 0.26 / 1566 / 3.45 · E2 0.32 / 875 / 3.65 · P2 0.42 / 434 / 3.50 · E4 0.45 / 473 / 3.80 · E8 0.49 / 426 / 4.00 · P4 0.53 / 244 / 3.65.
+
+**Lesart (Interpretation):** Eingepflanzte und datengesteuerte Arme liegen nahe an einer gemeinsamen Kurve. Die verbleibende Abweichung von ≈ 0.4 log2 ist klein gegen den Gesamteffekt (R → E8 ≈ 3.75 log2, also ≈ 10 %), aber in 17/20 Einheiten von 0 verschieden (95-%-KI schließt 0 aus): Pro Einheit Zielanteil wirkt das eingepflanzte Signal etwas stärker. Das spricht gegen M-data (die Daten tragen nicht zusätzlich bei) und für einen gemeinsamen Mittler mit einem kleinen Vorteil des Eingriffs, etwa weil er schon bei Schritt 0 wirkt. Äquivalenz innerhalb von ×1.41 ist knapp nicht gezeigt. Einpflanzen steuert auch die Endwahl fast wie die Daten (3.45–3.65 gegen 3.65–4.00 von 5 Zielen).
+**Grenzen:** Exploration mit frischen Seeds, aber ohne eingefrorenes Manifest; nur P2 liegt überall im Datenbereich; E4 und E8 liegen im Anteil nah beieinander (0.45/0.49), die Kurve sättigt dort; eine Architektur, add 113.
+

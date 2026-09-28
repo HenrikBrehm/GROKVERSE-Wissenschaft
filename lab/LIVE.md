@@ -1,23 +1,24 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 40
+# LIVE: Laborsitzung 40: **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-28 10:29 Berlin (08:29Z, vom Runner)
 - **Deadline:** 2026-09-28 13:29 Berlin (11:29Z)
-- **Zuletzt aktualisiert:** 12:26 Berlin
+- **Zuletzt aktualisiert:** 13:13 Berlin
 - **Run-Fenster:** heute bis 18:00.
 
 ## Gerade
 
-**Bestätigung R9 läuft** (eingefroren, 504 GPU-Läufe, 36 frische Seeds): Tickt die frühe Festlegung in Lernratensumme, wenn Adams Fenster in Lernratensumme gemessen werden? Erwartetes Ende ≈ 13:15.
+**Sitzung beendet.** Keine Läufe aktiv. **Heute bestätigt: R9.** Die frühe Frequenzfestlegung tickt in aufsummierter Lernrate, wenn man Adams Momentum-Verzögerung in derselben Einheit misst (36/36 Seeds). Das beantwortet die größte offene Frage aus FINDINGS weitgehend. Nächster geplanter Start laut runner-state.json: **14:04 Berlin** (bzw. direkt nach dieser Sitzung).
 
 ## Als Nächstes
 
-Fortschritt beobachten; wenn fertig: `--analyze`. Sonst setzt die nächste Sitzung fort (gebundene Läufe werden übersprungen).
+R9 ins Paper (§3.15, unabhängig nachrechnen), dann Kernaussage K5 in FINDINGS; danach Mechanismus-Pilot (N48).
 
 ## Verlauf dieser Sitzung
 
+- 13:12 **R9 bestätigt (H1, H2, H3):** +0.161 (36/36), Äquivalenz zu Standard +0.015, bei doppelter Lernrate +0.057 (34/36). Ein technischer Einzelfehler (Windows-Dateizugriff) wurde durch erneuten Queue-Lauf behoben.
 - 12:25 **R9 eingefroren** (nach Prüfung: H1 gegen 0, n = 36), Smoke ok, Block gestartet.
 - 12:12 `confirm_r9.py` geschrieben, Selbsttest grün; Seeds 3300–3323 reserviert.
 - 12:08 Paper §4/§3.10 zu den Optimierer-Piloten geprüft und korrigiert.

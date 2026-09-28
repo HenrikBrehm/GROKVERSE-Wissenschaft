@@ -1,6 +1,6 @@
 ---
 id: EXP-101
-status: entwurf
+status: vorbereitet
 datum: 2026-09-28
 tags: [exp/vorbereitet]
 ---

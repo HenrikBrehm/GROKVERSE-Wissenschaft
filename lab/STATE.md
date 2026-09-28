@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-28, 18:41 Berlin (Sitzung 43, Fenster zu; Läufe ab 29.09. 00:00–13:00)._
+_Zuletzt aktualisiert: 2026-09-28, 18:47 Berlin (Sitzung 43, Fenster zu; Läufe ab 29.09. 00:00–13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -30,6 +30,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 4. Nach 480/480: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r10.py --analyze lab/confirm/R10_manifest.json`. Ergebnis in [[confirm/R10_REGISTRATION_DRAFT|R10]], FINDINGS (K6-Kandidat), Paper §3.16 (falls bestätigt; sonst §4), unabhängig nachrechnen lassen.
 5. EXP-096-Block, dann `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-096-gradient-feedback-tasks/analyze.py`.
 6. **Erst nach Schritt 4 (R10 ausgewertet):** EXP-097 laut README: `git apply lab/experiments/EXP-097-sign-vs-staleness/trainer_psu.patch` → Trainer-Tests über den Wächter (9 Tests, neu `pre_switch_update`) → Trainer + Test committen → `analyze.py --selftest` → Smoke (3) → `--smoke-check` → Block (`--workers 8`) → `analyze.py`. Schlägt ein Test fehl: Patch zurücknehmen (`git checkout -- lab/experiments/EXP-001-freq-ban/freq_ban.py lab/tests/test_freq_ban_fingerprint.py`), Fehler im JOURNAL. EXP-096 läuft mit dem alten Trainer (Standardwerte unverändert).
+7. **R11** ([[confirm/R11_REGISTRATION_DRAFT|R11]], K4 bei add 97 / mul 113, 240 GPU-Läufe ≈ 40 min): Prüfbefund aus Sitzung 43 im JOURNAL beachten. Dann einfrieren laut Registrierung (Selbsttest → Manifest → Commit → Splits → Jobs → Smoke → Block → `--analyze`). **Trainer-Hash:** R11 bindet `freq_ban.py`. Also entweder R11 komplett (bis `--analyze`) vor dem EXP-097-Patch, oder erst nach dem Patch-Commit einfrieren. Empfehlung: R11 direkt nach R10 einfrieren und neben EXP-096 rechnen (GPU-Prozesse ≤ 10), EXP-097 danach.
 
 ## Prioritäten (Regel 18c + 19)
 

@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 20:19 Berlin (18:19Z, vom Runner)
 - **Deadline:** 2026-09-28 23:19 Berlin (21:19Z)
-- **Zuletzt aktualisiert:** 21:03 Berlin
+- **Zuletzt aktualisiert:** 21:07 Berlin
 - **Run-Fenster:** zu (Wächter: outside_window); öffnet 23:59, also nach dieser Sitzung. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
 
-Nächsten Zyklus wählen. Vorbereitet für die Nacht: R10 → L0 (Machbarkeit jetzt B = 256 und 64), EXP-101 (CPU), EXP-103 (GPU-Füllarbeit).
+Prüfung der EXP-100-Auswertung (B = 64-Konfliktweg) läuft (nur lesend).
 
 ## Als Nächstes
 
@@ -18,6 +18,8 @@ Nächste Sitzung 23:54 Berlin; ab 23:59 R10 fertig → L0. Füllarbeit: EXP-101 
 
 ## Verlauf dieser Sitzung
 
+- 21:07 EXP-100: Konflikt-Auswertung auch für Batch 64 vorbereitet (Regeln unverändert).
+- 21:05 EXP-102: eigene Begründung des Kontrollarms per Rechnung widerlegt (p(b|a) trägt die Ziele nicht, die Randverteilung von b schon); Paar „gebunden + alle Positionen“ ergänzt.
 - 21:03 **L0-Vorhersage erster Ordnung:** Bei Batch 256 wäscht sich die Stride-Reihenfolge im Festlegungsfenster aus; bei Batch 64 ist sie in der ersten Epoche groß (bei 50 Schritten an der Kante, nachgerechnet). Machbarkeit auf B = 64 erweitert.
 - 20:59 Auswerteskripte EXP-102/103 geprüft (1 Major behoben); Plan für die R10-Nachrechnung abgelegt.
 - 20:52 EXP-103 Teil B: frühe Spektren (10–200) für den Zwei-Uhren-Test; N51-Gegenhinweis notiert.

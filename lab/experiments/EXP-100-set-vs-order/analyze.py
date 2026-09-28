@@ -136,27 +136,9 @@ def verdict(rows: list[dict]) -> dict:
         k2 = "Menge steuert kaum"
     else:
         k2 = "gemischt"
-    peaks = [p for r in ok for p in r["peakO_stride256"]]
-    frac_o = float(np.mean(peaks))
-    o_diff_ci = boot_ci(col("o_stride256") - col("o_iid256"))
-    dpow_diff = col("dpow_end_stride256") - col("dpow_end_iid256")
-    rr = [r for r in ok if "R_o_stride256" in r and "R_o_iid256" in r]
-    if rr:
-        fo = float(np.mean([r["R_peakO_stride256"] for r in rr]))
-        do = col("R_o_stride256", rr) - col("R_o_iid256", rr)
-        cio = boot_ci(do)
-        alone = "wirkt" if fo >= SHARE else ("wirkt nicht" if fo <= 1 - SHARE and cio[0] <= 0 <= cio[1] else "unklar")
-    else:
-        fo, cio, alone = None, None, "nicht auswertbar"
-    order_acts = alone == "wirkt" or o_diff_ci[0] > 0
-    if not order_acts:
-        conflict = "Konflikt nicht pruefbar (Reihenfolge wirkt nicht)"
-    elif ci["stride256"][0] > 0 and 1 - frac_o >= SHARE:
-        conflict = "Menge gewinnt"
-    elif frac_o >= SHARE and ci["stride256"][0] <= 0:
-        conflict = "Reihenfolge gewinnt"
-    else:
-        conflict = "beide wirken"
+    c256 = conflict_reading(ok, col, "stride256", "iid256", ci["stride256"])
+    frac_o, o_diff_ci, dpow_diff, fo, cio, alone, conflict = (c256[k] for k in (
+        "frac_o", "o_diff_ci", "dpow_diff", "fo", "cio", "alone", "conflict"))
     sg = [r for r in rows if "dpow_end_sgdm256" in r and all(t is not None for t in r["tgen_sgdm256"])]
     out = {"n": len(ok), "K2_MB": k2, "Konflikt": conflict, "Reihenfolge_allein": alone,
            "dpow_end": {arm: {"mean": float(col(f"dpow_end_{arm}").mean()), "ci95": ci[arm]} for arm in ci},
@@ -171,7 +153,42 @@ def verdict(rows: list[dict]) -> dict:
            "sgdm256": ({"n": len(sg), "dpow_end_mean": float(np.mean([r["dpow_end_sgdm256"] for r in sg])),
                         "dpow_end_ci95": boot_ci(np.array([r["dpow_end_sgdm256"] for r in sg]))}
                        if len(sg) >= MIN_VALID else {"n": len(sg), "reading": "nicht auswertbar"})}
+    if "stride64" in D.ARMS:     # s44: fallback of the feasibility rule; same readings, B = 64 against iid64
+        ok64 = [r for r in ok if "dpow_end_stride64" in r]
+        if len(ok64) < MIN_VALID:
+            out["Konflikt_B64"] = {"n": len(ok64), "Konflikt": "nicht auswertbar"}
+        else:
+            c64 = conflict_reading(ok64, lambda k, rs=ok64: np.array([r[k] for r in rs], dtype=float), "stride64", "iid64",
+                                   boot_ci(np.array([r["dpow_end_stride64"] for r in ok64], dtype=float)))
+            out["Konflikt_B64"] = {"n": len(ok64), "Konflikt": c64["conflict"], "Reihenfolge_allein": c64["alone"],
+                                   "stride_peak_in_O_fraction": c64["frac_o"], "o_diff_stride_minus_iid_ci95": c64["o_diff_ci"],
+                                   "dpow_stride_minus_iid": {"mean": float(c64["dpow_diff"].mean()), "ci95": boot_ci(c64["dpow_diff"])},
+                                   "R_stride_peak_in_O_fraction": c64["fo"], "R_o_diff_ci95": c64["cio"]}
     return out
+
+
+def conflict_reading(ok: list[dict], col, st: str, iid: str, ci_st: list[float]) -> dict:
+    """Konflikt readings of the docstring (Fassung 2) for one stride arm against its iid arm (s44: factored out, unchanged)."""
+    frac_o = float(np.mean([p for r in ok for p in r[f"peakO_{st}"]]))
+    o_diff_ci = boot_ci(col(f"o_{st}") - col(f"o_{iid}"))
+    dpow_diff = col(f"dpow_end_{st}") - col(f"dpow_end_{iid}")
+    rr = [r for r in ok if f"R_o_{st}" in r and f"R_o_{iid}" in r]
+    if rr:
+        fo = float(np.mean([r[f"R_peakO_{st}"] for r in rr]))
+        cio = boot_ci(col(f"R_o_{st}", rr) - col(f"R_o_{iid}", rr))
+        alone = "wirkt" if fo >= SHARE else ("wirkt nicht" if fo <= 1 - SHARE and cio[0] <= 0 <= cio[1] else "unklar")
+    else:
+        fo, cio, alone = None, None, "nicht auswertbar"
+    if not (alone == "wirkt" or o_diff_ci[0] > 0):
+        conflict = "Konflikt nicht pruefbar (Reihenfolge wirkt nicht)"
+    elif ci_st[0] > 0 and 1 - frac_o >= SHARE:
+        conflict = "Menge gewinnt"
+    elif frac_o >= SHARE and ci_st[0] <= 0:
+        conflict = "Reihenfolge gewinnt"
+    else:
+        conflict = "beide wirken"
+    return {"frac_o": frac_o, "o_diff_ci": o_diff_ci, "dpow_diff": dpow_diff, "fo": fo, "cio": cio, "alone": alone,
+            "conflict": conflict}
 
 
 def main() -> None:
@@ -213,6 +230,20 @@ def selftest() -> None:
     assert verdict([mk(s, 5.0, 5.0, False, False) for s in range(5)])["K2_MB"] == "nicht auswertbar"
     assert suffix("stride256") == "_bs256_ordstride" and suffix("iid64") == "_bs64" and suffix("fb") == ""
     assert D.ROOTS["fb30k"] != "raw"           # fb and fb30k share the run id, so they need separate roots
+    assert "Konflikt_B64" not in verdict([mk(s, 5.0, 5.0, False, False) for s in range(8)])
+    keep = D.ARMS                              # s44: B = 64 conflict path (only when stride64 is added to ARMS)
+    try:
+        D.ARMS = {**keep, "stride64": (64, "stride", "adamw", D.MB_STEPS)}
+        rows = [mk(s, 5.0, 5.0, False, False) for s in range(8)]
+        for r in rows:
+            r["dpow_end_stride64"], r["o_stride64"], r["peakO_stride64"] = 0.0 + rng.normal(0, 0.3), 0.3, [True, True]
+            r["R_o_stride64"], r["R_o_iid64"], r["R_peakO_stride64"] = 0.3, 0.1 + rng.normal(0, 0.01), True
+        v = verdict(rows)
+        assert v["Konflikt"] == "Konflikt nicht pruefbar (Reihenfolge wirkt nicht)", v
+        assert (v["Konflikt_B64"]["Konflikt"], v["Konflikt_B64"]["Reihenfolge_allein"]) == ("Reihenfolge gewinnt", "wirkt"), v
+        assert suffix("stride64") == "_bs64_ordstride"
+    finally:
+        D.ARMS = keep
     print("[exp100] selftest ok", flush=True)
 
 

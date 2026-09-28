@@ -45,6 +45,10 @@ ARMS = {"fb": (0, "iid", "adamw", FB_STEPS), "fb30k": (0, "iid", "adamw", MB_STE
 R_ARMS = ("iid256", "stride256")
 FEAS_EXTRA = {"stride64": (64, "stride", "adamw", MB_STEPS)}   # s44: first-order window prediction -> feasibility also at B = 64
 FEAS_ARMS = ("iid256", "stride256", "iid64", "stride64")
+CONFLICT_B64 = False   # s44: set True (and record in the README) if feas_read.py shows an order effect only at B = 64
+if CONFLICT_B64:       # one switch: conflict arm stride64 on F/G and the R pair iid64/stride64 (review s44: R_ARMS must grow too)
+    ARMS = {**ARMS, **FEAS_EXTRA}
+    R_ARMS = R_ARMS + ("iid64", "stride64")
 ROOTS = {"fb30k": "raw_fb30k"}   # plan review s43 (blocker): fb and fb30k have the same run id (steps are not in it)
 PY = (LAB.parent / ".venv-gpu/Scripts/python.exe").as_posix()
 FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"

@@ -233,7 +233,7 @@ def selftest() -> None:
     assert "Konflikt_B64" not in verdict([mk(s, 5.0, 5.0, False, False) for s in range(8)])
     keep = D.ARMS                              # s44: B = 64 conflict path (only when stride64 is added to ARMS)
     try:
-        D.ARMS = {**keep, "stride64": (64, "stride", "adamw", D.MB_STEPS)}
+        D.ARMS = {**keep, **D.FEAS_EXTRA}      # what CONFLICT_B64 = True does (R_ARMS part: see design.py)
         rows = [mk(s, 5.0, 5.0, False, False) for s in range(8)]
         for r in rows:
             r["dpow_end_stride64"], r["o_stride64"], r["peakO_stride64"] = 0.0 + rng.normal(0, 0.3), 0.3, [True, True]

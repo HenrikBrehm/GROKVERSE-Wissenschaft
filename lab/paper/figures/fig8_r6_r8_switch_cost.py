@@ -63,7 +63,7 @@ def main() -> None:
     ax.fill_between(ts, ci[:, 0], ci[:, 1], color=C1, alpha=0.18, linewidth=0)
     ax.plot(ts, mean, color=C1, linewidth=2, marker="o", markersize=5, markeredgecolor=SURFACE, markeredgewidth=1.5)
     ax.set_ylabel("switch cost C(t) [log2]", color=INK, fontsize=8)
-    ax.set_title("R6: a switch at step t delays grokking (30 fresh seeds)", color=INK, fontsize=8.5, loc="left")
+    ax.set_title("R6: switch cost, 30 fresh seeds (> 0 = later grokking)", color=INK, fontsize=8.5, loc="left")
     ax.tick_params(labelbottom=False)
     bx.axhline(0.5, color=GRID, linewidth=0.8, linestyle="--")
     bx.plot(ts, pi, color=MUTED, linewidth=2, marker="o", markersize=4)
@@ -77,7 +77,7 @@ def main() -> None:
     cx.scatter(np.zeros_like(cab), cab, s=28, color=C2, edgecolor=SURFACE, linewidth=1.5, zorder=3)
     cx.scatter(np.ones_like(caa), caa, s=28, color=C1, edgecolor=SURFACE, linewidth=1.5, zorder=3)
     cx.axhline(0, color=MUTED, linewidth=0.8)
-    cx.set_xticks([0, 1], ["other targets\n(A→B)", "same targets,\nnew pairs (A→A2)"], fontsize=7.5, color=INK)
+    cx.set_xticks([0, 1], ["other targets\n(A↔B, both directions)", "same targets, new pairs\n(A↔A2, both directions)"], fontsize=7.5, color=INK)
     cx.set_xlim(-0.4, 1.4)
     cx.set_ylabel("switch cost at t = 25 [log2]", color=INK, fontsize=8)
     d = r8["result"]["H1"]

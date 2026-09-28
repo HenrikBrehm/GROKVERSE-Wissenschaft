@@ -90,3 +90,10 @@ Primär: gepaarte Differenz π(β₂) − π(0.98) bei t = 33 je Zelle mit Boots
 2. Teil A (β₁ über den Schwanz) bleibt informativ und unabhängig von R3. Teil B (β₂-Skalierung N37) bleibt unwahrscheinlich (kein Mechanismus, Nachtrag a); R3 ändert daran nichts.
 3. **Neuer Kandidat für einen dritten Teil C (nur Entwurf):** Λ fest, Schritte variiert über mehr als Faktor 2 (z. B. Λ = 25 als lr × 0.25 für 100 Schritte, × 0.5 für 50, × 1 für 25), π je Zelle gegen die Referenzkurve. Die Mischuhr sagt eine mit t langsam wachsende Festlegung voraus (a < 1), die reine Λ-Uhr keine. Vorher prüfen, ob sehr kleine Lernraten bei wd 1 den Vorlauf anders formen (Weight Decay wirkt pro Schritt mit lr · wd, also ebenfalls in Λ).
 **Zeitliche Sperre (neu):** `--beta1/--beta2` erst in `freq_ban.py` einbauen, wenn die eingefrorenen Blöcke **R2 und R4** gerechnet und ausgewertet sind; beide Manifeste hashen den Trainer, eine Änderung vorher würde ihre Code-Tore verweigern.
+
+## Nachtrag c (Sitzung 39, 2026-09-28, vor jedem EXP-081-Lauf): Trainer-Stand und offene Designpunkte
+
+- Trainer hat jetzt `--beta1/--beta2` (48dfe7d1, Tests grün, unabhängig geprüft ohne Blocker). **Referenzzelle (0.9, 0.98) ohne Beta-Flags** rechnen (mit expliziten Flags entsteht eine eigene Run-ID, die Ergebnisse wären bitgleich).
+- **Fehlt noch:** Die Sekundärgröße „gemessene Verschiebung bis zum Wechsel“ braucht einen Log ab Schritt 1 oder ‖W(t) − W(0)‖ beim Wechsel unabhängig von Warmup/Skalen (neue Option, Standard aus). Ersatz nur für W_E: `--spectra-at`-Schnappschüsse.
+- **Teil A, vor dem Lauf zu entscheiden:** `--reset-optim-part m` behält den Adam-Schrittzähler. Bei β₁ = 0.95 und t = 25 ist die Bias-Korrektur noch aktiv (0.95²⁵ ≈ 0.28), die ersten Updates nach dem Reset fallen kleiner aus. Das vergrößert Δπ(0.95) zusätzlich zum entfernten Schwanz und begünstigt N38. Entweder in die Vorhersage (`clock_predictions.py`) aufnehmen oder eine Option ergänzen, die den Zähler mit zurücksetzt.
+

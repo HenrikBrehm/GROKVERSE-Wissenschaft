@@ -20,7 +20,7 @@ R2 → Auswertung + C2 + `R2_time.py`, falls vor 08:19 fertig; sonst nächste Si
 
 ## Verlauf dieser Sitzung
 
-- 06:47 **R7 bestätigt:** K2 auch im 2-Schicht-Transformer (Δ_pow 6.15, 10/10). R4 gestartet.
+- 06:44 **R7 bestätigt:** K2 auch im 2-Schicht-Transformer (Δ_pow 6.15, 10/10). R4 gestartet.
 - 06:33 P4/C3-Paperabschnitt geprüft (Testname korrigiert, MLP-Init-Ordnung ergänzt).
 - 06:23 **P4 bestätigt** in allen drei Bedingungen (MLP, 4× Breite, Integer-Addition; je 15/15); **C3 bestätigt** (S = 0.30).
 - 06:08 R3-Paperabschnitt geprüft (Zahlen richtig, Formulierungen vorsichtiger).

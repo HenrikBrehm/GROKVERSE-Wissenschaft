@@ -143,6 +143,11 @@ def cross() -> dict:
     ms = [out[c]["mean_abs_log_ratio"] for c in CROSS]
     out["reading"] = ("product form holds" if all(x < 0.10 for x in ms) else
                       "not only the product" if any(x > 0.20 for x in ms) else "unclear")
+    a_sum = HERE / "summary.json"                        # s44: pairing with old P1 runs is valid only if part A's check passed
+    a_ok = a_sum.exists() and json.loads(a_sum.read_text(encoding="utf-8")).get("n_mismatch_250") == 0
+    out["pairing_validated_by_part_A"] = a_ok
+    if not a_ok:
+        out["reading"] += " (nur beschreibend: Teil-A-Prüfung fehlt oder nicht bestanden)"
     (HERE / "summary_cross.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(json.dumps(out, indent=1))
     return out

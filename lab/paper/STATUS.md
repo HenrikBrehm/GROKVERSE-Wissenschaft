@@ -43,6 +43,7 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 3. **Venue** (z. B. ein Workshop zu Mechanistic Interpretability oder Science of Deep Learning): Entscheidung beim Nutzer.
 4. **Offenlegung der KI-Nutzung:** Vorschlag im Entwurf (Abschnitt „AI use disclosure“); Wortlaut und Verantwortungsübernahme bestätigt der Nutzer.
 5. **Menschliche Prüfung der Literatur** ([[paper/related_work]]) durch den Nutzer oder eine Fachperson, bevor irgendetwas als neu bezeichnet wird.
+6. **LaTeX-Werkzeug (Sitzung 44):** Auf dem Rechner gibt es weder pandoc noch eine TeX-Installation. Für eine arXiv-Fassung braucht es entweder eine lokale TeX-Distribution (z. B. MiKTeX/TeX Live; Installation außerhalb von `.venv-gpu`, also nur mit deiner Freigabe) oder Overleaf (dein Konto). Bis dahin bleibt der Entwurf in Markdown.
 
 ## Punkte (a–f)
 

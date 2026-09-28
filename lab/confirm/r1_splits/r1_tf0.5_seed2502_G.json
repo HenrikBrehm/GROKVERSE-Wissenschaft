@@ -1,0 +1,23 @@
+{
+ "cell": "tf0.5",
+ "seed": 2502,
+ "arm": "G",
+ "targets": [
+  9,
+  28,
+  40,
+  44,
+  47
+ ],
+ "other_targets": [
+  21,
+  30,
+  37,
+  48,
+  53
+ ],
+ "eps": 1.465,
+ "train_frac": 0.5,
+ "n": 6384,
+ "manifest_commit": "6298e67"
+}

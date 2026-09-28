@@ -1,0 +1,23 @@
+{
+ "cell": "lr5e-4",
+ "seed": 2429,
+ "arm": "F",
+ "targets": [
+  22,
+  35,
+  39,
+  41,
+  45
+ ],
+ "other_targets": [
+  3,
+  11,
+  18,
+  36,
+  54
+ ],
+ "eps": 2.0,
+ "train_frac": 0.3,
+ "n": 3831,
+ "manifest_commit": "6298e67"
+}

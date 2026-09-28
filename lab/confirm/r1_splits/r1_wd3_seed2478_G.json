@@ -1,0 +1,23 @@
+{
+ "cell": "wd3",
+ "seed": 2478,
+ "arm": "G",
+ "targets": [
+  5,
+  29,
+  31,
+  32,
+  35
+ ],
+ "other_targets": [
+  36,
+  38,
+  41,
+  45,
+  46
+ ],
+ "eps": 2.0,
+ "train_frac": 0.3,
+ "n": 3831,
+ "manifest_commit": "6298e67"
+}

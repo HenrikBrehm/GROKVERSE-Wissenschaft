@@ -5,19 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-28 02:29 Berlin (00:29Z, vom Runner)
 - **Deadline:** 2026-09-28 05:29 Berlin (03:29Z)
-- **Zuletzt aktualisiert:** 04:15 Berlin
+- **Zuletzt aktualisiert:** 04:45 Berlin
 - **Run-Fenster:** heute bis 18:00.
 
 ## Gerade
 
-EXP-085 läuft (MLP-Wechselkosten, 120 Läufe). Danach startet automatisch der R5-Block (140 × 8000 Schritte). Was bis zur Deadline nicht fertig wird, übernimmt Sitzung 38. Ein Prüfagent kontrolliert den R8-Absatz im Paper.
+Abschlussbericht steht im JOURNAL. Der R5-Block läuft bis zur Deadline (05:29) und wird dann vom Wächter beendet; das CPU-Programm (EXP-040) ebenso. Nächster Start des Runners: **06:04 Berlin** (Sitzung 38).
 
 ## Als Nächstes
 
-EXP-085 auswerten, Abschlussbericht um ≈ 05:15.
+Sitzung 38: R5 fortsetzen und auswerten, EXP-040/014 neu starten, EXP-078 → R7, dann die Blöcke R3, P4, R2, R4.
 
 ## Verlauf dieser Sitzung
 
+- 04:42 R6 post hoc: Kosten und Persistenz je Seed (Vorzeichen kippt zwischen t = 25 und 30).
+- 04:38 **R3, P4, R2, R4 eingefroren** (Smokes grün); Paper: Abb. 8, Achille-Parallele.
+- 04:26 EXP-085 (MLP) nicht auswertbar; beschreibend keine Wechselkosten.
 - 04:13 **R8 bestätigt:** Ein früher Wechsel kostet nur bei anderen Zielfrequenzen Zeit (D = +0.81 log2, 24/25, p = 1.7e-6); gleiche Ziele mit neuen Paaren: −0.15.
 - 03:55 **R6 bestätigt:** Ein Wechsel bei t = 25 verzögert das Grokking (+0.85 log2 ≈ ×1.8, 29/30), stärker als bei 50 (28/30). Paper §3.8.
 - 03:26 **R8 eingefroren** (n = 25 nach unabhängiger Prüfung).

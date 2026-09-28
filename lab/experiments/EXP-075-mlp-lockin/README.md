@@ -1,8 +1,8 @@
 ---
 id: EXP-075
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-27
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/unklar]
 verwandt: ["[[FINDINGS]]", "[[experiments/EXP-045-mlp-steering/README|EXP-045]]", "[[experiments/EXP-059-momentum-exposure/README|EXP-059]]", "[[experiments/EXP-073-part-rewind/README|EXP-073]]", "[[confirm/N29b_REGISTRATION|N29b]]", "[[JOURNAL]]"]
 ---
 # EXP-075: Legt sich die Frequenzwahl auch in einem Netz ohne Attention früh fest? (PILOT)
@@ -29,3 +29,11 @@ Zurück zu [[LAB]] · [[FINDINGS]] „Größte offene Frage“ und Grenze 2/3 (e
 python lab/tools/parallel_queue.py lab/experiments/EXP-075-mlp-lockin/jobs.txt --workers 8
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-075-mlp-lockin/analyze.py
 ```
+
+## Ergebnis (Sitzung 36, 2026-09-28, Läufe 02:14–02:18, Auswertung 02:18 Berlin, gemessen)
+
+120/120 Läufe ok (GPU, `--workers 8`, Log `lab/runner/logs/exp075_s36.log`). **Urteil nach Regel: *nicht auswertbar*.** Nur 5/10 Seeds gültig (≥ 8 verlangt): Bei
+400, 401, 402, 406 und 408 trennen sich die reinen MLP-Läufe A und B im Maß L(A) − L(B) nur um 1.67–1.86 (< 2). Das MLP bildet die beiden Frequenzmengen also weniger getrennt aus als der
+Transformer. **Nur beschreibend, kein Urteil:** Die 5 gültigen Seeds haben π(10) ≈ 0, π(25) 0.08–0.16, π(50) 0.48–0.60, π(100) 0.93–1.22, π(200) 1.17–1.64. Die mittlere Kurve
+erreicht 0.5 nahe t = 50, also innerhalb von 2 × 33.3. Das wäre die Richtung „ähnlich früh“ (Gen), bei ausgewählten Seeds. Kriterien nicht nachträglich geändert. Ein sauberer Nachfolger bräuchte
+frische Seeds mit MLP-eigener Trennprüfung vor der Zuordnung (neue Registrierung, kein Nachtrag). [[JOURNAL]] Sitzung 36.

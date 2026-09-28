@@ -1,23 +1,24 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 44
+# LIVE: Laborsitzung 44: **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-28 20:19 Berlin (18:19Z, vom Runner)
 - **Deadline:** 2026-09-28 23:19 Berlin (21:19Z)
-- **Zuletzt aktualisiert:** 21:43 Berlin
+- **Zuletzt aktualisiert:** 21:47 Berlin
 - **Run-Fenster:** zu (Wächter: outside_window); öffnet 23:59, also nach dieser Sitzung. Diese Sitzung trainiert und testet nicht.
 
 ## Gerade
 
-Nachprüfung der Korrekturen an den Nachtdokumenten läuft (nur lesend). Danach Abschlussbericht.
+**Sitzung beendet** (21:47). Keine Läufe (Fenster zu). Abschlussbericht im JOURNAL.
 
 ## Als Nächstes
 
-Nächste Sitzung 23:54 Berlin; ab 23:59 R10 fertig → L0. Füllarbeit: EXP-101 (CPU), EXP-103 (GPU, 140 kurze Läufe, ≤ 4 Worker).
+Nächste Sitzung **23:54 Berlin** (Runner). Läufe ab **23:59**: R10 fertig → Auswertung → Nachrechnung vor `git apply` → L0 (Machbarkeit bei Batch 256 und 64) + R11; EXP-101 (CPU), EXP-103 (freie GPU-Plätze). Befehle: [[NACHT_2026-09-29]].
 
 ## Verlauf dieser Sitzung
 
+- 21:47 Sitzung beendet (86+ Commits, 21 Zyklen, alles ungetestet vorbereitet oder nachträglich an gespeicherten Daten gerechnet).
 - 21:43 Nachtdokumente auf Widersprüche geprüft (15 Punkte behoben: GPU-/Thread-Grenzen, Stichtag `git apply` für die R10-Nachrechnung, Start vor 23:59, SGD ohne Treffer, gitignore).
 - 21:33 L0: Deutungssätze je Ausgang vorab festgelegt; Literatur (Barak et al. 2022, Lin 2026).
 - 21:28 Nachtrag: Warum wächst Δ_pow? Eigene Ziele halten sich, alle anderen Frequenzen zerfallen mit ≈ 0.5–0.75 der Weight-Decay-Rate (nachgerechnet; mein „85 %“ war falsch bezogen). EXP-103 Teil B entscheidet die lr·wd-Uhr, vorgezogen.

@@ -46,3 +46,7 @@ Anlass: Post hoc an N29b/N29c (Sitzung 32, Zyklen 12–13) verzögerten Resets b
 100/100 Läufe ok (GPU, `--workers 8`). **Lesart nach Regel: *unklar* für beide Aufgaben.** add 97 (10 gültig): Median Δπ attn 0.32 (5/10 > 0.3), vo 0.25, qk −0.01, mlp 0.07.
 mul 113 (9 gültig): attn 0.31 (5/9), vo 0.28, qk −0.00, mlp −0.00. Die Rangfolge wie bei add 113 (Attention/Wertepfad senken π, QK und MLP praktisch nicht) zeigt sich in beiden Aufgaben,
 aber schwächer als die Schwelle für „verallgemeinert“ (attn ≥ 0.4, ≥ 8/10 über 0.3). `time_cost.py` wurde in dieser Sitzung nicht mehr gerechnet (offen). [[JOURNAL]] Sitzung 36.
+
+## Ergebnis Nachtrag Zeitkosten (Sitzung 37, 2026-09-28 02:30 Berlin, gemessen)
+
+20/20 Einheiten gültig. **Q1 gestützt:** log2 b(VO) − log2 b(QK) Mittel +0.99, 18/18 positiv (2 Gleichstände), p = 3.8e-6: Ein VO-Reset beim Wechsel nach 50 Schritten verzögert das Grokking bei add 97 und mul 113 deutlich stärker als ein QK-Reset (wie N29c). **Q2 nicht gestützt:** Attention − MLP Mittel -0.18, 4/13 positiv, p = 0.95 (Richtung eher umgekehrt als in N29b). **Q3 nicht gestützt:** Attention − ohne Reset +0.02, 5/14, p = 0.91. Beschreibend C(50) gegen nur G: add 97 none 0.29, attn 0.32, mlp 0.47, qk -0.20, vo 0.52; mul 113 none 0.44, attn 0.45, mlp 0.66, qk -0.14, vo 1.12. Lesart: Die VO-gegen-QK-Asymmetrie der Zeitkosten verallgemeinert auf zwei weitere Aufgaben; die Attention-gegen-MLP-Aussage aus N29b nicht. Exploration an bekannten Seeds. [[JOURNAL]] Sitzung 37.

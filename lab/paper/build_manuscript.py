@@ -97,7 +97,7 @@ APPENDIX = [
     ("G", "First-order theory", ["L2:5 "]),
     ("H", "Reproduction from scratch", ["S:Anhang R"]),
     ("J", "Minibatch training and the lock-in clock in detail", ["S:Anhang J"]),
-    ("K", "Towards language models (exploration)", ["S:Anhang K"]),
+    ("K", "Towards language models (explorations and one confirmation, LM1; not among the main results)", ["S:Anhang K"]),
     ("M", "Additional details for the main text (passages shortened in Sections 1-7, verbatim)", ["S:Anhang M"]),
 ]
 

@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-29 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 03:24 Berlin
+- **Zuletzt aktualisiert:** 03:21 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-**Sitzung beendet** (03:24). Keine laufenden Prozesse. Abschlussbericht im JOURNAL.
+**Sitzung beendet** (03:21). Keine laufenden Prozesse. Abschlussbericht im JOURNAL.
 
 ## Als Nächstes
 
@@ -18,7 +18,7 @@ Nächster Runner-Start laut runner-state.json **29.09. 04:24 Berlin**: Literatur
 
 ## Verlauf dieser Sitzung
 
-- 03:24 Sitzung beendet (Bericht im JOURNAL).
+- 03:21 Sitzung beendet (Bericht im JOURNAL).
 - 03:22 **EXP-108: Die Festlegung wandert mit der Wurzel der Schritte pro Durchgang** (Vorhersage für B 1024: 60–67, gemessen 62); nachgerechnet.
 - 03:07 EXP-108 festgelegt und gestartet (Vorhersage Wurzel-Uhr: B 64 ≈ 240, B 1024 ≈ 60 Schritte).
 - 03:05 Paper: §6 und Abstract nach unabhängiger Textprüfung korrigiert (Abstract 1875 Zeichen).

@@ -5,20 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 08:49 Berlin (06:49Z, vom Runner, nach Absturz von Sitzung 48 um 08:24)
 - **Deadline:** 2026-09-29 11:49 Berlin (09:49Z)
-- **Zuletzt aktualisiert:** 10:35 Berlin
+- **Zuletzt aktualisiert:** 11:20 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe laufen jetzt über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- Repro-Paket: **L0** (B 256 exakt; B 64 gleiches Urteil, 3/20 Läufe spät abweichend – Ursache belegt: seltene nicht-deterministische GPU-Rechnung) und **R5 exakt** reproduziert. R6/R8/R4 rechnen beim Dienst.
-- EXP-105-Pilot fertig: „unklar“ (ein Seed lernt die Fakten ansatzweise, der andere nicht). Nachfolger **EXP-113** vorab festgelegt und eingereiht (8 LM-Läufe, ≈ 6 h, startet nach dem Repro-Paket).
-- Jetzt: Paper-Abschnitt „Reproduction“ ergänzen.
+- **Sitzung beendet.** Nächster geplanter Start laut Runner: 12:24 Berlin (10:24Z). Der GPU-Dienst rechnet weiter: Repro R4, dann EXP-113 (Sprachmodell Stufe 2b, mehrere Stunden).
 
 ## Als Nächstes
 
-R8/R6 vergleichen, sobald fertig; Abschlussbericht ≈ 11:40.
+Nächste Sitzung: R4-Vergleich; EXP-113 beobachten und am Budgetende auswerten.
 
 ## Verlauf dieser Sitzung
+
+- 11:20 Sitzungsende; R6 und R8 exakt reproduziert (11:14 / 11:20).
+- 10:45 Anhang R (Reproduktion) geprüft und korrigiert.
 
 - 10:33 EXP-113 vorab festgelegt, GPU-Selbsttest ok, eingereiht.
 - 10:32 R5 exakt reproduziert; L0-Abweichung = GPU-Nichtdeterminismus.

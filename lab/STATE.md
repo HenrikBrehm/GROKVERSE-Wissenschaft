@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 10:34 Berlin (Sitzung 49, läuft bis 11:49) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 11:20 Berlin (Ende Sitzung 49) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,15 +17,15 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 47 (29.09., 03:29–06:29):** **N54b bestätigt** (Festlegung unter Minibatch ≈ √(N/B): α(1e-3) 0.583 [0.560, 0.606]; doppelte lr hilft bei kleinen Batches weniger: Δα +0.139 [0.098, 0.178]; eingefroren 624c2213, nachgerechnet) → Paper §6/§7, Langfassung §3.19, FINDINGS-Zeile. Explorationen: EXP-109 (lr 2e-3), EXP-110/111 (lr 4e-3 bei B 64: auf 2 Seeds später, auf 2 anderen etwas früher → nicht belastbar), Modellvergleich (Drift + ≈ 2 Epochen), Memorisierungsuhr (unklar), **EXP-102 Leiter Stufe 1** (Format hält; Verlust auf allen Positionen verzögert Grokking > ×10, Steuerung reduziert, wächst).
 
-## Aktive Queue / laufende Jobs (Sitzung 49, 08:49–11:49 Berlin; Stand 10:34)
+## Aktive Queue / laufende Jobs (Stand Ende Sitzung 49, 11:20 Berlin)
 
-- **GPU-Dienst (Regel 21, neuer Code seit 10:21: Namensreihenfolge, Hänger-Erkennung)**, Stand in `lab/queue/status.json`. Reihenfolge: `32_repro_r6` (480, läuft), `33_repro_r8` (175, läuft), `34_repro_r4` (240), dann **`40_exp113_stage2b`** (8 LM-Läufe à 16 000 Schritte, geschätzt ≈ 6 h; setzt nach Absturz am Checkpoint fort).
-- Fertig in S49: Repro L0 (H1 bitgleich; H2 3/20 Läufe spät abweichend = GPU-Nichtdeterminismus, belegt), Repro R5 (exakt), EXP-102 „r0 lang“, EXP-112 „10k“, EXP-105-Pilot („unklar“), GPU-Selbsttest lm_stage2 (RNG-Fix).
-- **Auswertungen, sobald fertig:** `python lab/tools/guarded_run.py -- python lab/paper/repro/<r6|r8|r4>.py --device cuda --compare-<r6|r8|r4>` → Tabelle in [[paper/repro/README]] (Abnahmeregel Fall 1: Schwellen gelten). EXP-113: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-113-lm-ladder-stage2b/analyze.py` (Lesarten vorab im README). Zwischenstand: Logs `lab/queue/logs/40_exp113_stage2b/`.
+- **GPU-Dienst (Regel 21)**, Stand `lab/queue/status.json`: `34_repro_r4` (240 Läufe, läuft) und **`40_exp113_stage2b`** (8 LM-Läufe à 16 000 Schritte, erste 2 laufen seit ≈ 11:18; voll parallel erst nach R4; geschätzt mehrere Stunden; Checkpoints alle 1000 Schritte, setzt nach Absturz fort).
+- **Repro-Paket (S49):** L0 (H1 bitgleich; H2 3/20 Läufe spät abweichend = GPU-Nichtdeterminismus, an 3728 F belegt → nach Regel „not reproduced“, Urteil gleich), R5, R6, R8 **exakt reproduziert**. Offen: R4 → `python lab/tools/guarded_run.py -- python lab/paper/repro/r4.py --device cuda --compare-r4`, dann Zeile in [[paper/repro/README]] und Anhang R der Kurzfassung.
+- **EXP-113** am Budgetende: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-113-lm-ladder-stage2b/analyze.py` (Lesarten vorab im README). Zwischendurch Logs `lab/queue/logs/40_exp113_stage2b/` (Durchsatz, `arith share`, Textumlauf).
 
 ## Nächste Schritte (Regel 20)
 
-1. Repro R6/R8/R4 vergleichen und in [[paper/repro/README]] + Paper-Abschnitt „Reproduction“ eintragen (GPU-Nichtdeterminismus bei langen Minibatch-Läufen erwähnen).
+1. Repro R4 vergleichen, in [[paper/repro/README]] und Anhang R (Kurzfassung, geprüft) eintragen.
 2. EXP-113 beobachten (Durchsatz, Textumlauf) und am Budgetende nach Vorab-Lesarten auswerten; danach Stufe-2-Entscheidung (Anteil senken, 10 Seeds, oder „bricht“ dokumentieren).
 3. Paper (Ziel Do 01.10.): Kurzfassung final lesen; Anhang K ist auf Stand S49 (geprüft).
 4. Festlegungsuhr/lr-Fragen (EXP-110/111) ruhen; L0b niedrigere Priorität.

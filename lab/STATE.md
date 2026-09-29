@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 14:50 Berlin (Sitzung 51, Deadline 17:09) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 14:43 Berlin (Sitzung 51, Deadline 17:09) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -21,7 +21,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 51 (ab 14:10):** Kopplung Steuerung ↔ Lernbeginn hält über ×4 Lernrate (post hoc, „coupled“, trennt aber keine gemeinsame Uhr ab). Manuskript-Generator `lab/paper/build_manuscript.py` → [[paper/manuscript]] mit Zitatprüfung (3 fehlende Literatureinträge ergänzt); Kurzfassung auf 4 147 Wörter (dritter Kürzungsdurchgang, geprüft, Originale in Anhang M); Abb. K1 (`fig14_lm_onset.py`). **EXP-116** (K = 2, ≈ 8.7 % Rechen-Tokens) und **EXP-117** (ungekoppelte Embeddings, eigener Trainer `lm_untied.py`, Selbsttest grün) vorab festgelegt und eingereiht; [[paper/LM1_DEUTUNGEN]] vor jedem Ergebnis; unabhängige LM1-Nachrechnung vorbereitet (`lab/confirm/LM1_independent_recompute.py`).
 
-## Aktive Queue / laufende Jobs (Stand Sitzung 51, 14:50 Berlin)
+## Aktive Queue / laufende Jobs (Stand Sitzung 51, 14:43 Berlin)
 
 - **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: neuer Code mit Speicherschutz (höchstens 3 LM-Läufe à gpu_gb 3.5, strenge Namens-Priorität, unterbrochene Läufe zuerst; DRAIN-Neustart durch den Nutzer-Assistenten ab 14:29). Reihenfolge: EXP-113 #0/#1 (Checkpoint 13 000) → `31_lm1` (2/20 fertig um 14:45) → `32_exp115_flat` (1–2/4) → `33_exp117_untied` (4) → `34_repro_r4` (72/240; ruht mehrere Stunden, bewusst) → `40_exp113_stage2b` (6 übrige) → `41_exp116_lowshare` (4). **PROBLEME.md nicht selbst bearbeiten** (Absprache mit dem Nutzer-Assistenten): Probleme ins JOURNAL oder per Nachricht.
 - **LM1 auswerten**, sobald 20/20 fertig: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm1.py --analyze` (Ausfallregel: Lauf ohne Ergebnis mit identischem Befehl neu einreihen; Code nach dem Einfrieren NICHT ändern). Danach unabhängige Nachrechnung, dann FINDINGS/Anhang K.

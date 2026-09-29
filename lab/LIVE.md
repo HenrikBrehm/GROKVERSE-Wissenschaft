@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 14:10 Berlin (12:10Z, vom Runner)
 - **Deadline:** 2026-09-29 17:09 Berlin (15:09Z)
-- **Zuletzt aktualisiert:** 14:28 Berlin
+- **Zuletzt aktualisiert:** 14:37 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
-## Hinweis für den Nutzer (14:30)
+## Hinweis (14:37): wird behoben
 
-Der neue Speicherschutz des GPU-Dienstes lässt seit 14:25 keine neuen Läufe starten: freie Speicherzusage nur 0.6–0.7 GB (Grenze 45.9 GB), obwohl 16.7 GB RAM frei sind. Vermutung: Windows vergrößert die Auslagerungsdatei erst bei Bedarf, und der Dienst wartet, bevor Bedarf entsteht → es könnte bei 3 Läufen bleiben. Details und Vorschlag: [[PROBLEME]] P-013. Ich ändere nichts am Dienst.
+Die Start-Blockade durch die Speicherzusage (P-013) hat der Nutzer-Assistent erkannt; ein sanfter Neustart (DRAIN) mit korrigiertem Speicherschutz läuft seit 14:29, danach starten die wartenden Läufe wieder. Danke!
 
 ## Gerade
 
@@ -23,6 +23,7 @@ EXP-115 (flache Zahl-Häufigkeiten) auswerten, sobald das erste Lauf-Paar fertig
 
 ## Verlauf dieser Sitzung
 
+- 14:37 LM1 Lauf 0 fertig (723 s); Deutungssätze für LM1/EXP-115/EXP-117 vorab festgelegt.
 - 14:26 EXP-117 festgelegt (ungekoppelte Kopie des Trainers, Selbsttest grün) und eingereiht.
 - 14:22 Kürzung unabhängig geprüft; 2 verlorene Einschränkungen und 4 kleinere Punkte wiederhergestellt (Haupttext 4 147 Wörter).
 - 14:21 EXP-116 (wenige Prozent Rechensätze) festgelegt und eingereiht.

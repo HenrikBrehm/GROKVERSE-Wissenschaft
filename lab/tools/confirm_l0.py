@@ -37,8 +37,8 @@ FB = "lab/experiments/EXP-001-freq-ban/freq_ban.py"
 CAL = LAB / "experiments/EXP-053-p3-overlap-design/calibration.json"
 SALT, ALPHA = 100_200, 0.05
 O = (11, 12, 22, 23, 34, 45)                   # stride-order frequencies for p = 113 (EXP-100)
-N_SEEDS: int | None = None                      # set from the pilot (power rule in the registration), then freeze
-BUDGET: int | None = None                       # 30 000 or 15 000 steps, from the measured pilot runtime
+N_SEEDS: int | None = 10                        # s46: power rule after the EXP-100 pilot (L0_power_s46.py -> 10)
+BUDGET: int | None = 30_000                     # s46: pilot runtime ~4-5 min per run on the GPU
 ARMS = {"iid256": 256, "iid64": 64}             # H1, H2
 HYP = {"H1": "iid256", "H2": "iid64"}
 REGISTERED = {"seeds": list(range(3720, 3720 + (N_SEEDS or 0))), "budget": BUDGET, "device": "cuda", "threads": 1,

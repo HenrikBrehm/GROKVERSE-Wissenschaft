@@ -130,3 +130,7 @@ Bis Sitzung 42 deckte das Paket K2, K2-Funktion und K4 ab. Der Haupttext der Kur
 **Ergebnis `r6.py --compare-r6` (2026-09-29 11:14, 480/480 Läufe, GPU):** alle C(t) je Seed identisch (größte Abweichung 0), π bis 5.6·10⁻¹⁶, gleiche Seeds mit definiertem π (30/30) → **numerisch reproduziert**; H1 C(25) = 0.850 [0.730, 0.960], 29/30; H2 C(25) − C(50) = 1.253 [0.969, 1.496], 28/30, beide bestätigt; S1 „nicht gestützt“, S2 „gestützt“ (wie eingefroren).
 
 **Ergebnis `r8.py --compare-r8` (2026-09-29 11:20, 175/175 Läufe, GPU):** C_AB, C_AA2 und D je Seed identisch (größte Abweichung 0, 25 Seeds) → **numerisch reproduziert**; H1 D = 0.815 [0.575, 1.041], 24/25, bestätigt; S1 gestützt.
+
+## Sitzung 53 (21:22 gemessen): R4 vollständig verglichen
+
+`python lab/tools/guarded_run.py -- python lab/paper/repro/r4.py --device cuda --compare-r4` nach 240/240 Dienst-Läufen (`34_repro_r4`, 0 Fehlschläge): **nicht reproduziert nach der vorab festgelegten Toleranz** (10⁻⁶ je Ähnlichkeit; größte Abweichung 0.035). Ursache eingegrenzt: 59/60 Einheiten bitgleich; in Einheit 18 sind 3 von 4 Läufen bitgleich, der Lauf Init 2637 / Split s1 ist bis zum Spektrum bei Schritt 2000 bitgleich und weicht ab 2250 ab (vermutlich GPU-Nichtdeterminismus wie bei L0 B 64; nicht durch einen Wiederholungslauf geprüft). H1a (ρ bei 2000) bis zur letzten Stelle gleich; H1b (cos bei 8000) 0.11775 gegen 0.11772, 42/60 positiv in beiden, beide Urteile „bestätigt“. Tabelle in Anhang Reproduktion (draft_short) nachgetragen.

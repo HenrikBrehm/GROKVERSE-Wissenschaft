@@ -485,7 +485,7 @@ L0, batch 256 & L0 H1 & \texttt{l0.py} & reproduced; 20/20 runs bit-identical at
 L0, batch 64 & L0 H2 & \texttt{l0.py} & not reproduced by the pre-set gate (10⁻³ per seed; largest difference 0.163): 17/20 runs bit-identical, 3 diverged late (first differing saved spectrum at step 15 000, 20 000, 25 000; spectra every 2 500 steps); mean Δ\_pow 9.61 [8.79, 10.47] against the frozen 9.60 [8.79, 10.46], same verdict and inside the frozen CI (reported, not an acceptance criterion under this rule) \\
 R6 (switch cost) & R6 & \texttt{r6.py} & reproduced; every C(t) identical, π within 6·10⁻¹⁶ (30 seeds, 480 runs) \\
 R8 (same-target switch) & R8 & \texttt{r8.py} & reproduced; C\_AB, C\_AA2 and D identical for all 25 seeds (175 runs) \\
-R4 (random splits) & R4 & \texttt{r4.py} & script and smoke done; full run in progress; not yet reproduced \\
+R4 (random splits) & R4 & \texttt{r4.py} & not reproduced by the pre-set gate (10⁻⁶ per similarity; largest difference 0.035): 239/240 runs bit-identical at all 33 saved spectra, 1 diverged late (unit 18, first differing spectrum at step 2250 of 8000; spectra every 250 steps); H1a identical to the last digit, H1b 0.11775 against the frozen 0.11772 (42/60 positive in both), same verdicts (reported, not an acceptance criterion under this rule) \\
 \hline
 \end{tabularx}
 \end{center}

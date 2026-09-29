@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 09:07 Berlin (Sitzung 49, läuft bis 11:49) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 09:35 Berlin (Sitzung 49, läuft bis 11:49) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,12 +17,12 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 47 (29.09., 03:29–06:29):** **N54b bestätigt** (Festlegung unter Minibatch ≈ √(N/B): α(1e-3) 0.583 [0.560, 0.606]; doppelte lr hilft bei kleinen Batches weniger: Δα +0.139 [0.098, 0.178]; eingefroren 624c2213, nachgerechnet) → Paper §6/§7, Langfassung §3.19, FINDINGS-Zeile. Explorationen: EXP-109 (lr 2e-3), EXP-110/111 (lr 4e-3 bei B 64: auf 2 Seeds später, auf 2 anderen etwas früher → nicht belastbar), Modellvergleich (Drift + ≈ 2 Epochen), Memorisierungsuhr (unklar), **EXP-102 Leiter Stufe 1** (Format hält; Verlust auf allen Positionen verzögert Grokking > ×10, Steuerung reduziert, wächst).
 
-## Aktive Queue / laufende Jobs (Sitzung 49, 08:49–11:49 Berlin; Stand 09:07)
+## Aktive Queue / laufende Jobs (Sitzung 49, 08:49–11:49 Berlin; Stand 09:35)
 
-- **Lange Läufe nur noch über den GPU-Dienst (Regel 21):** `lab/queue/status.json` zeigt, was läuft. Eingereiht: `20_s48c_r0long_10k` (EXP-102 „r0 lang“ + EXP-112 „10k“, 8 Worker, läuft), `05_repro_l0_equiv` (GPU-Gleichwertigkeit repro/train.py-Minibatch gegen L0, wartet auf Slot).
-- **EXP-105-Pilot:** 2/4 fertig (3860 F, 3861 G). Die Fortsetzung von 3860 G / 3861 F scheiterte am RNG-Fehler beim Laden (JOURNAL S49); die abgestürzten Prozesse hängen bis zur Wächtergrenze (≈ 10:20). **Danach** einreihen: dieselben Zeilen aus `jobs_pilot.txt`, aber mit `lab/experiments/EXP-105-lm-ladder-stage2/resume_wrapper.py` statt `lm_stage2.py` (Run-ID bleibt gleich, setzt bei 8000 fort). `10_exp105_pilot_resume` erst aus `lab/queue/done` prüfen.
-- Auswertungen wie bisher: EXP-112 `analyze_10k.py`, EXP-102 `analyze_r0long.py`, Pilot `analyze_pilot.py` (Befehle in den READMEs).
-- **Repro L0:** nach bestandener Gleichwertigkeit `python lab/paper/repro/l0.py --device cuda --jobs-out lab/queue/inbox/30_repro_l0.jobs`, danach `… l0.py --device cuda --compare-l0` über den Wächter.
+- **Lange Läufe nur über den GPU-Dienst (Regel 21)**, Stand in `lab/queue/status.json`. Inbox: `11_exp105_pilot_resume_wrapper` (2 Pilotläufe ab Checkpoint 8000, über `resume_wrapper.py`), `30_repro_l0` (läuft), `31_repro_r5`, `32_repro_r6`, `33_repro_r8`, `34_repro_r4` (Repro-Paket, 1 075 Läufe). Der laufende Dienst hat noch den alten Code (Einfügereihenfolge) → `11_` wartet ggf. hinter den Repro-Dateien; DRAIN-Neustart dem Nutzer-Assistenten vorgeschlagen (nicht selbst ausführen).
+- **Zwei hängende EXP-105-Prozesse** (abgestürzte Fortsetzung, RNG-Fehler) bis zur Wächtergrenze ≈ 10:20; Beenden nicht freigegeben. `10_exp105_pilot_resume` wird dann „failed“.
+- Fertig: `20_s48c_r0long_10k` (60/60) → EXP-102 „r0 lang“ und EXP-112 „10k“ ausgewertet (JOURNAL S49 Zyklus 5), unabhängige Nachrechnung beauftragt (`EXP-102…/recheck_s49.py/.json`).
+- **Nach den Volläufen:** `python lab/tools/guarded_run.py -- python lab/paper/repro/<l0|r5|r6|r8|r4>.py --device cuda --compare-<l0|r5|r6|r8|r4>` → Tabelle in [[paper/repro/README]]. Pilot: `analyze_pilot.py` (Befehl im EXP-105-README).
 
 ## Nächste Schritte (Regel 20)
 

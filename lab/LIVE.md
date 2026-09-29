@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 16:50 Berlin (14:50Z, vom Runner)
 - **Deadline:** 2026-09-29 19:49 Berlin (17:49Z)
-- **Zuletzt aktualisiert:** 17:10 Berlin
+- **Zuletzt aktualisiert:** 17:22 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- Simulierte Gutachter-Prüfung des Manuskript-Haupttexts läuft (unabhängiger Agent, nur lesend). Läufe: LM1 9/20 fertig, EXP-117 zweiter Lauf bei Schritt 2500.
+- Die neu eingefügten Paper-Sätze werden unabhängig nachgeprüft. Läufe: LM1 9/20, EXP-117 zweiter Lauf fast fertig, R4-Repro 95/240.
 
 ## Als Nächstes
 
@@ -22,6 +22,7 @@ LM1 7/20 fertig, 2 laufen; EXP-117 1/4; R4-Repro 88/240; EXP-113-Rest und EXP-11
 
 ## Verlauf dieser Sitzung
 
+- 17:22 Simulierte Gutachter-Prüfung: 6/10, alle nachgeprüften Zahlen richtig; 7 Textpunkte übernommen, 6 Punkte für dich in paper/STATUS („Offen“), u. a. der genaue Wortlaut der Festlegungsaussage und die Nennung der GROKVERSE-Studie.
 - 17:10 Unabhängige Prüfung eingearbeitet: mein Anhang-K-Satz war an zwei Stellen zu stark (korrigiert); Literaturliste um 9 Einträge ergänzt (Anhang wird jetzt mitgeprüft).
 - 17:07 Im kleinen Sprachmodell gibt es keine Grokking-Lücke: zurückgehaltene Fakten werden fast gleichzeitig mit den Trainingsfakten gelernt (9 Läufe).
 - 17:05 LaTeX-Fassung des Manuskripts für Overleaf erzeugt (ungetestet, kein TeX hier); FINDINGS ergänzt.

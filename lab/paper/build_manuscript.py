@@ -191,7 +191,8 @@ def main() -> None:
     ref_lines = sorted(ln for ln in refs_md.splitlines() if re.match(r"^- .+? \((?:19|20)\d\d[ab]?\)\.", ln))
     parts.append("## References (unchecked draft list; provenance tags in brackets, see paper/references)")
     parts.append("\n".join(ref_lines))
-    parts.extend(appendix(short, (HERE / "draft.md").read_text(encoding="utf-8"), long_))
+    app = appendix(short, (HERE / "draft.md").read_text(encoding="utf-8"), long_)
+    parts.extend(app)
     (HERE / "manuscript.md").write_text("\n\n".join(parts) + "\n", encoding="utf-8")
 
     text = "\n".join(p for pre in SECTIONS for p in find(short, pre)[1]) + "\n".join(captions)
@@ -200,6 +201,9 @@ def main() -> None:
     print(f"main text words (sections 1-7): {main_words}; caption words: {cap_words}; total {main_words + cap_words}")
     print(f"figures: {len(captions)}; references listed: {len(ref_lines)}")
     print("cited in main text but no reference entry (surname, year):", missing if missing else "none")
+    missing_app = sorted(citations("\n".join(app)) - ref_keys(refs_md) - set(missing))   # session 52: appendix too
+    print("cited in the appendix but no reference entry (surname, year; may include false positives):",
+          missing_app if missing_app else "none")
 
 
 if __name__ == "__main__":

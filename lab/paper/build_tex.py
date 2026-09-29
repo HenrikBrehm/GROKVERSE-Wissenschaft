@@ -75,14 +75,13 @@ def convert(md: str) -> str:
     lines = md.split("\n")
     if lines and lines[0] == "---":                      # drop Obsidian front matter
         lines = lines[lines.index("---", 1) + 1:]
-    body, i, in_list, in_abs, fig_no = [], 0, None, False, 0
+    body, i, in_abs, fig_no = [], 0, False, 0
+    stack: list[tuple[int, str]] = []                    # open lists: (indent, environment)
     title = next(l[2:] for l in lines if l.startswith("# "))
 
-    def close_list() -> None:
-        nonlocal in_list
-        if in_list:
-            body.append(r"\end{" + in_list + "}")
-            in_list = None
+    def close_list(indent: int = -1) -> None:
+        while stack and stack[-1][0] > indent:
+            body.append(r"\end{" + stack.pop()[1] + "}")
 
     while i < len(lines):
         l = lines[i].rstrip()
@@ -96,12 +95,18 @@ def convert(md: str) -> str:
             continue
         m_item = re.match(r"^(\s*)(- |\d+\. )(.*)$", l)
         if m_item:
-            kind = "itemize" if m_item.group(2) == "- " else "enumerate"
-            if in_list != kind:
-                close_list()
+            indent, kind = len(m_item.group(1)), "itemize" if m_item.group(2) == "- " else "enumerate"
+            close_list(indent)
+            if stack and stack[-1][0] == indent and stack[-1][1] != kind:
+                body.append(r"\end{" + stack.pop()[1] + "}")
+            if not stack or stack[-1][0] < indent:
                 body.append(r"\begin{" + kind + "}")
-                in_list = kind
+                stack.append((indent, kind))
             body.append(r"\item " + inline(m_item.group(3)))
+            i += 1
+            continue
+        if stack and l.startswith(" ") and l.strip():   # continuation line of the current item
+            body[-1] += " " + inline(l.strip())
             i += 1
             continue
         close_list()

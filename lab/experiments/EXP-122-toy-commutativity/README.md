@@ -1,8 +1,8 @@
 ---
 id: EXP-122
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat, befund/positiv]
 ---
 # EXP-122: Trägt Kommutativität die Test-Genauigkeit auf dem Grokking-Plateau des Spielzeugmodells?
 
@@ -20,3 +20,19 @@ Zurück: [[LAB]] · [[NOVEL_DIRECTIONS]] N57 · Anlass [[experiments/EXP-119-lm-
 - **Grenzen:** 4 Läufe, eine Aufgabe, bekannte Splits.
 
 **Befehle:** `python lab/tools/parallel_queue.py lab/experiments/EXP-122-toy-commutativity/jobs.txt --workers 2` · `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-122-toy-commutativity/analyze.py`
+
+## Ergebnis (Sitzung 54, 30.09. 00:02 Berlin gemessen; 8/8 Läufe ohne Fehler, GPU; `summary.json`, `queue.log`)
+
+**Vorab-Lesart: „Kommutativität zuerst“** (diff ≥ 0.3 in 4/4 Läufen bei 90 %). Technische Kontrolle bestanden (Auswertung = Trainer bis < 10⁻⁷).
+
+| Seed / Split (Gen.-Schritt) | 50 %: acc_swap / acc_other | 90 %: acc_swap / acc_other | Test gesamt 50 % / 90 % |
+|---|---|---|---|
+| 2600 / u0_s1 (5750) | 0.353 / 0.003 | 0.917 / 0.202 | 0.108 / 0.416 |
+| 2601 / u0_s1 (5075) | 0.422 / 0.017 | 0.963 / 0.452 | 0.138 / 0.605 |
+| 2603 / u1_s0 (5450) | 0.674 / 0.030 | 0.980 / 0.443 | 0.220 / 0.602 |
+| 2603 / u1_s1 (3475) | 0.560 / 0.016 | 0.952 / 0.540 | 0.179 / 0.663 |
+
+(≈ 30 % der Testpaare haben ihr Tauschpaar im Training: n_swap 2647–2675 von 8938.)
+
+**Deutung (Exploration, 4 Läufe, eine Aufgabe):** Auch im Spielzeugmodell entsteht auf dem Grokking-Plateau zuerst die Vertauschungsregel: Bei halbem Weg zum Grokking ist die Test-Genauigkeit fast nur auf Paaren mit trainiertem Tauschpartner (die übrigen liegen beim Zufall, 1/113 ≈ 0.009), kurz vor dem Grokking sind diese fast vollständig richtig und die übrigen folgen. Die allmählich steigende Test-Kurve vor dem Grokking ist also zum großen Teil Kommutativität. Das korrigiert meinen „ersten Blick“ (Zyklus 11): Ein Plateau *bei 0.3* gibt es im Spielzeugmodell nicht, weil die Kommutativität dort allmählich entsteht und nicht wie im LM vollständig und dann stehen bleibt; die Kommutativität geht aber auch hier voran.
+**Offen:** Wann beginnt sie (vor oder nach der Memorisation)? Hängt der zweite Schritt (übrige Paare) mit der Frequenzwahl zusammen? Wie verhält sich ein konstruierter Split? Literatur gezielter prüfen (Nanda et al. 2023 „progress measures“, Power et al. 2022).

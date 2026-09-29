@@ -1,0 +1,17 @@
+[pq] 2026-09-29T21:44:12+00:00 start job 1: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2600 --split-file lab/confirm/r4_splits/r4_u0_s1.npy --steps 2875 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw/seed2600_r4_u0_s1_steps2875
+[pq] 2026-09-29T21:44:12+00:00 start job 2: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2600 --split-file lab/confirm/r4_splits/r4_u0_s1.npy --steps 5175 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw/seed2600_r4_u0_s1_steps5175
+[pq] 2026-09-29T21:48:12+00:00 job 1 exit 0
+[pq] 2026-09-29T21:48:12+00:00 start job 3: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2601 --split-file lab/confirm/r4_splits/r4_u0_s1.npy --steps 2550 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw/seed2601_r4_u0_s1_steps2550
+[pq] 2026-09-29T21:48:56+00:00 job 2 exit 0
+[pq] 2026-09-29T21:48:56+00:00 start job 4: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2601 --split-file lab/confirm/r4_splits/r4_u0_s1.npy --steps 4575 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw/seed2601_r4_u0_s1_steps4575
+[pq] 2026-09-29T21:51:23+00:00 job 3 exit 0
+[pq] 2026-09-29T21:51:23+00:00 start job 5: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2603 --split-file lab/confirm/r4_splits/r4_u1_s0.npy --steps 2725 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw/seed2603_r4_u1_s0_steps2725
+[pq] 2026-09-29T21:55:27+00:00 job 5 exit 0
+[pq] 2026-09-29T21:55:27+00:00 start job 6: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2603 --split-file lab/confirm/r4_splits/r4_u1_s0.npy --steps 4900 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw/seed2603_r4_u1_s0_steps4900
+[pq] 2026-09-29T21:56:01+00:00 job 4 exit 0
+[pq] 2026-09-29T21:56:01+00:00 start job 7: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2603 --split-file lab/confirm/r4_splits/r4_u1_s1.npy --steps 1750 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw/seed2603_r4_u1_s1_steps1750
+[pq] 2026-09-29T21:58:07+00:00 job 7 exit 0
+[pq] 2026-09-29T21:58:07+00:00 start job 8: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2603 --split-file lab/confirm/r4_splits/r4_u1_s1.npy --steps 3125 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw/seed2603_r4_u1_s1_steps3125
+[pq] 2026-09-29T22:01:13+00:00 job 8 exit 0
+[pq] 2026-09-29T22:02:07+00:00 job 6 exit 0
+[pq] done: 8 ok, 0 failed, 0 refused, 0 not started (log C:\Users\henri\Documents\Brain\GROKVERSE_Wissenschaft\lab\runner\logs\pq_20260929T214412_161390Z)

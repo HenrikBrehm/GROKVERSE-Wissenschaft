@@ -13,7 +13,7 @@ end-of-text token) inserted at a random offset into the next text tokens; the ar
 Streams (numpy SeedSequence [105, seed, k]): k=1 text/insert offsets, k=2 fact order, k=3 templates, k=4 init
 (torch.manual_seed from it). Arms F and G of one seed therefore share init, text and positions; only the facts differ.
 Model: decoder-only pre-LN transformer, tied embeddings, learned positions; defaults 6 layers, d 384, 6 heads, ctx 256
-(~13.8 M parameters with vocab 8192 + 115). AdamW (betas 0.9/0.95), linear warmup then constant lr, wd on matrices only.
+(~13.8 M parameters; vocab 8192 including the specials). AdamW (betas 0.9/0.95), linear warmup then constant lr, wd on matrices only.
 Loss: next-token cross-entropy on every position (a real LM; stage 1 showed that the loss on the b position delays
 grokking by > x10, EXP-102).
 Measures (every EVAL_EVERY steps): W_E rows of the 113 number tokens (snapshot), accuracy on held-out facts (complement
@@ -103,7 +103,7 @@ class Stream:
         self.text, self.facts, self.tmpl, self.nl, self.eot, self.ctx = text, facts, tmpl_ids, nl, eot, ctx
         self.g_text, self.g_fact, self.g_tmpl = (np.random.default_rng(np.random.SeedSequence([105, seed, k])) for k in (1, 2, 3))
         self.text_pos, self.fact_pos, self.order, self.rounds = 0, 0, self.g_fact.permutation(len(facts)), 0
-        self.n_tok, self.n_arith = 0, 0
+        self.n_tok, self.n_arith, self.wraps = 0, 0, 0
 
     def next_fact(self) -> int:
         if self.fact_pos == len(self.order):
@@ -122,7 +122,7 @@ class Stream:
             block.append(self.nl if i < ARITH_FACTS - 1 else self.eot)
         n_text = self.ctx + 1 - len(block)
         if self.text_pos + n_text > len(self.text):
-            self.text_pos = 0                                           # wrap (logged via n_tok); budget should avoid it
+            self.text_pos, self.wraps = 0, self.wraps + 1                # budget should avoid it
         t = self.text[self.text_pos:self.text_pos + n_text].astype(np.int64)
         self.text_pos += n_text
         cut = int(self.g_text.integers(n_text + 1))
@@ -136,12 +136,12 @@ class Stream:
 
     def state(self) -> dict:
         return {"text_pos": self.text_pos, "fact_pos": self.fact_pos, "order": self.order.tolist(), "rounds": self.rounds,
-                "n_tok": self.n_tok, "n_arith": self.n_arith,
+                "n_tok": self.n_tok, "n_arith": self.n_arith, "wraps": self.wraps,
                 "g": [g.bit_generator.state for g in (self.g_text, self.g_fact, self.g_tmpl)]}
 
     def load(self, s: dict) -> None:
         self.text_pos, self.fact_pos, self.order, self.rounds = s["text_pos"], s["fact_pos"], np.asarray(s["order"]), s["rounds"]
-        self.n_tok, self.n_arith = s["n_tok"], s["n_arith"]
+        self.n_tok, self.n_arith, self.wraps = s["n_tok"], s["n_arith"], s["wraps"]
         for g, st in zip((self.g_text, self.g_fact, self.g_tmpl), s["g"]):
             g.bit_generator.state = st
 
@@ -248,13 +248,13 @@ def run(a: argparse.Namespace) -> dict:
     num = torch.tensor(NUM_ID, device=dev)
     rng_eval = np.random.default_rng(np.random.SeedSequence([105, a.seed, 5]))
     tr_eval = facts[rng_eval.choice(len(facts), min(2000, len(facts)), replace=False)]
-    vstart = rng_eval.integers(0, len(valid) - a.ctx - 1, 16)
+    vstart = np.random.default_rng(np.random.SeedSequence([105, a.seed, 6])).integers(0, len(valid) - a.ctx - 1, 16)
     vbatch = torch.from_numpy(np.stack([valid[s:s + a.ctx + 1].astype(np.int64) for s in vstart])).to(dev)
     t0p = tmpl_prompt(template_parts(tok)[0])
 
     def prompts(f: np.ndarray) -> torch.Tensor:
         aa, bb = f // P, f % P
-        return torch.tensor([t0p[0] + [NUM_ID[x]] + t0p[1] + [NUM_ID[y]] + t0p[2] for x, y in zip(aa, bb)], device=dev)
+        return torch.tensor([[ids["eot"]] + t0p[0] + [NUM_ID[x]] + t0p[1] + [NUM_ID[y]] + t0p[2] for x, y in zip(aa, bb)], device=dev)
 
     te_x, te_c = prompts(test), torch.from_numpy((test // P + test % P) % P).to(dev)
     tr_x, tr_c = prompts(tr_eval), torch.from_numpy((tr_eval // P + tr_eval % P) % P).to(dev)
@@ -284,7 +284,10 @@ def run(a: argparse.Namespace) -> dict:
         print(f"resume {run_id} at step {step}")
     lock = out / "run.lock"
     if lock.exists():
-        raise SystemExit(f"{run_id}: {lock} exists (running elsewhere, or stale after a crash: inspect, then remove)")
+        old = lock.read_text(encoding="utf-8").strip()
+        if old.isdigit() and pid_alive(int(old)):
+            raise SystemExit(f"{run_id}: {lock} held by live process {old}")
+        print(f"stale lock {lock} (pid {old} not alive), taking over")
     lock.write_text(str(os.getpid()), encoding="utf-8")
     t_start = time.perf_counter()
 
@@ -312,12 +315,12 @@ def run(a: argparse.Namespace) -> dict:
             if not torch.isfinite(loss):
                 events["nonfinite_step"], status = step, "error"
                 break
-            curve.append(evaluate(step) + [float(loss)])
+            curve.append(evaluate(step) + [loss.item()])
             snaps.append(model.emb.weight[num].detach().float().cpu().numpy())
             snap_steps.append(step)
             if "generalization_step" not in events and curve[-1][2] >= 0.95:
                 events["generalization_step"] = step
-            print(f"step {step} loss {float(loss):.3f} train {curve[-1][1]:.3f} test {curve[-1][2]:.3f} "
+            print(f"step {step} loss {loss.item():.3f} train {curve[-1][1]:.3f} test {curve[-1][2]:.3f} "
                   f"val {curve[-1][3]:.3f} arith share {stream.n_arith / max(1, stream.n_tok):.3f}", flush=True)
         if step % CKPT_EVERY == 0 and step < a.steps:
             checkpoint()
@@ -326,13 +329,32 @@ def run(a: argparse.Namespace) -> dict:
     res = {"status": status, "run_id": run_id, "config": cfg, "config_hash": chash, "steps_completed": step, "events": events,
            "curve_cols": ["step", "train_fact_acc", "test_fact_acc", "val_text_loss", "train_loss"], "curve": curve,
            "arith_token_share": stream.n_arith / max(1, stream.n_tok), "fact_rounds": stream.rounds,
-           "text_wrapped": stream.n_tok > len(text), "n_params": sum(p.numel() for p in model.parameters()),
+           "text_wraps": stream.wraps, "n_params": sum(p.numel() for p in model.parameters()),
            "elapsed_s_this_segment": time.perf_counter() - t_start, "torch": torch.__version__}
     save_atomic(out / "result.json", res, "json")
     checkpoint() if status == "completed" else None
     lock.unlink(missing_ok=True)
     print(f"{run_id}: {status}, test {curve[-1][2]:.3f}, gen {events.get('generalization_step')}")
     return res
+
+
+def pid_alive(pid: int) -> bool:
+    """True if a process with this PID is running (Windows: OpenProcess + GetExitCodeProcess; never signals it)."""
+    if os.name != "nt":
+        try:
+            os.kill(pid, 0)
+            return True
+        except OSError:
+            return False
+    import ctypes
+    k32 = ctypes.windll.kernel32
+    h = k32.OpenProcess(0x1000, False, pid)                           # PROCESS_QUERY_LIMITED_INFORMATION
+    if not h:
+        return False
+    code = ctypes.c_ulong()
+    ok = k32.GetExitCodeProcess(h, ctypes.byref(code))
+    k32.CloseHandle(h)
+    return bool(ok) and code.value == 259                              # STILL_ACTIVE
 
 
 def tmpl_prompt(parts: list[list[int]]) -> list[list[int]]:
@@ -379,6 +401,7 @@ def selftest(device: str) -> None:
     same = all(torch.equal(w1[k], w2[k]) for k in w1)
     print(f"resume bit-identical: {same}; curves equal: {r1['curve'] == r2['curve']}; arith share {r1['arith_token_share']:.3f}")
     assert same and r1["curve"] == r2["curve"]
+    assert pid_alive(os.getpid()) and not pid_alive(4_000_000_000 // 4 * 4 - 4), "pid_alive check"   # a PID that cannot exist
     shutil.rmtree(tmp)
     print("selftest ok")
 

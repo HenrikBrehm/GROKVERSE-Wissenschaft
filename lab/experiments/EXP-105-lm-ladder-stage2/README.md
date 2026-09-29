@@ -39,3 +39,17 @@ Regel 20e verlangt eine Kontrolle, die Faktenzahl, Wiederholungen, Tokens je Rol
 1. Anteil der Rechensätze und Budget: aus Stufe 1 (EXP-102) und einem Smoke (Tokens/s auf der RX 7900 XT unter ROCm/Windows) ableiten.
 2. Ob Zahlen im Fließtext auf die Zahl-Tokens abgebildet werden (realistischer, aber dann trägt die Textstatistik Häufigkeiten in W_E) oder getrennt bleiben (sauberer). Vorschlag: getrennt im Piloten, abgebildet als spätere Stufe.
 3. Ob ein Arm mit P1-Splits (nicht flach) dazukommt, um die Größe des Häufigkeitsbeitrags im LM direkt zu messen (Paar P1-F/G gegen flach-F/G).
+
+## Pilotplan (Sitzung 48, 2026-09-29, ≈ 06:25 Berlin; vor jedem Lauf; Exploration)
+
+**Stand:** Korpus und Tokenizer nach Regel 20f geladen bzw. gebaut (JOURNAL Sitzung 48). Trainer `lm_stage2.py` geschrieben, noch ungetestet. Abweichungen vom Entwurf: lr 6·10⁻⁴ (Warmup 500, dann konstant), β 0.9/0.95, 2 Rechensätze je Sequenz aus 257 Tokens (Anteil wird gemessen und berichtet), Checkpoints alle 1000 Schritte.
+
+1. **Selbsttest** (winziges Modell, GPU): 40 Schritte am Stück = 20 Schritte, Checkpoint, Abbruch bei 25, Wiederaufnahme → Gewichte und Kurve bitgleich (Regel 20g).
+2. **Durchsatz-Smoke:** ein Lauf in voller Größe, 200 Schritte, Seed 3860, Split EXP-102 seed3800_F: Tokens/s, Rechenanteil, Speicher. Daraus das Budget: so viele Schritte, dass ein Lauf ≤ 60 min dauert, möglichst ≥ 100 Runden je Fakt.
+3. **Pilot** (2 Seeds 3860–3861, je F und G mit gleicher Init, gleichem Text, gleichen Positionen; 4 Läufe). **Splits:** Zeigt EXP-104, dass flache Splits mit m = 10 in beiden Seeds generalisieren und Δ_pow > 1 haben, die flachen Splits (m = 10, EXP-104-Seeds 3850/3851); sonst die P1-Splits aus EXP-102 (Seeds 3800/3801) mit dem Vermerk, dass dort auch die Token-Häufigkeiten die Ziele tragen. Festgelegt vor dem EXP-104-Ergebnis.
+4. **Lesarten des Piloten** (am Budgetende; Δ_pow wie in allen Stufen auf den 113 Zahl-Token-Zeilen, Test = zurückgehaltene Fakten, Abfrage in Schablone T0, Zufall 1/113):
+   - „K2 hält im LM“: Δ_pow > 1 in beiden Seeds und Testgenauigkeit > 0.5 in ≥ 3 von 4 Läufen;
+   - „nur Repräsentation“: Δ_pow > 1 in beiden Seeds und Testgenauigkeit < 0.1 in ≥ 3 von 4 Läufen (wie Integer-Addition in P4);
+   - „bricht“: |Δ_pow| ≤ 1 in beiden Seeds;
+   - sonst „unklar“. Beschreibend: Verlauf von Δ_pow, Genauigkeit auf Trainingsfakten, Textverlust auf der Validierung (lernt das Modell Sprache?).
+   Erwartung vorab: Stufe 1 zeigte, dass Verlust auf der b-Position das Grokking um > ×10 verzögert; hier gilt das für jede Rechenzeile. Erwartet also eher „nur Repräsentation“ oder „unklar“ im Pilotbudget. Fu et al. 2026 fanden bei Einzel-Token-Addition von Grund auf oft keine Perioden.

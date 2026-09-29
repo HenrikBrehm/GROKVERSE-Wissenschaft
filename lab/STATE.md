@@ -17,16 +17,18 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 47 (29.09., 03:29–06:29):** **N54b bestätigt** (Festlegung unter Minibatch ≈ √(N/B): α(1e-3) 0.583 [0.560, 0.606]; doppelte lr hilft bei kleinen Batches weniger: Δα +0.139 [0.098, 0.178]; eingefroren 624c2213, nachgerechnet) → Paper §6/§7, Langfassung §3.19, FINDINGS-Zeile. Explorationen: EXP-109 (lr 2e-3), EXP-110/111 (lr 4e-3 bei B 64: auf 2 Seeds später, auf 2 anderen etwas früher → nicht belastbar), Modellvergleich (Drift + ≈ 2 Epochen), Memorisierungsuhr (unklar), **EXP-102 Leiter Stufe 1** (Format hält; Verlust auf allen Positionen verzögert Grokking > ×10, Steuerung reduziert, wächst).
 
-## Aktive Queue / laufende Jobs
+## Aktive Queue / laufende Jobs (Sitzung 48, 06:09–09:09 Berlin)
 
-- **Keine Jobs** (06:02 geprüft). Alle Queues der Sitzung 47 fertig: EXP-109 112, N54b 840 (+3 Wiederholungen), EXP-102 14 + 200 + 40 + 4, EXP-110 84 + 16, EXP-111 72 — ohne verbleibende Fehler. Repro-Smoke k4c (CPU) abgebrochen: Pfadaufruf ok, Smoke dauert ≈ 40 min CPU.
+- **GPU:** EXP-102 „all 60k“ (20 Läufe, `jobs_long60k.txt`, 10 Worker, Start 06:12, Log `lab/runner/logs/exp102_60k_queue.out`). Wiederaufnahme: dieselbe Queue-Zeile neu starten (fertige Läufe werden übersprungen); Auswertung `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-102-lm-ladder-stage1/analyze_60k.py`.
+- **CPU (2 Threads):** `lm_stage2.py --prepare` (BPE fertig; Tokenisierung → `lab/external/tinystories/text_u16.npy`, `valid_u16.npy`). Bei Abbruch neu starten (vorhandene Dateien bleiben).
+- **Wartend (vorab festgelegt):** EXP-112 (`lab/experiments/EXP-112-lm-ladder-minibatch/jobs.txt`, 60 Läufe) und EXP-104 (12 Läufe), sobald GPU-Plätze frei sind; dann Selbsttest `lm_stage2.py --selftest --device cpu` und Durchsatz-Smoke (EXP-105-Pilotplan).
 
 ## Nächste Schritte (Regel 20)
 
-1. **Festlegungsuhr, nächste Schritte (niedrigere Priorität):** Die lr-Umkehr bei B 64 (EXP-110) hat sich in EXP-111 nicht bestätigt (d = +0.40, +0.46, −0.12, −0.08). Falls weiter: ≥ 8 Seeds als Exploration, bevor irgendetwas registriert wird; Literaturvorhersage „lr-Optimum wandert mit √B“ (Li et al. 2024) ungeprüft. Wichtiger ist das Paper.
-2. **EXP-102 weiter:** Stufe „all“ grokkt bis 10k kaum (30k: 1/4 Läufe); Vergleich nach dem Grokking vorab festlegen (Budget ≥ 30k oder angepasstes wd), 10 Seeds; danach Minibatch-Stufe. Erst dann ins Paper.
-3. **Paper:** Kurzfassung §6 ggf. um EXP-110 als Exploration (nach Nachrechnung); Abstract unverändert; Zenodo; Repro-Pfad-Smoke `k4c.py --smoke` nur ohne GPU-Queue (CPU-Überlast, Sitzung 47).
-4. L0b (Reihenfolge bei langen Epochen) offen, niedrigere Priorität. Sprachmodell-Leiter Stufe 2 (EXP-105) nach Stufe 1.
+1. EXP-102 „all 60k“ auswerten (Lesarten vorab), dann EXP-112 + EXP-104 starten und auswerten → Leiter Stufe 1 abschließen.
+2. EXP-105 (Stufe 2): Selbsttest (Checkpoint bitgleich), Durchsatz, Pilot nach dem Plan in der README (Split-Wahl hängt von EXP-104 ab).
+3. Paper: §6 der Kurzfassung ist gekürzt (Sitzung 48, geprüft); Haupttext ≈ 5 300 Wörter, ggf. §2/§3 weiter kürzen; Leiter-Ergebnis erst nach Abschluss.
+4. Festlegungsuhr/lr-Fragen (EXP-110/111) ruhen; L0b niedrigere Priorität.
 
 ## Prioritäten
 

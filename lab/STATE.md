@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 13:32 Berlin (Sitzung 50, Deadline 14:29) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 14:50 Berlin (Sitzung 51, Deadline 17:09) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -19,9 +19,11 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 50 (ab 11:30):** Kurzfassung gekürzt (≈ 4 300 Wörter Haupttext, Anhang M mit den wörtlich verschobenen Passagen, zweimal unabhängig geprüft), neue Abb. 4 (`fig13`, nur L0 + N54b), Tabelle 1 ergänzt, Literatur-Nachsuche (Khanh 2026b). **EXP-114** (K = 19 Rechensätze, 1 Seed): „Verdünnung nicht gestützt“ – die Steuerung kommt im LM mit dem Faktenlernen (das gilt auch im Spielzeugmodell, gemessen an der Trainingsgenauigkeit: `toy_order_s50`; das LM beginnt nur viel später zu lernen); lernt das LM die Fakten, steuert die Auswahl deutlich (Δ_pow 5.6, zurückgehalten 0.98). → **Bestätigungsblock LM1** eingefroren (2b70d8b9, 10 frische Seeds 4000–4009, K = 19, 6000 Schritte, H1 Δ_pow > 1).
 
-## Aktive Queue / laufende Jobs (Stand Sitzung 50, 12:40 Berlin)
+- **Sitzung 51 (ab 14:10):** Kopplung Steuerung ↔ Lernbeginn hält über ×4 Lernrate (post hoc, „coupled“, trennt aber keine gemeinsame Uhr ab). Manuskript-Generator `lab/paper/build_manuscript.py` → [[paper/manuscript]] mit Zitatprüfung (3 fehlende Literatureinträge ergänzt); Kurzfassung auf 4 147 Wörter (dritter Kürzungsdurchgang, geprüft, Originale in Anhang M); Abb. K1 (`fig14_lm_onset.py`). **EXP-116** (K = 2, ≈ 8.7 % Rechen-Tokens) und **EXP-117** (ungekoppelte Embeddings, eigener Trainer `lm_untied.py`, Selbsttest grün) vorab festgelegt und eingereiht; [[paper/LM1_DEUTUNGEN]] vor jedem Ergebnis; unabhängige LM1-Nachrechnung vorbereitet (`lab/confirm/LM1_independent_recompute.py`).
 
-- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `31_lm1` (20 LM-Läufe, 4 Worker, bekommt Plätze vor R4; unter Überlast ≫ 55 min je Lauf), `32_exp115_flat` (4 LM-Läufe, laufen), `34_repro_r4` (59/240 fertig), `40_exp113_stage2b` (Läufe 1–2 bei ≈ 12 000/16 000; die übrigen 6 erst nach R4 → EXP-113 insgesamt noch viele Stunden).
+## Aktive Queue / laufende Jobs (Stand Sitzung 51, 14:50 Berlin)
+
+- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: neuer Code mit Speicherschutz (höchstens 3 LM-Läufe à gpu_gb 3.5, strenge Namens-Priorität, unterbrochene Läufe zuerst; DRAIN-Neustart durch den Nutzer-Assistenten ab 14:29). Reihenfolge: EXP-113 #0/#1 (Checkpoint 13 000) → `31_lm1` (2/20 fertig um 14:45) → `32_exp115_flat` (1–2/4) → `33_exp117_untied` (4) → `34_repro_r4` (72/240; ruht mehrere Stunden, bewusst) → `40_exp113_stage2b` (6 übrige) → `41_exp116_lowshare` (4). **PROBLEME.md nicht selbst bearbeiten** (Absprache mit dem Nutzer-Assistenten): Probleme ins JOURNAL oder per Nachricht.
 - **LM1 auswerten**, sobald 20/20 fertig: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm1.py --analyze` (Ausfallregel: Lauf ohne Ergebnis mit identischem Befehl neu einreihen; Code nach dem Einfrieren NICHT ändern). Danach unabhängige Nachrechnung, dann FINDINGS/Anhang K.
 - **Repro-Paket:** L0, R5, R6, R8 fertig (S49). Offen: R4 → `python lab/tools/guarded_run.py -- python lab/paper/repro/r4.py --device cuda --compare-r4`, dann [[paper/repro/README]] und Anhang R.
 - **EXP-113** am Budgetende: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-113-lm-ladder-stage2b/analyze.py` und `analyze_folgt.py` (H-folgt, Nachtrag 1); danach `EXP-114…/analyze.py` (Vergleich bei gleicher Faktenzahl). Arm `answer` lernt die Fakten ab ≈ 10 000 Schritten.
@@ -30,7 +32,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 ## Nächste Schritte (Regel 20)
 
 0. **Zuerst Dienst-Lage prüfen** (`lab/queue/status.json`, Log-Fortschritt, Perf-Zähler „GPU Adapter Memory … Shared Usage“). Stand 13:31: Stillstand durch Auslagerung; **14:00: Dienst neu gestartet, neue Kopfzeilen greifen (LM1 2, EXP-115 1, EXP-113 2 Worker), Speicher 13.2 GB + 0.8 GB geteilt.** Nach einem DRAIN-Neustart (Nutzer) laufen die abgebrochenen Läufe mit denselben Befehlen neu an und setzen an ihren Checkpoints fort (lm_stage2 speichert alle 1000 Schritte), mit den gesenkten Kopfzeilen. Ohne Neustart: LM1-Läufe enden an job_minutes 240 → identisch neu einreihen (neue Datei, workers=2).
-0b. LM1 auswerten (s. o.), falls fertig; EXP-115 mit `analyze_pilot.py` (Befehl im README), EXP-113/114-Vergleiche.
+0b. LM1 auswerten (s. o.), falls fertig; dann `python lab/confirm/LM1_independent_recompute.py` (unabhängig, nur Registrierung) vergleichen, Deutung nach [[paper/LM1_DEUTUNGEN]], Abb. K1 mit `fig14_lm_onset.py --root lab/confirm/lm1_raw --pairs …` erst nach der Auswertung. EXP-115 (`analyze_pilot.py`, Befehl im README), EXP-117 (`EXP-117…/analyze.py`), EXP-116 (`EXP-116…/analyze.py`), EXP-113/114-Vergleiche.
 1. Repro R4 vergleichen, in [[paper/repro/README]] und Anhang R (Kurzfassung, geprüft) eintragen.
 2. EXP-113 beobachten (Durchsatz, Textumlauf) und am Budgetende nach Vorab-Lesarten auswerten; danach Stufe-2-Entscheidung (Anteil senken, 10 Seeds, oder „bricht“ dokumentieren).
 3. Paper (Ziel Do 01.10.): Kurzfassung final lesen; Anhang K ist auf Stand S49 (geprüft).

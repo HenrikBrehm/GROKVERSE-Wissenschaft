@@ -1,5 +1,6 @@
 """N54b confirmation (session 47): does the lock-in half-point t_half under i.i.d. minibatch AdamW scale as (N/B)^alpha with alpha in
-the square-root band [0.3, 0.7], at lr 1e-3 (H1, replication of EXP-108 on fresh seeds) and at lr 2e-3 (H2, second learning rate)?
+the square-root band [0.3, 0.7] at lr 1e-3 (H1, replication of EXP-108 on fresh seeds), and does doubling lr raise alpha (H2: paired
+d_alpha = alpha(2e-3) - alpha(1e-3) > 0, i.e. the speed-up by the larger lr shrinks at small batches; EXP-109 pilot)?
 Registration lab/confirm/N54B_REGISTRATION_DRAFT.md. Pilots: EXP-107/108 (lr 1e-3, seeds 3700-3707), EXP-109 (lr 2e-3, 3700-3701).
 
 Protocol: add 113, the L0/EXP-100 split construction (EXP-053/P1 pair F/G, omega = 0, calibrated eps, targets drawn without the
@@ -11,11 +12,13 @@ t_half = first upward crossing of 0.5 by linear interpolation of pi over (0, 0) 
 censored. alpha per seed and lr = least-squares slope of log t_half against log(N/B) over the three batch sizes.
 Validity: any technical failure -> the whole block 'nicht auswertbar' (infrastructure failures may be re-run with the identical job
 line before --analyze). A seed is invalid for an lr if any pure pair at that lr has L_F - L_G < 0.5 (not technical, reported).
-Family (Holm over H1, H2; alpha 0.05): per lr, TOST p = max(p(mean alpha > 0.3), p(mean alpha < 0.7)), one-sided t-tests;
-confirmed = Holm-p < 0.05 and bootstrap 95 % CI within [0.3, 0.7] and <= 2 censored seeds per batch size. A hypothesis with fewer
-than 8 valid seeds is 'nicht auswertbar' and enters Holm with p = 1 (conservative).
-Secondary (no verdict): t_half per B and lr; ratio t_half(2e-3)/t_half(1e-3) per B; the EXP-108 point predictions for lr 1e-3
-(1024 62, 256 127, 64 290).
+Family (Holm over H1, H2; alpha 0.05). H1 (lr 1e-3): TOST p = max(p(mean alpha > 0.3), p(mean alpha < 0.7)), one-sided t-tests;
+confirmed = Holm-p < 0.05 and bootstrap 95 % CI within [0.3, 0.7] and <= 2 censored seeds per batch size at lr 1e-3.
+H2 (seeds valid at both lrs): one-sided t-test of d_alpha > 0; confirmed = Holm-p < 0.05 and bootstrap CI lower bound > 0 and
+<= 2 censored seeds per batch size at each lr. A hypothesis with fewer than 8 valid (paired) seeds is 'nicht auswertbar' and enters
+Holm with p = 1 (conservative).
+Secondary (no verdict): alpha(2e-3) with CI and its band reading; t_half per B and lr; ratio t_half(2e-3)/t_half(1e-3) per B (model
+(i) of the literature check predicts 0.5 at every B); the EXP-108 means for lr 1e-3 (1024 62, 256 127, 64 290).
 
   python lab/tools/confirm_n54b.py --hash-code | --splits M | --jobs M | --run M -- <cmd> | --analyze M | --selftest
 """
@@ -46,9 +49,8 @@ N_SEEDS = 10
 TOTAL = 5000
 LRS = (0.001, 0.002)
 BATCHES = (1024, 256, 64)
-GRID: dict[int, tuple[int, ...]] = {1024: (15, 30, 50, 75, 100, 150), 256: (30, 60, 100, 150, 200, 300),
-                                    64: (75, 150, 225, 300, 450, 700)}   # set after EXP-109 (registration lists the pilot)
-HYP = {"H1": 0.001, "H2": 0.002}
+GRID: dict[int, tuple[int, ...]] = {1024: (20, 30, 40, 55, 75, 120), 256: (40, 60, 80, 110, 150, 250),
+                                    64: (100, 150, 200, 250, 300, 450)}   # set after EXP-109 (finer around the seen crossings)
 PRED_LR1 = {1024: 62.0, 256: 127.0, 64: 290.0}   # EXP-108 means (lr 1e-3), secondary comparison only
 REGISTERED = {"seeds": list(range(3900, 3900 + N_SEEDS)), "budget": TOTAL, "device": "cuda", "threads": 1, "lrs": list(LRS),
               "batches": list(BATCHES), "grid": {str(b): list(t) for b, t in GRID.items()}, "order_freqs": list(O)}
@@ -236,28 +238,34 @@ def tost_p(a: np.ndarray) -> float:
 
 
 def verdict(per_lr: dict[float, list[dict]], batches: list[int], rng_: np.random.Generator) -> dict:
-    """per_lr[lr] = rows of seed_lr (one per seed). Technical failures anywhere -> 'nicht auswertbar'."""
+    """per_lr[lr] = rows of seed_lr (one per seed, same seed order). Technical failures anywhere -> 'nicht auswertbar'."""
     if any("technical" in r for rows in per_lr.values() for r in rows):
         return {"verdict": "nicht auswertbar", "n_technical": sum("technical" in r for rows in per_lr.values() for r in rows)}
-    out: dict = {}
+    lo, hi = LRS
+    ok1 = [r for r in per_lr[lo] if "invalid" not in r]
+    pairs = [(x, y) for x, y in zip(per_lr[lo], per_lr[hi]) if "invalid" not in x and "invalid" not in y]
+    cens = {lr: {bs: int(sum(r["cens"][bs] for r in per_lr[lr] if "invalid" not in r)) for bs in batches} for lr in LRS}
+    out: dict = {"H1": {"lr": lo, "n_valid": len(ok1), "n_censored": cens[lo]},
+                 "H2": {"n_valid_pairs": len(pairs), "n_censored": {repr(lr): cens[lr] for lr in LRS}}}
     p: dict[str, float] = {}
-    for h, lr in HYP.items():
-        ok = [r for r in per_lr[lr] if "invalid" not in r]
-        a = np.array([r["alpha"] for r in ok])
-        cens = {bs: int(sum(r["cens"][bs] for r in ok)) for bs in batches}
-        d: dict = {"lr": lr, "n_valid": len(ok), "n_invalid": len(per_lr[lr]) - len(ok), "n_censored": cens}
-        if len(ok) >= MIN_VALID:
-            p[h] = tost_p(a)
-            d.update({"alpha_mean": float(a.mean()), "alpha_sd": float(a.std(ddof=1)), "ci95": c1.boot_ci(a, rng_), "p_tost": p[h]})
-        out[h] = d
-    ph = c1.holm({h: p.get(h, 1.0) for h in HYP})    # review s47: an unevaluable hypothesis keeps its place in Holm with p = 1
+    if len(ok1) >= MIN_VALID:
+        a = np.array([r["alpha"] for r in ok1])
+        p["H1"] = tost_p(a)
+        out["H1"].update({"alpha_mean": float(a.mean()), "alpha_sd": float(a.std(ddof=1)), "ci95": c1.boot_ci(a, rng_), "p": p["H1"]})
+    if len(pairs) >= MIN_VALID:
+        d = np.array([y["alpha"] - x["alpha"] for x, y in pairs])
+        p["H2"] = c1.t_test_secondary(d)["p_one_sided"]
+        out["H2"].update({"d_alpha_mean": float(d.mean()), "d_alpha_sd": float(d.std(ddof=1)), "ci95": c1.boot_ci(d, rng_),
+                          "n_positive": int((d > 0).sum()), "p": p["H2"]})
+    ph = c1.holm({h: p.get(h, 1.0) for h in ("H1", "H2")})    # review s47: an unevaluable hypothesis keeps its place with p = 1
     for h, d in out.items():
         d["p_holm"] = ph[h]
         if h not in p:
             d["verdict"] = "nicht auswertbar (zu wenige gültige Seeds)"
             continue
-        inside = BAND[0] <= d["ci95"][0] and d["ci95"][1] <= BAND[1]
-        d["verdict"] = ("bestätigt" if ph[h] < ALPHA and inside and max(d["n_censored"].values()) <= MAX_CENS else "nicht bestätigt")
+        c_ok = max(cens[lo].values()) <= MAX_CENS and (h == "H1" or max(cens[hi].values()) <= MAX_CENS)
+        ci_ok = (BAND[0] <= d["ci95"][0] and d["ci95"][1] <= BAND[1]) if h == "H1" else d["ci95"][0] > 0
+        d["verdict"] = "bestätigt" if ph[h] < ALPHA and ci_ok and c_ok else "nicht bestätigt"
     return out
 
 
@@ -267,7 +275,11 @@ def secondary(per_lr: dict[float, list[dict]], batches: list[int], rng_: np.rand
         ok = [r for r in rows if "invalid" not in r and "technical" not in r]
         if not ok:
             continue
-        out[f"lr{lr!r}"] = {"t_half_mean": {str(bs): float(np.mean([r["th"][bs] for r in ok])) for bs in batches},
+        a = np.array([r["alpha"] for r in ok])
+        ci = c1.boot_ci(a, rng_)
+        out[f"lr{lr!r}"] = {"alpha": {"mean": float(a.mean()), "ci95": ci, "n": len(ok),
+                                      "in_band": bool(BAND[0] <= ci[0] and ci[1] <= BAND[1])},
+                            "t_half_mean": {str(bs): float(np.mean([r["th"][bs] for r in ok])) for bs in batches},
                             "pi_mean": {str(bs): {str(t): float(np.mean([r["pi"][bs][t] for r in ok])) for t in ok[0]["pi"][bs]} for bs in batches}}
     both = [(x, y) for x, y in zip(per_lr[LRS[0]], per_lr[LRS[1]]) if all("invalid" not in r and "technical" not in r for r in (x, y))]
     if both:
@@ -319,7 +331,7 @@ def selftest() -> None:
     assert len(set(ids)) == len(ids), "run ids collide"
     assert ids[0] == "EXP-018_baseline_seed3900_thr1_n54b_seed3900_F_bs1024_devcuda", ids[0]
     sw2 = [i for i in ids if "_to_" in i and "_lr0.002" in i and "_bs64" in i][0]
-    assert sw2.startswith("EXP-020_baseline_seed3900_thr1_n54b_seed3900_F_to_n54b_seed3900_G_at75_bs64_lr0.002"), sw2
+    assert sw2.startswith("EXP-020_baseline_seed3900_thr1_n54b_seed3900_F_to_n54b_seed3900_G_at100_bs64_lr0.002"), sw2
     BLOCK.check_job(man, shlex.split(tj[0]))
     for s in REGISTERED["seeds"][:2]:
         F, G = targets(s)
@@ -327,22 +339,30 @@ def selftest() -> None:
     assert t_half({10: 0.2, 20: 0.8}) == (15.0, False) and t_half({10: 0.1, 20: 0.3}) == (20.0, True)
     assert t_half({10: 0.6}) == (10 * 0.5 / 0.6, False)
     rng_ = np.random.default_rng(0)
-    yes = {lr: [_fake_row(0.52, rng_) for _ in range(N_SEEDS)] for lr in LRS}
+    yes = {LRS[0]: [_fake_row(0.52, rng_) for _ in range(N_SEEDS)], LRS[1]: [_fake_row(0.66, rng_) for _ in range(N_SEEDS)]}
     v = verdict(yes, list(BATCHES), rng_)
     assert v["H1"]["verdict"] == v["H2"]["verdict"] == "bestätigt", v
+    same = {lr: [_fake_row(0.52, rng_) for _ in range(N_SEEDS)] for lr in LRS}
+    v = verdict(same, list(BATCHES), rng_)
+    assert v["H1"]["verdict"] == "bestätigt" and v["H2"]["verdict"] == "nicht bestätigt", v
     epoch = {LRS[0]: [_fake_row(0.95, rng_) for _ in range(N_SEEDS)], LRS[1]: [_fake_row(0.5, rng_) for _ in range(N_SEEDS)]}
     v = verdict(epoch, list(BATCHES), rng_)
-    assert v["H1"]["verdict"] == "nicht bestätigt" and v["H2"]["verdict"] == "bestätigt", v
+    assert v["H1"]["verdict"] == "nicht bestätigt" and v["H2"]["verdict"] == "nicht bestätigt", v
     few = {LRS[0]: yes[LRS[0]], LRS[1]: [{"invalid": "x"}] * 3 + yes[LRS[1]][:7]}
     v = verdict(few, list(BATCHES), rng_)
     assert v["H2"]["verdict"].startswith("nicht auswertbar") and v["H2"]["p_holm"] == 1.0, v
-    assert v["H1"]["verdict"] == "bestätigt" and v["H1"]["p_holm"] == min(1.0, 2 * v["H1"]["p_tost"]), v   # Holm keeps k = 2
-    cens = {lr: [_fake_row(0.52, rng_, cens=i < 3) for i in range(N_SEEDS)] for lr in LRS}
-    assert verdict(cens, list(BATCHES), rng_)["H1"]["verdict"] == "nicht bestätigt"
+    assert v["H1"]["verdict"] == "bestätigt" and v["H1"]["p_holm"] == min(1.0, 2 * v["H1"]["p"]), v   # Holm keeps k = 2
+    cens = {lr: [_fake_row(0.52 if lr == LRS[0] else 0.66, rng_, cens=i < 3) for i in range(N_SEEDS)] for lr in LRS}
+    v = verdict(cens, list(BATCHES), rng_)
+    assert v["H1"]["verdict"] == v["H2"]["verdict"] == "nicht bestätigt", v
+    cens2 = {LRS[0]: yes[LRS[0]], LRS[1]: [_fake_row(0.66, rng_, cens=i < 3) for i in range(N_SEEDS)]}
+    v = verdict(cens2, list(BATCHES), rng_)
+    assert v["H1"]["verdict"] == "bestätigt" and v["H2"]["verdict"] == "nicht bestätigt", v
     tech = {LRS[0]: [{"technical": "x"}] + yes[LRS[0]][1:], LRS[1]: yes[LRS[1]]}
     assert verdict(tech, list(BATCHES), rng_)["verdict"] == "nicht auswertbar"
-    sec = secondary(yes, list(BATCHES), rng_)
+    sec = secondary(same, list(BATCHES), rng_)
     assert 0.9 < sec["ratio_lr2_over_lr1"]["64"]["geo_mean"] < 1.1, sec["ratio_lr2_over_lr1"]
+    assert sec["lr0.001"]["alpha"]["in_band"], sec["lr0.001"]
     selftest_binding(BLOCK, tj[0], tj[1], tj[2])
     print("[confirm_n54b] selftest ok", flush=True)
 

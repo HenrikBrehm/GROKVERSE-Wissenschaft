@@ -1,22 +1,24 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 47
+# LIVE: Laborsitzung 47: **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-29 03:29 Berlin (01:29Z, vom Runner)
 - **Deadline:** 2026-09-29 06:29 Berlin (04:29Z)
-- **Zuletzt aktualisiert:** 05:52 Berlin
+- **Zuletzt aktualisiert:** 06:02 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-Letzter kleiner Test (EXP-111, 72 Läufe, ≈ 7 min): Ist bei kleinen Päckchen (64) die Festlegung mit vierfacher Lernrate wirklich langsamer als mit doppelter? Zwei weitere Netze, als Grundlage für eine saubere Prüfung in der nächsten Sitzung.
+**Sitzung beendet** (06:02). Keine laufenden Prozesse. Abschlussbericht im JOURNAL.
 
 ## Als Nächstes
 
-Auswerten, Stand sichern, Sitzung beenden (Deadline 06:29). Nächster Runner-Start laut runner-state.json **07:04 Berlin**.
+Nächster Runner-Start laut runner-state.json **29.09. 07:04 Berlin**: Paper weiter (Regel 20d), Sprachmodell-Leiter „Verlust auf allen Positionen“ bis zum Grokking (vorab festlegen), danach Minibatch-Stufe.
 
 ## Verlauf dieser Sitzung
+
+- 06:02 Sitzung beendet (Bericht im JOURNAL).
 
 - 05:51 **Korrektur:** Die „Überraschung“ von 05:45 hält nicht: Auf zwei anderen Netzen ist die vierfache Lernrate bei Päckchen zu 64 sogar etwas schneller (EXP-111). Kein belastbarer Befund.
 

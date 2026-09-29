@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 12:40 Berlin (Sitzung 50 läuft, Deadline 14:29) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 13:32 Berlin (Sitzung 50, Deadline 14:29) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -21,7 +21,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Aktive Queue / laufende Jobs (Stand Sitzung 50, 12:40 Berlin)
 
-- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `31_lm1` (20 LM-Läufe, 4 Worker, ≈ 55 min je Lauf, bekommt Plätze vor R4), `34_repro_r4` (59/240 fertig), `40_exp113_stage2b` (Läufe 1–2 bei ≈ 12 000/16 000; die übrigen 6 erst nach R4 → EXP-113 insgesamt noch viele Stunden).
+- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `31_lm1` (20 LM-Läufe, 4 Worker, bekommt Plätze vor R4; unter Überlast ≫ 55 min je Lauf), `32_exp115_flat` (4 LM-Läufe, laufen), `34_repro_r4` (59/240 fertig), `40_exp113_stage2b` (Läufe 1–2 bei ≈ 12 000/16 000; die übrigen 6 erst nach R4 → EXP-113 insgesamt noch viele Stunden).
 - **LM1 auswerten**, sobald 20/20 fertig: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm1.py --analyze` (Ausfallregel: Lauf ohne Ergebnis mit identischem Befehl neu einreihen; Code nach dem Einfrieren NICHT ändern). Danach unabhängige Nachrechnung, dann FINDINGS/Anhang K.
 - **Repro-Paket:** L0, R5, R6, R8 fertig (S49). Offen: R4 → `python lab/tools/guarded_run.py -- python lab/paper/repro/r4.py --device cuda --compare-r4`, dann [[paper/repro/README]] und Anhang R.
 - **EXP-113** am Budgetende: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-113-lm-ladder-stage2b/analyze.py` und `analyze_folgt.py` (H-folgt, Nachtrag 1); danach `EXP-114…/analyze.py` (Vergleich bei gleicher Faktenzahl). Arm `answer` lernt die Fakten ab ≈ 10 000 Schritten.
@@ -29,7 +29,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Nächste Schritte (Regel 20)
 
-0. LM1 auswerten (s. o.), falls fertig.
+0. **Zuerst Dienst-Lage prüfen** (`lab/queue/status.json`, Log-Fortschritt, Perf-Zähler „GPU Adapter Memory … Shared Usage“). Stand 13:31: 10 LM-Läufe gleichzeitig, Stillstand durch Auslagerung. Nach einem DRAIN-Neustart (Nutzer) laufen die abgebrochenen Läufe mit denselben Befehlen neu an und setzen an ihren Checkpoints fort (lm_stage2 speichert alle 1000 Schritte), mit den gesenkten Kopfzeilen. Ohne Neustart: LM1-Läufe enden an job_minutes 240 → identisch neu einreihen (neue Datei, workers=2).
+0b. LM1 auswerten (s. o.), falls fertig; EXP-115 mit `analyze_pilot.py` (Befehl im README), EXP-113/114-Vergleiche.
 1. Repro R4 vergleichen, in [[paper/repro/README]] und Anhang R (Kurzfassung, geprüft) eintragen.
 2. EXP-113 beobachten (Durchsatz, Textumlauf) und am Budgetende nach Vorab-Lesarten auswerten; danach Stufe-2-Entscheidung (Anteil senken, 10 Seeds, oder „bricht“ dokumentieren).
 3. Paper (Ziel Do 01.10.): Kurzfassung final lesen; Anhang K ist auf Stand S49 (geprüft).

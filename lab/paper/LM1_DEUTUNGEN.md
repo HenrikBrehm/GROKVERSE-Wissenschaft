@@ -44,3 +44,13 @@ Zweck wie [[paper/L0_DEUTUNGEN]]: Die Deutung jedes Ausgangs steht fest, bevor d
 - **„no advantage“:** *In the small language model the random split was learned as early as the engineered splits (q = … and …; exploration). The speed-up of Result 2 is therefore tied to the grokking regime of the toy model and was not seen in a language model that learns without a grokking delay.* → als Grenze in §7 bzw. Anhang (LM), nicht verschweigen.
 - **„unclear“ / „not learned (budget)“:** nur *inconclusive (exploration)*; keine Richtung ableiten.
 - **ρ (Maskenspektrum ↔ Zahl-Zeilen) je Arm:** nur beschreibend nennen; ein positives ρ beim Zufallssplit R wäre ein Hinweis, dass auch im LM ein gewöhnlicher Split die Frequenzen mitprägt (R4-Analogon), mit 2 Seeds kein Befund.
+
+## Nachtrag (Sitzung 53, 21:20 gemessen, vor der LM1-F-Auswertung): LM1-F (funktional, bestätigend)
+
+**Stand beim Schreiben:** LM1 ist „bestätigt“. Von LM1-F gesehen: die ersten Ergebniszeilen im Job-Log (Seed 4000 F/G: eigene Ziele weg 0.086 / 0.214, fremde weg 0.740 / 0.977, Kontrollen 0.88–0.98; C̄ = 0.709) und die Werte der unabhängigen Nachrechnung für denselben Seed. Die Sätze unten hängen davon nicht ab (sie sind je Ausgang formuliert).
+
+- **„bestätigt“:** *In the ten LM1 models, removing the Fourier subspace of the run's own five target frequencies from the number-token rows lowered held-out fact accuracy far more than removing the other split's targets (mean C̄ … [CI], above the registered minimum effect of 0.1; p …; … of 10 seeds with C̄ > 0); removing any of four control sets left accuracy near its baseline (…–…). With tied embeddings this ablation acts on input and output vectors alike, so it shows that the steered frequencies are used by the model, not whether the input or the output side uses them.* §7 (iii) *Measures* bleibt unverändert (gilt für das Spielzeugmodell); höchstens Halbsatz in Anhang J.
+- **„unter Mindesteffekt“:** *In the ten LM1 models, removing the own targets did not lower held-out accuracy clearly more than removing the other split's targets (mean C̄ … [CI], below the minimum effect 0.1): in this language model the steered frequencies carry energy but are not measurably used.* Dann in Anhang J den EXP-118-Satz ausdrücklich als nicht bestätigt kennzeichnen.
+- **„unklar“:** *The functional contrast was … [CI], neither clearly above nor below 0.1; inconclusive.*
+- **„nicht auswertbar“:** technischer Vermerk mit Grund, keine Aussage.
+- Unabhängige Nachrechnung (`LM1F_independent_recompute.py`) vor jedem Paper-Satz; bei Abweichung zuerst klären.

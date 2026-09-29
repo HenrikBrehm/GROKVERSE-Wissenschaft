@@ -5,13 +5,13 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 19:29 Berlin (17:29Z, vom Runner)
 - **Deadline:** 2026-09-29 22:29 Berlin (20:29Z)
-- **Zuletzt aktualisiert:** ≈ 20:20 Berlin (letzte Messung 20:17)
+- **Zuletzt aktualisiert:** 20:23 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- **Störung:** Die Auto-Mode-Sicherheitsprüfung antwortet seit ≈ 20:18 nicht (wie heute früh); Shell-Befehle gehen nicht, Lesen und Bearbeiten schon. Nach 8 Fehlversuchen beende ich die Sitzung geordnet, bevor die harte Grenze (10) sie abbricht. Der GPU-Dienst läuft unabhängig weiter; der Runner startet die nächste Sitzung (bei Dienststörung Wiederholung nach 15 min). **Nicht committet:** die letzten Paper-Edits (Zyklus 6), JOURNAL, STATE, ERKLAERUNG – der Wiederaufnahmeweg steht in STATE (Sitzung 53).
-- Warte auf LM1 (Stand 20:17: 17/20 fertig, 2 laufen, 1 offen) → Block nach Schätzung ≈ 20:50 fertig.
+- Störung der Auto-Mode-Prüfung ≈ 20:18–20:22 (8 Fehlversuche), danach wieder normal; alle Änderungen committet.
+- Warte auf LM1 (20:22: 18/20 fertig, die letzten 2 laufen) → nach Schätzung ≈ 20:50 fertig.
 
 ## Als Nächstes
 

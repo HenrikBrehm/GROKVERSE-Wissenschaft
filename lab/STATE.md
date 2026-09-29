@@ -43,6 +43,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Blocker / Hinweise
 
+- **GPU-Speicher überbucht (Sitzung 50, ab ≈ 12:59):** 8 LM-Läufe + R4 → 19 GB dediziert + 12 GB ausgelagert, freier RAM 1.8 GB; LM-Läufe ≈ 2.4 s/Schritt statt 0.3. Kopfzeilen meiner Jobdateien gesenkt (LM1 2, EXP-115 1, EXP-113 2 Worker; höhere job_minutes), greifen erst nach DRAIN-Neustart des Dienstes (Nutzer/Assistent gebeten). LM1-Läufe, die an job_minutes 240 enden, nach der Ausfallregel identisch neu einreihen (Checkpoint). **Künftig LM-Läufe höchstens 2–3 gleichzeitig.**
 - **Codex ohne Guthaben** (seit Sitzung 33). Ersatz: unabhängige Claude-Agenten, nur lesend. Nicht umgehen (Regel 12).
 - **HIP-Startfehler** „No HIP GPUs are available“ bei 12–14 gleichzeitigen GPU-Prozessen: ≤ 10 halten, betroffene Läufe mit weniger Workern neu.
 - **`lab/confirm/rank_tools.py` NICHT ändern** (Code-Tore C1–C4). C1/C2-Selbsttests nur über `lab/confirm/C12_selftest_wrapper.py`.

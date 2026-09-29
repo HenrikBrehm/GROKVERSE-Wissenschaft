@@ -5,20 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 08:49 Berlin (06:49Z, vom Runner, nach Absturz von Sitzung 48 um 08:24)
 - **Deadline:** 2026-09-29 11:49 Berlin (09:49Z)
-- **Zuletzt aktualisiert:** 09:38 Berlin
+- **Zuletzt aktualisiert:** 09:51 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe laufen jetzt über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- Repro-Paket: **L0 nachgerechnet** – B 256 exakt gleich (20/20 Läufe bitgleich), B 64 gleiches Urteil, aber 3/20 Läufe laufen spät auseinander (vermutlich GPU-Rauschen) → formal „nicht numerisch reproduziert“. R5/R6/R8/R4 rechnen beim GPU-Dienst.
-- Paper-Anhang K mit den neuen Ergebnissen ergänzt; unabhängige Textprüfung läuft.
-- Zwei hängende EXP-105-Prozesse bis ≈ 10:20; Pilot-Fortsetzung liegt als `11_` in der Inbox (läuft mit altem Dienstcode erst nach den Repro-Läufen).
+- GPU-Dienst rechnet das Repro-Paket (R5 läuft, danach R6, R8, R4; ≈ bis 11:20). Zenodo-Paket ergänzt und aus frisch entpackten Dateien getestet.
+- Zwei hängende EXP-105-Prozesse bis ≈ 10:20; Pilot-Fortsetzung (`11_`) läuft mit altem Dienstcode erst nach den Repro-Läufen.
 
 ## Als Nächstes
 
-Textprüfung einarbeiten; R5-Repro auswerten, sobald fertig; Tageserklärung ergänzen.
+R5-Repro auswerten (≈ 10:20); danach R6/R8/R4; Pilot, sobald er gelaufen ist.
 
 ## Verlauf dieser Sitzung
+
+- 09:51 Zenodo-Paket: fehlende Module ergänzt, Import-Test bestanden.
+- 09:47 Anhang K geprüft und korrigiert; FINDINGS-Nachtrag.
 
 - 09:36 Repro L0 verglichen (H1 exakt, H2 spät abweichend); Anhang K ergänzt.
 - 09:34 Nachrechnung EXP-102/112 bestätigt (mit Vorbehalt „gleiche Schritte ≠ gleiches Stadium“).

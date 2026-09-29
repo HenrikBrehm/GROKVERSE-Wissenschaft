@@ -1,8 +1,8 @@
 ---
 id: EXP-102
-status: vorbereitet
+status: laufend
 datum: 2026-09-28
-tags: [exp/vorbereitet]
+tags: [exp/laufend]
 ---
 # EXP-102 (Regel 20e, Sprachmodell-Leiter Stufe 1): Hält K2, wenn die Aufgabe als Text formuliert ist? (Entwurf)
 
@@ -48,3 +48,11 @@ Ein kleines LM (≈ 10–30 M Parameter) wird von Grund auf auf natürlichem Tex
 - **Bereits gesehene Daten:** P1-Größen von Δ_pow (Full-Batch), der Aufbau der Splits. Keine Läufe mit 3800–3809.
 
 **Korrektur der Begründung für allnb (Sitzung 44, 21:05; gerechnet vor jedem Lauf, `pba_spectrum_s44.py`, Lesart vorab):** Die frühere Aussage „p(b | a) der Trainingsmenge hängt über die Zielfrequenzen von a ab“ ist **falsch** in der Form, auf die es ankommt: Bei festem b trägt p(b | a) über a keine Zielleistung (Anteil 0.088, Zufall 0.089; Lesart „trägt die Ziele nicht“), weil die Phasen im Splitbau von c = a + b abhängen. Die Zielstruktur steckt in (a, c)-Koordinaten (0.18, wie das Maskenspektrum) und in den Randhäufigkeiten (count(b): 0.225, count(a): 0.165 auf den F-Zielen; Zufallssplit 0.074/0.089). Mit Verlust auf der b-Position lernt das Modell also vor allem die zielstrukturierte Randverteilung p(b), und zwar über die Ausgabeschicht; mit gebundenen Embeddings landet sie direkt in W_E. **Deshalb vor jedem Lauf ergänzt:** das Paar tieall/tieallnb (gebunden + alle Positionen, mit und ohne b), auch auf R. 200 statt 140 Läufe. Der Kontrollarm allnb bleibt sinnvoll, seine Begründung ist jetzt „b-Randverteilung als Ziel“, nicht „p(b | a)“.
+
+## Abnahme und Start (Sitzung 47, 2026-09-29, ≈ 04:55 Berlin)
+
+- Selbsttests `lm_ladder.py --selftest` und `analyze.py --selftest` über den Wächter bestanden (04:11).
+- **Gleichwertigkeit (Kriterium vorab in `equiv_compare.py`, Commit vor den Läufen):** r0 gegen `freq_ban.py`, Seeds 3800–3802, Split F, 2000 Schritte, GPU: **bitgleich** (relative Abweichung von W_E 0.0 bei 50/250/1000/2000; Top-5 und log(P_F/P_G) identisch) → „gleichwertig“ (`equiv_summary.json`).
+- Smoke (`design.py --smoke`, alle Stufen, 50 Schritte, `raw_smoke`) fehlerfrei.
+- Pilot gestartet: `python lab/tools/parallel_queue.py lab/experiments/EXP-102-lm-ladder-stage1/jobs.txt --workers 10 --min-minutes 3` (200 Läufe). Auswertung danach: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-102-lm-ladder-stage1/analyze.py`.
+- Bezug zu [[FINDINGS]]: Verallgemeinerung von K2 (Programm A, Regel 20e).

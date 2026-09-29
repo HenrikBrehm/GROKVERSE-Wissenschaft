@@ -1,23 +1,25 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 46
+# LIVE: Laborsitzung 46: **Sitzung beendet**
 
 - **Sitzungsstart:** 2026-09-29 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-29 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 03:08 Berlin
+- **Zuletzt aktualisiert:** 03:24 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-GPU: **EXP-108** (Festlegungsfenster bei B = 64 und 1024, 176 kurze Läufe, 10 Worker). Ein Agent rechnet die L0-Wechselläufe nach. Danach Abschlussbericht.
+**Sitzung beendet** (03:24). Keine laufenden Prozesse. Abschlussbericht im JOURNAL.
 
 ## Als Nächstes
 
-Sitzungsende ≈ 03:40; nächste Sitzung: EXP-108 auswerten (Code schreiben, Lesarten stehen), L0b registrieren, Paper-Langfassung ergänzen.
+Nächster Runner-Start laut runner-state.json **29.09. 04:24 Berlin**: Literatur und Registrierung zu N54b (Wurzel-Uhr), L0b (Reihenfolge bei langen Epochen), Paper-Langfassung ergänzen.
 
 ## Verlauf dieser Sitzung
 
+- 03:24 Sitzung beendet (Bericht im JOURNAL).
+- 03:22 **EXP-108: Die Festlegung wandert mit der Wurzel der Schritte pro Durchgang** (Vorhersage für B 1024: 60–67, gemessen 62); nachgerechnet.
 - 03:07 EXP-108 festgelegt und gestartet (Vorhersage Wurzel-Uhr: B 64 ≈ 240, B 1024 ≈ 60 Schritte).
 - 03:05 Paper: §6 und Abstract nach unabhängiger Textprüfung korrigiert (Abstract 1875 Zeichen).
 - 03:04 EXP-103 (Füllarbeit): lr·wd-Uhr ab ≈ 250 Schritten, davor zählt die Lernrate allein.

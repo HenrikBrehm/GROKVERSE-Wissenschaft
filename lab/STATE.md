@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 03:22 Berlin (Sitzung 46 beendet; nächster Runner-Start laut runner-state.json 04:24 Berlin) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 03:49 Berlin (Sitzung 47 läuft, Deadline 06:29) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,7 +17,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Aktive Queue / laufende Jobs
 
-- **Keine Jobs** (03:20 geprüft). Alle Queues der Sitzung 46 fertig: R11 240, L0-Machbarkeit 18, Kalibrierung 10, B16-Sonde 18, L0-Pilot 128, Wechsel 64, EXP-106 64, L0-Bestätigung 40, EXP-107 80, EXP-103 140, EXP-108 176 — alle ohne Fehler (außer den divergierten SGD-Kalibrierläufen, gewollt gezählt).
+- **N54b-Bestätigung läuft** (Start 03:49 Berlin, Sitzung 47): 840 Läufe, 10 GPU-Worker, `lab/runner/logs/n54b_queue.out`, eingefroren 624c2213 ([[confirm/N54B_REGISTRATION_DRAFT|Registrierung]]: H1 α(lr 1e-3) ∈ [0.3, 0.7]; H2 gepaartes Δα = α(2e-3) − α(1e-3) > 0). **Wiederaufnahme:** `python lab/tools/parallel_queue.py lab/confirm/N54B_jobs.txt --workers 10 --min-minutes 3` (gebundene Läufe werden übersprungen), dann `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_n54b.py --analyze lab/confirm/N54B_manifest.json`, danach unabhängige Nachrechnung.
+- EXP-109 (Pilot lr 2e-3) fertig: lr halbiert t½ bei B 1024, bei B 64 nur ×0.75.
 
 ## Nächste Schritte (Regel 20)
 

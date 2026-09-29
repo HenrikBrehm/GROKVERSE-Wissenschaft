@@ -139,3 +139,22 @@ Appendix: resets (K4d/e), D59 details, R1–R3, P4, R7, R2/C2, K5/R9/R10, explor
 **Token frequencies.** In a language model, token counts could shape the number embeddings without any arithmetic. In the Section 2 model (answer loss, full batch), splits with exactly equal counts of every a, b and c = a + b (every number 34 times in every role; EXP-104, 2 seeds) still steered (Δ_pow > 1 in both seeds at all three levels of symmetry breaking, 6.0–10.1; not comparable in size with Result 1, because their mask target share is 0.65–0.74 against 0.17–0.19), so there the steering does not need a frequency signal. Nearly shift-invariant versions of these splits generalized in only 2 of 8 runs by 8000 steps, against 4/4 after stronger symmetry breaking, in line with the observation of Tomàs Bernal et al. (2026) for kernels that symmetric training sets can prevent generalization (2 seeds, descriptive; at the two lower levels 6 of 8 runs never generalized, so their Δ_pow describes non-generalized networks).
 
 **Outlook.** A small language model (13.9 M parameters) trained from scratch on TinyStories with interleaved arithmetic sentences (8.7 % of the tokens; EXP-105) is running as a pilot; its criterion is accuracy on held-out facts together with Δ_pow on the number-token embeddings.
+
+## Anhang R (Kurzfassung, Entwurf Sitzung 49): Reproduction from scratch
+
+Every confirmed number can be regenerated in two ways. (i) From the frozen blocks: job list, bound runs and frozen analysis per block (`lab/confirm/<BLOCK>_jobs.txt`, `confirm_<block>.py --analyze`; code hashes are checked against the manifest). (ii) From scratch: one script per claim in `lab/paper/repro/` rebuilds the splits from the registered construction, trains with a lean trainer (`train.py`: the lab trainer's standard path, optionally with i.i.d. minibatches and a dense accuracy trace, both read from the same random streams), evaluates with the frozen statistics and compares with the frozen summary. The acceptance rule was fixed before the first equivalence check: if `train.py` reproduces stored runs bit for bit (it did, in full batch and at batch 256 and 64), every script's tolerance applies unchanged and a miss counts as "not numerically reproduced". All runs on one AMD RX 7900 XT (ROCm 7.2.1, PyTorch 2.9.1, Windows).
+
+| Claim | Block | Script | Outcome |
+|---|---|---|---|
+| K2, add 113 / mul 113 / add 97 | P1 | `k2.py` | reproduced; largest per-seed difference in Δ_pow 3.6·10⁻¹⁵ / 0 / 3.6·10⁻¹⁵ (50 seeds each) |
+| K2-function, add 113 | P2d | `k2_function.py` | reproduced; largest per-seed difference in D 7.4·10⁻⁸ |
+| K2-function, mul 113 / add 97 | P2e | `k2_function_p2e.py` | reproduced; 6.7·10⁻⁸ / 9.2·10⁻⁸ |
+| K4, K4b (persistence π) | N28 | `k4b.py` | reproduced; 4.4·10⁻¹⁶ |
+| K4c | N29 | `k4c.py` | reproduced; all means and seeds identical |
+| K4d / K4e (resets) | N29b / N29c | `k4_resets.py` | reproduced; identical |
+| R5 (earlier generalization) | R5 | `r5.py` | reproduced; all 140 event times identical (20 units × 7 arms) |
+| L0, batch 256 | L0 H1 | `l0.py` | reproduced; 20/20 runs bit-identical over 30 000 steps |
+| L0, batch 64 | L0 H2 | `l0.py` | not numerically reproduced by the pre-set gate (10⁻³ per seed): 17/20 runs bit-identical, 3 diverged late (first differing spectrum at step 15 000, 20 000, 25 000); mean Δ_pow 9.61 [8.79, 10.47] against the frozen 9.60 [8.79, 10.46], same verdict |
+| R4, R6, R8 | R4, R6, R8 | `r4.py`, `r6.py`, `r8.py` | scripts and smokes done; full runs in progress |
+
+**GPU nondeterminism.** The three late divergences at batch 64 are not a code difference: two further runs of the worst case (seed 3728, split F) with `train.py` were bit-identical to each other and to the frozen run over all 30 000 steps, so the first repro run was the outlier. Long minibatch runs on this GPU are therefore not guaranteed to repeat bit for bit; here this affected 3 of 40 runs, each only after ≥ 15 000 steps, in runs at batch 64 of which 12 of 20 had not settled by the end of the budget (Section 6). Not covered by a lean script: K2 for D59 (another trainer) and the static-trace decomposition of P3.

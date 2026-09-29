@@ -1,8 +1,8 @@
 ---
 id: EXP-102
-status: laufend
+status: abgeschlossen
 datum: 2026-09-28
-tags: [exp/laufend]
+tags: [exp/abgeschlossen, befund/unklar]
 ---
 # EXP-102 (Regel 20e, Sprachmodell-Leiter Stufe 1): Hält K2, wenn die Aufgabe als Text formuliert ist? (Entwurf)
 
@@ -79,3 +79,8 @@ Kontrollen: all − allnb −6.60 [−7.20, −5.97], tieall − tieallnb −5.9
 
 Frage: Verzögert das b-Ziel nur das Grokking, oder blockiert es die Steuerung? Stufen all und tieall, Seeds 3800–3809, F/G, **10 000 Schritte**, `raw_long` (40 Läufe, `jobs_long.txt`). W_E bei 2000, 5000, 10 000.
 Lesarten je Stufe (bei 10 000): **„verzögert, Steuerung erholt“**, wenn ≥ 8/10 Seeds in F und G generalisiert haben und die untere KI-Grenze von Δ_pow > 4.02 (= halbes r0-Mittel); **„Steuerung blockiert“**, wenn ≥ 8/10 generalisiert und die obere KI-Grenze < 4.02; **„grokkt nicht“**, wenn < 5/10 generalisiert; sonst „unklar“. Beschreibend: Δ_pow bei 2000/5000/10 000, Generalisierungsschritt.
+
+### Ergebnis Folgetest (Sitzung 47, 05:30 Berlin; `long_summary.json`; nicht nachgerechnet)
+
+40/40 Läufe fehlerfrei. **Lesart (vorab) für beide Stufen: „grokkt nicht“** — bis 10 000 Schritte generalisierten in F und G nur 0/10 (all) bzw. 2/10 (tieall) Seeds; einzeln 1/20 bzw. 8/20 Läufe, meist erst bei ≈ 8 600–10 000 Schritten (tieall einmal 4 850). Δ_pow wächst stetig: all 1.65 → 2.32 → **3.08 [2.75, 3.46]** (Schritt 2000 → 5000 → 10 000), tieall 1.60 → 2.44 → **3.06 [2.84, 3.30]**, je 10/10 > 0.
+**Deutung (vorsichtig):** Das b-Vorhersageziel (Verlust auf allen Positionen) verzögert das Grokking um mehr als eine Größenordnung (Median ≈ 750 → > 9 000 Schritte). Die Steuerung ist nicht verschwunden (stets > 0, wachsend), bleibt aber bis 10 000 unter dem halben r0-Wert. Ob sie sich nach dem Grokking erholt, ist offen. **Für die Leiter heißt das:** Nicht das Format bricht K2, sondern das autoregressive Ziel auf dem zweiten Operanden verschiebt das Lernen in ein anderes Regime. Nächster Schritt: längere Läufe (≈ 30 000) oder Weight Decay/Lernrate so wählen, dass „all“ in einem vergleichbaren Budget groKt, dann Δ_pow nach dem Grokking vergleichen (vorab festlegen).

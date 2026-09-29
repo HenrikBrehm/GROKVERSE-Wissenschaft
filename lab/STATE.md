@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 11:45 Berlin (Sitzung 50 läuft, Deadline 14:29) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 12:40 Berlin (Sitzung 50 läuft, Deadline 14:29) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,16 +17,19 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 47 (29.09., 03:29–06:29):** **N54b bestätigt** (Festlegung unter Minibatch ≈ √(N/B): α(1e-3) 0.583 [0.560, 0.606]; doppelte lr hilft bei kleinen Batches weniger: Δα +0.139 [0.098, 0.178]; eingefroren 624c2213, nachgerechnet) → Paper §6/§7, Langfassung §3.19, FINDINGS-Zeile. Explorationen: EXP-109 (lr 2e-3), EXP-110/111 (lr 4e-3 bei B 64: auf 2 Seeds später, auf 2 anderen etwas früher → nicht belastbar), Modellvergleich (Drift + ≈ 2 Epochen), Memorisierungsuhr (unklar), **EXP-102 Leiter Stufe 1** (Format hält; Verlust auf allen Positionen verzögert Grokking > ×10, Steuerung reduziert, wächst).
 
-- **Sitzung 50 (ab 11:30):** Kurzfassung gekürzt (≈ 4 300 Wörter Haupttext, Anhang M mit den wörtlich verschobenen Passagen, geprüft), neue Abb. 4 (`fig13`, nur L0 + N54b), Tabelle 1 ergänzt, Literatur-Nachsuche (Khanh 2026b). EXP-113 Nachtrag 1: Vorhersage **H-folgt** (im LM folgt Δ_pow dem Faktenlernen) vor dem Ergebnis festgelegt.
+- **Sitzung 50 (ab 11:30):** Kurzfassung gekürzt (≈ 4 300 Wörter Haupttext, Anhang M mit den wörtlich verschobenen Passagen, zweimal unabhängig geprüft), neue Abb. 4 (`fig13`, nur L0 + N54b), Tabelle 1 ergänzt, Literatur-Nachsuche (Khanh 2026b). **EXP-114** (K = 19 Rechensätze, 1 Seed): „Verdünnung nicht gestützt“ – die Steuerung kommt im LM erst mit dem Faktenlernen; lernt das LM die Fakten, steuert die Auswahl deutlich (Δ_pow 5.6, zurückgehalten 0.98). → **Bestätigungsblock LM1** eingefroren (2b70d8b9, 10 frische Seeds 4000–4009, K = 19, 6000 Schritte, H1 Δ_pow > 1).
 
-## Aktive Queue / laufende Jobs (Stand Ende Sitzung 49, 11:20 Berlin)
+## Aktive Queue / laufende Jobs (Stand Sitzung 50, 12:40 Berlin)
 
-- **GPU-Dienst (Regel 21)**, Stand `lab/queue/status.json`: `34_repro_r4` (240 Läufe, läuft) und **`40_exp113_stage2b`** (8 LM-Läufe à 16 000 Schritte, erste 2 laufen seit ≈ 11:18; voll parallel erst nach R4; geschätzt mehrere Stunden; Checkpoints alle 1000 Schritte, setzt nach Absturz fort).
-- **Repro-Paket (S49):** L0 (H1 bitgleich; H2 3/20 Läufe spät abweichend = GPU-Nichtdeterminismus, an 3728 F belegt → nach Regel „not reproduced“, Urteil gleich), R5, R6, R8 **exakt reproduziert**. Offen: R4 → `python lab/tools/guarded_run.py -- python lab/paper/repro/r4.py --device cuda --compare-r4`, dann Zeile in [[paper/repro/README]] und Anhang R der Kurzfassung.
-- **EXP-113** am Budgetende: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-113-lm-ladder-stage2b/analyze.py` (Lesarten vorab im README). Zwischendurch Logs `lab/queue/logs/40_exp113_stage2b/` (Durchsatz, `arith share`, Textumlauf).
+- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `31_lm1` (20 LM-Läufe, 4 Worker, ≈ 55 min je Lauf, bekommt Plätze vor R4), `34_repro_r4` (59/240 fertig), `40_exp113_stage2b` (Läufe 1–2 bei ≈ 12 000/16 000; die übrigen 6 erst nach R4 → EXP-113 insgesamt noch viele Stunden).
+- **LM1 auswerten**, sobald 20/20 fertig: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm1.py --analyze` (Ausfallregel: Lauf ohne Ergebnis mit identischem Befehl neu einreihen; Code nach dem Einfrieren NICHT ändern). Danach unabhängige Nachrechnung, dann FINDINGS/Anhang K.
+- **Repro-Paket:** L0, R5, R6, R8 fertig (S49). Offen: R4 → `python lab/tools/guarded_run.py -- python lab/paper/repro/r4.py --device cuda --compare-r4`, dann [[paper/repro/README]] und Anhang R.
+- **EXP-113** am Budgetende: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-113-lm-ladder-stage2b/analyze.py` und `analyze_folgt.py` (H-folgt, Nachtrag 1); danach `EXP-114…/analyze.py` (Vergleich bei gleicher Faktenzahl). Arm `answer` lernt die Fakten ab ≈ 10 000 Schritten.
+- **`lm_stage2.py` nicht ändern**, solange EXP-113 oder LM1 laufen (Hash in Run-ID und LM1-Manifest).
 
 ## Nächste Schritte (Regel 20)
 
+0. LM1 auswerten (s. o.), falls fertig.
 1. Repro R4 vergleichen, in [[paper/repro/README]] und Anhang R (Kurzfassung, geprüft) eintragen.
 2. EXP-113 beobachten (Durchsatz, Textumlauf) und am Budgetende nach Vorab-Lesarten auswerten; danach Stufe-2-Entscheidung (Anteil senken, 10 Seeds, oder „bricht“ dokumentieren).
 3. Paper (Ziel Do 01.10.): Kurzfassung final lesen; Anhang K ist auf Stand S49 (geprüft).

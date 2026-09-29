@@ -10,7 +10,7 @@ tags: [lab/live]
 
 ## ⚠ Hinweis für den Nutzer (13:01)
 
-GPU-Speicher ist überbucht (19.0 GB dediziert + 10.0 GB in den Arbeitsspeicher ausgelagert): 6 Sprachmodell-Läufe gleichzeitig laufen ≈ 7× langsamer als 2. Ich darf den GPU-Dienst nicht neu starten; die Kopfzeilen meiner Jobdateien sind gesenkt (LM1 2 Worker, EXP-115 1, EXP-113 2) und greifen erst nach einem **Neustart des Dienstes per DRAIN**. Bitte, wenn möglich, den Dienst so neu starten. Details im JOURNAL.
+GPU-Speicher ist überbucht (19.0 GB dediziert + 10.0 GB in den Arbeitsspeicher ausgelagert): 6 Sprachmodell-Läufe gleichzeitig laufen ≈ 7× langsamer als 2. Ich darf den GPU-Dienst nicht neu starten; die Kopfzeilen meiner Jobdateien sind gesenkt (LM1 2 Worker, EXP-115 1, EXP-113 2) und greifen erst nach einem **Neustart des Dienstes per DRAIN**. Bitte, wenn möglich, den Dienst so neu starten. Details im JOURNAL. **Update 13:11:** jetzt 8 LM-Läufe, 12.1 GB ausgelagert, nur 1.8 GB Arbeitsspeicher frei (über der Grenze aus Regel 17).
 
 ## Gerade
 

@@ -4677,3 +4677,17 @@ Auswertecode-Fehler vor dem Lauf gefunden und behoben: `import design` hätte da
 
 **Lesarten (vorab):** (a) *Steuerung:* Δ_pow > 1 in beiden Seeds bei **jedem** m → „steuert bei flachen Häufigkeiten“ (m = 0, 10, 500). Die Steuerung braucht also kein Häufigkeitssignal von a, b oder c; die Paarstruktur allein reicht (2 Seeds). (b) *Symmetrie:* m = 0 und m = 10: Seeds uneinig (3850 scheitert, 3851 gemischt) → „keine Lesart“; m = 500 generalisiert in beiden Seeds. Beschreibend: Bis 8000 Schritte generalisierten 1/8 Läufe mit m ≤ 10 gegen 4/4 mit m = 500; das passt zu „(nahezu) verschiebungsinvariante Splits bremsen oder blockieren das Grokking“ (vgl. Tomàs Bernal et al. 2026 für RFM), ist aber mit 2 Seeds keine Aussage.
 **Folge für [[experiments/EXP-105-lm-ladder-stage2/README|EXP-105]]:** Nach der vorab festgelegten Regel (flache Splits nur, wenn m = 10 in beiden Seeds generalisiert) nutzt der Stufe-2-Pilot die P1-Splits (EXP-102, Seeds 3800/3801) mit dem Vermerk, dass dort auch die Häufigkeiten die Ziele tragen. Kandidat für später: flache Splits mit m = 500 (generalisieren und steuern, Δ_pow ≈ 6) als Häufigkeitskontrolle.
+
+**EXP-112 Ergebnis (Sitzung 48, 07:07 Berlin gemessen; 60/60 Läufe fehlerfrei; `summary.json`; Exploration, nicht nachgerechnet)**
+
+| Sprosse (B 256) | Δ_pow 2000 | Δ_pow 5000 [KI] | gepaart zu r0B (5000) | generalisiert bis 5000 (Median) | Lesart |
+|---|---|---|---|---|---|
+| r0B (alles aus) | 8.30 | 9.86 [9.43, 10.28], 10/10 | – | 20/20 (1013) | Referenz |
+| lmB (Operator + volle Softmax + gebunden) | 7.71 | **9.96 [9.44, 10.47]**, 10/10 | +0.10 [−0.20, 0.40] | 20/20 (1025) | **„haelt“** |
+| lmnbB (lmB + Next-Token-Verlust ohne b) | 6.79 | **8.24 [6.78, 9.72]**, 10/10 | **−1.62 [−3.16, −0.13]** | 13/20 (1575) | **„schwaecher“** |
+
+Beschreibend: r0B − Full-Batch-r0 bei 2000: +0.26 [−0.14, 0.70] (Minibatch B 256 kostet in diesem Format keine Steuerung).
+**Deutung (vorsichtig):** Das LM-Format (alle Format-Sprossen zusammen) hält K2 auch unter i.i.d.-Minibatch voll. Kommt Next-Token-Verlust auf den übrigen Positionen dazu (ohne b), wird die Steuerung unter Minibatch kleiner und das Grokking langsamer (7/20 Läufe bis 5000 nicht generalisiert); im Full-Batch hielt dieselbe Verlustform (allnb 8.26, tieallnb 7.53, EXP-102). Ob das eine Wechselwirkung mit dem Minibatch oder nur ein Verzögerungseffekt bis 5000 ist, bleibt offen (Δ_pow wächst noch: 6.79 → 8.24). **Leiter Stufe 1 insgesamt:** Format hält (auch unter Minibatch); jeder Verlust auf Nicht-Antwort-Positionen schwächt oder verzögert, am stärksten das b-Ziel (EXP-102: ≈ 55 % von r0 nach dem Grokking).
+
+**EXP-102 „all 60k“ nachgerechnet (07:06; unabhängiger Agent, eigener numpy-Code, `recheck_60k_s48.py/.json`):** alle Zahlen gleich (n auswertbar 9, Mittel 4.403, KI [3.83, 4.92] bei eigenem Bootstrap, gepaart −3.748 in 9/9, 3.08/4.29/4.59, r0 8.044, Lesart „unklar“); 20/20 Läufe vollständig, alle Schnappschüsse endlich.
+**EXP-105-Pilot gestartet 07:07** (4 Läufe, 4 GPU-Worker, P1-Splits, 10 000 Schritte, `raw_pilot`).

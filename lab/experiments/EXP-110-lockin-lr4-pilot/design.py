@@ -20,6 +20,7 @@ LR = 4e-3
 GRID = {1024: (8, 12, 16, 20, 30, 40), 256: (20, 30, 40, 55, 75, 120),
         64: (50, 75, 100, 150, 200, 300)}
 TOTAL = 5000
+EXT = {64: (400, 600, 900, 1400)}   # s47, 05:44: after the first grid showed no crossing at B 64 by 300 (README)
 
 
 def base(s: int, split: str, bs: int) -> str:
@@ -40,8 +41,21 @@ def jobs() -> list[str]:
     return out
 
 
+def ext_jobs() -> list[str]:
+    out = []
+    for bs, ts in EXT.items():
+        for s in SEEDS:
+            for t in ts:
+                for a, b in (("F", "G"), ("G", "F")):
+                    spec = ",".join(str(x) for x in sorted({50, 250, t, 2000, 2500, TOTAL}))
+                    out.append(base(s, a, bs) + f" --spectra-at {spec} --switch-split-file {SPL}/seed{s}_{b}.npy --switch-step {t}")
+    return out
+
+
 if __name__ == "__main__":
-    if sys.argv[1:] == ["--jobs"]:
+    if sys.argv[1:] == ["--ext"]:
+        print("\n".join(ext_jobs()))
+    elif sys.argv[1:] == ["--jobs"]:
         print("\n".join(jobs()))
     else:
         raise SystemExit(__doc__)

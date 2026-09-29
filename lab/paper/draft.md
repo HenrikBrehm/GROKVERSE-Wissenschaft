@@ -480,6 +480,8 @@ code), operating under written rules set by the human author, who bears responsi
 
 ## Reproduction (draft, session 27; scripts exist, none has been run end to end yet)
 
+*Status session 49: superseded by Appendix R of the short draft ([[paper/draft_short]]), which lists the outcome of every full repro run; the text below is kept as written in session 27.*
+
 Every confirmed number can be regenerated in two ways. (i) From the frozen blocks: each block's job list, bound runs and frozen analysis (`lab/confirm/<BLOCK>_jobs.txt`, `confirm_<block>.py --analyze`; code hashes are checked against the manifest, so a re-analysis after later code changes needs a checkout of the manifest commit). (ii) From scratch with a lean trainer (`lab/paper/repro/train.py`, same model, data order, optimizer and switch/reset semantics as the lab trainer; equivalence against stored runs is checked first) and one script per claim, each with a smoke mode and a comparison gate against the frozen summary:
 
 | Claim | Block | Script | Gate |

@@ -216,3 +216,10 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 
 - **L0-B16 (P2, nach dem L0-Piloten):** Bei B = 16 (240 Schritte je Epoche, LeDoux-näher) lernt das Netz mit AdamW 1e-3 / wd 1 in 30 000 Schritten nicht; eine feste Reihenfolge dominiert dann das W_E-Spektrum. Sonde mit kleinerer Lernrate bzw. weniger Weight Decay läuft ([[experiments/EXP-100-set-vs-order/README|EXP-100]], `b16probe.txt`). Lernt eine Variante: eigener Konfliktversuch bei B = 16 neu festlegen.
 - **RFM bei 50 % (P3):** [[experiments/EXP-101-rfm-k2/README|EXP-101]] Tor nicht bestanden (p = 113, 30 %, bis 60 Iterationen: 0.63–0.88). K2 in RFM bräuchte neu gebaute F/G-Splits bei höherem Trainingsanteil; nur wenn es zwischen Konkurrenzmodellen entscheidet (N50: braucht K2 einen Auswahldruck im Lerner?).
+
+
+## Sitzung 50: Warum fehlt im LM die frühe Steuerung? (bedingt auf EXP-113, noch nicht festgelegt)
+
+- **Anlass:** [[experiments/EXP-113-lm-ladder-stage2b/README|EXP-113]] Nachtrag 1: Im kleinen LM ist Δ_pow bis Schritt 4000 ≈ 0 (Fakten auf Zufall), im EXP-105-Pilot stieg es erst mit dem Faktenlernen; in Stufe 1 (EXP-102) dagegen schon bei 2000 Schritten deutlich (auch „all“ 1.65 ohne Generalisierung), im Spielzeugmodell ≈ 3 bei Schritt 250.
+- **Frage (nur falls H-folgt hält):** Welcher Unterschied zwischen Stufe 1 und Stufe 2 nimmt die frühe, maskengetriebene Steuerung? Konkurrenzmodelle: (a) schwacher Weight Decay (0.1 statt 1; R1: kleineres wd → kleineres Δ_pow bei festem Schritt), (b) Verdünnung durch Text (Zahl-Tokens bekommen Text-Gradienten), (c) tieferes Modell (6 Schichten) / Warmup, (d) Minibatch (≈ 256 Fakten je Schritt, L0 steuert dort aber).
+- **Kleinster Test:** `lm_stage2.py` hat `--wd`, `--layers`, `--lr`; je ein Schalter, F/G, 2 Seeds, 4000 Schritte, Δ_pow bei 1000–4000 gegen die EXP-113-Läufe. (b) braucht eine Option ohne Text (fehlt noch). Erst nach EXP-113 entscheiden; Bezug: FINDINGS offene Frage „Verallgemeinerung von K2 auf Sprachmodelle“ (Programm A).

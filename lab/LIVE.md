@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 16:50 Berlin (14:50Z, vom Runner)
 - **Deadline:** 2026-09-29 19:49 Berlin (17:49Z)
-- **Zuletzt aktualisiert:** 17:39 Berlin
+- **Zuletzt aktualisiert:** 18:42 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- Warte auf EXP-117 Seed 3863 (läuft beim Dienst, ≈ 45 min je Lauf), dann Auswertung nach Vorab-Lesart. Zwischendurch Paper-Feinschliff nach dem Probe-Gutachten.
+- Letzter EXP-117-Lauf (Seed 3863 G) bei Schritt 3000/6000, zurückgehaltene Fakten 0.95; fertig voraussichtlich ≈ 19:05, dann Auswertung nach Vorab-Lesart.
 
 ## Als Nächstes
 
@@ -22,6 +22,7 @@ LM1 7/20 fertig, 2 laufen; EXP-117 1/4; R4-Repro 88/240; EXP-113-Rest und EXP-11
 
 ## Verlauf dieser Sitzung
 
+- 18:23 EXP-119 vor dem Start um eine beschreibende Zusatzgröße ergänzt (prägt auch ein Zufallssplit die Frequenzen des LM?).
 - 17:39 Paper: Fachkürzel und Versuchsnummern aus dem Haupttext entfernt, p-Werte an der Auflösungsgrenze als Schranke, Holm-Geltungsbereich genannt; Zahlen für die Wortlaut-Entscheidung „Festlegung nach 25–50 Schritten“ in paper/STATUS (Halbwert ≈ 31 Schritte).
 - 17:35 EXP-117 (ungekoppelte Embeddings), erster Seed: Steuerung sitzt in der Eingabe-Repräsentation (Δ_in 6.44).
 - 17:22 Simulierte Gutachter-Prüfung: 6/10, alle nachgeprüften Zahlen richtig; 7 Textpunkte übernommen, 6 Punkte für dich in paper/STATUS („Offen“), u. a. der genaue Wortlaut der Festlegungsaussage und die Nennung der GROKVERSE-Studie.

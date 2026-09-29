@@ -1,0 +1,22 @@
+---
+id: EXP-113
+status: vorbereitet
+datum: 2026-09-29
+tags: [exp/vorbereitet, lm-leiter]
+---
+# EXP-113: Sprachmodell-Leiter Stufe 2b – mehr Expositionen je Fakt, Verlust nur auf der Antwort als Kontrolle
+
+Zurück: [[LAB]] · [[FINDINGS]] · Vorgänger [[experiments/EXP-105-lm-ladder-stage2/README|EXP-105]] (Pilot „unklar“) · Stufe 1 [[experiments/EXP-102-lm-ladder-stage1/README|EXP-102]] / [[experiments/EXP-112-lm-ladder-minibatch/README|EXP-112]] · [[JOURNAL]] Sitzung 49
+
+**Bezug zu FINDINGS:** Verallgemeinerung von K2 (Programm A, Regel 15c) auf ein kleines Sprachmodell von Grund auf (Regel 20e, Stufe 2). Exploration (2 Seeds), keine Bestätigung.
+
+## Vorab (Sitzung 49, 10:33 Berlin gemessen, vor jedem Lauf)
+
+- **Frage:** Steuert die Auswahl der Rechenfakten die Zahl-Embeddings eines kleinen LM (≈ 14 M Parameter, TinyStories + eingestreute Rechensätze), wenn das Modell die Fakten tatsächlich lernt? Der EXP-105-Pilot (167 Runden je Fakt, 8.7 % Rechen-Tokens) war dafür zu kurz: ein Seed begann zu lernen (Δ_pow 1.75, Testfakten 0.22/0.13), der andere nicht.
+- **Hypothese:** Mit ≈ ×6 Expositionen lernen beide Seeds die Fakten; dann ist Δ_pow > 1 (K2 hält). Mit Verlust nur auf den Antwort-Tokens (Text unverändert) lernt das Modell schneller als mit Verlust auf allen Positionen (Stufe 1: Verlust auf dem Operanden b verzögert > ×10).
+- **Aufbau:** `lm_stage2.py` (unverändertes Modell, AdamW lr 6·10⁻⁴, wd 0.1, Warmup 500, Batch 32, Kontext 256) mit `--arith-facts 8` (≈ 34 % Rechen-Tokens, geschätzt aus den Schablonenlängen) und 16 000 Schritten (≈ 1 070 Runden je Fakt, Text ≈ 87 Mio. Tokens von 113.7 Mio., kein Umlauf erwartet). Modell-Seeds 3862/3863 ↔ P1-Splits der EXP-102-Seeds 3802/3803 (F/G mit gleicher Init, gleichem Text, gleichen Positionen); gemeinsame Testmenge je Seed = EXP-102 `design.build(seed)["test"]` (`tests/`). Zwei Verlust-Arme: `--loss all` (wie EXP-105) und `--loss answer` (in Rechenblöcken nur auf c). 8 Läufe, GPU-Dienst (`jobs.txt`, `make_jobs.py`), Checkpoints alle 1000 Schritte.
+- **Budget/Abbruch:** geschätzt ≈ 1.3 s/Schritt bei 8 gleichzeitigen LM-Läufen → ≈ 6 h; harte Grenze je Lauf 600 min (Dienst). Abbruch bei NaN (Trainer bricht selbst ab) oder Textumlauf > 0 (wird protokolliert, dann Ergebnis mit Vermerk).
+- **Messgrößen/Lesarten je Verlust-Arm (`analyze.py`, am Budgetende):** wie EXP-105-Pilot („K2 haelt im LM“: Δ_pow > 1 in beiden Seeds und Testfakten > 0.5 in ≥ 3/4 Läufen; „nur Repraesentation“: Δ_pow > 1 in beiden Seeds und Testfakten < 0.1 in ≥ 3/4; „bricht“: |Δ_pow| ≤ 1 in beiden Seeds; sonst „unklar“), mit Vorrangregel **„nicht gelernt (Budget)“**, wenn die Trainingsfakten-Genauigkeit in ≥ 3/4 Läufen < 0.1 ist. Beschreibend: Δ_pow(answer) − Δ_pow(all) je Seed; erster Schritt mit Testfakten ≥ 0.5 je Lauf.
+- **Was gegen die Hypothese spräche:** Beide Seeds lernen die Fakten (Testfakten > 0.5), aber |Δ_pow| ≤ 1 → „bricht“: Im LM trägt die Faktenauswahl die Frequenzwahl nicht (das wäre die erste Stufe, auf der K2 bricht; Regel 20e).
+- **Bereits gesehene Daten:** EXP-105-Pilot (Seeds 3860/3861, P1-Splits 3800/3801), Stufe-1-Ergebnisse (EXP-102/112 auf den Split-Seeds 3800–3809, also auch 3802/3803 im Stufe-1-Format). Davon beeinflusst: Wahl von K, Budget und der Kontrollarm.
+- **Abweichung vom Stufe-2-Plan:** Rechenanteil ≈ 34 % statt „wenige Prozent“ – bewusst, weil die Expositionen der Engpass waren; hält K2 hier, prüft eine spätere Stufe einen kleineren Anteil.

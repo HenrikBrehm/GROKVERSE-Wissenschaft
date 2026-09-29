@@ -231,3 +231,9 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 
 - **Warum fällt Δ_pow bei flachen Zahl-Häufigkeiten nach dem Gipfel wieder ab?** ([[experiments/EXP-115-lm-flat-marginals/README|EXP-115]]: 5.23 → 4.35, 1.83 → 0.96 zwischen 2500 und 4000; bei P1-Splits stieg es weiter.) Kandidaten: Häufigkeitsstruktur stabilisiert die Ziele im gebundenen Embedding; Ersatz von Zielenergie nach dem Generalisieren; Seed-Zufall (nur 2 Seeds). Billiger Test ohne Training: Ablation wie EXP-118 an den EXP-115-Modellen (tragen die Ziele trotz sinkender Energie die Fakten?). Mit Training: längeres Budget (8000) an denselben Splits.
 - **Funktion im LM an frischen Seeds:** [[confirm/LM1F_REGISTRATION|LM1-F]] eingefroren; auswerten nach LM1.
+
+## Sitzung 52 (17:11): Warum hat das kleine LM keine Grokking-Lücke? (niedrige Priorität, nur Denkarbeit)
+
+- **Befund (post hoc, 9 Läufe, [[JOURNAL]] S52 Zyklus 7):** Unter Antwort-Verlust lernt das LM zurückgehaltene Fakten nur 1–13 % später als die Trainingsfakten; im Spielzeugmodell und in Stufe 1 (EXP-102) liegt dazwischen eine lange Lücke. Ausnahme: EXP-105-Pilot (Verlust auf allen Positionen, K 2) passt sich an, ohne zu verallgemeinern.
+- **Kandidaten:** (a) der späte, langsame Lernbeginn (≈ 2 000 Schritte bei K 19) lässt der Memorisation keinen Vorsprung; (b) geteilte Zahl-Embeddings mit dem Text; (c) andere Optimierer-Einstellung (lr 6e-4, wd 0.1, Warm-up) und Modellgröße (14 M).
+- **Billigster Test, falls nötig:** Stufe-1-Trainer mit den LM-Optimierer-Einstellungen (trennt c von a/b). Erst nach EXP-119 und LM1 entscheiden; für das Paper reicht der beschreibende Satz.

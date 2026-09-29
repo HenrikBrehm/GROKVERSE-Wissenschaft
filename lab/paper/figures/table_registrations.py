@@ -21,7 +21,11 @@ BLOCKS = [("P1", "K2 (steering; add 113, mul 113, add 97, D59)"), ("P2d", "K2-fu
           ("R1", "K2 robustness (learning rate, weight decay, train fraction)"), ("R2", "K4c at lr 2e-3 and weight decay 0.3"),
           ("R3", "lock-in clock: steps vs summed learning rate"), ("R4", "a uniform random split shapes the choice"),
           ("R5", "engineered splits generalize earlier"), ("R6", "switch cost C(t), t = 10-75"),
-          ("R7", "K2 in a two-layer transformer"), ("R8", "only a change of targets costs"), ("R9", "lock-in window rule (K5)")]
+          ("R7", "K2 in a two-layer transformer"), ("R8", "only a change of targets costs"), ("R9", "lock-in window rule (K5)"),
+          # session 50: blocks confirmed after session 45 that the short draft cites
+          ("R10", "lock-in needs re-evaluated gradients"), ("R11", "lock-in window in add 97 and mul 113"),
+          ("L0", "K2 under i.i.d. minibatches (batch 256, 64)"), ("N54b", "minibatch lock-in clock vs batch size and lr")]
+FILE_ID = {"N54b": "N54B"}   # manifest/job file names that differ from the block id
 
 
 def flat(x) -> list:
@@ -35,8 +39,8 @@ def flat(x) -> list:
 def main() -> None:
     lines = ["| Block | Claim | Manifest commit | Fresh seeds | n seeds | Runs | Registration |", "|---|---|---|---|---|---|---|"]
     for b, claim in BLOCKS:
-        m = json.loads((CONF / f"{b}_manifest.json").read_text(encoding="utf-8"))
-        jobs = [ln for ln in (CONF / f"{b}_jobs.txt").read_text(encoding="utf-8").splitlines() if ln.strip()]
+        m = json.loads((CONF / f"{FILE_ID.get(b, b)}_manifest.json").read_text(encoding="utf-8"))
+        jobs = [ln for ln in (CONF / f"{FILE_ID.get(b, b)}_jobs.txt").read_text(encoding="utf-8").splitlines() if ln.strip()]
         if "seeds" in m:
             seeds = sorted({int(s) for s in flat(m["seeds"])})
         else:   # R4/R5 (session 45): the manifest holds a unit count; the seeds are the --seed values of the frozen job list

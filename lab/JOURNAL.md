@@ -4760,3 +4760,14 @@ Abgebrochen beim Dienst-Neustart (Nutzer-Assistent): 3 R5- und 7 R6-Läufe, lauf
 **11:14: Repro R6 numerisch reproduziert** (480/480 Läufe; C(t) identisch, π ≤ 5.6·10⁻¹⁶; H1 0.850 [0.730, 0.960], H2 1.253 [0.969, 1.496], S1/S2 wie eingefroren).
 
 **11:20: Repro R8 numerisch reproduziert** (175/175; C_AB, C_AA2, D identisch; D 0.815 [0.575, 1.041], 24/25). Offen im Repro-Paket nur noch R4 (läuft beim Dienst).
+
+
+## Sitzung 50 (2026-09-29, Start 11:30 Berlin gemessen, Deadline 14:29)
+
+**11:30, Lage:** kein STOP, Fenster offen. GPU-Dienst: `34_repro_r4` 12/240, `40_exp113_stage2b` 2/8 laufend (Schritt 2000 von 16 000, Fakten auf Zufallsniveau, arith share 0.336). R4-Läufe brauchen allein ≈ 3 min, neben den LM-Läufen ≈ 7 min → R4 fertig geschätzt erst in ≈ 3–4 h; EXP-113 läuft voll parallel erst danach.
+
+**Zyklus 1 (11:31–11:40 gemessen): Kurzfassung auf 8 Seiten (Regel 20d).**
+Frage: Hält die Kurzfassung die Vorgabe „Haupttext ≤ 8 Seiten“? Schätzung: §1–§7 hatten 4 944 Wörter plus ≈ 870 Wörter Bildunterschriften und 4 Abbildungen + Tabelle 1 → ≈ 10 Seiten (ohne TeX nur geschätzt, ≈ 650–700 Wörter je Seite).
+Änderung: zwei Kürzungsdurchgänge (Skripte `%TEMP%/cut_s50*.py`, jede Ersetzung musste genau einmal passen): R4-Post-hoc-Exploration, N28-Momentum-Reset (Resets gehören laut Regel 20d in den Anhang), RMST-Nachtrag, Drift-Lesart, Vorhersage erster Ordnung (L0-Aufbau), Isotropie-Erwartungswert, Wiederholungen in §1/§7 und ein Post-hoc-Satz aus Abb. 1 wandern **wörtlich** in den neuen Anhang M; im Haupttext stehen kürzere Fassungen oder Verweise. Abstract: „(about 100–200; pilot)“ → „(half-point 114 steps; confirmed on fresh seeds)“, weil N54b bestätigt ist (1 908 / 1 920 Zeichen).
+Ergebnis: Haupttext 4 944 → 4 273 Wörter. Wahrscheinlich immer noch ≈ 9 Seiten; die genaue Zahl gibt erst ein TeX-Satz (offen beim Nutzer, STATUS Punkt 6). Unabhängige Prüfung der Kürzung (wörtlich verschoben? Zahlen gleich? Vorbehalte verloren?) läuft.
+Nebenbefund: Tabelle 1 (`figures/table_registrations.py`) fehlten die Blöcke R10, R11, L0 und N54b, obwohl der Haupttext sie zitiert → ergänzt und neu erzeugt (Commits/Seeds/Laufzahlen aus den Manifesten: L0 26419818, 10 Seeds, 40 Läufe; N54b 624c2213, 10 Seeds, 840 Läufe; beides stimmt mit dem Text).

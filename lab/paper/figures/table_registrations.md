@@ -19,3 +19,7 @@
 | R7 | K2 in a two-layer transformer | 6e2d8070 | 2900–2909 | 10 | 40 | `lab/confirm/R7_REGISTRATION_DRAFT.md` |
 | R8 | only a change of targets costs | d79f97d | 3100–3124 | 25 | 175 | `lab/confirm/R8_REGISTRATION_DRAFT.md` |
 | R9 | lock-in window rule (K5) | 8b22879a | 3300–3335 | 36 | 504 | `lab/confirm/R9_REGISTRATION_DRAFT.md` |
+| R10 | lock-in needs re-evaluated gradients | 7b583bdb | 3500–3547 | 48 | 480 | `lab/confirm/R10_REGISTRATION_DRAFT.md` |
+| R11 | lock-in window in add 97 and mul 113 | 14621ad6 | 3620–3649 | 30 | 240 | `lab/confirm/R11_REGISTRATION_DRAFT.md` |
+| L0 | K2 under i.i.d. minibatches (batch 256, 64) | 26419818 | 3720–3729 | 10 | 40 | `lab/confirm/L0_REGISTRATION_DRAFT.md` |
+| N54b | minibatch lock-in clock vs batch size and lr | 624c2213 | 3900–3909 | 10 | 840 | `lab/confirm/N54B_REGISTRATION_DRAFT.md` |

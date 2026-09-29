@@ -130,3 +130,10 @@ Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · [[NACHT_2026-09-29]]
 - **Gleich häufige Zahlen (EXP-115, Vortest): unklar.** Wenn jede Zahl genau gleich oft vorkommt, lenkt die Auswahl der Paare das Modell in einem von zwei Versuchen deutlich, im anderen knapp nicht. In beiden wird die Lenkung nach einem Höhepunkt wieder schwächer. Das verstehen wir noch nicht.
 
 **Frage, die eine Jury stellen könnte:** *„Warum reicht es nicht, dass die Frequenzen ‚da sind‘?“* – Weil ein Netz Dinge speichern kann, die es gar nicht benutzt. Erst wenn das Herausnehmen genau dieser Frequenzen die Leistung zerstört und das Herausnehmen anderer nicht, weiß man, dass sie für die Rechnung gebraucht werden.
+
+## Sitzung 52 (29.09., ab 16:50): Warum die Steuerung bei „flachen“ Daten wieder nachlässt
+
+- **Was herauskam:** Im Sprachmodell mit exakt gleich häufigen Zahlen (EXP-115) stieg die Steuerung erst an und fiel dann wieder. Das kleine Spielzeugmodell zeigt mit genau denselben Trainingspaaren keinen solchen Abfall. Im Sprachmodell wächst nach dem Lernen die Energie in den Zahl-Vektoren weiter, aber vor allem auf *anderen* Frequenzen, die nicht aus der Auswahl der Rechenfakten stammen. Die vorgegebenen Frequenzen verschwinden also nicht, sie werden „verdünnt“.
+- **Was es nicht heißt:** Wir wissen nicht, woher die neuen Frequenzen kommen (Text, Zahlen in Geschichten, Ausgabeseite). Es sind 2 Seeds und eine Nachauswertung, keine Bestätigung.
+- **Jury-Frage:** *„Heißt ein fallendes Δ_pow, dass die Steuerung verloren geht?“* – Nicht unbedingt. Δ_pow vergleicht nur die eigenen mit den fremden Zielen; wenn viel neue Energie auf dritte Frequenzen geht, sinkt der Anteil der Ziele, obwohl sie noch da sind. Deshalb messen wir zusätzlich funktional (Ablation, EXP-118/LM1-F).
+- Außerdem: fehlende Literaturangaben (Autoren, Titel, Links) aus arXiv ergänzt.

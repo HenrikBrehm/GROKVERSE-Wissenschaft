@@ -62,7 +62,6 @@ def plot(l0: dict, nb: dict, out_dir: Path, note: str = "") -> None:
         lo, hi = h["ci95"]
         ax.errorbar(j + 0.22, h["mean"], yerr=[[h["mean"] - lo], [hi - h["mean"]]], fmt="o", color=INK, markersize=4, capsize=3, zorder=3)
     ax.axhline(0, color=MUTED, linewidth=0.8)
-    ax.axhline(1, color=MUTED, linewidth=0.8, linestyle="--")
     ax.set_xlim(-0.5, 1.6)
     ax.set_xticks([0, 1], ["batch 256", "batch 64"], fontsize=7.5, color=INK)
     ax.set_ylabel(r"steering $\Delta_{pow}$ (end of budget)", fontsize=8.5, color=INK)

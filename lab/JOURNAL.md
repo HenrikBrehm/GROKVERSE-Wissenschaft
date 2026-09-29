@@ -4599,3 +4599,4 @@ Start: kein STOP, keine laufenden Prozesse, Fenster offen (Regel 20: durchgehend
 - M_add: t½ = a·√x/λ + b·x (Drift plus lr-unabhängiger Diffusionsterm, 2 Parameter);
 - M_pow: t½ = a·x^α·λ^(−β) (frei, 3 Parameter).
 Vergleich über RMS der log-Residuen und BIC (n = 6). Vorab erwartet (aus EXP-108/109, 2 Seeds): M_i passt bei großen B, verfehlt B 64 bei lr 2e-3; M_add kann nach dem Überschlag an den Pilotmitteln b nicht einheitlich schätzen (b ≈ 0.7 bei lr 1e-3 gegen 1.5 bei 2e-3) → Erwartung „keins der beiden Mechanismusmodelle passt gut; M_pow mit β < 1“. Code folgt vor dem Lesen der N54b-Zusammenfassung.
+**04:13:** N54b Job 265 (seed 3903, F→G bei 120, B 1024) mit WinError 5 beim `os.replace` von we_snapshots.npy abgebrochen (bekannter Infrastrukturfehler, STATE-Hinweis). Registrierung erlaubt Wiederholung mit identischer Jobzeile vor `--analyze`: Queue nach dem Durchlauf erneut starten (gebundene Läufe werden übersprungen, der Rest beiseitegelegt).

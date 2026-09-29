@@ -212,6 +212,15 @@ def main() -> None:
     # reletter J -> I, K -> J, M -> K in one pass so the appendix runs A-K without gaps.
     assert not re.search(r"Appendix [IL]\b", text_out)
     text_out = re.sub(r"Appendix ([JKM])\b", lambda m: "Appendix " + {"J": "I", "K": "J", "M": "K"}[m.group(1)], text_out)
+    # s53: figures that are only scripts (not in the Figures list) are named as supplementary; the old pilot
+    # caption of Figure 4 kept verbatim in Appendix K is marked as superseded (Figure 4 is now fig13).
+    for old, new in (("Fig. 12 in `", "supplementary figure `"),
+                     ("per-seed values in Figure 9, `", "per-seed values in supplementary figure `"),
+                     ("*Figure K1* (`", "*Supplementary figure* (`"),
+                     ("**For Figure caption:** *Figure 4.* **L0:",
+                      "**Superseded caption of an earlier Figure 4 (pilot version; the current Figure 4 is above):** **L0:")):
+        assert text_out.count(old) == 1, old
+        text_out = text_out.replace(old, new)
     (HERE / "manuscript.md").write_text(text_out, encoding="utf-8")
 
     text = "\n".join(p for pre in SECTIONS for p in find(short, pre)[1]) + "\n".join(captions)

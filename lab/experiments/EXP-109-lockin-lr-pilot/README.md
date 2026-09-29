@@ -1,8 +1,8 @@
 ---
 id: EXP-109
-status: laufend
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/laufend]
+tags: [exp/abgeschlossen, befund/unklar, neu/kandidat]
 ---
 # EXP-109 (Pilot zu N54b): Festlegungsfenster gegen Batchgröße bei Lernrate 2e-3
 
@@ -24,3 +24,17 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 (i) Festlegung = die F-getriebene Drift hat eine feste Strecke zurückgelegt → t½ ∝ 1/(lr·√B): α = 0.5 **und t½ halbiert sich bei lr 2e-3** (Vorhersage ≈ 16 / 31 / 64 / 145 Schritte für Full/1024/256/64);
 (ii) Festlegung = Drift schlägt Diffusion → t½ ∝ 1/B: α = 1, **unabhängig von lr**.
 Beschreibende Lesart für den Piloten (2 Seeds, kein Urteil): Verhältnis t½(2e-3)/t½(1e-3) je B gegen die EXP-108-Mittel (lr 1e-3: 31/62/127/290): nahe 0.5 → (i), nahe 1 → (ii).
+
+## Ergebnis (Sitzung 47, 2026-09-29, 03:45 Berlin; Pilot, 2 gesehene Seeds, kein Urteil; nicht nachgerechnet)
+
+112/112 Läufe fehlerfrei (11 min, 10 GPU-Worker). lr 2e-3 stabil: alle reinen Paare deutlich getrennt (L_F − L_G 8.4–11.2). Raster in jedem B geeignet (π(erstes t) < 0.5 ≤ π(letztes t) in beiden Seeds).
+
+| B | t½ lr 2e-3 (3700 / 3701) | EXP-108 lr 1e-3 (gleiche Seeds) | Verhältnis | Modell (i) |
+|---|---|---|---|---|
+| Full | 24.6 / 16.0 | ≈ 31 (Referenz) | – | ≈ 16 |
+| 1024 | 30.0 / 32.3 | 50.3 / 70.0 | 0.60 / 0.46 | 0.5 |
+| 256 | 63.6 / 81.0 | 113.1 / 152.1 | 0.56 / 0.53 | 0.5 |
+| 64 | 205.2 / 225.2 | 244.5 / 325.6 | 0.84 / 0.69 | 0.5 |
+
+α über 1024/256/64: lr 2e-3 0.694 / 0.701 gegen lr 1e-3 0.570 / 0.554 → **Δα +0.12 / +0.15**. Mit Full-Batch-Punkt (lr 2e-3 gemessen) 0.52 / 0.65.
+**Lesart (vorsichtig):** Die doppelte Lernrate halbiert die Festlegungszeit bei großen Batches, wie Modell (i) vorhersagt (B 1024 ≈ 31 statt 62), bei B 64 aber nur um ≈ ×0.75. Weder reines Modell (i) (Halbierung überall) noch (ii) (keine lr-Wirkung). Auffällig bei B 64: π springt zwischen zwei Rasterpunkten (150 → 225) fast von 0 auf 0.5–0.7, die Festlegung ist dort eher ein Sprung als ein gleitender Übergang. **Folge:** Registrierung [[confirm/N54B_REGISTRATION_DRAFT|N54b]] Fassung 2: H1 α(1e-3) im Band, H2 Δα > 0 gepaart; Raster verfeinert.

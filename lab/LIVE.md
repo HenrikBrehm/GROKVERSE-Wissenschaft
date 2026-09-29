@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 14:10 Berlin (12:10Z, vom Runner)
 - **Deadline:** 2026-09-29 17:09 Berlin (15:09Z)
-- **Zuletzt aktualisiert:** 15:26 Berlin
+- **Zuletzt aktualisiert:** 16:01 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Hinweis (14:37): wird behoben
@@ -14,15 +14,18 @@ Die Start-Blockade durch die Speicherzusage (P-013) hat der Nutzer-Assistent erk
 
 ## Gerade
 
-- EXP-118 läuft (CPU, ≈ 20 min): Aus fertigen Sprachmodellen werden die Zielfrequenzen der Zahl-Vektoren entfernt. Erste zwei Modelle: eigene Ziele weg → Genauigkeit 0.98 → 0.30 bzw. 0.04; fremde Ziele oder Kontrollen weg → bleibt ≈ 0.93–0.99. Die Frequenzen tragen also die Rechnung (vorläufig, 2 von 4 Modellen).
-- EXP-115 (flache Häufigkeiten) 3/4, LM1 läuft (2/20 fertig).
+- **EXP-118 fertig: Die gesteuerten Frequenzen tragen im kleinen Sprachmodell die Rechnung.** Entfernt man sie, fällt die Genauigkeit auf ungesehenen Fakten von 0.95–0.99 auf 0.03–0.30; fremde Frequenzen zu entfernen schadet nicht (4/4 Modelle, Exploration).
+- **LM1-F eingefroren:** dieselbe Prüfung an den 10 neuen LM1-Seeds, vorab festgelegt (Auswertung nach LM1).
+- **EXP-115 „unklar“:** Mit exakt gleich häufigen Zahlen steuert das Modell in einem Seed deutlich, im anderen knapp nicht; in beiden fällt die Steuerung nach einem Gipfel wieder.
 
 ## Als Nächstes
 
-EXP-113 (2 Läufe fast fertig) und EXP-115 beobachten; EXP-115 auswerten, sobald alle 4 Läufe fertig sind.
+Stand sichern, Abschlussbericht (Deadline 17:09). LM1 rechnet weiter (≈ 4/20 fertig), danach LM1 → LM1-F → EXP-117 → EXP-116.
 
 ## Verlauf dieser Sitzung
 
+- 16:01 EXP-115 ausgewertet („unklar“); LM1-F eingefroren (bfdab8d8).
+- 15:45 EXP-118: „Ziele funktional“ (4/4).
 - 15:26 EXP-118 festgelegt und gestartet (Ablation im Sprachmodell, kein Training).
 - 15:05 EXP-114-Vergleich bei gleicher Faktenzahl: „Verdünnung nicht gestützt“ (vorab festgelegt); mit mehr Text braucht das Modell ≈ 1.9× mehr Wiederholungen bis zum Lernen.
 - 15:00 Neue Paper-Sätze unabhängig geprüft, 4 Korrekturen übernommen.

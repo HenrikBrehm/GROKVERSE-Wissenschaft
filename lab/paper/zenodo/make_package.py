@@ -26,7 +26,12 @@ INCLUDE = ("lab/paper/draft_short.md", "lab/paper/draft.md", "lab/paper/related_
            "lab/experiments/EXP-046-dihedral-steering/dihedral.py", "lab/experiments/EXP-046-dihedral-steering/group_train.py",
            "lab/experiments/EXP-046-dihedral-steering/make_split.py", "lab/experiments/EXP-051-functional-ablation/analyze.py",
            "lab/experiments/EXP-053-p3-overlap-design/overlap_split.py",
-           "lab/experiments/EXP-053-p3-overlap-design/calibration.json", "lab/experiments/EXP-055-ablation-dose/analyze.py")
+           "lab/experiments/EXP-053-p3-overlap-design/calibration.json", "lab/experiments/EXP-055-ablation-dose/analyze.py",
+           # s51: generated manuscript + references; LM1 block (appendix K): trainer, loader, split design, analyses
+           "lab/paper/manuscript.md", "lab/paper/build_manuscript.py", "lab/paper/references.md",
+           "lab/confirm/confirm_lm1.py", "lab/confirm/LM1_independent_recompute.py",
+           "lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py", "lab/experiments/EXP-105-lm-ladder-stage2/analyze_pilot.py",
+           "lab/experiments/EXP-102-lm-ladder-stage1/design.py", "lab/experiments/EXP-102-lm-ladder-stage1/analyze.py")
 EXCLUDE = ("*/__pycache__/*", "lab/runner/*", "lab/external/*", "*_raw/*", "*/raw/*", "lab/paper/repro/out/*", "lab/paper/outreach/*")
 
 

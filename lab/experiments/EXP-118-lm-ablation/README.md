@@ -32,3 +32,16 @@ Lauf über den Wächter, 1132 s (CPU), `summary.json`. Held-out-Genauigkeit (255
 | K 8 G | 0.950 | 0.026 | 0.950 | 0.952–0.960 | 0.92 |
 
 **Lesart: „Ziele funktional“** (C > 0.3 und Kontrollmittel − eigen > 0.3 in allen 4 Läufen). Die fünf über die Faktenauswahl gesteuerten Frequenzen der Zahl-Vektoren tragen im kleinen LM die Vorhersage der zurückgehaltenen Fakten; fünf andere Frequenzen (auch die Ziele des anderen Splits) sind entbehrlich. **Grenzen:** gebundene Embeddings (Ein- und Ausgabe zugleich getroffen), bekannte Modelle eines Seeds, Exploration. **Nächster Schritt:** dieselbe Ablation vorab registriert an den 20 LM1-Modellen (frische Seeds, bisher ohne Ablation angesehen).
+
+## Nachtrag 1: Modelle mit flachen Zahl-Häufigkeiten (EXP-115; Sitzung 51, 16:42 gemessen)
+
+`ablate_flat.py` (Lesarten je Seed vor dem Lauf committet), 2389 s CPU, `summary_flat.json`. Held-out-Genauigkeit: Basis / eigen / fremd / Kontrollen:
+
+| Modell | Basis | eigen | fremd | Kontrollen | C |
+|---|---|---|---|---|---|
+| 3850 F | 0.896 | 0.218 | 0.879 | 0.753–0.908 | 0.66 |
+| 3850 G | 0.982 | 0.243 | 0.984 | 0.579–0.986 | 0.74 |
+| 3851 F | 0.633 | 0.133 | 0.275 | 0.514–0.674 | 0.14 |
+| 3851 G | 0.976 | 0.446 | 0.866 | 0.630–0.981 | 0.42 |
+
+**Lesarten: Seed 3850 „funktional“, Seed 3851 „unklar“.** Beschreibend: Anders als bei den P1-Splits (EXP-118 oben) senken hier auch einzelne Kontrollmengen die Genauigkeit deutlich (bis 0.58 / 0.51 / 0.63), und im nicht generalisierten Lauf 3851 F schadet das Entfernen der *fremden* Ziele fast so viel wie das der eigenen. Die Modelle mit flachen Häufigkeiten verteilen die Rechnung also breiter über mehrere Frequenzen; das passt zum schwächeren, nach dem Gipfel fallenden Δ_pow in EXP-115 (2 Seeds, Exploration, keine Ursachenaussage).

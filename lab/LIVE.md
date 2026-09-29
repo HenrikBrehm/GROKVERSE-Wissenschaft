@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 22:09 Berlin (20:09Z, vom Runner)
 - **Deadline:** 2026-09-30 01:09 Berlin (23:09Z)
-- **Zuletzt aktualisiert:** 23:31 Berlin
+- **Zuletzt aktualisiert:** 23:26 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade

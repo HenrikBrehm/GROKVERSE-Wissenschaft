@@ -25,3 +25,5 @@ Keine Befunde laut Prüfer: C.2, D.3, D.4.
 - **Punkt 3 ✓:** manuscript.md Z. 262/264: Resets setzen Gewichte *und* AdamW-Zustand zurück; die Größenprüfung (Z. 268) misst nur ‖W(50) − W(0)‖_F.
 - **Punkte 2, 4, 5:** derselbe Befund wie im Haupttext (R8 ohne Äquivalenztest; „exposure“ doppelt; R9-Äquivalenz nur bei c = 0.25), dort in Sitzung 53 an den Registrierungen geprüft und korrigiert.
 - **Punkte 6, 7, 8:** noch offen (P3 Z. 29/67; R9 β₁/β₂ gemeinsam; R3 ohne Standardarm).
+
+- **Nachtrag (21:55 gemessen): Punkte 6, 7 ✓, 8 plausibel.** P3 Z. 29 („Δπ … beschreibend mit KI; keine Entscheidung“) und Z. 67 („ε unterscheidet sich zwischen den Stufen“); R9 Z. 16: β′ = 0.975/0.995, also β₁ und β₂ gemeinsam; R3 Z. 31–32: nur die Arme lrs2/lrs05, Vergleich „wie Standard“ gegen N29 – ein eigener Standardarm ist in der Tabelle nicht zu sehen (die Varianz der N29-Standardwerte 0.81–0.90 selbst nicht nachgeprüft). **Damit sind alle 8 Punkte als Befund gestützt; nächste Sitzung: in draft.md einarbeiten (Wortlaut der Vorschläge vorher prüfen), Manuskript neu erzeugen, Diff prüfen lassen.**

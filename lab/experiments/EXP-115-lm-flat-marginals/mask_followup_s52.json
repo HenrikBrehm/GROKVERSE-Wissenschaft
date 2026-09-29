@@ -1,0 +1,246 @@
+[
+ {
+  "set": "EXP-115 flat",
+  "seed": 3950,
+  "arm": "F",
+  "top5_last": [
+   15,
+   8,
+   49,
+   18,
+   16
+  ],
+  "non_targets": [
+   15,
+   16
+  ],
+  "mask_rank_of_non_targets": {
+   "15": 21,
+   "16": 31
+  },
+  "mask_rank_of_own": {
+   "8": 3,
+   "18": 5,
+   "38": 4,
+   "47": 2,
+   "49": 1
+  },
+  "mask_top10": [
+   49,
+   47,
+   8,
+   38,
+   18,
+   2,
+   11,
+   23,
+   13,
+   39
+  ],
+  "reading": "not mask-driven"
+ },
+ {
+  "set": "EXP-115 flat",
+  "seed": 3950,
+  "arm": "G",
+  "top5_last": [
+   13,
+   33,
+   40,
+   50,
+   2
+  ],
+  "non_targets": [
+   13,
+   33
+  ],
+  "mask_rank_of_non_targets": {
+   "13": 6,
+   "33": 19
+  },
+  "mask_rank_of_own": {
+   "2": 3,
+   "3": 5,
+   "25": 2,
+   "40": 4,
+   "50": 1
+  },
+  "mask_top10": [
+   50,
+   25,
+   2,
+   40,
+   3,
+   13,
+   42,
+   10,
+   56,
+   4
+  ],
+  "reading": "mixed"
+ },
+ {
+  "set": "EXP-115 flat",
+  "seed": 3951,
+  "arm": "F",
+  "top5_last": [
+   48,
+   17,
+   32,
+   33,
+   8
+  ],
+  "non_targets": [
+   17,
+   32,
+   33,
+   8
+  ],
+  "mask_rank_of_non_targets": {
+   "17": 41,
+   "32": 20,
+   "33": 28,
+   "8": 10
+  },
+  "mask_rank_of_own": {
+   "16": 1,
+   "41": 5,
+   "43": 4,
+   "48": 2,
+   "49": 3
+  },
+  "mask_top10": [
+   16,
+   48,
+   49,
+   43,
+   41,
+   42,
+   38,
+   6,
+   14,
+   8
+  ],
+  "reading": "mixed"
+ },
+ {
+  "set": "EXP-115 flat",
+  "seed": 3951,
+  "arm": "G",
+  "top5_last": [
+   32,
+   1,
+   49,
+   4,
+   56
+  ],
+  "non_targets": [
+   1,
+   49,
+   4
+  ],
+  "mask_rank_of_non_targets": {
+   "1": 33,
+   "49": 19,
+   "4": 6
+  },
+  "mask_rank_of_own": {
+   "11": 4,
+   "32": 3,
+   "33": 1,
+   "37": 2,
+   "56": 5
+  },
+  "mask_top10": [
+   33,
+   37,
+   32,
+   11,
+   56,
+   4,
+   46,
+   23,
+   17,
+   22
+  ],
+  "reading": "mixed"
+ },
+ {
+  "set": "EXP-114 P1",
+  "seed": 3862,
+  "arm": "F",
+  "top5_last": [
+   12,
+   7,
+   35,
+   39,
+   14
+  ],
+  "non_targets": [
+   39,
+   14
+  ],
+  "mask_rank_of_non_targets": {
+   "39": 12,
+   "14": 48
+  },
+  "mask_rank_of_own": {
+   "2": 5,
+   "7": 2,
+   "12": 1,
+   "35": 3,
+   "55": 4
+  },
+  "mask_top10": [
+   12,
+   7,
+   35,
+   55,
+   2,
+   37,
+   32,
+   49,
+   50,
+   29
+  ],
+  "reading": "not mask-driven"
+ },
+ {
+  "set": "EXP-114 P1",
+  "seed": 3862,
+  "arm": "G",
+  "top5_last": [
+   48,
+   47,
+   50,
+   37,
+   39
+  ],
+  "non_targets": [
+   39
+  ],
+  "mask_rank_of_non_targets": {
+   "39": 10
+  },
+  "mask_rank_of_own": {
+   "29": 4,
+   "37": 1,
+   "47": 3,
+   "48": 5,
+   "50": 2
+  },
+  "mask_top10": [
+   37,
+   50,
+   47,
+   29,
+   48,
+   12,
+   55,
+   7,
+   45,
+   39
+  ],
+  "reading": "follows the mask beyond the targets"
+ }
+]

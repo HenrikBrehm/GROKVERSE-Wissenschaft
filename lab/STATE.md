@@ -22,11 +22,11 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Nächste Schritte (Regel 20)
 
-1. **N54b bestätigen:** EXP-108 („Wurzel-Uhr gestützt“, nachgerechnet) — Literatur weiter suchen (erste Suche in N54), dann eine Registrierung mit frischen Seeds und einer zweiten Lernrate (trennt √(N/B) von einer Rauschskala lr·√(N/B)); ursprünglich geplant: B-Reihe (z. B. B 64, 1024 + 256 Wiederholung), Vorhersage t½ ∝ √(N/B) gegen ∝ N/B, frische Seeds; Literatur zu „critical period / lock-in vs batch size / steps vs epochs“ suchen.
-2. **L0b registrieren** (Reihenfolge im Regime langer Epochen, B 16 / wd 0.1, Seeds aus 3730–3799): Kandidaten H3a (o-Verschiebung auf R > 0), H3b (keine Verschiebung auf F/G, Äquivalenzgrenze vorab), H3c (Zeitverlust auf F/G > 0); Power: `python lab/confirm/L0_power_s46.py --exp106` (Hinweis: dort k anpassen). Achtung: R-Wirkung hängt am Ausgangswert (3 Seeds mit hohem o(R-iid) ohne Wirkung).
-3. **Paper:** Abb. 4 englischer Titel + SGD „not evaluable“; EXP-103-Satz in Anhang A (R1); Anhang-Struktur; Langfassung um L0/EXP-106/107 ergänzen; Zenodo (k2.py-Pfad = Nutzerentscheidung).
-4. EXP-103 auswerten (siehe oben).
-5. Ab ≈ Fr 02.10.: Sprachmodell-Leiter (EXP-102 Stufe 1, Trainer ungetestet).
+1. **EXP-102 auswerten** (Leiter Stufe 1, Pilot; Lesarten vorab in `analyze.py`), unabhängig nachrechnen, README/LAB/FINDINGS; dann Minibatch-Stufe (Stufe 4) nach L0-Protokoll.
+2. **N54c** (nächster Test der Festlegungsuhr): lr 4e-3, Vorhersagen im JOURNAL (05:00) — M_add 20/56/177, M_pow 23/57/141, M_i 18/36/72 für B 1024/256/64. Erst Stabilitätspilot (2 gesehene Seeds), dann Registrierung mit Seeds 3910–3919.
+3. **Paper:** N54b-Text in §6 nach der unabhängigen Prüfung korrigieren; Langfassung §3.19 (N54b); Abstract ggf. (1875/1920 Zeichen); Zenodo (k2.py-Pfad = Nutzerentscheidung); Repro-Pfad-Smoke `k4c.py --smoke` nur ohne laufende GPU-Queue (CPU-Überlast).
+4. L0b (Reihenfolge bei langen Epochen) bleibt offen, niedrigere Priorität.
+5. Sprachmodell-Leiter Stufe 2 (EXP-105) nach Stufe 1.
 
 ## Prioritäten
 

@@ -33,4 +33,4 @@ Zurück zu [[paper/STATUS]]. Angelegt Sitzung 43 (2026-09-28). Hochladen braucht
 
 **Nachtrag Sitzung 49 (2026-09-29):** Die neuen Repro-Skripte (`l0.py`, `r4.py`, `r5.py`, `r6.py`, `r8.py`) importieren über die `confirm_*`-Werkzeuge Module aus `lab/experiments/` (`EXP-053…/overlap_split.py` + `calibration.json`, `EXP-043…/analyze.py` + `make_split.py`, `EXP-046…`, `EXP-051…/analyze.py`, `EXP-055…/analyze.py`). Diese fehlten in `INCLUDE` und sind ergänzt (Musterabgleich gegen `git ls-files` geprüft). Offen: ein Import-Test aus einem frisch entpackten Paket (nur die Paketdateien auf dem Pfad), bevor das Paket als vollständig gilt.
 
-*Import-Test erledigt (Sitzung 49, 09:52):* Paketdateien ohne Split-Daten nach `lab/paper/repro/out/pkgtest` entpackt; `l0/r4/r5/r6/r8.py --smoke --jobs-out` und `train.py --help` laufen allein aus dem Paket.
+*Import-Test erledigt (Sitzung 49, 09:51):* Paketdateien ohne Split-Daten nach `lab/paper/repro/out/pkgtest` entpackt; `l0/r4/r5/r6/r8.py --smoke --jobs-out` und `train.py --help` laufen allein aus dem Paket.

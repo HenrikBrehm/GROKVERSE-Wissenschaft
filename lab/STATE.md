@@ -12,8 +12,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 ## Lage
 
 - **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion (Nanda 20/20, nachgerechnet), K4–K4e, R2–R10, K5, **R11** (Festlegung auch add 97 / mul 113), **L0** (K2 unter i.i.d.-Minibatch B 256/64, 10 frische Seeds, eingefroren 26419818, nachgerechnet).
-- **Explorationen Sitzung 46:** EXP-100-Pilot (Reihenfolge wirkt bei B 256/64 nicht; SGD nicht kalibrierbar; B 16 lernt bei wd 1 nicht), Wechselläufe (unter B 256 keine Festlegung bis 50 Schritte), **EXP-106** (B 16, wd 0.1: Menge steuert; Reihenfolge verschiebt nur auf Zufallssplits, kostet auf konstruierten ×1.6 Zeit; nachgerechnet), **EXP-107** (unter B 256 Fenster bei 100–200 Schritten, t½ ≈ 133 = 8.9 Epochen; **nicht nachgerechnet**), EXP-101 (RFM ohne K2-Lesart).
-- **Paper:** Langfassung §3.16 (R10), §3.17 (R11); Kurzfassung §5 (R11), §6 mit L0-Pilot, Bestätigung, EXP-106/107, Grenzen angepasst. Abb. 4 aus echten Daten (Titel noch deutsch). Nicht jeder neue §6-Absatz ist unabhängig textgeprüft (nur R10/R11-Texte).
+- **Explorationen Sitzung 46:** EXP-100-Pilot (Reihenfolge wirkt bei B 256/64 nicht; SGD nicht kalibrierbar; B 16 lernt bei wd 1 nicht), Wechselläufe (unter B 256 keine Festlegung bis 50 Schritte), **EXP-106** (B 16, wd 0.1: Menge steuert; Reihenfolge verschiebt nur auf Zufallssplits, kostet auf konstruierten ×1.6 Zeit; nachgerechnet), **EXP-107** (unter B 256 Fenster bei 100–200 Schritten, t½ ≈ 133 = 8.9 Epochen; nachgerechnet), EXP-101 (RFM ohne K2-Lesart).
+- **Paper:** Langfassung §3.16 (R10), §3.17 (R11); Kurzfassung §5 (R11), §6 mit L0-Pilot, Bestätigung, EXP-106/107, Grenzen angepasst. Abb. 4 aus echten Daten (Titel noch deutsch). §6 und Abstract nach unabhängiger Textprüfung korrigiert (19 Punkte, Sitzung 46); Abstract 1875 Zeichen.
 
 ## Aktive Queue / laufende Jobs (Stand 03:03)
 
@@ -21,9 +21,9 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Nächste Schritte (Regel 20)
 
-1. **EXP-107 unabhängig nachrechnen** (Agent, numpy); dann N54b vorab festlegen: B-Reihe (z. B. B 64, 1024 + 256 Wiederholung), Vorhersage t½ ∝ √(N/B) gegen ∝ N/B, frische Seeds; Literatur zu „critical period / lock-in vs batch size / steps vs epochs“ suchen.
+1. **N54b vorab festlegen** (EXP-107 ist nachgerechnet; die EXP-100-Wechselläufe und die Horizont-Analyse noch nicht → zuerst nachrechnen): B-Reihe (z. B. B 64, 1024 + 256 Wiederholung), Vorhersage t½ ∝ √(N/B) gegen ∝ N/B, frische Seeds; Literatur zu „critical period / lock-in vs batch size / steps vs epochs“ suchen.
 2. **L0b registrieren** (Reihenfolge im Regime langer Epochen, B 16 / wd 0.1, Seeds aus 3730–3799): Kandidaten H3a (o-Verschiebung auf R > 0), H3b (keine Verschiebung auf F/G, Äquivalenzgrenze vorab), H3c (Zeitverlust auf F/G > 0); Power: `python lab/confirm/L0_power_s46.py --exp106` (Hinweis: dort k anpassen). Achtung: R-Wirkung hängt am Ausgangswert (3 Seeds mit hohem o(R-iid) ohne Wirkung).
-3. **Paper:** Textprüfung der neuen §6-Absätze (Agent gegen Quellen), Abb. 4 englischer Titel + SGD „not evaluable“, Abstract-Satz zu L0 (Minibatch bestätigt) und zur verschobenen Festlegung; Anhang-Struktur; Zenodo (k2.py-Pfad = Nutzerentscheidung).
+3. **Paper:** Abb. 4 englischer Titel + SGD „not evaluable“; EXP-103-Satz in Anhang A (R1); Anhang-Struktur; Langfassung um L0/EXP-106/107 ergänzen; Zenodo (k2.py-Pfad = Nutzerentscheidung).
 4. EXP-103 auswerten (siehe oben).
 5. Ab ≈ Fr 02.10.: Sprachmodell-Leiter (EXP-102 Stufe 1, Trainer ungetestet).
 

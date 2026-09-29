@@ -21,7 +21,7 @@ python lab/tools/parallel_queue.py lab/experiments/EXP-107-lockin-epochs/jobs.tx
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-107-lockin-epochs/analyze.py
 ```
 
-## Ergebnis (Sitzung 46, 2026-09-29, 03:00 Berlin; Exploration, 8 Seeds, nicht unabhängig nachgerechnet)
+## Ergebnis (Sitzung 46, 2026-09-29, 03:00 Berlin; Exploration, 8 Seeds; unabhängig nachgerechnet 03:04, `recheck_s46.py`: alle Werte gleich, 96 Läufe integer)
 
 80/80 Läufe fehlerfrei, 8/8 Seeds gültig. **Lesart (vorab): „früher als in Epochen“.**
 

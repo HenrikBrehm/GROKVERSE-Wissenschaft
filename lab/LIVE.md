@@ -5,20 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 11:30 Berlin (09:30Z, vom Runner)
 - **Deadline:** 2026-09-29 14:29 Berlin (12:29Z)
-- **Zuletzt aktualisiert:** 12:32 Berlin
+- **Zuletzt aktualisiert:** 12:41 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- Bestätigungsblock **LM1** vorbereitet (10 frische Seeds: steuert die Faktenauswahl die Zahl-Embeddings eines kleinen Sprachmodells, wenn es die Fakten lernt?). Smoke läuft beim GPU-Dienst, unabhängige Prüfung läuft; danach einfrieren und einreihen (≈ 4–5 h Rechenzeit im Dienst).
-- GPU-Dienst sonst: R4 ≈ 50/240, EXP-113 Läufe 1–2 bei ≈ Schritt 8000.
+- GPU-Dienst: LM1 1 laufend / 0 fertig von 20; R4 60/240; EXP-113 Läufe 1–2 kurz vor dem Ende (Fakten gelernt, zurückgehalten ≈ 0.95).
+- Ich warte auf das Ende von EXP-113 Läufen 1–2 (≈ 13:00–13:10) für einen beschreibenden Blick auf H-folgt.
 
 ## Als Nächstes
 
-Prüfbefunde einarbeiten → Manifest + Commit (Einfrieren) → 20 Läufe einreihen.
+LM1 läuft ≈ 4–5 h im Dienst weiter (Auswertung in einer späteren Sitzung). Sitzungsende 14:29.
 
 ## Verlauf dieser Sitzung
 
+- 12:39 **LM1 eingefroren** (nach unabhängiger Prüfung, 6 Punkte übernommen) und 20 Läufe eingereiht.
 - 12:28 **EXP-114: Verdünnung nicht gestützt**; aber: lernt das LM die Fakten, steuert die Auswahl deutlich (Δ_pow 5.6, zurückgehaltene Fakten 0.98; 1 Seed).
 - 12:09 EXP-114 (79 % Rechensätze): Lauf F lernt die Fakten schon bei Schritt 2000 (Training 0.80, zurückgehalten 0.33); EXP-113 (34 %) bei Schritt 6500 noch auf Zufall.
 - 11:49 EXP-114 vorab festgelegt (Lesarten + Auswertecode vor dem Lauf) und eingereiht.

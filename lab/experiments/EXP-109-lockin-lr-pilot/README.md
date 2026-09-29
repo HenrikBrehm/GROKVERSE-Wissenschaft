@@ -19,3 +19,8 @@ Zurück: [[LAB]] · [[FINDINGS]] (Result 3 / L0) · [[NOVEL_DIRECTIONS]] N54 · 
 python lab/tools/parallel_queue.py lab/experiments/EXP-109-lockin-lr-pilot/jobs.txt --workers 10 --min-minutes 3
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-109-lockin-lr-pilot/analyze.py
 ```
+
+**Nachtrag vor dem Lesen der Ergebnisse (Sitzung 47, ≈ 03:45 Berlin; Läufe liefen, keine Ergebnisdatei gelesen):** Literatur-Agent (N54b-Suche, siehe JOURNAL) leitet aus Malladi et al. 2022 (Adam-SDE) und Li et al. 2024 (Sign-Modell, E[sign g_B] ≈ √(2B/π)·μ/σ) zwei Modelle ab (Ableitung vom Agenten, nicht aus den Arbeiten selbst):
+(i) Festlegung = die F-getriebene Drift hat eine feste Strecke zurückgelegt → t½ ∝ 1/(lr·√B): α = 0.5 **und t½ halbiert sich bei lr 2e-3** (Vorhersage ≈ 16 / 31 / 64 / 145 Schritte für Full/1024/256/64);
+(ii) Festlegung = Drift schlägt Diffusion → t½ ∝ 1/B: α = 1, **unabhängig von lr**.
+Beschreibende Lesart für den Piloten (2 Seeds, kein Urteil): Verhältnis t½(2e-3)/t½(1e-3) je B gegen die EXP-108-Mittel (lr 1e-3: 31/62/127/290): nahe 0.5 → (i), nahe 1 → (ii).

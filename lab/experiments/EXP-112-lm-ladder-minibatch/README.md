@@ -42,3 +42,5 @@ Beschreibend: r0B − Full-Batch-r0 bei 2000: +0.26 [−0.14, 0.70] (Minibatch B
 
 ### Nachtrag „10k“ (Sitzung 48, vor den Läufen; Exploration)
 Ist „lmnbB schwaecher“ nur Verzögerung? r0B und lmnbB, B 256, Seeds 3800–3809, F/G, 10 000 Schritte (`raw_10k`, 40 Läufe). Lesarten in `analyze_10k.py`: „bleibt schwaecher“ (gepaartes KI lmnbB − r0B bei 10 000 < 0), „nur verzoegert“ (sonst, wenn ≥ 16/20 lmnbB-Läufe generalisiert), sonst „unklar“.
+
+**Ergebnis „10k“ (Sitzung 49, 09:26 gemessen; 40/40 Läufe vollständig; `summary_10k.json`; unabhängig nachgerechnet `../EXP-102-lm-ladder-stage1/recheck_s49.json`):** r0B 9.67 [9.21, 10.05]; lmnbB 16/20 generalisiert, 8.24 (5000) → 8.52 [7.28, 9.82] (10k); gepaart lmnbB − r0B −1.15 [−2.40, 0.08], 8/10 negativ → Lesart **„nur verzoegert“**. Einschränkung: 16/20 genau an der Schwelle, KI-Obergrenze knapp über 0; heißt „keine bleibende Schwächung gezeigt“, nicht „gleich“. Siehe [[JOURNAL]] Sitzung 49.

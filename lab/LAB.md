@@ -3,7 +3,7 @@ tags: [lab/einstieg]
 ---
 # GROKVERSE-Labor: Einstieg
 
-**Erklärungen für den Nutzer (Regel 20h):** [[paper/erklaerung/ERKLAERUNG_2026-09-28|28.09.]] · [[paper/erklaerung/ERKLAERUNG_2026-09-29|29.09.]] (Vorhersagen vor den Läufen)
+**Erklärungen für den Nutzer (Regel 20h):** [[paper/erklaerung/ERKLAERUNG_2026-09-28|28.09.]] · [[paper/erklaerung/ERKLAERUNG_2026-09-29|29.09.]] (Vorhersagen vor den Läufen) · Manuskript (generiert): [[paper/manuscript]]
 
 Das autonome Forschungslabor zu GROKVERSE: Grokking bei modularer Addition (p = 113), Transformer
 und MLPs. Die Studie (`RESULTS.md`) ist historisch, neue Befunde stehen nur hier unter `lab/`.
@@ -160,6 +160,7 @@ nutzt ([[experiments/EXP-009-freq-commitment/SUMMARY|EXP-009]]).
 | [[experiments/EXP-113-lm-ladder-stage2b/README\|EXP-113]] Leiter Stufe 2b: ≈ ×6 Expositionen je Fakt (34 % Rechen-Tokens), Verlust auf allen Positionen gegen nur auf der Antwort | läuft beim GPU-Dienst (seit Sitzung 49) #exp/laufend | Zwischenblick (Sitzung 50): bis Schritt 4000 Δ_pow ≈ 0, Fakten auf Zufall; Vorhersage H-folgt vorab festgelegt |
 | [[experiments/EXP-114-lm-dilution-pilot/README\|EXP-114]] Fehlt die frühe Steuerung im LM wegen Verdünnung durch Text? K = 19 Rechensätze (≈ 79 %) gegen EXP-113 K = 8, 1 Seed | abgeschlossen (Sitzung 50) #exp/abgeschlossen #befund/negativ | „Verdünnung nicht gestützt“: auch bei 79 % Rechen-Tokens kommt die Steuerung erst mit dem Faktenlernen; dann aber deutlich (Δ_pow 5.6, zurückgehaltene Fakten 0.98; 1 Seed) |
 | [[experiments/EXP-115-lm-flat-marginals/README\|EXP-115]] LM mit exakt flachen Zahl-Häufigkeiten (EXP-104-Splits m = 500): steuert die Paarstruktur allein? 2 Seeds | vorbereitet (Sitzung 50), beim GPU-Dienst eingereiht #exp/vorbereitet | – |
+| [[experiments/EXP-116-lm-low-share/README\|EXP-116]] Leiter Stufe 2c: wenige Prozent Rechensätze (K = 2, ≈ 8.7 %), Verlust nur auf der Antwort, 16 000 Schritte, 2 Seeds | vorbereitet (Sitzung 51), beim GPU-Dienst eingereiht #exp/vorbereitet | – |
 | [[experiments/EXP-112-lm-ladder-minibatch/README\|EXP-112]] Leiter Stufe 1, letzte Sprosse: LM-Format + i.i.d.-Minibatch B 256 | abgeschlossen (Sitzung 48), 10 Seeds, Exploration | Format + Minibatch hält (Δ_pow 9.96 gegen r0B 9.86); + Next-Token-Verlust ohne b schwächer (8.24, gepaart −1.62) und langsamer (13/20 bis 5000) #befund/positiv |
 | [[confirm/R9_REGISTRATION_DRAFT\|R9]] Bestätigung: Tickt die Festlegung in Λ, wenn Adams β-Fenster in Λ gemessen werden? (n = 36, Manifest 8b22879a) | abgeschlossen (Sitzung 40) #exp/abgeschlossen #befund/positiv | ***bestätigt (H1, H2, H3)***: +0.161 (36/36), Äquivalenz +0.015 (±0.1), c = 2: +0.057 (34/36) |
 | [[confirm/R3_REGISTRATION_DRAFT\|R3]] Tickt die Festlegung in Λ oder in Schritten? (Bestätigung) | abgeschlossen Sitzung 38 #befund/unklar | *Λ-Uhr nicht bestätigt*: HL_hold bestätigt (+0.40 über 0.3, 20/20 > 0), HL_switch nicht (+0.02; Richtung 18/20); Schrittuhr passt in keiner Zelle (beschreibend) |

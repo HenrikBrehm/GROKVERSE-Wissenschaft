@@ -1,0 +1,17 @@
+[pq] 2026-09-29T22:04:05+00:00 start job 1: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2230 --split-file lab/confirm/p2d_splits/p2d_seed2230_F.npy --steps 300 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw_p2d/seed2230_F_steps300
+[pq] 2026-09-29T22:04:06+00:00 start job 2: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2230 --split-file lab/confirm/p2d_splits/p2d_seed2230_F.npy --steps 525 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw_p2d/seed2230_F_steps525
+[pq] 2026-09-29T22:04:32+00:00 job 1 exit 0
+[pq] 2026-09-29T22:04:32+00:00 start job 3: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2230 --split-file lab/confirm/p2d_splits/p2d_seed2230_G.npy --steps 550 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw_p2d/seed2230_G_steps550
+[pq] 2026-09-29T22:05:02+00:00 job 2 exit 0
+[pq] 2026-09-29T22:05:02+00:00 start job 4: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2230 --split-file lab/confirm/p2d_splits/p2d_seed2230_G.npy --steps 1000 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw_p2d/seed2230_G_steps1000
+[pq] 2026-09-29T22:05:12+00:00 job 3 exit 0
+[pq] 2026-09-29T22:05:12+00:00 start job 5: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2231 --split-file lab/confirm/p2d_splits/p2d_seed2231_F.npy --steps 400 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw_p2d/seed2231_F_steps400
+[pq] 2026-09-29T22:05:40+00:00 job 5 exit 0
+[pq] 2026-09-29T22:05:40+00:00 start job 6: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2231 --split-file lab/confirm/p2d_splits/p2d_seed2231_F.npy --steps 725 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw_p2d/seed2231_F_steps725
+[pq] 2026-09-29T22:06:26+00:00 job 6 exit 0
+[pq] 2026-09-29T22:06:26+00:00 start job 7: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2231 --split-file lab/confirm/p2d_splits/p2d_seed2231_G.npy --steps 750 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw_p2d/seed2231_G_steps750
+[pq] 2026-09-29T22:06:36+00:00 job 4 exit 0
+[pq] 2026-09-29T22:06:36+00:00 start job 8: C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2231 --split-file lab/confirm/p2d_splits/p2d_seed2231_G.npy --steps 1325 --device cuda --save-model --out lab/experiments/EXP-122-toy-commutativity/raw_p2d/seed2231_G_steps1325
+[pq] 2026-09-29T22:07:36+00:00 job 7 exit 0
+[pq] 2026-09-29T22:08:02+00:00 job 8 exit 0
+[pq] done: 8 ok, 0 failed, 0 refused, 0 not started (log C:\Users\henri\Documents\Brain\GROKVERSE_Wissenschaft\lab\runner\logs\pq_20260929T220405_970904Z)

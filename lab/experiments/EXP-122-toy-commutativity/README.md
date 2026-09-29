@@ -40,3 +40,14 @@ Zurück: [[LAB]] · [[NOVEL_DIRECTIONS]] N57 · Anlass [[experiments/EXP-119-lm-
 ## Nachtrag 1 (Sitzung 54, 30.09. 00:04 gemessen, VOR den Läufen): Konstruierte Splits
 
 Frage: Gehen auch konstruierte Splits (P2d, add 113, Generalisierung nach 575–1475 Schritten) durch eine Kommutativitäts-Phase, oder überspringen sie sie? Gleiches Maß, 4 eingefrorene P2d-Läufe (2230 F/G, 2231 F/G) mit `train.py` bis 50 % und 90 % ihres Generalisierungsschritts (`jobs_p2d.txt`, `analyze_p2d.py`, beide vor den Läufen). **Lesart bei 50 %:** „auch Kommutativität zuerst“: acc_other ≤ 0.1 und diff ≥ 0.3 in ≥ 3/4; „ohne Kommutativitätsphase“: |diff| < 0.1 in ≥ 3/4; sonst „teilweise“. 90 % beschreibend. Bereits gesehen: Generalisierungsschritte der P2d-Läufe; sonst nichts zu Zwischenständen.
+
+**Ergebnis Nachtrag 1 (00:08 gemessen; 8/8 Läufe, `summary_p2d.json`, `queue_p2d.log`): Vorab-Lesart „teilweise“.**
+
+| Seed/Arm (Gen.-Schritt) | 50 %: acc_swap / acc_other | 90 %: acc_swap / acc_other |
+|---|---|---|
+| 2230 F (575) | 0.711 / 0.201 | 0.993 / 0.868 |
+| 2230 G (1125) | 0.614 / 0.143 | 0.979 / 0.811 |
+| 2231 F (800) | 0.854 / 0.334 | 0.996 / 0.874 |
+| 2231 G (1475) | 0.360 / 0.053 | 0.984 / 0.839 |
+
+Beschreibend: Die Kommutativität liegt auch bei konstruierten Splits vorn (diff bei 50 % 0.31–0.52), aber die übrigen Paare generalisieren schon früh mit (0.05–0.33 bei 50 %, 0.81–0.87 bei 90 %), während sie bei den Zufallssplits bei 50 % beim Zufall lagen (≤ 0.03) und bei 90 % erst 0.20–0.54 erreichten. Vorsichtige Lesart (4 + 4 Läufe, verschiedene Seeds, keine Vorab-Hypothese zum Vergleich): Konstruierte Splits verkürzen vor allem die zweite Stufe, die Generalisierung auf Paare ohne Tauschpartner. Das passt zur EXP-119-Beobachtung im LM (dort fehlt bei R die zweite Stufe ganz).

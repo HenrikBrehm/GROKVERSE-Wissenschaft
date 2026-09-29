@@ -34,7 +34,7 @@ GPU_PY = (LAB.parent / ".venv-gpu" / "Scripts" / "python.exe").as_posix()
 
 
 def run_cmd(a: argparse.Namespace, seed: int, split: Path, test: Path, out: Path) -> list[str]:
-    py = GPU_PY if a.device.startswith("cuda") else sys.executable
+    py = GPU_PY if a.device.startswith("cuda") else Path(sys.executable).as_posix()
     rel = lambda q: q.resolve().relative_to(LAB.parent).as_posix()   # noqa: E731  (job lines: forward slashes, no backslashes)
     return [py, rel(HERE / "train.py"), "--seed", str(seed), "--split-file", rel(split), "--test-file", rel(test), "--steps", str(a.steps),
             "--spectra-every", "250", "--dense", "--device", a.device, "--threads", "1", "--out", rel(out)]

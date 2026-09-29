@@ -61,7 +61,7 @@ def main() -> None:
         a.units, a.steps, a.out, at = 1, 300, str(Path(a.out).with_name(Path(a.out).name + "_smoke")), (250,)
     root = Path(a.out) / f"add113_steps{a.steps}_{a.device.replace(':', '')}"
     (root / "splits").mkdir(parents=True, exist_ok=True)
-    py = GPU_PY if a.device.startswith("cuda") else sys.executable
+    py = GPU_PY if a.device.startswith("cuda") else Path(sys.executable).as_posix()
     jobs = []
     for u in range(a.units):
         for j in (0, 1):

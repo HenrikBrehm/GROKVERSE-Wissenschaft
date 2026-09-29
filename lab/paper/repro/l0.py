@@ -37,7 +37,7 @@ HYP = {"H1": "iid256", "H2": "iid64"}
 
 
 def run_cmd(a: argparse.Namespace, s: int, bs: int, split: Path, test: Path, out: Path) -> list[str]:
-    py = GPU_PY if a.device.startswith("cuda") else sys.executable
+    py = GPU_PY if a.device.startswith("cuda") else Path(sys.executable).as_posix()
     rel = lambda q: q.resolve().relative_to(LAB.parent).as_posix()   # noqa: E731  (job lines: forward slashes, no backslashes)
     return [py, rel(HERE / "train.py"), "--seed", str(s), "--split-file", rel(split), "--test-file", rel(test), "--steps", str(a.steps),
             "--spectra-every", str(a.spectra_every), "--batch-size", str(bs), "--device", a.device, "--threads", "1", "--out", rel(out)]

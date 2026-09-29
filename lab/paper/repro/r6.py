@@ -42,7 +42,7 @@ def rel(q: Path) -> str:
 
 
 def run_cmd(a: argparse.Namespace, s: int, files: dict, first: str, second: str | None, t: int | None, out: Path) -> list[str]:
-    py = GPU_PY if a.device.startswith("cuda") else sys.executable
+    py = GPU_PY if a.device.startswith("cuda") else Path(sys.executable).as_posix()
     steps = a.budget + (t if second else 0)
     cmd = [py, rel(HERE / "train.py"), "--seed", str(s), "--split-file", rel(files[first]), "--test-file", rel(files["test"]),
            "--steps", str(steps), "--spectra-every", str(steps), "--device", a.device, "--threads", "1", "--out", rel(out)]

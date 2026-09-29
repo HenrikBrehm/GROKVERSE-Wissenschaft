@@ -1,10 +1,10 @@
 ---
 id: logic-audit-s53-appA
-status: offen
+status: erledigt
 datum: 2026-09-29
 tags: [lab/paper]
 ---
-# Logikprüfung Anhang A (Sitzung 53, 22:05 Berlin) – NOCH NICHT SELBST NACHGEPRÜFT
+# Logikprüfung Anhang A (Sitzung 53, 22:05 Berlin) – selbst nachgeprüft (S53/S54)
 
 Zurück: [[paper/STATUS]] · Vorgänger [[paper/logic_audit_S53_appC_D]]. Unabhängiger Claude-Agent, nur lesend; Zitate wörtlich aus `draft.md` (für exakte Ersetzung). Vorgehen wie bei C/D: jeden Punkt selbst prüfen → in draft.md einarbeiten → Manuskript neu erzeugen → Diff prüfen lassen.
 
@@ -19,3 +19,5 @@ Zurück: [[paper/STATUS]] · Vorgänger [[paper/logic_audit_S53_appC_D]]. Unabh�
 R2_REGISTRATION_DRAFT.md Z. 68: R2_time T1 = log2 b(@25) − log2 b(@50), +1.34, „29/29 ohne Gleichstand“ (also 1 Gleichstand von 30), „b bei @25 meist bei 4000 zensiert, also Untergrenze“ (54/60 @25, 11/60 @50). Logik: Zensierung bei @25 → Differenz unterschätzt; bei @50 → überschätzt. Die Aussage „Untergrenze“ gilt nur, wenn jeder bei @50 zensierte Lauf mit einem bei @25 zensierten gepaart ist (dann Gleichstand 0, und der wahre Wert ist wegen @25 ≥ @50 vermutlich ≥ 0 – auch das nur plausibel, nicht gesichert). **Nächster Schritt:** in den R2-Rohdaten (`R2_time.py`) die 11 bei @50 zensierten Läufe mit ihren @25-Partnern paaren und zählen; je nach Ergebnis „lower bound“ halten oder durch „direction supported; size not bounded“ ersetzen (auch in der Registrierungs-Ergebniszeile als Nachtrag vermerken, nicht überschreiben).
 
 **Punkt 3 erledigt (22:06 gemessen):** nachgezählt 11 zensierte @50-Läufe, 10 mit zensiertem @25-Partner, 1 ohne → „lower bound“ nicht streng; in draft.md ersetzt durch „…(10 of the 11 paired with a censored @25 run, 1 not), so the size is not a strict bound; the sign test supports the direction“; Nachtrag in R2_REGISTRATION_DRAFT. Punkte 1, 2, 4, 5 offen.
+
+**Punkte 1, 2, 4, 5 erledigt (Sitzung 54, 22:20 gemessen):** 1 und 2 übernommen (Restabweichungen +5 bis +8 % bzw. gepaarte log-Verhältnisse −0.09/+0.07 stehen im selben Absatz; „Toleranz 10 %“ ist die Vorab-Schwelle von EXP-103). 4 übernommen, Zahlen aus `C3_summary.json` nachgerechnet (MLP: mittlere Init-Korrelation 0.54, Zellmittel der Maskenordnung 0.27; zwei verschiedene Statistiken, daher nur beschreibend). 5 **verworfen**: Der Absatz „Steering after grokking“ (Δ_pow wächst nach der Generalisierung weiter) steht in §4 der Langfassung, die als Anhang F eingebunden wird; der Verweis „Appendix F“ ist richtig. Manuskript und TeX neu erzeugt (3 Ersetzungen in 2 Zeilen). Status: erledigt, Diff-Prüfung ausstehend.

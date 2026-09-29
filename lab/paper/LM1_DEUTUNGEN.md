@@ -29,3 +29,11 @@ Zweck wie [[paper/L0_DEUTUNGEN]]: Die Deutung jedes Ausgangs steht fest, bevor d
 - **EXP-117 „nur Ausgabe gesteuert“:** *With untied embeddings only the output rows were steered (Δ_in …, Δ_out …; exploration); the tied-embedding value of LM1 should be read as a property of the output vectors, not of the number representation.*
 - **EXP-117 „keine Steuerung“:** *With untied embeddings neither input nor output rows were steered although the facts were learned (exploration); LM1's steering may depend on tying.*
 - **„nicht gelernt (Budget)“ / „unklar“ in einer Kontrolle:** nur *not evaluable / inconclusive at this budget*; keine Richtung ableiten.
+
+## Nachtrag (Sitzung 51, ≈ 15:05, vor jedem EXP-116-Lauf): EXP-116 (≈ 8.7 % Rechen-Tokens, 2 Seeds, Exploration)
+
+- **„K2 haelt im LM“:** *With only about 9 % arithmetic tokens (exploration, 2 seeds, 16 000 steps), the model learned the facts (held-out … / …) and the fact selection again steered the number embedding (Δ_pow … and …).* Nur Anhang K; keine Bestätigung.
+- **„bricht“:** *At about 9 % arithmetic tokens the facts were learned but the number embedding was not steered (|Δ_pow| ≤ 1 in both seeds; exploration)* → erste Stufe, auf der K2 bricht (Regel 20e); eine Bestätigung mit 10 frischen Seeds wäre der nächste Schritt, bevor das in den Haupttext kommt.
+- **„nur Repraesentation“:** *The embedding was steered although held-out facts stayed near chance (exploration).*
+- **„nicht gelernt (Budget)“:** *At about 9 % arithmetic tokens the model did not learn the facts within 16 000 steps, so steering could not be assessed.* Keine Aussage über K2; Hinweis auf die Faktenzahl-Tendenz (Journal S51, Zyklus 7).
+- **„unklar“:** *inconclusive at this budget.*

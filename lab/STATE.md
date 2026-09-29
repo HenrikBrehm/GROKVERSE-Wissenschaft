@@ -20,6 +20,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 ## Aktive Queue / laufende Jobs (Sitzung 48, 06:09–09:09 Berlin; Stand 07:05)
 
 - **GPU:** `lab/experiments/queue_s48b.txt` (EXP-105-Smoke ✓, EXP-104 ✓, EXP-112 60 Läufe laufen; Log `lab/runner/logs/queue_s48b.out`). Danach startet automatisch der **EXP-105-Pilot** (`jobs_pilot.txt`, 4 Läufe à 10 000 Schritte, P1-Splits nach Vorab-Regel, Log `exp105_pilot_queue.out`). Wiederaufnahme: dieselbe Queue-Zeile erneut starten (fertige Läufe werden übersprungen; EXP-105 setzt am Checkpoint fort, verwaiste Sperren werden übernommen).
+- **EXP-105-Pilot läuft seit 07:07** (4 Läufe, ≈ 0.65 s/Schritt → nicht vor 09:09 fertig; Checkpoint alle 1000 Schritte). **Nächste Sitzung: fortsetzen** mit `python lab/tools/parallel_queue.py lab/experiments/EXP-105-lm-ladder-stage2/jobs_pilot.txt --workers 4 --min-minutes 3` (setzt am Checkpoint fort).
+- **Nebenher seit 07:09:** `lab/experiments/queue_s48c.txt` (6 Worker): EXP-102 „r0 lang“ (`analyze_r0long.py`) und EXP-112 „10k“ (`analyze_10k.py`), Lesarten vorab. Unfertige Läufe: dieselbe Zeile neu starten.
 - Auswertungen: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-112-lm-ladder-minibatch/analyze.py`; Pilot: `… analyze_pilot.py --root lab/experiments/EXP-105-lm-ladder-stage2/raw_pilot --pairs 3860:lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3800_F.npy,lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3800_G.npy 3861:…seed3801_F.npy,…seed3801_G.npy`.
 
 ## Nächste Schritte (Regel 20)

@@ -279,6 +279,7 @@ def secondary(per_lr: dict[float, list[dict]], batches: list[int], rng_: np.rand
         ci = c1.boot_ci(a, rng_)
         out[f"lr{lr!r}"] = {"alpha": {"mean": float(a.mean()), "ci95": ci, "n": len(ok),
                                       "in_band": bool(BAND[0] <= ci[0] and ci[1] <= BAND[1])},
+                            "left_censored": {str(bs): int(sum(r["pi"][bs][min(r["pi"][bs])] >= 0.5 for r in ok)) for bs in batches},
                             "t_half_mean": {str(bs): float(np.mean([r["th"][bs] for r in ok])) for bs in batches},
                             "pi_mean": {str(bs): {str(t): float(np.mean([r["pi"][bs][t] for r in ok])) for t in ok[0]["pi"][bs]} for bs in batches}}
     both = [(x, y) for x, y in zip(per_lr[LRS[0]], per_lr[LRS[1]]) if all("invalid" not in r and "technical" not in r for r in (x, y))]

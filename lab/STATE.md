@@ -21,7 +21,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Nächste Schritte (Regel 20)
 
-1. **N54b vorab festlegen** (EXP-107 ist nachgerechnet; die EXP-100-Wechselläufe und die Horizont-Analyse noch nicht → zuerst nachrechnen): B-Reihe (z. B. B 64, 1024 + 256 Wiederholung), Vorhersage t½ ∝ √(N/B) gegen ∝ N/B, frische Seeds; Literatur zu „critical period / lock-in vs batch size / steps vs epochs“ suchen.
+1. **N54b vorab festlegen** (EXP-107 und die EXP-100-Wechselläufe/Horizont-Analyse sind nachgerechnet): B-Reihe (z. B. B 64, 1024 + 256 Wiederholung), Vorhersage t½ ∝ √(N/B) gegen ∝ N/B, frische Seeds; Literatur zu „critical period / lock-in vs batch size / steps vs epochs“ suchen.
 2. **L0b registrieren** (Reihenfolge im Regime langer Epochen, B 16 / wd 0.1, Seeds aus 3730–3799): Kandidaten H3a (o-Verschiebung auf R > 0), H3b (keine Verschiebung auf F/G, Äquivalenzgrenze vorab), H3c (Zeitverlust auf F/G > 0); Power: `python lab/confirm/L0_power_s46.py --exp106` (Hinweis: dort k anpassen). Achtung: R-Wirkung hängt am Ausgangswert (3 Seeds mit hohem o(R-iid) ohne Wirkung).
 3. **Paper:** Abb. 4 englischer Titel + SGD „not evaluable“; EXP-103-Satz in Anhang A (R1); Anhang-Struktur; Langfassung um L0/EXP-106/107 ergänzen; Zenodo (k2.py-Pfad = Nutzerentscheidung).
 4. EXP-103 auswerten (siehe oben).

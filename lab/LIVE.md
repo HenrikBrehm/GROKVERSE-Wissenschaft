@@ -5,19 +5,24 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 08:49 Berlin (06:49Z, vom Runner, nach Absturz von Sitzung 48 um 08:24)
 - **Deadline:** 2026-09-29 11:49 Berlin (09:49Z)
-- **Zuletzt aktualisiert:** 09:51 Berlin
+- **Zuletzt aktualisiert:** 10:35 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe laufen jetzt über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- GPU-Dienst rechnet das Repro-Paket (R5 läuft, danach R6, R8, R4; ≈ bis 11:20). Zenodo-Paket ergänzt und aus frisch entpackten Dateien getestet.
-- Zwei hängende EXP-105-Prozesse bis ≈ 10:20; Pilot-Fortsetzung (`11_`) läuft mit altem Dienstcode erst nach den Repro-Läufen.
+- Repro-Paket: **L0** (B 256 exakt; B 64 gleiches Urteil, 3/20 Läufe spät abweichend – Ursache belegt: seltene nicht-deterministische GPU-Rechnung) und **R5 exakt** reproduziert. R6/R8/R4 rechnen beim Dienst.
+- EXP-105-Pilot fertig: „unklar“ (ein Seed lernt die Fakten ansatzweise, der andere nicht). Nachfolger **EXP-113** vorab festgelegt und eingereiht (8 LM-Läufe, ≈ 6 h, startet nach dem Repro-Paket).
+- Jetzt: Paper-Abschnitt „Reproduction“ ergänzen.
 
 ## Als Nächstes
 
-R5-Repro auswerten (≈ 10:20); danach R6/R8/R4; Pilot, sobald er gelaufen ist.
+R8/R6 vergleichen, sobald fertig; Abschlussbericht ≈ 11:40.
 
 ## Verlauf dieser Sitzung
+
+- 10:33 EXP-113 vorab festgelegt, GPU-Selbsttest ok, eingereiht.
+- 10:32 R5 exakt reproduziert; L0-Abweichung = GPU-Nichtdeterminismus.
+- 10:27 EXP-105-Pilot ausgewertet: „unklar“.
 
 - 09:51 Zenodo-Paket: fehlende Module ergänzt, Import-Test bestanden.
 - 09:47 Anhang K geprüft und korrigiert; FINDINGS-Nachtrag.

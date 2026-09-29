@@ -96,7 +96,7 @@ def subsection(md: str, num: str) -> list[str]:
     if len(start) != 1:
         sys.exit(f"expected one subsection {num}, found {len(start)}")
     end = next((j for j in range(start[0] + 1, len(lines)) if lines[j].startswith(("### ", "## "))), len(lines))
-    head = "#### " + clean_heading(lines[start[0]][4:])
+    head = "#### " + re.sub(r";\s*short version:[^)]*", "", clean_heading(lines[start[0]][4:]))
     body = "\n".join(lines[start[0] + 1:end]).strip()
     return [head] + [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip() and not is_process_note(p.strip())]
 
@@ -186,7 +186,7 @@ def main() -> None:
                  "`figures/table_registrations.py`).")
     parts.append("\n".join(table))
     _, disc = find(long_, "AI use disclosure")
-    parts.append("## AI use disclosure (draft wording, to be confirmed by the user)")
+    parts.append("## Appendix I: AI use disclosure (draft wording, to be confirmed by the user)")
     parts.extend(disc)
     ref_lines = sorted(ln for ln in refs_md.splitlines() if re.match(r"^- .+? \((?:19|20)\d\d[ab]?\)\.", ln))
     parts.append("## References (unchecked draft list; provenance tags in brackets, see paper/references)")

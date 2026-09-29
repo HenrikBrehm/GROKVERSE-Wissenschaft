@@ -1,16 +1,16 @@
-"""L0 confirmation (rule 20b): does set composition (K2) steer the learned frequencies under minibatch training? Session 43,
-SCAFFOLD: H1/H2 fixed before the pilot EXP-100; N_SEEDS, BUDGET and H3 are set AFTER the pilot (registration
-lab/confirm/L0_REGISTRATION_DRAFT.md lists the pilot as seen data). UNTESTED. Needs the trainer options of
-lab/experiments/EXP-100-set-vs-order/trainer_l0.patch (applied and committed before freezing).
+"""L0 confirmation (rule 20b): does set composition (K2) steer the learned frequencies under minibatch training?
+Registration lab/confirm/L0_REGISTRATION_DRAFT.md, Fassung 3 (session 46): H1/H2 fixed before the pilot EXP-100; N_SEEDS = 10 and
+BUDGET = 30 000 set after the pilot (listed there as seen data). Trainer options (--batch-size) committed in 11e28020.
 
 Protocol: add 113, the EXP-100 construction (EXP-053/P1 splits with omega = 0 and calibrated eps, target sets drawn WITHOUT the
 stride-order frequencies O); the target draw uses its own stream SeedSequence([100200, seed, 0]), test set, phases and keys come
-from EXP-053's streams (salt 53001) as in P1; per seed arms F and G; minibatch AdamW with
-i.i.d. order at batch 256 (H1) and 64 (H2); fixed budget (--stop-after-gen = budget).
-Primary family (Holm, alpha 0.05): H1 Delta_pow(end) > 0 at batch 256; H2 the same at batch 64 (one-sided t-test; confirmed =
-Holm-p < 0.05 and bootstrap CI lower bound > 0). H3 (conflict with the stride order) only if the pilot showed an order effect.
-Validity: any technical failure -> 'nicht auswertbar'; a non-finite Delta_pow or a load/transform exception is technical.
-Smoke: check_job accepts only full-budget lines, so the smoke job through the frozen loader costs one full run (plan the time).
+from EXP-053's streams (salt 53001) as in P1; per seed arms F and G; minibatch AdamW (lr 1e-3, wd 1) with i.i.d. order at batch
+256 (H1) and 64 (H2); fixed budget (--stop-after-gen = budget).
+Family (Holm over H1, H2; alpha 0.05): Delta_pow(end) > 0; one-sided t-test; confirmed = Holm-p < 0.05 and bootstrap CI lower
+bound > 0. No H3 in this family (a conflict test from EXP-106 would be a separate registration).
+Validity: any technical failure -> the whole block 'nicht auswertbar'; a non-finite Delta_pow or a load/transform exception is
+technical. Pure infrastructure failures may be re-run with the identical job line before --analyze (registration).
+Smoke: check_job accepts only full-budget lines, so the smoke job through the frozen loader is one full run (~5 min on the GPU).
 
   python lab/tools/confirm_l0.py --hash-code | --splits M | --jobs M | --run M -- <cmd> | --analyze M | --selftest
 """

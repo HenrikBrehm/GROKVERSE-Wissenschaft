@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 14:10 Berlin (12:10Z, vom Runner)
 - **Deadline:** 2026-09-29 17:09 Berlin (15:09Z)
-- **Zuletzt aktualisiert:** 15:05 Berlin
+- **Zuletzt aktualisiert:** 15:26 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Hinweis (14:37): wird behoben
@@ -14,8 +14,8 @@ Die Start-Blockade durch die Speicherzusage (P-013) hat der Nutzer-Assistent erk
 
 ## Gerade
 
-- Warte auf EXP-115 (flache Zahl-Häufigkeiten; 2 von 4 Läufen fertig) und beobachte LM1 (Sprachmodell-Bestätigung, 2/20 fertig, 2 laufen).
-- Neu: Auch bei ≈ 34 % Rechensätzen steuert die Faktenauswahl die Zahl-Darstellung deutlich, sobald das Modell die Fakten gelernt hat (EXP-113, 1 Seed-Paar: Δ_pow 7.0, zurückgehaltene Fakten 0.98/0.95).
+- EXP-118 läuft (CPU, ≈ 20 min): Aus fertigen Sprachmodellen werden die Zielfrequenzen der Zahl-Vektoren entfernt. Erste zwei Modelle: eigene Ziele weg → Genauigkeit 0.98 → 0.30 bzw. 0.04; fremde Ziele oder Kontrollen weg → bleibt ≈ 0.93–0.99. Die Frequenzen tragen also die Rechnung (vorläufig, 2 von 4 Modellen).
+- EXP-115 (flache Häufigkeiten) 3/4, LM1 läuft (2/20 fertig).
 
 ## Als Nächstes
 
@@ -23,6 +23,7 @@ EXP-113 (2 Läufe fast fertig) und EXP-115 beobachten; EXP-115 auswerten, sobald
 
 ## Verlauf dieser Sitzung
 
+- 15:26 EXP-118 festgelegt und gestartet (Ablation im Sprachmodell, kein Training).
 - 15:05 EXP-114-Vergleich bei gleicher Faktenzahl: „Verdünnung nicht gestützt“ (vorab festgelegt); mit mehr Text braucht das Modell ≈ 1.9× mehr Wiederholungen bis zum Lernen.
 - 15:00 Neue Paper-Sätze unabhängig geprüft, 4 Korrekturen übernommen.
 - 14:50 Manuskript mit Anhang A–M, Tabelle 1 und umgeschriebenen Querverweisen; Zenodo-Paket erweitert (Import-Test ok).

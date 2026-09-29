@@ -4954,3 +4954,5 @@ Lesart vor dem Rechnen (je Seed und m, über die gemeinsamen Schritte beider Arm
 **Zyklus 11, Nachtrag (21:56 gemessen):** Die Zeit reichte doch: alle 8 C/D-Punkte selbst an Registrierungen/Summaries geprüft (R6: 27/60 bzw. 18/60 zensiert; Resets inkl. AdamW-Zustand; P3 ω = 0.4 beschreibend; R9 β₁/β₂ gemeinsam; R3 ohne Standardarm) und in `draft.md` eingearbeitet (12 exakte Ersetzungen, je genau einmal), Manuskript/TeX neu erzeugt. Diff-Prüfung durch einen unabhängigen Agenten beauftragt.
 
 **Zyklus 11, Abschluss (22:03 gemessen):** Diff-Prüfung der C/D-Änderungen (unabhängiger Agent): keine Probleme; auf seinen Hinweis die Zensierung auch für R8 im Anhang ergänzt (A→B 20/25, B→A 15/25, Gleichziel je 24/25 bis 2000 generalisiert; Zahlen wie im Haupttext).
+
+**Zyklus 12 (22:05 gemessen): Logikprüfung Anhang A (unabhängiger Agent).** 4 Punkte + 1 Querverweis (u. a. R2: „lower bound“ trotz Zensierung in beiden Armen – falls richtig, stammt der Fehler aus der Registrierung selbst). Wegen der Deadline nicht mehr selbst geprüft → [[paper/logic_audit_S53_appA]] für die nächste Sitzung.

@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 19:29 Berlin (17:29Z, vom Runner)
 - **Deadline:** 2026-09-29 22:29 Berlin (20:29Z)
-- **Zuletzt aktualisiert:** 19:37 Berlin
+- **Zuletzt aktualisiert:** 19:40 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
@@ -14,14 +14,17 @@ tags: [lab/live]
 
 ## Als Nächstes
 
+Logikprüfung von Anhang J (Sprachmodell) durch einen unabhängigen Agenten läuft. LM1 ist nach Schätzung gegen 21:30 fertig (≈ 48 min je Lauf, 2 parallel).
+
 LM1 20/20 → `confirm_lm1.py --analyze` → unabhängige Nachrechnung → LM1-F als Dienst-Job.
 
-## Dienst (19:30)
+## Dienst (19:39)
 
-LM1 15/20, R4-Repro 134/240, EXP-119 0/6, EXP-113 2/8, EXP-116 0/4; Speicher 15.5/16 GB gebucht.
+LM1 15/20 (Lauf 16 bei 4500/6000, Lauf 17 bei 2000), R4-Repro 134/240, EXP-119 0/6, EXP-113 2/8, EXP-116 0/4; Speicher 15.5/16 GB gebucht.
 
 ## Verlauf dieser Sitzung
 
+- 19:38 Nachsatz: Das Wachstum der fremden Ziele ist nicht maskengetrieben (Maskenanteil unter Gleichverteilung).
 - 19:36 Fehler in der Deutung von EXP-115 gefunden (s. o.).
 - 19:32 Manuskript: veraltete Abbildungsverweise korrigiert (Generator), committet.
 - 19:32 Start, Lage geprüft.

@@ -18,8 +18,8 @@ Automatisch aus [[paper/related_work]] und [[paper/fulltext_check_2026-09-27]] e
 - He, Wang, Chen, Yang (2026a). *On the Mechanism and Dynamics of Modular Addition: Fourier Features, Lottery Ticket, and Grokking*. Venue MISSING (OpenReview https://openreview.net/forum?id=Qc4RLl7t3S); arXiv:2602.16849. https://arxiv.org/abs/2602.16849. [A, L]
 - He, Wang, Zhang, Chen, Yang (2026b). *Neural Networks Provably Learn Spectral Representations for Group Composition*. Venue MISSING; arXiv:2606.02993. https://arxiv.org/abs/2606.02993. [A, L]
 - Hermann, Lampinen (2020). *What Shapes Feature Representations? Exploring Datasets, Architectures, and Training*. NeurIPS 2020. https://arxiv.org/abs/2006.12433. [S]
-- Howe (2026a). *What Makes a Representational Prior Work? Feature Families, Label-Free Invariances, and Critical Windows in Grokking*. Venue MISSING; arXiv:2607.12735. URL MISSING. [A; full-text check noted in related_work Nachtrag S26, 15:44]
-- Janati et al. — authors MISSING (2026). *Title MISSING*. Venue MISSING; arXiv:2608.07436. URL MISSING. [A (arXiv title/abstract scan, related_work Nachtrag S27)]
+- Howe (2026a). *What Makes a Representational Prior Work? Feature Families, Label-Free Invariances, and Critical Windows in Grokking*. arXiv preprint; arXiv:2607.12735. https://arxiv.org/abs/2607.12735. [A; full-text check noted in related_work Nachtrag S26, 15:44]
+- Janati, El Maghraoui, Kanavalau, Belfatmi (2026). *Post-Grokking Collapse at the Representation-Readout Interface in Muon-Trained Transformers*. arXiv preprint (arXiv comment: condensed version under review); arXiv:2608.07436. https://arxiv.org/abs/2608.07436. [A (arXiv title/abstract scan, related_work Nachtrag S27); authors/title from the arXiv API, session 52]
 - Jia (2026). *Beyond Embedding Transfer: Component Roles in Grokking Transfer and Stability*. Venue MISSING; arXiv:2609.18078. https://arxiv.org/abs/2609.18078. [A, L]
 - Khanh (Truong Xuan Khanh) (2026). *Cross-Trajectory Chimera Interventions*. Venue MISSING; arXiv:2607.06628. https://arxiv.org/abs/2607.06628. [no tag; abstract + HTML §3, §7/App. A (related_work Nachtrag S25); full text (fulltext_check §5.2)]
 - Kleinman, Achille, Soatto (2023). *Critical Learning Periods for Multisensory Integration in Deep Networks*. CVPR 2023. https://arxiv.org/abs/2210.04643. [S]
@@ -34,11 +34,11 @@ Automatisch aus [[paper/related_work]] und [[paper/fulltext_check_2026-09-27]] e
 - Rahaman, Baratin, Arpit, Draxler, Lin, Hamprecht, Bengio, Courville (2019). *On the Spectral Bias of Neural Networks*. ICML 2019. https://arxiv.org/abs/1806.08734. [K]
 - Salah, Yevick (2024). *Controlling Grokking with Nonlinearity and Data Symmetry*. Venue MISSING; arXiv:2411.05353. https://arxiv.org/abs/2411.05353. [S in entry; full text (PDF) checked per related_work Nachtrag S27]
 - Saxe, McClelland, Ganguli (2014). *Exact Solutions to the Nonlinear Dynamics of Learning in Deep Linear Neural Networks*. ICLR 2014. https://arxiv.org/abs/1312.6120. [K]
-- Sevetlidis, Pavlidis (2026). *Process-Tensor Tomography of SGD: Measuring Non-Markovian Memory via Back-Flow of Distinguishability*. Venue MISSING; arXiv:2601.16563. URL MISSING. [A]
+- Sevetlidis, Pavlidis (2026). *Process-Tensor Tomography of SGD: Measuring Non-Markovian Memory via Back-Flow of Distinguishability*. AISTATS 2026, PMLR (per arXiv comment, “to be published”); arXiv:2601.16563. https://arxiv.org/abs/2601.16563. [A]
 - Stander, Yu, Fan, Biderman (2024). *Grokking Group Multiplication with Cosets*. ICML 2024. https://arxiv.org/abs/2312.06581. [S]
-- Sweeney (2026). *Optimizer Memory Makes Shuffle Order a First-Order Source of Fine-Tuning Noise*. Venue MISSING; arXiv:2606.29554. URL MISSING. [A; HTML full text via agent, core quotes rechecked (related_work Nachtrag S27)]
-- Tomàs Bernal, Mallinar, Belkin (2026). *Breaking Data Symmetry is Needed For Generalization in Feature Learning Kernels*. Venue MISSING; arXiv:2604.00316. https://arxiv.org/abs/2604.00316. [A, L]
-- Xu (2026). *Stored in Optimizer State, Valued by Later Training: A Causal Account of Subliminal Trait Transfer*. Venue MISSING; arXiv:2608.20442. URL MISSING. [A]
+- Sweeney (2026). *Optimizer Memory Makes Shuffle Order a First-Order Source of Fine-Tuning Noise*. arXiv preprint; arXiv:2606.29554. https://arxiv.org/abs/2606.29554. [A; HTML full text via agent, core quotes rechecked (related_work Nachtrag S27)]
+- Tomàs Bernal, Mallinar, Belkin (2026). *Breaking Data Symmetry is Needed For Generalization in Feature Learning Kernels*. AISTATS 2026 (per arXiv comment, “accepted”); arXiv:2604.00316. https://arxiv.org/abs/2604.00316. [A, L]
+- Xu (2026). *Stored in Optimizer State, Valued by Later Training: A Causal Account of Subliminal Trait Transfer*. arXiv preprint; arXiv:2608.20442. https://arxiv.org/abs/2608.20442. [A]
 - Xu, Zhang, Luo, Xiao, Ma (2019/2020). *Frequency Principle: Fourier Analysis Sheds Light on Deep Neural Networks*. CiCP 2020; arXiv:1901.06523. https://arxiv.org/abs/1901.06523. [K]
 - Zhang, Bengio, Singer (2022). *Are All Layers Created Equal?*. JMLR 23. https://arxiv.org/abs/1902.01996. [S]
 - Zhou, Vani, Larochelle, Courville (2022). *Fortuitous Forgetting in Connectionist Networks*. ICLR 2022. https://arxiv.org/abs/2202.00155. [S]
@@ -85,7 +85,7 @@ Line numbers refer to lab/paper/draft.md.
 - Kumar, Bordelon, Gershman, Pehlevan (2024). *Grokking as the Transition from Lazy to Rich Training Dynamics*. ICLR 2024. https://arxiv.org/abs/2310.06110. [K]
 - Liu, Michaud, Tegmark (2023). *Omnigrok: Grokking Beyond Algorithmic Data*. ICLR 2023. https://arxiv.org/abs/2210.01117. [K] (Titelzusatz aus dem Gedächtnis, am Original prüfen)
 - Khanh, Viet, Trung, Duc (2026). *The Weight Norm Sets the Grokking Timescale: A Causal Delay Law*. Venue MISSING; arXiv:2606.13753. [A] — im Kurztext als „Khanh et al. 2026“, nicht verwechseln mit „Khanh 2026“ (arXiv:2607.06628).
-- GrokTransfer: Autoren/Titel MISSING; arXiv:2504.13292. [S/A] (vor dem Zitat vollständige Angabe nachholen)
+- Xu, Ni, Wang, Hu (2025) (GrokTransfer). *Let Me Grok for You: Accelerating Grokking via Embedding Transfer from a Weaker Model*. ICLR 2025 (per arXiv comment); arXiv:2504.13292. https://arxiv.org/abs/2504.13292. [S/A; authors/title/venue from the arXiv API, session 52] — im Text als „GrokTransfer“; nicht verwechseln mit Xu 2026 (2608.20442).
 
 - Khanh (Truong Xuan Khanh) (2026b). *At-Grok Is Not Converged: A Measurement-Validity Audit for Grokking Representation Metrics*. Venue MISSING; arXiv:2607.06639. https://arxiv.org/abs/2607.06639. [A, Abstract über WebFetch, Sitzung 50] — in der Kurzfassung §7 (v) als „Khanh 2026b“; nicht verwechseln mit „Khanh 2026“ (2607.06628) und „Khanh et al. 2026“ (2606.13753).
 
@@ -94,3 +94,5 @@ Line numbers refer to lab/paper/draft.md.
 - Fu, Zhou, Belkin, Sharan, Jia (2026). *Convergent Evolution: How Different Language Models Learn Similar Number Representations*. Venue MISSING; arXiv:2604.20817. https://arxiv.org/abs/2604.20817. [A]
 - Howe (2026b). *Structure-Specific Representational Priors Causally Control the Grokking Delay*. Venue MISSING; arXiv:2607.04333. https://arxiv.org/abs/2607.04333. [A]
 - Karkada, Korchinski, Nava, Wyart, Bahri (2026). *Symmetry in language statistics shapes the geometry of model representations*. Venue MISSING; arXiv:2602.15029. https://arxiv.org/abs/2602.15029. [A]
+
+*Nachtrag (Sitzung 52, 2026-09-29):* Über die arXiv-API (export.arxiv.org, id_list) geprüft: Janati et al. 2026 und GrokTransfer (Xu, Ni, Wang, Hu 2025) vollständig; fehlende URLs ergänzt (Howe 2026a, Sweeney, Xu 2026, Sevetlidis & Pavlidis); Venues nur, wo der arXiv-Kommentar sie nennt (Tomàs Bernal et al.: AISTATS 2026; Sevetlidis & Pavlidis: AISTATS 2026; GrokTransfer: ICLR 2025). Alle übrigen „Venue MISSING“ haben auf arXiv weder journal_ref noch Venue-Kommentar (Stand 29.09.) und bleiben für die menschliche Prüfung offen (z. B. Power et al. 2022, Workshop-Fassung). Die MISSING-Liste oben ist damit teilweise veraltet.

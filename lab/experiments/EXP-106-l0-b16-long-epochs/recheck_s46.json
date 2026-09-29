@@ -1,0 +1,382 @@
+{
+ "issues": [],
+ "n_seeds": 8,
+ "dpow": {
+  "fbw": {
+   "mean": 9.394873986761795,
+   "ci95": [
+    8.548796355792128,
+    10.19187242355768
+   ]
+  },
+  "iid16w": {
+   "mean": 9.210194157316154,
+   "ci95": [
+    8.816761593113958,
+    9.597986673742831
+   ]
+  },
+  "stride16w": {
+   "mean": 8.614705476252624,
+   "ci95": [
+    7.572672906662096,
+    9.499651556957998
+   ]
+  }
+ },
+ "o_share": {
+  "fbw": 0.010689159210082615,
+  "iid16w": 0.01281792920563465,
+  "stride16w": 0.016543396307872063
+ },
+ "o_diff_FG": {
+  "mean": 0.003725467102237415,
+  "ci95": [
+   -0.004480695257418255,
+   0.012413907936403398
+  ]
+ },
+ "stride_peak_in_O_FG": 0.0,
+ "iid_peak_in_O_FG": 0.0,
+ "R_o_diff": {
+  "mean": 0.15545241885608618,
+  "ci95": [
+   0.07016413969145849,
+   0.23779858170980614
+  ],
+  "mean_unseen_3703_3707": 0.14156074924195056,
+  "median": 0.17907587917355294
+ },
+ "R_stride_peak_in_O": 0.375,
+ "R_iid_peak_in_O": 0.125,
+ "R_per_seed": [
+  {
+   "seed": 3700,
+   "o_iid": 0.1999,
+   "o_stride": 0.2535,
+   "diff": 0.0535,
+   "peak_iid": 12,
+   "peak_stride": 4,
+   "tgen_iid": 8750,
+   "tgen_stride": 10125
+  },
+  {
+   "seed": 3701,
+   "o_iid": 0.0061,
+   "o_stride": 0.3077,
+   "diff": 0.3016,
+   "peak_iid": 13,
+   "peak_stride": 13,
+   "tgen_iid": 8650,
+   "tgen_stride": 11100
+  },
+  {
+   "seed": 3702,
+   "o_iid": 0.0403,
+   "o_stride": 0.221,
+   "diff": 0.1806,
+   "peak_iid": 15,
+   "peak_stride": 40,
+   "tgen_iid": 9025,
+   "tgen_stride": 10875
+  },
+  {
+   "seed": 3703,
+   "o_iid": 0.2794,
+   "o_stride": 0.5339,
+   "diff": 0.2545,
+   "peak_iid": 32,
+   "peak_stride": 12,
+   "tgen_iid": 9525,
+   "tgen_stride": 8800
+  },
+  {
+   "seed": 3704,
+   "o_iid": 0.238,
+   "o_stride": 0.2132,
+   "diff": -0.0248,
+   "peak_iid": 36,
+   "peak_stride": 1,
+   "tgen_iid": 13500,
+   "tgen_stride": null
+  },
+  {
+   "seed": 3705,
+   "o_iid": 0.2104,
+   "o_stride": 0.216,
+   "diff": 0.0056,
+   "peak_iid": 1,
+   "peak_stride": 11,
+   "tgen_iid": 12075,
+   "tgen_stride": 19950
+  },
+  {
+   "seed": 3706,
+   "o_iid": 0.0177,
+   "o_stride": 0.1952,
+   "diff": 0.1775,
+   "peak_iid": 25,
+   "peak_stride": 13,
+   "tgen_iid": 24525,
+   "tgen_stride": 13100
+  },
+  {
+   "seed": 3707,
+   "o_iid": 0.0146,
+   "o_stride": 0.3096,
+   "diff": 0.295,
+   "peak_iid": 24,
+   "peak_stride": 11,
+   "tgen_iid": 13525,
+   "tgen_stride": 14175
+  }
+ ],
+ "dpow_diff_stride_iid": {
+  "mean": -0.5954886810635309,
+  "ci95": [
+   -1.41238406063373,
+   0.11833133222924719
+  ]
+ },
+ "tgen_log2_FG": {
+  "n_pairs": 16,
+  "mean": 0.6682998014093552,
+  "ci95_pairs": [
+   0.41193844214294045,
+   0.9354578674240195
+  ],
+  "ci95_seed_cluster": [
+   0.4171360046767665,
+   0.9224132988383382
+  ],
+  "n_positive": 15
+ },
+ "tgen_log2_R": {
+  "n": 7,
+  "mean": 0.08750785620944745
+ },
+ "n_generalised_FG": {
+  "fbw": 16,
+  "iid16w": 16,
+  "stride16w": 16
+ },
+ "per_seed_FG": [
+  {
+   "seed": 3700,
+   "dpow_fbw": 10.3987,
+   "dpow_iid16w": 8.2225,
+   "dpow_stride16w": 6.0186,
+   "o_fbw": 0.0056,
+   "o_iid16w": 0.0121,
+   "o_stride16w": 0.0084,
+   "peaks_stride": [
+    41,
+    10
+   ],
+   "tgen_iid": [
+    8825,
+    3400
+   ],
+   "tgen_stride": [
+    7275,
+    6775
+   ]
+  },
+  {
+   "seed": 3701,
+   "dpow_fbw": 11.1248,
+   "dpow_iid16w": 10.2071,
+   "dpow_stride16w": 9.8001,
+   "o_fbw": 0.004,
+   "o_iid16w": 0.0169,
+   "o_stride16w": 0.0316,
+   "peaks_stride": [
+    30,
+    25
+   ],
+   "tgen_iid": [
+    4150,
+    6825
+   ],
+   "tgen_stride": [
+    5725,
+    6900
+   ]
+  },
+  {
+   "seed": 3702,
+   "dpow_fbw": 7.8856,
+   "dpow_iid16w": 9.0876,
+   "dpow_stride16w": 9.8925,
+   "o_fbw": 0.0055,
+   "o_iid16w": 0.0263,
+   "o_stride16w": 0.0091,
+   "peaks_stride": [
+    16,
+    40
+   ],
+   "tgen_iid": [
+    7700,
+    3425
+   ],
+   "tgen_stride": [
+    10625,
+    11150
+   ]
+  },
+  {
+   "seed": 3703,
+   "dpow_fbw": 8.1626,
+   "dpow_iid16w": 9.227,
+   "dpow_stride16w": 6.6869,
+   "o_fbw": 0.0236,
+   "o_iid16w": 0.0155,
+   "o_stride16w": 0.0153,
+   "peaks_stride": [
+    17,
+    49
+   ],
+   "tgen_iid": [
+    3950,
+    9100
+   ],
+   "tgen_stride": [
+    4650,
+    10075
+   ]
+  },
+  {
+   "seed": 3704,
+   "dpow_fbw": 10.2414,
+   "dpow_iid16w": 9.5538,
+   "dpow_stride16w": 9.8851,
+   "o_fbw": 0.0041,
+   "o_iid16w": 0.0096,
+   "o_stride16w": 0.0105,
+   "peaks_stride": [
+    4,
+    27
+   ],
+   "tgen_iid": [
+    4600,
+    4725
+   ],
+   "tgen_stride": [
+    6150,
+    7150
+   ]
+  },
+  {
+   "seed": 3705,
+   "dpow_fbw": 9.6131,
+   "dpow_iid16w": 8.6602,
+   "dpow_stride16w": 8.2049,
+   "o_fbw": 0.0319,
+   "o_iid16w": 0.0097,
+   "o_stride16w": 0.037,
+   "peaks_stride": [
+    30,
+    54
+   ],
+   "tgen_iid": [
+    3875,
+    3925
+   ],
+   "tgen_stride": [
+    8350,
+    9250
+   ]
+  },
+  {
+   "seed": 3706,
+   "dpow_fbw": 9.9445,
+   "dpow_iid16w": 9.6369,
+   "dpow_stride16w": 9.1303,
+   "o_fbw": 0.0059,
+   "o_iid16w": 0.006,
+   "o_stride16w": 0.0115,
+   "peaks_stride": [
+    27,
+    42
+   ],
+   "tgen_iid": [
+    7525,
+    8925
+   ],
+   "tgen_stride": [
+    22450,
+    11900
+   ]
+  },
+  {
+   "seed": 3707,
+   "dpow_fbw": 7.7884,
+   "dpow_iid16w": 9.0864,
+   "dpow_stride16w": 9.2992,
+   "o_fbw": 0.005,
+   "o_iid16w": 0.0065,
+   "o_stride16w": 0.009,
+   "peaks_stride": [
+    25,
+    18
+   ],
+   "tgen_iid": [
+    4650,
+    4100
+   ],
+   "tgen_stride": [
+    7650,
+    7525
+   ]
+  }
+ ],
+ "diff_vs_summary": {
+  "dpow_fbw": 0.0,
+  "o_fbw": -5.204170427930421e-18,
+  "dpow_iid16w": -1.7763568394002505e-15,
+  "o_iid16w": -3.469446951953614e-18,
+  "dpow_stride16w": 0.0,
+  "o_stride16w": -3.469446951953614e-18,
+  "dpow_diff": 1.887379141862766e-15,
+  "stride_peakO_FG": 0.0,
+  "R_stride_peakO": 0.0,
+  "R_o_diff_unseen": 2.7755575615628914e-17,
+  "tgen_log2": 0.0,
+  "tgen_n": 0,
+  "ngen_fbw": 0,
+  "ngen_iid16w": 0,
+  "ngen_stride16w": 0
+ },
+ "flags_gt_1e-6": [],
+ "summary_cis": {
+  "dpow": {
+   "fbw": [
+    8.550522685679674,
+    10.202180005394046
+   ],
+   "iid16w": [
+    8.819189158086775,
+    9.598345705433681
+   ],
+   "stride16w": [
+    7.593358410092372,
+    9.519850030230188
+   ]
+  },
+  "o_diff": [
+   -0.004553184578454812,
+   0.012293208548380067
+  ],
+  "R_o_diff": [
+   0.07015639559450558,
+   0.2361166509027141
+  ],
+  "tgen": [
+   0.4177758757850137,
+   0.9330411713758139
+  ],
+  "K2_B16": "Menge steuert bei B = 16",
+  "Konflikt": "Konflikt nicht pruefbar (Reihenfolge wirkt nicht)",
+  "alone": "unklar"
+ }
+}

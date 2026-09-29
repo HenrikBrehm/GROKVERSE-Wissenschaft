@@ -1,8 +1,8 @@
 ---
 id: L0
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-28
-tags: [confirm/entwurf]
+tags: [confirm/abgeschlossen, befund/positiv]
 ---
 # L0-Bestätigung (Entwurf): Steuert die Menge auch unter Minibatch, und was gewinnt gegen eine strukturierte Reihenfolge?
 
@@ -52,3 +52,10 @@ Unabhängige Prüfung (Claude-Agent, nur lesend; Codex ohne Guthaben): **kein Bl
 - **Nebenziele:** SGD, budget-gleiche Full-Batch-Referenz und R5-Zeit sind **gestrichen** (nicht Teil dieses Blocks). **Beschreibend, nicht bestätigend, nach der Auswertung aus den gebundenen result.json/Schnappschüssen (eigenes Skript, als post hoc gekennzeichnet):** Endgenauigkeit (Training/Test) je Lauf und Zahl der Läufe < 0.99 je Arm; H2-Statistik nur über Seeds, deren beide iid64-Läufe ≥ 0.99 Trainingsgenauigkeit haben; Δ_pow gemittelt über die Schnappschüsse 25 000 / 27 500 / 30 000.
 - **Gesehene Daten (vollständig):** EXP-100-Machbarkeit (18 Läufe; nach der Regel wirkte die Reihenfolge bei B 64 durch Seed 3702 mit +0.05 → `CONFLICT_B64 = True`; B 16 lernt bei wd 1 nicht), SGD-Kalibrierung (ohne Treffer), B16-Sonde (18 Läufe), Pilotblock (128 Läufe: Δ_pow fb 8.36, fb30k 10.28, iid256 9.60, iid64 9.85, stride256 9.90, stride64 9.88; bei 2000 Schritten fb 8.36, iid256 8.05, iid64 7.29), Vorab-Maskenvorhersage (`mask_prediction_s45`, „unclear“), unabhängige Nachrechnung `recheck_s46` (B 64 am Ende oft nicht eingeschwungen: iid64 7/16 < 0.99), Power-Hilfe `L0_power_s46.py` (Normalmodell, halber Effekt, 1.5-fache SD, Holm k = 3 — konservativ gegenüber k = 2). Die Wechselläufe (`raw_switch`) laufen während des Einfrierens, **ungelesen**. EXP-106 läuft, ungelesen.
 - **Davon beeinflusst:** n = 10, Budget 30 000, Streichung von H3/SGD, Wiederholungsregel, die beschreibenden Zusatzanalysen.
+
+## Ergebnis (Sitzung 46, 2026-09-29, 02:56 Berlin)
+
+Eingefroren 26419818; Smoke (Seed 3720 F iid256) durch den eingefrorenen Lader ok; Block 40/40 ohne Fehler (5 GPU-Worker, ≈ 20 min). `confirm_l0.py --analyze`: n = 10, keine technischen Fehler.
+- **H1 (i.i.d.-Minibatch B = 256): bestätigt.** Δ_pow = **+9.43 [9.06, 9.81]**, 10/10 > 0, Holm-p 4.3·10⁻¹².
+- **H2 (B = 64): bestätigt.** Δ_pow = **+9.60 [8.79, 10.46]**, 10/10, Holm-p 3.0·10⁻⁹.
+**Deutung (eng, Wortlaut nach [[paper/L0_DEUTUNGEN]] „Menge steuert unter Minibatch“):** Mit i.i.d.-Minibatches von 256 und 64 Paaren steuern die konstruierten Splits die gelernten Frequenzen weiterhin; die Steuerung von Result 1 ist in diesem Setting kein Full-Batch-Artefakt. **Grenzen:** add 113, eine Architektur, AdamW lr 1e-3 / wd 1, 30 % Daten, Energiemaß (keine Ablation); Reihenfolge und Festlegungsfenster sind nicht Teil dieser Bestätigung. Unabhängige Nachrechnung läuft.

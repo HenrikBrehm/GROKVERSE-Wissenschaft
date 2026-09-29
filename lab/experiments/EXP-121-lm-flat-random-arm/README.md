@@ -22,4 +22,4 @@ Zurück: [[LAB]] · [[FINDINGS]] · Bezug [[experiments/EXP-119-lm-speed-r5/READ
 - **Budget:** ≈ 30–45 min je Lauf auf der GPU (3.5 GB), 2 parallel; über den Dienst (`lab/queue/inbox/37_exp121_flat_random.jobs`), harte Grenze 240 min.
 - **Bereits gesehen:** EXP-115 (alles), EXP-119 (alles), EXP-104-Spielzeugergebnisse. Davon beeinflusst: Wahl des Pilots, Schwellen 300/1000.
 
-**Befehle:** `python lab/experiments/EXP-121-lm-flat-random-arm/design.py --splits` (erledigt, 23:29) · `… --jobs > lab/queue/inbox/37_exp121_flat_random.jobs` · Auswertung: `python /tmp`-frei mit `EXP-119 analyze.cross` (Skript folgt in der Auswertungssitzung, Lesarten oben).
+**Befehle:** `python lab/experiments/EXP-121-lm-flat-random-arm/design.py --splits` (erledigt, 23:29) · `… --jobs > lab/queue/inbox/37_exp121_flat_random.jobs` · Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-121-lm-flat-random-arm/analyze.py` (vor den Läufen geschrieben, Lesarten wie oben; Smoke ohne Läufe: „nicht auswertbar“, EXP-115-Lücken korrekt gelesen).

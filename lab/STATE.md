@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 22:03 Berlin (Ende Sitzung 53) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 22:57 Berlin (Sitzung 54 läuft bis 01:09) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -24,19 +24,21 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 53 (ab 19:29):** **LM1 bestätigt** (Δ_pow 5.32 [4.86, 5.73], 10/10 > 1, p = 1/1024, Tor 20/20; unabhängig nachgerechnet, identisch) → Registrierung, FINDINGS, LAB, Paper Anhang J + §7 (ii) (Absatz unabhängig geprüft, Zählfehler beim Sekundärmaß korrigiert). **EXP-115-Deutung korrigiert** (nicht Verdünnung: Δ_pow ist ein Verhältnis; fremde Ziele wachsen schneller, nicht maskengetrieben). **Logikprüfungen** Anhang J (4) und Haupttext (9, 8 übernommen) + Gegenprüfung (3) eingearbeitet; Abstract 1918 Zeichen. BACKLOG-Kandidat LM2 (flache Splits im LM). Klassifikator-Störung 20:18–20:22 überstanden. **Repro R4 fertig:** Vorab-Tor verfehlt durch genau einen Lauf; 239/240 bitgleich; Ursache geklärt (der *eingefrorene* Lauf war ein einmaliger GPU-Ausreißer: 2 `train.py`-Wiederholungen + `freq_ban.py` am Einfrier-Commit sind untereinander bitgleich); Urteile unberührt.
 
-## Aktive Queue / laufende Jobs (Stand Sitzung 53, 21:44 Berlin)
+- **Sitzung 54 (ab 22:09):** **LM1-F bestätigt** (C̄ 0.882 [0.836, 0.918], 10/10, p = 1/1024; eigene Ziele weg → Median 0.048, fremde/Kontrollen → 0.98; Registrierung, FINDINGS, LAB, Tageserklärung); unabhängige Nachrechnung läuft als Dienst-Job `33_lm1f_indep` (Start 22:51, ≈ 1.7–3 h). **Alle Anhänge logisch geprüft** ([[paper/logic_audit_S53_appA]] fertig, [[paper/logic_audit_S54_appB_E_G]] inkl. F/H): 1 echter Richtungsfehler (Anhang G, MLP M0/M0c), „R4 is pending“ veraltet, sonst Überdehnungen; Diff geprüft. P2f-Registrierung: Buchführungs-Nachtrag. **EXP-120** (Ablation Ein- vs. Ausgabeseite an den ungekoppelten EXP-117-Modellen, vorab festgelegt 6e15e69e) läuft in der Sitzung.
 
-- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`. Offen: `32_lm1f` (LM1-F, läuft seit 20:51, CPU; 8/20 Modelle um 21:44, ≈ 6.6 min je Modell gemessen → Ende ≈ 23:05, harte Grenze 23:51) → `36_exp119_lm_r5` (0/6) → `40_exp113_stage2b` (2/8) → `41_exp116_lowshare` (0/4). **PROBLEME.md nicht selbst bearbeiten**: Probleme ins JOURNAL.
+## Aktive Queue / laufende Jobs (Stand Sitzung 54, 22:57 Berlin)
+
+- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`. Offen: `33_lm1f_indep` (LM1-F-Nachrechnung, seit 22:51, CPU 4 Threads) · `36_exp119_lm_r5` (3/6 fertig, Seed 3867 F/G bei ≈ 5000, R wartet) → `40_exp113_stage2b` (2/8) → `41_exp116_lowshare` (0/4). **PROBLEME.md nicht selbst bearbeiten**: Probleme ins JOURNAL.
 - **`lm_stage2.py` nicht ändern**, solange EXP-113/116/119 laufen (Hash in Run-IDs).
 
 ## Nächste Schritte (Regel 20)
 
 0. Dienst-Lage prüfen (status.json, Logs).
-1. **LM1-F auswerten**, sobald `32_lm1f` fertig: Ergebnis steht im Job-Log `lab/queue/logs/32_lm1f/job_000.log` bzw. in der von `confirm_lm1f.py` geschriebenen Zusammenfassung (lab/confirm/); Deutung nach [[paper/LM1_DEUTUNGEN]] bzw. [[confirm/LM1F_REGISTRATION]]; unabhängig nachrechnen: NACH LM1-F (CPU-Konkurrenz) als Dienst-Job `lab/queue/inbox/33_lm1f_indep.jobs` mit `#! workers=1 job_minutes=240 min_minutes=5 crash_minutes=0 gpu_gb=1` und `C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/confirm/LM1F_independent_recompute.py --threads 4 --out lab/confirm/LM1F_independent_summary.json` (≈ 5–9 min je Modell, gemessen im Smoke; Seed 4000 stimmt bereits exakt); Deutungssätze vorab in LM1_DEUTUNGEN (Nachtrag S53); dann Anhang J (Satz „LM1-F is running“ ersetzen), FINDINGS, LAB. Optional Abb. K1 mit `fig14_lm_onset.py --root lab/confirm/lm1_raw --pairs …`.
-2. **EXP-119** (6/6) → `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-119-lm-speed-r5/analyze.py`; **EXP-116** (4/4) → `EXP-116…/analyze.py`; **EXP-113** (8/8) → `analyze.py`, `analyze_folgt.py`, danach `EXP-114…/analyze.py`. Deutungssätze stehen vorab in LM1_DEUTUNGEN.
-3. ~~Repro R4~~ erledigt (S53; README + Anhang-Tabelle). Optional: `lab/paper/repro/README.md` Tabelle Z. 121 (Stand S49) ist durch die Nachträge unten überholt.
-4. **Paper (Ziel Do 01.10.):** Anhänge C/D logisch geprüft und korrigiert (S53, [[paper/logic_audit_S53_appC_D]], Diff geprüft); **als Nächstes: [[paper/logic_audit_S53_appA]] (5 Punkte, selbst prüfen, einarbeiten), dann Logikprüfung der Anhänge B, E–I** (je Anhang: Prüfagent → selbst nachprüfen → einarbeiten → Diff-Prüfung). Nutzerentscheidungen in [[paper/STATUS]] (Wortlaut „25–50 Schritte“ mit neuem Argument aus der Logikprüfung, GROKVERSE-Studie, KI-Offenlegung). Nach jeder Textänderung Zahlen- UND Logikprüfung getrennt.
-5. LM2 (BACKLOG S53) erst nach LM1-F und EXP-116 entscheiden.
+1. **LM1-F-Nachrechnung** (`lab/confirm/LM1F_independent_summary.json`, Log `lab/queue/logs/33_lm1f_indep/`) mit `LM1F_summary.json` vergleichen; bei Übereinstimmung Paper-Satz „bestätigt“ aus [[paper/LM1_DEUTUNGEN]] in Anhang J (Satz „LM1-F is running“ ersetzen) und §7 (ii), Absatz unabhängig prüfen lassen; FINDINGS-Vermerk „Nachrechnung läuft“ ersetzen.
+2. **EXP-120** auswerten (`summary.json`, Lesart im Skript), README-Ergebnis, JOURNAL; bestimmt die Einschränkung des LM1-F-Satzes (Eingabe/Ausgabe).
+3. **EXP-119** (6/6) → `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-119-lm-speed-r5/analyze.py`; **EXP-116** (4/4) → `EXP-116…/analyze.py`; **EXP-113** (8/8) → `analyze.py`, `analyze_folgt.py`, danach `EXP-114…/analyze.py`. Deutungssätze vorab in LM1_DEUTUNGEN.
+4. **Paper:** alle Anhänge einmal logisch geprüft; offen nur Nutzerentscheidungen in [[paper/STATUS]] (Wortlaut „25–50 Schritte“, GROKVERSE-Studie, KI-Offenlegung). Nach jeder Textänderung Zahlen- UND Logikprüfung getrennt.
+5. LM2 (BACKLOG S53) erst nach EXP-116 entscheiden.
 
 ## Prioritäten
 

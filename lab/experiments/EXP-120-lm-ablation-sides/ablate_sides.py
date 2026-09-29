@@ -13,7 +13,8 @@ Contrast per run and side: C_side = acc(side, other) - acc(side, own).
 Readings (fixed before running, over the 4 runs): 'beide Seiten' if C_in > 0.3 and C_out > 0.3 in all 4; 'nur Eingabe' if
 C_in > 0.3 in all 4 and |C_out| < 0.1 in all 4; 'nur Ausgabe' mirrored; 'keine Seite allein' if |C_in| < 0.1 and |C_out| < 0.1
 in all 4 while C_both > 0.3 in all 4; else 'unklar'. Check: base accuracy must equal the logged final test accuracy (|diff| < 1e-6).
-  python lab/tools/guarded_run.py -- C:/.../.venv-gpu/Scripts/python.exe lab/experiments/EXP-120-lm-ablation-sides/ablate_sides.py
+  python lab/tools/guarded_run.py -- C:/.../.venv-gpu/Scripts/python.exe lab/experiments/EXP-120-lm-ablation-sides/ablate_sides.py [--device cuda]
+Session 54, 23:19: --device added after the CPU run proved too slow (killed before its first model finished); readings unchanged.
 """
 from __future__ import annotations
 
@@ -43,13 +44,17 @@ def projector(S: list[int]) -> torch.Tensor:
     return torch.tensor(Q @ Q.T, dtype=torch.float32)
 
 
+PROJ: dict = {}
+
+
 def main() -> None:
     torch.set_num_threads(4)
+    dev = sys.argv[sys.argv.index("--device") + 1] if "--device" in sys.argv else "cpu"
     from tokenizers import Tokenizer
     tok = Tokenizer.from_file(str(L.TOK_FILE))
     ids = L.special_ids(tok)
     t0 = L.tmpl_prompt(L.template_parts(tok)[0])
-    num = torch.tensor(ids["num"])
+    num = torch.tensor(ids["num"], device=dev)
     rows, out = [], {"runs": {}}
     for seed, split_seed in RUNS:
         targets = json.loads((SPL / f"seed{split_seed}.json").read_text(encoding="utf-8"))["targets"]
@@ -60,7 +65,7 @@ def main() -> None:
         test = np.load(TESTS / f"seed{split_seed}_test.npy").astype(np.int64)
         a, b = test // P, test % P
         x = torch.tensor([[ids["eot"]] + t0[0] + [ids["num"][i]] + t0[1] + [ids["num"][j]] + t0[2] for i, j in zip(a, b)])
-        c = torch.from_numpy((a + b) % P)
+        x, c = x.to(dev), torch.from_numpy((a + b) % P).to(dev)
         for arm in "FG":
             d = next(p for p in RAW.iterdir() if p.name.startswith(f"lm2_seed{seed}_seed{split_seed}_{arm}_"))
             res = json.loads((d / "result.json").read_text(encoding="utf-8"))
@@ -68,14 +73,14 @@ def main() -> None:
             k = res["config"]
             model = L.GPT(tok.get_vocab_size(), k["ctx"], k["d"], k["layers"], k["heads"])
             model.load_state_dict(torch.load(d / "checkpoint.pt", map_location="cpu", weights_only=False)["model"])
-            model.eval()
+            model.to(dev).eval()
             W = {"in": model.emb.weight.data, "out": model.head.weight.data}
             X0 = {s: W[s][num].clone() for s in W}
 
             @torch.no_grad()
             def acc(S: list[int] | None, sides: tuple[str, ...]) -> float:
                 for s in sides:
-                    W[s][num] = X0[s] if S is None else X0[s] - projector(S) @ X0[s]
+                    W[s][num] = X0[s] if S is None else X0[s] - PROJ.setdefault(tuple(S), projector(S).to(dev)) @ X0[s]
                 pred = torch.cat([model(x[i:i + 512])[:, -1, num].argmax(1) for i in range(0, len(x), 512)])
                 for s in sides:
                     W[s][num] = X0[s]
@@ -104,7 +109,7 @@ def main() -> None:
         reading = "keine Seite allein"
     else:
         reading = "unklar"
-    out.update({"reading": reading, "rows": rows, "script": "ablate_sides.py"})
+    out.update({"reading": reading, "rows": rows, "script": "ablate_sides.py", "device": dev})
     (HERE / "summary.json").write_text(json.dumps(out, indent=1, ensure_ascii=False), encoding="utf-8")
     print(reading)
 

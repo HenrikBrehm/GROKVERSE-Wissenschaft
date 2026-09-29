@@ -1,8 +1,8 @@
 ---
 id: EXP-120
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/vorbereitet, lm-leiter]
+tags: [exp/abgeschlossen, lm-leiter, befund/unklar]
 ---
 # EXP-120: Ablation getrennt nach Ein- und Ausgabeseite im ungekoppelten Sprachmodell
 
@@ -23,3 +23,20 @@ Zurück: [[LAB]] · [[FINDINGS]] · Bezug [[confirm/LM1F_REGISTRATION|LM1-F]] (b
 - **Bereits gesehen:** EXP-117 Δ_in/Δ_out und Genauigkeiten; LM1-F-Ergebnis (Anlass). Keine Ablation an EXP-117-Modellen.
 
 **Befehl:** `python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-120-lm-ablation-sides/ablate_sides.py`
+
+## Ergebnis (Sitzung 54, 23:20 Berlin gemessen; GPU, 78.6 s; `summary.json`, `run.log`)
+
+**Ablauf:** Der erste Lauf auf der CPU (Start 22:54) war unter der Last des Dienstes zu langsam (nach 24 min noch kein Modell fertig, Schätzung ≈ 25 min je Modell) und wurde abgebrochen (`run_cpu_killed.log`, kein Ergebnis). Danach `--device cuda` ergänzt (einzige Codeänderung, im Skriptkopf vermerkt; Lesarten unverändert) und neu gestartet. Kontrolle bestanden: Basis = geloggte Endgenauigkeit (|Δ| ≤ 2.7·10⁻⁸).
+
+**Vorab-Lesart: „unklar“.** C_in > 0.3 in 4/4, C_out in 3/4 > 0.3, im vierten 0.270. Also weder „beide Seiten“ (Schwelle in einem Lauf knapp verfehlt) noch „nur Eingabe“ (|C_out| < 0.1 in keinem Lauf).
+
+| Seed/Arm | Basis | Eingabe eigen / fremd (C_in) | Ausgabe eigen / fremd (C_out) | beide eigen (C_beide) | Kontrollen Eingabe / Ausgabe |
+|---|---|---|---|---|---|
+| 3862 F | 0.966 | 0.054 / 0.969 (0.915) | 0.658 / 0.970 (0.312) | 0.056 (0.917) | 0.947 / 0.964 |
+| 3862 G | 0.920 | 0.018 / 0.921 (0.903) | 0.546 / 0.926 (0.380) | 0.011 (0.916) | 0.909 / 0.921 |
+| 3863 F | 0.954 | 0.065 / 0.953 (0.888) | 0.693 / 0.963 (0.270) | 0.087 (0.868) | 0.912 / 0.940 |
+| 3863 G | 0.954 | 0.019 / 0.939 (0.920) | 0.401 / 0.958 (0.557) | 0.014 (0.931) | 0.949 / 0.959 |
+
+**Beschreibend (nicht vorab festgelegt):** Die Eingabe-Ablation allein kostet so viel wie die Ablation beider Seiten (eigene Genauigkeit 0.02–0.07 gegen 0.01–0.09). Die Ausgabe-Ablation kostet 27–56 Punkte, also deutlich, aber nicht alles. Die ungekoppelten Modelle nutzen die gesteuerten Frequenzen demnach vor allem beim Lesen der Zahlen und teilweise beim Antworten. Das passt zu EXP-117 (Δ_in > Δ_out am Ende).
+**Folge für LM1-F (nur Hinweis):** Es ist unwahrscheinlich, dass der LM1-F-Befund allein von den Ausgabevektoren getragen wird. Die LM1-Modelle sind aber gekoppelt, deshalb ist das keine Aussage über LM1. Im Paper höchstens als Satz in Anhang J mit „exploration, 2 seeds, untied models“.
+**Grenzen:** 2 Seeds, bekannte Modelle, eine Ablationsart, Schwelle 0.3 willkürlich (vorab).

@@ -1,8 +1,8 @@
 ---
 id: EXP-121
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/vorbereitet, lm-leiter]
+tags: [exp/abgeschlossen, lm-leiter, befund/unklar]
 ---
 # EXP-121: Zufallsarm mit flachen Häufigkeiten im EXP-115-Block – schließt die Paarstruktur die Lücke im Sprachmodell?
 
@@ -23,3 +23,18 @@ Zurück: [[LAB]] · [[FINDINGS]] · Bezug [[experiments/EXP-119-lm-speed-r5/READ
 - **Bereits gesehen:** EXP-115 (alles), EXP-119 (alles), EXP-104-Spielzeugergebnisse. Davon beeinflusst: Wahl des Pilots, Schwellen 300/1000.
 
 **Befehle:** `python lab/experiments/EXP-121-lm-flat-random-arm/design.py --splits` (erledigt, 23:29) · `… --jobs > lab/queue/inbox/37_exp121_flat_random.jobs` · Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-121-lm-flat-random-arm/analyze.py` (vor den Läufen geschrieben, Lesarten wie oben; Smoke ohne Läufe: „nicht auswertbar“, EXP-115-Lücken korrekt gelesen).
+
+## Ergebnis (Sitzung 55, 30.09. 01:07 Berlin gemessen; 2/2 Läufe ohne Fehler, GPU-Dienst `37_exp121_flat_random`)
+
+**Vorab-Lesart: „unklar“** (Tor erfüllt; Lücke 570 bzw. 223 Schritte: weder ≤ 300 in beiden noch ≥ 1000 in beiden).
+
+| Modell-Seed / Split | t_train | t_test | Lücke | Train / Test am Ende (4000) |
+|---|---|---|---|---|
+| 3950 / s3850 Rf | 2209 | 2779 | 570 | 0.997 / 0.779 |
+| 3951 / s3851 Rf | 2409 | 2631 | 223 | 1.000 / 0.985 |
+
+Zum Vergleich (gesehen, EXP-115, gleiche Modell-Seeds, flache konstruierte F/G): Lücken 89, 152, 300, 25. EXP-119 (gewöhnlicher Zufallssplit R, andere Seeds): Plateau ≈ 0.3, Lücke ≥ 3900 (zensiert).
+
+**Zusatzmessung (post hoc, Lesart vorab im JOURNAL S55 Zyklus 4; `commutativity_s55.py`/`.json`): „über Kommutativität hinaus“.** Zurückgehaltene Fakten mit Tauschpaar im Split 0.996 / 1.000, ohne 0.677 / 0.979.
+
+**Deutung (Exploration, 2 Läufe):** Ein Zufallssplit mit exakt flachen Häufigkeiten bleibt im LM nicht auf dem Kommutativitäts-Plateau stehen, sondern generalisiert innerhalb von 223–570 Schritten nach der Memorisation, etwas langsamer als die flachen konstruierten Splits (25–300), aber um eine Größenordnung schneller als der gewöhnliche Zufallssplit R in EXP-119. Die Zielbetonung der Paarstruktur ist also nicht nötig, um das Plateau zu verlassen; eher hängt das R-Plateau an den ungleichmäßigen Zahl-Häufigkeiten oder der ungleichmäßigen Paarstruktur eines gewöhnlichen Zufallssplits. **Grenzen:** andere Seeds/Testmengen als EXP-119; S(1, D) bleibt nach 500 Tauschzügen teilweise strukturiert (Top-5-Anteil 0.16); R und Rf unterscheiden sich in mehr als den Häufigkeiten. **Folge für LM2:** Ein sauberer Test braucht im selben Block R, Rf und F/G mit denselben Modell-Seeds; die Frage lautet dann „Häufigkeiten oder Paarstruktur – was hält R auf dem Plateau?“.

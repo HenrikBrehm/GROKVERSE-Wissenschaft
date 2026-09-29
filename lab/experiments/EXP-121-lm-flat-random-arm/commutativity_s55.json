@@ -1,0 +1,25 @@
+{
+ "reading": "ueber Kommutativitaet hinaus",
+ "rows": [
+  {
+   "seed": 3950,
+   "split": 3850,
+   "acc": 0.7791201982651796,
+   "logged": 0.7791201982651796,
+   "n_swap_in": 1030,
+   "n_other": 2198,
+   "acc_swap_in": 0.996116504854369,
+   "acc_other": 0.6774340309372157
+  },
+  {
+   "seed": 3951,
+   "split": 3851,
+   "acc": 0.9852158486102898,
+   "logged": 0.9852158486102898,
+   "n_swap_in": 995,
+   "n_other": 2387,
+   "acc_swap_in": 1.0,
+   "acc_other": 0.9790532048596565
+  }
+ ]
+}

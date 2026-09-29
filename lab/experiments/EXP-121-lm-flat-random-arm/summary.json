@@ -1,0 +1,72 @@
+{
+ "reading": "unklar",
+ "Rf": {
+  "3950": {
+   "run": "lm2_seed3950_s3850_Rf_m500_steps4000_296c0fe1e28f4d3f",
+   "status": "completed",
+   "steps": 4000,
+   "t_train": 2209.260908281389,
+   "t_test": 2779.032258064516,
+   "gap": 569.7713497831269,
+   "final_train": 0.997,
+   "final_test": 0.7791201982651796
+  },
+  "3951": {
+   "run": "lm2_seed3951_s3851_Rf_m500_steps4000_66884d7e40efcc6e",
+   "status": "completed",
+   "steps": 4000,
+   "t_train": 2408.5833914863924,
+   "t_test": 2631.132075471698,
+   "gap": 222.54868398530562,
+   "final_train": 1.0,
+   "final_test": 0.9852158486102898
+  }
+ },
+ "EXP115_FG_seen": {
+  "3950": [
+   {
+    "run": "lm2_seed3950_s3850_F_m500_steps4000_9d46c2e73ca1c168",
+    "status": "completed",
+    "steps": 4000,
+    "t_train": 2335.5263157894738,
+    "t_test": 2424.9913134120916,
+    "gap": 89.46499762261783,
+    "final_train": 0.988,
+    "final_test": 0.8959738846572362
+   },
+   {
+    "run": "lm2_seed3950_s3850_G_m500_steps4000_fd5dacdaabad5b8a",
+    "status": "completed",
+    "steps": 4000,
+    "t_train": 1916.3726182074806,
+    "t_test": 2068.598233995585,
+    "gap": 152.22561578810428,
+    "final_train": 0.9995,
+    "final_test": 0.9823721436343852
+   }
+  ],
+  "3951": [
+   {
+    "run": "lm2_seed3951_s3851_F_m500_steps4000_b3a7a14920b4cc57",
+    "status": "completed",
+    "steps": 4000,
+    "t_train": 2430.4123711340208,
+    "t_test": 2730.6701030927834,
+    "gap": 300.25773195876263,
+    "final_train": 0.963,
+    "final_test": 0.6332836138930322
+   },
+   {
+    "run": "lm2_seed3951_s3851_G_m500_steps4000_9524b2aca471c64a",
+    "status": "completed",
+    "steps": 4000,
+    "t_train": 2599.9087591240877,
+    "t_test": 2625.1415307971015,
+    "gap": 25.232771673013758,
+    "final_train": 0.994,
+    "final_test": 0.9757085020242915
+   }
+  ]
+ },
+ "note": "exploration, 2 runs; Rf test set is a subset of the F/G test set"
+}

@@ -8,6 +8,10 @@ tags: [lab/live]
 - **Zuletzt aktualisiert:** 14:28 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
+## Hinweis für den Nutzer (14:30)
+
+Der neue Speicherschutz des GPU-Dienstes lässt seit 14:25 keine neuen Läufe starten: freie Speicherzusage nur 0.6–0.7 GB (Grenze 45.9 GB), obwohl 16.7 GB RAM frei sind. Vermutung: Windows vergrößert die Auslagerungsdatei erst bei Bedarf, und der Dienst wartet, bevor Bedarf entsteht → es könnte bei 3 Läufen bleiben. Details und Vorschlag: [[PROBLEME]] P-013. Ich ändere nichts am Dienst.
+
 ## Gerade
 
 - GPU-Dienst wurde um 14:25 mit neuem Code neu gestartet (Speicherwächter; nicht von mir). Läuft: LM1 2 (bei Schritt 4250/6000, am Checkpoint fortgesetzt), EXP-115 1. Neue Starts warten gerade auf freien Arbeitsspeicher-Commit (1.4 GB frei).

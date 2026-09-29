@@ -18,3 +18,10 @@ Zurück: [[paper/STATUS]] · [[JOURNAL]] Sitzung 53. Unabhängiger Claude-Agent,
 8. **D.1 kausale Formulierung ohne Kontrollarm** – R3 hat keinen Standardarm; „vorgezogen/verzögert“ relativ zu N29 auf anderen Seeds (Standardwerte 0.81–0.90 je Block); halbe Rate nur beschreibend (Test verfehlt). Vorschlag: „relative to the default values of N29 (other seeds), doubling … appears to bring it forward; at half rate the shift is in the Λ direction but below the registered bar.“
 
 Keine Befunde laut Prüfer: C.2, D.3, D.4.
+
+## Selbst nachgeprüft (21:54 gemessen)
+
+- **Punkt 1 ✓:** `R6_summary.json` (events = generalisiert ja/nein bis 2000): ohne Ereignis bei t = 20: 27/60, t = 25: 18/60, t = 50: 1/60; nur Ziel-Split: 0/60. Registrierung Z. 21: b = min(Ereignis, 2000). Die 94 %-Zerlegung (R6_decompose.py) noch nicht angesehen.
+- **Punkt 3 ✓:** manuscript.md Z. 262/264: Resets setzen Gewichte *und* AdamW-Zustand zurück; die Größenprüfung (Z. 268) misst nur ‖W(50) − W(0)‖_F.
+- **Punkte 2, 4, 5:** derselbe Befund wie im Haupttext (R8 ohne Äquivalenztest; „exposure“ doppelt; R9-Äquivalenz nur bei c = 0.25), dort in Sitzung 53 an den Registrierungen geprüft und korrigiert.
+- **Punkte 6, 7, 8:** noch offen (P3 Z. 29/67; R9 β₁/β₂ gemeinsam; R3 ohne Standardarm).

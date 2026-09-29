@@ -56,3 +56,26 @@ Ein kleines LM (≈ 10–30 M Parameter) wird von Grund auf auf natürlichem Tex
 - Smoke (`design.py --smoke`, alle Stufen, 50 Schritte, `raw_smoke`) fehlerfrei.
 - Pilot gestartet: `python lab/tools/parallel_queue.py lab/experiments/EXP-102-lm-ladder-stage1/jobs.txt --workers 10 --min-minutes 3` (200 Läufe). Auswertung danach: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-102-lm-ladder-stage1/analyze.py`.
 - Bezug zu [[FINDINGS]]: Verallgemeinerung von K2 (Programm A, Regel 20e).
+
+## Ergebnis Pilot (Sitzung 47, 2026-09-29, 05:12 Berlin; Exploration, 10 Seeds, Lesarten aus `analyze.py` vorab; nicht nachgerechnet)
+
+200/200 Läufe fehlerfrei (`pilot_summary.json`). Δ_pow bei Schritt 2000 (Mittel [KI], positive Seeds, Lesart):
+
+| Stufe | Δ_pow | Lesart | generalisiert (Test ≥ Schwelle bis 2000) |
+|---|---|---|---|
+| r0 (alles aus) | 8.04 [7.59, 8.51], 10/10 | hält | 20/20, Median 763 |
+| op (Operator-Token) | 7.41 [6.74, 8.17] | hält | 19/20 |
+| fs (volle Softmax) | 7.99 [7.52, 8.48] | hält | 20/20 |
+| tie (gebunden) | 7.28 [6.38, 8.21] | hält | 20/20 |
+| **all (Verlust auf allen Positionen)** | **1.65 [1.45, 1.88]**, 10/10 > 0 | **bricht** (erste brechende Stufe) | **0/20** (Test 0.01) |
+| allnb (alle außer b) | 8.26 [7.55, 8.96] | hält | 20/20 |
+| tieall | 1.60 [1.41, 1.81] | bricht | 0/20 (Test 0.03) |
+| tieallnb | 7.53 [6.47, 8.40] | hält | 20/20 |
+
+Kontrollen: all − allnb −6.60 [−7.20, −5.97], tieall − tieallnb −5.93 → „kein Steuerungsgewinn durch das b-Ziel“, im Gegenteil. Zufallssplit R: Zielanteil ≈ Zufall in allen vier Stufen (0.16–0.20; Zufall 0.18).
+**Deutung (vorsichtig):** Format-Schalter (Operator, volle Softmax, gebundene Embeddings) ändern die Steuerung nicht. Die Leiter bricht bei „Verlust auf allen Positionen“, und zwar allein durch das Vorhersageziel b (ohne b hält alles). **Aber:** diese Netze haben in 2000 Schritten nicht generalisiert (nur memorisiert); die niedrige Δ_pow kann also verzögertes Grokking statt fehlender Steuerung sein. → Folgetest mit 10 000 Schritten (unten).
+
+## Folgetest „all lang“ (Sitzung 47, 05:14, vor jedem Lauf festgelegt; Exploration)
+
+Frage: Verzögert das b-Ziel nur das Grokking, oder blockiert es die Steuerung? Stufen all und tieall, Seeds 3800–3809, F/G, **10 000 Schritte**, `raw_long` (40 Läufe, `jobs_long.txt`). W_E bei 2000, 5000, 10 000.
+Lesarten je Stufe (bei 10 000): **„verzögert, Steuerung erholt“**, wenn ≥ 8/10 Seeds in F und G generalisiert haben und die untere KI-Grenze von Δ_pow > 4.02 (= halbes r0-Mittel); **„Steuerung blockiert“**, wenn ≥ 8/10 generalisiert und die obere KI-Grenze < 4.02; **„grokkt nicht“**, wenn < 5/10 generalisiert; sonst „unklar“. Beschreibend: Δ_pow bei 2000/5000/10 000, Generalisierungsschritt.

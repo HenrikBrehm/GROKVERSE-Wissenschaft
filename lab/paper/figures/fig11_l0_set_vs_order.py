@@ -2,7 +2,8 @@
 confirmation). Left: Delta_pow at the end of the budget per seed and arm (full batch 2000 / 30 000 steps, i.i.d. minibatch 256 / 64,
 SGD with momentum, stride order), mean with 95 % bootstrap CI. Right: share of the embedding energy on the stride-order
 frequencies O = {11, 12, 22, 23, 34, 45}, i.i.d. vs stride, for the engineered splits (F/G mean) and the random split R; chance 6/56.
-Reads lab/experiments/EXP-100-set-vs-order/summary.json (analyze.py output). NOT YET RUN on data (session 43).
+Reads lab/experiments/EXP-100-set-vs-order/summary.json (analyze.py output). Drawn from the pilot data (session 46/47); the
+bootstrap CIs are the figure's own (rng 11) and can differ slightly from the text's.
   python lab/paper/figures/fig11_l0_set_vs_order.py            # real data -> fig11_l0_set_vs_order.png/.svg
   python lab/paper/figures/fig11_l0_set_vs_order.py --demo     # synthetic numbers, writes only to a temp dir (code check)
 """

@@ -5,18 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 03:29 Berlin (01:29Z, vom Runner)
 - **Deadline:** 2026-09-29 06:29 Berlin (04:29Z)
-- **Zuletzt aktualisiert:** 05:32 Berlin
+- **Zuletzt aktualisiert:** 05:47 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-Zwei kleine Tests laufen bis ≈ 06:05: (1) Festlegungsuhr bei vierfacher Lernrate (Stabilität, Vergleich der drei Modelle); (2) lernt das Netz mit „Verlust auf allen Positionen“ bis 30 000 Schritte doch noch, und kommt die Steuerung zurück?
+Letzter kleiner Test (EXP-111, 72 Läufe, ≈ 7 min): Ist bei kleinen Päckchen (64) die Festlegung mit vierfacher Lernrate wirklich langsamer als mit doppelter? Zwei weitere Netze, als Grundlage für eine saubere Prüfung in der nächsten Sitzung.
 
 ## Als Nächstes
 
-Auswerten, Stand sichern, Abschlussbericht (Deadline 06:29).
+Auswerten, Stand sichern, Sitzung beenden (Deadline 06:29). Nächster Runner-Start laut runner-state.json **07:04 Berlin**.
 
 ## Verlauf dieser Sitzung
+
+- 05:45 **Überraschung (EXP-110, 2 Netze):** Bei Päckchen zu 64 legt sich das Netz mit vierfacher Lernrate *später* fest als mit doppelter (305/355 gegen 205/225 Schritte); bei großen Päckchen weiter schneller. Nachgerechnet.
+- 05:41 Leiter bis 30 000 Schritte: Steuerung wächst weiter (4.2–4.6), nur 1 von 4 Netzen hat generalisiert → eher verzögert als blockiert.
 
 - 05:30 Leiter-Folgetest (10 000 Schritte): Verlust auf allen Positionen verzögert das Lernen um mehr als das Zehnfache; die Steuerung bleibt vorhanden (wachsend), aber reduziert.
 

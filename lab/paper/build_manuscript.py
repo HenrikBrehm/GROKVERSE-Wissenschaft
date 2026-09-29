@@ -85,7 +85,7 @@ APPENDIX = [
     ("H", "Reproduction from scratch", ["S:Anhang R"]),
     ("J", "Minibatch training and the lock-in clock in detail", ["S:Anhang J"]),
     ("K", "Towards language models (exploration)", ["S:Anhang K"]),
-    ("M", "Passages moved from the main text (working appendix, to be distributed over A-K)", ["S:Anhang M"]),
+    ("M", "Additional details for the main text (passages shortened in Sections 1-7, verbatim)", ["S:Anhang M"]),
 ]
 
 
@@ -124,7 +124,7 @@ def moved_label(p: str) -> str:
         return p
     where = re.search(r"§\s?\d", label)
     src = f"Section {where.group(0)[-1]}" if where else ("Figure caption" if "Abb" in label or "Bildunterschrift" in label else "main text")
-    return f"**Moved from {src}:**{rest}"
+    return f"**For {src}:**{rest}"
 
 
 def strip_session(p: str) -> str:

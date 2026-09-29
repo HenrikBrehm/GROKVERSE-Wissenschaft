@@ -128,3 +128,5 @@ Bis Sitzung 42 deckte das Paket K2, K2-Funktion und K4 ab. Der Haupttext der Kur
 **Nachtrag L0 (Nichtdeterminismus-Prüfung, Lesarten vorab):** Zwei Wiederholungen von 3728 F B 64 mit `train.py` sind bitgleich zueinander und zum eingefrorenen Lauf (30 000 Schritte); nur der erste Repro-Lauf wich ab 15 000 ab (`nondet_l0_s49.json`). Ursache der späten H2-Abweichungen damit: seltene nicht-deterministische GPU-Rechnung, kein Codeunterschied. Der erste Volllauf bleibt unverändert berichtet.
 
 **Ergebnis `r6.py --compare-r6` (2026-09-29 11:14, 480/480 Läufe, GPU):** alle C(t) je Seed identisch (größte Abweichung 0), π bis 5.6·10⁻¹⁶, gleiche Seeds mit definiertem π (30/30) → **numerisch reproduziert**; H1 C(25) = 0.850 [0.730, 0.960], 29/30; H2 C(25) − C(50) = 1.253 [0.969, 1.496], 28/30, beide bestätigt; S1 „nicht gestützt“, S2 „gestützt“ (wie eingefroren).
+
+**Ergebnis `r8.py --compare-r8` (2026-09-29 11:20, 175/175 Läufe, GPU):** C_AB, C_AA2 und D je Seed identisch (größte Abweichung 0, 25 Seeds) → **numerisch reproduziert**; H1 D = 0.815 [0.575, 1.041], 24/25, bestätigt; S1 gestützt.

@@ -207,7 +207,12 @@ def main() -> None:
     parts.append("\n".join(ref_lines))
     app = appendix(short, (HERE / "draft.md").read_text(encoding="utf-8"), long_)
     parts.extend(app)
-    (HERE / "manuscript.md").write_text("\n\n".join(parts) + "\n", encoding="utf-8")
+    text_out = "\n\n".join(parts) + "\n"
+    # s52 (review): the AI use disclosure is no longer a lettered appendix, so letters I and L were unused;
+    # reletter J -> I, K -> J, M -> K in one pass so the appendix runs A-K without gaps.
+    assert not re.search(r"Appendix [IL]\b", text_out)
+    text_out = re.sub(r"Appendix ([JKM])\b", lambda m: "Appendix " + {"J": "I", "K": "J", "M": "K"}[m.group(1)], text_out)
+    (HERE / "manuscript.md").write_text(text_out, encoding="utf-8")
 
     text = "\n".join(p for pre in SECTIONS for p in find(short, pre)[1]) + "\n".join(captions)
     missing = sorted(citations(text) - ref_keys(refs_md))

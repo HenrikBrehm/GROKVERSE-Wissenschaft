@@ -1,8 +1,8 @@
 ---
 id: EXP-117
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/vorbereitet, lm-leiter]
+tags: [exp/abgeschlossen, lm-leiter]
 ---
 # EXP-117: Sprachmodell mit ungekoppelten Ein-/Ausgabe-Embeddings – steuert die Faktenauswahl die Eingabe-Zeilen?
 
@@ -21,3 +21,7 @@ Zurück: [[LAB]] · [[FINDINGS]] · Bezug [[confirm/LM1_REGISTRATION|LM1]] (geko
 - **Bereits gesehene Daten:** EXP-113/114 (gebunden, Seeds 3862/3802), EXP-102/112 (Stufe 1 auf 3802/3803), LM1-Zwischenstände (Logzeilen der Läufe 0/1: Genauigkeiten, keine Δ_pow). Davon beeinflusst: K, Budget, Seeds.
 
 **Zwischenblick (Sitzung 52, 17:35; 1 von 2 Seeds, keine Lesart):** Seed 3862: Δ_in 6.44 (Eingabe), Δ_out 4.04 (Ausgabeschicht), zurückgehaltene Fakten 0.97 / 0.92 (`peek_seed3862_s52.json`). Die Vorab-Lesart folgt erst mit Seed 3863 über `analyze.py`.
+
+## Ergebnis (Sitzung 52, 19:04 Berlin gemessen; 4/4 Läufe, Exploration, 2 Seeds; `summary.json`)
+
+Vorab-Lesart **„Eingabe gesteuert“**: Δ_in (Eingabe-Embedding, Zahl-Zeilen) **6.44** (Seed 3862) und **5.54** (Seed 3863), beide > 1; zurückgehaltene Fakten 0.97 / 0.92 und 0.95 / 0.95 (4/4 > 0.5); Trainingsfakten 0.99–1.00; Generalisierung (≥ 0.95) bei 3750 / 3000 (Seed 3863). Beschreibend: Ausgabeschicht Δ_out 4.04 und 4.74. Deutung nach [[paper/LM1_DEUTUNGEN]]: Mit ungekoppelten Ein-/Ausgabe-Embeddings wird die Eingabe-Repräsentation der Zahlen gesteuert; die LM-Steuerung ist also nicht nur eine Eigenschaft gemeinsamer Ausgabevektoren. Grenzen: 2 Seeds, P1-Splits (Häufigkeiten tragen die Ziele mit), nicht nachgerechnet.

@@ -5,18 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 03:29 Berlin (01:29Z, vom Runner)
 - **Deadline:** 2026-09-29 06:29 Berlin (04:29Z)
-- **Zuletzt aktualisiert:** 04:57 Berlin
+- **Zuletzt aktualisiert:** 05:13 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-**Sprachmodell-Leiter, Stufe 1 (EXP-102) läuft:** 200 Läufe, 10 GPU-Worker (Start 04:55). Frage: Hält die Steuerung durch die Trainingsmenge, wenn die Rechnung als Text-Sequenz mit Sprachmodell-Eigenschaften trainiert wird? Nebenher: Paper-Text zu N54b wird unabhängig geprüft.
+**Folgetest Sprachmodell-Leiter (40 Läufe à 10 000 Schritte, Start 05:14):** Lernt das Netz mit „Verlust auf allen Positionen“ nur später (und die Steuerung kommt zurück), oder blockiert dieses Ziel die Steuerung? Parallel: unabhängige Nachrechnung des Leiter-Piloten.
 
 ## Als Nächstes
 
-Leiter auswerten (Lesarten vorab festgelegt); Paper-Korrekturen; Abschlussbericht vor 06:19.
+Folgetest auswerten (Lesarten vorab), dann Abschlussbericht (Deadline 06:29).
 
 ## Verlauf dieser Sitzung
+
+- 05:12 **Leiter Stufe 1 (Pilot):** Operator-Token, volle Softmax und gebundene Embeddings ändern die Steuerung nicht. Verlust auf allen Positionen senkt sie um 80 %, aber diese Netze haben bis Schritt 2000 gar nicht generalisiert → Folgetest.
+- 05:05 Paper: §6/§7 und Langfassung §3.19 mit N54b, nach unabhängiger Prüfung korrigiert.
 
 - 04:55 Leiter-Trainer bitgleich zum bisherigen Trainer → Pilot EXP-102 gestartet.
 - 04:53 Modellvergleich: „Drift + etwa zwei Durchgänge durch die Daten“ beschreibt die Festlegungszeit am besten (nachträglich, Hypothese).

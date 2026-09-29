@@ -88,3 +88,5 @@ Lesarten je Stufe (bei 10 000): **„verzögert, Steuerung erholt“**, wenn ≥
 ### Folgetest „all 30k“ (Sitzung 47, 05:34, vor jedem Lauf; Exploration, 2 Seeds)
 
 Stufe all, Seeds 3800–3801, F/G, 30 000 Schritte, `raw_long30k` (4 Läufe, `jobs_long30k.txt`). Beschreibend: Generalisierungsschritt, Δ_pow bei 10 000 / 20 000 / 30 000. Lesart: „erholt sich nach dem Grokking“, wenn beide Seeds in F und G generalisieren und Δ_pow(30 000) ≥ 4.02 (halbes r0) in beiden; „bleibt reduziert“, wenn generalisiert und < 4.02; sonst „offen“. Nur Hinweis für eine spätere Registrierung.
+
+**Ergebnis „all 30k“ (Sitzung 47, 05:41; 2 Seeds, beschreibend, nicht nachgerechnet):** 4/4 Läufe fertig. Lesart (vorab): **„offen“** — generalisiert hat nur 3800 F (bei 15 175; Test 0.98); sonst Test 0.07 / 0.37 / 0.76 bei 30 000. Δ_pow wächst weiter: Seed 3800 2.63 → 3.60 → 4.16, Seed 3801 3.39 → 4.15 → 4.60 (Schritt 10 000 → 20 000 → 30 000), also über dem halben r0-Wert (4.02). Deutung (vorsichtig): eher „stark verzögert“ als „blockiert“; das b-Ziel verlangsamt Grokking und Steuerung gemeinsam.

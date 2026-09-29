@@ -28,3 +28,12 @@ Zurück: [[paper/STATUS]] · Vorgänger [[paper/logic_audit_S53_appA]], [[paper/
 8. **Übernommen.** „It predicts which frequencies the network starts to grow“ → „describes the initial gradient (and, approximately, the first sign-like Adam updates)“.
 
 Manuskript und TeX neu erzeugt; Querverweise geprüft. Diff-Prüfung: siehe unten.
+
+## Diff-Prüfung der B/E/G-Änderungen (22:52)
+
+Keine sachlichen Fehler; Formel und Anhang-Zuordnung bestätigt. Vier Formulierungen übernommen: Reihenfolge der Verweise (EXP-Piloten zu §4, R3 zu §3.10), doppelte Klammer aufgelöst, Subjekt in 5.4(i) (AdamW-Zerfallsterm), „later order within the target set“.
+
+## Anhang F (Explorationen) und H (Reproduktion), Sitzung 54, 22:55
+
+**F:** keine Richtungsfehler, 24 Zahlengruppen vom Prüfer an den Quellen bestätigt. Übernommen (selbst geprüft: `speed_switch_decompose_s32.json` gap_share 0.924, 49/60; `speed_switch_optstate_s32.json` 0.57 → 0.26/0.25/0.28 = 54/56/51 %; FINDINGS R6-Spitze t = 20): (1) EXP-084 „follows the pair spectrum“ → „in this pilot is consistent with“; (2) „cannot be the cause“ → „do not explain the gap“; (3) „92 % over all 60 pairs“ war als Paaranteil lesbar → Anteil der mittleren Verzögerung, 49/60 Paare; (4) Pilotspitze bei 25 gegen R6-Spitze bei 20 vermerkt; (5) „a quarter and a half“ → „just over half“; (6) ε-Zuordnung der Anteile ergänzt.
+**H** (Quelle `draft_short.md` Anhang R): (1) veraltet „R4 is pending“ gestrichen; (2) GPU-Nichtdeterminismus-Absatz um den Full-Batch-Fall R4 ergänzt; (3) Befehle mit Manifest-Argument (confirm-Werkzeuge verlangen `--analyze <manifest>`, C*_analyze.py ein Manifest) und (4) „am Manifest-Commit“ ergänzt. Alle Tabellenwerte vom Prüfer bestätigt.

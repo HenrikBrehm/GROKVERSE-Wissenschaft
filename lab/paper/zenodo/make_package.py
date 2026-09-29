@@ -33,7 +33,9 @@ INCLUDE = ("lab/paper/draft_short.md", "lab/paper/draft.md", "lab/paper/related_
            "lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py", "lab/experiments/EXP-105-lm-ladder-stage2/analyze_pilot.py",
            "lab/experiments/EXP-102-lm-ladder-stage1/design.py", "lab/experiments/EXP-102-lm-ladder-stage1/analyze.py",
            # s52: untested LaTeX export of the manuscript (Overleaf)
-           "lab/paper/build_tex.py", "lab/paper/tex/*")
+           "lab/paper/build_tex.py", "lab/paper/tex/*",
+           # s54: LM1-F (functional ablation of the LM1 models) and its independent recompute
+           "lab/confirm/confirm_lm1f.py", "lab/confirm/LM1F_independent_recompute.py")
 EXCLUDE = ("*/__pycache__/*", "lab/runner/*", "lab/external/*", "*_raw/*", "*/raw/*", "lab/paper/repro/out/*", "lab/paper/outreach/*")
 
 

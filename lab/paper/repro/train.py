@@ -116,8 +116,18 @@ def train(a: argparse.Namespace) -> dict:
         spectra_steps.append(step)
         spectra.append(freq_power(model.W_E.detach().cpu().numpy().astype(np.float64)[:p], basis))
 
+    dense = {"train_steps": [], "train_acc": [], "test_steps": [], "test_acc": []}
+
+    def dense_eval(step: int) -> None:                 # s49 (R5 repro): the dense accuracy trace of freq_ban (read only)
+        if step % cfg.eval_every_train == 0:
+            dense["train_steps"].append(step); dense["train_acc"].append(accuracy(model, trx, try_, p))
+        if step % cfg.eval_every_test == 0:
+            dense["test_steps"].append(step); dense["test_acc"].append(accuracy(model, tex, tey, p))
+
     t0 = time.perf_counter()
     spectrum(0)
+    if a.dense:
+        dense_eval(0)
     mb_rng = np.random.default_rng(np.random.SeedSequence([ORDER_SALT, a.seed]))
     mb_order, mb_pos = None, 0
     for step in range(1, a.steps + 1):
@@ -148,6 +158,8 @@ def train(a: argparse.Namespace) -> dict:
             if a.reset_optim_part == "m":             # s27: zero exp_avg only; exp_avg_sq and the step counters (bias correction) kept
                 for q in model.parameters():
                     opt.state[q]["exp_avg"].zero_()
+        if a.dense:
+            dense_eval(step)
         if step % cfg.eval_every_test == 0:
             acc = accuracy(model, tex, tey, p)
             test_curve.append([step, acc])
@@ -171,6 +183,8 @@ def train(a: argparse.Namespace) -> dict:
            "versions": {"python": platform.python_version(), "torch": torch.__version__, "numpy": np.__version__},
            "platform": platform.platform(), "end_utc": datetime.now(timezone.utc).isoformat(),
            "input_sha256": dict(INPUT_SHA256), "status": "completed"}                     # s33: bound_block binds only runs marked completed (R7)
+    if a.dense:
+        res["dense"] = dense
     (out / "result.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
     return res
 
@@ -207,6 +221,7 @@ def main() -> None:
     ap.add_argument("--threads", type=int, default=1)
     ap.add_argument("--device", default="cpu")
     ap.add_argument("--save-model", action="store_true")
+    ap.add_argument("--dense", action="store_true", help="record train acc every 10 and test acc every 25 steps as freq_ban (R5)")
     ap.add_argument("--out", required=True)
     ap.add_argument("--compare-to")
     ap.add_argument("--tol", type=float, default=1e-6)

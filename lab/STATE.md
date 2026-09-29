@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 09:10 Berlin (Sitzung 49, läuft bis 11:49) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 09:07 Berlin (Sitzung 49, läuft bis 11:49) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,7 +17,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 47 (29.09., 03:29–06:29):** **N54b bestätigt** (Festlegung unter Minibatch ≈ √(N/B): α(1e-3) 0.583 [0.560, 0.606]; doppelte lr hilft bei kleinen Batches weniger: Δα +0.139 [0.098, 0.178]; eingefroren 624c2213, nachgerechnet) → Paper §6/§7, Langfassung §3.19, FINDINGS-Zeile. Explorationen: EXP-109 (lr 2e-3), EXP-110/111 (lr 4e-3 bei B 64: auf 2 Seeds später, auf 2 anderen etwas früher → nicht belastbar), Modellvergleich (Drift + ≈ 2 Epochen), Memorisierungsuhr (unklar), **EXP-102 Leiter Stufe 1** (Format hält; Verlust auf allen Positionen verzögert Grokking > ×10, Steuerung reduziert, wächst).
 
-## Aktive Queue / laufende Jobs (Sitzung 49, 08:49–11:49 Berlin; Stand 09:10)
+## Aktive Queue / laufende Jobs (Sitzung 49, 08:49–11:49 Berlin; Stand 09:07)
 
 - **Lange Läufe nur noch über den GPU-Dienst (Regel 21):** `lab/queue/status.json` zeigt, was läuft. Eingereiht: `20_s48c_r0long_10k` (EXP-102 „r0 lang“ + EXP-112 „10k“, 8 Worker, läuft), `05_repro_l0_equiv` (GPU-Gleichwertigkeit repro/train.py-Minibatch gegen L0, wartet auf Slot).
 - **EXP-105-Pilot:** 2/4 fertig (3860 F, 3861 G). Die Fortsetzung von 3860 G / 3861 F scheiterte am RNG-Fehler beim Laden (JOURNAL S49); die abgestürzten Prozesse hängen bis zur Wächtergrenze (≈ 10:20). **Danach** einreihen: dieselben Zeilen aus `jobs_pilot.txt`, aber mit `lab/experiments/EXP-105-lm-ladder-stage2/resume_wrapper.py` statt `lm_stage2.py` (Run-ID bleibt gleich, setzt bei 8000 fort). `10_exp105_pilot_resume` erst aus `lab/queue/done` prüfen.

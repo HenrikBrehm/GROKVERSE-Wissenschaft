@@ -7,7 +7,9 @@ H1F: mean Cbar over the 10 seeds > 0.1: 'bestaetigt' if the lower bound of the 9
 default_rng(4011), resampling seeds) is > 0.1 AND the exact one-sided sign-permutation test of (Cbar - 0.1) over all 2^10 sign
 vectors gives p < 0.05; 'unter Mindesteffekt' if the upper CI bound is < 0.1 and the mirrored test gives p < 0.05; else
 'unklar'. Evaluated only if LM1 itself is evaluable (its gate: held-out >= 0.5 in >= 16/20 runs) and all 20 runs are complete;
-otherwise 'nicht auswertbar'. Secondary (descriptive): per run acc(base), acc(own), mean acc(controls); number of seeds with
+otherwise 'nicht auswertbar'; also 'nicht auswertbar' unless lab/confirm/LM1_summary.json
+shows all 10 seeds valid and no defect (LM1 --analyze first), and a run whose checkpoint is not at step 6000 with the run's
+config hash is recorded as defect. Secondary (descriptive): per run acc(base), acc(own), mean acc(controls); number of seeds with
 Cbar > 0.
   python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe \
       lab/confirm/confirm_lm1f.py [--selftest]
@@ -61,7 +63,9 @@ def evaluate_run(L, tok, ids, t0, d: Path, test: np.ndarray, sets: dict) -> dict
     assert res["status"] == "completed" and res["steps_completed"] == STEPS, d
     k = res["config"]
     model = L.GPT(tok.get_vocab_size(), k["ctx"], k["d"], k["layers"], k["heads"])
-    model.load_state_dict(torch.load(d / "checkpoint.pt", map_location="cpu", weights_only=False)["model"])
+    ck = torch.load(d / "checkpoint.pt", map_location="cpu", weights_only=False)
+    assert ck["step"] == STEPS and ck["config_hash"] == res["config_hash"], f"{d}: checkpoint not at the end of this run"
+    model.load_state_dict(ck["model"])
     model.eval()
     num = torch.tensor(ids["num"])
     X0 = model.emb.weight.data[num].clone()
@@ -86,7 +90,9 @@ def main() -> None:
     tok = Tokenizer.from_file(str(L.TOK_FILE))
     ids = L.special_ids(tok)
     t0 = L.tmpl_prompt(L.template_parts(tok)[0])
-    rows, missing = [], []
+    rows, missing, defect = [], [], []
+    lm1 = json.loads((HERE / "LM1_summary.json").read_text(encoding="utf-8")) if (HERE / "LM1_summary.json").exists() else {}
+    lm1_ok = lm1.get("defect") == [] and lm1.get("n_valid") == len(SEEDS)
     for s in SEEDS:
         T = json.loads((SPL / f"seed{s}.json").read_text(encoding="utf-8"))["targets"]
         test = np.load(SPL / f"seed{s}_test.npy").astype(np.int64)
@@ -98,15 +104,24 @@ def main() -> None:
                 continue
             other = T["G" if arm == "F" else "F"]
             sets = {"base": None, "own": T[arm], "other": other, **{f"ctl{i}": S for i, S in enumerate(ctl)}}
-            r = {"seed": s, "arm": arm, **evaluate_run(L, tok, ids, t0, ds[0], test, sets)}
+            try:
+                r = {"seed": s, "arm": arm, **evaluate_run(L, tok, ids, t0, ds[0], test, sets)}
+            except Exception as e:                                      # recorded, never fatal: the summary is always written
+                defect.append(f"{s}{arm}: {type(e).__name__}: {e}")
+                continue
+            r["base_minus_logged"] = r["base"] - r["test_acc_logged"]   # CPU vs GPU evaluation sanity check
             r["C"] = r["other"] - r["own"]
             r["ctl_mean"] = float(np.mean([r[f"ctl{i}"] for i in range(4)]))
             rows.append(r)
             print(json.dumps(r), flush=True)
-    out = {"rows": rows, "missing": missing}
+    import hashlib
+    out = {"block": "LM1F", "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+           "lm1_manifest_commit": lm1.get("manifest_commit"), "lm1_accepted": lm1_ok, "rows": rows, "missing": missing, "defect": defect}
     gate = sum(r["test_acc_logged"] >= GATE_ACC for r in rows)
-    if missing or gate < GATE_N:
-        out["reading"] = "nicht auswertbar" + (" (fehlt)" if missing else " (LM1-Tor)")
+    if not lm1_ok:
+        out["reading"] = "nicht auswertbar (LM1 defekt/fehlt oder nicht ausgewertet)"
+    elif missing or defect or gate < GATE_N:
+        out["reading"] = "nicht auswertbar" + (" (fehlt/defekt)" if missing or defect else " (LM1-Tor)")
     else:
         cbar = np.array([np.mean([r["C"] for r in rows if r["seed"] == s]) for s in SEEDS])
         out.update({"cbar": cbar.tolist(), "n_seeds_cbar_pos": int((cbar > 0).sum()), **test_h1(cbar)})

@@ -1,8 +1,8 @@
 ---
 id: N54B
-status: entwurf
+status: abgeschlossen
 datum: 2026-09-29
-tags: [lab/confirm, neu/kandidat]
+tags: [lab/confirm, befund/positiv, neu/kandidat]
 ---
 # Registrierung N54b: Skaliert das Festlegungsfenster unter Minibatch-AdamW mit √(N/B)? (Sitzung 47)
 
@@ -51,3 +51,17 @@ python lab/tools/confirm_n54b.py --jobs lab/confirm/N54B_manifest.json > lab/con
 python lab/tools/parallel_queue.py lab/confirm/N54B_jobs.txt --workers 10 --min-minutes 3
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_n54b.py --analyze lab/confirm/N54B_manifest.json
 ```
+
+## Ergebnis (Sitzung 47, 2026-09-29, 04:51 Berlin; eingefroren 624c2213; unabhängig nachgerechnet)
+
+840/840 Läufe (3 Infrastrukturfehler WinError 5 vor `--analyze` mit identischer Jobzeile wiederholt), 10/10 Seeds gültig bei beiden Lernraten, keine Zensur, keine Links-Zensur.
+
+| | Wert | KI 95 % | Holm-p | Urteil |
+|---|---|---|---|---|
+| **H1** α(lr 1e-3) | **0.583** | [0.560, 0.606] | 5.1·10⁻⁶ | **bestätigt** |
+| **H2** Δα = α(2e-3) − α(1e-3) | **+0.139** (10/10 > 0) | [0.098, 0.178] | 5.7·10⁻⁵ | **bestätigt** |
+
+Sekundär: α(2e-3) = 0.722 [0.673, 0.767] (über dem Band). t½ (Schritte) lr 1e-3: 58 / 114 / 289 bei B 1024 / 256 / 64 (EXP-108 auf anderen Seeds: 62 / 127 / 290); lr 2e-3: 34 / 72 / 248. Verhältnis t½(2e-3)/t½(1e-3): 0.58 [0.54, 0.62] / 0.64 [0.59, 0.68] / 0.85 [0.78, 0.92] (Modell (i): 0.5 überall).
+**Nachrechnung** (`N54B_recheck_s47.py`, eigener Code): alle Werte gleich (≤ 4.4·10⁻¹⁶); monotones π ändert nichts Wesentliches; Zwei-Punkt-Steigungen zeigen **Krümmung**: H2 kommt vor allem von B 256 → 64 (Δα +0.21 [0.13, 0.29]; zwischen 1024 und 256 +0.07 [−0.01, 0.14]); lokales α bei lr 1e-3 0.48 bzw. 0.68.
+**Lesart:** Unter i.i.d.-Minibatch-AdamW wächst die Zahl der Schritte bis zur Festlegung im Mittel etwa wie √(Schritte je Epoche) (lr 1e-3; mittlere Steigung über N/B 3.7–60, kein sauberes Potenzgesetz). Eine doppelte Lernrate beschleunigt bei großen Batches fast um ×2, bei kleinen deutlich weniger; eine reine Vorzeichen-Drift-Erklärung reicht damit nicht. Post hoc passt t½ ≈ 23.6·√(N/B)/λ + 2.2·(N/B) (Drift + ≈ 2 Epochen) am besten ([[JOURNAL]] Zyklus 3; Hypothese).
+**Grenzen:** eine Aufgabe (add 113), eine Architektur, Energiemaß π (keine Ablation), zwei Lernraten, 5000-Schritt-Horizont, wd 1.

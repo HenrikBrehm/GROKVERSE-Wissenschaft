@@ -1,8 +1,8 @@
 ---
 id: EXP-119
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/vorbereitet, lm-leiter]
+tags: [exp/abgeschlossen, lm-leiter, befund/positiv]
 ---
 # EXP-119: Lernt ein kleines Sprachmodell Rechenfakten aus konstruierten Splits früher als aus zufälligen? (R5 im LM, Pilot, 2 Seeds)
 
@@ -34,3 +34,19 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 **Nach dem Einfrieren gesehen (Sitzung 52, 17:02; ändert keine Lesart):** In EXP-102 Stufe 1 (Textformat, 2000 Schritte, Splits 3800–3809) generalisieren unter „allnb“ F/G in 20/20 Läufen, R in 0/10; unter „tieallnb“ F/G 20/20, R 2/10 ([[JOURNAL]] Sitzung 52, Zyklus 5).
 
 **Ergänzung vor jedem EXP-119-Lauf (Sitzung 52, 18:23 gemessen; beschreibend, keine Lesart):** je Lauf Spearman ρ zwischen dem Maskenspektrum des eigenen Splits (M0) und der Leistung der Zahl-Zeilen am Ende (R4-Analogon: prägt auch ein Zufallssplit die Frequenzen des LM?). Smoke an EXP-114 (Seed 3862, Splits 3802, K 19, 4000 Schritte; damit gesehen): ρ = 0.37 (F), 0.13 (G). Selbsttest weiter grün.
+
+## Ergebnis (Sitzung 54, 23:24 Berlin gemessen; 6/6 Läufe, Dienst-Job 36_exp119_lm_r5; `summary.json`; Exploration, 2 Seeds)
+
+**Vorab-Lesart: „constructed faster“** (q ≥ 1.5 in beiden Seeds). R erreicht 0.5 auf zurückgehaltenen Fakten in keinem Seed bis 6000 → q ist eine untere Schranke: **q ≥ 3.15** (Seed 3866) und **q ≥ 2.61** (Seed 3867).
+
+| Seed | Arm | t_train (≥ 0.5) | t_test (≥ 0.5) | zurückgehalten bei 6000 | ρ(Maske, Zahl-Zeilen) |
+|---|---|---|---|---|---|
+| 3866 | F | 1872 | 1915 | 0.989 | 0.33 |
+| 3866 | G | 1873 | 1890 | 0.983 | 0.42 |
+| 3866 | R | 1870 | — (zensiert) | 0.333 | 0.57 |
+| 3867 | F | 2115 | 2177 | 0.977 | 0.28 |
+| 3867 | G | 2343 | 2421 | 0.988 | 0.21 |
+| 3867 | R | 2112 | — (zensiert) | 0.322 | 0.29 |
+
+**Der vorab formulierte Erklärungssatz ist widerlegt** ([[paper/LM1_DEUTUNGEN]], Satz „constructed faster“, zweiter Teil: „weil das LM Trainings- und zurückgehaltene Fakten fast gleichzeitig lernt, ist das eine Verschiebung des Lernbeginns, keine kürzere Grokking-Lücke“). Beschreibend (nicht vorab festgelegt): Die **Trainingsfakten** lernt R genauso früh wie F/G (1870 gegen 1872/1873; 2112 gegen 2115/2343). Nur die **zurückgehaltenen** Fakten folgen bei R nicht: bis 6000 Schritte ≈ 0.33, also mindestens ≈ 3900 Schritte Lücke nach der Memorisation. Im LM erzeugt der Zufallssplit demnach eine grokking-artige Lücke, die konstruierten Splits nicht (dort 17–78 Schritte). Der Vorteil liegt also wie im Spielzeugmodell (R5, Zerlegung in Anhang F) in der Lücke, nicht im Lernbeginn. Die frühere Beobachtung „im LM keine Grokking-Lücke“ (Sitzung 52, post hoc, 9 Läufe) galt nur für konstruierte Splits.
+**Grenzen (vorab und neu):** 2 Seeds, Exploration; keine je Antwort abgeglichene Kontrolle D, die P1-Splits tragen die Ziele auch in den Zahl-Häufigkeiten, ein Häufigkeitseffekt ist deshalb nicht ausgeschlossen (Folgefrage wie vorab: flache Splits gegen ihr Zufallsgegenstück, vgl. BACKLOG LM2). 6000 Schritte: Ob R später generalisiert, ist offen (ein abgebrochener Lauf beweist nichts). ρ bei R 0.57 / 0.29 (beschreibend; R4-Analogon, kein Befund).

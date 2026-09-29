@@ -1,0 +1,16 @@
+{
+ "common_steps": [
+  0,
+  30000,
+  13
+ ],
+ "first_diff_step": {
+  "repro1~rep1": 15000,
+  "repro1~rep2": 15000,
+  "rep1~rep2": null,
+  "frozen~rep1": null,
+  "frozen~rep2": null,
+  "frozen~repro1": 15000
+ },
+ "reading": "(b) nicht-deterministische GPU-Rechnung belegt"
+}

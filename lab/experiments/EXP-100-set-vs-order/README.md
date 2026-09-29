@@ -141,3 +141,15 @@ Vorhersage erster Ordnung (vorab): B 256 ausgewaschen ✓, B 64 „an der Kante�
 ### Pilotblock: Start (Sitzung 46, ≈ 01:24 Berlin)
 
 Statische Prüfung von `jobs.txt` (Agent, nur lesend): **kein Blocker**, nichts Größeres; `jobs.txt` byte-gleich mit `design.py --jobs`, Abdeckung exakt (8 Seeds × 6 Arme × F/G + 8 × 4 R), Run-IDs je Ausgabeordner eindeutig, Schrittzahlen passen zum Lader, SGD-Teil liefert wie gewollt „nicht auswertbar“. Kleinigkeiten: Die Zahl „144 Läufe“ oben gilt mit SGD-Arm; nach `SGD_DROPPED` sind es **128**. **Laufzeitregel (vor dem Block):** 96 Minibatch-Läufe + 16 fb30k à 30 000 Schritte, 16 fb à 2000; gemessen ≈ 0.008 s/Schritt bei 10 GPU-Prozessen → ≈ 4–5 min je 30 000-Schritt-Lauf, bei 5–10 Workern ≈ 1–1.5 h < 3 h → Budget bleibt 30 000. Ausführung: `jobs.txt` in zwei Hälften (`jobs_part1.txt` Zeilen 1–64 sofort mit 5 Workern, `jobs_part2.txt` Zeilen 65–128 mit 5 Workern nach der B = 16-Sonde); gleiche Zeilen, nur aufgeteilt.
+
+## Ergebnis Pilotblock (Sitzung 46, 2026-09-29, 02:07 Berlin; Exploration, 8 Seeds 3700–3707)
+
+128/128 Läufe ohne Fehler (Logs `lab/runner/logs/pq_*` der Teile 1/2), `analyze.py` (Lesarten aus dem Docstring, vorab): 8/8 Seeds gültig.
+- **K2-MB: „Menge steuert unter Minibatch“.** Δ_pow am Ende (30 000 Schritte): iid256 **9.60 [8.98, 10.21]**, iid64 **9.85 [9.00, 10.73]**; Full-Batch-Referenzen fb (2000 Schritte) 8.36 [7.67, 9.01], fb30k (30 000) 10.28 [9.24, 11.21]; stride256 9.90 [9.26, 10.50]. Bei 2000 Schritten fb 8.36 ≥ iid256 8.05 ≥ iid64 7.29 → vorab festgelegter Zusatz „schwächer bei B = 64 (Verdünnung im Festlegungsfenster)“ gilt, am Ende aber nicht mehr.
+- **Konflikt: „nicht prüfbar (Reihenfolge wirkt nicht)“** bei B = 256 und bei B = 64 (`Konflikt_B64`): stride-Spitze in O 0/16 bzw. 0/16; KI von o(stride) − o(iid) auf F/G [−0.003, 0.015] bzw. [−0.000, 0.011]; Δ_pow(stride) − Δ_pow(iid) +0.30 [−0.39, 0.90] bzw. +0.04 [−0.77, 0.86].
+- **Reihenfolge allein (R): „unklar“** bei beiden B: keine Spitze in O (0/8; B 64: 1/8), das KI von o(R-stride) − o(R-iid) liegt aber ganz **unter** 0 ([−0.23, −0.03]; B 64 [−0.36, −0.06]) — getrieben von einzelnen i.i.d.-Läufen mit viel Energie auf O (z. B. Seed 3700 bei B 64 in der Machbarkeit 0.36); keine Deutung.
+- **SGD:** „nicht auswertbar“ (Kalibrierung ohne Treffer).
+- **Beschreibend:** generalisiert fb/fb30k/iid256/stride256 16/16, iid64 13/16. R5 unter Minibatch: Median t_gen in Epochen E (iid256) 77 gegen R 333 (≈ ×4.3 schneller, wie R5 Full-Batch-Richtung).
+- **Abgleich mit der ersten Ordnung (vorab):** B 256 ausgewaschen ✓; B 64 „an der Kante“ → im Piloten keine Wirkung.
+- **Power für L0 (`lab/confirm/L0_power_s46.py`, Normalmodell, halber Effekt, 1.5-fache SD, Holm k = 3):** H1/H2 schon bei n = 6 Power ≈ 1 → Regel n = 10 (Mindestzahl nach Regel 15b). H3 aus diesem Piloten entfällt (Konflikt nicht prüfbar); ein H3 kann nur aus [[experiments/EXP-106-l0-b16-long-epochs/README|EXP-106]] (B = 16, wd 0.1) kommen.
+Unabhängige Nachrechnung läuft. Offen: Wechselläufe `switch.txt` (laufen), `switch_analyze.py`.

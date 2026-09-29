@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-29 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 01:34 Berlin
+- **Zuletzt aktualisiert:** 01:44 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-GPU (10 Prozesse): **L0-Pilot** Teil 1 und Teil 2 laufen (bisher 22 fertig, 0 Fehler). Danach automatisch: EXP-106 (lange Epochen, B = 16) und die Wechsel-Läufe von L0.
+GPU (10 Prozesse): **L0-Pilot** Teil 1 und Teil 2 laufen (58/128 fertig um 01:43, 0 Fehler). Danach automatisch: EXP-106 (lange Epochen, B = 16) und die Wechsel-Läufe von L0.
 
 ## Als Nächstes
 

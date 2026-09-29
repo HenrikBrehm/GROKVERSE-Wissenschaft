@@ -62,6 +62,19 @@ def citations(text: str) -> set[tuple[str, str]]:
     return {(m.group(1).split()[-1], m.group(2)) for m in CITE.finditer(text) if m.group(1).split()[0] not in skip}
 
 
+def clean_ref(line: str) -> str:
+    """Drop working notes from a reference line: text after " — ", German parentheticals, and all of a provenance tag except
+    its letter codes (A, L, K, S, F; see paper/references for the full tags)."""
+    line = line.split(" — ")[0]
+    line = re.sub(r" \((?:Titelzusatz|laut|nicht)[^)]*\)", "", line)
+
+    def tag(m: re.Match) -> str:
+        codes = [t.strip() for t in re.split(r"[;,]", m.group(1)) if re.fullmatch(r"[A-Z](?:/[A-Z])*", t.strip())]
+        return "[" + ", ".join(codes) + "]" if codes else "[untagged]"
+
+    return re.sub(r"\[([^\]]*)\]\s*$", tag, line.rstrip())
+
+
 def ref_keys(refs_md: str) -> set[tuple[str, str]]:
     keys = set()
     for line in refs_md.splitlines():
@@ -189,6 +202,7 @@ def main() -> None:
     parts.append("## Appendix I: AI use disclosure (draft wording, to be confirmed by the user)")
     parts.extend(disc)
     ref_lines = sorted(ln for ln in refs_md.splitlines() if re.match(r"^- .+? \((?:19|20)\d\d[ab]?\)\.", ln))
+    ref_lines = [clean_ref(ln) for ln in ref_lines]   # session 52: no German working notes in the manuscript
     parts.append("## References (unchecked draft list; provenance tags in brackets, see paper/references)")
     parts.append("\n".join(ref_lines))
     app = appendix(short, (HERE / "draft.md").read_text(encoding="utf-8"), long_)

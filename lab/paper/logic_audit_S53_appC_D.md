@@ -1,6 +1,6 @@
 ---
 id: logic-audit-s53-appCD
-status: offen
+status: eingearbeitet
 datum: 2026-09-29
 tags: [lab/paper]
 ---

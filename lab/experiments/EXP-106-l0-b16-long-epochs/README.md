@@ -1,8 +1,8 @@
 ---
 id: EXP-106
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/positiv]
 ---
 # EXP-106 (L0, Exploration): Menge gegen feste Reihenfolge bei langen Epochen (B = 16, weight decay 0.1)
 
@@ -45,3 +45,12 @@ python lab/experiments/EXP-106-l0-b16-long-epochs/design.py --jobs > lab/experim
 python lab/tools/parallel_queue.py lab/experiments/EXP-106-l0-b16-long-epochs/jobs.txt --workers 5 --min-minutes 10
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-106-l0-b16-long-epochs/analyze.py
 ```
+
+## Ergebnis (Sitzung 46, 2026-09-29, 02:51 Berlin; Exploration, 8 Seeds, noch nicht unabhängig nachgerechnet)
+
+64/64 Läufe fehlerfrei (Log `/tmp/e106_pq.log` → `lab/runner/logs/pq_*`), 8/8 Seeds gültig, alle 48 F/G-Läufe generalisiert.
+- **K2-B16: „Menge steuert bei B = 16“** — Δ_pow iid16w **9.21 [8.82, 9.60]**; Full-Batch bei gleichem wd 9.40 [8.55, 10.20]; stride16w 8.62 [7.59, 9.52].
+- **Konflikt (vorab festgelegte Regel): „nicht prüfbar (Reihenfolge wirkt nicht)“**: Auf F/G keine Verschiebung zu O (o 0.013 → 0.017, KI der Differenz [−0.005, 0.012]; stride-Spitze in O 0/16); R allein „unklar“ (Spitze in O bei 3/8 der R-stride-Läufe, zwischen 25 % und 75 %).
+- **Beschreibend:** Auf dem Zufallssplit R **wirkt** die Reihenfolge deutlich: o(R-stride) − o(R-iid) KI [0.07, 0.24] (ohne die in der Sonde gesehenen Seeds 3700–3702: Mittel +0.14), 3/8 Spitzen in O. Auf den konstruierten Splits verschiebt sie die Frequenzen nicht, **verzögert aber die Generalisierung** um 0.67 log₂ [0.42, 0.93] (≈ ×1.6; 16 Paare). Δ_pow(stride) − Δ_pow(iid) −0.60 [−1.41, 0.12].
+- **Deutung (vorsichtig, n = 8, Exploration):** Im Regime langer Epochen wirkt eine feste Reihenfolge auf das Spektrum dort, wo die Menge selbst wenig vorgibt (Zufallssplit), nicht dort, wo die Menge die Frequenzen stark betont (konstruierte Splits); sie kostet dort nur Zeit. Das passt zu LeDoux §6.4 („importance scales inversely with content signal adequacy“). Die formale Konflikt-Lesart bleibt „nicht prüfbar“, weil die Reihenfolge-Wirkung vorab an F/G oder an ≥ 75 % Spitzen auf R gebunden war.
+- **Für L0b (eigene Registrierung, nächste Sitzung):** Kandidaten H3a „Reihenfolge verschiebt o auf R“ (einseitig > 0), H3b „keine Verschiebung auf F/G“ (Äquivalenz, Grenze vorab), H3c „stride verzögert die Generalisierung auf F/G“ (log₂ > 0); Power mit `lab/confirm/L0_power_s46.py --exp106` (liest dieses summary.json).

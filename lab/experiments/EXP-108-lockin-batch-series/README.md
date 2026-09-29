@@ -1,8 +1,8 @@
 ---
 id: EXP-108
-status: laufend
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/laufend, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 ---
 # EXP-108 (N54b, Exploration): Wie verschiebt sich das Festlegungsfenster mit der Batchgröße?
 
@@ -32,3 +32,15 @@ Zurück: [[LAB]] · [[FINDINGS]] (K4 / Result 3; L0) · [[NOVEL_DIRECTIONS]] N54
 ```
 python lab/tools/parallel_queue.py lab/experiments/EXP-108-lockin-batch-series/jobs.txt --workers 10 --min-minutes 3
 ```
+
+## Ergebnis (Sitzung 46, 2026-09-29, 03:19 Berlin; Exploration, 8 Seeds)
+
+176/176 Läufe fehlerfrei, 8/8 Seeds gültig, keine zensierten t½. **Lesart (vorab): „Wurzel-Uhr gestützt“.** α = **0.54 [0.52, 0.56]**.
+
+| B | N/B | t½ (Mittel über Seeds, Schritte) | Vorhersage Wurzel-Uhr | π je t (Mittel) |
+|---|---|---|---|---|
+| 1024 | 3.7 | **62** | 60 (an B 256 verankert 67) | 25: −0.02, 50: 0.35, 75: 0.65, 100: 0.90, 150: 1.00 |
+| 256 | 15 | 127 (EXP-107, gesehen) | – | 100: 0.33, 200: 0.85 |
+| 64 | 60 | **290** | 240 (266) | 100: 0.02, 200: 0.06, 300: 0.58, 450: 1.04, 700: 1.03 |
+
+**Deutung (vorsichtig):** Die Festlegung zählt unter i.i.d.-Minibatch-AdamW weder in Schritten noch in Epochen, sondern ungefähr mit √(N/B): Die Zahl der Schritte bis zur Festlegung wächst etwa mit der Wurzel der Schritte je Epoche. Die Vorhersage traf B 1024 fast genau; B 64 liegt etwas später (≈ ×1.1–1.2). **Grenzen:** Exploration; dieselben 8 Seeds wie EXP-100/107 (B 256 gesehen, aus ihm stammt die Vermutung); der Full-Batch-Punkt ist fest (31 Schritte, interpoliert, anderer Horizont) und verengt das KI von α; Energiemaß; eine Aufgabe, eine Lernrate. Eine Bestätigung bräuchte frische Seeds, eine Registrierung und idealerweise eine zweite Lernrate (trennt √(N/B) von „Rauschskala lr·√(N/B)“). Unabhängige Nachrechnung läuft.

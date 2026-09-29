@@ -1,8 +1,8 @@
 ---
 id: EXP-103
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-28
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen]
 ---
 # EXP-103: Frühe Steuerungskurve des P1-Presets (dichte Spektren bis Schritt 250)
 
@@ -36,3 +36,7 @@ Teil B trennt auch die Zwei-Phasen-Alternative: Wenn die frühe Ausrichtung nur 
 **Worker (Sitzung 44, nach Konsistenzprüfung):** Die Zahl 4 in den Befehlen ist ein Höchstwert. Maßgeblich: alle GPU-Prozesse zusammen ≤ 10 (neben R11 mit 5 und L0 mit 5 ist kein Platz; dann warten). **Einordnung nach Regel 20a:** kein Mechanismus-Detailversuch zur Festlegung, sondern Anhang-Stütze für die Robustheit R1 im Paper (19a/20d) und GPU-Füllarbeit (20i).
 
 **Vorsicht bei der Lesung von Teil A (Sitzung 44, 21:47, vor jedem Lauf):** Der Punkt wd 0.3 bei τ = 225 (Zellmittel 3.33) liegt über dem Preset bei Schritt 250 (3.22). Ist die dichte Preset-Kurve monoton, kann er nicht ganz ein Interpolationsartefakt sein; er zeigt dann einen echten Versatz von ≥ 3 %, wie ihn die Nachrechnung auch bei τ ≥ 250 fand (lr 5e-4 +5 bis +8 %, freie Anpassung: Zellen mit kleinem lr·wd laufen 11–15 % „schneller“). Die Lesart „Artefakt“ (alle vier Punkte innerhalb |log| < 0.10) schluckt solche Versätze. Deshalb zusätzlich berichten: die vorzeichenbehafteten log-Quotienten der vier Punkte; „Artefakt“ heißt nur „kein großer früher Bruch“, nicht „exakte lr·wd-Zeit“.
+
+## Ergebnis (Sitzung 46, 2026-09-29, 03:05 Berlin; Exploration, nicht unabhängig nachgerechnet)
+
+Teil A 100/100 und Teil B 40/40 (der fehlende Lauf von Sitzung 45 wiederholt), 0 Fehler. **Teil A:** Vergleichsprüfung bei Schritt 250 **exakt** (0 Abweichungen). Lesart **„unclear“**: |log(Zelle/P1-dicht)| wd 0.3 bei τ = 75: **0.73**, τ = 150: 0.050, τ = 225: 0.059; lr 5e-4 bei τ = 125: 0.068. Die Fehlanpassung bei τ < 250 war also für drei Punkte Interpolation, nicht aber für den frühesten (τ = 75, t = 250 bei wd 0.3). **Teil B:** Lesart **„product form holds“** (m < 0.10 in beiden Zellen über t = 250 … 2000); früh aber große gepaarte Unterschiede zwischen lr 2e-3/wd 0.5 und lr 5e-4/wd 2 bei gleichem lr·wd: t = 100 +1.83 [1.73, 1.94], 150 +1.18 [1.10, 1.27], 200 +0.34 [0.29, 0.40] (je 10/10). **Deutung (vorsichtig):** Ab ≈ 250 Schritten zählt die Steuerung in lr·wd; davor zählt die Lernrate allein (größere Schritte steuern früher) — passt zur Hypothese „zwei Uhren“ (N51). Für das Paper (Anhang A, R1-Absatz): „time rescaling in lr·wd holds from about 250 steps on; earlier, the learning rate alone sets the pace (EXP-103, exploration)“.

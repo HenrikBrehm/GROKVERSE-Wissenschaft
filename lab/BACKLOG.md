@@ -230,6 +230,7 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 ## Sitzung 51: Offene LM-Fragen aus EXP-115/EXP-118 (niedrige bis mittlere Priorität)
 
 - **Warum fällt Δ_pow bei flachen Zahl-Häufigkeiten nach dem Gipfel wieder ab?** ([[experiments/EXP-115-lm-flat-marginals/README|EXP-115]]: 5.23 → 4.35, 1.83 → 0.96 zwischen 2500 und 4000; bei P1-Splits stieg es weiter.) Kandidaten: Häufigkeitsstruktur stabilisiert die Ziele im gebundenen Embedding; Ersatz von Zielenergie nach dem Generalisieren; Seed-Zufall (nur 2 Seeds). Billiger Test ohne Training: Ablation wie EXP-118 an den EXP-115-Modellen (tragen die Ziele trotz sinkender Energie die Fakten?). Mit Training: längeres Budget (8000) an denselben Splits.
+  - *Sitzung 53:* Frage geschärft. Nicht Verdünnung, weil Δ_pow ein Verhältnis ist. Die fremden Ziele wachsen schneller als die eigenen, bei P1-Splits schrumpfen sie ([[experiments/EXP-115-lm-flat-marginals/README|EXP-115]] Korrektur). Offene Frage: Hält die Häufigkeitsstruktur der P1-Splits die fremden Ziele klein? Ein Test wäre im nächsten flachen LM-Block beschreibend möglich (E_X(fremd) je Snapshot), kein eigener Versuch.
 - **Funktion im LM an frischen Seeds:** [[confirm/LM1F_REGISTRATION|LM1-F]] eingefroren; auswerten nach LM1.
 
 ## Sitzung 52 (17:11): Warum hat das kleine LM keine Grokking-Lücke? (niedrige Priorität, nur Denkarbeit)

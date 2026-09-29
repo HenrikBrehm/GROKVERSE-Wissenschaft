@@ -25,6 +25,8 @@ Zurück: [[LAB]] · [[NOVEL_DIRECTIONS]] N57 · Pilot [[experiments/EXP-122-toy-
 
 **Befehle:** Jobdatei beim GPU-Dienst `lab/queue/inbox/38_exp123_commutativity.jobs` (= `jobs.txt`) · Auswertung `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-123-commutativity-stages/analyze.py`
 
+**Nachtrag zur Offenlegung (01:32 gemessen, vor der Auswertung):** Zur Laufkontrolle habe ich während der Läufe (01:10–01:12) die Spuren von u0_R–u3_R angesehen (t_gen = R5, t_swap 700–5450, t_other 5075–6300, m 0.002–0.049). An Lesarten und Auswertung wurde danach nichts geändert (Einfrierpunkt a07bc82f). Unabhängige Code-Prüfung von swap_trace.py/analyze.py läuft blind (ohne raw/).
+
 ## Ergebnis
 
 (noch nicht ausgeführt)

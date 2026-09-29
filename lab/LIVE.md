@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 14:10 Berlin (12:10Z, vom Runner)
 - **Deadline:** 2026-09-29 17:09 Berlin (15:09Z)
-- **Zuletzt aktualisiert:** 14:37 Berlin
+- **Zuletzt aktualisiert:** 14:50 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Hinweis (14:37): wird behoben
@@ -14,15 +14,17 @@ Die Start-Blockade durch die Speicherzusage (P-013) hat der Nutzer-Assistent erk
 
 ## Gerade
 
-- GPU-Dienst wurde um 14:25 mit neuem Code neu gestartet (Speicherwächter; nicht von mir). Läuft: LM1 2 (bei Schritt 4250/6000, am Checkpoint fortgesetzt), EXP-115 1. Neue Starts warten gerade auf freien Arbeitsspeicher-Commit (1.4 GB frei).
-- Zwei neue LM-Piloten eingereiht: EXP-116 (nur ≈ 9 % Rechensätze) und EXP-117 (Ein-/Ausgabe-Embeddings getrennt: steckt die Steuerung wirklich in der Zahl-Repräsentation?).
+- GPU-Dienst läuft wieder normal (seit 14:42, korrigierter Speicherschutz): EXP-113 ×2 (Endspurt), LM1 ×1, R4 ×1. LM1: 2 von 20 Läufen fertig.
+- Paper: Das Manuskript [[paper/manuscript]] ist jetzt eine vollständige englische Datei (Haupttext, Tabelle 1, Anhang A–M, Literatur); Verweise umgestellt.
 
 ## Als Nächstes
 
-EXP-115 (flache Zahl-Häufigkeiten) auswerten, sobald das erste Lauf-Paar fertig ist; LM1 beobachten.
+EXP-113 (2 Läufe fast fertig) und EXP-115 beobachten; EXP-115 auswerten, sobald alle 4 Läufe fertig sind.
 
 ## Verlauf dieser Sitzung
 
+- 14:50 Manuskript mit Anhang A–M, Tabelle 1 und umgeschriebenen Querverweisen; Zenodo-Paket erweitert (Import-Test ok).
+- 14:45 Abb. K1 (Sprachmodell: Steuerung setzt mit dem Faktenlernen ein) aus EXP-114.
 - 14:37 LM1 Lauf 0 fertig (723 s); Deutungssätze für LM1/EXP-115/EXP-117 vorab festgelegt.
 - 14:26 EXP-117 festgelegt (ungekoppelte Kopie des Trainers, Selbsttest grün) und eingereiht.
 - 14:22 Kürzung unabhängig geprüft; 2 verlorene Einschränkungen und 4 kleinere Punkte wiederhergestellt (Haupttext 4 147 Wörter).

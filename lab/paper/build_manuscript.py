@@ -72,6 +72,67 @@ def ref_keys(refs_md: str) -> set[tuple[str, str]]:
     return keys
 
 
+# Appendix plan (draft_short, "Abbildungen ... und Anhang"): letter -> (title, sources). "L:3.7" = long-draft subsection,
+# "L2:4 " = long-draft level-2 section, "S:Anhang J" = draft_short section. Copied verbatim; cross-references not yet edited.
+APPENDIX = [
+    ("A", "Robustness (R1/C1, P4/C3, R7, R2/C2)", ["L:3.7", "L:3.11", "L:3.12", "L:3.13"]),
+    ("B", "Functional measures and their limit (P2d/P2e)", ["L:3.2"]),
+    ("C", "Lock-in in detail (K4/K4b, K4c, resets K4d/K4e, R6/R8)", ["L:3.3", "L:3.4", "L:3.5", "L:3.8"]),
+    ("D", "The clock of the lock-in (R3, R9/K5, R10, R11)", ["L:3.10", "L:3.15", "L:3.16", "L:3.17"]),
+    ("E", "D59 (P2f, C4)", ["L:3.6"]),
+    ("F", "Explorations and negative results", ["L2:4 "]),
+    ("G", "First-order theory", ["L2:5 "]),
+    ("H", "Reproduction from scratch", ["S:Anhang R"]),
+    ("J", "Minibatch training and the lock-in clock in detail", ["S:Anhang J"]),
+    ("K", "Towards language models (exploration)", ["S:Anhang K"]),
+    ("M", "Passages moved from the main text (working appendix, to be distributed over A-K)", ["S:Anhang M"]),
+]
+
+
+def subsection(md: str, num: str) -> list[str]:
+    """Verbatim lines of the long-draft subsection '### {num} ...' up to the next '### ' or '## ' heading."""
+    lines = md.splitlines()
+    start = [i for i, ln in enumerate(lines) if ln.startswith(f"### {num} ")]
+    if len(start) != 1:
+        sys.exit(f"expected one subsection {num}, found {len(start)}")
+    end = next((j for j in range(start[0] + 1, len(lines)) if lines[j].startswith(("### ", "## "))), len(lines))
+    head = "#### " + clean_heading(lines[start[0]][4:])
+    body = "\n".join(lines[start[0] + 1:end]).strip()
+    return [head] + [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip() and not is_process_note(p.strip())]
+
+
+def appendix(short: dict, long_md: str, long_secs: dict) -> list[str]:
+    out = ["# Appendix (assembled verbatim from the working drafts; cross-references to the long draft's §-numbers are not yet edited)"]
+    for letter, title, srcs in APPENDIX:
+        out.append(f"## Appendix {letter}: {title}")
+        for src in srcs:
+            kind, key = src.split(":", 1)
+            if kind == "L":
+                out.extend(subsection(long_md, key))
+            else:
+                paras = find(long_secs if kind == "L2" else short, key)[1]
+                if key == "Anhang M":
+                    paras = [moved_label(p) for p in paras if p.startswith("**")]
+                out.extend(re.sub(r"^(#{1,3}) ", "#### ", p) for p in paras if not is_process_note(p))
+    return [strip_session(p) for p in out]
+
+
+def moved_label(p: str) -> str:
+    """Appendix M: replace the German bookkeeping label '**§5 R6, ... (ersetzt ...):**' by a neutral English one."""
+    label, sep, rest = p.partition(":**")
+    if not sep:
+        return p
+    where = re.search(r"§\s?\d", label)
+    src = f"Section {where.group(0)[-1]}" if where else ("Figure caption" if "Abb" in label or "Bildunterschrift" in label else "main text")
+    return f"**Moved from {src}:**{rest}"
+
+
+def strip_session(p: str) -> str:
+    """Drop lab bookkeeping such as '; Sitzung 46' or '(Sitzung 50)' inside English text."""
+    p = re.sub(r";\s*Sitzung \d+", "", p)
+    return re.sub(r"\s*\(Sitzung \d+\)", "", p)
+
+
 def main() -> None:
     short = sections((HERE / "draft_short.md").read_text(encoding="utf-8"))
     long_ = sections((HERE / "draft.md").read_text(encoding="utf-8"))
@@ -104,6 +165,7 @@ def main() -> None:
     ref_lines = sorted(ln for ln in refs_md.splitlines() if re.match(r"^- .+? \((?:19|20)\d\d[ab]?\)\.", ln))
     parts.append("## References (unchecked draft list; provenance tags in brackets, see paper/references)")
     parts.append("\n".join(ref_lines))
+    parts.extend(appendix(short, (HERE / "draft.md").read_text(encoding="utf-8"), long_))
     (HERE / "manuscript.md").write_text("\n\n".join(parts) + "\n", encoding="utf-8")
 
     text = "\n".join(p for pre in SECTIONS for p in find(short, pre)[1]) + "\n".join(captions)

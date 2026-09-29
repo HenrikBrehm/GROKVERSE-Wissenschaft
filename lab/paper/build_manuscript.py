@@ -93,6 +93,11 @@ def main() -> None:
     parts.append("## Figures")
     parts.extend(captions)
     cap_words = sum(len(p.split()) for p in captions)
+    table = [ln for ln in (HERE / "figures/table_registrations.md").read_text(encoding="utf-8").splitlines() if ln.startswith("|")]
+    parts.append("## Table 1")
+    parts.append("*Table 1.* Confirmation blocks behind the claims (generated from the frozen manifests by "
+                 "`figures/table_registrations.py`).")
+    parts.append("\n".join(table))
     _, disc = find(long_, "AI use disclosure")
     parts.append("## AI use disclosure (draft wording, to be confirmed by the user)")
     parts.extend(disc)

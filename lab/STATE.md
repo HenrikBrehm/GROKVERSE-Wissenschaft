@@ -19,7 +19,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Aktive Queue / laufende Jobs
 
-- **Keine Jobs** (06:03 geprüft). Alle Queues der Sitzung 47 fertig: EXP-109 112, N54b 840 (+3 Wiederholungen), EXP-102 14 + 200 + 40 + 4, EXP-110 84 + 16, EXP-111 72 — ohne verbleibende Fehler. Repro-Smoke k4c (CPU) abgebrochen: Pfadaufruf ok, Smoke dauert ≈ 40 min CPU.
+- **Keine Jobs** (06:02 geprüft). Alle Queues der Sitzung 47 fertig: EXP-109 112, N54b 840 (+3 Wiederholungen), EXP-102 14 + 200 + 40 + 4, EXP-110 84 + 16, EXP-111 72 — ohne verbleibende Fehler. Repro-Smoke k4c (CPU) abgebrochen: Pfadaufruf ok, Smoke dauert ≈ 40 min CPU.
 
 ## Nächste Schritte (Regel 20)
 

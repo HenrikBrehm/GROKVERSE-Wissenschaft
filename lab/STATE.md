@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-30, 00:44 Berlin (Ende Sitzung 54) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-30, 01:17 Berlin (Sitzung 55 läuft) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -26,20 +26,20 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 54 (ab 22:09):** **LM1-F bestätigt** (C̄ 0.882 [0.836, 0.918], 10/10, p = 1/1024; eigene Ziele weg → Median 0.048, fremde/Kontrollen → 0.98; Registrierung, FINDINGS, LAB, Tageserklärung); unabhängig nachgerechnet (identisch bis 2·10⁻⁸, 00:43) und in Anhang J eingesetzt (Absatz noch unabhängig prüfen). **Alle Anhänge logisch geprüft** ([[paper/logic_audit_S53_appA]] fertig, [[paper/logic_audit_S54_appB_E_G]] inkl. F/H): 1 echter Richtungsfehler (Anhang G, MLP M0/M0c), „R4 is pending“ veraltet, sonst Überdehnungen; Diff geprüft. P2f-Registrierung: Buchführungs-Nachtrag. **EXP-120** (Ein- vs. Ausgabeseite, ungekoppelt): vorab „unklar“, Eingabeseite trägt die volle Wirkung. **EXP-119** (R5 im LM): „constructed faster“ (q ≥ 3.15 / 2.61); Zufallssplit memorisiert gleich früh, bleibt bei ≈ 0.3 → Unterschied liegt nach der Memorisation (vorab formulierte Erklärung widerlegt). Beide in Anhang J (unabhängig geprüft). EXP-115-Lücken post hoc 25–300 (knapp „unklar“). **EXP-121** (flacher Zufallsarm Rf, Seeds 3950/3951) vorab festgelegt, als `37_exp121_flat_random.jobs` eingereiht. Zenodo-Liste um LM1-F-Skripte ergänzt. **Neu nach Mitternacht: Kommutativität vor dem Grokking** (N57): Im LM besteht das Plateau des Zufallssplits vollständig aus Kommutativität (0.99 gegen 0.03); **EXP-122** (Spielzeugmodell, 4 R4-Zufallssplits, vorab): „Kommutativität zuerst“ (bei halbem Weg 0.35–0.67 gegen ≤ 0.03); Nachtrag 1 (4 P2d-Läufe): „teilweise“ – konstruierte Splits ziehen die übrigen Paare früh mit. Code-Prüfung durch unabhängigen Agenten läuft/ist im JOURNAL. Anhang J hat den LM-Kommutativitätssatz; EXP-122 noch NICHT im Paper.
 
-## Aktive Queue / laufende Jobs (Stand Sitzung 54, 22:57 Berlin)
+- **Sitzung 55 (ab 00:49):** Anhang-J-Absätze (LM1-F, EXP-119, Kommutativität) unabhängig geprüft, 5 Formulierungen korrigiert. **EXP-121 „unklar“** (Lücken 570/223; flacher Zufallssplit verlässt das Kommutativitäts-Plateau, ohne Tauschpaar 0.68/0.98) → Anhang J (geprüft). Literatur N57: **He et al. 2026 (2602.16849)** kennt das Tauschpaar-Muster in Netzen mit eingebauter Kommutativität → Zitierpflicht; gelernte Stufe im Transformer + Datenauswahl-Stufe 2 nach Suche nicht gefunden. **EXP-123** vorab festgelegt (a07bc82f; 20 R5-Einheiten × R/E2_0/D_0, H1 Kommutativität zuerst, H2 Stufe 2 verkürzt) und beim Dienst; Deutungssätze vorab in [[paper/N57_DEUTUNGEN]].
 
-- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`. Offen: `37_exp121_flat_random` (0/2, wartet auf Speicher, 00:10) → `40_exp113_stage2b` (2/8) → `41_exp116_lowshare` (0/4). **PROBLEME.md nicht selbst bearbeiten**: Probleme ins JOURNAL.
-- **`lm_stage2.py` nicht ändern**, solange EXP-113/116/119 laufen (Hash in Run-IDs).
+## Aktive Queue / laufende Jobs (Stand Sitzung 55, 01:17 Berlin)
+
+- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `38_exp123_commutativity` (60 Läufe, 3 Worker, ≈ fertig 03:05) → `40_exp113_stage2b` (5/8 fertig, 2 laufen) → `41_exp116_lowshare` (1/4 fertig, 1 läuft; ≈ 1.7 h je Lauf). **PROBLEME.md nicht selbst bearbeiten**.
+- **`lm_stage2.py` nicht ändern**, solange EXP-113/116 laufen (Hash in Run-IDs).
 
 ## Nächste Schritte (Regel 20)
 
 0. Dienst-Lage prüfen (status.json, Logs).
-1. **Anhang-J-Absätze unabhängig prüfen lassen** (LM1-F-Bestätigung, eingesetzt 00:43; EXP-119-Kommutativitätssatz). Danach FINDINGS-Kernzeile für LM1-F formulieren.
-2. **EXP-121** auswerten: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-121-lm-flat-random-arm/analyze.py`; dann über LM2 entscheiden (BACKLOG „Sitzung 54: LM2 geschärft“). Danach in Anhang J (draft_short „Anhang K“) den Halbsatz „(a flat-count random arm is running, EXP-121)“ durch das Ergebnis ersetzen; Wang et al. 2024 ist dort schon zitiert (auch zu R5 in §4 erwägen).
-3. **EXP-116** (4/4) → `EXP-116…/analyze.py`; **EXP-113** (8/8) → `analyze.py`, `analyze_folgt.py`, danach `EXP-114…/analyze.py`. Deutungssätze vorab in LM1_DEUTUNGEN.
-4. **Paper:** alle Anhänge einmal logisch geprüft; offen nur Nutzerentscheidungen in [[paper/STATUS]] (Wortlaut „25–50 Schritte“, GROKVERSE-Studie, KI-Offenlegung). Nach jeder Textänderung Zahlen- UND Logikprüfung getrennt.
-5. LM2 erst nach EXP-121 und EXP-116 entscheiden (BACKLOG „Sitzung 54: LM2 geschärft“).
-6. **N57 Nachfolger** sauber festlegen (NOVEL_DIRECTIONS N57: gleiche Init-Seeds für Zufalls-/konstruierte Splits, ≥ 10 Seeds, dichte Zwischenstände mit `repro/train.py --save-model` und gestaffelten `--steps`); vorher Volltexte 2411.05353 und Nanda et al. 2023 auf Kommutativität prüfen. EXP-122 hat schon einen Nachtrag (höchstens zwei).
+1. **EXP-123 auswerten** (wenn 60/60): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-123-commutativity-stages/analyze.py`; dann den passenden Satz aus [[paper/N57_DEUTUNGEN]] als Anhangsabsatz (mit He et al. 2026) → unabhängig prüfen.
+2. **EXP-116** (4/4) → `EXP-116…/analyze.py`; **EXP-113** (8/8) → `analyze.py`, `analyze_folgt.py`, danach `EXP-114…/analyze.py`. Deutungssätze vorab in LM1_DEUTUNGEN.
+3. **LM2** nur als ein Block mit R, Rf und F/G bei gleichen Modell-Seeds („was hält R auf dem Plateau?“); gegen Regel 20 abwägen.
+4. **Paper:** offen nur Nutzerentscheidungen in [[paper/STATUS]]. Nach jeder Textänderung Zahlen- UND Logikprüfung.
 
 ## Prioritäten
 

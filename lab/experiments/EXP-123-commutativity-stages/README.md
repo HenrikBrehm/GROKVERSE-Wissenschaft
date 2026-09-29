@@ -27,6 +27,13 @@ Zurück: [[LAB]] · [[NOVEL_DIRECTIONS]] N57 · Pilot [[experiments/EXP-122-toy-
 
 **Nachtrag zur Offenlegung (01:32 gemessen, vor der Auswertung):** Zur Laufkontrolle habe ich während der Läufe (01:10–01:12) die Spuren von u0_R–u3_R angesehen (t_gen = R5, t_swap 700–5450, t_other 5075–6300, m 0.002–0.049). An Lesarten und Auswertung wurde danach nichts geändert (Einfrierpunkt a07bc82f). Unabhängige Code-Prüfung von swap_trace.py/analyze.py läuft blind (ohne raw/).
 
+**Klarstellungen vor der Auswertung (01:42 gemessen; nach blinder Code-Prüfung, Code bleibt eingefroren):**
+1. H1 „bestimmbar“ = t_swap beobachtet (so im Code). Einheiten ohne t_swap werden gezählt und getrennt berichtet; zusätzlich (sekundär, konservativ) der Vorzeichentest, der Einheiten mit t_other beobachtet und t_swap nicht als *negativ* zählt.
+2. Zensiertes t_other zählt als positiv, unabhängig vom Abstand zu 8000 (so im Code); Fälle mit t_swap > 7900 werden benannt.
+3. H2 bei n < 10 gilt als „nicht gestützt (n < 10)“, auch wenn das Skript dann „Richtung ja, unter Mindesteffekt“ ausgibt (Etikettfehler im Skript, Regel der README gilt).
+4. Die technische Kontrolle vergleicht die Gesamtgenauigkeit (netto ≤ 2 richtige Vorhersagen Unterschied), nicht einzelne Vorhersagen.
+5. Empfindlichkeit bei Schwellen 0.3 und 0.7 wird immer berichtet (post hoc).
+
 ## Ergebnis
 
 (noch nicht ausgeführt)

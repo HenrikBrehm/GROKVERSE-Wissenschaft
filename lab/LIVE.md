@@ -10,7 +10,7 @@ tags: [lab/live]
 
 ## Gerade
 
-- **Sitzung beendet (21:54).** Nächster geplanter Start laut Runner: 29.09. 23:04 Berlin. Der GPU-Dienst rechnet weiter: LM1-F (11/20 Modelle, Ende nach Schätzung ≈ 23:05), EXP-119, EXP-113-Rest, EXP-116.
+- **Sitzung beendet (22:03).** Nächster geplanter Start laut Runner: 29.09. 23:04 Berlin. Der GPU-Dienst rechnet weiter: LM1-F (11/20 Modelle, Ende nach Schätzung ≈ 23:05), EXP-119, EXP-113-Rest, EXP-116.
 - Heute Abend: **LM1 bestätigt** (Sprachmodell, 10/10 Seeds); eigene Deutungsfehler durch Logikprüfungen gefunden und korrigiert; R4-Reproduktion abgeschlossen.
 
 ## Als Nächstes

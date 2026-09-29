@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 01:23 Berlin (Sitzung 46 läuft, Deadline 03:49) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 03:03 Berlin (Sitzung 46, Deadline 03:49) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -11,30 +11,26 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Lage
 
-- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion (inkl. D₅₉; Nanda restricted/excluded 20/20 in allen vier Aufgaben, unabhängig nachgerechnet), K4–K4e, R2–R10, K5, **R11 neu (Sitzung 46): Festlegung 25–50 Schritte auch bei add 97 und mul 113, alle 6 bestätigt, nachgerechnet.**
-- **Abgeschlossen Sitzung 46:** EXP-101 (RFM) Tor nicht bestanden auch mit 60 Iterationen (0.63–0.88) → keine K2-Lesart in RFM. L0-Machbarkeit: B 256 keine Reihenfolge-Wirkung, B 64 knapp (Regel → `CONFLICT_B64 = True`), B 16 Netz lernt nicht (kein B16-Konfliktarm). SGD-Kalibrierung ohne Treffer → `SGD_DROPPED = True`. Vorab-Maskenvorhersage „unclear“.
-- **Paper:** [[paper/draft]] neu §3.16 (R10) und §3.17 (R11), §6-Grenze eingeschränkt. [[paper/draft_short]] noch ohne R11-Satz (nächster Schritt). Tägliche [[paper/erklaerung/ERKLAERUNG_2026-09-29]] fortgeschrieben.
+- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion (Nanda 20/20, nachgerechnet), K4–K4e, R2–R10, K5, **R11** (Festlegung auch add 97 / mul 113), **L0** (K2 unter i.i.d.-Minibatch B 256/64, 10 frische Seeds, eingefroren 26419818, nachgerechnet).
+- **Explorationen Sitzung 46:** EXP-100-Pilot (Reihenfolge wirkt bei B 256/64 nicht; SGD nicht kalibrierbar; B 16 lernt bei wd 1 nicht), Wechselläufe (unter B 256 keine Festlegung bis 50 Schritte), **EXP-106** (B 16, wd 0.1: Menge steuert; Reihenfolge verschiebt nur auf Zufallssplits, kostet auf konstruierten ×1.6 Zeit; nachgerechnet), **EXP-107** (unter B 256 Fenster bei 100–200 Schritten, t½ ≈ 133 = 8.9 Epochen; **nicht nachgerechnet**), EXP-101 (RFM ohne K2-Lesart).
+- **Paper:** Langfassung §3.16 (R10), §3.17 (R11); Kurzfassung §5 (R11), §6 mit L0-Pilot, Bestätigung, EXP-106/107, Grenzen angepasst. Abb. 4 aus echten Daten (Titel noch deutsch). Nicht jeder neue §6-Absatz ist unabhängig textgeprüft (nur R10/R11-Texte).
 
-## Aktive Queue / laufende Jobs (Stand 01:23)
+## Aktive Queue / laufende Jobs (Stand 03:03)
 
-- **L0-Pilot** ([[experiments/EXP-100-set-vs-order/README|EXP-100]], 128 Läufe, GPU): `jobs_part1.txt` (64) läuft mit 5 Workern seit 01:21 (Log /tmp/l0p1_pq.log → `lab/runner/logs/pq_*`); `jobs_part2.txt` (64) startet automatisch nach der B16-Sonde (Kette in einer Hintergrund-Bash). **Wiederaufnahme nach Sitzungsende:** gleiche Befehle `python lab/tools/parallel_queue.py lab/experiments/EXP-100-set-vs-order/jobs_partN.txt --workers 5` erneut (fertige Läufe werden übersprungen; `run.lock` ohne result prüfen). Ausgabe `raw/`, `raw_fb30k/`.
-- **B16-Sonde** (`b16probe.txt`, 18 Läufe, `raw_b16probe_v1..v3`): v1 (Wurzelregel) lernt nicht (Training 0.28–0.44); v2/v3 laufen. Lesart in der README (Zusatz B = 16-Sonde).
-- Keine CPU-Jobs.
+- **EXP-103** (Füllarbeit): `jobs.txt` Teil A (100 × 250 Schritte, 5 Worker) und `jobs_cross.txt` (Wiederholung des fehlenden Laufs, fertige werden übersprungen) laufen seit 03:01. Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-103-early-steering-curve/analyze.py` (A), dann `--cross` (B). Bei Abbruch: dieselben Queue-Befehle erneut.
 
 ## Nächste Schritte (Regel 20)
 
-1. L0-Pilot fertig → `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-100-set-vs-order/analyze.py` → Ergebnis in README/JOURNAL/FINDINGS; Deutung nur nach [[paper/L0_DEUTUNGEN]]. Unabhängige Nachrechnung (Agent).
-2. Danach `switch.txt` (64 Läufe, Wechsel bei 25/50 unter Minibatch) → `switch_analyze.py`.
-3. L0-Registrierung ([[confirm/L0_REGISTRATION_DRAFT|L0]], Seeds 3720–3799): n aus der Pilotstreuung (Power ≥ 80 %), Prüfung, Einfrieren, Block.
-4. B16-Sonde auswerten (README-Lesart); lernt eine Variante: eigener B16-Konfliktversuch neu festlegen (BACKLOG Sitzung 46).
-5. Paper: R11-Satz in [[paper/draft_short]] (Kernaussage 3), L0-Ergebnis, Zenodo-Pfade (7 Repro-Dateien mit absolutem Benutzerpfad).
-6. EXP-103 (Füllarbeit, niedrige Priorität): Teil B Job 24 erneut, Teil A (`jobs.txt`), Auswertung.
-7. Ab ≈ Fr 02.10.: Sprachmodell-Leiter (EXP-102 Stufe 1, Trainer ungetestet).
+1. **EXP-107 unabhängig nachrechnen** (Agent, numpy); dann N54b vorab festlegen: B-Reihe (z. B. B 64, 1024 + 256 Wiederholung), Vorhersage t½ ∝ √(N/B) gegen ∝ N/B, frische Seeds; Literatur zu „critical period / lock-in vs batch size / steps vs epochs“ suchen.
+2. **L0b registrieren** (Reihenfolge im Regime langer Epochen, B 16 / wd 0.1, Seeds aus 3730–3799): Kandidaten H3a (o-Verschiebung auf R > 0), H3b (keine Verschiebung auf F/G, Äquivalenzgrenze vorab), H3c (Zeitverlust auf F/G > 0); Power: `python lab/confirm/L0_power_s46.py --exp106` (Hinweis: dort k anpassen). Achtung: R-Wirkung hängt am Ausgangswert (3 Seeds mit hohem o(R-iid) ohne Wirkung).
+3. **Paper:** Textprüfung der neuen §6-Absätze (Agent gegen Quellen), Abb. 4 englischer Titel + SGD „not evaluable“, Abstract-Satz zu L0 (Minibatch bestätigt) und zur verschobenen Festlegung; Anhang-Struktur; Zenodo (k2.py-Pfad = Nutzerentscheidung).
+4. EXP-103 auswerten (siehe oben).
+5. Ab ≈ Fr 02.10.: Sprachmodell-Leiter (EXP-102 Stufe 1, Trainer ungetestet).
 
 ## Prioritäten
 
-1. **L0** (Pilot läuft) → Registrierung → Bestätigung.
-2. **Paper** ≤ 8 Seiten (R11 in Kernaussage 3, L0), Zenodo-Paket; tägliche ERKLAERUNG.
+1. **Paper** (Regel 20d, Ziel Do 01.10.): L0 ist bestätigt → §6/Abstract fertigstellen, Textprüfung.
+2. **N54b / L0b** (Minibatch-Uhr der Festlegung; Reihenfolge bei langen Epochen) — beide als saubere Registrierungen.
 3. Mechanismus-Versuche (EXP-096–099) ruhen (Regel 20a).
 
 ## Blocker / Hinweise

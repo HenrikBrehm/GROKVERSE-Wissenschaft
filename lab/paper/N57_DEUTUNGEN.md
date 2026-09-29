@@ -8,9 +8,9 @@ tags: [paper, neu/kandidat]
 
 Zurück: [[LAB]] · [[experiments/EXP-123-commutativity-stages/README|EXP-123]] · [[NOVEL_DIRECTIONS]] N57 · [[paper/STATUS]]
 
-Zweck: Der Anhangstext zu EXP-122/123 wird aus genau einem dieser Sätze gebaut, je nach vorab festgelegtem Ausgang. Keine Kernaussage (Regel 20a); höchstens ein Anhangsabsatz („exploration, pre-set readings, R5 units whose generalization times were known“). Pflichtzitat: He et al. 2026 (arXiv 2602.16849), weil dort dasselbe Muster in einem Netz mit eingebauter Kommutativität (Eingabe h_x + h_y) beschrieben ist.
+Zweck: Der Anhangstext zu EXP-122/123 wird aus genau einem dieser Sätze gebaut, je nach vorab festgelegtem Ausgang. Keine Kernaussage (Regel 20a); höchstens ein Anhangsabsatz („exploration, pre-set readings, R5 units whose generalization times were known“). Pflichtzitat: He et al. 2026a (arXiv 2602.16849; im Paper schon zitiert, bisher nur zur Init-Lotterie), weil dort dasselbe Muster in einem Netz mit eingebauter Kommutativität (Eingabe h_x + h_y) beschrieben ist.
 
-**H1 gestützt:** "On the random splits of the R5 units, held-out pairs whose mirrored pair (b, a) was trained reached accuracy 0.5 before the other held-out pairs in k of n units (pre-set: at least 100 steps earlier), so in this transformer, whose input does not build commutativity in, the test accuracy before grokking is first carried by the learned symmetry a + b = b + a; He et al. (2026) describe the same pattern in a network whose input sum makes it commutative by construction."
+**H1 gestützt:** "On the random splits of the R5 units, held-out pairs whose mirrored pair (b, a) was trained reached accuracy 0.5 before the other held-out pairs in k of n units (pre-set: at least 100 steps earlier), so in this transformer, whose input does not build commutativity in, the test accuracy before grokking is first carried by the learned symmetry a + b = b + a; He et al. (2026a) describe the same pattern in a network whose input sum makes it commutative by construction."
 
 **H1 nicht gestützt:** "Unlike in the four pilot runs (EXP-122), the mirrored pairs did not reliably lead (k of n units), so a commutativity stage is not a general feature of grokking on random splits in this setup."
 

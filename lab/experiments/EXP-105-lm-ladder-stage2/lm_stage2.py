@@ -15,7 +15,9 @@ Streams (numpy SeedSequence [105, seed, k]): k=1 text/insert offsets, k=2 fact o
 Model: decoder-only pre-LN transformer, tied embeddings, learned positions; defaults 6 layers, d 384, 6 heads, ctx 256
 (~13.8 M parameters; vocab 8192 including the specials). AdamW (betas 0.9/0.95), linear warmup then constant lr, wd on matrices only.
 Loss: next-token cross-entropy on every position (a real LM; stage 1 showed that the loss on the b position delays
-grokking by > x10, EXP-102).
+grokking by > x10, EXP-102). Session 49 (EXP-113, stage 2b): --loss answer keeps the loss on all text positions but, inside
+the arithmetic blocks, only on the answer tokens c; --arith-facts K sets the sentences per sequence (default 2 = EXP-105).
+Default options compute exactly as before (the run id changes only through the script hash).
 Measures (every EVAL_EVERY steps): W_E rows of the 113 number tokens (snapshot), accuracy on held-out facts (complement
 of the split or --test-file; prompt T0 without the answer, argmax over the 113 number tokens), accuracy on 2000 train
 facts, text loss on a fixed validation batch.
@@ -99,8 +101,9 @@ def special_ids(tok) -> dict:
 class Stream:
     """Deterministic training batches: text + one arithmetic block per sequence; state is a small dict (checkpointable)."""
 
-    def __init__(self, text: np.ndarray, facts: np.ndarray, tmpl_ids: list[list[list[int]]], nl: int, eot: int, seed: int, ctx: int):
-        self.text, self.facts, self.tmpl, self.nl, self.eot, self.ctx = text, facts, tmpl_ids, nl, eot, ctx
+    def __init__(self, text: np.ndarray, facts: np.ndarray, tmpl_ids: list[list[list[int]]], nl: int, eot: int, seed: int, ctx: int,
+                 k_facts: int = ARITH_FACTS):
+        self.text, self.facts, self.tmpl, self.nl, self.eot, self.ctx, self.k = text, facts, tmpl_ids, nl, eot, ctx, k_facts
         self.g_text, self.g_fact, self.g_tmpl = (np.random.default_rng(np.random.SeedSequence([105, seed, k])) for k in (1, 2, 3))
         self.text_pos, self.fact_pos, self.order, self.rounds = 0, 0, self.g_fact.permutation(len(facts)), 0
         self.n_tok, self.n_arith, self.wraps = 0, 0, 0
@@ -112,14 +115,18 @@ class Stream:
         self.fact_pos += 1
         return f
 
-    def sequence(self) -> np.ndarray:
-        block = [self.eot]
-        for i in range(ARITH_FACTS):
+    def sequence(self, keep_out: list | None = None) -> np.ndarray:
+        """One training sequence. With keep_out (a list), appends the EXP-113 answer-loss mask over the ctx targets: True on
+        text targets and on the answer tokens c, False on every other target inside the arithmetic block."""
+        block, c_idx = [self.eot], []
+        for i in range(self.k):
             f = self.next_fact()
             a, b = divmod(f, P)
             parts = self.tmpl[int(self.g_tmpl.integers(len(self.tmpl)))]
-            block += (parts[0] + [NUM_ID[a]] + parts[1] + [NUM_ID[b]] + parts[2] + [NUM_ID[(a + b) % P]] + parts[3])
-            block.append(self.nl if i < ARITH_FACTS - 1 else self.eot)
+            block += parts[0] + [NUM_ID[a]] + parts[1] + [NUM_ID[b]] + parts[2]
+            c_idx.append(len(block))
+            block += [NUM_ID[(a + b) % P]] + parts[3]
+            block.append(self.nl if i < self.k - 1 else self.eot)
         n_text = self.ctx + 1 - len(block)
         if self.text_pos + n_text > len(self.text):
             self.text_pos, self.wraps = 0, self.wraps + 1                # budget should avoid it
@@ -129,10 +136,15 @@ class Stream:
         seq = np.concatenate([t[:cut], np.asarray(block, np.int64), t[cut:]])
         self.n_tok += len(seq)
         self.n_arith += len(block)
+        if keep_out is not None:
+            keep = np.ones(len(seq), bool)                               # over sequence positions; targets are seq[1:]
+            keep[cut:cut + len(block)] = False
+            keep[[cut + j for j in c_idx]] = True
+            keep_out.append(keep[1:])
         return seq
 
-    def batch(self, bs: int) -> np.ndarray:
-        return np.stack([self.sequence() for _ in range(bs)])
+    def batch(self, bs: int, keep_out: list | None = None) -> np.ndarray:
+        return np.stack([self.sequence(keep_out) for _ in range(bs)])
 
     def state(self) -> dict:
         return {"text_pos": self.text_pos, "fact_pos": self.fact_pos, "order": self.order.tolist(), "rounds": self.rounds,
@@ -227,8 +239,11 @@ def run(a: argparse.Namespace) -> dict:
     sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()   # noqa: E731
     cfg = {"seed": a.seed, "split_sha256": sha(split), "test_sha256": sha(a.test_file) if a.test_file else "complement",
            "steps": a.steps, "batch": a.batch, "ctx": a.ctx, "d": a.d, "layers": a.layers, "heads": a.heads, "lr": a.lr,
-           "warmup": a.warmup, "wd": a.wd, "arith_facts": ARITH_FACTS, "templates": TEMPLATES, "tokenizer_sha256": sha(TOK_FILE),
+           "warmup": a.warmup, "wd": a.wd, "arith_facts": getattr(a, "arith_facts", ARITH_FACTS), "templates": TEMPLATES, "tokenizer_sha256": sha(TOK_FILE),
            "text_tokens": int(len(text)), "script_sha256": sha(__file__), "device": a.device}
+    loss_mode = getattr(a, "loss", "all")
+    if loss_mode != "all":                                               # EXP-113; absent for the default (EXP-105 config keys)
+        cfg["loss"] = loss_mode
     chash = hashlib.sha256(json.dumps(cfg, sort_keys=True).encode()).hexdigest()[:16]
     run_id = f"lm2_seed{a.seed}_{split.stem}_steps{a.steps}_{chash}"
     out = Path(a.out_root) / run_id
@@ -244,7 +259,7 @@ def run(a: argparse.Namespace) -> dict:
     no_decay = [p for n, p in model.named_parameters() if p.dim() < 2]
     opt = torch.optim.AdamW([{"params": decay, "weight_decay": a.wd}, {"params": no_decay, "weight_decay": 0.0}],
                             lr=a.lr, betas=(0.9, 0.95))
-    stream = Stream(text, facts, template_parts(tok), tok.token_to_id("Ċ"), ids["eot"], a.seed, a.ctx)
+    stream = Stream(text, facts, template_parts(tok), tok.token_to_id("Ċ"), ids["eot"], a.seed, a.ctx, cfg["arith_facts"])
     num = torch.tensor(NUM_ID, device=dev)
     rng_eval = np.random.default_rng(np.random.SeedSequence([105, a.seed, 5]))
     tr_eval = facts[rng_eval.choice(len(facts), min(2000, len(facts)), replace=False)]
@@ -276,9 +291,9 @@ def run(a: argparse.Namespace) -> dict:
         assert s["config_hash"] == chash, "checkpoint from another configuration"
         model.load_state_dict(s["model"])
         opt.load_state_dict(s["opt"])
-        torch.set_rng_state(s["torch_rng"])
+        torch.set_rng_state(s["torch_rng"].cpu())                        # s49: map_location moved the ByteTensor to the GPU
         if dev.type == "cuda" and s.get("cuda_rng") is not None:
-            torch.cuda.set_rng_state(s["cuda_rng"], dev)
+            torch.cuda.set_rng_state(s["cuda_rng"].cpu(), dev)
         stream.load(s["stream"])
         step, curve, snaps, snap_steps, events = s["step"], s["curve"], list(s["snaps"]), s["snap_steps"], s["events"]
         print(f"resume {run_id} at step {step}")
@@ -306,8 +321,14 @@ def run(a: argparse.Namespace) -> dict:
         step += 1
         for gr in opt.param_groups:
             gr["lr"] = a.lr * min(1.0, step / a.warmup)
-        xb = torch.from_numpy(stream.batch(a.batch)).to(dev)
-        loss = F.cross_entropy(model(xb[:, :-1]).flatten(0, 1), xb[:, 1:].flatten())
+        if loss_mode == "answer":
+            keep = []
+            xb = torch.from_numpy(stream.batch(a.batch, keep)).to(dev)
+            per = F.cross_entropy(model(xb[:, :-1]).flatten(0, 1), xb[:, 1:].flatten(), reduction="none")
+            loss = per[torch.from_numpy(np.stack(keep).reshape(-1)).to(dev)].mean()
+        else:
+            xb = torch.from_numpy(stream.batch(a.batch)).to(dev)
+            loss = F.cross_entropy(model(xb[:, :-1]).flatten(0, 1), xb[:, 1:].flatten())
         opt.zero_grad(set_to_none=True)
         loss.backward()
         opt.step()
@@ -382,11 +403,11 @@ def selftest(device: str) -> None:
     orig = Stream.batch
     calls = {"n": 0}
 
-    def stopping(self, bs):
+    def stopping(self, bs, *rest):
         calls["n"] += 1
         if calls["n"] == 26:
             raise KeyboardInterrupt
-        return orig(self, bs)
+        return orig(self, bs, *rest)
     Stream.batch = stopping
     try:
         run(ns)
@@ -402,6 +423,22 @@ def selftest(device: str) -> None:
     print(f"resume bit-identical: {same}; curves equal: {r1['curve'] == r2['curve']}; arith share {r1['arith_token_share']:.3f}")
     assert same and r1["curve"] == r2["curve"]
     assert pid_alive(os.getpid()) and not pid_alive(4_000_000_000 // 4 * 4 - 4), "pid_alive check"   # a PID that cannot exist
+    # (3) s49, EXP-113: answer-loss mask keeps every text target and exactly the answer tokens of the block; a short run works
+    from tokenizers import Tokenizer
+    tok = Tokenizer.from_file(str(TOK_FILE))
+    ids, parts = special_ids(tok), template_parts(tok)
+    filler = VOCAB_BPE - 1
+    assert all(filler not in piece for tp in parts for piece in tp)
+    st = Stream(np.full(5000, filler, np.uint16), np.load(split), parts, tok.token_to_id("Ċ"), ids["eot"], 1, 64, 3)
+    keep = []
+    seq = st.sequence(keep)
+    k, tgt = keep[0], seq[1:]
+    isnum = np.isin(tgt, ids["num"])
+    assert k[tgt == filler].all() and isnum.sum() == 9 and (k & isnum).sum() == 3 and (~k).sum() > 0, (k.sum(), isnum.sum())
+    assert all(int(tgt[j]) in ids["num"] for j in np.flatnonzero(k & (tgt != filler))), "kept block target that is not an answer"
+    r3 = run(argparse.Namespace(**base, steps=10, out_root=str(tmp / "c"), loss="answer", arith_facts=4))
+    assert r3["status"] == "completed" and r3["config"]["loss"] == "answer" and r3["config"]["arith_facts"] == 4
+    print(f"answer-loss mask ok (kept {int(k.sum())}/{len(k)} targets); answer-loss run ok")
     shutil.rmtree(tmp)
     print("selftest ok")
 
@@ -424,6 +461,8 @@ def main() -> None:
     ap.add_argument("--wd", type=float, default=0.1)
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--out-root", default=str(HERE / "raw"))
+    ap.add_argument("--arith-facts", type=int, default=ARITH_FACTS, help="EXP-113: arithmetic sentences per sequence")
+    ap.add_argument("--loss", choices=("all", "answer"), default="all", help="EXP-113: 'answer' = no loss on a, b, templates")
     a = ap.parse_args()
     if a.prepare:
         prepare()

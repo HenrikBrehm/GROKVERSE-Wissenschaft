@@ -20,7 +20,13 @@ INCLUDE = ("lab/paper/draft_short.md", "lab/paper/draft.md", "lab/paper/related_
            "lab/paper/repro/README.md", "lab/paper/figures/*", "lab/confirm/*REGISTRATION*.md", "lab/confirm/*_manifest.json",
            "lab/confirm/*_summary.json", "lab/confirm/*_splits/*", "lab/confirm/splits/*", "lab/tools/confirm_*.py",
            "lab/tools/bound_block.py", "lab/tools/result_loader.py", "lab/tools/trainer_guard.py", "lab/tools/paket_a_device.py",
-           "lab/experiments/EXP-001-freq-ban/freq_ban.py", "training/grokverse/*.py", "training/grokverse/*/*.py", "lab/FINDINGS.md")
+           "lab/experiments/EXP-001-freq-ban/freq_ban.py", "training/grokverse/*.py", "training/grokverse/*/*.py", "lab/FINDINGS.md",
+           # s49: experiment modules the confirm_* tools and repro scripts import (split construction, group power, ablations)
+           "lab/experiments/EXP-043-generalize-steering/analyze.py", "lab/experiments/EXP-043-generalize-steering/make_split.py",
+           "lab/experiments/EXP-046-dihedral-steering/dihedral.py", "lab/experiments/EXP-046-dihedral-steering/group_train.py",
+           "lab/experiments/EXP-046-dihedral-steering/make_split.py", "lab/experiments/EXP-051-functional-ablation/analyze.py",
+           "lab/experiments/EXP-053-p3-overlap-design/overlap_split.py",
+           "lab/experiments/EXP-053-p3-overlap-design/calibration.json", "lab/experiments/EXP-055-ablation-dose/analyze.py")
 EXCLUDE = ("*/__pycache__/*", "lab/runner/*", "lab/external/*", "*_raw/*", "*/raw/*", "lab/paper/repro/out/*", "lab/paper/outreach/*")
 
 

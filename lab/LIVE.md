@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 14:10 Berlin (12:10Z, vom Runner)
 - **Deadline:** 2026-09-29 17:09 Berlin (15:09Z)
-- **Zuletzt aktualisiert:** 16:01 Berlin
+- **Zuletzt aktualisiert:** 16:43 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Hinweis (14:37): wird behoben
@@ -14,16 +14,15 @@ Die Start-Blockade durch die Speicherzusage (P-013) hat der Nutzer-Assistent erk
 
 ## Gerade
 
-- **EXP-118 fertig: Die gesteuerten Frequenzen tragen im kleinen Sprachmodell die Rechnung.** Entfernt man sie, fällt die Genauigkeit auf ungesehenen Fakten von 0.95–0.99 auf 0.03–0.30; fremde Frequenzen zu entfernen schadet nicht (4/4 Modelle, Exploration).
-- **LM1-F eingefroren:** dieselbe Prüfung an den 10 neuen LM1-Seeds, vorab festgelegt (Auswertung nach LM1).
-- **EXP-115 „unklar“:** Mit exakt gleich häufigen Zahlen steuert das Modell in einem Seed deutlich, im anderen knapp nicht; in beiden fällt die Steuerung nach einem Gipfel wieder.
+- **Sitzung beendet (16:43).** Nächster geplanter Start laut Runner: 29.09. 17:44 Berlin (15:44Z). Der GPU-Dienst rechnet weiter: LM1 (5/20 fertig), EXP-117, R4-Repro, danach EXP-113-Rest und EXP-116.
 
 ## Als Nächstes
 
-Stand sichern, Abschlussbericht (Deadline 17:09). LM1 rechnet weiter (≈ 4/20 fertig), danach LM1 → LM1-F → EXP-117 → EXP-116.
+LM1 auswerten, sobald 20/20 fertig → unabhängige Nachrechnung → LM1-F (Funktion, eingefroren) → EXP-117/EXP-116/EXP-113.
 
 ## Verlauf dieser Sitzung
 
+- 16:43 Sitzungsende; Ablation an Modellen mit flachen Häufigkeiten: Seed 3850 „funktional“, 3851 „unklar“.
 - 16:01 EXP-115 ausgewertet („unklar“); LM1-F eingefroren (bfdab8d8).
 - 15:45 EXP-118: „Ziele funktional“ (4/4).
 - 15:26 EXP-118 festgelegt und gestartet (Ablation im Sprachmodell, kein Training).

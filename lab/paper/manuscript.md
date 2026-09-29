@@ -1,3 +1,10 @@
+---
+id: paper-manuscript
+status: generiert
+tags: [lab/paper]
+verwandt: ["[[paper/draft_short]]", "[[paper/STATUS]]"]
+---
+
 # Training-set composition steers and locks in the Fourier features of grokking transformers
 
 *Authors: to be decided by the user (see paper/STATUS, 'Offen für den Nutzer').*

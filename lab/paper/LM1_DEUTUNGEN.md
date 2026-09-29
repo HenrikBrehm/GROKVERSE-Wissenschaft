@@ -37,3 +37,10 @@ Zweck wie [[paper/L0_DEUTUNGEN]]: Die Deutung jedes Ausgangs steht fest, bevor d
 - **„nur Repraesentation“:** *The embedding was steered although held-out facts stayed near chance (exploration).*
 - **„nicht gelernt (Budget)“:** *At about 9 % arithmetic tokens the model did not learn the facts within 16 000 steps, so steering could not be assessed.* Keine Aussage über K2; Hinweis auf die Faktenzahl-Tendenz (Journal S51, Zyklus 7).
 - **„unklar“:** *inconclusive at this budget.*
+
+## Nachtrag (Sitzung 52, 19:09 gemessen, vor jedem EXP-119-Lauf): EXP-119 (R5 im LM, 2 Seeds, Exploration)
+
+- **„constructed faster“:** *In the small language model (exploration, 2 seeds), held-out facts from engineered splits reached accuracy 0.5 earlier than from a uniform random split of the same size (ratio q = … and …). Because the language model learns training and held-out facts almost together, this is a shift of the learning onset itself, not a shorter grokking delay as in the toy model; the engineered splits also carry the targets in the number counts, so a count effect is not excluded.*
+- **„no advantage“:** *In the small language model the random split was learned as early as the engineered splits (q = … and …; exploration). The speed-up of Result 2 is therefore tied to the grokking regime of the toy model and was not seen in a language model that learns without a grokking delay.* → als Grenze in §7 bzw. Anhang (LM), nicht verschweigen.
+- **„unclear“ / „not learned (budget)“:** nur *inconclusive (exploration)*; keine Richtung ableiten.
+- **ρ (Maskenspektrum ↔ Zahl-Zeilen) je Arm:** nur beschreibend nennen; ein positives ρ beim Zufallssplit R wäre ein Hinweis, dass auch im LM ein gewöhnlicher Split die Frequenzen mitprägt (R4-Analogon), mit 2 Seeds kein Befund.

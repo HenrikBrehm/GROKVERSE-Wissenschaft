@@ -1,8 +1,8 @@
 ---
 id: EXP-115
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/vorbereitet, lm-leiter]
+tags: [exp/abgeschlossen, befund/unklar, lm-leiter]
 ---
 # EXP-115: Steuert im LM die Paarstruktur allein, ohne Häufigkeitsunterschiede der Zahlen? (Pilot, 2 Seeds)
 
@@ -19,3 +19,8 @@ Zurück: [[LAB]] · [[FINDINGS]] · [[confirm/LM1_REGISTRATION|LM1]] · Pilot [[
 - **Budget:** 4 Läufe à 4000 Schritte, ≈ 40–55 min je Lauf unter Last; harte Grenze 180 min.
 - **Bereits gesehene Daten:** EXP-104 (dieselben Splits im Spielzeugmodell: steuern und generalisieren bei m = 500), EXP-114, EXP-113-Zwischenblick. Davon beeinflusst: Wahl m = 500 (m = 0/10 generalisierten im Spielzeugmodell nicht in beiden Seeds).
 - **Befehl Auswertung:** `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-105-lm-ladder-stage2/analyze_pilot.py --root lab/experiments/EXP-115-lm-flat-marginals/raw --pairs 3950:lab/experiments/EXP-104-flat-marginal-splits/splits/s3850_F_m500.npy,lab/experiments/EXP-104-flat-marginal-splits/splits/s3850_G_m500.npy 3951:lab/experiments/EXP-104-flat-marginal-splits/splits/s3851_F_m500.npy,lab/experiments/EXP-104-flat-marginal-splits/splits/s3851_G_m500.npy`. Hinweis: dessen eingebaute Lesarten gelten für EXP-105; hier zählen die Lesarten oben (Tor 0.5 in ≥ 3/4, „Paarstruktur reicht“ = Δ_pow > 1 in beiden Seeds).
+
+## Ergebnis (Sitzung 51, 16:00 Berlin gemessen; Exploration, 2 Seeds)
+
+Alle 4 Läufe fehlerfrei (Dienst; 1319 / 990 / 1636 / 1661 s). Tor bestanden (zurückgehaltene Fakten 0.896 / 0.982 und 0.633 / 0.976 für F / G; Trainingsfakten 0.96–1.00). Δ_pow bei 4000: **4.35** (Seed 3950) und **0.96** (Seed 3951) → vorab-Lesart **„unklar“** (weder beide > 1 noch beide ≤ 1). Beschreibend: Verlauf 3950: 0.09 (1500) → 2.94 (2000) → **5.23 (2500)** → 4.35 (4000); 3951: 0.06 → 1.01 → **1.83 (2500)** → 0.96. In beiden Seeds setzt die Steuerung wieder mit dem Faktenlernen ein (≈ 2000) und **fällt nach einem Gipfel bei 2500 wieder ab** (bei P1-Splits in EXP-114 stieg sie bis 4000 weiter). Beim schwächeren Seed hat der F-Lauf nicht generalisiert (0.63).
+**Einordnung:** Mit exakt flachen Zahl-Häufigkeiten kann die Paarstruktur allein das LM steuern (Seed 3950, Δ_pow bis 5.2), aber nicht verlässlich und nicht dauerhaft in diesem Budget. Der Rückgang nach dem Gipfel ist eine neue, unerklärte Beobachtung (2 Seeds). Mögliche Lesarten, nicht geprüft: Die Häufigkeitsstruktur der P1-Splits stabilisiert die Zielfrequenzen im gebundenen Embedding, oder das LM ersetzt nach dem Generalisieren einen Teil der Zielenergie. **Nicht gezeigt:** kein Urteil „Paarstruktur reicht“ oder „braucht Häufigkeiten“. Für LM1 heißt das: Ein positives LM1-Ergebnis darf nicht als reiner Paarstruktur-Effekt gedeutet werden ([[paper/LM1_DEUTUNGEN]]: bei „unklar“ nur „inconclusive at this budget“).

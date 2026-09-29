@@ -4956,3 +4956,5 @@ Lesart vor dem Rechnen (je Seed und m, über die gemeinsamen Schritte beider Arm
 **Zyklus 11, Abschluss (22:03 gemessen):** Diff-Prüfung der C/D-Änderungen (unabhängiger Agent): keine Probleme; auf seinen Hinweis die Zensierung auch für R8 im Anhang ergänzt (A→B 20/25, B→A 15/25, Gleichziel je 24/25 bis 2000 generalisiert; Zahlen wie im Haupttext).
 
 **Zyklus 12 (22:05 gemessen): Logikprüfung Anhang A (unabhängiger Agent).** 4 Punkte + 1 Querverweis (u. a. R2: „lower bound“ trotz Zensierung in beiden Armen – falls richtig, stammt der Fehler aus der Registrierung selbst). Wegen der Deadline nicht mehr selbst geprüft → [[paper/logic_audit_S53_appA]] für die nächste Sitzung.
+
+**Zyklus 12, Nachtrag (22:06 gemessen):** Anhang-A-Punkt 3 selbst nachgezählt (R2-Rohdaten, Logik von R2_time.py): von 11 bei @50 zensierten Läufen haben 10 einen zensierten @25-Partner, 1 nicht → „lower bound“ nicht streng. Anhang A korrigiert, Nachtrag in der R2-Registrierung. Die übrigen A-Punkte bleiben für die nächste Sitzung.

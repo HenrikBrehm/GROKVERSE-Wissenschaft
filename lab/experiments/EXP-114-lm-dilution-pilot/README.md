@@ -1,8 +1,8 @@
 ---
 id: EXP-114
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/vorbereitet, lm-leiter]
+tags: [exp/abgeschlossen, befund/negativ, lm-leiter]
 ---
 # EXP-114: Fehlt die frühe Steuerung im LM wegen der Verdünnung durch Text? (Pilot, 1 Seed)
 
@@ -21,3 +21,11 @@ Zurück: [[LAB]] · [[FINDINGS]] · [[BACKLOG]] (Sitzung 50) · Anlass [[experim
 - **Budget/Abbruch:** ≈ 0.3 s/Schritt unter Last → ≈ 20–25 min je Lauf; harte Grenze 120 min (Dienst). Abbruch bei NaN (Trainer) oder Absturz.
 - **Bereits gesehene Daten:** EXP-113 `answer` Seed 3862 bis Schritt 4000 (Δ_pow ≈ 0), EXP-105-Pilot, EXP-102/103, R1. Davon beeinflusst: die Frage selbst und die Wahl K = 19.
 - **Auswertung:** `analyze.py` (vor dem Ergebnis geschrieben), liest die fertigen Läufe von EXP-114 und die Snapshots von EXP-113 (`answer`, Seed 3862; braucht dessen fertige Läufe).
+
+
+## Ergebnis (Sitzung 50, 12:28 Berlin gemessen; Exploration, 1 Seed)
+
+Beide Läufe fehlerfrei (Dienst, 2132 s / 2292 s). Beide lernen die Fakten und generalisieren: Trainingsfakten 1.000 / 1.000, zurückgehaltene Fakten **0.983 / 0.991** bei 4000 Schritten, Generalisierung (≥ 0.95) bei Schritt 3000 in beiden. Δ_pow (Snapshots alle 250 Schritte): ≤ 0.03 bis 1250, 0.12 bei 1500, 0.70 bei 1750 (Trainingsfakten 0.030 / 0.033), **3.62 bei 2000** (Trainingsfakten 0.80 / 0.70), danach langsam steigend bis **5.60 bei 4000**. s_learn = s_steer = 2000.
+**Lesart (vorab-Regel):** Die K-19-Hälfte der Regel entscheidet allein: Δ_pow > 1 wird nicht vor dem Faktenlernen erreicht (s_steer = s_learn), und vor s_learn bleibt Δ_pow ≤ 1 (Maximum 0.70) → **„Verdünnung nicht gestützt“**. Der Vergleich bei gleicher Faktenzahl mit EXP-113 (K = 8) wird mit `analyze.py` nachgereicht, sobald EXP-113 fertig ist; er kann die Lesart nicht mehr zu „gestützt“ machen.
+**Beschreibend, wichtig für die Leiter:** (1) Auch mit ≈ 79 % Rechen-Tokens kommt die Steuerung erst mit dem Faktenlernen (innerhalb der 250-Schritt-Auflösung gleichzeitig; ein kleiner Anstieg auf 0.70 liegt kurz davor), anders als im Spielzeugmodell, wo Δ_pow ≈ 3 schon bei Schritt 250 erreicht ist. Die Verdünnung durch Text erklärt den Unterschied also nicht. (2) **Wenn das LM die Fakten lernt, steuert die Faktenauswahl die Zahl-Embeddings deutlich** (Δ_pow 5.60 bei 4000, zurückgehaltene Fakten ≈ 0.98): die erste Stufe-2-Konfiguration, in der K2 in einem kleinen LM sichtbar wird (1 Seed, bekannte Splits, Exploration). (3) Mit weniger Text lernte das Modell die Fakten nach ≈ 1.2 Mio. gezeigten Fakten (≈ 317 Runden je Fakt); EXP-113 (K = 8) hatte bei Schritt 6500 schon ≈ 1.7 Mio. gezeigt und noch nicht gelernt: mit mehr Text lernte dieses Modell langsamer je gezeigtem Fakt (Vergleich zweier Konfigurationen an 1 Seed, die sich auch in Fakten je Schritt unterscheiden; keine Ursachenaussage).
+**Nicht gezeigt:** keine Aussage über andere Seeds, über den Arm mit Verlust auf allen Positionen oder über kleinere Rechenanteile; die Ursache des späten Einsetzens der Steuerung bleibt offen (Kandidaten: Tiefe, Warmup, Minibatch-Struktur, Wechselwirkung mit dem Faktenlernen selbst).

@@ -5,18 +5,31 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 03:29 Berlin (01:29Z, vom Runner)
 - **Deadline:** 2026-09-29 06:29 Berlin (04:29Z)
-- **Zuletzt aktualisiert:** 03:46 Berlin
+- **Zuletzt aktualisiert:** 04:57 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-Letzte Prüfung der geänderten Registrierung N54b (H1: Wurzel-Uhr bei lr 1e-3; H2: die doppelte Lernrate beschleunigt bei kleinen Batches weniger). Danach einfrieren und 840 Läufe starten (≈ 65 min GPU).
+**Sprachmodell-Leiter, Stufe 1 (EXP-102) läuft:** 200 Läufe, 10 GPU-Worker (Start 04:55). Frage: Hält die Steuerung durch die Trainingsmenge, wenn die Rechnung als Text-Sequenz mit Sprachmodell-Eigenschaften trainiert wird? Nebenher: Paper-Text zu N54b wird unabhängig geprüft.
 
 ## Als Nächstes
 
-Einfrieren, Smoke, Block starten; währenddessen Paper und Tageserklärung.
+Leiter auswerten (Lesarten vorab festgelegt); Paper-Korrekturen; Abschlussbericht vor 06:19.
 
 ## Verlauf dieser Sitzung
+
+- 04:55 Leiter-Trainer bitgleich zum bisherigen Trainer → Pilot EXP-102 gestartet.
+- 04:53 Modellvergleich: „Drift + etwa zwei Durchgänge durch die Daten“ beschreibt die Festlegungszeit am besten (nachträglich, Hypothese).
+- 04:51 **N54b BESTÄTIGT (10 neue Netze, eingefroren, nachgerechnet):** Festlegungszeit wächst etwa mit √(Schritte pro Durchgang) (α = 0.58); doppelte Lernrate hilft bei kleinen Päckchen weniger (Δα = +0.14, 10/10).
+
+- 04:15 Paper: §6 um die Batch-Reihe (Wurzel-Uhr, Exploration) ergänzt; Literatur eingetragen. Sprachmodell-Leiter: Selbsttests bestanden, Gleichwertigkeitsprüfung vorbereitet.
+
+- 04:10 Modellvergleich für die N54b-Daten vorab festgelegt (reine Sign-Drift / Drift + Diffusion / frei).
+- 04:09 Repro-Smoke abgebrochen: CPU-Lauf neben 10 GPU-Prozessen überlastete die Kerne (Pfad-Aufruf selbst funktioniert).
+- 04:08 Paper: §3.18 und EXP-103-Satz nach Quellenprüfung korrigiert (keine Zahlenfehler).
+- 04:06 Nachträglich: Festlegung liegt immer bei ≈ ¼ der Zeit bis 50 % Trainingsgenauigkeit, also vor der Memorisierung; Lesart „unklar“.
+
+- 03:49 **N54b eingefroren** (624c2213) und gestartet; Smoke ok.
 
 - 03:46 **EXP-109:** doppelte Lernrate halbiert die Festlegungszeit bei großen Batches (1024: 31 statt 62 Schritte), bei B 64 nur ×0.75 → Registrierung umgestellt (H2: gepaarte Exponent-Differenz > 0).
 

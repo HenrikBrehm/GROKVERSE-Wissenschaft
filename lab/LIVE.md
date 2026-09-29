@@ -5,23 +5,25 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 22:09 Berlin (20:09Z, vom Runner)
 - **Deadline:** 2026-09-30 01:09 Berlin (23:09Z)
-- **Zuletzt aktualisiert:** 23:33 Berlin
+- **Zuletzt aktualisiert:** 00:09 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- Zenodo-Paket: LM1-F-Skripte ergänzt, Trockenlauf läuft. Dienst: EXP-113-Rest, EXP-116, LM1-F-Nachrechnung (5/20); EXP-121 wartet auf Grafikspeicher.
+- Ein unabhängiger Agent prüft den Code der Kommutativitäts-Auswertung auf Fehler. LM1-F-Nachrechnung 12/20.
 
 ## Als Nächstes
 
 Nächste Sitzung: LM1-F-Nachrechnung vergleichen → Paper-Satz; EXP-121 auswerten → über LM2 entscheiden; EXP-116/113 auswerten.
 
-## Dienst (23:33)
+## Dienst (00:09)
 
-LM1-F-Nachrechnung 5/20; EXP-113 5/8 fertig, 2 laufen; EXP-116 1 läuft; EXP-119 fertig; EXP-121 (2 Läufe) wartet.
+LM1-F-Nachrechnung 12/20; EXP-113 3/8 fertig (2 laufen); EXP-116 1 läuft; EXP-121 wartet auf Grafikspeicher.
 
 ## Verlauf dieser Sitzung
 
+- 00:08 **EXP-122:** Auch das Spielzeugmodell lernt vor dem Grokking zuerst die Vertauschungsregel (4/4 Läufe); konstruierte Splits ziehen die übrigen Aufgaben früher mit. Mein „erster Blick“ von 23:43 war falsch.
+- 23:41 **Plateau = Kommutativität:** Das Sprachmodell mit Zufallsdaten beantwortet nur ungesehene Fakten richtig, deren gespiegeltes Paar (b, a) es gelernt hat (99 % gegen 3 %). Es hat „a + b = b + a“ gelernt, nicht die Addition.
 - 23:33 EXP-121 festgelegt und eingereiht (flacher Zufallsarm: trennt Paarstruktur von Zahl-Häufigkeit). Anhang-J-Sätze zu EXP-119/120 nach unabhängiger Prüfung korrigiert.
 - 23:26 **EXP-119:** Im Sprachmodell lernt ein Zufallssplit die Trainingsfakten gleich schnell, generalisiert aber nicht (Lücke ≥ 3900 Schritte); konstruierte Splits generalisieren sofort. Meine vorab formulierte Erklärung war falsch.
 - 23:20 EXP-120 (Ein- vs. Ausgabeseite im LM): vorab „unklar“; Eingabe allein trägt die volle Wirkung, Ausgabe teilweise.

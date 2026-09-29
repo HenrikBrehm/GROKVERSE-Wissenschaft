@@ -250,4 +250,11 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
   - „Paarstruktur schließt die Lücke“ → **LM2 als Bestätigungsblock**: je frischem Seed flache F, flache G, flacher Zufallsarm Rf; H1 Δ_pow(F,G) > 1, H2 q_flat = t_test(Rf) / Mittel(t_test F, G) ≥ 1.5 (zensiert als Schranke); gemeinsame Testmenge außerhalb aller drei Splits; Messzeitpunkt für Δ_pow vorab festlegen (EXP-115: Gipfel ≈ 2500, danach Rückgang → z. B. „bei t_test des langsameren Arms“ statt fester 6000); n aus Pilotstreuung (Δ_pow SD ≈ 2.4 → n ≥ 16), ≈ 48 Läufe ≈ 13–16 h GPU.
   - „Flache Bauart reicht“ → der EXP-119-Vorteil hängt an der Ungleichmäßigkeit gewöhnlicher Zufallssplits; dann R5-im-LM als Grenze berichten und LM2 nur für Δ_pow.
 - **Nicht vergessen:** EXP-120 (ungekoppelt): Frequenzen vor allem auf der Eingabeseite genutzt → Δ_pow auf den Eingabezeilen ist die richtige Messgröße auch für LM2.
+
+## Sitzung 55: LM2 nach EXP-121 (Ausgang „unklar“, Rf verlässt das Plateau)
+
+- EXP-121 lag zwischen beiden Lesarten (Lücken 570/223). Post hoc (JOURNAL S55 Zyklus 6/7): Rf ist spektral **nicht** flach (größte Maskenfrequenz 2.5–2.7·10⁴, Top-5 0.16 ≈ P1-F/G), R schon (1.3·10⁴, 0.105); die Zahl-Häufigkeiten erklären das R-Plateau nicht (P1-F/G genauso ungleichmäßig und schnell). Der Rf-Arm war also als „Zufallskontrolle ohne Betonung“ falsch gebaut.
+- **Neue LM2-Frage:** „Beendet eine Spektralspitze an *beliebiger* Stelle das Kommutativitäts-Plateau?“ Arme bei gleichen Modell-Seeds: R (gewöhnlich), Rs (gewöhnlicher Zufallssplit mit *einer* künstlich angehobenen Zufallsfrequenz, Häufigkeiten ungleichmäßig wie R), F (konstruiert). Maß: Lücke t_test − t_train, acc_other am Ende; Spitze als vorab festgelegte Kovariate. Erst nach dem Paper-Termin (Regel 20) und nur, wenn die GPU frei ist; zuerst im Spielzeugmodell billig prüfen (R5-Einheiten: R gegen „R + eine Spitze“).
+- Die alte Lesart „Paarstruktur schließt die Lücke → LM2 als Bestätigungsblock mit Rf“ ist damit überholt.
+
 - **Neu (S54, 23:42):** Kandidat N57 (Plateau = Kommutativität, im Spielzeugmodell prüfen) – [[NOVEL_DIRECTIONS]]. Vorrang: nach EXP-121 und der LM1-F-Nachrechnung; klein und billig.

@@ -18,7 +18,12 @@ Analysis (frozen, run only after all 20 runs finished):
   H1       Delta_pow (P1 definition on the 113 number-token rows) at step 6000, mean over the 10 seeds;
            95 % percentile bootstrap CI (10 000 resamples, rng 4001) and one-sided sign-flip permutation p (exact, 2^10).
            'bestaetigt' if CI lower bound > 1 (registered minimum effect, as P1) and p < 0.05;
-           'widerlegt (bricht)' if CI upper bound < 1; else 'unklar'. Family = {H1} (Holm trivial).
+           'unter Mindesteffekt' if CI upper bound < 1 and the mirrored sign-flip test (mean < 1) gives p < 0.05;
+           else 'unklar'. Family = {H1} (Holm trivial). The sign-flip test assumes symmetry about 1 under H0 (the design only
+           guarantees symmetry about 0 for F/G exchange); reported as such.
+  defects  a run without result (crash, timeout) is rerun with the identical command before --analyze (lm_stage2.py resumes from
+           its checkpoint); a run that ends with status 'error' (nonfinite loss) or fails the binding is 'defekt', not replaced,
+           and makes the block 'nicht auswertbar (defekt/fehlt)'.
   secondary (descriptive, no verdict): held-out accuracy per run, seeds with Delta_pow > 0, per pair s_learn / s_steer
            (H-folgt of EXP-113: first snapshot with train facts >= 0.1 in F and G vs first snapshot with Delta_pow > 1).
 """
@@ -81,9 +86,12 @@ def jobs() -> list[str]:
 
 
 def manifest(commit: str) -> None:
+    assert commit, "--manifest needs --commit"
+    smoke = json.loads(next((HERE / "lm1_smoke").glob("lm2_seed4100_seed4000_F_steps250_*/result.json")).read_text(encoding="utf-8"))
+    run_constants = {k: smoke["config"][k] for k in ("tokenizer_sha256", "text_tokens", "templates")}
     m = {"block": "LM1", "commit": commit, "seeds": list(SEEDS), "model_offset": MODEL_OFFSET, "frozen": FROZEN, "loss": LOSS,
          "registration": ["lab/confirm/LM1_REGISTRATION.md"], "code_sha256": {rel(p): sha(p) for p in CODE},
-         "split_sha256": {f.name: sha(f) for f in sorted(SPL.glob("seed*.npy"))}}
+         "split_sha256": {f.name: sha(f) for f in sorted(SPL.glob("seed*"))}, "run_constants": run_constants}
     with open(HERE / "LM1_manifest.json", "x", encoding="utf-8") as f:
         json.dump(m, f, indent=1)
     print("[lm1] manifest written")
@@ -95,6 +103,9 @@ def check_binding(m: dict, r: dict, s: int, arm: str) -> list[str]:
         bad.append("trainer hash")
     if c["split_sha256"] != m["split_sha256"][f"seed{s}_{arm}.npy"] or c["test_sha256"] != m["split_sha256"][f"seed{s}_test.npy"]:
         bad.append("split/test hash")
+    if sha(SPL / f"seed{s}.json") != m["split_sha256"][f"seed{s}.json"]:
+        bad.append("target metadata hash")
+    bad += [f"run constant {k}" for k, v in m["run_constants"].items() if c.get(k) != (list(v) if isinstance(v, (list, tuple)) else v)]
     if c["seed"] != s + MODEL_OFFSET:
         bad.append("model seed")
     bad += [f"config {k}" for k, v in FROZEN.items() if c.get(k) != v]
@@ -115,24 +126,35 @@ def analyze() -> None:
     for p in CODE:
         assert sha(p) == m["code_sha256"][rel(p)], f"code changed since the freeze: {rel(p)}"
     rows, defect, accs = [], [], []
+    expected = {f"lm2_seed{s + MODEL_OFFSET}_seed{s}_{x}_steps{STEPS}_" for s in SEEDS for x in "FG"}
+    stray = [d.name for d in RAW.iterdir() if not any(d.name.startswith(e) for e in expected)] if RAW.exists() else []
+    if stray:
+        defect.append({"seed": None, "why": f"unexpected run directories: {stray}"})
     for s in SEEDS:
         try:
             rF, rG = AP.load(RAW, s + MODEL_OFFSET, SPL / f"seed{s}_F.npy"), AP.load(RAW, s + MODEL_OFFSET, SPL / f"seed{s}_G.npy")
-        except (AssertionError, FileNotFoundError, KeyError) as e:
-            defect.append({"seed": s, "why": f"missing or incomplete: {e!r}"})
+            bad = check_binding(m, rF["res"], s, "F") + check_binding(m, rG["res"], s, "G")
+            cF, cG = dict(rF["res"]["config"]), dict(rG["res"]["config"])
+            cF.pop("split_sha256"), cG.pop("split_sha256")
+            if cF != cG:
+                bad.append("F and G configs differ beyond the split")
+            TF, TG = AP.targets(SPL / f"seed{s}_F.npy"), AP.targets(SPL / f"seed{s}_G.npy")
+            steps = [x for x in rF["steps"] if x in rG["P"]]
+            if steps[-1] != STEPS:
+                bad.append(f"last common snapshot {steps[-1]}")
+            dp = {x: A.delta_pow(rF["P"][x], rG["P"][x], TF, TG) for x in steps}
+            if dp[steps[-1]] is None or not np.isfinite(dp[steps[-1]]):
+                bad.append("Delta_pow not finite")
+        except (AssertionError, FileNotFoundError, KeyError, StopIteration, ValueError) as e:
+            defect.append({"seed": s, "why": f"missing, incomplete or unreadable: {e!r}"})
             continue
-        bad = check_binding(m, rF["res"], s, "F") + check_binding(m, rG["res"], s, "G")
         if bad:
             defect.append({"seed": s, "why": bad})
             continue
-        TF, TG = AP.targets(SPL / f"seed{s}_F.npy"), AP.targets(SPL / f"seed{s}_G.npy")
-        steps = [x for x in rF["steps"] if x in rG["P"]]
-        assert steps[-1] == STEPS
-        dp = {x: A.delta_pow(rF["P"][x], rG["P"][x], TF, TG) for x in steps}
         trF = {int(c[0]): c[1] for c in rF["res"]["curve"]}
         trG = {int(c[0]): c[1] for c in rG["res"]["curve"]}
         s_learn = next((x for x in steps if trF.get(x, 0) >= 0.1 and trG.get(x, 0) >= 0.1), None)
-        s_steer = next((x for x in steps if dp[x] > MIN_EFFECT), None)
+        s_steer = next((x for x in steps if dp[x] is not None and dp[x] > MIN_EFFECT), None)
         acc = [rF["res"]["curve"][-1][2], rG["res"]["curve"][-1][2]]
         accs += acc
         rows.append({"seed": s, "dpow_end": dp[STEPS], "test_acc": acc, "s_learn": s_learn, "s_steer": s_steer,
@@ -148,9 +170,11 @@ def analyze() -> None:
         bm = rng.choice(x, (10000, len(x)), replace=True).mean(1)
         lo, hi = float(np.quantile(bm, 0.025)), float(np.quantile(bm, 0.975))
         p = perm_p(x, MIN_EFFECT)
-        out["H1"] = {"mean": float(x.mean()), "ci95": [lo, hi], "p_perm_vs_min_effect": p, "n_positive": int((x > 0).sum()),
-                     "n_above_min": int((x > MIN_EFFECT).sum())}
-        out["verdict"] = "bestätigt" if lo > MIN_EFFECT and p < 0.05 else "widerlegt (bricht)" if hi < MIN_EFFECT else "unklar"
+        p_low = perm_p(-x, -MIN_EFFECT)                                   # mirrored: mean < 1
+        out["H1"] = {"mean": float(x.mean()), "ci95": [lo, hi], "p_perm_vs_min_effect": p, "p_perm_below_min_effect": p_low,
+                     "n_positive": int((x > 0).sum()), "n_above_min": int((x > MIN_EFFECT).sum())}
+        out["verdict"] = ("bestätigt" if lo > MIN_EFFECT and p < 0.05 else
+                          "unter Mindesteffekt" if hi < MIN_EFFECT and p_low < 0.05 else "unklar")
     out["gate_n_acc_ge_0.5"] = int(sum(a >= GATE_ACC for a in accs))
     (HERE / "LM1_summary.json").write_text(json.dumps(out, indent=1, ensure_ascii=False), encoding="utf-8")
     print(json.dumps(out, indent=1, ensure_ascii=False))

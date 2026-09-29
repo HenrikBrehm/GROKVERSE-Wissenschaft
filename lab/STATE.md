@@ -35,7 +35,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 0. Dienst-Lage prüfen (status.json, Logs).
 1. **LM1-F-Nachrechnung** (`lab/confirm/LM1F_independent_summary.json`, Log `lab/queue/logs/33_lm1f_indep/`) mit `LM1F_summary.json` vergleichen; bei Übereinstimmung Paper-Satz „bestätigt“ aus [[paper/LM1_DEUTUNGEN]] in Anhang J (Satz „LM1-F is running“ ersetzen) und §7 (ii), Absatz unabhängig prüfen lassen; FINDINGS-Vermerk „Nachrechnung läuft“ ersetzen.
-2. **EXP-121** auswerten: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-121-lm-flat-random-arm/analyze.py`; dann über LM2 entscheiden (BACKLOG „Sitzung 54: LM2 geschärft“).
+2. **EXP-121** auswerten: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-121-lm-flat-random-arm/analyze.py`; dann über LM2 entscheiden (BACKLOG „Sitzung 54: LM2 geschärft“). Danach in Anhang J (draft_short „Anhang K“) den Halbsatz „(a flat-count random arm is running, EXP-121)“ durch das Ergebnis ersetzen; Wang et al. 2024 ist dort schon zitiert (auch zu R5 in §4 erwägen).
 3. **EXP-116** (4/4) → `EXP-116…/analyze.py`; **EXP-113** (8/8) → `analyze.py`, `analyze_folgt.py`, danach `EXP-114…/analyze.py`. Deutungssätze vorab in LM1_DEUTUNGEN.
 4. **Paper:** alle Anhänge einmal logisch geprüft; offen nur Nutzerentscheidungen in [[paper/STATUS]] (Wortlaut „25–50 Schritte“, GROKVERSE-Studie, KI-Offenlegung). Nach jeder Textänderung Zahlen- UND Logikprüfung getrennt.
 5. LM2 (BACKLOG S53) erst nach EXP-116 entscheiden.

@@ -101,19 +101,45 @@ def subsection(md: str, num: str) -> list[str]:
     return [head] + [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip() and not is_process_note(p.strip())]
 
 
+LONG_TO_MAIN = {"1": "Section 1", "1b": "Section 1", "2": "Section 2", "3.1": "Section 3", "3.9": "Section 4", "3.14": "Section 3",
+                "3.18": "Section 6", "3.19": "Appendix J", "4": "Appendix F", "5": "Appendix G", "5b": "Section 7", "6": "Section 7"}
+
+
+def long_map() -> dict[str, str]:
+    """Long-draft section numbers -> manuscript labels (A.1, ...), for cross-references inside long-draft text."""
+    m = dict(LONG_TO_MAIN)
+    for letter, _, srcs in APPENDIX:
+        for k, src in enumerate(s for s in srcs if s.startswith("L:")):
+            m[src[2:]] = f"{letter}.{k + 1}"
+    return m
+
+
+def relabel(p: str, m: dict[str, str]) -> str:
+    """Rewrite '§3.4' -> 'Appendix C.2' (or 'Section 3') and a leading '#### 3.4 ' -> '#### C.2 ' in long-draft text."""
+    def sub(mt: re.Match) -> str:
+        tgt = m.get(mt.group(1)) or ("Appendix G" if mt.group(1).startswith("5.") else None)   # theory sub-items
+        if tgt is None:
+            return mt.group(0)
+        return tgt if tgt.startswith(("Section", "Appendix")) else f"Appendix {tgt}"
+    p = re.sub(r"^#### (\d+\.\d+) ", lambda mt: f"#### {m.get(mt.group(1), mt.group(1))} ", p)
+    return re.sub(r"§\s?(\d+(?:\.\d+)?b?)(?![\d.]*\d)", sub, p)
+
+
 def appendix(short: dict, long_md: str, long_secs: dict) -> list[str]:
-    out = ["# Appendix (assembled verbatim from the working drafts; cross-references to the long draft's §-numbers are not yet edited)"]
+    out = ["# Appendix (assembled verbatim from the working drafts; §-references of the long draft are rewritten to manuscript labels)"]
+    lm = long_map()
     for letter, title, srcs in APPENDIX:
         out.append(f"## Appendix {letter}: {title}")
         for src in srcs:
             kind, key = src.split(":", 1)
             if kind == "L":
-                out.extend(subsection(long_md, key))
+                out.extend(relabel(p, lm) for p in subsection(long_md, key))
             else:
                 paras = find(long_secs if kind == "L2" else short, key)[1]
                 if key == "Anhang M":
                     paras = [moved_label(p) for p in paras if p.startswith("**")]
-                out.extend(re.sub(r"^(#{1,3}) ", "#### ", p) for p in paras if not is_process_note(p))
+                paras = [re.sub(r"^(#{1,3}) ", "#### ", p) for p in paras if not is_process_note(p)]
+                out.extend(relabel(p, lm) if kind == "L2" else p for p in paras)
     return [strip_session(p) for p in out]
 
 

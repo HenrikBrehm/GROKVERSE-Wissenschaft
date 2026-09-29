@@ -5,19 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 08:49 Berlin (06:49Z, vom Runner, nach Absturz von Sitzung 48 um 08:24)
 - **Deadline:** 2026-09-29 11:49 Berlin (09:49Z)
-- **Zuletzt aktualisiert:** 08:55 Berlin
+- **Zuletzt aktualisiert:** 09:13 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe laufen jetzt über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- GPU-Dienst: `20_s48c_r0long_10k` (60 Läufe, 8 Worker: EXP-102 „r0 lang“ + EXP-112 „10k“).
-- EXP-105-Pilot, Fortsetzung der 2 offenen Läufe **gescheitert**: Fehler beim Laden des Checkpoints (RNG-Zustand landet auf der GPU). Die zwei abgestürzten Trainerprozesse hängen und blockieren 2 Worker bis ≈ 10:20 (Wächter-Grenze 90 min). **Beenden wurde mir nicht freigegeben – Entscheidung beim Nutzer.** Reparatur liegt bereit (`resume_wrapper.py`, Run-ID bleibt gleich).
+- **Reproduktionspaket für die Hauptaussagen** (Regel 19c): Skripte für L0, R5, R6 fertig (Smokes ok, Splits bitgleich zu den eingefrorenen); 660 Läufe beim GPU-Dienst eingereiht (laufen nach der Nebenwarteschlange). Jetzt: R8.
+- GPU-Dienst: `20_s48c_r0long_10k` läuft (8 Worker). Zwei abgestürzte EXP-105-Prozesse hängen bis ≈ 10:20 (Beenden nicht freigegeben – Entscheidung beim Nutzer).
 
 ## Als Nächstes
 
-Sobald die hängenden Jobs weg sind: Pilot-Fortsetzung mit dem Wrapper einreihen. Bis dahin: Paper (Regel 20d) und Tagesbericht.
+R8-Repro-Skript; ab ≈ 10:20 EXP-105-Pilot mit `resume_wrapper.py` fortsetzen; Auswertungen, sobald Läufe fertig sind.
 
 ## Verlauf dieser Sitzung
+
+- 09:12 R6-Repro fertig (Smoke ok); L0/R5/R6-Volläufe (660) beim Dienst eingereiht.
+- 09:05 R5-Repro fertig (Smoke ok, Splits bitgleich).
+- 08:58 L0-Repro fertig (Smoke ok, Splits bitgleich).
 
 - 08:53 queue_s48c über die Inbox eingereiht (läuft, 8 Worker).
 - 08:51 Pilot-Fortsetzung über die Inbox: RNG-Fehler beim Laden entdeckt, Wrapper geschrieben.

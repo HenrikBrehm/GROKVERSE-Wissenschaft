@@ -39,3 +39,6 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 
 Beschreibend: r0B − Full-Batch-r0 bei 2000: +0.26 [−0.14, 0.70] (Minibatch B 256 kostet in diesem Format keine Steuerung).
 **Deutung (vorsichtig):** Das LM-Format (alle Format-Sprossen zusammen) hält K2 auch unter i.i.d.-Minibatch voll. Kommt Next-Token-Verlust auf den übrigen Positionen dazu (ohne b), wird die Steuerung unter Minibatch kleiner und das Grokking langsamer (7/20 Läufe bis 5000 nicht generalisiert); im Full-Batch hielt dieselbe Verlustform (allnb 8.26, tieallnb 7.53, EXP-102). Ob das eine Wechselwirkung mit dem Minibatch oder nur ein Verzögerungseffekt bis 5000 ist, bleibt offen (Δ_pow wächst noch: 6.79 → 8.24). **Leiter Stufe 1 insgesamt:** Format hält (auch unter Minibatch); jeder Verlust auf Nicht-Antwort-Positionen schwächt oder verzögert, am stärksten das b-Ziel (EXP-102: ≈ 55 % von r0 nach dem Grokking).
+
+### Nachtrag „10k“ (Sitzung 48, vor den Läufen; Exploration)
+Ist „lmnbB schwaecher“ nur Verzögerung? r0B und lmnbB, B 256, Seeds 3800–3809, F/G, 10 000 Schritte (`raw_10k`, 40 Läufe). Lesarten in `analyze_10k.py`: „bleibt schwaecher“ (gepaartes KI lmnbB − r0B bei 10 000 < 0), „nur verzoegert“ (sonst, wenn ≥ 16/20 lmnbB-Läufe generalisiert), sonst „unklar“.

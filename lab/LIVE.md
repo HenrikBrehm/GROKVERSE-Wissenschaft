@@ -12,6 +12,8 @@ tags: [lab/live]
 
 GPU-Speicher ist überbucht (19.0 GB dediziert + 10.0 GB in den Arbeitsspeicher ausgelagert): 6 Sprachmodell-Läufe gleichzeitig laufen ≈ 7× langsamer als 2. Ich darf den GPU-Dienst nicht neu starten; die Kopfzeilen meiner Jobdateien sind gesenkt (LM1 2 Worker, EXP-115 1, EXP-113 2) und greifen erst nach einem **Neustart des Dienstes per DRAIN**. Bitte, wenn möglich, den Dienst so neu starten. Details im JOURNAL. **Update 13:11:** jetzt 8 LM-Läufe, 12.1 GB ausgelagert, nur 1.8 GB Arbeitsspeicher frei (über der Grenze aus Regel 17).
 
+**Update 13:21: Stillstand.** In 10 min kein Fortschritt mehr in allen LM-Läufen, R4-Läufe hängen seit 43 min. Mein Versuch, die zwei eigenen EXP-115-Läufe abzubrechen, wurde vom Sicherheitsfilter abgelehnt. **Bitte:** Dienst per DRAIN neu starten und/oder die Prozesse von EXP-115 (PIDs 29648, 31352 + Wächter 18600, 22580) und EXP-113 (2808, 3344 + Wächter 24084, 18152) beenden. Beides lässt sich danach ohne Verlust fortsetzen (Checkpoints).
+
 ## Gerade
 
 - GPU-Dienst: LM1 1 laufend / 0 fertig von 20; R4 60/240; EXP-113 Läufe 1–2 kurz vor dem Ende (Fakten gelernt, zurückgehalten ≈ 0.95).

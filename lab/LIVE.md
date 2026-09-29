@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 03:29 Berlin (01:29Z, vom Runner)
 - **Deadline:** 2026-09-29 06:29 Berlin (04:29Z)
-- **Zuletzt aktualisiert:** 05:47 Berlin
+- **Zuletzt aktualisiert:** 05:52 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
@@ -17,6 +17,8 @@ Letzter kleiner Test (EXP-111, 72 Läufe, ≈ 7 min): Ist bei kleinen Päckchen 
 Auswerten, Stand sichern, Sitzung beenden (Deadline 06:29). Nächster Runner-Start laut runner-state.json **07:04 Berlin**.
 
 ## Verlauf dieser Sitzung
+
+- 05:51 **Korrektur:** Die „Überraschung“ von 05:45 hält nicht: Auf zwei anderen Netzen ist die vierfache Lernrate bei Päckchen zu 64 sogar etwas schneller (EXP-111). Kein belastbarer Befund.
 
 - 05:45 **Überraschung (EXP-110, 2 Netze):** Bei Päckchen zu 64 legt sich das Netz mit vierfacher Lernrate *später* fest als mit doppelter (305/355 gegen 205/225 Schritte); bei großen Päckchen weiter schneller. Nachgerechnet.
 - 05:41 Leiter bis 30 000 Schritte: Steuerung wächst weiter (4.2–4.6), nur 1 von 4 Netzen hat generalisiert → eher verzögert als blockiert.

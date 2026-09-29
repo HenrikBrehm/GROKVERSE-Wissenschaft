@@ -1,6 +1,6 @@
 ---
 id: LM1
-status: registriert
+status: abgeschlossen
 datum: 2026-09-29
 tags: [confirm, lm-leiter]
 ---
@@ -37,3 +37,12 @@ Zurück: [[LAB]] · [[FINDINGS]] (Programm A, Verallgemeinerung von K2; Regel 20
 **Smoke (12:34 gemessen, Dienst `29_lm1_smoke`, 114.5 s):** Seed 4000 F, 250 Schritte, `lm1_smoke/lm2_seed4100_seed4000_F_steps250_0c896dda7304b68d`, completed. Lader (`AP.load`) liest den Lauf, Snapshots [0, 250], Ziele F = {15, 26, 30, 38, 45}; die Bindungsprüfung meldet nur „config steps“ (250 statt 6000, erwartet). Permutationstest-Probe: zehnmal 5.0 → p = 1/1024; Werte um 1 → p = 0.56. Der Smoke-Lauf zählt nicht.
 
 **Unabhängige Prüfung vor dem Einfrieren (Claude-Agent, nur lesend; Codex ohne Guthaben):** kein Blocker; 6 Punkte übernommen: Zielmetadaten (`seed*.json`) im Manifest gebunden; Laufkonstanten (Tokenizer, Textlänge, Schablonen) aus dem Smoke gebunden und F/G-Konfigurationsgleichheit geprüft; Absturzpfade der Auswertung abgefangen (werden „defekt“); Ausfallregel vorab festgelegt; „widerlegt (bricht)“ → „unter Mindesteffekt“ mit gespiegeltem Test; nur die 20 erwarteten Laufordner zulässig (Präfix mit Schrittzahl). Texte korrigiert (Power ≈ 75 % statt „hoch“, Modell-Seeds frisch, Tor-Formulierung). Nachgeprüft am Smoke: Bindung meldet nur „config steps“; fehlender G-Lauf → „defekt“, Block „nicht auswertbar“.
+
+## Ergebnis (Sitzung 53, 20:50 gemessen; eingefrorene Auswertung, danach unabhängig nachgerechnet)
+
+Alle 20 Läufe fertig (GPU-Dienst `31_lm1`, 0 Fehlschläge), Code-Stand = Einfrier-Commit 2b70d8b9 (`git log` auf `confirm_lm1.py`), Bindung ohne Befund, keine defekten Läufe. Befehl: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm1.py --analyze` → `LM1_summary.json`.
+- **Tor:** 20/20 Läufe mit zurückgehaltener Faktengenauigkeit ≥ 0.5 (0.898–0.995).
+- **H1:** mittleres Δ_pow bei 6000 = **5.32 [4.86, 5.73]** (Perzentil-Bootstrap), 10/10 Seeds > 1 (Spanne 3.96–6.40), exakter Vorzeichen-Permutationstest gegen 1: p = 1/1024 (kleinstmöglicher Wert bei 10 Seeds); gespiegelter Test p = 1.0 → **„bestätigt“**.
+- **Unabhängige Nachrechnung** (`LM1_independent_recompute.py`, getrennt geschriebener Lader): Mittel, KI, p, Tor, Lesart identisch; 20 Läufe gültig, keine Bindungsprobleme.
+- **Sekundär (beschreibend):** je Paar s_steer (erster Snapshot mit Δ_pow > 1) gegen s_learn (erster Snapshot mit Trainingsfakten ≥ 0.1 in F *und* G): in 9/10 Paaren eine Snapshot-Stufe (250 Schritte) früher, 1/10 gleichzeitig (4002, 2500), nie später. Weil s_learn beide Arme verlangt, kann „früher“ heißen, dass die Steuerung mit dem Lernbeginn des ersten Arms kommt; keine Aussage „Steuerung vor dem Lernen“.
+- **Einordnung (nach [[paper/LM1_DEUTUNGEN]], vorab):** Ein Aufbau mit hohem Rechenanteil (≈ 79 %), Energiemaß auf gebundenen Embeddings; kein Beleg für wenige Prozent Rechendaten oder für funktionale Nutzung (LM1-F läuft seit 20:51 als Dienst-Job `32_lm1f`). Die P1-Splits tragen die Ziele auch in den Zahl-Häufigkeiten ([[experiments/EXP-115-lm-flat-marginals/README|EXP-115]] „unklar“), LM1 ist deshalb kein Beleg für einen reinen Paarstruktur-Effekt.

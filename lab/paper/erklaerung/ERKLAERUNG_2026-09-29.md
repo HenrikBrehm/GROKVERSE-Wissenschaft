@@ -95,3 +95,17 @@ Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · [[NACHT_2026-09-29]]
 - **Kleines Sprachmodell (Stufe 2), Vortest „unklar“:** Das Modell hat Kindergeschichten gelernt, die Rechenaufgaben aber kaum: in einem von zwei Versuchen fing es gegen Ende an, ungesehene Aufgaben zu lösen (22 % statt 1 % Zufall), im anderen gar nicht. Die Aufgaben kamen einfach zu selten vor. Jetzt läuft ein neuer, vorher festgelegter Versuch (EXP-113) mit etwa sechsmal so vielen Wiederholungen und einer Variante, bei der das Modell nur auf die Antwort trainiert wird.
 
 **Frage, die eine Jury stellen könnte:** *„Warum macht ihr den Sprachmodell-Test nicht gleich mit viel mehr Daten?“* – Weil jeder Lauf Stunden dauert. Der Vortest zeigte, wo der Engpass liegt (zu wenige Wiederholungen je Aufgabe). Erst dann lohnt sich der größere Versuch, und wir schreiben vorher auf, was als Ergebnis zählt.
+
+
+## Sitzung 50 (29.09., ab 11:30): Paper kürzer, Abbildung nur mit bestätigten Daten
+
+- **Nachrechnen:** Auch die Wechsel-Aussagen (R6: Wechsel nach 25 Schritten kostet Zeit; R8: nur ein Wechsel der Zielfrequenzen kostet) kamen beim Neurechnen von Grund auf exakt gleich heraus. Es fehlt nur noch R4 (läuft noch einige Stunden).
+- **Paper:** Der Haupttext war etwa 10 statt 8 Seiten lang. Er ist jetzt um gut 600 Wörter kürzer; nichts ist gelöscht, die Passagen stehen wörtlich im Anhang. Ein unabhängiger Prüfer fand keine veränderte Zahl, aber neun Stellen, an denen die kürzere Fassung mehr behauptete als vorher; die sind korrigiert. Die Abbildung zum Päckchen-Training zeigt jetzt nur noch vorab eingefrorene Bestätigungen, keine Vortests.
+- **Beobachtung im kleinen Sprachmodell:** Im Spielzeugmodell sieht man die Steuerung schon nach 250 Schritten, lange bevor das Netz rechnen kann. Im kleinen Sprachmodell ist bis Schritt 4000 davon nichts zu sehen, und im Vortest kam sie erst, als das Modell die Rechenfakten lernte. Wir haben vorher aufgeschrieben: „Im Sprachmodell kommt die Steuerung erst mit dem Faktenlernen“. Ob das stimmt, zeigen die 8 laufenden Versuche.
+
+**Was es nicht bedeutet:** Die Beobachtung stammt aus zwei Läufen, von denen erst einer halb gerechnet ist. Sie sagt noch nicht, dass die Steuerung im Sprachmodell fehlt, nur, dass sie dort (wenn überhaupt) später kommt.
+
+**Fragen, die eine Jury stellen könnte:**
+1. *„Warum kürzt ihr, statt einfach alles zu zeigen?“* – Konferenzen erlauben meist 8 Seiten. Wichtig ist, dass beim Kürzen keine Einschränkung verloren geht. Deshalb hat ein zweiter Prüfer alt und neu verglichen.
+2. *„Warum zeigt die Abbildung keine Vortests mehr?“* – Vortests sind an Netzen entstanden, die wir schon kannten. Eine Abbildung im Hauptteil soll nur zeigen, was mit neuen Netzen und vorher festgelegter Auswertung bestätigt wurde.
+3. *„Warum sollte die Steuerung im Sprachmodell später kommen?“* – Wir wissen es nicht. Mögliche Gründe: schwächerer Weight Decay (0,1 statt 1), die Zahl-Wörter lernen auch aus den Geschichten, ein tieferes Modell. Das kann man später einzeln testen.

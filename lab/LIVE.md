@@ -5,19 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-29 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 02:12 Berlin
+- **Zuletzt aktualisiert:** 02:40 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-GPU: EXP-106 (lange Epochen, 64 Läufe) und L0-Wechselläufe (64) laufen. Ein Agent rechnet den L0-Piloten unabhängig nach.
+GPU: **L0-Bestätigung** (40 Läufe, 10 frische Seeds) und EXP-106 (lange Epochen) laufen; EXP-107 (Festlegung in Epochen?) startet nach EXP-106.
 
 ## Als Nächstes
 
-Nachrechnung prüfen → Ergebnis ins Paper (§6 Kurzfassung) → `switch_analyze.py` → EXP-106 auswerten → L0-Registrierung (H3?) einfrieren.
+EXP-106 auswerten (≈ 02:55) → EXP-107 (≈ 03:10) → L0 `--analyze` (≈ 03:15) → Abschluss vor 03:49.
 
 ## Verlauf dieser Sitzung
 
+- 02:37 L0-Bestätigung: Smoke ok, Block gestartet. EXP-107 festgelegt.
+- 02:33 **Unter Päckchen-Training (B = 256) keine Festlegung bis 50 Schritte** (Full-Batch-Fenster repliziert). Kein Horizont-Artefakt. Vermutung: zählt in Epochen.
+- 02:25 **L0-Bestätigung eingefroren** (H1/H2, n = 10; Prüfung: kein Blocker, Text nachgeschärft).
+- 02:12 L0-Pilot unabhängig nachgerechnet; Paper §6 mit Ergebnis gefüllt; Abb. 4 gezeichnet.
 - 02:07 **L0-Pilot fertig: Die Menge steuert auch unter Päckchen-Training** (B 256 und 64, so stark wie Full-Batch); eine feste Reihenfolge wirkt dort gar nicht (0/16). L0-Bestätigung braucht nur n = 10.
 - 01:33 **EXP-106 festgelegt:** Menge gegen Reihenfolge bei langen Epochen (B = 16, weight decay 0.1), 64 Läufe, startet nach Pilot-Teil 1.
 - 01:30 **B = 16 lernt mit weight decay 0.1** (3/3, auch mit fester Reihenfolge); dort wirkt die Reihenfolge (verschiebt Energie, verzögert ≈ 2000 Schritte), bestimmt aber nicht die stärkste Frequenz (n = 3).

@@ -65,3 +65,10 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 | 3867 | R | 0.322 | **0.996** (774) | **0.029** (1780) |
 
 Deutung (Exploration, 2 Läufe): Mit dem Zufallssplit hat das LM bis Schritt 6000 nur die Vertauschungsregel a + b = b + a gelernt (Nachschlagen des gespiegelten Trainingsfakts), nicht die Addition; auf Fakten ohne gespiegeltes Gegenstück liegt es nahe am Zufall (1/113 ≈ 0.009). Mit den konstruierten Splits generalisiert es auf beide Gruppen. Die Lücke von EXP-119 ist damit keine „langsame Generalisierung“, sondern Generalisierung nur über die Symmetrie. Offen: ob R später die Addition lernt; ob das Spielzeugmodell mit Zufallssplit vor dem Grokking dasselbe Muster zeigt (dort mit Klassifikationskopf und gleichen Daten prüfbar).
+
+## Nachtrag 2 (Sitzung 55, 30.09. 01:23 gemessen, VOR dem Lauf): Hält das Plateau länger? (letzter Nachtrag, Regel 15b)
+
+- **Frage:** Generalisiert der Zufallssplit R im LM später doch noch (verzögertes Grokking), oder bleibt er auf dem Kommutativitäts-Plateau? Das Paper sagt bisher „whether the random split would generalize later is not known“.
+- **Aufbau:** Derselbe Lauf wie Seed 3866 / seed3806_R, aber `--steps 16000` (Lernrate nach dem Aufwärmen konstant, daher sind die ersten 6000 Schritte bis auf GPU-Nichtdeterminismus derselbe Lauf). Ein Lauf, Exploration. GPU-Dienst `42_exp119_long_r.jobs` (hinter EXP-116; Dauer ≈ 1.5–2 h).
+- **Lesart (vorab):** „spätes Grokking“, wenn zurückgehaltene Fakten bis 16 000 die 0.5 erreichen; „Plateau hält“, wenn sie bei 16 000 unter 0.4 liegen und die Genauigkeit ohne trainiertes Tauschpaar ≤ 0.1 ist (Messung wie `commutativity_s54.py` am Endmodell, Skript dann als `commutativity_long_s55.py`); sonst „unklar“. **Technische Kontrolle:** Kurve bis 6000 wie der Originallauf (zurückgehaltene Fakten bei 6000 innerhalb ±0.05 von 0.333), sonst nur beschreibend.
+- **Grenze:** ein Lauf; ein „Plateau hält“ bis 16 000 beweist nicht, dass es nie endet (§8).

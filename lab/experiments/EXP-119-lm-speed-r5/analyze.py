@@ -5,7 +5,10 @@ Per run from result.json (curve every 250 steps; cols step, train_fact_acc, test
 Per seed: q = t_test(R) / mean(t_test(F), t_test(G)); if R is censored, q >= 6000 / mean (lower bound, counts as >= 1.5 only if
   that bound is >= 1.5). If F or G is censored, the seed has no q ("not learned (budget)").
 Readings: "constructed faster" q >= 1.5 in both seeds; "no advantage" q <= 1.15 in both seeds; else "unclear".
-Descriptive: final held-out accuracy per arm, Delta_pow(F, G) at 6000 (as LM1). Not a confirmation; R5 in the toy model is
+Descriptive: final held-out accuracy per arm, Delta_pow(F, G) at 6000 (as LM1).
+Added in session 52 before any EXP-119 run (descriptive, R4 analogue): per run, Spearman rho between the split's own mask
+  spectrum M0 (EXP-043 make_split.mask_power, add 113) and the power of the 113 number rows of the tied embedding at the last
+  snapshot (EXP-102 analyze.power); reported for F, G and R, no reading attached. Not a confirmation; R5 in the toy model is
 ~6.5x at a similar mask concentration, but the LM learns training and held-out facts almost together (EXP-114), so the toy
 grokking gap has no direct counterpart here.
   PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-119-lm-speed-r5/analyze.py [--selftest]
@@ -39,7 +42,26 @@ def load(seed: int, split_seed: int, arm: str) -> dict:
     if r.get("status") != "completed" or r.get("steps_completed") != STEPS:
         return {"status": "incomplete"}
     c = r["curve"]
-    return {"status": "ok", "t_test": cross(c, 2), "t_train": cross(c, 1), "final_test": c[-1][2], "dir": ds[0]}
+    return {"status": "ok", "t_test": cross(c, 2), "t_train": cross(c, 1), "final_test": c[-1][2], "dir": ds[0],
+            "rho_mask_we": mask_rho(ds[0], split_seed, arm)}
+
+
+def mask_rho(run_dir: Path, split_seed: int, arm: str) -> float:
+    """Session 52 addition (descriptive): Spearman(mask spectrum of the run's split, W_E number-row power at the end)."""
+    import importlib.util
+    import numpy as np
+    lab = HERE.parents[1]
+    def mod(name: str, path: Path):
+        spec = importlib.util.spec_from_file_location(name, path)
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        return m
+    ms = mod("exp043_make_split", lab / "experiments/EXP-043-generalize-steering/make_split.py")
+    a102 = mod("exp102_analyze", lab / "experiments/EXP-102-lm-ladder-stage1/analyze.py")
+    m0 = ms.mask_power(np.load(lab / "experiments/EXP-102-lm-ladder-stage1/splits" / f"seed{split_seed}_{arm}.npy"), "add", 113)
+    pw = a102.power(np.load(run_dir / "we_snapshots.npy")[-1])
+    rk = lambda v: np.argsort(np.argsort(v)).astype(float)   # noqa: E731  (no ties expected in float spectra)
+    return float(np.corrcoef(rk(m0), rk(pw))[0, 1])
 
 
 def seed_q(runs: dict) -> float | None | str:

@@ -6,7 +6,7 @@ optionally a one-time change of the train set at --switch-step and a reset of on
 standard path of lab/experiments/EXP-001-freq-ban/freq_ban.py without the lab's intervention options, bookkeeping and locking, and
 is meant to compute the SAME numbers: same operation order (threads, seed, dataset, model init on the CPU, .to(device), AdamW), same
 loss, same switch/reset semantics (after the optimizer update of step S the new train set is used; the reset part gets its init weights
-back and loses its AdamW state).
+back and loses its AdamW state). Session 49: --batch-size B trains on i.i.d. minibatches exactly as freq_ban --batch-size B (L0).
 
 Outputs in --out: result.json (config, versions, accuracies, generalisation step), spectra.npy / spectra_steps.npy (W_E power per
 frequency k = 1..(p-1)/2 every --spectra-every steps and at the last step), optionally model_final.pt.
@@ -39,6 +39,7 @@ from grokverse.data import make_dataset  # noqa: E402
 from grokverse.models import build_model  # noqa: E402
 from grokverse.seed import set_seed  # noqa: E402
 
+ORDER_SALT = 100_043                  # s49 (L0 repro): same minibatch-order stream as freq_ban.py, independent of init and splits
 RESET_PARTS = {"attn": ("W_Q", "W_K", "W_V", "W_O"), "mlp": ("W_in", "W_out"), "unembed": ("W_U",),
                "qk": ("W_Q", "W_K"), "vo": ("W_V", "W_O"), "we": ("W_E",)}
 
@@ -87,6 +88,9 @@ def train(a: argparse.Namespace) -> dict:
         raise SystemExit("--reset-optim-part needs a switch and excludes --reset-at-switch")
     if a.switch_split_file and not a.test_file:           # as freq_ban: a switch needs an explicit shared test set
         raise SystemExit("--switch-split-file needs --test-file")
+    mbs = a.batch_size
+    if mbs < 0 or (mbs and a.switch_step is not None):   # s49: L0 needs only i.i.d. minibatches without a switch
+        raise SystemExit("--batch-size must be >= 0 and excludes a switch in this lean trainer")
     torch.set_num_threads(cfg.threads)
     set_seed(cfg.seed)
     data = make_dataset(cfg)                           # own torch.Generator: does not touch the global RNG (model init unchanged)
@@ -114,9 +118,18 @@ def train(a: argparse.Namespace) -> dict:
 
     t0 = time.perf_counter()
     spectrum(0)
+    mb_rng = np.random.default_rng(np.random.SeedSequence([ORDER_SALT, a.seed]))
+    mb_order, mb_pos = None, 0
     for step in range(1, a.steps + 1):
         model.train()
-        loss = F.cross_entropy(model.logits_last(trx)[:, :p], try_)
+        if mbs:                                        # as freq_ban --batch-size (order iid): a new permutation per epoch
+            if mb_order is None or mb_pos >= len(trx):
+                mb_order, mb_pos = torch.from_numpy(mb_rng.permutation(len(trx)).astype(np.int64)).to(trx.device), 0
+            bi = mb_order[mb_pos:mb_pos + mbs]
+            mb_pos += mbs
+            loss = F.cross_entropy(model.logits_last(trx[bi])[:, :p], try_[bi])
+        else:
+            loss = F.cross_entropy(model.logits_last(trx)[:, :p], try_)
         opt.zero_grad(set_to_none=True)
         loss.backward()
         opt.step()
@@ -152,7 +165,7 @@ def train(a: argparse.Namespace) -> dict:
         torch.save(model.state_dict(), out / "model_final.pt")
     res = {"trainer": "lab/paper/repro/train.py", "argv": sys.argv, "seed": a.seed, "device": a.device, "config": cfg.to_dict(),
            "steps": a.steps, "switch_step": a.switch_step, "reset_at_switch": a.reset_at_switch,
-           "reset_optim_part": a.reset_optim_part,
+           "reset_optim_part": a.reset_optim_part, "batch_size": mbs,
            "final_acc": {"train": accuracy(model, trx, try_, p), "test": accuracy(model, tex, tey, p)},
            "generalization_step": gen_step, "test_curve": test_curve, "sec_per_step": round((time.perf_counter() - t0) / a.steps, 5),
            "versions": {"python": platform.python_version(), "torch": torch.__version__, "numpy": np.__version__},
@@ -186,6 +199,7 @@ def main() -> None:
     ap.add_argument("--switch-step", type=int)
     ap.add_argument("--reset-at-switch", choices=tuple(RESET_PARTS))
     ap.add_argument("--reset-optim-part", choices=("m",), help="zero Adam's first moment at the switch (N28 arm m)")
+    ap.add_argument("--batch-size", type=int, default=0, help="i.i.d. minibatch size as freq_ban (0 = full batch, unchanged)")
     ap.add_argument("--task", default="add", choices=("add", "mul"))
     ap.add_argument("--p", type=int, default=113)
     ap.add_argument("--steps", type=int, default=2000)

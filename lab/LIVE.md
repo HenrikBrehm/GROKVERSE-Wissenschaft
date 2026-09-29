@@ -1,54 +1,23 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 47: **Sitzung beendet**
+# LIVE: Laborsitzung 49
 
-- **Sitzungsstart:** 2026-09-29 03:29 Berlin (01:29Z, vom Runner)
-- **Deadline:** 2026-09-29 06:29 Berlin (04:29Z)
-- **Zuletzt aktualisiert:** 06:02 Berlin
-- **Run-Fenster:** offen (durchgehend bis 06.10.).
+- **Sitzungsstart:** 2026-09-29 08:49 Berlin (06:49Z, vom Runner, nach Absturz von Sitzung 48 um 08:24)
+- **Deadline:** 2026-09-29 11:49 Berlin (09:49Z)
+- **Zuletzt aktualisiert:** 08:55 Berlin
+- **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe laufen jetzt über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-**Sitzung beendet** (06:02). Keine laufenden Prozesse. Abschlussbericht im JOURNAL.
+- GPU-Dienst: `20_s48c_r0long_10k` (60 Läufe, 8 Worker: EXP-102 „r0 lang“ + EXP-112 „10k“).
+- EXP-105-Pilot, Fortsetzung der 2 offenen Läufe **gescheitert**: Fehler beim Laden des Checkpoints (RNG-Zustand landet auf der GPU). Die zwei abgestürzten Trainerprozesse hängen und blockieren 2 Worker bis ≈ 10:20 (Wächter-Grenze 90 min). **Beenden wurde mir nicht freigegeben – Entscheidung beim Nutzer.** Reparatur liegt bereit (`resume_wrapper.py`, Run-ID bleibt gleich).
 
 ## Als Nächstes
 
-Nächster Runner-Start laut runner-state.json **29.09. 07:04 Berlin**: Paper weiter (Regel 20d), Sprachmodell-Leiter „Verlust auf allen Positionen“ bis zum Grokking (vorab festlegen), danach Minibatch-Stufe.
+Sobald die hängenden Jobs weg sind: Pilot-Fortsetzung mit dem Wrapper einreihen. Bis dahin: Paper (Regel 20d) und Tagesbericht.
 
 ## Verlauf dieser Sitzung
 
-- 06:02 Sitzung beendet (Bericht im JOURNAL).
-
-- 05:51 **Korrektur:** Die „Überraschung“ von 05:45 hält nicht: Auf zwei anderen Netzen ist die vierfache Lernrate bei Päckchen zu 64 sogar etwas schneller (EXP-111). Kein belastbarer Befund.
-
-- 05:45 **Überraschung (EXP-110, 2 Netze):** Bei Päckchen zu 64 legt sich das Netz mit vierfacher Lernrate *später* fest als mit doppelter (305/355 gegen 205/225 Schritte); bei großen Päckchen weiter schneller. Nachgerechnet.
-- 05:41 Leiter bis 30 000 Schritte: Steuerung wächst weiter (4.2–4.6), nur 1 von 4 Netzen hat generalisiert → eher verzögert als blockiert.
-
-- 05:30 Leiter-Folgetest (10 000 Schritte): Verlust auf allen Positionen verzögert das Lernen um mehr als das Zehnfache; die Steuerung bleibt vorhanden (wachsend), aber reduziert.
-
-- 05:12 **Leiter Stufe 1 (Pilot):** Operator-Token, volle Softmax und gebundene Embeddings ändern die Steuerung nicht. Verlust auf allen Positionen senkt sie um 80 %, aber diese Netze haben bis Schritt 2000 gar nicht generalisiert → Folgetest.
-- 05:05 Paper: §6/§7 und Langfassung §3.19 mit N54b, nach unabhängiger Prüfung korrigiert.
-
-- 04:55 Leiter-Trainer bitgleich zum bisherigen Trainer → Pilot EXP-102 gestartet.
-- 04:53 Modellvergleich: „Drift + etwa zwei Durchgänge durch die Daten“ beschreibt die Festlegungszeit am besten (nachträglich, Hypothese).
-- 04:51 **N54b BESTÄTIGT (10 neue Netze, eingefroren, nachgerechnet):** Festlegungszeit wächst etwa mit √(Schritte pro Durchgang) (α = 0.58); doppelte Lernrate hilft bei kleinen Päckchen weniger (Δα = +0.14, 10/10).
-
-- 04:15 Paper: §6 um die Batch-Reihe (Wurzel-Uhr, Exploration) ergänzt; Literatur eingetragen. Sprachmodell-Leiter: Selbsttests bestanden, Gleichwertigkeitsprüfung vorbereitet.
-
-- 04:10 Modellvergleich für die N54b-Daten vorab festgelegt (reine Sign-Drift / Drift + Diffusion / frei).
-- 04:09 Repro-Smoke abgebrochen: CPU-Lauf neben 10 GPU-Prozessen überlastete die Kerne (Pfad-Aufruf selbst funktioniert).
-- 04:08 Paper: §3.18 und EXP-103-Satz nach Quellenprüfung korrigiert (keine Zahlenfehler).
-- 04:06 Nachträglich: Festlegung liegt immer bei ≈ ¼ der Zeit bis 50 % Trainingsgenauigkeit, also vor der Memorisierung; Lesart „unklar“.
-
-- 03:49 **N54b eingefroren** (624c2213) und gestartet; Smoke ok.
-
-- 03:46 **EXP-109:** doppelte Lernrate halbiert die Festlegungszeit bei großen Batches (1024: 31 statt 62 Schritte), bei B 64 nur ×0.75 → Registrierung umgestellt (H2: gepaarte Exponent-Differenz > 0).
-
-- 03:40 Prüfung des Bestätigungsskripts: kein Blocker; 4 Punkte übernommen. Full-Batch-Arm gestrichen (teuer; Modell sagt Sättigung dort) → 840 Läufe.
-- 03:40 Literatur: keine Arbeit mit dieser Wurzel-Skalierung gefunden; Adam/Sign-Modell sagt α = 0.5 und Halbierung bei doppelter Lernrate voraus.
-- 03:40 Paper: Abb. 4 englisch; Langfassung §3.18 (L0-Bestätigung).
-
-- 03:36 Bestätigungsskript confirm_n54b.py: Selbsttest ok.
-- 03:33 EXP-109 festgelegt (Commit 9804ce01) und gestartet.
-- 03:30 Stand gelesen; keine laufenden Prozesse; Fenster offen.
+- 08:53 queue_s48c über die Inbox eingereiht (läuft, 8 Worker).
+- 08:51 Pilot-Fortsetzung über die Inbox: RNG-Fehler beim Laden entdeckt, Wrapper geschrieben.

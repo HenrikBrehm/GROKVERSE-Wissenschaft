@@ -31,7 +31,9 @@ INCLUDE = ("lab/paper/draft_short.md", "lab/paper/draft.md", "lab/paper/related_
            "lab/paper/manuscript.md", "lab/paper/build_manuscript.py", "lab/paper/references.md",
            "lab/confirm/confirm_lm1.py", "lab/confirm/LM1_independent_recompute.py",
            "lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py", "lab/experiments/EXP-105-lm-ladder-stage2/analyze_pilot.py",
-           "lab/experiments/EXP-102-lm-ladder-stage1/design.py", "lab/experiments/EXP-102-lm-ladder-stage1/analyze.py")
+           "lab/experiments/EXP-102-lm-ladder-stage1/design.py", "lab/experiments/EXP-102-lm-ladder-stage1/analyze.py",
+           # s52: untested LaTeX export of the manuscript (Overleaf)
+           "lab/paper/build_tex.py", "lab/paper/tex/*")
 EXCLUDE = ("*/__pycache__/*", "lab/runner/*", "lab/external/*", "*_raw/*", "*/raw/*", "lab/paper/repro/out/*", "lab/paper/outreach/*")
 
 

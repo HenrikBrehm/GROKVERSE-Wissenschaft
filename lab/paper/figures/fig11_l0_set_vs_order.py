@@ -25,6 +25,8 @@ C1, C2, INK, MUTED, SURFACE, GRID = "#2a78d6", "#eb6834", "#0b0b0b", "#52514e", 
 ARMS = (("fb", "full batch\n2000"), ("fb30k", "full batch\n30 000"), ("iid256", "minibatch\n256"), ("iid64", "minibatch\n64"),
         ("sgdm256", "SGD+mom.\n256"), ("stride256", "stride order\n256"))
 CHANCE_O = 6 / 56
+EN = {"Menge steuert unter Minibatch": "yes (pilot, 8 seeds)",   # s47: English title from the pre-fixed German readings
+      "Konflikt nicht pruefbar (Reihenfolge wirkt nicht)": "not testable (order has no effect)"}
 
 
 def boot_ci(v: np.ndarray, rng: np.random.Generator, n: int = 10000) -> tuple[float, float]:
@@ -65,6 +67,7 @@ def plot(rows: list[dict], out_dir: Path, reading: str = "") -> None:
     for j, (arm, _) in enumerate(ARMS):
         v = np.array([r[f"dpow_end_{arm}"] for r in ok if f"dpow_end_{arm}" in r], float)
         if not len(v):
+            ax.text(j, 0.5, "not\nevaluable", ha="center", va="bottom", fontsize=7, color=MUTED)   # s47: SGD arm dropped (calibration)
             continue
         col = MUTED if arm.startswith("fb") else (C2 if arm == "stride256" else C1)
         ax.scatter(j + rng.uniform(-0.08, 0.08, len(v)), v, s=9, color=col, alpha=0.7, zorder=2)
@@ -100,7 +103,8 @@ def main() -> None:
         return
     summ = json.loads((LAB / "experiments/EXP-100-set-vs-order/summary.json").read_text(encoding="utf-8"))
     p = summ["primary"]
-    plot(summ["rows"], HERE, f"K2 under minibatch: {p.get('K2_MB')}; conflict: {p.get('Konflikt')}")
+    plot(summ["rows"], HERE, f"set steers under minibatch: {EN.get(p.get('K2_MB'), p.get('K2_MB'))}; "
+                             f"conflict test: {EN.get(p.get('Konflikt'), p.get('Konflikt'))}")
     print("[fig11] written")
 
 

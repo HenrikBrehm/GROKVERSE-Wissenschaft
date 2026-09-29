@@ -108,3 +108,16 @@ Abnahmeregel Fall 1 (Gleichwertigkeit bitgleich, Sitzung 37) → Schwellen der S
 | `k2_function_p2e.py` (P2e, mul 113 und add 97, je 20 Seeds) | D mul 113 0.2909, add 97 0.2939 [0.275, 0.312], je 20/20, bestätigt | P2e: max. Abweichung je Seed 6.7·10⁻⁸ / 9.2·10⁻⁸ → **reproduziert** | 1853 s (unter Last) |
 | **Stand Sitzung 42:** alle Skripte des Pakets einmal vollständig im Fenster gelaufen und gegen die eingefrorenen Zusammenfassungen reproduziert | – (GPU für EXP-094; „EXIT 1“ bei k2 mul = dieser Abbruch); Wiederaufnahme mit derselben Kette (fertige Läufe werden wiederverwendet) | – | – |
 
+## Sitzung 49 (2026-09-29): Skripte für die Hauptaussagen des gekürzten Entwurfs (L0, R4, R5, R6, R8)
+
+Bis Sitzung 42 deckte das Paket K2, K2-Funktion und K4 ab. Der Haupttext der Kurzfassung (Regel 20d) stützt sich zusätzlich auf R4, R5, R6/R8 und L0; dafür gibt es jetzt je ein Skript im selben Muster (Splits von Grund auf aus der eingefrorenen Konstruktion, schlanker Trainer `train.py`, Auswertung mit den eingefrorenen Statistikfunktionen und denselben Generator-Seeds, `--compare-…` gegen die eingefrorene Zusammenfassung). Neu in `train.py`: `--batch-size` (i.i.d.-Minibatch wie `freq_ban.py`, gleicher Reihenfolge-Strom) und `--dense` (dichte Genauigkeitsspur für das R5-Ereignis); beide ändern den Standardpfad nicht. Lange Läufe gehen über den GPU-Dienst (Regel 21): `--jobs-out lab/queue/inbox/<datei>.jobs`, danach dasselbe Skript ohne `--jobs-out` zur Auswertung.
+
+| Skript | Aussage | Läufe | Smoke (CPU) | Splits gegen eingefroren | Volllauf |
+|---|---|---|---|---|---|
+| `l0.py` | L0: K2 unter Minibatch B 256/64 | 40 × 30 000 | ok (1 Seed, 300 Schritte) | bitgleich (Seed 3720) | eingereiht `30_repro_l0` |
+| `r5.py` | R5: konstruierte Splits früher | 140 × 8000 | ok (1 Einheit) | bitgleich (Einheit 0, 8 Mengen) | eingereiht `31_repro_r5` |
+| `r6.py` | R6: Wechselkosten C(25), C(25) − C(50) | 480 | ok (1 Seed, t 25/50) | bitgleich (Seed 2800) | eingereiht `32_repro_r6` |
+| `r8.py` | R8: nur Wechsel zu anderen Zielen kostet | 175 | ok (1 Seed) | bitgleich (Seed 3100, 4 Mengen) | eingereiht `33_repro_r8` |
+| `r4.py` | R4: Zufallssplits prägen die Frequenzen | 240 × 8000 | ok (1 Einheit) | bitgleich (Einheit 0) | eingereiht `34_repro_r4` |
+
+**Gleichwertigkeit Minibatch-Pfad (GPU, 2026-09-29 07:22Z):** `train.py --batch-size` gegen den eingefrorenen L0-Lauf Seed 3720 F, 2500 Schritte: bitgleich bei B 256 und 64 (Abnahmeregel Fall 1, Schwellen unverändert). Auswertung nach den Volläufen: `python lab/tools/guarded_run.py -- python lab/paper/repro/<skript>.py --device cuda --compare-<block>`.

@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 19:29 Berlin (17:29Z, vom Runner)
 - **Deadline:** 2026-09-29 22:29 Berlin (20:29Z)
-- **Zuletzt aktualisiert:** 21:54 Berlin
+- **Zuletzt aktualisiert:** 22:03 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- **Sitzung beendet (21:54).** Nächster geplanter Start laut Runner: 29.09. 23:04 Berlin. Der GPU-Dienst rechnet weiter: LM1-F (10/20 Modelle, Ende nach Schätzung ≈ 23:05), EXP-119, EXP-113-Rest, EXP-116.
+- **Sitzung beendet (21:54).** Nächster geplanter Start laut Runner: 29.09. 23:04 Berlin. Der GPU-Dienst rechnet weiter: LM1-F (11/20 Modelle, Ende nach Schätzung ≈ 23:05), EXP-119, EXP-113-Rest, EXP-116.
 - Heute Abend: **LM1 bestätigt** (Sprachmodell, 10/10 Seeds); eigene Deutungsfehler durch Logikprüfungen gefunden und korrigiert; R4-Reproduktion abgeschlossen.
 
 ## Als Nächstes
@@ -23,6 +23,7 @@ Nächste Sitzung: LM1-F auswerten (läuft, 8/20 Modelle), unabhängig nachrechne
 
 ## Verlauf dieser Sitzung
 
+- 22:03 Anhänge C/D: 8 Logik-Punkte geprüft und eingearbeitet, Diff unabhängig geprüft (keine Probleme).
 - 21:54 Sitzungsende; Logikprüfung Anhänge C/D (8 Punkte) als Liste für die nächste Sitzung.
 - 21:45 R4-Abweichung geklärt: eingefrorener Lauf war ein einmaliger Ausreißer (alter und neuer Trainer stimmen untereinander bitgleich überein).
 - 21:23 R4-Reproduktion: 239/240 Läufe bitgleich, 1 Lauf weicht ab Schritt 2250 ab (Urteile gleich); Wiederholungen laufen.

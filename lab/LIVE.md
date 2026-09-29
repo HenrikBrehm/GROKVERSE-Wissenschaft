@@ -5,18 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 03:29 Berlin (01:29Z, vom Runner)
 - **Deadline:** 2026-09-29 06:29 Berlin (04:29Z)
-- **Zuletzt aktualisiert:** 05:13 Berlin
+- **Zuletzt aktualisiert:** 05:32 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-**Folgetest Sprachmodell-Leiter (40 Läufe à 10 000 Schritte, Start 05:14):** Lernt das Netz mit „Verlust auf allen Positionen“ nur später (und die Steuerung kommt zurück), oder blockiert dieses Ziel die Steuerung? Parallel: unabhängige Nachrechnung des Leiter-Piloten.
+Zwei kleine Tests laufen bis ≈ 06:05: (1) Festlegungsuhr bei vierfacher Lernrate (Stabilität, Vergleich der drei Modelle); (2) lernt das Netz mit „Verlust auf allen Positionen“ bis 30 000 Schritte doch noch, und kommt die Steuerung zurück?
 
 ## Als Nächstes
 
-Folgetest auswerten (Lesarten vorab), dann Abschlussbericht (Deadline 06:29).
+Auswerten, Stand sichern, Abschlussbericht (Deadline 06:29).
 
 ## Verlauf dieser Sitzung
+
+- 05:30 Leiter-Folgetest (10 000 Schritte): Verlust auf allen Positionen verzögert das Lernen um mehr als das Zehnfache; die Steuerung bleibt vorhanden (wachsend), aber reduziert.
 
 - 05:12 **Leiter Stufe 1 (Pilot):** Operator-Token, volle Softmax und gebundene Embeddings ändern die Steuerung nicht. Verlust auf allen Positionen senkt sie um 80 %, aber diese Netze haben bis Schritt 2000 gar nicht generalisiert → Folgetest.
 - 05:05 Paper: §6/§7 und Langfassung §3.19 mit N54b, nach unabhängiger Prüfung korrigiert.

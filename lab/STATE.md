@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 04:57 Berlin (Sitzung 47 läuft, Deadline 06:29) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 05:32 Berlin (Sitzung 47 läuft, Deadline 06:29) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,12 +17,12 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Aktive Queue / laufende Jobs
 
-- **EXP-102 Leiter-Pilot läuft** (Start ≈ 04:56, Sitzung 47): 200 Läufe à 2000 Schritte, 10 GPU-Worker, Log `lab/runner/logs/exp102_pilot.out`. Gleichwertigkeit r0 ↔ freq_ban bitgleich. **Wiederaufnahme:** dieselbe Queue erneut starten (fertige Läufe werden übersprungen), dann `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-102-lm-ladder-stage1/analyze.py`.
-- **N54b fertig und bestätigt** (H1 α(1e-3) 0.583 [0.560, 0.606]; H2 Δα +0.139 [0.098, 0.178]); unabhängige Nachrechnung läuft/Ergebnis im JOURNAL.
+- **EXP-110** (lr-4e-3-Pilot zu N54c, 84 Läufe, 6 Worker, Start ≈ 05:35, Log `lab/runner/logs/exp110.out`) und **EXP-102 „all 30k“** (4 Läufe à 30 000 Schritte, 4 Worker, `lab/runner/logs/exp102_30k.out`). Werden bei der Sitzungsdeadline 06:29 ggf. vom Wächter beendet. **Wiederaufnahme:** dieselben Queues erneut starten (`python lab/tools/parallel_queue.py lab/experiments/EXP-110-lockin-lr4-pilot/jobs.txt --workers 6 --min-minutes 3`; `… EXP-102-lm-ladder-stage1/jobs_long30k.txt --workers 4 …`; fertige Läufe werden übersprungen, unfertige lm_ladder-Läufe mit `run.lock` vorher beiseitelegen), dann `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-110-lockin-lr4-pilot/analyze.py`.
+- Fertig in Sitzung 47: **N54b bestätigt** (H1 α 0.583 [0.560, 0.606]; H2 Δα +0.139 [0.098, 0.178]; nachgerechnet); EXP-109; **EXP-102** Pilot (nachgerechnet) + Folgetest 10k („grokkt nicht“: Verlust auf allen Positionen verzögert Grokking > ×10).
 
 ## Nächste Schritte (Regel 20)
 
-1. **EXP-102 auswerten** (Leiter Stufe 1, Pilot; Lesarten vorab in `analyze.py`), unabhängig nachrechnen, README/LAB/FINDINGS; dann Minibatch-Stufe (Stufe 4) nach L0-Protokoll.
+1. **EXP-102 weiter:** Stufe „all“ grokkt bis 10 000 kaum; 30k-Test (2 Seeds) auswerten, dann Vergleich nach dem Grokking vorab festlegen (längeres Budget oder angepasstes wd); danach Minibatch-Stufe. Leiter-Ergebnis in FINDINGS/Paper erst nach diesem Schritt.
 2. **N54c** (nächster Test der Festlegungsuhr): lr 4e-3, Vorhersagen im JOURNAL (05:00) — M_add 20/56/177, M_pow 23/57/141, M_i 18/36/72 für B 1024/256/64. Erst Stabilitätspilot (2 gesehene Seeds), dann Registrierung mit Seeds 3910–3919.
 3. **Paper:** N54b-Text in §6 nach der unabhängigen Prüfung korrigieren; Langfassung §3.19 (N54b); Abstract ggf. (1875/1920 Zeichen); Zenodo (k2.py-Pfad = Nutzerentscheidung); Repro-Pfad-Smoke `k4c.py --smoke` nur ohne laufende GPU-Queue (CPU-Überlast).
 4. L0b (Reihenfolge bei langen Epochen) bleibt offen, niedrigere Priorität.

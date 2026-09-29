@@ -50,3 +50,18 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 
 **Der vorab formulierte Erklärungssatz ist widerlegt** ([[paper/LM1_DEUTUNGEN]], Satz „constructed faster“, zweiter Teil: „weil das LM Trainings- und zurückgehaltene Fakten fast gleichzeitig lernt, ist das eine Verschiebung des Lernbeginns, keine kürzere Grokking-Lücke“). Beschreibend (nicht vorab festgelegt): Die **Trainingsfakten** lernt R genauso früh wie F/G (1870 gegen 1872/1873; 2112 gegen 2115/2343). Nur die **zurückgehaltenen** Fakten folgen bei R nicht: bis 6000 Schritte ≈ 0.33, also mindestens ≈ 3900 Schritte Lücke nach der Memorisation (genauer: ein Plateau bei ≈ 0.3 von 2000/3000 bis 6000, langsam steigend 0.30 → 0.33; ob R später generalisiert, ist offen). Im LM erzeugt der Zufallssplit demnach eine grokking-artige Lücke, die konstruierten Splits nicht (dort 17–78 Schritte). Der Vorteil liegt also in der Lücke, nicht im Lernbeginn (ob das im Spielzeugmodell für R5 genauso ist, ist im Paper nicht belegt; die dortige Lücken-Zerlegung betrifft die Wechselkosten, Anhang F). Die frühere Beobachtung „im LM keine Grokking-Lücke“ (Sitzung 52, post hoc, 9 Läufe) galt nur für konstruierte Splits.
 **Grenzen (vorab und neu):** 2 Seeds, Exploration; keine je Antwort abgeglichene Kontrolle D, die P1-Splits tragen die Ziele auch in den Zahl-Häufigkeiten, ein Häufigkeitseffekt ist deshalb nicht ausgeschlossen (Folgefrage wie vorab: flache Splits gegen ihr Zufallsgegenstück, vgl. BACKLOG LM2). 6000 Schritte: Ob R später generalisiert, ist offen (ein abgebrochener Lauf beweist nichts). ρ bei R 0.57 / 0.29 (beschreibend; R4-Analogon, kein Befund).
+
+## Nachtrag 1 (Sitzung 54, 23:41 gemessen; post hoc, Lesart vorab im JOURNAL Zyklus 10): Das Plateau ist Kommutativität
+
+`commutativity_s54.py` → `commutativity_s54.json` (GPU, 16 s; Endmodelle Schritt 6000, Genauigkeit = geloggte exakt). **Vorab-Lesart: „Kommutativität erklärt das Plateau“.**
+
+| Seed | Arm | zurückgehalten gesamt | Tauschpaar (b, a) im Training (n) | sonst (n) |
+|---|---|---|---|---|
+| 3866 | F | 0.989 | 1.000 (777) | 0.984 (1777) |
+| 3866 | G | 0.983 | 1.000 (734) | 0.976 (1820) |
+| 3866 | R | 0.333 | **0.989** (813) | **0.027** (1741) |
+| 3867 | F | 0.977 | 0.996 (767) | 0.968 (1787) |
+| 3867 | G | 0.988 | 1.000 (762) | 0.983 (1792) |
+| 3867 | R | 0.322 | **0.996** (774) | **0.029** (1780) |
+
+Deutung (Exploration, 2 Läufe): Mit dem Zufallssplit hat das LM bis Schritt 6000 nur die Vertauschungsregel a + b = b + a gelernt (Nachschlagen des gespiegelten Trainingsfakts), nicht die Addition; auf Fakten ohne gespiegeltes Gegenstück liegt es nahe am Zufall (1/113 ≈ 0.009). Mit den konstruierten Splits generalisiert es auf beide Gruppen. Die Lücke von EXP-119 ist damit keine „langsame Generalisierung“, sondern Generalisierung nur über die Symmetrie. Offen: ob R später die Addition lernt; ob das Spielzeugmodell mit Zufallssplit vor dem Grokking dasselbe Muster zeigt (dort mit Klassifikationskopf und gleichen Daten prüfbar).

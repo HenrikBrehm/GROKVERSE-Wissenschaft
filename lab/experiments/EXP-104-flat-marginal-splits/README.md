@@ -1,8 +1,8 @@
 ---
 id: EXP-104
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-28
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat, befund/positiv]
 ---
 # EXP-104 (Exploration, N53): Steuert ein Split mit exakt flachen Häufigkeiten von a, b und c, und blockiert seine Symmetrie das Grokking?
 
@@ -42,3 +42,17 @@ Erwartete Dauer: wie P1-Läufe bis 2000 Schritte plus Generalisierungsphase; nic
 **Bereits gesehene Daten:** keine Läufe mit diesen Splits oder Seeds. Die Konstruktion stammt aus reiner Rechnung (`lab/experiments/EXP-102-lm-ladder-stage1/flat_marginal_*_s45.py`).
 
 **Prüfung vor dem Lauf (Sitzung 45, unabhängiger Claude-Agent, nur lesend; selbst im Code nachgesehen):** 2 Blocker behoben: (1) `freq_ban.py:524-527` verlangt round(train_frac·p²) = 3831 Paare, die flachen Splits haben 3842 → `--train-frac 0.3009`; (2) das Suchmuster der Auswertung hätte keinen Lauf gefunden (Name `EXP-018_…_tf0.3009_devcuda`) → exakter Name. 3 Major übernommen (gemeinsame Testmenge, vollständige Lesarten, „dagegen“-Lesart gestrichen). Minor: Anteile je Ziel werden berichtet (s3850 G: Ziel 3 nur 0.031, 25 und 50 dominieren und sind harmonisch verwandt); der json-Schlüssel `m0_target_share` meint das Maskenspektrum M0, nicht „m = 0“. Bestätigt: Splits exakt flach, ohne Duplikate, F/G disjunkt, Tauschzüge ≤ 3m Paare, nach 10 Zügen nur noch die Identität als Verschiebungssymmetrie (beste Überlappung einer Verschiebung aber noch ≈ 98.5 %), `spectra.npy` ist für add 113 dieselbe Basis wie P1 (Abweichung 2.5·10⁻¹⁵).
+
+## Ergebnis (Sitzung 48, 2026-09-29, 07:04 Berlin gemessen; 12/12 Läufe, 2 Seeds, Exploration; `summary.json`; nicht nachgerechnet)
+
+| Seed | m | F gen / Test am Ende | G gen / Test am Ende | Δ_pow (2000) | Zelle |
+|---|---|---|---|---|---|
+| 3850 | 0 | – / 0.58 | – / 0.87 | 10.10 | scheitert |
+| 3850 | 10 | – / 0.63 | – / 0.86 | 9.78 | scheitert |
+| 3850 | 500 | 725 / 1.00 | 350 / 1.00 | 6.02 | generalisiert |
+| 3851 | 0 | – / 0.39 | 850 / 0.97 | 7.05 | gemischt |
+| 3851 | 10 | – / 0.42 | 1100 / 0.98 | 7.22 | gemischt |
+| 3851 | 500 | 2400 / 1.00 | 525 / 1.00 | 6.06 | generalisiert |
+
+**Lesarten (vorab):** (a) *Steuerung:* Δ_pow > 1 in beiden Seeds bei **jedem** m → „steuert bei flachen Häufigkeiten“ (m = 0, 10, 500). Die Steuerung braucht also kein Häufigkeitssignal von a, b oder c; die Paarstruktur allein reicht (2 Seeds). (b) *Symmetrie:* m = 0 und m = 10: Seeds uneinig (3850 scheitert, 3851 gemischt) → „keine Lesart“; m = 500 generalisiert in beiden Seeds. Beschreibend: Bis 8000 Schritte generalisierten 1/8 Läufe mit m ≤ 10 gegen 4/4 mit m = 500; das passt zu „(nahezu) verschiebungsinvariante Splits bremsen oder blockieren das Grokking“ (vgl. Tomàs Bernal et al. 2026 für RFM), ist aber mit 2 Seeds keine Aussage.
+**Folge für [[experiments/EXP-105-lm-ladder-stage2/README|EXP-105]]:** Nach der vorab festgelegten Regel (flache Splits nur, wenn m = 10 in beiden Seeds generalisiert) nutzt der Stufe-2-Pilot die P1-Splits (EXP-102, Seeds 3800/3801) mit dem Vermerk, dass dort auch die Häufigkeiten die Ziele tragen. Kandidat für später: flache Splits mit m = 500 (generalisieren und steuern, Δ_pow ≈ 6) als Häufigkeitskontrolle.

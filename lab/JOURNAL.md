@@ -4663,3 +4663,17 @@ Auswertecode-Fehler vor dem Lauf gefunden und behoben: `import design` hätte da
 
 **Ergebnis „all 60k“ (Sitzung 48, 07:00 Berlin gemessen; `long60k_summary.json`; Exploration, nicht nachgerechnet):** 20/20 Läufe fertig; auswertbar (F und G generalisiert) **9/10 Seeds** (3801 F nicht; Test 0.76 bei 30k laut früherem Lauf). Generalisierungsschritte 9 350–46 475 (r0: Median 763). **Lesart (vorab): „unklar“** — Δ_pow nach dem Grokking (t_post = 22 000–47 000) **4.40 [3.83, 4.91]**, 9/9 > 0; das KI schließt das halbe r0 (4.02) ein. Beschreibend: gepaart gegen r0 bei 2000 **−3.75 [−4.68, −2.97]** (9/9 kleiner), also ≈ 55 % des r0-Werts; Δ_pow bei 10k/30k/60k (alle 10 Seeds): 3.08 / 4.29 / 4.59 — wächst nach ≈ 30k kaum noch (Plateau). Spearman(späteres Grokking, Δ_pow danach) −0.43 (n = 9).
 **Deutung (vorsichtig):** Mit Verlust auf allen Positionen bleibt die Steuerung auch nach dem Grokking deutlich kleiner als bei Antwort-Verlust (gepaart in 9/9 Seeds), erholt sich aber auf gut die Hälfte; sie ist also weder blockiert noch voll erholt. Meine Vorab-Erwartung („eher unklar oder knapp erholt“) traf. Für die Leiter: Das autoregressive Ziel auf den Operanden schwächt die Datensteuerung dauerhaft, zerstört sie aber nicht. Offene Alternative: Die längere Trainingszeit selbst (Weight Decay über 20–45k Schritte) könnte Δ_pow verändern; r0 wurde nur bis 2000 gelesen. Ein fairer Vergleich bräuchte r0 bei gleichem Schritt nach dem Grokking bzw. bei gleicher Gesamtschrittzahl (nicht festgelegt, nur als Kandidat notiert).
+
+**EXP-104 Ergebnis (Sitzung 48, 2026-09-29, 07:04 Berlin gemessen; 12/12 Läufe, 2 Seeds, Exploration; `summary.json`; nicht nachgerechnet)**
+
+| Seed | m | F gen / Test am Ende | G gen / Test am Ende | Δ_pow (2000) | Zelle |
+|---|---|---|---|---|---|
+| 3850 | 0 | – / 0.58 | – / 0.87 | 10.10 | scheitert |
+| 3850 | 10 | – / 0.63 | – / 0.86 | 9.78 | scheitert |
+| 3850 | 500 | 725 / 1.00 | 350 / 1.00 | 6.02 | generalisiert |
+| 3851 | 0 | – / 0.39 | 850 / 0.97 | 7.05 | gemischt |
+| 3851 | 10 | – / 0.42 | 1100 / 0.98 | 7.22 | gemischt |
+| 3851 | 500 | 2400 / 1.00 | 525 / 1.00 | 6.06 | generalisiert |
+
+**Lesarten (vorab):** (a) *Steuerung:* Δ_pow > 1 in beiden Seeds bei **jedem** m → „steuert bei flachen Häufigkeiten“ (m = 0, 10, 500). Die Steuerung braucht also kein Häufigkeitssignal von a, b oder c; die Paarstruktur allein reicht (2 Seeds). (b) *Symmetrie:* m = 0 und m = 10: Seeds uneinig (3850 scheitert, 3851 gemischt) → „keine Lesart“; m = 500 generalisiert in beiden Seeds. Beschreibend: Bis 8000 Schritte generalisierten 1/8 Läufe mit m ≤ 10 gegen 4/4 mit m = 500; das passt zu „(nahezu) verschiebungsinvariante Splits bremsen oder blockieren das Grokking“ (vgl. Tomàs Bernal et al. 2026 für RFM), ist aber mit 2 Seeds keine Aussage.
+**Folge für [[experiments/EXP-105-lm-ladder-stage2/README|EXP-105]]:** Nach der vorab festgelegten Regel (flache Splits nur, wenn m = 10 in beiden Seeds generalisiert) nutzt der Stufe-2-Pilot die P1-Splits (EXP-102, Seeds 3800/3801) mit dem Vermerk, dass dort auch die Häufigkeiten die Ziele tragen. Kandidat für später: flache Splits mit m = 500 (generalisieren und steuern, Δ_pow ≈ 6) als Häufigkeitskontrolle.

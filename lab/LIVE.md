@@ -5,19 +5,25 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-29 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 02:40 Berlin
+- **Zuletzt aktualisiert:** 03:08 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-GPU: **L0-Bestätigung** (40 Läufe, 10 frische Seeds) und EXP-106 (lange Epochen) laufen; EXP-107 (Festlegung in Epochen?) startet nach EXP-106.
+GPU: **EXP-108** (Festlegungsfenster bei B = 64 und 1024, 176 kurze Läufe, 10 Worker). Ein Agent rechnet die L0-Wechselläufe nach. Danach Abschlussbericht.
 
 ## Als Nächstes
 
-EXP-106 auswerten (≈ 02:55) → EXP-107 (≈ 03:10) → L0 `--analyze` (≈ 03:15) → Abschluss vor 03:49.
+Sitzungsende ≈ 03:40; nächste Sitzung: EXP-108 auswerten (Code schreiben, Lesarten stehen), L0b registrieren, Paper-Langfassung ergänzen.
 
 ## Verlauf dieser Sitzung
 
+- 03:07 EXP-108 festgelegt und gestartet (Vorhersage Wurzel-Uhr: B 64 ≈ 240, B 1024 ≈ 60 Schritte).
+- 03:05 Paper: §6 und Abstract nach unabhängiger Textprüfung korrigiert (Abstract 1875 Zeichen).
+- 03:04 EXP-103 (Füllarbeit): lr·wd-Uhr ab ≈ 250 Schritten, davor zählt die Lernrate allein.
+- 03:00 **EXP-107: Unter Päckchen (B 256) legt sich die Wahl bei 100–200 Schritten fest** (Full-Batch ≈ 30); nachgerechnet.
+- 02:56 **L0 BESTÄTIGT:** Steuerung durch die Menge hält unter Päckchen-Training (10/10 frische Netze bei B 256 und 64); nachgerechnet.
+- 02:51 **EXP-106:** bei langen Epochen steuert die Menge; feste Reihenfolge verschiebt nur Zufallssplits, kostet bei konstruierten Splits Zeit.
 - 02:37 L0-Bestätigung: Smoke ok, Block gestartet. EXP-107 festgelegt.
 - 02:33 **Unter Päckchen-Training (B = 256) keine Festlegung bis 50 Schritte** (Full-Batch-Fenster repliziert). Kein Horizont-Artefakt. Vermutung: zählt in Epochen.
 - 02:25 **L0-Bestätigung eingefroren** (H1/H2, n = 10; Prüfung: kein Blocker, Text nachgeschärft).

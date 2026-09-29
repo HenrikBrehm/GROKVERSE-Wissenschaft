@@ -5,25 +5,27 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 19:29 Berlin (17:29Z, vom Runner)
 - **Deadline:** 2026-09-29 22:29 Berlin (20:29Z)
-- **Zuletzt aktualisiert:** 19:40 Berlin
+- **Zuletzt aktualisiert:** ≈ 20:20 Berlin (letzte Messung 20:17)
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- **Eigenen Fehler gefunden:** Die Erklärung „Rückgang von Δ_pow bei flachen Splits = Verdünnung“ (Sitzung 52) kann nicht stimmen: Δ_pow ist ein Verhältnis eigene/fremde Zielenergie, andere Frequenzen ändern es nicht. Der Rückgang kommt daher, dass die Ziele des *anderen* Arms schneller wachsen. Unabhängig nachgerechnet, in Paper und Notizen korrigiert (Korrektur angehängt, nicht überschrieben).
+- **Störung:** Die Auto-Mode-Sicherheitsprüfung antwortet seit ≈ 20:18 nicht (wie heute früh); Shell-Befehle gehen nicht, Lesen und Bearbeiten schon. Nach 8 Fehlversuchen beende ich die Sitzung geordnet, bevor die harte Grenze (10) sie abbricht. Der GPU-Dienst läuft unabhängig weiter; der Runner startet die nächste Sitzung (bei Dienststörung Wiederholung nach 15 min). **Nicht committet:** die letzten Paper-Edits (Zyklus 6), JOURNAL, STATE, ERKLAERUNG – der Wiederaufnahmeweg steht in STATE (Sitzung 53).
+- Warte auf LM1 (Stand 20:17: 17/20 fertig, 2 laufen, 1 offen) → Block nach Schätzung ≈ 20:50 fertig.
 
 ## Als Nächstes
 
-Logikprüfung von Anhang J (Sprachmodell) durch einen unabhängigen Agenten läuft. LM1 ist nach Schätzung gegen 21:30 fertig (≈ 48 min je Lauf, 2 parallel).
+LM1 auswerten (eingefroren) → unabhängige Nachrechnung → LM1-F als Dienst-Job.
 
-LM1 20/20 → `confirm_lm1.py --analyze` → unabhängige Nachrechnung → LM1-F als Dienst-Job.
+## Dienst (19:57)
 
-## Dienst (19:39)
-
-LM1 15/20 (Lauf 16 bei 4500/6000, Lauf 17 bei 2000), R4-Repro 134/240, EXP-119 0/6, EXP-113 2/8, EXP-116 0/4; Speicher 15.5/16 GB gebucht.
+LM1 16/20, R4-Repro 154/240, EXP-119 0/6, EXP-113 2/8, EXP-116 0/4; keine Fehlschläge.
 
 ## Verlauf dieser Sitzung
 
+- ≈ 20:20 Meine Neuformulierungen gegengeprüft: 3 weitere Präzisierungen (L0-Satz im Abstract, EXP-116, R8-Schranke).
+- 20:08 Logikprüfung des Haupttexts: 9 Punkte, 8 übernommen (Abstract zu L0/R8/N54b, R9 nur eine Äquivalenzzelle); der Wortlaut „25–50 Schritte“ bleibt deine Entscheidung (Argument in paper/STATUS).
+- 19:48 Logikprüfung Anhang J: 4 Punkte, alle nachgeprüft und korrigiert (u. a. „lernt erst bei genug Häufigkeit“ war mit dem Verlustmodus vermischt).
 - 19:38 Nachsatz: Das Wachstum der fremden Ziele ist nicht maskengetrieben (Maskenanteil unter Gleichverteilung).
 - 19:36 Fehler in der Deutung von EXP-115 gefunden (s. o.).
 - 19:32 Manuskript: veraltete Abbildungsverweise korrigiert (Generator), committet.

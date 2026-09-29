@@ -5,8 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 11:30 Berlin (09:30Z, vom Runner)
 - **Deadline:** 2026-09-29 14:29 Berlin (12:29Z)
-- **Zuletzt aktualisiert:** 12:41 Berlin
+- **Zuletzt aktualisiert:** 13:01 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
+
+## ⚠ Hinweis für den Nutzer (13:01)
+
+GPU-Speicher ist überbucht (19.0 GB dediziert + 10.0 GB in den Arbeitsspeicher ausgelagert): 6 Sprachmodell-Läufe gleichzeitig laufen ≈ 7× langsamer als 2. Ich darf den GPU-Dienst nicht neu starten; die Kopfzeilen meiner Jobdateien sind gesenkt (LM1 2 Worker, EXP-115 1, EXP-113 2) und greifen erst nach einem **Neustart des Dienstes per DRAIN**. Bitte, wenn möglich, den Dienst so neu starten. Details im JOURNAL.
 
 ## Gerade
 

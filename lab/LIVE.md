@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-29 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-29 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 01:44 Berlin
+- **Zuletzt aktualisiert:** 02:12 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.).
 
 ## Gerade
 
-GPU (10 Prozesse): **L0-Pilot** Teil 1 und Teil 2 laufen (58/128 fertig um 01:43, 0 Fehler). Danach automatisch: EXP-106 (lange Epochen, B = 16) und die Wechsel-Läufe von L0.
+GPU: EXP-106 (lange Epochen, 64 Läufe) und L0-Wechselläufe (64) laufen. Ein Agent rechnet den L0-Piloten unabhängig nach.
 
 ## Als Nächstes
 
-Pilot fertig (≈ 02:20) → `analyze.py` → Nachrechnung; Power für die L0-Registrierung.
+Nachrechnung prüfen → Ergebnis ins Paper (§6 Kurzfassung) → `switch_analyze.py` → EXP-106 auswerten → L0-Registrierung (H3?) einfrieren.
 
 ## Verlauf dieser Sitzung
 
+- 02:07 **L0-Pilot fertig: Die Menge steuert auch unter Päckchen-Training** (B 256 und 64, so stark wie Full-Batch); eine feste Reihenfolge wirkt dort gar nicht (0/16). L0-Bestätigung braucht nur n = 10.
 - 01:33 **EXP-106 festgelegt:** Menge gegen Reihenfolge bei langen Epochen (B = 16, weight decay 0.1), 64 Läufe, startet nach Pilot-Teil 1.
 - 01:30 **B = 16 lernt mit weight decay 0.1** (3/3, auch mit fester Reihenfolge); dort wirkt die Reihenfolge (verschiebt Energie, verzögert ≈ 2000 Schritte), bestimmt aber nicht die stärkste Frequenz (n = 3).
 - 01:30 Paper-Textprüfung: 3 Fehler + Präzisierungen in den R10/R11-Abschnitten behoben.

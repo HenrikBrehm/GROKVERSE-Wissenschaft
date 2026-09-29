@@ -32,6 +32,9 @@ Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · [[NACHT_2026-09-29]]
 - **Vorhersage 4 knapp verfehlt („unklar“).** Unter Päckchen-Training lagen die genutzten Frequenzen beim 64.–71. Perzentil der eigenen Maske (bei 256 knapp unter der Schwelle 65). Wo die feste Reihenfolge wirkt (64), zieht sie die Wahl von der Maske weg, wie vorhergesagt. Nur 3 Netze je Zelle.
 - **Klassisches SGD ließ sich nicht einstellen:** Bei kleiner Lernrate lernt es nicht, bei größerer läuft es aus dem Ruder. Der SGD-Vergleich fällt deshalb aus („nicht auswertbar“).
 
+- **Hauptergebnis der Nacht: Die Steuerung durch die Trainingsmenge hält auch beim Päckchen-Training (L0-Pilot, 8 Netze je Arm).** Man zeigt dem Netz nicht mehr alle Paare auf einmal, sondern zufällige Päckchen zu 256 oder 64 Paaren. Die vorgegebenen Frequenzen setzen sich trotzdem genauso stark durch wie beim Training mit allen Paaren. Eine feste Reihenfolge der Päckchen, die andere Frequenzen bevorzugen würde, bewirkt bei diesen Päckchengrößen gar nichts (0 von 16 Netzen). Das hatte unsere Vorab-Rechnung für 256 vorhergesagt. *Grenze:* Pilot (Exploration), eine Aufgabe; Bestätigung mit neuen Netzen folgt. Unabhängige Nachrechnung läuft.
+- **Neu gestartet: lange Durchgänge (EXP-106).** Mit Päckchen zu 16 und weniger Weight Decay lernt das Netz, und ein Durchgang dauert 240 Schritte, also länger als die Festlegezeit. Dort wirkte die Reihenfolge in einem Vortest (verschob Energie, verzögerte das Lernen), bestimmte aber nicht die stärkste Frequenz. Jetzt mit 8 Netzen.
+
 *(Weitere Ergebnisse folgen.)*
 
 ## Drei Fragen, die eine Jury stellen könnte
@@ -41,3 +44,4 @@ Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · [[NACHT_2026-09-29]]
 1. **„Warum schreibt ihr Vorhersagen auf, bevor ihr rechnet?“** – Damit wir uns hinterher nicht selbst etwas zurechtlegen. Jede Vorhersage steht mit Uhrzeit in git, bevor der passende Lauf startet.
 2. **„Was ist eine Epoche?“** – Ein kompletter Durchgang durch alle Trainingsbeispiele. Bei 3831 Beispielen und Päckchen zu 256 sind das 15 Schritte.
 3. **„Und wenn die Vorhersage falsch ist?“** – Dann ist das ein Ergebnis. Die Vorhersage ist eine vereinfachte Rechnung ohne den Optimierer. Liegt sie daneben, zeigt das, dass Adam oder die Nichtlinearität des Netzes die Reihenfolge anders verarbeitet.
+4. **„LeDoux sagt doch, die Reihenfolge bestimmt die Frequenz. Widersprecht ihr ihm?“** – Nein, wir messen in einem anderen Bereich. Bei LeDoux sieht das Netz nur 0,3 % aller Paare, bei uns 30 %. Bei uns steckt in der Menge viel mehr Information, und ein Durchgang ist so kurz, dass jede Reihenfolge sich schnell „herausmittelt“. LeDoux schreibt selbst, dass die Reihenfolge umso wichtiger ist, je weniger die Daten selbst verraten.

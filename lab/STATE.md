@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-30, 01:17 Berlin (Sitzung 55 läuft) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-30, ≈ 01:09 Berlin (Sitzung 55 läuft) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -28,7 +28,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 55 (ab 00:49):** Anhang-J-Absätze (LM1-F, EXP-119, Kommutativität) unabhängig geprüft, 5 Formulierungen korrigiert. **EXP-121 „unklar“** (Lücken 570/223; flacher Zufallssplit verlässt das Kommutativitäts-Plateau, ohne Tauschpaar 0.68/0.98) → Anhang J (geprüft). Literatur N57: **He et al. 2026 (2602.16849)** kennt das Tauschpaar-Muster in Netzen mit eingebauter Kommutativität → Zitierpflicht; gelernte Stufe im Transformer + Datenauswahl-Stufe 2 nach Suche nicht gefunden. **EXP-123** vorab festgelegt (a07bc82f; 20 R5-Einheiten × R/E2_0/D_0, H1 Kommutativität zuerst, H2 Stufe 2 verkürzt) und beim Dienst; Deutungssätze vorab in [[paper/N57_DEUTUNGEN]].
 
-## Aktive Queue / laufende Jobs (Stand Sitzung 55, 01:17 Berlin)
+## Aktive Queue / laufende Jobs (Stand Sitzung 55, ≈ 01:09 Berlin)
 
 - **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `38_exp123_commutativity` (60 Läufe, 3 Worker, ≈ fertig 03:05) → `40_exp113_stage2b` (5/8 fertig, 2 laufen) → `41_exp116_lowshare` (1/4 fertig, 1 läuft; ≈ 1.7 h je Lauf). **PROBLEME.md nicht selbst bearbeiten**.
 - **`lm_stage2.py` nicht ändern**, solange EXP-113/116 laufen (Hash in Run-IDs).

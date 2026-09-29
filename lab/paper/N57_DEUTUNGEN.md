@@ -4,7 +4,7 @@ status: vorab
 datum: 2026-09-30
 tags: [paper, neu/kandidat]
 ---
-# N57 / EXP-123: Deutungssätze VOR dem Ergebnis (Sitzung 55, 01:12 Berlin)
+# N57 / EXP-123: Deutungssätze VOR dem Ergebnis (Sitzung 55, ≈ 01:08 Berlin, vor dem Ergebnis)
 
 Zurück: [[LAB]] · [[experiments/EXP-123-commutativity-stages/README|EXP-123]] · [[NOVEL_DIRECTIONS]] N57 · [[paper/STATUS]]
 

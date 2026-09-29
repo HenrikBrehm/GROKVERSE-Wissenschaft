@@ -1,8 +1,8 @@
 ---
 id: EXP-107
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 ---
 # EXP-107 (N54, Exploration): Zählt die frühe Festlegung in Epochen statt in Schritten?
 
@@ -20,3 +20,18 @@ Zurück: [[LAB]] · [[FINDINGS]] (Kernaussage K4 / Result 3 des Papers: Festlegu
 python lab/tools/parallel_queue.py lab/experiments/EXP-107-lockin-epochs/jobs.txt --workers 5 --min-minutes 5
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-107-lockin-epochs/analyze.py
 ```
+
+## Ergebnis (Sitzung 46, 2026-09-29, 03:00 Berlin; Exploration, 8 Seeds, nicht unabhängig nachgerechnet)
+
+80/80 Läufe fehlerfrei, 8/8 Seeds gültig. **Lesart (vorab): „früher als in Epochen“.**
+
+| t (Schritte) | Epochen | π (Mittel, 95-%-KI) |
+|---|---|---|
+| 25 / 50 (EXP-100, gesehen) | 1.7 / 3.3 | ≈ 0 |
+| 100 | 6.7 | 0.33 [0.24, 0.42] |
+| 200 | 13.4 | 0.85 [0.78, 0.92] |
+| 375 | 25 | 1.00 [0.95, 1.06] |
+| 750 | 50 | 1.00 [0.98, 1.02] |
+| 1500 | 100 | 1.00 [0.99, 1.00] |
+
+Halber Wert (π = 0.5, linear interpoliert) bei ≈ **133 Schritten = 8.9 Epochen**; Full-Batch (EXP-100-Referenz, π(25) 0.38, π(50) 0.87) bei ≈ 30 Schritten = 30 Epochen. **Deutung (vorsichtig):** Unter Minibatch B = 256 gibt es das Festlegungsfenster, nur später in Schritten (≈ ×4.4) und früher in Epochen (≈ ×1/3.4). Weder eine reine Schritt- noch eine reine Epochen-Uhr. **Post hoc (Vermutung, ungeprüft):** ×4.4 liegt nahe √(N/B) = √15 ≈ 3.9, wie es eine rauschbestimmte Uhr (Wurzelregel) nahelegen würde; ein Test bräuchte eine B-Reihe (z. B. B = 64, 1024) mit vorab festgelegter Vorhersage t½ ∝ √(N/B). Grenzen: 8 Seeds, eine Aufgabe, Horizont nach dem Wechsel je t verschieden, π Energiemaß.

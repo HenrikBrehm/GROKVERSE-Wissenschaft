@@ -4958,3 +4958,9 @@ Lesart vor dem Rechnen (je Seed und m, über die gemeinsamen Schritte beider Arm
 **Zyklus 12 (22:05 gemessen): Logikprüfung Anhang A (unabhängiger Agent).** 4 Punkte + 1 Querverweis (u. a. R2: „lower bound“ trotz Zensierung in beiden Armen – falls richtig, stammt der Fehler aus der Registrierung selbst). Wegen der Deadline nicht mehr selbst geprüft → [[paper/logic_audit_S53_appA]] für die nächste Sitzung.
 
 **Zyklus 12, Nachtrag (22:06 gemessen):** Anhang-A-Punkt 3 selbst nachgezählt (R2-Rohdaten, Logik von R2_time.py): von 11 bei @50 zensierten Läufen haben 10 einen zensierten @25-Partner, 1 nicht → „lower bound“ nicht streng. Anhang A korrigiert, Nachtrag in der R2-Registrierung. Die übrigen A-Punkte bleiben für die nächste Sitzung.
+
+## Sitzung 54 (29.09., ab 22:09 Berlin, Runner)
+
+**Start (22:10 gemessen):** STOP fehlt, Fenster offen, Dienst läuft (LM1-F 12/20 Modelle, EXP-119 3/6, EXP-113 2/8, EXP-116 0/4; Speicher-Aufnahme blockiert EXP-113#3 bei 15.7 + 3.5 > 16 GB, wie vorgesehen).
+
+**Zyklus 1 (22:12–22:20 gemessen): Anhang A, restliche Logikpunkte.** Frage: Halten die vier offenen Punkte der Logikprüfung ([[paper/logic_audit_S53_appA]]) einer eigenen Prüfung stand? Ergebnis: 1 und 2 übernommen (Überdehnung: „keine Evidenz für einen eigenen lr/wd-Effekt“ und „beschreibt ab 250 Schritten“ trotz im selben Absatz berichteter Restabweichungen → „der Großteil … wird erfasst“, „innerhalb der Vorab-Toleranz 10 %, mit kleinen systematischen lr-abhängigen Versätzen“). 4 übernommen nach Nachrechnung aus `C3_summary.json` (MLP 0.54 Init-Korrelation gegen Zellmittel 0.27; verschiedene Statistiken → nur beschreibend). 5 verworfen (Fehlalarm: das Material steht in §4 = Anhang F). Commit 9dba4720. Entscheidung: weiter mit Logikprüfung B/E und G (zwei unabhängige Agenten, nur lesend, laufen).

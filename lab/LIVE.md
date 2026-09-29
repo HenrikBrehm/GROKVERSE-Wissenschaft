@@ -1,39 +1,26 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 53
+# LIVE: Laborsitzung 54
 
-- **Sitzungsstart:** 2026-09-29 19:29 Berlin (17:29Z, vom Runner)
-- **Deadline:** 2026-09-29 22:29 Berlin (20:29Z)
-- **Zuletzt aktualisiert:** 22:07 Berlin
+- **Sitzungsstart:** 2026-09-29 22:09 Berlin (20:09Z, vom Runner)
+- **Deadline:** 2026-09-30 01:09 Berlin (23:09Z)
+- **Zuletzt aktualisiert:** 22:24 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- **Sitzung beendet (22:07).** Nächster geplanter Start laut Runner: 29.09. 23:04 Berlin. Der GPU-Dienst rechnet weiter: LM1-F (11/20 Modelle, Ende nach Schätzung ≈ 23:05), EXP-119, EXP-113-Rest, EXP-116.
-- Heute Abend: **LM1 bestätigt** (Sprachmodell, 10/10 Seeds); eigene Deutungsfehler durch Logikprüfungen gefunden und korrigiert; R4-Reproduktion abgeschlossen.
+- Zwei unabhängige Prüfagenten lesen die Anhänge B/E und G (Theorie) auf Logikfehler; ich warte auf LM1-F (13/20).
 
 ## Als Nächstes
 
-Nächste Sitzung: LM1-F auswerten (läuft, 8/20 Modelle), unabhängig nachrechnen (Jobzeile in STATE), dann EXP-119/116/113 nach Vorab-Lesarten.
+LM1-F auswerten, sobald fertig (12/20 Modelle um 22:10, Ende nach Schätzung ≈ 23:05), dann unabhängige Nachrechnung als Dienst-Job; EXP-119 (3/6) auswerten.
 
-## Dienst (21:45)
+## Dienst (22:10)
 
-{'40_exp113_stage2b': (2, 8), '41_exp116_lowshare': (0, 4), '36_exp119_lm_r5': (1, 6), '32_lm1f': (0, 1)}; LM1-F 8/20 Modelle.
+LM1-F 12/20 Modelle; EXP-119 3/6 fertig, 2 laufen; EXP-113 2/8, 1 läuft; EXP-116 0/4.
 
 ## Verlauf dieser Sitzung
 
-- 22:07 Anhang A: Logikprüfung (5 Punkte), Punkt R2-Zensierung nachgezählt und korrigiert; Rest als Liste für die nächste Sitzung.
-- 22:03 Anhänge C/D: 8 Logik-Punkte geprüft und eingearbeitet, Diff unabhängig geprüft (keine Probleme).
-- 21:54 Sitzungsende; Logikprüfung Anhänge C/D (8 Punkte) als Liste für die nächste Sitzung.
-- 21:45 R4-Abweichung geklärt: eingefrorener Lauf war ein einmaliger Ausreißer (alter und neuer Trainer stimmen untereinander bitgleich überein).
-- 21:23 R4-Reproduktion: 239/240 Läufe bitgleich, 1 Lauf weicht ab Schritt 2250 ab (Urteile gleich); Wiederholungen laufen.
-- 21:19 Unabhängiges Nachrechen-Skript für LM1-F geschrieben, Seed 4000 stimmt exakt.
-- 20:50 LM1 ausgewertet: bestätigt (s. o.); LM1-F eingereiht.
-- ≈ 20:20 Meine Neuformulierungen gegengeprüft: 3 weitere Präzisierungen (L0-Satz im Abstract, EXP-116, R8-Schranke).
-- 20:08 Logikprüfung des Haupttexts: 9 Punkte, 8 übernommen (Abstract zu L0/R8/N54b, R9 nur eine Äquivalenzzelle); der Wortlaut „25–50 Schritte“ bleibt deine Entscheidung (Argument in paper/STATUS).
-- 19:48 Logikprüfung Anhang J: 4 Punkte, alle nachgeprüft und korrigiert (u. a. „lernt erst bei genug Häufigkeit“ war mit dem Verlustmodus vermischt).
-- 19:38 Nachsatz: Das Wachstum der fremden Ziele ist nicht maskengetrieben (Maskenanteil unter Gleichverteilung).
-- 19:36 Fehler in der Deutung von EXP-115 gefunden (s. o.).
-- 19:32 Manuskript: veraltete Abbildungsverweise korrigiert (Generator), committet.
-- 19:32 Start, Lage geprüft.
+- 22:20 Anhang A: 3 Logikpunkte eingearbeitet (Zahlen nachgerechnet), 1 Fehlalarm verworfen; committed.
+- 22:10 Stand gelesen, Dienst läuft ohne Fehler.

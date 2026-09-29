@@ -199,7 +199,7 @@ def main() -> None:
                  "`figures/table_registrations.py`).")
     parts.append("\n".join(table))
     _, disc = find(long_, "AI use disclosure")
-    parts.append("## Appendix I: AI use disclosure (draft wording, to be confirmed by the user)")
+    parts.append("## AI use disclosure (draft wording, to be confirmed by the user)")   # s52: not a lettered appendix (review)
     parts.extend(disc)
     ref_lines = sorted(ln for ln in refs_md.splitlines() if re.match(r"^- .+? \((?:19|20)\d\d[ab]?\)\.", ln))
     ref_lines = [clean_ref(ln) for ln in ref_lines]   # session 52: no German working notes in the manuscript

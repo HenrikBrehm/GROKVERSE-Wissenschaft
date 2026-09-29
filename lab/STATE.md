@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 05:32 Berlin (Sitzung 47 läuft, Deadline 06:29) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 05:47 Berlin (Sitzung 47, Abschluss; nächster Runner-Start laut runner-state.json 07:04 Berlin) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -15,18 +15,18 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 - **Explorationen Sitzung 46:** EXP-100-Pilot (Reihenfolge wirkt bei B 256/64 nicht; SGD nicht kalibrierbar; B 16 lernt bei wd 1 nicht), Wechselläufe (unter B 256 keine Festlegung bis 50 Schritte), **EXP-106** (B 16, wd 0.1: Menge steuert; Reihenfolge verschiebt nur auf Zufallssplits, kostet auf konstruierten ×1.6 Zeit; nachgerechnet), **EXP-107** (unter B 256 Fenster bei 100–200 Schritten, t½ ≈ 133 = 8.9 Epochen; nachgerechnet), **EXP-108** (Batch-Reihe: Festlegung skaliert ≈ √(N/B), α = 0.54 [0.52, 0.56]; nachgerechnet; ohne Full-Batch-Punkt α = 0.556 [0.513, 0.595]), EXP-103 (lr·wd-Uhr ab ≈ 250 Schritten, früh zählt lr), EXP-101 (RFM ohne K2-Lesart).
 - **Paper:** Langfassung §3.16 (R10), §3.17 (R11); Kurzfassung §5 (R11), §6 mit L0-Pilot, Bestätigung, EXP-106/107, Grenzen angepasst. Abb. 4 aus echten Daten (Titel noch deutsch). §6 und Abstract nach unabhängiger Textprüfung korrigiert (19 Punkte, Sitzung 46); Abstract 1875 Zeichen.
 
+- **Sitzung 47 (29.09., 03:29–06:29):** **N54b bestätigt** (Festlegung unter Minibatch ≈ √(N/B): α(1e-3) 0.583 [0.560, 0.606]; doppelte lr hilft bei kleinen Batches weniger: Δα +0.139 [0.098, 0.178]; eingefroren 624c2213, nachgerechnet) → Paper §6/§7, Langfassung §3.19, FINDINGS-Zeile. Explorationen: EXP-109 (lr 2e-3), **EXP-110 (lr 4e-3: bei B 64 Festlegung *später*, nicht monoton, 2 Seeds)**, Modellvergleich (Drift + ≈ 2 Epochen), Memorisierungsuhr (unklar), **EXP-102 Leiter Stufe 1** (Format hält; Verlust auf allen Positionen verzögert Grokking > ×10, Steuerung reduziert, wächst).
+
 ## Aktive Queue / laufende Jobs
 
-- **EXP-110** (lr-4e-3-Pilot zu N54c, 84 Läufe, 6 Worker, Start ≈ 05:35, Log `lab/runner/logs/exp110.out`) und **EXP-102 „all 30k“** (4 Läufe à 30 000 Schritte, 4 Worker, `lab/runner/logs/exp102_30k.out`). Werden bei der Sitzungsdeadline 06:29 ggf. vom Wächter beendet. **Wiederaufnahme:** dieselben Queues erneut starten (`python lab/tools/parallel_queue.py lab/experiments/EXP-110-lockin-lr4-pilot/jobs.txt --workers 6 --min-minutes 3`; `… EXP-102-lm-ladder-stage1/jobs_long30k.txt --workers 4 …`; fertige Läufe werden übersprungen, unfertige lm_ladder-Läufe mit `run.lock` vorher beiseitelegen), dann `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-110-lockin-lr4-pilot/analyze.py`.
-- Fertig in Sitzung 47: **N54b bestätigt** (H1 α 0.583 [0.560, 0.606]; H2 Δα +0.139 [0.098, 0.178]; nachgerechnet); EXP-109; **EXP-102** Pilot (nachgerechnet) + Folgetest 10k („grokkt nicht“: Verlust auf allen Positionen verzögert Grokking > ×10).
+- **Keine Jobs** (05:47 geprüft). Alle Queues der Sitzung 47 fertig: EXP-109 112, N54b 840 (+3 Wiederholungen), EXP-102 14 + 200 + 40 + 4, EXP-110 84 + 16 — ohne verbleibende Fehler.
 
 ## Nächste Schritte (Regel 20)
 
-1. **EXP-102 weiter:** Stufe „all“ grokkt bis 10 000 kaum; 30k-Test (2 Seeds) auswerten, dann Vergleich nach dem Grokking vorab festlegen (längeres Budget oder angepasstes wd); danach Minibatch-Stufe. Leiter-Ergebnis in FINDINGS/Paper erst nach diesem Schritt.
-2. **N54c** (nächster Test der Festlegungsuhr): lr 4e-3, Vorhersagen im JOURNAL (05:00) — M_add 20/56/177, M_pow 23/57/141, M_i 18/36/72 für B 1024/256/64. Erst Stabilitätspilot (2 gesehene Seeds), dann Registrierung mit Seeds 3910–3919.
-3. **Paper:** N54b-Text in §6 nach der unabhängigen Prüfung korrigieren; Langfassung §3.19 (N54b); Abstract ggf. (1875/1920 Zeichen); Zenodo (k2.py-Pfad = Nutzerentscheidung); Repro-Pfad-Smoke `k4c.py --smoke` nur ohne laufende GPU-Queue (CPU-Überlast).
-4. L0b (Reihenfolge bei langen Epochen) bleibt offen, niedrigere Priorität.
-5. Sprachmodell-Leiter Stufe 2 (EXP-105) nach Stufe 1.
+1. **N54c registrieren:** bei B 64 ist t½ in der Lernrate nicht monoton (EXP-110, 2 Seeds: lr 4e-3 später als 1e-3 und 2e-3). Registrierung mit frischen Seeds 3910–3919: B 64 (evtl. + B 256 als Kontrast), lr 1e-3/2e-3/4e-3, H: gepaart t½(4e-3) > t½(2e-3) bei B 64; Raster 50–1400. Vorher Literatur (Agent lief 05:47: Li et al. 2024 „Surge“ — gleiches Phänomen?). Code-Vorlage `lab/tools/confirm_n54b.py`.
+2. **EXP-102 weiter:** Stufe „all“ grokkt bis 10k kaum (30k: 1/4 Läufe); Vergleich nach dem Grokking vorab festlegen (Budget ≥ 30k oder angepasstes wd), 10 Seeds; danach Minibatch-Stufe. Erst dann ins Paper.
+3. **Paper:** Kurzfassung §6 ggf. um EXP-110 als Exploration (nach Nachrechnung); Abstract unverändert; Zenodo; Repro-Pfad-Smoke `k4c.py --smoke` nur ohne GPU-Queue (CPU-Überlast, Sitzung 47).
+4. L0b (Reihenfolge bei langen Epochen) offen, niedrigere Priorität. Sprachmodell-Leiter Stufe 2 (EXP-105) nach Stufe 1.
 
 ## Prioritäten
 

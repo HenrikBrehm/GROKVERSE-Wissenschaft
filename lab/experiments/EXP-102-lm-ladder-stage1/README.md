@@ -91,7 +91,7 @@ Stufe all, Seeds 3800–3801, F/G, 30 000 Schritte, `raw_long30k` (4 Läufe, `jo
 
 **Ergebnis „all 30k“ (Sitzung 47, 05:41; 2 Seeds, beschreibend, nicht nachgerechnet):** 4/4 Läufe fertig. Lesart (vorab): **„offen“** — generalisiert hat nur 3800 F (bei 15 175; Test 0.98); sonst Test 0.07 / 0.37 / 0.76 bei 30 000. Δ_pow wächst weiter: Seed 3800 2.63 → 3.60 → 4.16, Seed 3801 3.39 → 4.15 → 4.60 (Schritt 10 000 → 20 000 → 30 000), also über dem halben r0-Wert (4.02). Deutung (vorsichtig): eher „stark verzögert“ als „blockiert“; das b-Ziel verlangsamt Grokking und Steuerung gemeinsam.
 
-### Folgetest „all 60k“ (Sitzung 48, 2026-09-29, ≈ 06:25 Berlin, vor jedem Lauf festgelegt; Exploration)
+### Folgetest „all 60k“ (Sitzung 48, 2026-09-29, 06:11 Berlin gemessen, vor jedem Lauf festgelegt; Exploration)
 
 Frage: Ist die Steuerung nach dem Grokking wieder so groß wie in r0, oder bleibt sie durch das b-Ziel reduziert? Bezug: [[FINDINGS]] Programm A (Verallgemeinerung von K2), Regel 20e Leiter Stufe 1.
 Stufe all, Seeds 3800–3809 (bis 10 000 bzw. 30 000 Schritte gesehen), F/G, **60 000 Schritte**, `raw_long60k`, 20 Läufe (`jobs_long60k.txt`), 10 GPU-Worker. Dauer geschätzt aus 30k-Läufen (490 s bei 4 parallelen Läufen): ≈ 16–30 min je Lauf, 2 Wellen ≈ 60 min.

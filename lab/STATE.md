@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 19:05 Berlin (Sitzung 52, Deadline 19:49) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 19:29 Berlin (Ende Sitzung 52) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -25,7 +25,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 ## Aktive Queue / laufende Jobs (Stand Sitzung 52, 19:06 Berlin)
 
 - **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: neuer Code mit Speicherschutz (höchstens 3 LM-Läufe à gpu_gb 3.5, strenge Namens-Priorität, unterbrochene Läufe zuerst; DRAIN-Neustart durch den Nutzer-Assistenten ab 14:29). Reihenfolge: EXP-113 #0/#1 (Checkpoint 13 000) → `31_lm1` (2/20 fertig um 14:45) → `32_exp115_flat` (1–2/4) → `33_exp117_untied` (4) → `34_repro_r4` (72/240; ruht mehrere Stunden, bewusst) → `40_exp113_stage2b` (6 übrige) → `41_exp116_lowshare` (4). **PROBLEME.md nicht selbst bearbeiten** (Absprache mit dem Nutzer-Assistenten): Probleme ins JOURNAL oder per Nachricht.
-- **Dienst-Stand 19:06:** 31_lm1 13/20; 34_repro_r4 122/240; 40_exp113_stage2b 2/8; 41_exp116_lowshare 0/4; 36_exp119_lm_r5 0/6 (fertig/gesamt). Reihenfolge: 31_lm1 → 34_repro_r4 → 36_exp119_lm_r5 → 40_exp113 → 41_exp116. LM1: 7 Läufe offen bei 2 Workern (≈ 25 min je Lauf) → grob 20:30–21:00 fertig (Schätzung).
+- **Dienst-Stand 19:29:** 31_lm1 15/20; 34_repro_r4 134/240; 36_exp119_lm_r5 0/6; 40_exp113_stage2b 2/8; 41_exp116_lowshare 0/4 (fertig/gesamt). Reihenfolge: 31_lm1 → 34_repro_r4 → 36_exp119_lm_r5 → 40_exp113 → 41_exp116. LM1: 7 Läufe offen bei 2 Workern (≈ 25 min je Lauf) → grob 20:30–21:00 fertig (Schätzung).
 - **LM1 auswerten**, sobald 20/20 fertig: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm1.py --analyze` (Ausfallregel: Lauf ohne Ergebnis mit identischem Befehl neu einreihen; Code nach dem Einfrieren NICHT ändern). Danach unabhängige Nachrechnung, dann FINDINGS/Anhang K.
 - **Repro-Paket:** L0, R5, R6, R8 fertig (S49). Offen: R4 → `python lab/tools/guarded_run.py -- python lab/paper/repro/r4.py --device cuda --compare-r4`, dann [[paper/repro/README]] und Anhang R.
 - **EXP-113** am Budgetende: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-113-lm-ladder-stage2b/analyze.py` und `analyze_folgt.py` (H-folgt, Nachtrag 1); danach `EXP-114…/analyze.py` (Vergleich bei gleicher Faktenzahl). Arm `answer` lernt die Fakten ab ≈ 10 000 Schritten.

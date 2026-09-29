@@ -1,8 +1,8 @@
 ---
 id: P2f-registrierung
-status: vorbereitet
+status: bestaetigt
 datum: 2026-09-27
-tags: [lab/bestaetigung, exp/vorbereitet]
+tags: [lab/bestaetigung, exp/abgeschlossen, befund/positiv]
 verwandt: ["[[FINDINGS]]", "[[confirm/P2e_REGISTRATION|P2e]]", "[[confirm/P2d_REGISTRATION|P2d]]", "[[experiments/EXP-072-d59-grok/README|EXP-072]]", "[[experiments/EXP-046-dihedral-steering/README|EXP-046]]", "[[BACKLOG]]", "[[JOURNAL]]"]
 ---
 # P2f-Bestaetigung (P2d-Mass in Irrep-Form bei D59): Registrierung (Sitzung 24). **VORBEREITET, NOCH NICHT EINGEFROREN**
@@ -49,3 +49,5 @@ python lab/tools/confirm_p2f.py --jobs lab/confirm/P2f_manifest.json > lab/confi
 python lab/tools/parallel_queue.py lab/confirm/P2f_jobs.txt --workers 10
 python lab/tools/guarded_run.py -- python lab/tools/confirm_p2f.py --analyze lab/confirm/P2f_manifest.json
 ```
+
+**Nachtrag Sitzung 54 (22:45 gemessen; nur Buchführung, keine inhaltliche Änderung):** Der Kopf „VORBEREITET, NOCH NICHT EINGEFROREN“ ist überholt: Das Manifest wurde mit Commit 15539d85 („freeze P2f manifest“) eingefroren; Ergebnis in `lab/confirm/P2f_summary.json` (D59: D = 0.233 [0.214, 0.253], 20/20 positiv, p = 1.8·10⁻¹⁵, 17/20 generalisiert; Urteil „bestätigt“; C4-Tor c8801d3 ist Vorfahre des Manifests). Gefunden bei der Logikprüfung [[paper/logic_audit_S54_appB_E_G]]. Frontmatter-Status entsprechend ergänzt.

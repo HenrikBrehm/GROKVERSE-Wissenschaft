@@ -1,0 +1,18 @@
+{
+ "block": "LM1F",
+ "commit": "bfdab8d8",
+ "confirm_lm1f_sha256": "1afe0a0a641fba083dd771e21ead8cbde3ce7f216d27b4b579ec0fd52fce0753",
+ "lm1_manifest": "lab/confirm/LM1_manifest.json",
+ "seeds": [
+  4000,
+  4001,
+  4002,
+  4003,
+  4004,
+  4005,
+  4006,
+  4007,
+  4008,
+  4009
+ ]
+}

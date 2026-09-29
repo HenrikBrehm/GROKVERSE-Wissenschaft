@@ -1,0 +1,523 @@
+{
+ "n": 50,
+ "n_steer_before_learn": 25,
+ "steps": [
+  0,
+  10,
+  25,
+  50,
+  75,
+  100,
+  125,
+  150,
+  175,
+  200,
+  225,
+  250
+ ],
+ "median_s_learn": 75.0,
+ "median_s_steer": 75.0,
+ "median_dpow_at_learn": 1.3519752526757791,
+ "rows": [
+  {
+   "seed": 1000,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.7894173102415303,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1001,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.0539926002397046,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1002,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8413262545804748,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1003,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.9564127020605808,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1004,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.141903985659588,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1005,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.1370469150085403,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1006,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.12626354680253,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1007,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 1.8554776391004548,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1008,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.1684726607231437,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1009,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 1.8166732362811446,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1010,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.0818630893696652,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1011,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.065537522031155,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1012,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8748425649010829,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1013,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.079729854544947,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1014,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8346698200841989,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1015,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8228663413199903,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1016,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.9290608609702333,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1017,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8333038088591685,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1018,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.194239683900449,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1019,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.9266772913422717,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1020,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8687371386873921,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1021,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.7481865697169272,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1022,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.0472356146878963,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1023,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8127436244831832,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1024,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.0611553943805125,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1025,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8089902239078531,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1026,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8241189828507495,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1027,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 1.955300474128933,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1028,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 1.7371180313046435,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1029,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.1442210744712176,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1030,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.9668324740469147,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1031,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 1.8816634652214295,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1032,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8715302350997871,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1033,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 1.9274483860275757,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1034,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8821725810823824,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1035,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.087940842360455,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1036,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 1.7620148999021126,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1037,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 1.8712489479466778,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1038,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 1.9928475425569065,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1039,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.9095170375826584,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1040,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.169843269936561,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1041,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8980436026495088,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1042,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 1.9155046727906724,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1043,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8472217428691404,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1044,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.9021765925879999,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1045,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.8968390237589263,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1046,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.9207000438352719,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1047,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.7898383431707993,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1048,
+   "s_learn": 50,
+   "s_steer": 75,
+   "dpow_at_learn": 0.9638653669637741,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 1049,
+   "s_learn": 100,
+   "s_steer": 75,
+   "dpow_at_learn": 2.2285938499361633,
+   "train_at_steer": [
+    null,
+    null
+   ]
+  }
+ ]
+}

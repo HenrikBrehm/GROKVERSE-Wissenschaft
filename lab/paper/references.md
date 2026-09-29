@@ -88,3 +88,9 @@ Line numbers refer to lab/paper/draft.md.
 - GrokTransfer: Autoren/Titel MISSING; arXiv:2504.13292. [S/A] (vor dem Zitat vollständige Angabe nachholen)
 
 - Khanh (Truong Xuan Khanh) (2026b). *At-Grok Is Not Converged: A Measurement-Validity Audit for Grokking Representation Metrics*. Venue MISSING; arXiv:2607.06639. https://arxiv.org/abs/2607.06639. [A, Abstract über WebFetch, Sitzung 50] — in der Kurzfassung §7 (v) als „Khanh 2026b“; nicht verwechseln mit „Khanh 2026“ (2607.06628) und „Khanh et al. 2026“ (2606.13753).
+
+## Ergänzt Sitzung 51 (vom Manuskript-Generator als fehlend gemeldet; Titel, Autoren und Datum am arXiv-Abstract geprüft, 2026-09-29)
+
+- Fu, Zhou, Belkin, Sharan, Jia (2026). *Convergent Evolution: How Different Language Models Learn Similar Number Representations*. Venue MISSING; arXiv:2604.20817. https://arxiv.org/abs/2604.20817. [A]
+- Howe (2026b). *Structure-Specific Representational Priors Causally Control the Grokking Delay*. Venue MISSING; arXiv:2607.04333. https://arxiv.org/abs/2607.04333. [A]
+- Karkada, Korchinski, Nava, Wyart, Bahri (2026). *Symmetry in language statistics shapes the geometry of model representations*. Venue MISSING; arXiv:2602.15029. https://arxiv.org/abs/2602.15029. [A]

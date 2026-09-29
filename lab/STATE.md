@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 03:49 Berlin (Sitzung 47 läuft, Deadline 06:29) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 04:57 Berlin (Sitzung 47 läuft, Deadline 06:29) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,8 +17,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Aktive Queue / laufende Jobs
 
-- **N54b-Bestätigung läuft** (Start 03:49 Berlin, Sitzung 47): 840 Läufe, 10 GPU-Worker, `lab/runner/logs/n54b_queue.out`, eingefroren 624c2213 ([[confirm/N54B_REGISTRATION_DRAFT|Registrierung]]: H1 α(lr 1e-3) ∈ [0.3, 0.7]; H2 gepaartes Δα = α(2e-3) − α(1e-3) > 0). **Wiederaufnahme:** `python lab/tools/parallel_queue.py lab/confirm/N54B_jobs.txt --workers 10 --min-minutes 3` (gebundene Läufe werden übersprungen), dann `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_n54b.py --analyze lab/confirm/N54B_manifest.json`, danach unabhängige Nachrechnung.
-- EXP-109 (Pilot lr 2e-3) fertig: lr halbiert t½ bei B 1024, bei B 64 nur ×0.75.
+- **EXP-102 Leiter-Pilot läuft** (Start ≈ 04:56, Sitzung 47): 200 Läufe à 2000 Schritte, 10 GPU-Worker, Log `lab/runner/logs/exp102_pilot.out`. Gleichwertigkeit r0 ↔ freq_ban bitgleich. **Wiederaufnahme:** dieselbe Queue erneut starten (fertige Läufe werden übersprungen), dann `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-102-lm-ladder-stage1/analyze.py`.
+- **N54b fertig und bestätigt** (H1 α(1e-3) 0.583 [0.560, 0.606]; H2 Δα +0.139 [0.098, 0.178]); unabhängige Nachrechnung läuft/Ergebnis im JOURNAL.
 
 ## Nächste Schritte (Regel 20)
 

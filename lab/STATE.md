@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-29, 03:03 Berlin (Sitzung 46, Deadline 03:49) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-29, 03:22 Berlin (Sitzung 46 beendet; nächster Runner-Start laut runner-state.json 04:24 Berlin) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -12,16 +12,16 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 ## Lage
 
 - **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion (Nanda 20/20, nachgerechnet), K4–K4e, R2–R10, K5, **R11** (Festlegung auch add 97 / mul 113), **L0** (K2 unter i.i.d.-Minibatch B 256/64, 10 frische Seeds, eingefroren 26419818, nachgerechnet).
-- **Explorationen Sitzung 46:** EXP-100-Pilot (Reihenfolge wirkt bei B 256/64 nicht; SGD nicht kalibrierbar; B 16 lernt bei wd 1 nicht), Wechselläufe (unter B 256 keine Festlegung bis 50 Schritte), **EXP-106** (B 16, wd 0.1: Menge steuert; Reihenfolge verschiebt nur auf Zufallssplits, kostet auf konstruierten ×1.6 Zeit; nachgerechnet), **EXP-107** (unter B 256 Fenster bei 100–200 Schritten, t½ ≈ 133 = 8.9 Epochen; nachgerechnet), EXP-101 (RFM ohne K2-Lesart).
+- **Explorationen Sitzung 46:** EXP-100-Pilot (Reihenfolge wirkt bei B 256/64 nicht; SGD nicht kalibrierbar; B 16 lernt bei wd 1 nicht), Wechselläufe (unter B 256 keine Festlegung bis 50 Schritte), **EXP-106** (B 16, wd 0.1: Menge steuert; Reihenfolge verschiebt nur auf Zufallssplits, kostet auf konstruierten ×1.6 Zeit; nachgerechnet), **EXP-107** (unter B 256 Fenster bei 100–200 Schritten, t½ ≈ 133 = 8.9 Epochen; nachgerechnet), **EXP-108** (Batch-Reihe: Festlegung skaliert ≈ √(N/B), α = 0.54 [0.52, 0.56]; Nachrechnung lief bei Sitzungsende, Ergebnis im JOURNAL-Abschlussbericht bzw. `recheck_s46.json`), EXP-103 (lr·wd-Uhr ab ≈ 250 Schritten, früh zählt lr), EXP-101 (RFM ohne K2-Lesart).
 - **Paper:** Langfassung §3.16 (R10), §3.17 (R11); Kurzfassung §5 (R11), §6 mit L0-Pilot, Bestätigung, EXP-106/107, Grenzen angepasst. Abb. 4 aus echten Daten (Titel noch deutsch). §6 und Abstract nach unabhängiger Textprüfung korrigiert (19 Punkte, Sitzung 46); Abstract 1875 Zeichen.
 
-## Aktive Queue / laufende Jobs (Stand 03:03)
+## Aktive Queue / laufende Jobs
 
-- **EXP-103** (Füllarbeit): `jobs.txt` Teil A (100 × 250 Schritte, 5 Worker) und `jobs_cross.txt` (Wiederholung des fehlenden Laufs, fertige werden übersprungen) laufen seit 03:01. Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-103-early-steering-curve/analyze.py` (A), dann `--cross` (B). Bei Abbruch: dieselben Queue-Befehle erneut.
+- **Keine Jobs** (03:20 geprüft). Alle Queues der Sitzung 46 fertig: R11 240, L0-Machbarkeit 18, Kalibrierung 10, B16-Sonde 18, L0-Pilot 128, Wechsel 64, EXP-106 64, L0-Bestätigung 40, EXP-107 80, EXP-103 140, EXP-108 176 — alle ohne Fehler (außer den divergierten SGD-Kalibrierläufen, gewollt gezählt).
 
 ## Nächste Schritte (Regel 20)
 
-1. **N54b vorab festlegen** (EXP-107 und die EXP-100-Wechselläufe/Horizont-Analyse sind nachgerechnet): B-Reihe (z. B. B 64, 1024 + 256 Wiederholung), Vorhersage t½ ∝ √(N/B) gegen ∝ N/B, frische Seeds; Literatur zu „critical period / lock-in vs batch size / steps vs epochs“ suchen.
+1. **N54b bestätigen:** EXP-108 („Wurzel-Uhr gestützt“) prüfen (Nachrechnung, α ohne Full-Batch-Punkt), Literatur suchen, dann eine Registrierung mit frischen Seeds und einer zweiten Lernrate (trennt √(N/B) von einer Rauschskala lr·√(N/B)); ursprünglich geplant: B-Reihe (z. B. B 64, 1024 + 256 Wiederholung), Vorhersage t½ ∝ √(N/B) gegen ∝ N/B, frische Seeds; Literatur zu „critical period / lock-in vs batch size / steps vs epochs“ suchen.
 2. **L0b registrieren** (Reihenfolge im Regime langer Epochen, B 16 / wd 0.1, Seeds aus 3730–3799): Kandidaten H3a (o-Verschiebung auf R > 0), H3b (keine Verschiebung auf F/G, Äquivalenzgrenze vorab), H3c (Zeitverlust auf F/G > 0); Power: `python lab/confirm/L0_power_s46.py --exp106` (Hinweis: dort k anpassen). Achtung: R-Wirkung hängt am Ausgangswert (3 Seeds mit hohem o(R-iid) ohne Wirkung).
 3. **Paper:** Abb. 4 englischer Titel + SGD „not evaluable“; EXP-103-Satz in Anhang A (R1); Anhang-Struktur; Langfassung um L0/EXP-106/107 ergänzen; Zenodo (k2.py-Pfad = Nutzerentscheidung).
 4. EXP-103 auswerten (siehe oben).

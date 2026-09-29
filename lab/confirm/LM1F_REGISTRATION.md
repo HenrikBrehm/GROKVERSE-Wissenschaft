@@ -1,8 +1,8 @@
 ---
 id: LM1F
-status: registriert
+status: bestaetigt
 datum: 2026-09-29
-tags: [confirm, lm-leiter]
+tags: [confirm, lm-leiter, befund/positiv]
 ---
 # LM1-F: Tragen die gesteuerten Frequenzen in den LM1-Modellen die Fakten? (funktionale Zusatzregistrierung, Sitzung 51)
 
@@ -35,3 +35,9 @@ Zurück: [[LAB]] · [[FINDINGS]] (K2-Funktion, Programm A) · Grundblock [[confi
 **Smoke (15:59 gemessen):** `evaluate_run` an einem bekannten Modell (EXP-114 K 19 F, nicht LM1) über den Wächter, CPU, 86 s: Basis 0.98316 (geloggt auf der GPU 0.98316, Differenz 1·10⁻⁸), eigene Ziele entfernt 0.29836, identisch mit EXP-118. Selbsttest der Statistik grün.
 
 **Eingefroren:** Code-Commit und Manifest `LM1F_manifest.json` (sha256 von `confirm_lm1f.py`) im folgenden Commit; `status: registriert`.
+
+## Ergebnis (Sitzung 54, 22:51 Berlin gemessen; Dienst-Job 32_lm1f, 7198 s, Exit 0)
+
+**H1F: bestätigt.** C̄ = 0.882 [0.836, 0.918] (Mittel über 10 Seeds, 95-%-Bootstrap), 10/10 Seeds mit C̄ > 0, einseitiger Vorzeichen-Permutationstest p = 1/1024 (Auflösungsgrenze), gespiegelter Test p = 1.0. LM1 angenommen (Manifest 2b70d8b9), kein Lauf fehlt oder defekt; Skript-Hash 1afe0a0a…; `LM1F_summary.json`.
+**Sekundär (beschreibend, 20 Modelle):** acc(Basis) 0.898–0.995 (Median 0.982); eigene Ziele entfernt 0.024–0.214 (Median 0.048); fremde Ziele entfernt 0.740–0.996 (Median 0.979; in 2/20 Modellen > 0.05 unter der Basis: Seed 4000 F 0.898 → 0.740, Seed 4002 G 0.965 → 0.903); einzelne Kontrollmengen 0.848–0.996 (Median 0.978), Kontrollmittel je Lauf 0.886–0.994; C je Lauf 0.654–0.970. Kontrollgröße |acc(Basis) − geloggte Genauigkeit| ≤ 2.1·10⁻⁸.
+**Offen:** unabhängige Nachrechnung (`LM1F_independent_recompute.py`, Dienst-Job 33_lm1f_indep) vor jedem Paper-Satz; Deutung nach [[paper/LM1_DEUTUNGEN]] (Satz „bestätigt“; gebundene Einbettung → Ein- und Ausgabeseite nicht getrennt).

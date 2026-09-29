@@ -29,7 +29,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Nächste Schritte (Regel 20)
 
-0. **Zuerst Dienst-Lage prüfen** (`lab/queue/status.json`, Log-Fortschritt, Perf-Zähler „GPU Adapter Memory … Shared Usage“). Stand 13:31: 10 LM-Läufe gleichzeitig, Stillstand durch Auslagerung. Nach einem DRAIN-Neustart (Nutzer) laufen die abgebrochenen Läufe mit denselben Befehlen neu an und setzen an ihren Checkpoints fort (lm_stage2 speichert alle 1000 Schritte), mit den gesenkten Kopfzeilen. Ohne Neustart: LM1-Läufe enden an job_minutes 240 → identisch neu einreihen (neue Datei, workers=2).
+0. **Zuerst Dienst-Lage prüfen** (`lab/queue/status.json`, Log-Fortschritt, Perf-Zähler „GPU Adapter Memory … Shared Usage“). Stand 13:31: Stillstand durch Auslagerung; **14:00: Dienst neu gestartet, neue Kopfzeilen greifen (LM1 2, EXP-115 1, EXP-113 2 Worker), Speicher 13.2 GB + 0.8 GB geteilt.** Nach einem DRAIN-Neustart (Nutzer) laufen die abgebrochenen Läufe mit denselben Befehlen neu an und setzen an ihren Checkpoints fort (lm_stage2 speichert alle 1000 Schritte), mit den gesenkten Kopfzeilen. Ohne Neustart: LM1-Läufe enden an job_minutes 240 → identisch neu einreihen (neue Datei, workers=2).
 0b. LM1 auswerten (s. o.), falls fertig; EXP-115 mit `analyze_pilot.py` (Befehl im README), EXP-113/114-Vergleiche.
 1. Repro R4 vergleichen, in [[paper/repro/README]] und Anhang R (Kurzfassung, geprüft) eintragen.
 2. EXP-113 beobachten (Durchsatz, Textumlauf) und am Budgetende nach Vorab-Lesarten auswerten; danach Stufe-2-Entscheidung (Anteil senken, 10 Seeds, oder „bricht“ dokumentieren).

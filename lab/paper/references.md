@@ -86,3 +86,5 @@ Line numbers refer to lab/paper/draft.md.
 - Liu, Michaud, Tegmark (2023). *Omnigrok: Grokking Beyond Algorithmic Data*. ICLR 2023. https://arxiv.org/abs/2210.01117. [K] (Titelzusatz aus dem Gedächtnis, am Original prüfen)
 - Khanh, Viet, Trung, Duc (2026). *The Weight Norm Sets the Grokking Timescale: A Causal Delay Law*. Venue MISSING; arXiv:2606.13753. [A] — im Kurztext als „Khanh et al. 2026“, nicht verwechseln mit „Khanh 2026“ (arXiv:2607.06628).
 - GrokTransfer: Autoren/Titel MISSING; arXiv:2504.13292. [S/A] (vor dem Zitat vollständige Angabe nachholen)
+
+- Khanh (Truong Xuan Khanh) (2026b). *At-Grok Is Not Converged: A Measurement-Validity Audit for Grokking Representation Metrics*. Venue MISSING; arXiv:2607.06639. https://arxiv.org/abs/2607.06639. [A, Abstract über WebFetch, Sitzung 50] — in der Kurzfassung §7 (v) als „Khanh 2026b“; nicht verwechseln mit „Khanh 2026“ (2607.06628) und „Khanh et al. 2026“ (2606.13753).

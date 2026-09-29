@@ -239,4 +239,6 @@ Abbildungen im Haupttext: Abb. 1 (Maske gegen gelernt), Abb. 2 (P1 Δ_pow), Abb.
 
 **Offen aus Sitzung 53 (21:53):** Logikprüfung der Anhänge C/D ergab 8 Punkte → [[paper/logic_audit_S53_appC_D]] (bis 22:03 selbst nachgeprüft, in draft.md eingearbeitet, Diff unabhängig geprüft: keine Probleme; R8-Zensierung im Anhang ergänzt). Anhang A: Prüfliste [[paper/logic_audit_S53_appA]] (offen); Anhänge B, E–I noch nicht logisch geprüft (nur Zahlen).
 
-**Nachtrag Sitzung 54 (22:20 gemessen):** Anhang A fertig geprüft ([[paper/logic_audit_S53_appA]]: Punkte 1, 2, 4 übernommen, 5 Fehlalarm; Commit 9dba4720). Logikprüfung der Anhänge B/E und G läuft (zwei unabhängige Agenten).
+**Nachtrag Sitzung 54 (22:12, Commit-Zeit):** Anhang A fertig geprüft ([[paper/logic_audit_S53_appA]]: Punkte 1, 2, 4 übernommen, 5 Fehlalarm; Commit 9dba4720). Logikprüfung der Anhänge B/E und G läuft (zwei unabhängige Agenten).
+
+**Nachtrag Sitzung 54 (22:35, Commit-Zeit):** Alle Anhänge sind jetzt mindestens einmal logisch geprüft: B/E/G und F/H in [[paper/logic_audit_S54_appB_E_G]] (ein echter Richtungsfehler in G: MLP M0/M0c vertauscht; „R4 is pending“ in H veraltet; sonst Überdehnungen/Formulierungen), Diff unabhängig geprüft.

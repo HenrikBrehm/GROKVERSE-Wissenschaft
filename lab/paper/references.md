@@ -26,6 +26,7 @@ Automatisch aus [[paper/related_work]] und [[paper/fulltext_check_2026-09-27]] e
 - Kleinman, Achille, Soatto (2024). *Critical Learning Periods Emerge Even in Deep Linear Networks*. ICLR 2024. https://arxiv.org/abs/2308.12221. [S]
 - Kunin, Marchetti, Chen, Karkada, Simon, DeWeese, Ganguli, Miolane (2025). *Alternating Gradient Flows: A Theory of Feature Learning in Two-layer Neural Networks*. NeurIPS 2025. https://arxiv.org/abs/2506.06489. [L, S]
 - LeDoux (Jordan LeDoux) (2026). *The Order Is The Message*. Venue MISSING; arXiv:2603.25047. https://arxiv.org/abs/2603.25047. [A in related_work; full text §1–§7 + App. A/B read per fulltext_check §1]
+- Lin, Zhang, Xu (2025). *Reasoning Bias of Next Token Prediction Training*. arXiv:2502.02007. https://arxiv.org/abs/2502.02007. [A]
 - Lyle, Sokar, Pascanu, György (2025). *What Can Grokking Teach Us About Learning Under Nonstationarity?*. Venue MISSING; arXiv:2507.20057. https://arxiv.org/abs/2507.20057. [A, L]
 - Marchetti, Kunin, Myers, Acosta, Miolane (2026). *Sequential Group Composition: A Window into the Mechanics of Deep Learning*. ICML 2026; arXiv:2602.03655. https://arxiv.org/abs/2602.03655. [A, L]
 - Nanda, Chan, Lieberum, Smith, Steinhardt (2023). *Progress Measures for Grokking via Mechanistic Interpretability*. ICLR 2023. https://arxiv.org/abs/2301.05217. [L]

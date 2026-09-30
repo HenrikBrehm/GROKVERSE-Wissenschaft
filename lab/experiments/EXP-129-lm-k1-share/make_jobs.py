@@ -1,7 +1,7 @@
 """EXP-129 (LM ladder, K = 1, ~4.5 % arithmetic tokens) job lines for the GPU daemon (rule 21). Session 60, written before any run;
 copy of EXP-116/make_jobs.py with K = 1 and 14 000 steps (first text wrap at 14 477, wrap_budget.json).
 Model seeds 3864/3865 (unused) <-> EXP-102 P1 splits of seeds 3804/3805; common held-out test set = EXP-102
-design.build(seed)["test"] (as EXP-113). K = 2 arithmetic sentences per sequence (~8.7 % arithmetic tokens, as the EXP-105
+design.build(seed)["test"] (as EXP-113). EXP-116 used K = 2 (~8.7 % arithmetic tokens, as the EXP-105
 pilot); HERE K = 1 (~4.5 %), same model seeds, splits and tests as EXP-116. Unchanged trainer lm_stage2.py.
   python lab/experiments/EXP-129-lm-k1-share/make_jobs.py > <outside inbox>, then mv to lab/queue/inbox/47_exp129_k1.jobs
 """

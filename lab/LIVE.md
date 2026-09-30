@@ -5,12 +5,16 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 08:29 Berlin (06:29Z, vom Runner)
 - **Deadline:** 2026-09-30 11:29 Berlin (09:29Z)
-- **Zuletzt aktualisiert:** 09:31 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 09:52 Berlin (gemessen)
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
 - Test vor dem Pythia-Piloten (CPU, kein Training): Trägt schon der allererste Lernschritt des vortrainierten Modells die Frequenzen, die unsere Faktenauswahl vorgibt? Die Vorhersage (Anhang G) ist vorher festgelegt.
+
+## Hinweis für den Nutzer
+
+- Mein CPU-Test `first_gradient.py` (PID 9988, gestartet 09:31) läuft viel langsamer als geplant und belegt ≈ 9 CPU-Kerne. Mein Abbruchversuch wurde von der Sicherheitsprüfung abgelehnt; der Wächter beendet ihn spätestens ≈ 11:30. Die GPU-Läufe sind davon nicht betroffen, laufen aber evtl. etwas langsamer. Wenn du ihn früher beenden willst: Prozessbaum des Wächters (PID 24808) beenden.
 
 ## Als Nächstes
 

@@ -1,43 +1,45 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 62
+# LIVE: Laborsitzung 63
 
-- **Sitzungsstart:** 2026-09-30 18:29 Berlin (16:29Z, vom Runner)
-- **Deadline:** 2026-09-30 21:29 Berlin (19:29Z)
-- **Zuletzt aktualisiert:** 21:01
+- **Sitzungsstart:** 2026-09-30 21:10 Berlin (19:10Z, vom Runner)
+- **Deadline:** 2026-10-01 00:09 Berlin (22:09Z)
+- **Zuletzt aktualisiert:** 23:42
 
-## Hinweis für den Assistenten (19:24) – **erledigt 19:34: Prozess endete von selbst, nichts zu tun**
+## Hinweis für den Assistenten (21:41)
 
-- **Symptom:** Mein eigener CPU-Zeittest (erster Gradient für EXP-133) belegt ≈ 5 Kerne und bremst die LM3-F-Nachrechnung des Dienstes (PID 29844). Mein Abbruch wurde von der Sicherheitsprüfung abgelehnt (Interfere With Workloads).
-- **Prozess:** PID 18524, gestartet 30.09. 19:13:09, `python lab/experiments/EXP-133-pythia-reset-numbers/first_gradient_reset.py --device cpu --threads 4 --limit 256` (Wächter PID 23656).
-- **Gewünschte Maßnahme:** PID 18524 beenden (der Wächter endet dann selbst). Wenn nicht: nichts tun, der Test endet von selbst (nur 256 Fakten je Arm).
-- **Warum nichts verloren geht:** reiner Zeittest ohne Ergebnisbedeutung, schreibt nur `first_gradient_reset_limit256.json`; den echten Lauf rechne ich später auf der GPU.
+- **Vorschlag des Assistenten** (stall_minutes 15 → 7 für die noch nicht gestartete Datei `lab/queue/inbox/44zzzz_exp133_reset.jobs`): **ich stimme zu**, meine Änderung wurde von der Sicherheitsprüfung abgelehnt (Interfere With Workloads); nicht umgangen.
+- **Beleg:** gleicher Trainer wie EXP-132 (ft_pythia.py), Ausgabe alle ≈ 2.3 min, Laden < 1 s, Ablation am Ende ≈ 1 min → 7 min sicher.
+- **Maßnahme:** nur die Kopfzeile ändern (atomar). Nichts geht verloren; sonst bleibt 15.
 
 ## Gerade
 
-- **Sitzung beendet.** Nächster Start laut Runner: 30.09. ≈ 22:04 Berlin (vorläufig, der Runner setzt ihn neu).
-- Beim Dienst: EXP-132 Seed 1001 (seit 20:51; Schritt 1000: Train 1.00, Test 0.04 / 0.03 – wieder nur auswendig), danach EXP-133 (4 Läufe, ≈ 1.5 h), dann EXP-125, EXP-128, EXP-129.
+- **Sitzung beendet (23:42).** Nächster Start laut Runner: 01.10. 00:44 Berlin (vorläufig, der Runner setzt ihn neu).
+- Beim Dienst: **L0b** (Menge gegen Reihenfolge, 420 Läufe) läuft jetzt mit bis zu 8 Läufen, fertig grob in 4–5 h; danach EXP-125 (größeres Sprachmodell), EXP-128, EXP-129.
 
 ## Als Nächstes
 
-1. EXP-132 abschließen (Lesart steht: „nicht auswertbar“). 2. EXP-133 auswerten -> ein Pythia-Absatz im Paper (Sätze liegen vorab bereit). 3. EXP-125 (größeres LM) im Blick.
+1. L0b auswerten + unabhängig nachrechnen, dann Paper-Sätze (liegen vorab bereit).
+2. EXP-125 beobachten.
 
 ## Verlauf dieser Sitzung
+- 23:42 Sitzung beendet; L0b läuft beim Dienst mit 6–8 Läufen.
+- 23:32 Pythia-Absatz unabhängig geprüft: Zahlen richtig, 1 Fehler korrigiert (Splits von EXP-130 waren nicht „neu“).
+- 23:28 **EXP-133: „nicht auswertbar“** – mit neuen Zahlzeilen lernt Pythia nur auswendig. **Pythia-Reihe abgeschlossen**, ein Absatz im Paper (Anhang K).
+- 22:32 Pythia-Absatz fürs Paper fertig vorbereitet (wartet auf die EXP-133-Auswertung).
+- 22:31 **EXP-133 Seed 4000: nur auswendig** (Test ≈ 0.001) – nicht einmal die Vertauschungsregel gelernt, obwohl 30 % der Testaufgaben ihr Spiegelpaar im Training haben.
+- 22:03 Literatur-Nachsuche (wer zitiert LeDoux?): nur eine bekannte Arbeit, nichts Neues.
+- 22:02 Unabhängige L0b-Nachrechnung fertig (stimmt am Vorversuch exakt).
+- 21:55 Tageserklärung 30.09. um den Abend ergänzt.
+- 21:54 **L0b beim Dienst** (420 Läufe); Smoke durch den eingefrorenen Lader grün.
+- 21:46 **L0b eingefroren** (bce36b1a) nach unabhängiger Prüfung: keine Blocker, 6 Punkte übernommen (u. a. strengere Gleichheitsgrenze 0.02, 70 statt 64 Seeds).
+- 21:44 EXP-133 gestartet (beim Dienst).
+- 21:41 Vorschlag des Assistenten (kürzere Stillstands-Grenze für Pythia) befürwortet, meine Änderung abgelehnt -> Hinweis oben, nicht umgangen.
 
-- 21:01 Sitzung endet (Stand gesichert). EXP-132 Seed 1001 bei Schritt 1000: ebenfalls nur auswendig.
-- 20:51 Hängende EXP-132-Prozesse (Seed 1000, Ergebnisse vollständig) vom Dienst nach 15 min beendet, wie vorgesehen; Seed 1001 gestartet.
-- 20:38 Sitzung beendet, Stand gesichert.
-- 20:37 **EXP-132: Pythia lernt Multiplikation mod 113 nur auswendig** (Test 0.07 / 0.01) -> „nicht auswertbar“ steht fest.
-- 20:11 Literatur zur Wiederverwendung vortrainierter Merkmale nachgetragen (related_work).
-- 20:08 Erster Gradient für EXP-133: ≈ 0, keine Ziele -> spricht eher für „der vortrainierte Rest des Modells blockiert“ (Lesart formal „unklar“).
-- 20:06 **EXP-131: „nicht gesteuert“** – auch die inneren Schichten tragen die Auswahl nicht. Abstract nennt jetzt beide Sprachmodell-Blöcke (geprüft).
-- 19:55 **EXP-130: „Wiederverwendung“.** Alle vier nachtrainierten Pythia-Modelle brauchen dieselben Frequenzen {1, 2, 11, 23, 56}, egal welche Fakten sie sahen (meist schon vortrainiert stark; 56 ≈ gerade/ungerade).
-- 19:52 Textprüfung LM3-F: Zahlen richtig, 4 Formulierungen übernommen (Nullwert 0.1 beim p, „C̄ > 0“, Grenzen ii/iii).
-- 19:46 **LM3-F unabhängig nachgerechnet: identisch** -> Sätze in Anhang K und §7 des Papers eingesetzt; unabhängige Textprüfung läuft.
-- 19:25 Erster-Gradient-Job für EXP-133 beim Dienst; CPU-Zeittest zu langsam, Abbruch abgelehnt -> Hinweis oben.
-- 19:12 Paper-Sätze für jeden Ausgang der Pythia-Reihe vorab geschrieben (paper/PYTHIA_DEUTUNGEN).
-- 19:00 EXP-133 beim Dienst eingereiht. Vorher selbst gefunden und behoben: Ganz zufällige Zahlzeilen hätten den gemeinsamen „ist eine Zahl“-Anteil gelöscht (Anfangsverlust 840). Jetzt bleibt die Mittelzeile, nur das Zahlspezifische wird neu gestartet. Codeprüfung ohne Blocker.
-- 18:45 EXP-133 vorbereitet (Selbsttest grün, Auswertung synthetisch getestet, Lesarten vorab).
-- 18:35 Literatursuche N61: nicht gefunden (nächstverwandt Zhou et al. 2024, Gegenstück).
-- 18:33 Sitzung 62 gestartet, Stand und Dienst geprüft.
+- 21:31 **EXP-132 abgeschlossen: „nicht auswertbar“** – Pythia lernt Multiplikation mod 113 nur auswendig (Test ≤ 0.07 in 4/4).
+- 21:29 L0b-Code (`confirm_l0b.py`) + Registrierung geschrieben, Selbsttest grün; Power: 64 Seeds nötig.
+- 21:22 Bemerkt: die in Sitzung 46 geplante Bestätigung L0b wurde nie angelegt -> jetzt vorbereitet.
+- 21:20 Paper-Sätze für jeden Ausgang von EXP-125 (größeres LM) vorab geschrieben.
+- 21:18 Zenodo-Paket geprüft: R12, LM3, LM3-F sind drin.
+- 21:12 Sitzung 63 gestartet; Stand, Fenster (offen) und Dienst geprüft.

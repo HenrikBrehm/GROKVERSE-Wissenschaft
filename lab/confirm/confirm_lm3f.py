@@ -1,0 +1,150 @@
+"""LM3-F (session 56): functional add-on to the block LM3 (registration LM3_REGISTRATION.md), a copy of confirm_lm1f.py
+with the LM3 constants (seeds 4010-4019, 15 000 steps, lm3_splits/lm3_raw, rng 4031). Original LM1-F text below. Ablates, from the 113
+number-token rows of the tied embedding of each completed LM1 model (step 6000, checkpoint.pt), the Fourier subspace of (a) the
+run's own targets, (b) the other split's targets, (c) 4 control sets; measures held-out fact accuracy on the seed's common test
+set (prompt T0, argmax over the number tokens, as lm_stage2.evaluate). No training.
+Per run C = acc(other) - acc(own); per seed Cbar = mean of F and G.
+H1F: mean Cbar over the 10 seeds > 0.1: 'bestaetigt' if the lower bound of the 95 % percentile bootstrap CI (10 000 draws,
+default_rng(4011), resampling seeds) is > 0.1 AND the exact one-sided sign-permutation test of (Cbar - 0.1) over all 2^10 sign
+vectors gives p < 0.05; 'unter Mindesteffekt' if the upper CI bound is < 0.1 and the mirrored test gives p < 0.05; else
+'unklar'. Evaluated only if LM1 itself is evaluable (its gate: held-out >= 0.5 in >= 16/20 runs) and all 20 runs are complete;
+otherwise 'nicht auswertbar'; also 'nicht auswertbar' unless lab/confirm/LM1_summary.json
+shows all 10 seeds valid and no defect (LM1 --analyze first), and a run whose checkpoint is not at step 6000 with the run's
+config hash is recorded as defect. Secondary (descriptive): per run acc(base), acc(own), mean acc(controls); number of seeds with
+Cbar > 0.
+  python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe \
+      lab/confirm/confirm_lm1f.py [--selftest]
+"""
+from __future__ import annotations
+
+import itertools
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+
+HERE = Path(__file__).resolve().parent
+LAB = HERE.parent
+SPL, RAW = HERE / "lm3_splits", HERE / "lm3_raw"
+SEEDS, MODEL_OFFSET, STEPS, P = range(4010, 4020), 100, 15000, 113
+MIN_EFFECT, GATE_ACC, GATE_N = 0.1, 0.5, 16   # GATE_N as in confirm_lm3.py
+
+
+def projector(S: list[int]) -> np.ndarray:
+    n = np.arange(P)
+    B = np.stack([f(2 * np.pi * k * n / P) for k in S for f in (np.cos, np.sin)], 1)
+    Q, _ = np.linalg.qr(B)
+    return Q @ Q.T
+
+
+def controls(seed: int, T: dict) -> list[list[int]]:
+    rng = np.random.default_rng(np.random.SeedSequence([4031, seed]))
+    free = [k for k in range(1, 57) if k not in T["F"] and k not in T["G"]]
+    return [sorted(rng.choice(free, 5, replace=False).tolist()) for _ in range(4)]
+
+
+def test_h1(cbar: np.ndarray) -> dict:
+    rng = np.random.default_rng(4031)
+    boot = cbar[rng.integers(0, len(cbar), (10_000, len(cbar)))].mean(1)
+    lo, hi = (float(x) for x in np.percentile(boot, [2.5, 97.5]))
+    d = cbar - MIN_EFFECT
+    signs = np.array(list(itertools.product([1, -1], repeat=len(d))))
+    means = (signs * np.abs(d)).mean(1)
+    p_up = float((means >= d.mean() - 1e-12).mean())
+    p_down = float((means <= d.mean() + 1e-12).mean())
+    reading = ("bestaetigt" if lo > MIN_EFFECT and p_up < 0.05 else
+               "unter Mindesteffekt" if hi < MIN_EFFECT and p_down < 0.05 else "unklar")
+    return {"mean": float(cbar.mean()), "ci95": [lo, hi], "p_one_sided": p_up, "p_mirrored": p_down, "reading": reading}
+
+
+def evaluate_run(L, tok, ids, t0, d: Path, test: np.ndarray, sets: dict) -> dict:
+    import torch
+    res = json.loads((d / "result.json").read_text(encoding="utf-8"))
+    assert res["status"] == "completed" and res["steps_completed"] == STEPS, d
+    k = res["config"]
+    model = L.GPT(tok.get_vocab_size(), k["ctx"], k["d"], k["layers"], k["heads"])
+    ck = torch.load(d / "checkpoint.pt", map_location="cpu", weights_only=False)
+    assert ck["step"] == STEPS and ck["config_hash"] == res["config_hash"], f"{d}: checkpoint not at the end of this run"
+    model.load_state_dict(ck["model"])
+    model.eval()
+    num = torch.tensor(ids["num"])
+    X0 = model.emb.weight.data[num].clone()
+    a, b = test // P, test % P
+    x = torch.tensor([[ids["eot"]] + t0[0] + [ids["num"][i]] + t0[1] + [ids["num"][j]] + t0[2] for i, j in zip(a, b)])
+    c = torch.from_numpy((a + b) % P)
+    out = {"test_acc_logged": res["curve"][-1][2]}
+    with torch.no_grad():
+        for name, S in sets.items():
+            model.emb.weight.data[num] = X0 if S is None else X0 - torch.tensor(projector(S), dtype=torch.float32) @ X0
+            pred = torch.cat([model(x[i:i + 512])[:, -1, num].argmax(1) for i in range(0, len(x), 512)])
+            out[name] = float((pred == c).float().mean())
+    return out
+
+
+def main() -> None:
+    import torch
+    torch.set_num_threads(4)
+    sys.path.insert(0, str(LAB / "experiments/EXP-105-lm-ladder-stage2"))
+    import lm_stage2 as L
+    from tokenizers import Tokenizer
+    tok = Tokenizer.from_file(str(L.TOK_FILE))
+    ids = L.special_ids(tok)
+    t0 = L.tmpl_prompt(L.template_parts(tok)[0])
+    rows, missing, defect = [], [], []
+    lm1 = json.loads((HERE / "LM3_summary.json").read_text(encoding="utf-8")) if (HERE / "LM3_summary.json").exists() else {}
+    lm1_ok = lm1.get("defect") == [] and lm1.get("n_valid") == len(SEEDS)
+    for s in SEEDS:
+        T = json.loads((SPL / f"seed{s}.json").read_text(encoding="utf-8"))["targets"]
+        test = np.load(SPL / f"seed{s}_test.npy").astype(np.int64)
+        ctl = controls(s, T)
+        for arm in "FG":
+            ds = list(RAW.glob(f"lm2_seed{s + MODEL_OFFSET}_seed{s}_{arm}_steps{STEPS}_*"))
+            if len(ds) != 1 or not (ds[0] / "result.json").exists() or not (ds[0] / "checkpoint.pt").exists():
+                missing.append(f"{s}{arm}")
+                continue
+            other = T["G" if arm == "F" else "F"]
+            sets = {"base": None, "own": T[arm], "other": other, **{f"ctl{i}": S for i, S in enumerate(ctl)}}
+            try:
+                r = {"seed": s, "arm": arm, **evaluate_run(L, tok, ids, t0, ds[0], test, sets)}
+            except Exception as e:                                      # recorded, never fatal: the summary is always written
+                defect.append(f"{s}{arm}: {type(e).__name__}: {e}")
+                continue
+            r["base_minus_logged"] = r["base"] - r["test_acc_logged"]   # CPU vs GPU evaluation sanity check
+            r["C"] = r["other"] - r["own"]
+            r["ctl_mean"] = float(np.mean([r[f"ctl{i}"] for i in range(4)]))
+            rows.append(r)
+            print(json.dumps(r), flush=True)
+    import hashlib
+    out = {"block": "LM3F", "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+           "lm3_manifest_commit": lm1.get("manifest_commit"), "lm3_accepted": lm1_ok, "rows": rows, "missing": missing, "defect": defect}
+    gate = sum(r["test_acc_logged"] >= GATE_ACC for r in rows)
+    if not lm1_ok:
+        out["reading"] = "nicht auswertbar (LM3 defekt/fehlt oder nicht ausgewertet)"
+    elif missing or defect or gate < GATE_N:
+        out["reading"] = "nicht auswertbar" + (" (fehlt/defekt)" if missing or defect else " (LM3-Tor)")
+    else:
+        cbar = np.array([np.mean([r["C"] for r in rows if r["seed"] == s]) for s in SEEDS])
+        out.update({"cbar": cbar.tolist(), "n_seeds_cbar_pos": int((cbar > 0).sum()), **test_h1(cbar)})
+    (HERE / "LM3F_summary.json").write_text(json.dumps(out, indent=1, ensure_ascii=False), encoding="utf-8")
+    print(json.dumps({k: v for k, v in out.items() if k != "rows"}, indent=1, ensure_ascii=False))
+
+
+def selftest() -> None:
+    """Statistics only (no models): ten values 0.9 -> bestaetigt, p = 1/1024; values around 0.1 -> unklar; projector idempotent."""
+    r = test_h1(np.full(10, 0.9))
+    assert r["reading"] == "bestaetigt" and abs(r["p_one_sided"] - 1 / 1024) < 1e-12, r
+    r = test_h1(np.array([0.05, 0.15] * 5))
+    assert r["reading"] == "unklar", r
+    r = test_h1(np.full(10, -0.2))
+    assert r["reading"] == "unter Mindesteffekt", r
+    Pm = projector([3, 7])
+    assert np.allclose(Pm @ Pm, Pm) and abs(np.trace(Pm) - 4) < 1e-9
+    T = {"F": [1, 2, 3, 4, 5], "G": [6, 7, 8, 9, 10]}
+    c = controls(4000, T)
+    assert all(not set(S) & set(T["F"] + T["G"]) for S in c) and c == controls(4000, T)
+    print("selftest ok")
+
+
+if __name__ == "__main__":
+    selftest() if "--selftest" in sys.argv else main()

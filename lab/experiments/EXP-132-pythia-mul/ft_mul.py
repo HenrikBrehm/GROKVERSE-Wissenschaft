@@ -113,8 +113,12 @@ def main() -> None:
     if "--selftest-mul" in sys.argv:
         selftest_mul()
         return
-    patch()
     args = sys.argv[1:]
+    if "--selftest" in args:            # ft.selftest checks ADDITION labels; use --selftest-mul (review S61)
+        raise SystemExit("use --selftest-mul; ft_pythia's --selftest is addition-only")
+    if "--out-root" not in args or HERE.resolve() not in Path(args[args.index("--out-root") + 1]).resolve().parents:
+        raise SystemExit("--out-root must lie inside lab/experiments/EXP-132-pythia-mul (run ids do not know the task)")
+    patch()
     if "--out-root" in args:
         root = Path(args[args.index("--out-root") + 1])
         root.mkdir(parents=True, exist_ok=True)

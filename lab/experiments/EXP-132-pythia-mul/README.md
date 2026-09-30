@@ -28,7 +28,9 @@ Zurück zu [[LAB]]. **Exploration (2 Seeds × F/G), keine Bestätigung.**
 - `ft_mul.py --selftest-mul` grün (≈ 17:50; Etiketten, Projektor idempotent mit Spur 4, Zeile 0 unberührt, Nyquist nur Kosinus, Log-Potenz erkennt eingepflanzte Frequenzen).
 - `build_splits.py` gelaufen (≈ 17:50): Splits und Testmengen unter `splits/`.
 - `analyze.py` mit synthetischen Daten getestet (`test_analyze_synthetic.py`: eingepflanzte Ziele → „K2 haelt (mul)“, Δ_pow ≈ 16, Top 5 = Ziele).
-- **Offen:** Smoke auf der GPU (wenige Schritte), unabhängige Codeprüfung, Jobdatei.
+- **Codeprüfung (unabhängiger Agent, nur lesend, S61, vor jedem Lauf): keine Blocker.** Patches greifen (Modul-Globale zur Aufrufzeit); Log-Basis = P1-Konvention (vom Prüfer numerisch bestätigt: die Top 5 der Maskenpotenz aller vier Splits in der Log-Basis = ihre Ziele); Testmengen ohne 0 und ohne Überlappung. Übernommen: `--out-root` muss im Versuchsordner liegen (Run-IDs kennen die Aufgabe nicht), `--selftest` gesperrt (die Prüfung in `ft_pythia.py` ist nur für Addition; Tokenizer- und Verlustpfad deckt der Smoke). Als Grenze vermerkt: Kontrollmengen der Ablation werden aus 1..56 gezogen; 56 ist in der Log-Basis Nyquist (nur Kosinus), eine Kontrolle mit 56 entfernt 9 statt 10 Dimensionen (nur beschreibend; `ft_pythia.py` bleibt hash-gebunden). Der Skalar c der Rest-Änderung schließt Zeile 0 ein (vernachlässigbar).
+- **Smoke (CPU, 2 Schritte, 100 Testaufgaben, 17:53–18:05): grün** (Log-Basis-Ausgaben, Ablation vollständig; vortrainiert 1.6 % Training / 1.0 % Test, Zufall ≈ 0.9 %; lief mit der Fassung vor den zwei Schutzprüfungen, die danach einzeln getestet wurden).
+- **Eingereiht 18:06** als `inbox/44zzz_exp132_mul.jobs` (hinter EXP-130; der Dienst lässt nach Speicher zu). Auswertung mit `analyze.py`.
 
 ## Befehle
 

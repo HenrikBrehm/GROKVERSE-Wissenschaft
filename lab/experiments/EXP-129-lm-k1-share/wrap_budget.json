@@ -1,0 +1,43 @@
+{
+ "text_tokens": 113651592,
+ "k2_3864": {
+  "k": 2,
+  "seed": 3864,
+  "split": "seed3804_F",
+  "n_facts": 3831,
+  "first_wrap_step": 15135,
+  "arith_share": 0.08688408570594866,
+  "exposures_per_fact_at_wrap": 252.84259984338294,
+  "exposures_per_fact_at_10000": 167.05820934481858
+ },
+ "k2_3865": {
+  "k": 2,
+  "seed": 3865,
+  "split": "seed3805_G",
+  "n_facts": 3831,
+  "first_wrap_step": 15135,
+  "arith_share": 0.08690556071877101,
+  "exposures_per_fact_at_wrap": 252.84259984338294,
+  "exposures_per_fact_at_10000": 167.05820934481858
+ },
+ "k1_3864": {
+  "k": 1,
+  "seed": 3864,
+  "split": "seed3804_F",
+  "n_facts": 3831,
+  "first_wrap_step": 14477,
+  "arith_share": 0.04538071794546509,
+  "exposures_per_fact_at_wrap": 120.92508483424693,
+  "exposures_per_fact_at_10000": 83.52910467240929
+ },
+ "k1_3865": {
+  "k": 1,
+  "seed": 3865,
+  "split": "seed3805_G",
+  "n_facts": 3831,
+  "first_wrap_step": 14477,
+  "arith_share": 0.04540611714973086,
+  "exposures_per_fact_at_wrap": 120.92508483424693,
+  "exposures_per_fact_at_10000": 83.52910467240929
+ }
+}

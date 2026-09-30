@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-30, 06:08 Berlin (Sitzung 57) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-30, 06:31 Berlin (Sitzung 57) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -30,7 +30,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 56 (ab 03:30):** Anhang K neu gegliedert (Kopfzeile, fünf Absätze, LM1 vor LM1-F) und geprüft; **Haupttext-Abschlussprüfung** (10 Punkte übernommen: D59 17/20 generalisiert, Batch-16-Zuordnung, N54b im Abstract, Tabellenlegende, Λ-Definition; Abstract 1905 Zeichen). **EXP-113 fertig:** answer „K2 haelt“ (Δ_pow 7.00/4.79), all „unklar“ (auswendig, zurückgehalten 0.11–0.51), H-folgt widerlegt, Kommutativität im all-Arm „teilweise“. **EXP-116 fertig: „K2 haelt im LM“ bei ≈ 8.7 % Rechen-Tokens** (Δ_pow 2.06/4.97). → **LM3 eingefroren** (ff1288a5; 10 frische Seeds 4010–4019, K = 2, 15 000 Schritte, Tor 16/20, dazu LM3-F funktional) und beim Dienst (`43_lm3b`). Anhang K, FINDINGS, LAB, Tageserklärung aktualisiert.
 
-- **Sitzung 57 (ab 05:50):** **R12 eingefroren** (8e6f9b3f; R5-Design auf add 97 und mul 113 übertragen, je 20 Einheiten, Seeds 4200–4239, Arme R/E2_0/D_0/E2_1/D_1, H-ER und H-ED je Aufgabe, Holm über 4; Bezug: Paper §7 (ii) „R5 nur add 113“). Codeprüfung durch Agent ohne Blocker, 3 kleine Punkte übernommen; Smoke durch den Lader grün (Seed 4299). Läuft beim Dienst als `44_r12`.
+- **Sitzung 57 (ab 05:50):** **R12 eingefroren** (8e6f9b3f; R5-Design auf add 97 und mul 113 übertragen, je 20 Einheiten, Seeds 4200–4239, Arme R/E2_0/D_0/E2_1/D_1, H-ER und H-ED je Aufgabe, Holm über 4; Bezug: Paper §7 (ii) „R5 nur add 113“). Codeprüfung durch Agent ohne Blocker, 3 kleine Punkte übernommen; Smoke durch den Lader grün (Seed 4299). Läuft beim Dienst als `44_r12`. Außerdem: EXP-125 (LM ≈ 29.5 M Parameter, Pilot) als `45_exp125_lm_size` eingereiht; unabhängige R12-Nachrechnung und Abb. `fig16_r12_speed.py` vor jedem Ergebnis fertig; N57 post hoc: Spiegelpaare in allen Armen gleich häufig (0.30), Vertauschungsstufe bei ähnlicher W_E-Konzentration (≈ 0.3) in allen Armen, innerhalb der Arme an den Fortschritt gekoppelt (ρ 0.76–0.81, zu t_gen 0.85–0.90) → Satz in Anhang K (geprüft). Tageserklärung 01.10. mit Erwartungen angelegt.
 
 ## Aktive Queue / laufende Jobs (Stand Sitzung 57, 06:08 Berlin)
 

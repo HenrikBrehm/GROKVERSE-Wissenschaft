@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 05:50 Berlin (03:50Z, vom Runner)
 - **Deadline:** 2026-09-30 08:49 Berlin (06:49Z)
-- **Zuletzt aktualisiert:** 06:35 Berlin
+- **Zuletzt aktualisiert:** 07:17 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
@@ -16,11 +16,13 @@ tags: [lab/live]
 
 EXP-126 beobachten und auswerten; R12 (≈ abends) und LM3 (≈ 16 Uhr) später.
 
-## Dienst (06:32)
+## Dienst (07:17)
 
-LM3 2/20 fertig (3 laufen); R12 9/200 (4 laufen); EXP-125 wartet auf Speicher.
+LM3 2/20 fertig; EXP-126 4/16; R12 13/200 (pausiert hinter EXP-126); EXP-125 wartet.
 
 ## Verlauf dieser Sitzung
+
+- 07:17 EXP-126 Zwischenstand: Mit SGD bei Lernrate 0.05 lernt das Netz in 20 000 Schritten gar nichts (4 von 4 fertigen Läufen). Lernrate 0.1 läuft jetzt.
 
 - 06:35 EXP-126 vorab festgelegt und eingereiht (SGD statt Adam, 4 Seeds, lr 0.05/0.1).
 

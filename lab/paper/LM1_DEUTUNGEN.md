@@ -82,3 +82,11 @@ Lesart „constructed faster“ (q ≥ 3.15 / ≥ 2.61). **Der zweite Teil des v
 - **LM3-F „bestätigt“:** *Removing the run's own target subspace lowered held-out accuracy far more than removing the other split's targets (mean C̄ … [CI], p …)* – nur zusammen mit LM3 „bestätigt“ in den Haupttext-Hinweis; sonst nur Anhang K.
 - **LM3-F andere Ausgänge:** wie bei LM1-F (Anhang K, keine Richtung ableiten).
 - Vor jedem Paper-Satz: unabhängige Nachrechnung (eigener Lader, Muster `LM1_independent_recompute.py`), dann Satzprüfung.
+
+## Nachtrag (Sitzung 56, 04:33 gemessen, vor dem Ende des Laufs): EXP-119 Nachtrag 2 (Zufallssplit R, 16 000 Schritte, 1 Lauf)
+
+**Stand beim Schreiben:** gesehen sind Log-Zeilen bis Schritt 3250 (zurückgehalten ≈ 0.31, wie der Originallauf). Ersetzt wird der Halbsatz „whether the random split would generalize later in the language model is not known“ in Anhang K.
+- **„spätes Grokking“:** *…; trained longer (one run, 16 000 steps, exploration), the random split did reach 0.5 on held-out facts at step …, so the language-model plateau delayed generalization rather than preventing it in this run.*
+- **„Plateau hält“:** *…; trained longer (one run, 16 000 steps, exploration), the random split stayed on the plateau (held-out … at step 16 000; … without a trained mirror), which does not show that it would never end.*
+- **„unklar“:** *…; trained longer (one run, 16 000 steps), held-out accuracy rose to … without reaching 0.5 (inconclusive).*
+- Technische Kontrolle verfehlt: nur beschreibend nennen.

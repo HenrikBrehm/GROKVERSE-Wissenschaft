@@ -5,23 +5,24 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-30 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 03:03 Berlin
+- **Zuletzt aktualisiert:** 03:10 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange LÃ¤ufe Ã¼ber den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- Ein unabhängiger Agent prüft den vorbereiteten Code für EXP-124 (nicht gestartet, Regel 20a). Danach Abschlussbericht (Deadline 03:49).
+- **Sitzung beendet (03:10).** Nächster geplanter Start laut Runner: 30.09. 04:24 Berlin (02:24Z). Der GPU-Dienst rechnet weiter.
 
 ## Als Nächstes
 
-Nächste Sitzung: EXP-113 und EXP-116 auswerten (letzte Läufe laufen), dann EXP-119 Nachtrag 2.
+EXP-113 und EXP-116 auswerten (letzte Läufe laufen), dann EXP-119 Nachtrag 2. EXP-124 bleibt vorbereitet (Regel 20a).
 
-## Dienst (02:54)
+## Dienst (03:10)
 
-EXP-123 fertig (60/60). EXP-113: 7/8 fertig, letzter läuft. EXP-116: 2/4 fertig, 2 laufen. EXP-119 Nachtrag 2 wartet auf Grafikspeicher.
+EXP-123 fertig (60/60). EXP-113: 7/8, letzter Lauf bei 5000/16 000. EXP-116: 2/4, zwei Läufe bei ≈ 3500/16 000. EXP-119 Nachtrag 2 wartet auf Grafikspeicher.
 
 ## Verlauf dieser Sitzung
 
+- 03:13 Prüfung von EXP-124 fand einen Designfehler (eine allgemeine Verlangsamung wäre falsch gelesen worden); vor jedem Lauf behoben.
 - 03:02 EXP-124 vorbereitet (Bann-Test: Kommt die Vertauschungsstufe später, wenn die Zielfrequenzen verboten sind?); Code an zwei Smokes geprüft, bewusst nicht gestartet.
 - 02:58 Deutungssätze für EXP-113 vorab; Zenodo-Liste ergänzt.
 - 02:54 Nachträglich: Der Zeitpunkt der Vertauschungsstufe hängt bei konstruierten Splits so eng an der frühen Zielenergie wie das Grokking selbst; das trennt die Ursachen nicht. Trennender Versuch vorgemerkt.

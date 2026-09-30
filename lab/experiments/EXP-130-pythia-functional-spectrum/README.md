@@ -1,8 +1,8 @@
 ---
 id: EXP-130
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-30
-tags: [exp/vorbereitet, lab/lm, neu/kandidat]
+tags: [exp/abgeschlossen, befund/negativ, lab/lm, neu/kandidat]
 verwandt: ["[[experiments/EXP-127-pretrained-lm/README|EXP-127]]", "[[NOVEL_DIRECTIONS]]", "[[FINDINGS]]", "[[BACKLOG]]"]
 ---
 # EXP-130: Funktionales Frequenzspektrum eines nachtrainierten Pythia-160M (Pilot)
@@ -41,3 +41,11 @@ python lab/tools/guarded_run.py -- .venv-gpu/Scripts/python.exe lab/experiments/
 # Auswertung:
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-130-pythia-functional-spectrum/analyze.py
 ```
+
+## Ergebnis (Sitzung 62, 30.09., Auswertung 19:54 Berlin gemessen): „Wiederverwendung“
+
+Dienst `44zz_exp130_sweep` 4/4 fertig (Seed 4002: 18:17–19:03, Seed 4003: 19:03–19:54). `analyze.py` (unverändert, vor jedem Lauf geschrieben) → `summary.json`. Tor erfüllt (Basis 0.994 / 0.984 / 0.986 / 0.981). **Top 5 der Einzelfrequenz-Wichtigkeit (Eingabe) in allen vier Modellen dieselbe Menge {1, 2, 11, 23, 56}** (Reihenfolge 1, 2/56, 23, 11; je 4 davon in den vortrainierten Top 8, 56 ≈ Periode 2 nicht); eigene Ziele darin: 1 (4002 F: 56; 4002 G: 11), 0 (Seed 4003). → Vorab-Lesart **„Wiederverwendung“** (≥ 3 vortrainierte und ≤ 1 eigenes Ziel in 4/4 Modellen). Wichtigkeit der Top 5: 0.23–0.50 je Frequenz; je Modell 7–8 Frequenzen über der Schwelle 0.01; je ein Gleichstand am Rand der Top 5.
+
+**Beschreibend:** Ausgabeseite dieselbe Menge (Top 5 aus {1, 2, 3, 11, 23, 56}). Die vortrainierten Top 8 wegnehmen → Verlust 0.94–0.95 (Eingabe), den „Dezimalsatz“ {11, 23, 45} → 0.58–0.63. Eigene gegen fremde Ziele: Seed 4002 0.34 / 0.24 (F) und 0.26 / 0.38 (G), in beiden Fällen, weil die Menge 56 (F-Ziele) oder 11 (G-Ziele) enthält; Seed 4003 (Ziele ohne 1, 2, 11, 23, 56) 0.009 / 0.004 und 0.011 / 0.018. Spearman-ρ der Wichtigkeiten F gegen G: 0.66 (4002), 0.63 (4003). Die Menge deckt sich mit der, auf der sich in [[experiments/EXP-127-pretrained-lm/README|EXP-127]] die Rest-Änderung sammelte ({2, 3, 11, 23, 56}); hier an frischen Splits, nicht nur als Energie, sondern als Nutzung.
+
+**Deutung (vorläufig, Pilot, 2 Seeds):** Das nachtrainierte Pythia-160M rechnet (a + b) mod 113 unabhängig von der Faktenauswahl mit derselben kleinen Menge von Frequenzen, die überwiegend schon vortrainiert stark sind (1 ≈ Größe, 11/23 ≈ Dezimalperioden 10/5, 2), plus 56 ≈ Parität. Das passt zu Zhou et al. 2024 (tiefe Frequenzen für die Größe, hohe für Modulo-Anteile wie gerade/ungerade), hier für einen Modul, der nicht auf die Dezimalperioden ausgerichtet ist. Offen: ob der vortrainierte Rumpf oder die vortrainierten Zahlzeilen diese Wahl festlegen → [[experiments/EXP-133-pythia-reset-numbers/README|EXP-133]]; Zwischenschichten → [[experiments/EXP-131-pythia-layer-spectrum/README|EXP-131]].

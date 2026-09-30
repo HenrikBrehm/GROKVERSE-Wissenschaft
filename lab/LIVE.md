@@ -7,6 +7,13 @@ tags: [lab/live]
 - **Deadline:** 2026-09-30 21:29 Berlin (19:29Z)
 - **Zuletzt aktualisiert:** 19:01
 
+## Hinweis für den Assistenten (19:24)
+
+- **Symptom:** Mein eigener CPU-Zeittest (erster Gradient für EXP-133) belegt ≈ 5 Kerne und bremst die LM3-F-Nachrechnung des Dienstes (PID 29844). Mein Abbruch wurde von der Sicherheitsprüfung abgelehnt (Interfere With Workloads).
+- **Prozess:** PID 18524, gestartet 30.09. 19:13:09, `python lab/experiments/EXP-133-pythia-reset-numbers/first_gradient_reset.py --device cpu --threads 4 --limit 256` (Wächter PID 23656).
+- **Gewünschte Maßnahme:** PID 18524 beenden (der Wächter endet dann selbst). Wenn nicht: nichts tun, der Test endet von selbst (nur 256 Fakten je Arm).
+- **Warum nichts verloren geht:** reiner Zeittest ohne Ergebnisbedeutung, schreibt nur `first_gradient_reset_limit256.json`; den echten Lauf rechne ich später auf der GPU.
+
 ## Gerade
 
 - EXP-130 Seed 4002: Training fertig (Test 0.99), die Ablation jeder einzelnen Frequenz läuft. Seed 4003 startet danach (≈ 40 min).

@@ -24,3 +24,10 @@ Zurück zu [[paper/STATUS]] · [[confirm/L0b_REGISTRATION]] · Pilot [[experimen
 - keine Aussage über LeDoux' Regime (p = 9973, 0.3 % Daten, ≈ 1165 Schritte je Epoche); wir haben eine Batchgröße (240 Schritte je Epoche) bei 30 % Daten;
 - „Reihenfolge wirkt, wo die Menge wenig vorgibt“ nur als Vergleich zweier Splitarten (zufällig gegen konstruiert), nicht als Dosis-Wirkung;
 - weight decay 0.1 ist ein anderes Regime als der Haupttext (wd 1), das wird genannt.
+
+## Nachtrag Sitzung 65 (01:12 gemessen, vor jedem L0b-Ergebnis): Zeichenbudget des Abstracts
+
+Das Abstract (draft_short) hat 1919 Zeichen; der heutige Halbsatz „a fixed data order did not shift the frequencies at 30 % data (pilot)“ hat 69. Der Halbsatz oben (H1 und H2) hat 110 → 1960, **zu lang**. Kürzere Fassungen, gleicher Inhalt:
+- H1 und H2: *a fixed data order shifted random but not engineered splits (batch 16, 70 fresh seeds)* (86 → 1936; dann 16+ Zeichen an anderer Stelle kürzen, z. B. „(batch 1024–64, confirmed, energy measure)“ → „(batch 1024–64; confirmed, energy)“; Wahl erst nach dem Ergebnis, mit unabhängiger Textprüfung).
+- nur H2: *a fixed data order did not shift engineered splits (batch 16, 70 fresh seeds)* (77 → 1927; 8 Zeichen kürzen).
+- Wenn keine der beiden Bedingungen erfüllt ist, bleibt das Abstract unverändert (Regel oben).

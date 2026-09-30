@@ -30,6 +30,8 @@ Zurück: [[LAB]] · [[FINDINGS]] · [[JOURNAL]] Sitzung 58 · Vorläufer [[exper
 
 - **Rechnet das vortrainierte Modell schon? (09:24 gemessen, beschreibend, `pretrained_addition_probe.py/.json`):** Nein. Auf 289 Paaren (a, b < 113, Raster 7) trifft Pythia-160M die ganzzahlige Summe bei a + b < 113 in 0.7 % (mit „+“ wie mit „@“), bei a + b ≥ 113 weder Summe noch Rest (0 %). Die Wahl des neutralen Operators umgeht also keine vorhandene Additionsfähigkeit; vortrainiert sind nur die Zahlmerkmale (Spektrum oben).
 
+- **Vorhersage erster Ordnung am vortrainierten Modell (`first_gradient.py`, Lesart vor dem Rechnen, Ergebnis 10:32): „nicht gestützt“.** Δ_pow des ersten Eingabegradienten −0.013 / −0.035 (Top 5 überall 1–5); Ausgabeseite +0.05 / +1.78 (beschreibend). Der erste Schritt trägt die Maskenfrequenzen auf der Eingabeseite nicht; eine Steuerung im Piloten müsste im Verlauf entstehen.
+
 ## Deutung je Ausgang (vorab)
 
 - „K2 hält“: *Beim Nachtrainieren eines vortrainierten 160-M-Modells bestimmte die Faktenauswahl in 2 Pilot-Seeds, welche Frequenzen die Änderung der Zahl-Eingabeeinbettung trägt* → Bestätigungsblock mit frischen Splits (10 Seeds, eingefroren) planen; Paper nur Ausblick bis zur Bestätigung.

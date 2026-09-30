@@ -17,7 +17,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`), Reihenfolge
 
-1. `44zzzzz_l0b` – **L0b** (Bestätigung Menge gegen Reihenfolge bei B = 16, eingefroren bce36b1a, 420 Läufe, 8 Worker, ≈ 256 s je Lauf; 36/420 um 00:06 → fertig ≈ 03:30).
+1. `44zzzzz_l0b` – **L0b** (Bestätigung Menge gegen Reihenfolge bei B = 16, eingefroren bce36b1a, 420 Läufe, 8 Worker, ≈ 370 s je Lauf unter Last ≈ 1.3 Läufe/min; 44/420 um 00:12 → fertig ≈ 05:00).
 2. `45_exp125_lm_size` – EXP-125 (LM ≈ 29.5 M, 4 Läufe, 6 GB je Lauf; Lauf 0 lernt, #1 wartet auf Speicher).
 3. `45z_exp134_textpre` – **EXP-134** (neu S64, N62): eigenes LM erst 6000 Schritte nur Text, dann LM1-Fakten F/G; steuert die Auswahl noch? 2 Jobs.
 4. `45zz_exp135_switch` – **EXP-135** (neu S64): K4 im LM, Faktenwechsel F → G nach 250/1000/3000 Schritten; Festlegung am Anfang oder mit dem Lernen? 6 Jobs.

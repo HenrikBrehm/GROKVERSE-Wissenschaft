@@ -83,7 +83,7 @@ Lesart „constructed faster“ (q ≥ 3.15 / ≥ 2.61). **Der zweite Teil des v
 - **LM3-F andere Ausgänge:** wie bei LM1-F (Anhang K, keine Richtung ableiten).
 - Vor jedem Paper-Satz: unabhängige Nachrechnung (eigener Lader, Muster `LM1_independent_recompute.py`), dann Satzprüfung.
 
-## Nachtrag (Sitzung 56, 04:33 gemessen, vor dem Ende des Laufs): EXP-119 Nachtrag 2 (Zufallssplit R, 16 000 Schritte, 1 Lauf)
+## Nachtrag (Sitzung 56, 04:31 gemessen, vor dem Ende des Laufs): EXP-119 Nachtrag 2 (Zufallssplit R, 16 000 Schritte, 1 Lauf)
 
 **Stand beim Schreiben:** gesehen sind Log-Zeilen bis Schritt 3250 (zurückgehalten ≈ 0.31, wie der Originallauf). Ersetzt wird der Halbsatz „whether the random split would generalize later in the language model is not known“ in Anhang K.
 - **„spätes Grokking“:** *…; trained longer (one run, 16 000 steps, exploration), the random split did reach 0.5 on held-out facts at step …, so the language-model plateau delayed generalization rather than preventing it in this run.*

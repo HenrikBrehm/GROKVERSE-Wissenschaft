@@ -4,7 +4,7 @@ Persistence pi = (L_switch - L_G) / (L_F - L_G) at the end, with L_F, L_G from t
 at step 6000 (from scratch, same trainer and device; confirmation block, already seen). pi ~ 1: F persists; ~ 0: as G only.
 Per t: 'haelt fest' pi > 0.5 in both seeds; 'ueberschrieben' pi < 0.2 in both; else 'teilweise'.
 Gate: held-out accuracy (common test set) > 0.5 in >= 5 of 6 switch runs, else 'nicht auswertbar (lernt G nicht)'.
-Overall: 'Festlegung am Anfang' if all three t 'haelt fest'; 'Festlegung mit dem Lernen' if t=250 and t=1000 'ueberschrieben' and
+Overall: 'Festlegung vor dem Lernen' if t=1000 and t=3000 'haelt fest' (t=250 descriptive); 'Festlegung mit dem Lernen' if t=250 and t=1000 'ueberschrieben' and
 t=3000 'haelt fest'; 'keine Festlegung' if all three 'ueberschrieben'; else 'unklar'.
   PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-135-lm-switch-lockin/analyze.py
 """
@@ -76,7 +76,9 @@ def main() -> None:
         overall = "nicht auswertbar (lernt G nicht)"
     else:
         c = {t: per_t[str(t)]["reading"] for t in TS}
-        overall = ("Festlegung am Anfang" if c[250] == c[1000] == c[3000] == "haelt fest" else   # monotone (review s64)
+        # amended 01.10. 00:10 before any run: the toy law N54b transferred in summed lr puts half lock-in at ~340 LM steps,
+        # so t = 1000 (not 250) separates the models; t = 250 is descriptive against that transfer
+        overall = ("Festlegung vor dem Lernen" if c[1000] == c[3000] == "haelt fest" else
                    "Festlegung mit dem Lernen" if c[250] == c[1000] == "ueberschrieben" and c[3000] == "haelt fest" else
                    "keine Festlegung" if all(v == "ueberschrieben" for v in c.values()) else "unklar")
     out = {"reading": overall, "per_t": per_t, "rows": rows}

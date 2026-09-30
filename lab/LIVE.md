@@ -1,36 +1,36 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 54
+# LIVE: Laborsitzung 55
 
-- **Sitzungsstart:** 2026-09-29 22:09 Berlin (20:09Z, vom Runner)
-- **Deadline:** 2026-09-30 01:09 Berlin (23:09Z)
-- **Zuletzt aktualisiert:** 00:44 Berlin
-- **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
+- **Sitzungsstart:** 2026-09-30 00:49 Berlin (22:49Z, vom Runner)
+- **Deadline:** 2026-09-30 03:49 Berlin (01:49Z)
+- **Zuletzt aktualisiert:** 01:55 Berlin
+- **Run-Fenster:** offen (durchgehend bis 06.10.). Lange LÃ¤ufe Ã¼ber den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- **Sitzung beendet (00:44).** Nächster geplanter Start laut Runner: 30.09. 01:44 Berlin. Der GPU-Dienst rechnet weiter: EXP-113-Rest, EXP-116, EXP-121 (wartet auf Speicher).
+- Ein unabhÃ¤ngiger Agent prÃ¼ft den korrigierten Paper-Satz zu EXP-121 (Spektralspitzen).
+- EXP-123 lÃ¤uft (4/60 fertig; die ersten LÃ¤ufe treffen die alten Generalisierungsschritte genau).
 
-## Als Nächstes
+## Als NÃ¤chstes
 
-Anhang-J-Absätze prüfen lassen; EXP-121 auswerten → LM2 entscheiden; EXP-116/113 auswerten; N57-Nachfolger festlegen.
+EXP-123 beobachten und auswerten (â‰ˆ 03:00). Bis dahin: Denkarbeit zur Frage â€žBraucht das Verlassen des Plateaus eine Spektralspitze?â€œ.
 
-## Dienst (00:09)
+## Dienst (01:11)
 
-LM1-F-Nachrechnung 12/20; EXP-113 3/8 fertig (2 laufen); EXP-116 1 läuft; EXP-121 wartet auf Grafikspeicher.
+EXP-123: 4 fertig, 3 laufen. EXP-113: 5/8 fertig, 2 laufen. EXP-116: 1/4 fertig, 1 lÃ¤uft.
 
 ## Verlauf dieser Sitzung
 
-- 00:43 **LM1-F unabhängig nachgerechnet: identisch.** Satz im Paper-Anhang J eingesetzt.
-- 00:18 Code-Prüfung EXP-122: kein Fehler; nur das Tauschpaar hilft, andere Nachbarn nicht.
-- 00:08 **EXP-122:** Auch das Spielzeugmodell lernt vor dem Grokking zuerst die Vertauschungsregel (4/4 Läufe); konstruierte Splits ziehen die übrigen Aufgaben früher mit. Mein „erster Blick“ von 23:43 war falsch.
-- 23:41 **Plateau = Kommutativität:** Das Sprachmodell mit Zufallsdaten beantwortet nur ungesehene Fakten richtig, deren gespiegeltes Paar (b, a) es gelernt hat (99 % gegen 3 %). Es hat „a + b = b + a“ gelernt, nicht die Addition.
-- 23:33 EXP-121 festgelegt und eingereiht (flacher Zufallsarm: trennt Paarstruktur von Zahl-Häufigkeit). Anhang-J-Sätze zu EXP-119/120 nach unabhängiger Prüfung korrigiert.
-- 23:26 **EXP-119:** Im Sprachmodell lernt ein Zufallssplit die Trainingsfakten gleich schnell, generalisiert aber nicht (Lücke ≥ 3900 Schritte); konstruierte Splits generalisieren sofort. Meine vorab formulierte Erklärung war falsch.
-- 23:20 EXP-120 (Ein- vs. Ausgabeseite im LM): vorab „unklar“; Eingabe allein trägt die volle Wirkung, Ausgabe teilweise.
-- 22:51 **LM1-F bestätigt**: Das Sprachmodell nutzt die gesteuerten Frequenzen (10/10 Seeds). Nachrechnung eingereiht.
-- 22:35 Anhänge F und H logisch geprüft (10 kleine Punkte, u. a. veraltetes „R4 is pending“); alle Anhänge jetzt einmal geprüft.
-- 22:25 Anhänge B, E, G logisch geprüft: 1 Richtungsfehler in der Theorie (MLP: M0 gegen M0c vertauscht) und 13 kleinere Punkte korrigiert; committed.
-- 22:20 Anhang A: 3 Logikpunkte eingearbeitet (Zahlen nachgerechnet), 1 Fehlalarm verworfen; committed.
-- 22:10 Stand gelesen, Dienst läuft ohne Fehler.
+- 01:53 Paper §4: Satz zu Wang et al. 2024 nach Prüfung vorsichtiger formuliert.
+- 01:42 Blinde Code-Prüfung von EXP-123: kein Fehler; vier Unschärfen der Vorab-Festlegung vor dem Ergebnis schriftlich geklärt; Zusatzauswertung vorab geschrieben.
+- 01:23 **EXP-119 Nachtrag 2** eingereiht: Hält das Plateau des Zufallssplits im Sprachmodell bis 16 000 Schritte, oder kommt der Sprung doch noch?
+- 01:15 Paper: R5-Abschnitt zitiert jetzt Wang et al. 2024; Manuskript neu gebaut (Zitatprüfung sauber). Abbildungsskript für EXP-123 vorbereitet.
+- 01:13 Nachträglich: Die Stärke der Spektralspitze sagt die Grokking-Zeit *innerhalb* des Zufallsarms nur schwach voraus (ρ = −0.26).
+- 01:11 **Korrektur:** Der â€žflache Zufallssplitâ€œ hat doch Spektralspitzen (bei zufÃ¤lligen Frequenzen), fast so stark wie die konstruierten Splits. Ungleiche Zahl-HÃ¤ufigkeiten erklÃ¤ren das Plateau nicht. Neue Lesart: Irgendeine Spitze scheint nÃ¶tig, nicht die Wahl der Ziele (nachtrÃ¤glich, nicht direkt getestet). Paper-Satz korrigiert. AuÃŸerdem geschÃ¤tzte Uhrzeiten durch gemessene ersetzt.
+- 01:07 **EXP-121:** vorab â€žunklarâ€œ; der flache Zufallssplit verlÃ¤sst das KommutativitÃ¤ts-Plateau (ohne Tauschpaar 68 % / 98 %). Im Paper-Anhang eingetragen und geprÃ¼ft.
+- 00:57 **EXP-123 vorab festgelegt und gestartet** (KommutativitÃ¤t zuerst? VerkÃ¼rzt die Datenauswahl den zweiten Schritt?).
+- 00:55 **Literatur:** He et al. 2026 kennen das Tauschpaar-Muster, aber mit eingebauter Vertauschung.
+- 00:54 **Paper-Anhang J geprÃ¼ft:** 5 Formulierungen korrigiert.
+- 00:51 Stand gelesen, Dienst lÃ¤uft.

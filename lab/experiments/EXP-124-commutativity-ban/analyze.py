@@ -1,8 +1,12 @@
 """EXP-124 (session 55, draft, written before any main run): readings as in README. Per unit u0-u9: t_swap / t_other (first 25-step
 grid point with acc_swap / acc_other >= 0.5; not reached = censored at 8000); L_swap = log2 t_swap(T) - log2 t_swap(C), L_other
-likewise. 'Kommutativitaet ueber die Zielstruktur': mean L_swap >= 1 and >= 8/10 units positive; 'eigener Pfad': |mean L_swap| < 0.3
-and mean L_other >= 1; else 'unklar'. Technical: every run completed with the planned seed and ban, and the banned target power at
-the end < 1e-6 of the median power of the other frequencies; more than 1 failing run -> 'nicht auswertbar'.
+likewise; Delta = L_swap - L_other (session 55 review: separates a specific delay of the commutativity stage from a general
+slow-down). 'Kommutativitaet ueber die Zielstruktur': mean L_swap >= 1, mean Delta >= 0.5 and Delta > 0 in >= 80 % of units;
+'allgemeine Verlangsamung': mean L_swap >= 1, mean L_other >= 1 and |mean Delta| < 0.3; 'eigener Pfad': |mean L_swap| < 0.3 and
+mean L_other >= 1; else 'unklar'. Descriptive: median t_swap(T) against the EXP-123 R median 4150 and E2_0 no-ban times (EXP-123).
+Technical: every run completed with the planned seed, split, test file, 8000-step cap and ban, and the banned W_E power at the end
+< 1e-6 of the median of the other frequencies (this only shows the code ran; the claim is 'without the targets in W_E');
+more than 1 failing run -> 'nicht auswertbar'.
   PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-124-commutativity-ban/analyze.py
 """
 from __future__ import annotations
@@ -29,7 +33,11 @@ def load(u: int, arm: str, ban: list[int]) -> dict:
     r = json.loads(f.read_text(encoding="utf-8"))
     w = np.array(r["we_power_final"])
     rest = np.median(np.delete(w, [k - 1 for k in ban]))
-    ok = r.get("status") == "completed" and sorted(r["ban"]) == sorted(ban) and all(w[k - 1] < 1e-6 * rest for k in ban)
+    init = json.loads((HERE.parents[2] / f"lab/confirm/r5_splits/r5_u{u}.json").read_text(encoding="utf-8"))["init"]
+    argv = " ".join(r.get("argv", []))
+    ok = (r.get("status") == "completed" and r.get("seed") == init and r.get("steps_max") == CENSOR
+          and f"r5_u{u}_E2_0.npy" in argv and f"r5_u{u}_test.npy" in argv
+          and sorted(r["ban"]) == sorted(ban) and all(w[k - 1] < 1e-6 * rest for k in ban))
     t = r["trace"]
     return {"unit": u, "arm": arm, "status": "ok" if ok else "defekt", "t_gen": r["generalization_step"],
             "t_swap": first(t["step"], t["swap"]), "t_other": first(t["step"], t["other"]), "last_step": r["last_step"]}
@@ -49,10 +57,17 @@ def main() -> None:
         lg = lambda v: np.log2(v if v is not None else CENSOR)  # noqa: E731
         ls = np.array([lg(by[(u, "T")]["t_swap"]) - lg(by[(u, "C")]["t_swap"]) for u in us])
         lo = np.array([lg(by[(u, "T")]["t_other"]) - lg(by[(u, "C")]["t_other"]) for u in us])
+        dl = ls - lo
+        ts = [by[(u, "T")]["t_swap"] for u in us]
         out.update({"n": len(us), "L_swap_mean": float(ls.mean()), "L_swap_pos": int((ls > 0).sum()),
-                    "L_other_mean": float(lo.mean()), "L_other_pos": int((lo > 0).sum())})
-        if ls.mean() >= 1 and (ls > 0).sum() >= 8:
+                    "L_other_mean": float(lo.mean()), "L_other_pos": int((lo > 0).sum()),
+                    "Delta_mean": float(dl.mean()), "Delta_pos": int((dl > 0).sum()),
+                    "median_t_swap_T_censored": float(np.median([v if v is not None else CENSOR for v in ts])),
+                    "ref_EXP123_R_median_t_swap": 4150})
+        if ls.mean() >= 1 and dl.mean() >= 0.5 and (dl > 0).sum() >= 0.8 * len(us):
             out["reading"] = "Kommutativitaet ueber die Zielstruktur"
+        elif ls.mean() >= 1 and lo.mean() >= 1 and abs(dl.mean()) < 0.3:
+            out["reading"] = "allgemeine Verlangsamung"
         elif abs(ls.mean()) < 0.3 and lo.mean() >= 1:
             out["reading"] = "eigener Pfad"
         else:

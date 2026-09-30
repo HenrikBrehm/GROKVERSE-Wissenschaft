@@ -1,8 +1,8 @@
 ---
 id: EXP-116
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/vorbereitet, lm-leiter]
+tags: [exp/abgeschlossen, lm-leiter, befund/positiv]
 ---
 # EXP-116: Sprachmodell-Leiter Stufe 2c – wenige Prozent Rechensätze, Verlust nur auf der Antwort
 
@@ -20,3 +20,12 @@ Zurück: [[LAB]] · [[FINDINGS]] · Vorgänger [[experiments/EXP-113-lm-ladder-s
 - **Lesarten (`analyze.py`, vor dem Lauf geschrieben; Regeln wie EXP-113 für einen Arm):** „K2 haelt im LM“: Δ_pow > 1 in beiden Seeds und zurückgehaltene Fakten > 0.5 in ≥ 3/4 Läufen; „nur Repraesentation“: Δ_pow > 1 in beiden Seeds und zurückgehaltene Fakten < 0.1 in ≥ 3/4; „bricht“: |Δ_pow| ≤ 1 in beiden Seeds; sonst „unklar“; Vorrang **„nicht gelernt (Budget)“**, wenn die Trainingsfakten-Genauigkeit in ≥ 3/4 Läufen < 0.1 ist. Beschreibend: erster Schritt mit zurückgehaltenen Fakten ≥ 0.5 je Lauf, Textumläufe.
 - **Was gegen die Hypothese spräche:** Die Fakten werden gelernt (> 0.5 zurückgehalten), aber |Δ_pow| ≤ 1 → bei wenigen Prozent Rechensätzen bricht K2 (erste Stufe, auf der K2 bricht; Regel 20e). „Nicht gelernt (Budget)“ wäre dagegen kein Befund über K2.
 - **Bereits gesehene Daten:** EXP-105-Pilot (K = 2, Verlust überall, Seeds 3860/3861), EXP-113-Zwischenblicke (K = 8, `answer`, Seed 3862), EXP-114 (K = 19), Stufe 1 auf den Split-Seeds 3804/3805 (EXP-102/112). Davon beeinflusst: Wahl von K, Verlust-Arm, Budget.
+
+## Ergebnis (Sitzung 56, 30.09. 04:24 Berlin gemessen; 4/4 Läufe ohne Fehler, GPU-Dienst `41_exp116_lowshare`)
+
+Befehl: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-116-lm-low-share/analyze.py` → `summary.json`.
+
+- **Vorab-Lesart: „K2 haelt im LM“.** Δ_pow bei 16 000: 2.06 (Seed 3864) und 4.97 (Seed 3865); zurückgehalten 0.776 / 0.947 (3864 F/G) und 0.949 / 0.698 (3865 F/G); Trainingsfakten 0.92–0.99.
+- **Text-Umlauf:** alle 4 Läufe `text_wraps` = 1 (vorab in Kauf genommen; der Umlauf kommt bei ≈ 15 135 Schritten). Bei 15 000, vor dem Umlauf: Δ_pow 2.06 / 4.72, zurückgehalten 0.738 / 0.960 / 0.920 / 0.771.
+- **Beschreibend:** Test ≥ 0.5 ab 10 250 / 6250 (3864) und 12 250 / 11 000 (3865). Δ_pow > 1 ab 5000 (3864) bzw. 7500 (3865), gleichzeitig mit dem Lernbeginn; bei 3864 danach Rückgang von 4.32 (6250) auf 2.06, bei 3865 nach einem Tief (3.81 bei 11 500) wieder Anstieg auf 4.97.
+- **Deutung (Exploration, 2 Seeds):** Auch bei nur ≈ 8.7 % Rechen-Tokens lernt das LM die Fakten und die Faktenauswahl steuert die Zahl-Einbettung (Δ_pow > 1 in beiden Seeds). Keine Bestätigung: → Bestätigungsblock [[confirm/LM3_REGISTRATION|LM3]] (10 frische Seeds, 15 000 Schritte, eingefroren Sitzung 56).

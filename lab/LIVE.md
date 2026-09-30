@@ -5,20 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 16:00 Berlin (14:00Z, vom Runner)
 - **Deadline:** 2026-09-30 18:59 Berlin (16:59Z)
-- **Zuletzt aktualisiert:** 17:29 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 17:46 Berlin (gemessen)
 
 ## Gerade
 
-- **Hinweis für den Nutzer (17:29):** Auch die zwei Seed-4001-Läufe von EXP-127 (fertig ≈ 17:23, Ergebnisse gespeichert und ausgewertet) hängen beim Beenden (P-021); dahinter wartet EXP-130. Beenden bitte durch dich/deinen Assistenten, ich darf es nicht.
-- **EXP-127 ausgewertet: „bricht“.** Beim Nachtrainieren des vortrainierten Pythia steuert die Faktenauswahl die Zahl-Einbettung nicht. Das Modell scheint stattdessen die Zahlfrequenzen zu nutzen, die es schon aus dem Vortraining hat (2, 3, 11, 23).
-- EXP-130 (welche Frequenz braucht das Modell wirklich?) und EXP-131 (Zwischenschichten) sind vorbereitet.
+- **Hinweis für den Nutzer:** Die zwei Seed-4001-Läufe von EXP-127 hängen seit ≈ 17:23 beim Beenden (P-021, Ergebnisse gesichert und ausgewertet). EXP-130 wartet dahinter. Beenden bitte durch dich/deinen Assistenten.
+- **LM3-F bestätigt:** Auch bei ≈ 8.7 % Rechentext *braucht* das Sprachmodell die gesteuerten Frequenzen: Werden sie entfernt, fällt die Genauigkeit auf ≈ 1 %; das Entfernen der fremden Frequenzen schadet kaum (C̄ 0.84 [0.75, 0.91], 10/10). Die unabhängige Nachrechnung läuft (≈ 2 h), danach kommt der Satz ins Paper.
+- Neue Frage N60 notiert: Wirkt die Faktenauswahl beim vortrainierten Modell, wenn seine Zahlmerkmale nicht passen (Multiplikation)?
 
 ## Als Nächstes
 
-1. EXP-130 läuft, sobald die Grafikkarte frei ist (≈ 40 min), danach EXP-131 (Sekunden). 2. LM3-F auswerten, sobald fertig.
+1. Nächste Sitzung: LM3-F-Nachrechnung prüfen → Paper-Satz (Anhang K, §7) + Prüfung. 2. EXP-130 auswerten, dann EXP-131.
 
 ## Verlauf dieser Sitzung
 
+- 17:46 N60 notiert; Rückschau im JOURNAL.
+- 17:44 **LM3-F bestätigt** (C̄ 0.839 [0.747, 0.913], 10/10, p = 1/1024).
+- 17:31 EXP-127-Verlauf: Das Nachtraining verstärkt in allen Läufen dieselben Frequenzen 23, 11, 2, 56, 3 (Dezimal/gerade-ungerade).
 - 17:29 EXP-131 (Zwischenschichten) vorbereitet, Selbsttest grün.
 - 17:26 **EXP-127: „bricht“** (Δ_pow +0.13 / −0.17; nur vortrainierte Frequenzen werden gebraucht, beschreibend).
 - 17:27 EXP-130 speichert jetzt auch die Modelle.

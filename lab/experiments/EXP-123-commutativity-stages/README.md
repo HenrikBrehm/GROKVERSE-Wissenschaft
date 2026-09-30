@@ -1,8 +1,8 @@
 ---
 id: EXP-123
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-30
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, neu/kandidat, befund/positiv]
 ---
 # EXP-123: Zwei Stufen vor dem Grokking – Kommutativität, dann der Rest; verkürzt die Datenauswahl die zweite Stufe?
 
@@ -34,6 +34,15 @@ Zurück: [[LAB]] · [[NOVEL_DIRECTIONS]] N57 · Pilot [[experiments/EXP-122-toy-
 4. Die technische Kontrolle vergleicht die Gesamtgenauigkeit (netto ≤ 2 richtige Vorhersagen Unterschied), nicht einzelne Vorhersagen.
 5. Empfindlichkeit bei Schwellen 0.3 und 0.7 wird immer berichtet (post hoc).
 
-## Ergebnis
+## Ergebnis (Sitzung 55, 30.09. 02:45 Berlin gemessen; 60/60 Läufe ohne Fehler, GPU-Dienst; technische Kontrolle 60/60 bestanden; `summary.json`, `summary_secondary.json`, Abb. `lab/paper/figures/fig15_commutativity_stages.png`)
 
-(noch nicht ausgeführt)
+**Vorab-Lesart: „H1 gestützt; H2 Richtung ja, unter Mindesteffekt“.**
+
+- **H1 (Kommutativität zuerst, Arm R):** 18/18 bestimmbare Einheiten positiv (t_other ≥ t_swap + 100), Vorzeichentest p = 3.8·10⁻⁶, Holm 7.6·10⁻⁶. Zwei Einheiten (u12, u15; R5: nicht generalisiert) ohne t_swap; keine Einheit mit t_other ohne t_swap (konservative Variante identisch); keine mit t_swap > 7900.
+- **H2 (m(E2_0) − m(R)):** Mittel d = 0.041 [0.020, 0.062], 14/18 positiv, p = 0.0012 (Holm gleich) → Richtung gesichert, aber unter dem vorab gesetzten Mindesteffekt 0.05.
+- **Empfindlichkeit (post hoc, Klarstellung 5):** H1 18/18 auch bei Schwelle 0.3 und 0.7; d = 0.021 (18/18 positiv) bei 0.3 und 0.071 (14/18) bei 0.7.
+- **D_0 (beschreibend):** verhält sich wie R (m − m(R) = 0.003, 11/17, p = 0.40; t_swap-Median 4250 gegen 4150); E2_0 − D_0: d = 0.037, 14/19, p = 0.004.
+- **Beschreibend, Mediane:** t_mem 150 in allen Armen; t_swap R 4150 / D 4250 / E2 325; t_other 5325 / 5575 / 575; t_swap / t_gen 0.68 / 0.65 / 0.41.
+- **Beschreibend, post hoc (nicht vorab):** Geometrisches Mittel der Verkürzung R → E2 (17 Einheiten mit allen vier Zeiten): Stufe 1 (bis t_swap) ×11.1, Stufe 2 (t_other − t_swap, mindestens 25) ×4.6; Stufe 2 stärker verkürzt nur in 2/17.
+
+**Deutung (vorab festgelegte Exploration an R5-Einheiten, Seeds/Zeiten bekannt):** Im Transformer, der die Kommutativität nicht eingebaut hat, trägt auf Zufallssplits die gelernte Vertauschungsregel die Test-Genauigkeit vor dem Grokking; die übrigen Paare springen spät und steil (Abb.: gestrichelt bei ≈ 0.85 t_gen). Die Hypothese, dass konstruierte Splits *vor allem* die zweite Stufe verkürzen, ist **nicht gestützt**: Sie verkürzen beide Stufen, in absoluten Schritten die Kommutativitätsstufe sogar stärker; der Rest liegt zum Zeitpunkt t_swap nur wenig weiter vorn (d = 0.04). In relativer Zeit (Anteil von t_gen) sieht E2 glatter aus (Abb.), was den Eindruck aus dem Pilot EXP-122 (bei 50 %/90 % von t_gen gemessen) erklärt. Die Zählkontrolle D verhält sich wie R: Die Wirkung hängt an der Anordnung innerhalb der Antidiagonalen (wie in R5, H-ED). **Lehre:** Messpunkte relativ zu t_gen verschleiern, welche Stufe in absoluter Zeit verkürzt wird.

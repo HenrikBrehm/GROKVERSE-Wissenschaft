@@ -1,0 +1,17 @@
+{
+ "seed": 13600,
+ "p": 211,
+ "fraction": "hi",
+ "train_frac": 0.3,
+ "arm": "F",
+ "eps": 2.0,
+ "targets": [
+  34,
+  67,
+  68,
+  92,
+  103
+ ],
+ "n_train": 13356,
+ "target_power_share": 0.15445184189692504
+}

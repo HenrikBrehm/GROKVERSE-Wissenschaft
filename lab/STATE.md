@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 00:08 Berlin (Sitzung 64) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 00:45 Berlin (Sitzung 65) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -27,7 +27,7 @@ Nichts davon selbst neu einreihen; vor dem Ablegen status.json prüfen; Jobdatei
 
 ## Nächste Schritte
 
-1. **L0b auswerten**, wenn `lab/queue/done/44zzzzz_l0b.summary.json` da ist: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_l0b.py --analyze lab/confirm/L0b_manifest.json`; dann unabhängige Nachrechnung `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/L0b_independent_recompute.py --analyze`; Paper nach [[paper/L0b_DEUTUNGEN]] + unabhängige Textprüfung; FINDINGS, LAB, Tageserklärung.
+1. **L0b auswerten**, wenn `lab/queue/done/44zzzzz_l0b.summary.json` da ist: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_l0b.py --analyze lab/confirm/L0b_manifest.json`; dann unabhängige Nachrechnung `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/L0b_independent_recompute.py --analyze`; Abbildung `python lab/paper/figures/fig17_l0b_set_vs_order.py` (vorab geschrieben S65); Paper nach [[paper/L0b_DEUTUNGEN]] + unabhängige Textprüfung; FINDINGS, LAB, Tageserklärung.
 2. **EXP-125** auswerten (Befehl im README), Paper nach [[paper/EXP125_DEUTUNGEN]].
 3. **EXP-134** / **EXP-135** auswerten: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-134-text-pretrain-steering/analyze.py` bzw. `.../EXP-135-lm-switch-lockin/analyze.py`; Lesarten vorab in den READMEs. Paper erst nach Entscheidung (Explorationen → höchstens Anhang).
 4. EXP-128 (`lab/experiments/EXP-128-sgd-clip/analyze.py`), EXP-129 (`lab/experiments/EXP-129-lm-k1-share/analyze.py`).

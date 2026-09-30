@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 05:50 Berlin (03:50Z, vom Runner)
 - **Deadline:** 2026-09-30 08:49 Berlin (06:49Z)
-- **Zuletzt aktualisiert:** 06:27 Berlin
+- **Zuletzt aktualisiert:** 06:32 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
@@ -16,12 +16,14 @@ tags: [lab/live]
 
 R12 auswerten, sobald 200/200 fertig (bei jetzigem Tempo ≈ 0.27 Läufe/min eher am Abend; schneller, wenn LM3 fertig ist ≈ 16 Uhr). LM3 auswerten, sobald 20/20 fertig.
 
-## Dienst (06:27)
+## Dienst (06:32)
 
-LM3 2/20 fertig (3 laufen, ≈ 95 min je Lauf); R12 6/200 (4 laufen); EXP-125 wartet auf Speicher (Anmeldung auf 6 GB gesenkt).
+LM3 2/20 fertig (3 laufen); R12 9/200 (4 laufen); EXP-125 wartet auf Speicher.
 
 ## Verlauf dieser Sitzung
 
+- 06:32 Paper Anhang K: ein geprüfter Satz dazu (Vertauschungsstufe bei ähnlicher Frequenz-Konzentration in allen Datensätzen; eher Fortschrittsmarker als Ursache).
+- 06:31 Nachträglich (Lesart vorab): Die Frequenz-Konzentration hängt innerhalb eines Datensatztyps eng an der Generalisierung, weniger an der Vertauschungsstufe.
 - 06:27 Erklärung für morgen mit Erwartungen vorab angelegt (LM3, R12, EXP-125).
 - 06:26 **Ausgeschlossen:** Konstruierte Daten lernen die Vertauschungsregel nicht deshalb früher, weil sie mehr gespiegelte Paare enthalten (alle ≈ 30 %).
 - 06:22 R12-Abbildung und unabhängige Nachrechnung vorbereitet (vor jedem Ergebnis); Literatur nachgesucht (nichts Einschränkendes).

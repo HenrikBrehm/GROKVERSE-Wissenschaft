@@ -1,0 +1,117 @@
+diff --git a/lab/experiments/EXP-001-freq-ban/freq_ban.py b/lab/experiments/EXP-001-freq-ban/freq_ban.py
+index 6edb3031..d6acb5f1 100644
+--- a/lab/experiments/EXP-001-freq-ban/freq_ban.py
++++ b/lab/experiments/EXP-001-freq-ban/freq_ban.py
+@@ -89,7 +89,8 @@ LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "rese
+              "lr": None, "weight_decay": None, "train_frac": None,
+              "plant_targets": None, "plant_c": None, "plant_noise": False, "beta1": None, "beta2": None,
+              "pre_switch_betas": None, "pre_switch_grad_every": 1,
+-             "batch_size": 0, "order": "iid", "optimizer": "adamw", "sgd_lr": None, "sgd_momentum": 0.9}   # name -> default; in the fingerprint only if != default (s18, s21, s24, s39, s40, s42, s43)
++             "batch_size": 0, "order": "iid", "optimizer": "adamw", "sgd_lr": None, "sgd_momentum": 0.9,
++             "sgd_clip": None}   # name -> default; in the fingerprint only if != default (s18, s21, s24, s39, s40, s42, s43, s58)
+ ORDER_SALT = 100_043                  # L0 (session 43): own random stream for the minibatch order, independent of init and splits
+ HP_OVERRIDES = ("lr", "weight_decay", "train_frac", "beta1", "beta2")   # session 24 (rule 19a), s39 betas (EXP-081): None = preset
+ LOCK_NAME = "run.lock"
+@@ -462,8 +463,12 @@ def run(a: argparse.Namespace) -> dict:
+     mbs = int(getattr(a, "batch_size", 0) or 0)
+     order = getattr(a, "order", "iid")
+     optim_name = getattr(a, "optimizer", "adamw")
+-    if optim_name != "sgdm" and (getattr(a, "sgd_lr", None) is not None or float(getattr(a, "sgd_momentum", 0.9)) != 0.9):
+-        raise SystemExit("--sgd-lr / --sgd-momentum only with --optimizer sgdm")   # review s43: else fingerprint != run id
++    sgd_clip = getattr(a, "sgd_clip", None)
++    if optim_name != "sgdm" and (getattr(a, "sgd_lr", None) is not None or float(getattr(a, "sgd_momentum", 0.9)) != 0.9
++                                 or sgd_clip is not None):
++        raise SystemExit("--sgd-lr / --sgd-momentum / --sgd-clip only with --optimizer sgdm")   # review s43: else fingerprint != run id
++    if sgd_clip is not None and not (np.isfinite(sgd_clip) and sgd_clip > 0):
++        raise SystemExit("--sgd-clip needs a finite value > 0")
+     if mbs or order != "iid" or optim_name != "adamw":   # L0 (session 43): minibatch, data order, SGD with momentum
+         sgd_lr, sgd_mom = getattr(a, "sgd_lr", None), float(getattr(a, "sgd_momentum", 0.9))
+         if (mbs < 0 or (order != "iid" and not mbs) or a.condition != "baseline" or a.warmup or a.alternate_every
+@@ -476,7 +481,8 @@ def run(a: argparse.Namespace) -> dict:
+                              "--optimizer sgdm needs --sgd-lr > 0 and 0 <= --sgd-momentum < 1; excludes warmup, alternation, lr-scale, "
+                              "pre-switch options, resets, rewind, update norms, plant and split-value")
+         run_id += (f"_bs{mbs}" if mbs else "") + (f"_ord{order}" if order != "iid" else "") + (
+-            f"_sgdm{float(sgd_lr)!r}_{sgd_mom!r}" if optim_name == "sgdm" else "")
++            f"_sgdm{float(sgd_lr)!r}_{sgd_mom!r}" if optim_name == "sgdm" else "") + (
++            f"_clip{float(sgd_clip)!r}" if sgd_clip is not None else "")
+     if (a.rewind_at_switch is None) != (a.rewind_from is None):
+         raise SystemExit("--rewind-at-switch and --rewind-from go together")
+     if a.rewind_at_switch:           # EXP-073 (session 24): one part back to its own state (weights + AdamW state) at step R
+@@ -764,6 +770,10 @@ def run(a: argparse.Namespace) -> dict:
+         log_un = bool(a.log_update_norms and a.switch_step - 4 <= step <= a.switch_step + a.log_update_norms)
+         if log_un:                       # EXP-058: size of the actual parameter update around the switch
+             before = [q.detach().clone() for q in model.parameters()]
++        if optim_name == "sgdm" and sgd_clip is not None:   # EXP-128 (s58): global gradient-norm clipping, after the projection
++            events.setdefault("sgd_clip", {"max_norm": float(sgd_clip), "clipped_steps": 0})
++            if float(torch.nn.utils.clip_grad_norm_(model.parameters(), float(sgd_clip))) > float(sgd_clip):
++                events["sgd_clip"]["clipped_steps"] += 1
+         if optim_name == "sgdm":
+             with torch.no_grad():        # L0: decoupled decay with AdamW's per-step shrink lr * wd, before the SGD step
+                 for q in model.parameters():
+@@ -1019,6 +1029,8 @@ def main() -> None:
+     ap.add_argument("--optimizer", choices=("adamw", "sgdm"), default="adamw", help="L0: sgdm = SGD with momentum (decoupled matched decay)")
+     ap.add_argument("--sgd-lr", type=float, default=None, help="L0: learning rate of --optimizer sgdm")
+     ap.add_argument("--sgd-momentum", type=float, default=0.9, help="L0: momentum of --optimizer sgdm")
++    ap.add_argument("--sgd-clip", type=float, default=None,
++                    help="EXP-128 (s58): clip the global gradient norm to this value before each sgdm step (default: off)")
+     ap.add_argument("--lr-scale", type=float, default=1.0,
+                     help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
+     ap.add_argument("--lr-scale-after-switch", type=float, default=1.0,
+diff --git a/lab/tests/test_freq_ban_fingerprint.py b/lab/tests/test_freq_ban_fingerprint.py
+index ee08f777..2abc8872 100644
+--- a/lab/tests/test_freq_ban_fingerprint.py
++++ b/lab/tests/test_freq_ban_fingerprint.py
+@@ -362,6 +362,43 @@ def test_minibatch_order(tmp: Path) -> None:
+         assert r.returncode != 0, bad
+ 
+ 
++def test_sgd_clip(tmp: Path) -> None:
++    """EXP-128 (session 58): --sgd-clip clips the global gradient norm before each sgdm step. The default leaves the
++    fingerprint unchanged; with a tiny clip the step is at most lr * clip beyond the decoupled decay; every step is counted
++    as clipped; the run id carries _clip; invalid uses are refused."""
++    import numpy as np
++    f1 = fb.run_fingerprint(ns())[0]
++    assert fb.run_fingerprint(ns(sgd_clip=None))[0] == f1, "default --sgd-clip changed the fingerprint"
++    out = tmp / "clip"
++    spl = ROOT / "lab/experiments/EXP-056-overlap-persistence/splits"
++    base = [sys.executable, str(FB), "--seed", "400", "--condition", "baseline", "--threads", "1", "--out-root", str(out),
++            "--split-file", str(spl / "seed400_w0_A.npy"), "--test-file", str(spl / "seed400_test.npy")]
++    run = lambda *x: subprocess.run(base + list(x), cwd=ROOT, capture_output=True, text=True, timeout=600)   # noqa: E731
++    r = run("--steps", "2", "--optimizer", "sgdm", "--sgd-lr", "0.1", "--sgd-momentum", "0.0", "--sgd-clip", "1e-06",
++            "--spectra-at", "1")
++    assert r.returncode == 0, r.stdout + r.stderr
++    hits = [h for h in out.glob("*sgdm0.1_0.0_clip1e-06") if h.is_dir()]
++    assert len(hits) == 1, list(out.iterdir())
++    res = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))
++    assert res["events"]["sgd_clip"] == {"max_norm": 1e-06, "clipped_steps": 2}, res["events"].get("sgd_clip")
++    snaps = np.load(hits[0] / "we_snapshots.npy").astype(np.float64)
++    steps = list(np.load(hits[0] / "we_snapshot_steps.npy"))
++    D = snaps[steps.index(1)] - (1 - 1e-3) * snaps[steps.index(0)]
++    assert float(np.linalg.norm(D)) < 1e-5, float(np.linalg.norm(D))   # lr * clip = 1e-7, plus float32 snapshot resolution
++    r = run("--steps", "2", "--optimizer", "sgdm", "--sgd-lr", "0.1", "--sgd-momentum", "0.0", "--sgd-clip", "1000000.0",
++            "--spectra-at", "1")                                                          # clip far above the gradient norm
++    assert r.returncode == 0, r.stdout + r.stderr
++    h2 = next(h for h in out.glob("*sgdm0.1_0.0_clip1000000.0") if h.is_dir())
++    assert json.loads((h2 / "result.json").read_text(encoding="utf-8"))["events"]["sgd_clip"]["clipped_steps"] == 0
++    s2 = np.load(h2 / "we_snapshots.npy").astype(np.float64)
++    D2 = s2[steps.index(1)] - (1 - 1e-3) * s2[steps.index(0)]
++    assert float(np.linalg.norm(D2)) > 100 * float(np.linalg.norm(D)), (float(np.linalg.norm(D2)), float(np.linalg.norm(D)))
++    for bad in (["--steps", "2", "--sgd-clip", "1.0"],                                             # clip without sgdm
++                ["--steps", "2", "--optimizer", "sgdm", "--sgd-lr", "0.1", "--sgd-clip", "0"],
++                ["--steps", "2", "--optimizer", "sgdm", "--sgd-lr", "0.1", "--sgd-clip", "nan"]):
++        assert run(*bad).returncode != 0, bad
++
++
+ def main() -> int:
+     with tempfile.TemporaryDirectory() as t:
+         tmp = Path(t)
+@@ -373,7 +410,8 @@ def main() -> int:
+                          ("hp_overrides", lambda: test_hp_overrides(tmp)),
+                          ("pre_switch_betas", lambda: test_pre_switch_betas(tmp)),
+                          ("pre_switch_grad_every", lambda: test_pre_switch_grad_every(tmp)),
+-                         ("minibatch_order", lambda: test_minibatch_order(tmp))):
++                         ("minibatch_order", lambda: test_minibatch_order(tmp)),
++                         ("sgd_clip", lambda: test_sgd_clip(tmp))):
+             fn()
+             print(f"[test_freq_ban_fingerprint] {name} ok", flush=True)
+     print("[test_freq_ban_fingerprint] all ok", flush=True)

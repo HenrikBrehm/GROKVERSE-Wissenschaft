@@ -22,7 +22,7 @@ EXP-123 fertig (60/60). EXP-113: 7/8, letzter Lauf bei 5000/16 000. EXP-116: 2/4
 
 ## Verlauf dieser Sitzung
 
-- 03:13 Prüfung von EXP-124 fand einen Designfehler (eine allgemeine Verlangsamung wäre falsch gelesen worden); vor jedem Lauf behoben.
+- 03:10 Prüfung von EXP-124 fand einen Designfehler (eine allgemeine Verlangsamung wäre falsch gelesen worden); vor jedem Lauf behoben.
 - 03:02 EXP-124 vorbereitet (Bann-Test: Kommt die Vertauschungsstufe später, wenn die Zielfrequenzen verboten sind?); Code an zwei Smokes geprüft, bewusst nicht gestartet.
 - 02:58 Deutungssätze für EXP-113 vorab; Zenodo-Liste ergänzt.
 - 02:54 Nachträglich: Der Zeitpunkt der Vertauschungsstufe hängt bei konstruierten Splits so eng an der frühen Zielenergie wie das Grokking selbst; das trennt die Ursachen nicht. Trennender Versuch vorgemerkt.

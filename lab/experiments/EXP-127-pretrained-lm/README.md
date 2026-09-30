@@ -22,6 +22,8 @@ Zurück: [[LAB]] · [[FINDINGS]] · [[JOURNAL]] Sitzung 58 · Vorläufer [[exper
 - **Budget:** Smoke 250 Schritte in ≈ 390 s unter voller GPU-Last (≈ 1.4–1.6 s/Schritt; allein vermutlich deutlich schneller), Spitze 4.4 GB (`gpu_gb=5`). 4 Läufe à 4000 Schritte: unter Last ≈ 1.5–1.8 h je Lauf, harte Grenze job_minutes 300. Nach dem Ende hängt der Prozess ≈ 2–3 min im ROCm-Abbau (Ergebnisse sind vorher atomar geschrieben).
 - **Reihenfolge (Regel 20 e2):** als `46_exp127_pythia` hinter LM3/R12/EXP-125 eingereiht (der Dienst startet ihn erst, wenn der Speicher reicht).
 
+- **Ausgangsspektrum (beschreibend, nach dem Einreihen, ändert keine Lesart; `pretrained_spectrum.json`):** Pythia-160M Eingabe stärkste Frequenzen 1, 2, 3, 11, 4, 5, 23, 45 (Top-5-Anteil 0.33), Ausgabe 1, 2, 3, 4, 45, 5, 23, 11 (0.42); 11/23/45 ≈ Perioden 10/5/2.5 der Dezimalschreibweise (vgl. Zhou et al. 2024). Seed 4000: G enthält 2, F enthält 45.
+
 ## Deutung je Ausgang (vorab)
 
 - „K2 hält“: *Beim Nachtrainieren eines vortrainierten 160-M-Modells bestimmte die Faktenauswahl in 2 Pilot-Seeds, welche Frequenzen die Änderung der Zahl-Eingabeeinbettung trägt* → Bestätigungsblock mit frischen Splits (10 Seeds, eingefroren) planen; Paper nur Ausblick bis zur Bestätigung.

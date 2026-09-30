@@ -5,16 +5,16 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-30 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 02:54 Berlin
+- **Zuletzt aktualisiert:** 03:03 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange LÃ¤ufe Ã¼ber den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- **Sitzung beendet (02:54).** Nächster geplanter Start laut Runner: 30.09. 04:24 Berlin (02:24Z). Der GPU-Dienst rechnet weiter.
+- Ein unabhängiger Agent prüft den vorbereiteten Code für EXP-124 (nicht gestartet, Regel 20a). Danach Abschlussbericht (Deadline 03:49).
 
 ## Als Nächstes
 
-EXP-113 und EXP-116 auswerten (fast fertig), dann EXP-119 Nachtrag 2 (langer Lauf).
+Nächste Sitzung: EXP-113 und EXP-116 auswerten (letzte Läufe laufen), dann EXP-119 Nachtrag 2.
 
 ## Dienst (02:54)
 
@@ -22,6 +22,8 @@ EXP-123 fertig (60/60). EXP-113: 7/8 fertig, letzter läuft. EXP-116: 2/4 fertig
 
 ## Verlauf dieser Sitzung
 
+- 03:02 EXP-124 vorbereitet (Bann-Test: Kommt die Vertauschungsstufe später, wenn die Zielfrequenzen verboten sind?); Code an zwei Smokes geprüft, bewusst nicht gestartet.
+- 02:58 Deutungssätze für EXP-113 vorab; Zenodo-Liste ergänzt.
 - 02:54 Nachträglich: Der Zeitpunkt der Vertauschungsstufe hängt bei konstruierten Splits so eng an der frühen Zielenergie wie das Grokking selbst; das trennt die Ursachen nicht. Trennender Versuch vorgemerkt.
 - 02:52 Paper-Anhangsabsatz zu EXP-123 geprüft: Zahlen richtig; Bildunterschrift korrigiert (0.92 statt 0.85), Mediane mit Zensierung benannt.
 - 02:45 **EXP-123:** Der Transformer lernt vor dem Grokking zuerst die Vertauschungsregel (18/18 Einheiten, vorher festgelegt). Meine Vermutung „die Datenauswahl beschleunigt vor allem den zweiten Schritt“ stimmt nicht: Sie beschleunigt beide, den ersten sogar stärker (×11 gegen ×4.6). Abb. 15 gezeichnet, Anhangsabsatz geschrieben.

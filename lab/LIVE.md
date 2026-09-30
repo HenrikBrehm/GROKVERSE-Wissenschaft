@@ -5,17 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 10:49 Berlin (08:49Z, vom Runner)
 - **Deadline:** 2026-09-30 13:49 Berlin (11:49Z)
-- **Zuletzt aktualisiert:** 12:27 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 13:25 Berlin (gemessen)
+- **Status: Sitzung beendet.** Nächster Start laut Runner: 30.09. 14:24 Berlin (vorläufig, der Runner setzt ihn neu).
 
 ## Gerade
 
-- Dienst beobachten: LM3 14/20 fertig + 3 laufen (Ende grob 15:30–16:00), R12 102/200, 0 Fehlschläge. Auswerten lässt sich in dieser Sitzung noch nichts.
+- Keine Sitzung aktiv. Der GPU-Dienst rechnet weiter: LM3 14/20 (+3), R12 129/200 (+4), danach Pythia-Pilot EXP-127, EXP-125, EXP-128.
 
 ## Als Nächstes
 
-- Weiter beobachten; Sitzungsende gegen 13:39 mit Abschlussbericht.
+1. LM3 und R12 auswerten, sobald fertig (Deutungssätze liegen bereit). 2. EXP-127, dann EXP-128 auswerten. 3. Nach R12: Clipping-Patch in freq_ban.py übernehmen.
 
 ## Verlauf dieser Sitzung
+
+- 13:25 Sitzungsende; Dienst ohne Fehlschläge.
 
 - 12:04 Literatur-Nachsuche vor dem Paper-Ziel: 3 neue Arbeiten, keine schränkt unsere Kernaussagen ein.
 - 12:02 Vergleichswert gemessen: Im kleinen Spielzeugmodell zeigt die erste Lernrichtung die Wunschfrequenzen genauso deutlich (1.28/1.45) wie das LM mit einem Fakt je Zeile.

@@ -29,4 +29,5 @@ Zurück zu [[paper/STATUS]] · [[LAB]] · [[experiments/EXP-134-text-pretrain-st
 
 - keine Aussage über große vortrainierte Modelle aus EXP-134 (6000 Schritte Text sind weit weg von Pythia; Größe, Daten, Dauer nicht getrennt);
 - in EXP-135 kein „kritische Periode“ im neurowissenschaftlichen Sinn, keine Schrittzahl als allgemeine Grenze (eine Konfiguration, 2 Seeds); der Übertrag des Spielzeuggesetzes ist eine Rechnung mit Vorbehalten (anderes Maß, andere Architektur, Fakten je Schritt als B);
+- Abschnittsnummern („Section 3.4“, „Section 6“) beim Einsetzen gegen das Manuskript prüfen (Kurz- und Langfassung nummerieren verschieden);
 - π > 1 bei t = 3000 ist möglich (die F-Neigung der LM1-Referenz fällt von 3000 bis 6000) und heißt nicht „stärker als F“.

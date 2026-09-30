@@ -52,6 +52,11 @@ INCLUDE = ("lab/paper/draft_short.md", "lab/paper/draft.md", "lab/paper/related_
            "lab/confirm/R12_smoke.txt", "lab/experiments/EXP-116-lm-low-share/*.py", "lab/experiments/EXP-116-lm-low-share/README.md",
            "lab/experiments/EXP-116-lm-low-share/summary.json", "lab/experiments/EXP-113-lm-ladder-stage2b/*.py",
            "lab/experiments/EXP-113-lm-ladder-stage2b/README.md", "lab/experiments/EXP-113-lm-ladder-stage2b/summary.json")
+# s65: every experiment cited in the short manuscript (appendix explorations incl. EXP-125 and the Pythia pilots) with its
+# README, code and JSON summaries (tracked files only; raw runs are untracked and excluded below), plus L0b post-hoc tools
+CITED = sorted(set(__import__("re").findall(r"EXP-(\d{3})", (ROOT / "lab/paper/draft_short.md").read_text(encoding="utf-8"))))
+INCLUDE = INCLUDE + tuple(f"lab/experiments/EXP-{e}-*/{pat}" for e in CITED for pat in ("README.md", "*.py", "*.json", "*.txt")) + (
+    "lab/confirm/L0b_posthoc_r5_s65.py", "lab/confirm/L0b_independent_recompute.py")
 EXCLUDE = ("*/__pycache__/*", "lab/runner/*", "lab/external/*", "*_raw/*", "*/raw/*", "lab/paper/repro/out/*", "lab/paper/outreach/*")
 
 

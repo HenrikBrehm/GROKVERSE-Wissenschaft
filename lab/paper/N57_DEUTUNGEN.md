@@ -1,6 +1,6 @@
 ---
 id: N57_DEUTUNGEN
-status: vorab
+status: verwendet
 datum: 2026-09-30
 tags: [paper, neu/kandidat]
 ---
@@ -23,3 +23,5 @@ Zweck: Der Anhangstext zu EXP-122/123 wird aus genau einem dieser Sätze gebaut,
 **D_0 (beschreibend, immer als solches):** "The count-matched control D_0 (same number of pairs per antidiagonal as the engineered split, positions random) behaved like [the random / the engineered] split in this respect (median m …)", mit dem Zusatz, dass D in R5 selbst langsam war (H-ED).
 
 **Nicht auswertbar:** Kein Anhangstext; nur JOURNAL.
+
+**Verwendet (02:47):** Ausgang „H1 gestützt; H2 Richtung ja, unter Mindesteffekt“. Der vorab formulierte H2-Satz („shorten both stages about proportionally“) passte nicht zu den beschreibenden Zeiten (Stufe 1 ×11.1, Stufe 2 ×4.6); im Paper steht deshalb der Vorab-Befund (d unter Mindesteffekt) plus die ausdrücklich post hoc markierten Stufenzeiten.

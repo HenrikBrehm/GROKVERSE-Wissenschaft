@@ -20,7 +20,7 @@ Zurück: [[LAB]] · [[FINDINGS]] · [[JOURNAL]] Sitzung 58 · Vorläufer [[exper
 - **Lesarten:** Tor: zurückgehaltene Genauigkeit ≥ 0.5 am Ende in ≥ 3 von 4 Läufen, sonst „nicht auswertbar (lernt nicht)“. **„K2 hält beim Nachtrainieren“**: Tor und Δ_pow(Änderung, Eingabe) > 1 in beiden Seeds; **„bricht“**: Tor und |Δ_pow(Änderung, Eingabe)| ≤ 1 in beiden; sonst „unklar“. Beschreibend „genutzt“, wenn C_both > 0.3 in allen 4 Läufen.
 - **Was gegen die Hypothese spräche:** Das Modell generalisiert, aber die Änderung der Zahl-Einbettungen trägt die Zielfrequenzen nicht bevorzugt (|Δ_pow| ≤ 1) → im vortrainierten Modell entsteht die Rechnung anderswo (tiefere Schichten) oder mit vorhandenen Merkmalen; dann Δ_pow an Zwischenrepräsentationen als nächster Schritt.
 - **Budget:** Smoke 250 Schritte in ≈ 390 s unter voller GPU-Last (≈ 1.4–1.6 s/Schritt; allein vermutlich deutlich schneller), Spitze 4.4 GB (`gpu_gb=5`). 4 Läufe à 4000 Schritte: unter Last ≈ 1.5–1.8 h je Lauf, harte Grenze job_minutes 300. Nach dem Ende hängt der Prozess ≈ 2–3 min im ROCm-Abbau (Ergebnisse sind vorher atomar geschrieben).
-- **Reihenfolge (Regel 20 e2):** als `46_exp127_pythia` hinter LM3/R12/EXP-125 eingereiht (der Dienst startet ihn erst, wenn der Speicher reicht).
+- **Reihenfolge (Regel 20 e2):** als `44z_exp127_pythia` hinter LM3/R12/EXP-125 eingereiht (der Dienst startet ihn erst, wenn der Speicher reicht).
 
 - **Ausgangsspektrum (beschreibend, nach dem Einreihen, ändert keine Lesart; `pretrained_spectrum.json`):** Pythia-160M Eingabe stärkste Frequenzen 1, 2, 3, 11, 4, 5, 23, 45 (Top-5-Anteil 0.33), Ausgabe 1, 2, 3, 4, 45, 5, 23, 11 (0.42); 11/23/45 ≈ Perioden 10/5/2.5 der Dezimalschreibweise (vgl. Zhou et al. 2024). Seed 4000: G enthält 2, F enthält 45.
 

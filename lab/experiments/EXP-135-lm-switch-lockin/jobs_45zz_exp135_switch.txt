@@ -1,0 +1,7 @@
+#! workers=3 job_minutes=300 min_minutes=5 stall_minutes=20 crash_minutes=10 gpu_gb=3.5
+C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4100 --pair 4000 --t 250 --device cuda
+C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4101 --pair 4001 --t 250 --device cuda
+C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4100 --pair 4000 --t 1000 --device cuda
+C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4101 --pair 4001 --t 1000 --device cuda
+C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4100 --pair 4000 --t 3000 --device cuda
+C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4101 --pair 4001 --t 3000 --device cuda

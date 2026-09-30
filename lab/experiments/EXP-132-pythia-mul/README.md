@@ -9,7 +9,7 @@ verwandt: ["[[experiments/EXP-127-pretrained-lm/README|EXP-127]]", "[[experiment
 
 Zurück zu [[LAB]]. **Exploration (2 Seeds × F/G), keine Bestätigung.**
 
-**Bezug:** N60 in [[NOVEL_DIRECTIONS]]; Geltungsgrenze von K2 beim Nachtrainieren ([[FINDINGS]], Exploration S61). [[experiments/EXP-127-pretrained-lm/README|EXP-127]] (Addition) ergab „bricht“, und die Änderung trug in allen Armen vortrainierte Dezimal-/Paritätsfrequenzen (23, 11, 2, 56, 3). Frage hier: Setzt sich die Faktenauswahl durch, wenn die vortrainierten Merkmale zur Aufgabe nicht passen? Multiplikation mod 113 ist eine Addition in Log-Koordinaten; Dezimalmerkmale über a helfen dort nicht direkt.
+**Bezug:** N60 in [[NOVEL_DIRECTIONS]]; Geltungsgrenze von K2 beim Nachtrainieren ([[FINDINGS]], Exploration S61). [[experiments/EXP-127-pretrained-lm/README|EXP-127]] (Addition) ergab „bricht“, und die Änderung konzentrierte sich in allen Armen auf dieselben Frequenzen {2, 3, 11, 23, 56} (11/23 vortrainiert stark, 56 ≈ Parität; beschreibend). Frage hier: Setzt sich die Faktenauswahl durch, wenn die vortrainierten Merkmale zur Aufgabe nicht passen? Multiplikation mod 113 ist eine Addition in Log-Koordinaten; Dezimalmerkmale über a helfen dort nicht direkt.
 
 ## Vorab (Sitzung 61, 30.09., 17:52 Berlin gemessen, vor jedem EXP-132-Lauf)
 

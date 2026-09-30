@@ -5,13 +5,14 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 16:00 Berlin (14:00Z, vom Runner)
 - **Deadline:** 2026-09-30 18:59 Berlin (16:59Z)
-- **Zuletzt aktualisiert:** 17:46 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 17:53 Berlin (gemessen)
 
 ## Gerade
 
 - **Hinweis für den Nutzer:** Die zwei Seed-4001-Läufe von EXP-127 hängen seit ≈ 17:23 beim Beenden (P-021, Ergebnisse gesichert und ausgewertet). EXP-130 wartet dahinter. Beenden bitte durch dich/deinen Assistenten.
 - **LM3-F bestätigt:** Auch bei ≈ 8.7 % Rechentext *braucht* das Sprachmodell die gesteuerten Frequenzen: Werden sie entfernt, fällt die Genauigkeit auf ≈ 1 %; das Entfernen der fremden Frequenzen schadet kaum (C̄ 0.84 [0.75, 0.91], 10/10). Die unabhängige Nachrechnung läuft (≈ 2 h), danach kommt der Satz ins Paper.
-- Neue Frage N60 notiert: Wirkt die Faktenauswahl beim vortrainierten Modell, wenn seine Zahlmerkmale nicht passen (Multiplikation)?
+- Neue Frage N60 → **EXP-132** vorbereitet: Pythia auf *Multiplikation* mod 113 nachtrainieren (dort passen die Dezimalmerkmale nicht). Selbsttests grün; eine unabhängige Codeprüfung läuft.
+- Die Grafikkarte steht seit ≈ 17:23 still (P-021-Hänger), EXP-130 wartet.
 
 ## Als Nächstes
 
@@ -19,11 +20,12 @@ tags: [lab/live]
 
 ## Verlauf dieser Sitzung
 
+- 17:53 EXP-132 vorbereitet (Selbsttest, Splits, Auswertung getestet).
 - 17:46 N60 notiert; Rückschau im JOURNAL.
 - 17:44 **LM3-F bestätigt** (C̄ 0.839 [0.747, 0.913], 10/10, p = 1/1024).
-- 17:31 EXP-127-Verlauf: Das Nachtraining verstärkt in allen Läufen dieselben Frequenzen 23, 11, 2, 56, 3 (Dezimal/gerade-ungerade).
+- 17:31 EXP-127-Verlauf: Die Änderung sammelt sich in allen Läufen auf denselben Frequenzen {2, 3, 11, 23, 56} (ab Schritt 2250; korrigiert nach Prüfung).
 - 17:29 EXP-131 (Zwischenschichten) vorbereitet, Selbsttest grün.
-- 17:26 **EXP-127: „bricht“** (Δ_pow +0.13 / −0.17; nur vortrainierte Frequenzen werden gebraucht, beschreibend).
+- 17:26 **EXP-127: „bricht“** (Δ_pow +0.13 / −0.17; beschreibend schaden vor allem Sätze mit vortrainierten Frequenzen).
 - 17:27 EXP-130 speichert jetzt auch die Modelle.
 - 17:11 EXP-130: Smoke grün, Codeprüfung eingearbeitet, beim Dienst eingereiht.
 - 16:29 Pythia Seed 4000 F/G fertig (Test 0.987/0.974); Prozesse hängen beim Beenden, Beenden abgelehnt.

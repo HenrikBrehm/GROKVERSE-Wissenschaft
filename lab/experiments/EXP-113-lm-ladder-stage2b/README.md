@@ -1,8 +1,8 @@
 ---
 id: EXP-113
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-29
-tags: [exp/vorbereitet, lm-leiter]
+tags: [exp/abgeschlossen, lm-leiter, befund/positiv, befund/unklar]
 ---
 # EXP-113: Sprachmodell-Leiter Stufe 2b – mehr Expositionen je Fakt, Verlust nur auf der Antwort als Kontrolle
 
@@ -28,3 +28,19 @@ Die Lesarten oben bleiben unverändert. **Beobachtung vorab (Einblick in die Che
 **Vorhersage (H-folgt), festgelegt vor dem Ergebnis:** Im LM geht die Frequenzsteuerung dem Faktenlernen nicht voraus. Beschreibend geprüft je Lauf-Paar (F/G eines Seeds und Arms), das Trainingsfakten lernt: der erste Snapshot mit Δ_pow > 1 liegt nicht vor dem ersten Snapshot, an dem beide Läufe Trainingsfakten-Genauigkeit ≥ 0.1 haben. Widerlegt, wenn in mindestens der Hälfte dieser Paare Δ_pow > 1 früher erreicht wird. Paare ohne Faktenlernen zählen nicht. Auswertung mit den gespeicherten Snapshots (Abstand 250 Schritte) nach Ende aller Läufe; Exploration (2 Seeds).
 
 **Hinweis zu Nachtrag 1 (12:52, vor dem Ende der Läufe; H-folgt unverändert registriert):** Die Begründung „im Spielzeugmodell umgekehrt“ war falsch verglichen (Test- statt Trainingsgenauigkeit). Im Spielzeugmodell setzen Steuerung und Trainingsfakten-Anpassung zusammen ein (25/50 Seeds Steuerung vorher, post hoc, EXP-114 `toy_order_s50`). Zwischenblick Seed 3862 `answer`: Δ_pow 2.05 bei 8500 bei Trainingsfakten 0.026/0.117, also ein Snapshot vor der Schwelle in F. Ausgewertet wird trotzdem nach der Regel.
+
+## Ergebnis (Sitzung 56, 30.09. 04:08–04:14 Berlin gemessen; 8/8 Läufe ohne Fehler, GPU-Dienst `40_exp113_stage2b`)
+
+Befehle: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-113-lm-ladder-stage2b/analyze.py` → `summary.json`; `analyze_folgt.py` → `folgt_summary.json`; post hoc `commutativity_s56.py` (Lesart vorab im JOURNAL S56 Zyklus 6) → `commutativity_s56.json`.
+
+| Arm | Seed | Δ_pow (16 000) | zurückgehalten F / G | Test ≥ 0.5 ab F / G | s_steer / s_learn |
+|---|---|---|---|---|---|
+| answer | 3862 | 7.00 | 0.983 / 0.950 | 9500 / 9250 | 8500 / 9000 |
+| answer | 3863 | 4.79 | 0.948 / 0.947 | 7000 / 6750 | 5750 / 6250 |
+| all | 3862 | 2.06 | 0.510 / 0.108 | 15 500 / – | 7000 / 9250 |
+| all | 3863 | 1.76 | 0.198 / 0.317 | – / – | 5750 / 7500 |
+
+- **Lesarten (vorab):** answer **„K2 haelt im LM“**; all **„unklar“** (Δ_pow > 1 in beiden Seeds, aber zurückgehalten weder ≥ 0.5 in 3/4 noch < 0.1 in 3/4; Trainingsfakten 0.94–0.96 gelernt). **H-folgt: widerlegt** (4/4 Paare mit Δ_pow > 1 vor dem Lernbeginn beider Arme).
+- **Beschreibend:** Im Arm all war Δ_pow beim Lernbeginn 3.48 / 3.80 und fiel bis zum Ende auf 2.06 / 1.76.
+- **Kommutativität (post hoc, vorab festgelegte Lesart): „teilweise“** – Tauschpaar trainiert / sonst: 3862 F 0.60 / 0.47, 3862 G 0.28 / 0.03, 3863 F 0.56 / 0.05, 3863 G 0.36 / 0.30; answer-Modelle 0.96–0.99 / 0.94–0.98.
+- **Deutung (Exploration, 2 Seeds):** Bei ≈ 34 % Rechen-Tokens und Antwort-Verlust lernt und steuert das LM (wie LM1 bei 79 %). Mit Verlust auf allen Positionen lernt es die Trainingsfakten auswendig, verallgemeinert in 16 000 Schritten aber kaum; die Steuerung bleibt messbar (> 1), wird aber schwächer. Das passt zu Stufe 1 (EXP-102). Grenze: 2 Seeds, ein Budget; ein zensierter Lauf beweist nicht, dass später keine Verallgemeinerung käme.

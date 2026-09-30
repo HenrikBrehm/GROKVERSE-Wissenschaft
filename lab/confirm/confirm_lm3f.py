@@ -1,19 +1,18 @@
-"""LM3-F (session 56): functional add-on to the block LM3 (registration LM3_REGISTRATION.md), a copy of confirm_lm1f.py
-with the LM3 constants (seeds 4010-4019, 15 000 steps, lm3_splits/lm3_raw, rng 4031). Original LM1-F text below. Ablates, from the 113
-number-token rows of the tied embedding of each completed LM1 model (step 6000, checkpoint.pt), the Fourier subspace of (a) the
-run's own targets, (b) the other split's targets, (c) 4 control sets; measures held-out fact accuracy on the seed's common test
-set (prompt T0, argmax over the number tokens, as lm_stage2.evaluate). No training.
-Per run C = acc(other) - acc(own); per seed Cbar = mean of F and G.
+"""LM3-F (session 56): functional add-on to the block LM3 (registration LM3_REGISTRATION.md), a copy of confirm_lm1f.py with the
+LM3 constants. Ablates, from the 113 number-token rows of the tied embedding of each completed LM3 model (step 15 000,
+checkpoint.pt), the Fourier subspace of (a) the run's own targets, (b) the other split's targets, (c) 4 control sets (drawn with
+SeedSequence([4031, seed])); measures held-out fact accuracy on the seed's common test set (prompt T0, argmax over the number
+tokens, as lm_stage2.evaluate). No training. Per run C = acc(other) - acc(own); per seed Cbar = mean of F and G.
 H1F: mean Cbar over the 10 seeds > 0.1: 'bestaetigt' if the lower bound of the 95 % percentile bootstrap CI (10 000 draws,
-default_rng(4011), resampling seeds) is > 0.1 AND the exact one-sided sign-permutation test of (Cbar - 0.1) over all 2^10 sign
-vectors gives p < 0.05; 'unter Mindesteffekt' if the upper CI bound is < 0.1 and the mirrored test gives p < 0.05; else
-'unklar'. Evaluated only if LM1 itself is evaluable (its gate: held-out >= 0.5 in >= 16/20 runs) and all 20 runs are complete;
-otherwise 'nicht auswertbar'; also 'nicht auswertbar' unless lab/confirm/LM1_summary.json
-shows all 10 seeds valid and no defect (LM1 --analyze first), and a run whose checkpoint is not at step 6000 with the run's
-config hash is recorded as defect. Secondary (descriptive): per run acc(base), acc(own), mean acc(controls); number of seeds with
-Cbar > 0.
+default_rng(4031), resampling seeds) is > 0.1 AND the exact one-sided sign-permutation test of (Cbar - 0.1) over all 2^10 sign
+vectors gives p < 0.05; 'unter Mindesteffekt' if the upper CI bound is < 0.1 and the mirrored test gives p < 0.05; else 'unklar'.
+Evaluated only if lab/confirm/LM3_summary.json shows all 10 seeds valid and no defect (confirm_lm3.py --analyze first), all 20
+runs are complete and the LM3 gate holds (GATE_N imported from confirm_lm3.py); otherwise 'nicht auswertbar'. A run whose
+checkpoint is not at step 15 000 with the run's config hash is a defect. This script's sha256 is bound in LM3_manifest.json
+(confirm_lm3.py CODE list) and checked here. Secondary (descriptive): per run acc(base), acc(own), mean acc(controls); number of
+seeds with Cbar > 0.
   python lab/tools/guarded_run.py -- C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe \
-      lab/confirm/confirm_lm1f.py [--selftest]
+      lab/confirm/confirm_lm3f.py [--selftest]
 """
 from __future__ import annotations
 
@@ -28,7 +27,9 @@ HERE = Path(__file__).resolve().parent
 LAB = HERE.parent
 SPL, RAW = HERE / "lm3_splits", HERE / "lm3_raw"
 SEEDS, MODEL_OFFSET, STEPS, P = range(4010, 4020), 100, 15000, 113
-MIN_EFFECT, GATE_ACC, GATE_N = 0.1, 0.5, 16   # GATE_N as in confirm_lm3.py
+sys.path.insert(0, str(HERE))
+from confirm_lm3 import GATE_N  # noqa: E402  (one gate for LM3 and LM3-F)
+MIN_EFFECT, GATE_ACC = 0.1, 0.5
 
 
 def projector(S: list[int]) -> np.ndarray:
@@ -92,6 +93,11 @@ def main() -> None:
     ids = L.special_ids(tok)
     t0 = L.tmpl_prompt(L.template_parts(tok)[0])
     rows, missing, defect = [], [], []
+    if (HERE / "LM3_manifest.json").exists():
+        man = json.loads((HERE / "LM3_manifest.json").read_text(encoding="utf-8"))
+        import hashlib as _h
+        assert man["code_sha256"]["lab/confirm/confirm_lm3f.py"] == _h.sha256(Path(__file__).read_bytes()).hexdigest(), \
+            "confirm_lm3f.py changed since the freeze"
     lm1 = json.loads((HERE / "LM3_summary.json").read_text(encoding="utf-8")) if (HERE / "LM3_summary.json").exists() else {}
     lm1_ok = lm1.get("defect") == [] and lm1.get("n_valid") == len(SEEDS)
     for s in SEEDS:

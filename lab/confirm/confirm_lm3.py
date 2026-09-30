@@ -40,7 +40,7 @@ SPL, RAW = HERE / "lm3_splits", HERE / "lm3_raw"
 TRAINER = LAB / "experiments/EXP-105-lm-ladder-stage2/lm_stage2.py"
 CODE = [TRAINER, LAB / "experiments/EXP-105-lm-ladder-stage2/analyze_pilot.py", LAB / "experiments/EXP-102-lm-ladder-stage1/analyze.py",
         LAB / "experiments/EXP-102-lm-ladder-stage1/design.py", LAB / "experiments/EXP-053-p3-overlap-design/overlap_split.py",
-        Path(__file__).resolve()]
+        Path(__file__).resolve(), HERE / "confirm_lm3f.py"]
 FROZEN = {"steps": STEPS, "batch": 32, "ctx": 256, "d": 384, "layers": 6, "heads": 6, "lr": 6e-4, "warmup": 500, "wd": 0.1,
           "arith_facts": K, "device": "cuda", "loss": LOSS}
 MIN_EFFECT, GATE_ACC, GATE_N = 1.0, 0.5, 16   # GATE_N: LM3_REGISTRATION

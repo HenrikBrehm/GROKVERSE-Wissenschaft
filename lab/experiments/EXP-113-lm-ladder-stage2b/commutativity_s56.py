@@ -45,7 +45,7 @@ def main() -> None:
                 ds = [p for p in (HERE / f"raw_{loss}").iterdir() if p.name.startswith(f"lm2_seed{seed}_seed{split_seed}_{arm}_")]
                 assert len(ds) == 1, ds
                 res = json.loads((ds[0] / "result.json").read_text(encoding="utf-8"))
-                assert res["status"] == "completed" and res["config"]["loss"] == loss, ds[0]
+                assert res["status"] == "completed" and res["config"].get("loss", "all") == loss  # trainer omits the key for the default "all", ds[0]
                 k = res["config"]
                 model = L.GPT(tok.get_vocab_size(), k["ctx"], k["d"], k["layers"], k["heads"])
                 ck = torch.load(ds[0] / "checkpoint.pt", map_location="cpu", weights_only=False)

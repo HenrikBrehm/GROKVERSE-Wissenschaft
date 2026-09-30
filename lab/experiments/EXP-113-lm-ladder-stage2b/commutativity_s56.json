@@ -1,0 +1,109 @@
+{
+ "reading": "teilweise",
+ "rows": [
+  {
+   "loss": "all",
+   "seed": 3862,
+   "arm": "F",
+   "step": 16000,
+   "acc": 0.5101801096319499,
+   "logged": 0.5101801096319499,
+   "train_logged": 0.9605,
+   "n_swap_in": 794,
+   "n_other": 1760,
+   "acc_swap_in": 0.5969773299748111,
+   "acc_other": 0.47102272727272726
+  },
+  {
+   "loss": "all",
+   "seed": 3862,
+   "arm": "G",
+   "step": 16000,
+   "acc": 0.10806577916992952,
+   "logged": 0.10806577916992952,
+   "train_logged": 0.9475,
+   "n_swap_in": 766,
+   "n_other": 1788,
+   "acc_swap_in": 0.28067885117493474,
+   "acc_other": 0.03411633109619687
+  },
+  {
+   "loss": "all",
+   "seed": 3863,
+   "arm": "F",
+   "step": 16000,
+   "acc": 0.19772905246671887,
+   "logged": 0.19772905246671887,
+   "train_logged": 0.961,
+   "n_swap_in": 749,
+   "n_other": 1805,
+   "acc_swap_in": 0.5594125500667557,
+   "acc_other": 0.04764542936288089
+  },
+  {
+   "loss": "all",
+   "seed": 3863,
+   "arm": "G",
+   "step": 16000,
+   "acc": 0.3167580266249021,
+   "logged": 0.3167580266249021,
+   "train_logged": 0.935,
+   "n_swap_in": 774,
+   "n_other": 1780,
+   "acc_swap_in": 0.35658914728682173,
+   "acc_other": 0.29943820224719103
+  },
+  {
+   "loss": "answer",
+   "seed": 3862,
+   "arm": "F",
+   "step": 16000,
+   "acc": 0.9831636648394675,
+   "logged": 0.9831636648394675,
+   "train_logged": 0.9955,
+   "n_swap_in": 794,
+   "n_other": 1760,
+   "acc_swap_in": 0.9937027707808564,
+   "acc_other": 0.9784090909090909
+  },
+  {
+   "loss": "answer",
+   "seed": 3862,
+   "arm": "G",
+   "step": 16000,
+   "acc": 0.9498825371965545,
+   "logged": 0.9498825371965545,
+   "train_logged": 0.9695,
+   "n_swap_in": 766,
+   "n_other": 1788,
+   "acc_swap_in": 0.9634464751958225,
+   "acc_other": 0.9440715883668904
+  },
+  {
+   "loss": "answer",
+   "seed": 3863,
+   "arm": "F",
+   "step": 16000,
+   "acc": 0.9483163664839468,
+   "logged": 0.9483163664839468,
+   "train_logged": 0.9815,
+   "n_swap_in": 749,
+   "n_other": 1805,
+   "acc_swap_in": 0.9746328437917223,
+   "acc_other": 0.9373961218836565
+  },
+  {
+   "loss": "answer",
+   "seed": 3863,
+   "arm": "G",
+   "step": 16000,
+   "acc": 0.9467501957713391,
+   "logged": 0.9467501957713391,
+   "train_logged": 0.979,
+   "n_swap_in": 774,
+   "n_other": 1780,
+   "acc_swap_in": 0.9728682170542635,
+   "acc_other": 0.9353932584269663
+  }
+ ]
+}

@@ -1,0 +1,50 @@
+{
+ "reading": "H-folgt widerlegt",
+ "n_counted": 4,
+ "pairs": {
+  "answer": [
+   {
+    "seed": 3862,
+    "s_learn": 9000,
+    "s_steer": 8500,
+    "counted": true,
+    "supports": false,
+    "dpow_at_learn": 4.720740098436007,
+    "dpow_end": 6.998475580641044,
+    "end_step": 16000
+   },
+   {
+    "seed": 3863,
+    "s_learn": 6250,
+    "s_steer": 5750,
+    "counted": true,
+    "supports": false,
+    "dpow_at_learn": 3.5131626826861364,
+    "dpow_end": 4.787013661156832,
+    "end_step": 16000
+   }
+  ],
+  "all": [
+   {
+    "seed": 3862,
+    "s_learn": 9250,
+    "s_steer": 7000,
+    "counted": true,
+    "supports": false,
+    "dpow_at_learn": 3.4793538947723617,
+    "dpow_end": 2.06150606619762,
+    "end_step": 16000
+   },
+   {
+    "seed": 3863,
+    "s_learn": 7500,
+    "s_steer": 5750,
+    "counted": true,
+    "supports": false,
+    "dpow_at_learn": 3.8010165652575516,
+    "dpow_end": 1.757593244662476,
+    "end_step": 16000
+   }
+  ]
+ }
+}

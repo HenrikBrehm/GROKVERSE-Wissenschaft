@@ -101,11 +101,11 @@
    },
    {
     "seed": 3706,
-    "F": "fehlt",
-    "G": "fehlt",
+    "F": "divergiert",
+    "G": "divergiert",
     "first_nonfinite": [
-     null,
-     null
+     1500,
+     1000
     ],
     "train_F": null,
     "test_F": null,
@@ -116,11 +116,11 @@
    },
    {
     "seed": 3707,
-    "F": "fehlt",
-    "G": "fehlt",
+    "F": "divergiert",
+    "G": "divergiert",
     "first_nonfinite": [
-     null,
-     null
+     1250,
+     1500
     ],
     "train_F": null,
     "test_F": null,

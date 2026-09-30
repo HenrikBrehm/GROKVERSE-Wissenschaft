@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-30, 07:58 Berlin (Sitzung 57) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-30, 08:25 Berlin (Sitzung 57, Ende) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -35,11 +35,13 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 ## Aktive Queue / laufende Jobs (Stand Sitzung 57, 06:08 Berlin)
 
 - **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `43_lm3b` (LM3, 20 Läufe à 15 000 Schritte, 3 Worker, ≈ 90–110 min je Lauf, Block ≈ 10–12 h). `done/43_lm3.*` ist ein leerer Fehlversuch (Datei wurde gelesen, bevor sie geschrieben war) – ignorieren. **Jobdateien immer erst außerhalb von inbox schreiben, dann verschieben.**
-- `43z_exp126_sgd` (EXP-126): **Lesart steht, „nicht auswertbar“ bei lr 0.05 (lernt nicht) und 0.1 (divergiert)**; 3706/3707 bei lr 0.1 laufen noch bis ≈ 08:20 (können die Lesart nicht ändern). Danach `analyze.py` erneut laufen lassen (Zahlen für den Paper-Satz), dann §7 (i)/Anhang J mit dem Vorab-Satz „nicht auswertbar“ ergänzen und prüfen lassen. Divergierte Läufe bleiben beim Trainer „finalizing“ (der Dienst meldet failed) – das ist erwartet.
+- `43z_exp126_sgd` (EXP-126) **fertig: „nicht auswertbar“** (lr 0.05: 0/8 lernen; lr 0.1: 8/8 divergieren; `summary.json`). Paper-Satz nach der Vorab-Deutung („SGD with momentum did not train reliably … not evaluable“) in §7 (i)/Anhang J noch einsetzen und prüfen lassen.
 - `44_r12` (R12, 200 freq_ban-Läufe à 8000 Schritte, 6 Worker, gpu_gb 0.75; ≈ 6–9 min je Lauf unter Last → Block grob 5–7 h, schneller sobald LM3 fertig ist). **`confirm_r12.py` und die R12-Splits nicht ändern** (Hash im Manifest).
 - **`lm_stage2.py` nicht ändern** (Hash im LM3-Manifest). `confirm_lm3.py`/`confirm_lm3f.py` nicht ändern (eingefroren).
 
 ## Nächste Schritte (Regel 20)
+
+**NEU, Nutzerentscheidungen 30.09. ≈ 08:25 (über den Assistenten, stehen als Regel 20 d2/e2 in SESSION_PREAMBLE):** (1) **Paper: LM1 und LM1-F sichtbar machen** – ein Satz ins Abstract (< 1920 Zeichen), ein kurzer, klar begrenzter Absatz in den Haupttext (Ende §6 oder §7: kleines LM, ≈ 79 % Rechen-Tokens, eine Aufgabe, gebundene Einbettung); Details bleiben im Anhang; LM3 nur, wenn vor der Einreichung bestätigt und nachgerechnet; unabhängige Textprüfung. **Das ist die erste Aufgabe der nächsten Sitzung.** (2) Nach LM3/R12: vortrainiertes kleines LM (Pythia-160M oder GPT-2 small) nachtrainieren – vorher prüfen: Zahlen 0–112 einzelne Tokens? Ausgangsspektrum, getrennte Ein-/Ausgabe-Einbettungen; Pilot 2 Seeds, gpu_gb vorher messen. (3) Dienst bekommt den P-017-Fix (per DRAIN, nichts zu tun; Jobdateien weiter atomar).
 
 0. Dienst-Lage prüfen (status.json, Logs `lab/queue/logs/43_lm3b/`).
 1. ~~EXP-119 Nachtrag 2~~ erledigt (Sitzung 56, „unklar“: 0.47 bei 16 000, Plateau bröckelt; im Anhang K). Kein weiterer Nachtrag.

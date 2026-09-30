@@ -5,22 +5,24 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 05:50 Berlin (03:50Z, vom Runner)
 - **Deadline:** 2026-09-30 08:49 Berlin (06:49Z)
-- **Zuletzt aktualisiert:** 07:59 Berlin
+- **Zuletzt aktualisiert:** 08:25 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- EXP-126 ist entschieden („nicht auswertbar“); die letzten 4 SGD-Läufe rechnen noch bis ≈ 08:20, danach Zahlen für den Paper-Satz.
+- **Sitzung beendet (08:25).** Nächster geplanter Start laut Runner: 30.09. 09:24 Berlin (2026-09-30T07:24Z). Der GPU-Dienst rechnet LM3, R12 und danach EXP-125 weiter.
 
 ## Als Nächstes
 
-Sitzungsende ≈ 08:40 vorbereiten (Deadline 08:49). R12 (≈ abends) und LM3 (≈ 16 Uhr) wertet die nächste Sitzung aus.
+1. Paper: LM1/LM1-F ins Abstract und in den Haupttext (Nutzerentscheidung 30.09.), unabhängig prüfen. 2. LM3 (≈ 16 Uhr) und R12 (≈ abends) auswerten, Deutungssätze liegen bereit. 3. EXP-126-Satz ins Paper.
 
 ## Dienst (07:17)
 
 LM3 2/20 fertig; EXP-126 4/16; R12 13/200 (pausiert hinter EXP-126); EXP-125 wartet.
 
 ## Verlauf dieser Sitzung
+
+- 08:25 EXP-126 endgültig: SGD lernt bei 0.05 in 0 von 8 Läufen, divergiert bei 0.1 in 8 von 8 → „nicht auswertbar“.
 
 - 07:59 **EXP-126 fertig entschieden: „nicht auswertbar“** – SGD lernt bei 0.05 nichts und divergiert bei 0.1. Beschreibend: der einzige lernende Lauf folgte der Datenauswahl (92 % der Energie auf den Zielen).
 

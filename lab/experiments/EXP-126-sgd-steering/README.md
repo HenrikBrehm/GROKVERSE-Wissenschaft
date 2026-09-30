@@ -37,11 +37,11 @@ python lab/experiments/EXP-126-sgd-steering/make_jobs.py > lab/queue/staging/43z
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-126-sgd-steering/analyze.py
 ```
 
-## Ergebnis (Sitzung 57, 07:58 gemessen; 12/16 Läufe fertig, 3706/3707 bei lr 0.1 laufen noch – sie können die Lesart nicht mehr ändern)
+## Ergebnis (Sitzung 57, 07:58 gemessen; endgültig 08:25 mit 16/16 Läufen)
 
 Befehl: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-126-sgd-steering/analyze.py` → `summary.json`.
 
-- **Vorab-Lesart: „nicht auswertbar“ bei beiden Lernraten.** lr 0.05: 8/8 Läufe lernen nichts (Train ≈ 0.012 nach 20 000 Schritten). lr 0.1: 4/4 fertige Läufe divergieren (erste nicht endliche Spektren bei 1250, 1250, 1500 und 14 750 Schritten); selbst wenn 3706 und 3707 beide lernen, bleiben höchstens 2 < 3 auswertbare Seeds.
+- **Vorab-Lesart: „nicht auswertbar“ bei beiden Lernraten.** lr 0.05: 8/8 Läufe lernen nichts (Train ≈ 0.012 nach 20 000 Schritten). lr 0.1: **8/8 Läufe divergieren** (erste nicht endliche Spektren zwischen 1000 und 1500 Schritten, nur 3704 G erst bei 14 750); 0 auswertbare Seeds.
 - **Korrektur an der Auswertung vor der endgültigen Lesart (dokumentiert):** Der Trainer setzt bei nicht endlichen Spektren nicht „completed“, sondern bleibt auf „finalizing“ (Artefaktprüfung, Exit 1). `analyze.py` zählte solche Läufe zuerst als „fehlt“ und ordnet sie jetzt, wie vorab definiert, als „divergiert“ ein (volle Schrittzahl, Spektrum bei 20 000 nicht endlich). Die Lesart ändert sich dadurch nicht.
 - **Beschreibend (ein Lauf, kein Δ_pow, gesehen):** 3704 G bei lr 0.1 lernte (Train ≥ 0.99 ab 1150), generalisierte (Test ≥ 0.95 ab 1175) und hatte 0.84 (Schritt 2000) bzw. 0.92 (5000–12 500) der W_E-Energie auf den eigenen Zielen, 0.004–0.011 auf den Zielen von F; bei 14 750 divergierte er. Zusammen mit dem L0-Kalibrierungslauf 3701 F (B 256, lr 0.1: 0.968 auf den eigenen Zielen) heißt das: **Wenn SGD mit Momentum hier überhaupt trainiert, folgen die gelernten Frequenzen der Datenauswahl** – als Beobachtung an 2 Einzelläufen, nicht als Test.
 - **Deutung:** Die Frage „Adam-Artefakt?“ ist mit diesem Aufbau nicht beantwortbar, weil SGD mit Momentum ohne Stabilisierung zwischen „lernt nicht“ (0.05) und „divergiert“ (0.1) kein brauchbares Fenster hat. Paper: Satz nach der Vorab-Deutung „nicht auswertbar“ (§7 i / Anhang J), die beiden Einzelläufe höchstens als Beobachtung.

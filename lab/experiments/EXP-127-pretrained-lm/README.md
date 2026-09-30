@@ -24,6 +24,8 @@ Zurück: [[LAB]] · [[FINDINGS]] · [[JOURNAL]] Sitzung 58 · Vorläufer [[exper
 
 - **Ausgangsspektrum (beschreibend, nach dem Einreihen, ändert keine Lesart; `pretrained_spectrum.json`):** Pythia-160M Eingabe stärkste Frequenzen 1, 2, 3, 11, 4, 5, 23, 45 (Top-5-Anteil 0.33), Ausgabe 1, 2, 3, 4, 45, 5, 23, 11 (0.42); 11/23/45 ≈ Perioden 10/5/2.5 der Dezimalschreibweise (vgl. Zhou et al. 2024). Seed 4000: G enthält 2, F enthält 45.
 
+- **Änderung der primären Messgröße vor jedem Pilotlauf (Sitzung 58, ≈ 09:15; kein Pilotlauf gestartet, Dienst im DRAIN):** Weight Decay 0.1 wirkt auch auf die Einbettungen und schrumpft die vortrainierten Zeilen in 4000 Schritten um ≈ 4 % (lr·wd = 10⁻⁵ je Schritt). Diese Schrumpf-Änderung trägt das vortrainierte Spektrum (1–3, 11, 23, 45) und wäre so groß wie die gelernte Änderung im Smoke (0.038 bei 250 Schritten). Primär ist deshalb **Δ_pow der Rest-Änderung U = E_in(T) − s·E_in(0)** mit dem Skalar s = ⟨E_in(T), E_in(0)⟩ / ⟨E_in(0), E_in(0)⟩ (entfernt jedes gleichmäßige Schrumpfen); die rohe Änderung E(T) − E(0) wird zusätzlich berichtet (sekundär), ebenso s je Lauf. Lesarten sonst unverändert. Selbstprüfung: reines Schrumpfen → Rest 0; Schrumpfen + eingepflanzte Frequenz 17 → Spitze bei 17.
+
 ## Deutung je Ausgang (vorab)
 
 - „K2 hält“: *Beim Nachtrainieren eines vortrainierten 160-M-Modells bestimmte die Faktenauswahl in 2 Pilot-Seeds, welche Frequenzen die Änderung der Zahl-Eingabeeinbettung trägt* → Bestätigungsblock mit frischen Splits (10 Seeds, eingefroren) planen; Paper nur Ausblick bis zur Bestätigung.

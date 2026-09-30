@@ -1,8 +1,10 @@
 """EXP-127 pilot analysis (written in session 58 BEFORE any pilot run; readings in README.md).
 
 Per seed s (arms F, G; same pretrained start, same test set):
-  Delta_pow(update, in) = P1 Delta_pow on E_in(T) - E_in(0) of the 113 number rows (primary; the pretrained rows move little),
-  Delta_pow(rows, in/out), Delta_pow(update, out) (secondary), held-out accuracy, ablation contrasts C_in/C_out/C_both.
+  Delta_pow(update, in) = P1 Delta_pow on the residual update U = E_in(T) - s E_in(0) of the 113 number rows, with the scalar
+  s = <E_in(T), E_in(0)> / <E_in(0), E_in(0)> (primary; removes the uniform shrink by weight decay, which carries the
+  pretrained spectrum; amended in session 58 BEFORE any pilot run), Delta_pow(rows, in/out), Delta_pow of the residual
+  update of the output rows, Delta_pow of the raw update E(T) - E(0) (secondary), held-out accuracy, ablation contrasts C_in/C_out/C_both.
 Readings: gate = held-out >= 0.5 at the end in >= 3 of 4 runs, else 'nicht auswertbar (lernt nicht)';
   'K2 haelt beim Nachtrainieren' if gate and Delta_pow(update, in) > 1 in both seeds; 'bricht' if gate and
   |Delta_pow(update, in)| <= 1 in both; else 'unklar'. Descriptive: 'genutzt' if C_both > 0.3 in all 4 runs.
@@ -25,6 +27,11 @@ SEEDS = (4000, 4001)
 def power(W: np.ndarray) -> np.ndarray:
     sq = (np.abs(np.fft.fft(W.astype(np.float64), axis=0)) ** 2).sum(1)
     return 2.0 * sq[1:(P - 1) // 2 + 1] / P
+
+
+def residual(WT: np.ndarray, W0: np.ndarray) -> np.ndarray:
+    W0d, WTd = W0.astype(np.float64), WT.astype(np.float64)
+    return WTd - float(np.vdot(WTd, W0d) / np.vdot(W0d, W0d)) * W0d
 
 
 def delta_pow(pF, pG, F, G) -> float | None:
@@ -67,9 +74,13 @@ def main() -> None:
         row = {"seed": s}
         for side in ("in", "out"):
             pF, pG = (power(runs[a][side][-1]) for a in "FG")
-            uF, uG = (power(runs[a][side][-1] - runs[a][side][0]) for a in "FG")
+            uF, uG = (power(residual(runs[a][side][-1], runs[a][side][0])) for a in "FG")
+            rF, rG = (power(runs[a][side][-1] - runs[a][side][0]) for a in "FG")
             row[f"dpow_rows_{side}"] = delta_pow(pF, pG, F_, G_)
             row[f"dpow_update_{side}"] = delta_pow(uF, uG, F_, G_)
+            row[f"dpow_rawupdate_{side}"] = delta_pow(rF, rG, F_, G_)
+            row[f"shrink_{side}"] = [float(np.vdot(runs[a][side][-1], runs[a][side][0]) / np.vdot(runs[a][side][0], runs[a][side][0]))
+                                     for a in "FG"]
         for a in "FG":
             ab = runs[a]["r"]["ablation"]
             row[f"test_{a}"] = runs[a]["r"]["curve"][-1][2]

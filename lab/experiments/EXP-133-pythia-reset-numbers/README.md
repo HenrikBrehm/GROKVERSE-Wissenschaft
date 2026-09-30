@@ -1,8 +1,8 @@
 ---
 id: EXP-133
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-30
-tags: [exp/vorbereitet, lab/lm, neu/kandidat]
+tags: [exp/abgeschlossen, befund/unklar, lab/lm, neu/kandidat]
 verwandt: ["[[experiments/EXP-127-pretrained-lm/README|EXP-127]]", "[[experiments/EXP-130-pythia-functional-spectrum/README|EXP-130]]", "[[experiments/EXP-132-pythia-mul/README|EXP-132]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-133: Kommt die Datensteuerung zurück, wenn im vortrainierten Pythia-160M nur die Zahl-Einbettungen neu gestartet werden? (Pilot)
@@ -52,3 +52,7 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 Seed 4000 F/G fertig (Dienst-Logs `lab/queue/logs/44zzzz_exp133_reset/job_000/001.log`): Training 0.99–1.00, zurückgehaltene Genauigkeit am Ende **0.0016 / 0.0012** (bei Schritt 1000–3000 genau 0.000; EXP-127 mit vortrainierten Zahlzeilen bei Schritt 1000 schon 0.905). Zwei von vier Läufen unter 0.5 → Tor (≥ 3/4) verfehlt, Vorab-Lesart **„nicht auswertbar (lernt nicht)“**: Der vortrainierte Rumpf kann mit neu gestarteten zahlspezifischen Zeilen in 4000 Schritten nicht rechnen; kein Schluss auf Lesart a oder b. Seed 4001 läuft wie registriert zu Ende; danach `analyze.py`.
 
 **Beschreibend (post hoc, keine Lesart):** Ein Test von genau 0 ist bei 2554 Aufgaben kein Zufall (Zufall ≈ 0.9 %, also ≈ 23 Treffer). Er folgt aus der Arithmetik für einen reinen Auswendiglerner: Zu (a, c) gehört genau ein b; eine ungesehene Aufgabe (a, b) hat ihre Antwort c deshalb nie als Trainingsantwort neben demselben Operanden an derselben Stelle. Nur über die Vertauschung wäre sie erreichbar: 28–30 % der Testaufgaben haben ihr Spiegelpaar (b, a) im Training (LM1-Splits 4000/4001, in Sitzung 63 gezählt). Das Modell nutzt das nicht; es hat also nicht einmal die Vertauschungsregel gelernt (anders als das LM von Grund auf auf Zufallssplits, EXP-119: Plateau ≈ 0.3 aus Tauschpaaren). Beschreibend wächst der eigene Zielanteil der Eingabeänderung leicht (own_in 0.105 gegen other_in 0.087 bei Seed 4000 F, Schritt 3250); ohne Generalisierung ist das keine Lesart.
+
+## Ergebnis (Sitzung 63, 30.09., 23:29 Berlin gemessen): „nicht auswertbar (lernt nicht)“
+
+`analyze.py` (unverändert) → `summary_steps4000.json`. Zurückgehaltene Genauigkeit am Ende 0.0016 / 0.0012 (Seed 4000 F/G) und 0.0106 / 0.0051 (Seed 4001), Training 0.99–1.00; Tor (≥ 0.5 in ≥ 3/4) in 0/4 → Vorab-Lesart **„nicht auswertbar (lernt nicht)“**: Mit neu gestarteten zahlspezifischen Zeilen und vortrainiertem Rumpf lernt Pythia-160M in 4000 Schritten nur auswendig; kein Schluss auf „Zeilen“ oder „Rumpf“. **Nur beschreibend:** Δ_pow der Rest-Änderung (Eingabe) 0.99 / 2.09, Top 5 der Änderung je Lauf verschieden und ohne die vortrainierten {1, 2, 11, 23, 56}-Muster ({45, 38, 26, 15, 37} … {41, 26, 16, 32, 39}); ohne Generalisierung keine Lesart (auch LM1 zeigt Steuerung erst mit dem Faktenlernen). **Entscheidung:** Pythia-Linie geschlossen (JOURNAL S62/S63); ein Absatz in Anhang K.

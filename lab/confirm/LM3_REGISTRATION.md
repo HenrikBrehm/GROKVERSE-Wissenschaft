@@ -37,3 +37,9 @@ Befehl: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/co
 - **Beschreibend:** In allen 10 Seeds liegt `s_steer` vor `s_learn` (4 250–8 000 gegen 5 000–9 750; Definitionen oben).
 - **Unabhängige Nachrechnung** (`LM3_independent_recompute.py`, 15:46): identisch (Mittel 5.98696…, KI, p, Tor 20/20, „bestätigt“).
 - **LM3-F** (funktional) beim Dienst als `43y_lm3f_post` eingereiht (CPU, mit unabhängiger Nachrechnung).
+
+## Ergebnis LM3-F (Sitzung 61, 30.09., Hauptauswertung 17:42 Berlin; Dienst-Job 43y_lm3f_post #0, 7038 s, Exit 0; `LM3F_summary.json`)
+
+**H1F: bestätigt.** C̄ = 0.839 [0.747, 0.913] (Mittel über 10 Seeds, 95-%-Bootstrap), 10/10 Seeds mit C̄ > 0, einseitiger Vorzeichen-Permutationstest p = 1/1024 (Auflösungsgrenze), gespiegelt p = 1.0. LM3 angenommen (Manifest ff1288a5), kein Lauf fehlt oder defekt; Skript-Hash 27f86d5e….
+**Sekundär (beschreibend, 20 Modelle):** acc(Basis) 0.571–0.973 (Median 0.916); eigene Ziele entfernt 0.005–0.057 (Median 0.010); fremde Ziele entfernt 0.469–0.976 (Median 0.917; in 2/20 Modellen > 0.05 unter der Basis, beide Seed 4013: F 0.779 → 0.469, G 0.914 → 0.615); Kontrollmittel je Lauf 0.502–0.973 (Median 0.907), einzelne Kontrollmengen 0.177–0.977; C je Lauf 0.413–0.963; kleinstes C̄ Seed 4013 (0.509; derselbe Seed hatte in LM3 das kleinste Δ_pow, 0.79).
+**Offen:** unabhängige Nachrechnung (`LM3F_independent_recompute.py`, Dienst-Job 43y_lm3f_post #1, läuft) vor jedem Paper-Satz; Deutung nach [[paper/LM1_DEUTUNGEN]] (Nachtrag S56, „LM3-F bestätigt“).

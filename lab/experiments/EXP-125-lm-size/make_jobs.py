@@ -45,5 +45,5 @@ def lines() -> list[str]:
 
 if __name__ == "__main__":
     write_tests()
-    print("#! workers=2 job_minutes=600 min_minutes=5 crash_minutes=10 gpu_gb=7")
+    print("#! workers=2 job_minutes=600 min_minutes=5 crash_minutes=10 gpu_gb=6")
     print("\n".join(lines()))

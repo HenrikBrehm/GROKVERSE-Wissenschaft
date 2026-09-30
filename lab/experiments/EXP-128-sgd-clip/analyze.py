@@ -36,6 +36,8 @@ def run(s: int, x: str, c: float) -> dict:
     if r.get("status") not in ("completed", "finalizing") or r.get("steps_completed") != END:
         return {"state": "fehlt"}
     ev = (r.get("events") or {}).get("sgd_clip") or {}
+    if not ev or ev.get("max_norm") != c:                                # s59 review: guard against a run without the clip event
+        return {"state": "fehlt"}
     bad_norm = next((int(t) for t, v in ev.get("norms", []) if not _finite(v)), None)
     S, st = np.load(ds[0] / "spectra.npy"), [int(v) for v in np.load(ds[0] / "spectra_steps.npy")]
     sp = {t: S[i] for i, t in enumerate(st)}

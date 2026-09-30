@@ -44,7 +44,14 @@ INCLUDE = ("lab/paper/draft_short.md", "lab/paper/draft.md", "lab/paper/related_
            "lab/experiments/EXP-119-lm-speed-r5/*.json", "lab/experiments/EXP-119-lm-speed-r5/README.md",
            "lab/experiments/EXP-121-lm-flat-random-arm/*.py", "lab/experiments/EXP-121-lm-flat-random-arm/*.json",
            "lab/experiments/EXP-121-lm-flat-random-arm/README.md", "lab/experiments/EXP-102-lm-ladder-stage1/flat_marginal_split_s45.py",
-           "lab/confirm/R5_posthoc_maskpeak_s55.py", "lab/confirm/R5_posthoc_maskpeak_s55.json")
+           "lab/confirm/R5_posthoc_maskpeak_s55.py", "lab/confirm/R5_posthoc_maskpeak_s55.json",
+           # s57: LM3/LM3-F (appendix K) and R12 (Result 2 on add 97 / mul 113): analyses, independent recomputes, smoke, job lists
+           "lab/confirm/confirm_lm3.py", "lab/confirm/confirm_lm3f.py", "lab/confirm/LM3_independent_recompute.py",
+           "lab/confirm/LM3F_independent_recompute.py", "lab/confirm/LM3_jobs.txt", "lab/confirm/R12_independent_recompute.py",
+           "lab/confirm/R12_independent_recompute.json", "lab/confirm/R12_jobs.txt", "lab/confirm/R12_smoke_check.py",
+           "lab/confirm/R12_smoke.txt", "lab/experiments/EXP-116-lm-low-share/*.py", "lab/experiments/EXP-116-lm-low-share/README.md",
+           "lab/experiments/EXP-116-lm-low-share/summary.json", "lab/experiments/EXP-113-lm-ladder-stage2b/*.py",
+           "lab/experiments/EXP-113-lm-ladder-stage2b/README.md", "lab/experiments/EXP-113-lm-ladder-stage2b/summary.json")
 EXCLUDE = ("*/__pycache__/*", "lab/runner/*", "lab/external/*", "*_raw/*", "*/raw/*", "lab/paper/repro/out/*", "lab/paper/outreach/*")
 
 

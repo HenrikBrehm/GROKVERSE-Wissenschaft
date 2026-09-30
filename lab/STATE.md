@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-30, 06:48 Berlin (Sitzung 57) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-30, 07:58 Berlin (Sitzung 57) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -35,7 +35,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 ## Aktive Queue / laufende Jobs (Stand Sitzung 57, 06:08 Berlin)
 
 - **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `43_lm3b` (LM3, 20 Läufe à 15 000 Schritte, 3 Worker, ≈ 90–110 min je Lauf, Block ≈ 10–12 h). `done/43_lm3.*` ist ein leerer Fehlversuch (Datei wurde gelesen, bevor sie geschrieben war) – ignorieren. **Jobdateien immer erst außerhalb von inbox schreiben, dann verschieben.**
-- `43z_exp126_sgd` (EXP-126, 16 SGD-Läufe à 20 000 Schritte, ≈ 24 min je Lauf, 4 gleichzeitig; vor R12 einsortiert; fertig ≈ 08:15). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-126-sgd-steering/analyze.py`, Deutungssätze stehen im README. Zwischenblick 06:48: lr 0.05 lernt bis 9000 Schritte nicht (Train 0.01).
+- `43z_exp126_sgd` (EXP-126): **Lesart steht, „nicht auswertbar“ bei lr 0.05 (lernt nicht) und 0.1 (divergiert)**; 3706/3707 bei lr 0.1 laufen noch bis ≈ 08:20 (können die Lesart nicht ändern). Danach `analyze.py` erneut laufen lassen (Zahlen für den Paper-Satz), dann §7 (i)/Anhang J mit dem Vorab-Satz „nicht auswertbar“ ergänzen und prüfen lassen. Divergierte Läufe bleiben beim Trainer „finalizing“ (der Dienst meldet failed) – das ist erwartet.
 - `44_r12` (R12, 200 freq_ban-Läufe à 8000 Schritte, 6 Worker, gpu_gb 0.75; ≈ 6–9 min je Lauf unter Last → Block grob 5–7 h, schneller sobald LM3 fertig ist). **`confirm_r12.py` und die R12-Splits nicht ändern** (Hash im Manifest).
 - **`lm_stage2.py` nicht ändern** (Hash im LM3-Manifest). `confirm_lm3.py`/`confirm_lm3f.py` nicht ändern (eingefroren).
 
@@ -45,6 +45,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 1. ~~EXP-119 Nachtrag 2~~ erledigt (Sitzung 56, „unklar“: 0.47 bei 16 000, Plateau bröckelt; im Anhang K). Kein weiterer Nachtrag.
 2. **LM3** (wenn 20/20 fertig): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm3.py --analyze`, danach `… .venv-gpu python lab/confirm/confirm_lm3f.py`; Deutungssätze VORHER in [[paper/LM1_DEUTUNGEN]] festhalten; unabhängige Nachrechnung (Muster `LM1_independent_recompute.py`). Ausfälle: identisch neu einreihen (Checkpoint).
 2b. **R12** (wenn 200/200 fertig, Dienst-Summary `done/44_r12.summary.json`): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r12.py --analyze lab/confirm/R12_manifest.json`; Deutungssätze vorher in [[paper/R12_DEUTUNGEN]]; unabhängige Nachrechnung; dann Paper §7 (ii) und Anhang. Ausfälle identisch neu einreihen (der Wrapper überspringt Gebundenes).
+2c. **SGD stabilisieren (nach R12, Trainer-Hash frei):** Clipping/Warmup im SGD-Pfad von `freq_ban.py` (Test zuerst), dann neuer Versuch mit Vorab-Lesart; Anlass EXP-126 (beschreibend lernt SGD, wenn es trainiert, die Ziele der Datenauswahl: 0.92 / 0.968 in 2 Einzelläufen).
 3. Prüfbericht zu den heutigen Anhang-K-/Haupttext-Sätzen (Agent, Sitzung 56) einarbeiten, falls noch offen (JOURNAL).
 4. **Offene Frage N57** (Kommutativität): [[experiments/EXP-124-commutativity-ban/README|EXP-124]] bleibt vorbereitet (Regel 20a). LM2 nicht als Spielzeugtest (JOURNAL S56 Zyklus 2).
 5. **Paper:** nur noch Nutzerentscheidungen in [[paper/STATUS]]; nach jeder Textänderung Zahlen- UND Logikprüfung.

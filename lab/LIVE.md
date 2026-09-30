@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-30 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 03:10 Berlin
+- **Zuletzt aktualisiert:** 03:22 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange LÃ¤ufe Ã¼ber den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- **Sitzung beendet (03:10).** Nächster geplanter Start laut Runner: 30.09. 04:24 Berlin (02:24Z). Der GPU-Dienst rechnet weiter.
+- **Sitzung beendet (03:22).** Nächster geplanter Start laut Runner: 30.09. 04:24 Berlin (02:24Z). Der GPU-Dienst rechnet weiter.
 
 ## Als Nächstes
 
@@ -22,6 +22,8 @@ EXP-123 fertig (60/60). EXP-113: 7/8, letzter Lauf bei 5000/16 000. EXP-116: 2/4
 
 ## Verlauf dieser Sitzung
 
+- 03:22 Paper-Anhang K auf Zusammenhang geprüft: 11 von 12 Punkten ganz oder teilweise umgesetzt, Rest als Prüfliste (logic_audit_S55_appK).
+- 03:11 Beschreibend: Die Vertauschungsregel beginnt um die Memorisation herum, bei konstruierten Daten schon währenddessen.
 - 03:10 Prüfung von EXP-124 fand einen Designfehler (eine allgemeine Verlangsamung wäre falsch gelesen worden); vor jedem Lauf behoben.
 - 03:02 EXP-124 vorbereitet (Bann-Test: Kommt die Vertauschungsstufe später, wenn die Zielfrequenzen verboten sind?); Code an zwei Smokes geprüft, bewusst nicht gestartet.
 - 02:58 Deutungssätze für EXP-113 vorab; Zenodo-Liste ergänzt.

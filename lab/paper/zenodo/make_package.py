@@ -35,7 +35,16 @@ INCLUDE = ("lab/paper/draft_short.md", "lab/paper/draft.md", "lab/paper/related_
            # s52: untested LaTeX export of the manuscript (Overleaf)
            "lab/paper/build_tex.py", "lab/paper/tex/*",
            # s54: LM1-F (functional ablation of the LM1 models) and its independent recompute
-           "lab/confirm/confirm_lm1f.py", "lab/confirm/LM1F_independent_recompute.py")
+           "lab/confirm/confirm_lm1f.py", "lab/confirm/LM1F_independent_recompute.py",
+           # s55: appendix K explorations cited in the text (commutativity stage EXP-122/123, EXP-119 plateau, EXP-121 flat random arm)
+           "lab/experiments/EXP-122-toy-commutativity/*.py", "lab/experiments/EXP-122-toy-commutativity/*.json",
+           "lab/experiments/EXP-122-toy-commutativity/README.md", "lab/experiments/EXP-123-commutativity-stages/*.py",
+           "lab/experiments/EXP-123-commutativity-stages/*.json", "lab/experiments/EXP-123-commutativity-stages/README.md",
+           "lab/experiments/EXP-123-commutativity-stages/jobs.txt", "lab/experiments/EXP-119-lm-speed-r5/*.py",
+           "lab/experiments/EXP-119-lm-speed-r5/*.json", "lab/experiments/EXP-119-lm-speed-r5/README.md",
+           "lab/experiments/EXP-121-lm-flat-random-arm/*.py", "lab/experiments/EXP-121-lm-flat-random-arm/*.json",
+           "lab/experiments/EXP-121-lm-flat-random-arm/README.md", "lab/experiments/EXP-102-lm-ladder-stage1/flat_marginal_split_s45.py",
+           "lab/confirm/R5_posthoc_maskpeak_s55.py", "lab/confirm/R5_posthoc_maskpeak_s55.json")
 EXCLUDE = ("*/__pycache__/*", "lab/runner/*", "lab/external/*", "*_raw/*", "*/raw/*", "lab/paper/repro/out/*", "lab/paper/outreach/*")
 
 

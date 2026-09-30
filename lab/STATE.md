@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 01:48 Berlin (Sitzung 65) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 01:59 Berlin (Sitzung 65) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,8 +17,8 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`), Reihenfolge
 
-1. `44zzzzz_l0b` – **L0b** (Bestätigung Menge gegen Reihenfolge bei B = 16, eingefroren bce36b1a, 420 Läufe, 8 Worker, ≈ 370 s je Lauf unter Last ≈ 1.3 Läufe/min; 205/420 um 01:41 → ≈ 2 Läufe/min → fertig ≈ 03:30).
-2. `45z_exp134_textpre` – **EXP-134** (neu S64, N62): eigenes LM erst 6000 Schritte nur Text, dann LM1-Fakten F/G; steuert die Auswahl noch? 2 Jobs, laufen seit ≈ 01:40, ≈ 0.34 s/Schritt × 18 000 → fertig ≈ 03:20.
+1. `44zzzzz_l0b` – **L0b** (Bestätigung Menge gegen Reihenfolge bei B = 16, eingefroren bce36b1a, 420 Läufe, 8 Worker, ≈ 370 s je Lauf unter Last ≈ 1.3 Läufe/min; 225/420 um 01:58; neben EXP-134 nur ≈ 1.2 Läufe/min → fertig ≈ 04:30–05:00).
+2. `45z_exp134_textpre` – **EXP-134** (neu S64, N62): eigenes LM erst 6000 Schritte nur Text, dann LM1-Fakten F/G; steuert die Auswahl noch? 2 Jobs, laufen seit ≈ 01:40, 4250/18 000 um 01:58 (≈ 0.25 s/Schritt) → fertig ≈ 03:00.
 3. `45zz_exp135_switch` – **EXP-135** (neu S64): K4 im LM, Faktenwechsel F → G nach 250/1000/3000 Schritten; Festlegung am Anfang oder mit dem Lernen? 6 Jobs.
 4. `45zzz_exp136_modulus` – **EXP-136** (neu S65, N63): K2 bei add 211/307, 30 % und 3831 Paaren (LeDoux-Einwand), 24 Läufe à 6–15 min. Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-136-large-modulus/analyze.py` (Lesarten + Zweitlesart im README).
 5. `46_exp128_sgdclip` (EXP-128, SGD + Clipping), `47_exp129_k1` (EXP-129, ≈ 4.5 % Rechen-Tokens).

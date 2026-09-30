@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 18:29 Berlin (16:29Z, vom Runner)
 - **Deadline:** 2026-09-30 21:29 Berlin (19:29Z)
-- **Zuletzt aktualisiert:** 20:10
+- **Zuletzt aktualisiert:** 20:21
 
 ## Hinweis für den Assistenten (19:24) – **erledigt 19:34: Prozess endete von selbst, nichts zu tun**
 
@@ -16,7 +16,7 @@ tags: [lab/live]
 
 ## Gerade
 
-- Beim Dienst: EXP-132 (Pythia auf Multiplikation, 2 von 4 Läufen, Schritt ≈ 1250/4000: Trainingsfakten gelernt, zurückgehaltene noch nicht, Test 0.04). EXP-133 wartet auf Grafikspeicher.
+- Beim Dienst: EXP-132 (Pythia auf Multiplikation, 2 von 4 Läufen, Schritt 2250/4000: Trainingsfakten auswendig, 1.00, zurückgehaltene kaum, Test 0.02–0.05; das vorab festgelegte Tor verlangt ≥ 0.5). EXP-133 wartet auf Grafikspeicher.
 - Ich sichere den Stand und plane den nächsten Schritt.
 
 ## Als Nächstes
@@ -25,6 +25,7 @@ tags: [lab/live]
 
 ## Verlauf dieser Sitzung
 
+- 20:11 Literatur zur Wiederverwendung vortrainierter Merkmale nachgetragen (related_work).
 - 20:08 Erster Gradient für EXP-133: ≈ 0, keine Ziele -> spricht eher für „der vortrainierte Rest des Modells blockiert“ (Lesart formal „unklar“).
 - 20:06 **EXP-131: „nicht gesteuert“** – auch die inneren Schichten tragen die Auswahl nicht. Abstract nennt jetzt beide Sprachmodell-Blöcke (geprüft).
 - 19:55 **EXP-130: „Wiederverwendung“.** Alle vier nachtrainierten Pythia-Modelle brauchen dieselben Frequenzen {1, 2, 11, 23, 56}, egal welche Fakten sie sahen (meist schon vortrainiert stark; 56 ≈ gerade/ungerade).

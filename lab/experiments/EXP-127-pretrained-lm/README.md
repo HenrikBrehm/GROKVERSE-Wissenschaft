@@ -28,6 +28,8 @@ Zurück: [[LAB]] · [[FINDINGS]] · [[JOURNAL]] Sitzung 58 · Vorläufer [[exper
 
 - **Codeprüfung (unabhängiger Agent, nur lesend, 09:07–09:11, vor jedem Pilotlauf):** keine Blocker; Label-Position, Antwort-Kopf-Pfad, Ablation, Zahl-Token-Zeilen, Δ_pow-Vorzeichen (identisch EXP-102), Rest-Messgröße, Ordnerabgleich, Splits (3831 Fakten je Arm, Test 2554, keine Überlappung) und Lesarten geprüft. Übernommen (nur `analyze.py`): robuste Ordnerwahl, Prüfung Ablationsbasis = geloggte Testgenauigkeit, Zielgleichheit F/G, „genutzt“ = None bei fehlenden Läufen. Nicht geändert (Trainer, Run-IDs): Standard-Schrittzahl 3000 (Jobzeilen setzen 4000); wd 0.1 auch auf Einbettungen (für eine Bestätigung besser Einbettungen ohne wd oder wd 0.01, vorab festlegen); nicht bitgleich wiederholbar (GPU-Embedding-Backward nichtdeterministisch).
 
+- **Rechnet das vortrainierte Modell schon? (09:24 gemessen, beschreibend, `pretrained_addition_probe.py/.json`):** Nein. Auf 289 Paaren (a, b < 113, Raster 7) trifft Pythia-160M die ganzzahlige Summe bei a + b < 113 in 0.7 % (mit „+“ wie mit „@“), bei a + b ≥ 113 weder Summe noch Rest (0 %). Die Wahl des neutralen Operators umgeht also keine vorhandene Additionsfähigkeit; vortrainiert sind nur die Zahlmerkmale (Spektrum oben).
+
 ## Deutung je Ausgang (vorab)
 
 - „K2 hält“: *Beim Nachtrainieren eines vortrainierten 160-M-Modells bestimmte die Faktenauswahl in 2 Pilot-Seeds, welche Frequenzen die Änderung der Zahl-Eingabeeinbettung trägt* → Bestätigungsblock mit frischen Splits (10 Seeds, eingefroren) planen; Paper nur Ausblick bis zur Bestätigung.

@@ -24,7 +24,8 @@ Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · Vortag [[paper/erklaer
 ## Was heute herauskam
 
 - **EXP-126 (30.09., 07:59, Sitzung 57): Klappt die Steuerung auch ohne Adam, mit einfachem SGD?** Nicht prüfbar: Bei Lernrate 0.05 lernt SGD gar nichts, bei 0.1 läuft es aus dem Ruder (die Zahlen werden unendlich). Das Urteil lautet deshalb, wie vorher festgelegt, „nicht auswertbar“. *Was es nicht bedeutet:* nicht, dass die Steuerung Adam braucht. Im einzigen Lauf, der vor dem Absturz lernte, lagen 92 % der Energie auf den Frequenzen, die unsere Datenauswahl vorgab. Das ist aber nur ein einzelner Lauf, also eine Beobachtung und kein Test. Für einen echten Test muss SGD zuerst stabil laufen (später, mit einer Trainer-Änderung).
-- (LM3, R12 und EXP-125 werden eingetragen, sobald sie fertig und ausgewertet sind.)
+- **EXP-125 (01.10., 01:40, Sitzung 65): Klappt die Steuerung auch in einem doppelt so großen Sprachmodell?** Ja, in beiden Seeds: Die ausgewählten Rechenfakten bestimmen wieder, welche Frequenzen die Zahl-Vektoren tragen (Maß 3.8 und 5.4; ab 1 zählt es als „gesteuert“, beim kleinen Modell lag der Mittelwert bei 5.3), und das Modell rechnet auch ungesehene Fakten richtig (90–99 %). Wie beim kleinen Modell entsteht die Steuerung erst in dem Moment, in dem das Modell die Fakten lernt (vorher liegt das Maß bei 0). *Was es nicht bedeutet:* Mit zwei Seeds und zwei Größen können wir nicht sagen, wie das mit der Größe weitergeht (z. B. bei 100 oder 1000 Millionen Parametern). Das ist ein Vorversuch und steht nur im Anhang des Papers.
+- (LM3 und R12: siehe [[paper/erklaerung/ERKLAERUNG_2026-09-30]].)
 
 ## Drei Fragen, die eine Jury stellen könnte
 

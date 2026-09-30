@@ -42,6 +42,8 @@ ein schlankes Reproduktionspaket; deine Entscheidungen unten.
 **Stand Sitzung 59 (2026-09-30, 11:41 Berlin):** Manuskript unverändert. [[paper/ONE_PAGER]] auf den heutigen Stand gebracht (neuer Punkt 5: L0-Minibatch und LM1/LM1-F; Grenzen „AdamW only“, nächste Frage jetzt LM3 und vortrainiertes Modell; alte Fassung git 2ba48590; unabhängige Zahlenprüfung läuft). Paper-Sätze für jeden Ausgang des SGD-Piloten EXP-128 vorab in [[paper/EXP128_DEUTUNGEN]] (nur §7 (i), Exploration). Offen für den Nutzer: unverändert.
 *Nachtrag 11:55:* One-Pager unabhängig geprüft, Punkte übernommen; mit 1077 Wörtern bei normaler Schrift länger als eine Seite – Kürzen (z. B. Absatz „What is known“) entscheidet der Nutzer.
 
+**Stand Sitzung 65 (2026-10-01, ≈ 01:45 Berlin):** EXP-125 (≈ 29.5 M LM, 2 Seeds) „K2 hält im LM“ → Absatz „Model size (exploration, EXP-125)“ in Anhang K und Halbsatz in Grenze (ii) nach [[paper/EXP125_DEUTUNGEN]] (unabhängige Prüfung läuft). Vorbereitet für L0b: Abbildung `figures/fig17_l0b_set_vs_order.py`, Zeichenbudget des Abstracts ([[paper/L0b_DEUTUNGEN]] Nachtrag). Neu: [[paper/EXP136_DEUTUNGEN]] (Pilot größerer Modulus).
+
 ## Offen für den Nutzer (nicht vom Labor zu entscheiden)
 
 1. **Autorschaft und Rechte an der ursprünglichen GROKVERSE-Studie** (RESULTS.md, docs/, training/): Wer sind die Autoren? Darf der Trainingscode der Studie im Reproduktionspaket veröffentlicht werden, unter welcher Lizenz?

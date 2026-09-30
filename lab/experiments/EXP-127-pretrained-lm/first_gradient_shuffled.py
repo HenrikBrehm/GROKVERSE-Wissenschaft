@@ -11,6 +11,10 @@ else 'unklar'. Interpretation (fixed before running): Pythia 'gestuetzt' -> the 
 first-order account holds even at pretrained weights; Pythia 'nicht gestuetzt' with scratch 'gestuetzt' -> pretraining blocks it;
 both 'nicht gestuetzt' -> the account does not carry over to these LMs. Descriptive: output side, tied sum (scratch), top-5.
   python lab/tools/guarded_run.py -- <abs>/.venv-gpu/Scripts/python.exe lab/experiments/EXP-127-pretrained-lm/first_gradient_shuffled.py --model pythia --device cuda
+Session 59 addition (after the K = 16 results, before any K = 1 run): --k sets the facts per sequence (default 16 = results above,
+unchanged). Question: does the multi-fact context (attention at init mixes all earlier facts) dilute the first-order signal? Reading
+for --k 1 as above; interpretation (fixed before running): scratch K = 1 'gestuetzt' -> context mixing hides the first-order signal
+in the LM; 'nicht gestuetzt' -> the LM architecture itself (depth, LayerNorm, init) breaks the account. Output file gets suffix _k1.
 """
 from __future__ import annotations
 
@@ -47,6 +51,9 @@ def sequences(facts: np.ndarray, num: list[int], op: int, eq: int, sep: int, eot
     return rows
 
 
+K = 16
+
+
 def run_grads(rows, logits_fn, n_facts: int, dev, bs: int = 16) -> None:
     for j in range(0, len(rows), bs):
         part = rows[j:j + bs]
@@ -67,7 +74,7 @@ def pythia(dev: str):
     def arm(seed: int, facts: np.ndarray):
         perm = np.random.default_rng(np.random.SeedSequence([127, seed, 1])).permutation(len(facts))
         model.zero_grad(set_to_none=True)
-        rows = sequences(facts[perm], ids["num"], ids["op"], ids["eq"], ids["nl"], ids["eot"])
+        rows = sequences(facts[perm], ids["num"], ids["op"], ids["eq"], ids["nl"], ids["eot"], K)
         run_grads(rows, lambda x: W(model.gpt_neox(x).last_hidden_state), len(facts), dev)
         gi = model.get_input_embeddings().weight.grad[num_t].double().cpu().numpy()
         go = W.weight.grad[num_t].double().cpu().numpy()
@@ -96,7 +103,7 @@ def scratch(dev: str):
                 h = b(h)
             return m.ln(h) @ w_out.T
         perm = np.random.default_rng(np.random.SeedSequence([105, ms, 2])).permutation(len(facts))
-        rows = sequences(facts[perm], ids["num"], ids["plus"], ids["eq"], nl, ids["eot"])
+        rows = sequences(facts[perm], ids["num"], ids["plus"], ids["eq"], nl, ids["eot"], K)
         run_grads(rows, logits, len(facts), dev)
         gi = m.emb.weight.grad[num_t].double().cpu().numpy()
         go = w_out.grad[num_t].double().cpu().numpy()
@@ -109,11 +116,14 @@ def main() -> None:
     ap.add_argument("--model", choices=("pythia", "scratch"), required=True)
     ap.add_argument("--device", default="cpu")
     ap.add_argument("--threads", type=int, default=2)
+    ap.add_argument("--k", type=int, default=16)
     a = ap.parse_args()
+    global K
+    K = a.k
     torch.set_num_threads(a.threads)
     t0 = time.time()
     arm, sides = (pythia if a.model == "pythia" else scratch)(a.device)
-    out = {"model": a.model, "device": a.device, "order": "first training round", "rows": []}
+    out = {"model": a.model, "device": a.device, "order": "first training round", "k": K, "rows": []}
     for s in (4000, 4001):
         tg = json.loads((SPL / f"seed{s}.json").read_text(encoding="utf-8"))["targets"]
         g = {x: arm(s, np.load(SPL / f"seed{s}_{x}.npy").astype(np.int64)) for x in "FG"}
@@ -130,7 +140,7 @@ def main() -> None:
     d = [r["dpow_grad_in"] for r in out["rows"]]
     out["reading"] = ("gestuetzt" if all(v is not None and v > 1 for v in d) else
                       "nicht gestuetzt" if all(v is not None and v <= 0 for v in d) else "unklar")
-    (HERE / f"first_gradient_shuffled_{a.model}.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    (HERE / f"first_gradient_shuffled_{a.model}{'' if K == 16 else f'_k{K}'}.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(out["reading"])
 
 

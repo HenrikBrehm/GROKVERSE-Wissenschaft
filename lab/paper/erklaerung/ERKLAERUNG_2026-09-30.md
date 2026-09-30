@@ -6,6 +6,12 @@ tags: [lab/erklaerung]
 # Erklärung für den 30.09.2026 (angelegt in Sitzung 54 am 29.09. um 23:36, vor den Nachtergebnissen)
 
 Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · Vortag [[paper/erklaerung/ERKLAERUNG_2026-09-29]]
+> **Kurzfassung des Tages (eine halbe Seite; ergänzt 30.09., Sitzung 59; Details in den Abschnitten darunter)**
+> 1. **Bestätigt und nachgerechnet:** Im kleinen Sprachmodell (LM1-F) hängt das Rechnen an den Frequenzen, die unsere Faktenauswahl vorgibt: nimmt man sie heraus, fällt die Trefferquote bei neuen Fakten im Median von 98 % auf 5 % (ein Modellaufbau, eine Aufgabe). Das steht jetzt im Abstract und in §7 des Papers.
+> 2. **Erkundet (2 Seeds, kein Beweis):** Auch mit nur ≈ 9 % Rechentext steuert die Auswahl (EXP-116); der Bestätigungsblock LM3 läuft. Mit Zufallsdaten lernt der Transformer zuerst die Vertauschungsregel a + b = b + a (EXP-123, vorher festgelegt).
+> 3. **Nicht prüfbar:** Steuerung ohne Adam mit einfachem SGD (EXP-126): lernt nicht oder läuft aus dem Ruder. Zweiter Versuch mit begrenzter Schrittlänge (EXP-128) ist eingereiht.
+> 4. **Korrigiert:** Ein Test am fertigen Modell Pythia hatte einen Messfehler (sortierte Fakten). Neu gerechnet: Die erste Lernrichtung zeigt unsere Auswahl weder bei Pythia noch bei einem frisch gestarteten Modell, solange viele Fakten in einer Zeile stehen; mit einem Fakt je Zeile zeigt das frisch gestartete Modell sie genau.
+> **Wenn du nur einen Satz sagen willst:** „In vorher festgelegten Tests an neuen Seeds bestimmt die Auswahl der Rechenfakten, welche Muster ein kleines Netz lernt – und in einem ersten Aufbau auch ein kleines Sprachmodell.“
 
 ## Was wir vorher erwarten (festgehalten, damit man später vergleichen kann)
 

@@ -17,11 +17,11 @@ BLOCKS = [("P1", "K2 (steering; add 113, mul 113, add 97, D59)"), ("P2d", "K2-fu
           ("P3", "K4 (trace after 25 steps)"), ("N28", "K4b (Adam first moment)"), ("N29", "K4c (ablation contrast 25 vs 50)"),
           ("N29b", "K4d (attention vs MLP reset)"), ("N29c", "K4e (value path vs query/key reset)"),
           # session 45 (simulated review: readers need one table from block ids to hypotheses); descriptions only, numbers from files
-          ("P2f", "K2-function (D59, after grokking)"), ("P4", "K2 in an MLP, at 4x width, integer addition"),
+          ("P2f", "K2-function (D59, 12 000 steps; 17/20 generalized)"), ("P4", "K2 in an MLP, at 4x width, integer addition"),
           ("R1", "K2 robustness (learning rate, weight decay, train fraction)"), ("R2", "K4c at lr 2e-3 and weight decay 0.3"),
           ("R3", "lock-in clock: steps vs summed learning rate"), ("R4", "a uniform random split shapes the choice"),
           ("R5", "engineered splits generalize earlier"), ("R6", "switch cost C(t), t = 10-75"),
-          ("R7", "K2 in a two-layer transformer"), ("R8", "only a change of targets costs"), ("R9", "lock-in window rule (K5)"),
+          ("R7", "K2 in a two-layer transformer"), ("R8", "a switch with the same targets costs no time on average"), ("R9", "lock-in window rule (K5)"),
           # session 50: blocks confirmed after session 45 that the short draft cites
           ("R10", "lock-in needs re-evaluated gradients"), ("R11", "lock-in window in add 97 and mul 113"),
           ("L0", "K2 under i.i.d. minibatches (batch 256, 64)"), ("N54b", "minibatch lock-in clock vs batch size and lr")]

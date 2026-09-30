@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-30, 04:27 Berlin (Sitzung 56) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-30, 06:10 Berlin (Sitzung 57) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -30,9 +30,12 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 56 (ab 03:30):** Anhang K neu gegliedert (Kopfzeile, fünf Absätze, LM1 vor LM1-F) und geprüft; **Haupttext-Abschlussprüfung** (10 Punkte übernommen: D59 17/20 generalisiert, Batch-16-Zuordnung, N54b im Abstract, Tabellenlegende, Λ-Definition; Abstract 1905 Zeichen). **EXP-113 fertig:** answer „K2 haelt“ (Δ_pow 7.00/4.79), all „unklar“ (auswendig, zurückgehalten 0.11–0.51), H-folgt widerlegt, Kommutativität im all-Arm „teilweise“. **EXP-116 fertig: „K2 haelt im LM“ bei ≈ 8.7 % Rechen-Tokens** (Δ_pow 2.06/4.97). → **LM3 eingefroren** (ff1288a5; 10 frische Seeds 4010–4019, K = 2, 15 000 Schritte, Tor 16/20, dazu LM3-F funktional) und beim Dienst (`43_lm3b`). Anhang K, FINDINGS, LAB, Tageserklärung aktualisiert.
 
-## Aktive Queue / laufende Jobs (Stand Sitzung 56, 04:27 Berlin)
+- **Sitzung 57 (ab 05:50):** **R12 eingefroren** (8e6f9b3f; R5-Design auf add 97 und mul 113 übertragen, je 20 Einheiten, Seeds 4200–4239, Arme R/E2_0/D_0/E2_1/D_1, H-ER und H-ED je Aufgabe, Holm über 4; Bezug: Paper §7 (ii) „R5 nur add 113“). Codeprüfung durch Agent ohne Blocker, 3 kleine Punkte übernommen; Smoke durch den Lader grün (Seed 4299). Läuft beim Dienst als `44_r12`.
+
+## Aktive Queue / laufende Jobs (Stand Sitzung 57, 06:10 Berlin)
 
 - **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `43_lm3b` (LM3, 20 Läufe à 15 000 Schritte, 3 Worker, ≈ 90–110 min je Lauf, Block ≈ 10–12 h). `done/43_lm3.*` ist ein leerer Fehlversuch (Datei wurde gelesen, bevor sie geschrieben war) – ignorieren. **Jobdateien immer erst außerhalb von inbox schreiben, dann verschieben.**
+- `44_r12` (R12, 200 freq_ban-Läufe à 8000 Schritte, 6 Worker, gpu_gb 0.75; ≈ 6–9 min je Lauf unter Last → Block grob 5–7 h, schneller sobald LM3 fertig ist). **`confirm_r12.py` und die R12-Splits nicht ändern** (Hash im Manifest).
 - **`lm_stage2.py` nicht ändern** (Hash im LM3-Manifest). `confirm_lm3.py`/`confirm_lm3f.py` nicht ändern (eingefroren).
 
 ## Nächste Schritte (Regel 20)
@@ -40,6 +43,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 0. Dienst-Lage prüfen (status.json, Logs `lab/queue/logs/43_lm3b/`).
 1. ~~EXP-119 Nachtrag 2~~ erledigt (Sitzung 56, „unklar“: 0.47 bei 16 000, Plateau bröckelt; im Anhang K). Kein weiterer Nachtrag.
 2. **LM3** (wenn 20/20 fertig): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm3.py --analyze`, danach `… .venv-gpu python lab/confirm/confirm_lm3f.py`; Deutungssätze VORHER in [[paper/LM1_DEUTUNGEN]] festhalten; unabhängige Nachrechnung (Muster `LM1_independent_recompute.py`). Ausfälle: identisch neu einreihen (Checkpoint).
+2b. **R12** (wenn 200/200 fertig, Dienst-Summary `done/44_r12.summary.json`): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r12.py --analyze lab/confirm/R12_manifest.json`; Deutungssätze vorher in [[paper/R12_DEUTUNGEN]]; unabhängige Nachrechnung; dann Paper §7 (ii) und Anhang. Ausfälle identisch neu einreihen (der Wrapper überspringt Gebundenes).
 3. Prüfbericht zu den heutigen Anhang-K-/Haupttext-Sätzen (Agent, Sitzung 56) einarbeiten, falls noch offen (JOURNAL).
 4. **Offene Frage N57** (Kommutativität): [[experiments/EXP-124-commutativity-ban/README|EXP-124]] bleibt vorbereitet (Regel 20a). LM2 nicht als Spielzeugtest (JOURNAL S56 Zyklus 2).
 5. **Paper:** nur noch Nutzerentscheidungen in [[paper/STATUS]]; nach jeder Textänderung Zahlen- UND Logikprüfung.

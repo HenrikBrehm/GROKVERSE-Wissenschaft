@@ -8,6 +8,8 @@ tags: [exp/vorbereitet, neu/kandidat]
 
 Zurück: [[LAB]] · [[FINDINGS]] (offene Frage N57, Sitzung 55) · Vorgänger [[experiments/EXP-123-commutativity-stages/README|EXP-123]] · [[NOVEL_DIRECTIONS]] N57 · [[JOURNAL]] Sitzung 55 Zyklus 15
 
+**Stand 03:03:** Code, Jobdatei (`make_jobs.py` → `jobs.txt`, 20 Läufe; Kontrollfrequenzen je Einheit aus default_rng([124, u]) ohne Zielmenge A) und `analyze.py` (Lesarten wie unten, Technik: Bann wirksam < 10⁻⁶ der übrigen Energie) geschrieben und an den Smokes geprüft. **Nicht eingereiht:** Regel 20a (keine Mechanismus-Detailversuche in dieser Woche); Entscheidung in einer späteren Sitzung, dann blinde Code-Prüfung und Einfrieren.
+
 **Status: Entwurf (02:58, Sitzung 55), kein Code, nichts gerechnet.** Vor dem Einfrieren: Code (`swap_trace.py` um einen festen Frequenzbann nach der Semantik von freq_ban erweitern: projizierter Gradient ab Schritt 1, Projektion von W_E[:p] und exp_avg), Smoke (ohne Bann bitgleich zu EXP-123), blinde Code-Prüfung, Abwägung gegen Regel 20 (Paper/LM-Leiter haben Vorrang; nur wenn die GPU Platz hat).
 
 **Code-Stand (03:02):** `ban_trace.py` (Kopie von EXP-123 `swap_trace.py` + `--ban`; speichert zusätzlich das W_E-Spektrum am Ende). Smoke 1 (ohne Bann, u0_E2_0): Spur bitgleich zum EXP-123-Smoke (35/35 Messpunkte). Smoke 2 (Bann der u0-Ziele 2, 3, 40, 53, 54; 300 Schritte): Zielenergie am Ende ≈ 2·10⁻¹³ gegen Median 6.2 der übrigen Frequenzen → Bann wirkt. Offen vor dem Einfrieren: Ziehung der Kontrollfrequenzen (Arm C) festlegen, Jobdatei, Auswerteskript, blinde Code-Prüfung. E2_0 nutzt die Zielmenge A (`targets["0"]` in `r5_uN.json`, confirm_r5.py Kopf).

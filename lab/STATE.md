@@ -32,13 +32,13 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Aktive Queue / laufende Jobs (Stand Sitzung 56, 04:27 Berlin)
 
-- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `42_exp119_long_r` (EXP-119 Nachtrag 2, 1 Lauf, 16 000 Schritte, ≈ 2 h) und `43_lm3b` (LM3, 20 Läufe à 15 000 Schritte, 3 Worker, ≈ 90–110 min je Lauf, Block ≈ 10–12 h). `done/43_lm3.*` ist ein leerer Fehlversuch (Datei wurde gelesen, bevor sie geschrieben war) – ignorieren. **Jobdateien immer erst außerhalb von inbox schreiben, dann verschieben.**
+- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `43_lm3b` (LM3, 20 Läufe à 15 000 Schritte, 3 Worker, ≈ 90–110 min je Lauf, Block ≈ 10–12 h). `done/43_lm3.*` ist ein leerer Fehlversuch (Datei wurde gelesen, bevor sie geschrieben war) – ignorieren. **Jobdateien immer erst außerhalb von inbox schreiben, dann verschieben.**
 - **`lm_stage2.py` nicht ändern** (Hash im LM3-Manifest). `confirm_lm3.py`/`confirm_lm3f.py` nicht ändern (eingefroren).
 
 ## Nächste Schritte (Regel 20)
 
 0. Dienst-Lage prüfen (status.json, Logs `lab/queue/logs/43_lm3b/`).
-1. **EXP-119 Nachtrag 2** (wenn fertig): `python lab/tools/guarded_run.py -- <.venv-gpu python> lab/experiments/EXP-119-lm-speed-r5/commutativity_long_s55.py --device cuda`; dann im Anhang K den Halbsatz „whether the random split would generalize later … is not known“ ersetzen.
+1. ~~EXP-119 Nachtrag 2~~ erledigt (Sitzung 56, „unklar“: 0.47 bei 16 000, Plateau bröckelt; im Anhang K). Kein weiterer Nachtrag.
 2. **LM3** (wenn 20/20 fertig): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm3.py --analyze`, danach `… .venv-gpu python lab/confirm/confirm_lm3f.py`; Deutungssätze VORHER in [[paper/LM1_DEUTUNGEN]] festhalten; unabhängige Nachrechnung (Muster `LM1_independent_recompute.py`). Ausfälle: identisch neu einreihen (Checkpoint).
 3. Prüfbericht zu den heutigen Anhang-K-/Haupttext-Sätzen (Agent, Sitzung 56) einarbeiten, falls noch offen (JOURNAL).
 4. **Offene Frage N57** (Kommutativität): [[experiments/EXP-124-commutativity-ban/README|EXP-124]] bleibt vorbereitet (Regel 20a). LM2 nicht als Spielzeugtest (JOURNAL S56 Zyklus 2).

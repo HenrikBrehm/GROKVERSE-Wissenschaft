@@ -3,9 +3,12 @@ Sample size for the L0b family from the EXP-106 pilot spread (8 seeds), rule as 
 small pilots'): normal model at HALF the pilot effect and 1.5x the pilot SD (pessimistic case), each test at alpha/k (k = 4,
 conservative Holm bound), Monte Carlo 4000 repetitions per n, rng 63. Per-seed statistics (EXP-106 summary.json rows):
   H1  x = o(R, stride16w) - o(R, iid16w)                       one-sided t, H0 mean <= 0
-  H2  x = mean_FG o(stride16w) - o(iid16w)                     TOST equivalence, margin DELTA = 0.05 (true mean taken as the
+  H2  x = mean_FG o(stride16w) - o(iid16w)                     TOST equivalence, margin DELTA (true mean taken as the
                                                                pilot mean 0.004, not halved: halving would favour H2)
-  H3  x = dpow_end(stride16w)                                  one-sided t, H0 mean <= 1 (half effect = 1 + (mean - 1) / 2)
+  H3  x = dpow_end(stride16w) - dpow_end(iid16w)               non-inferiority, H0 mean <= -H3_MARGIN (true mean = pilot
+                                                               mean -0.6, not halved: halving would favour H3)
+Revised after the independent review (session 63, before freezing): DELTA 0.05 -> 0.02, H3 'dpow(stride) > 1' -> non-inferiority
+with margin 2; the first version's output (DELTA 0.05, H3 > 1: n80 63/10/10/33) is in the JOURNAL.
   H4  x = mean_FG log2 t_gen(stride16w) / t_gen(iid16w)         one-sided t, H0 mean <= 0
 Recommendation: smallest n in 10..70 with pessimistic power >= 0.8 for every hypothesis; at most 70 (free seeds 3730-3799).
   python lab/confirm/L0b_power_s63.py
@@ -22,7 +25,7 @@ LAB = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("l0p", LAB / "confirm/L0_power_s46.py")
 l0p = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(l0p)
-ALPHA, K, DELTA, REPS = 0.05, 4, 0.05, 4000
+ALPHA, K, DELTA, H3_MARGIN, REPS = 0.05, 4, 0.02, 2.0, 4000
 
 
 def pilot() -> dict:
@@ -30,7 +33,7 @@ def pilot() -> dict:
     lg = lambda r: np.mean([np.log2(a / b) for a, b in zip(r["tgen_stride16w"], r["tgen_iid16w"]) if a and b])   # noqa: E731
     return {"H1": np.array([r["R_o_stride16w"] - r["R_o_iid16w"] for r in rows]),
             "H2": np.array([r["o_stride16w"] - r["o_iid16w"] for r in rows]),
-            "H3": np.array([r["dpow_end_stride16w"] for r in rows]),
+            "H3": np.array([r["dpow_end_stride16w"] - r["dpow_end_iid16w"] for r in rows]),
             "H4": np.array([lg(r) for r in rows])}
 
 
@@ -44,13 +47,13 @@ def tcrit(df: int, a: float) -> float:
 
 def power(h: str, x: np.ndarray, n: int, rng: np.random.Generator) -> float:
     sd = 1.5 * x.std(ddof=1)
-    mu = {"H1": x.mean() / 2, "H2": x.mean(), "H3": 1 + (x.mean() - 1) / 2, "H4": x.mean() / 2}[h]
+    mu = {"H1": x.mean() / 2, "H2": x.mean(), "H3": x.mean(), "H4": x.mean() / 2}[h]
     s = rng.normal(mu, sd, size=(REPS, n))
     m, se = s.mean(1), s.std(1, ddof=1) / np.sqrt(n)
     c = tcrit(n - 1, ALPHA / K)
     if h == "H2":
         return float(np.mean(((m + DELTA) / se > c) & ((DELTA - m) / se > c)))
-    return float(np.mean((m - (1.0 if h == "H3" else 0.0)) / se > c))
+    return float(np.mean((m + (H3_MARGIN if h == "H3" else 0.0)) / se > c))
 
 
 def main() -> None:

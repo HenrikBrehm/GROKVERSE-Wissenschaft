@@ -55,7 +55,7 @@ def per_model(r: dict) -> dict:
     f = {s: sw["base"] - np.asarray(sw[s], float) for s in ("in", "out", "both")}
     top5 = [int(k) + 1 for k in np.argsort(-f["in"], kind="stable")[:5] if f["in"][k] >= MIN_DROP]
     return {"base": sw["base"], "top5_in": top5,
-            "top5_out": [int(k) + 1 for k in np.argsort(-f["out"], kind="stable")[:5]],
+            "top5_out": [int(k) + 1 for k in np.argsort(-f["out"], kind="stable")[:5] if f["out"][k] >= MIN_DROP],
             "n_pretrained": sum(k in PRETRAINED_TOP8_IN for k in top5), "n_own": sum(k in own for k in top5),
             "own_in_pretrained_top8": sorted(own & PRETRAINED_TOP8_IN), "n_above_min_drop": int((f["in"] >= MIN_DROP).sum()),
             "ties_at_top5_edge": int(np.sum(np.isclose(f["in"], np.sort(f["in"])[-5]))) if len(f["in"]) >= 5 else 0,

@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 18:29 Berlin (16:29Z, vom Runner)
 - **Deadline:** 2026-09-30 21:29 Berlin (19:29Z)
-- **Zuletzt aktualisiert:** 20:52
+- **Zuletzt aktualisiert:** 21:01
 
 ## Hinweis für den Assistenten (19:24) – **erledigt 19:34: Prozess endete von selbst, nichts zu tun**
 
@@ -17,7 +17,7 @@ tags: [lab/live]
 ## Gerade
 
 - **Sitzung beendet.** Nächster Start laut Runner: 30.09. ≈ 22:04 Berlin (vorläufig, der Runner setzt ihn neu).
-- Beim Dienst: EXP-132 Seed 1001 (seit 20:51, ≈ 45 min), danach EXP-133 (4 Läufe, ≈ 1.5 h), dann EXP-125, EXP-128, EXP-129.
+- Beim Dienst: EXP-132 Seed 1001 (seit 20:51; Schritt 1000: Train 1.00, Test 0.04 / 0.03 – wieder nur auswendig), danach EXP-133 (4 Läufe, ≈ 1.5 h), dann EXP-125, EXP-128, EXP-129.
 
 ## Als Nächstes
 
@@ -25,6 +25,7 @@ tags: [lab/live]
 
 ## Verlauf dieser Sitzung
 
+- 21:01 Sitzung endet (Stand gesichert). EXP-132 Seed 1001 bei Schritt 1000: ebenfalls nur auswendig.
 - 20:51 Hängende EXP-132-Prozesse (Seed 1000, Ergebnisse vollständig) vom Dienst nach 15 min beendet, wie vorgesehen; Seed 1001 gestartet.
 - 20:38 Sitzung beendet, Stand gesichert.
 - 20:37 **EXP-132: Pythia lernt Multiplikation mod 113 nur auswendig** (Test 0.07 / 0.01) -> „nicht auswertbar“ steht fest.

@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 08:29 Berlin (06:29Z, vom Runner)
 - **Deadline:** 2026-09-30 11:29 Berlin (09:29Z)
-- **Zuletzt aktualisiert:** 09:24 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 09:31 Berlin (gemessen)
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- Dienst beobachten; nächste Denkarbeit wählen. Alle vorbereiteten Versuche (EXP-127 Pythia, EXP-128 SGD) warten auf GPU bzw. auf das Ende von R12.
+- Test vor dem Pythia-Piloten (CPU, kein Training): Trägt schon der allererste Lernschritt des vortrainierten Modells die Frequenzen, die unsere Faktenauswahl vorgibt? Die Vorhersage (Anhang G) ist vorher festgelegt.
 
 ## Als Nächstes
 
@@ -21,6 +21,9 @@ tags: [lab/live]
 Neustart (P-017-Fix) erledigt, läuft wieder. LM3 8/20 fertig, 3 laufen; R12 26/200, 4 laufen; EXP-125 und EXP-127 warten auf Speicher.
 
 ## Verlauf dieser Sitzung (Uhrzeiten = Commit-/Wächterzeiten)
+
+- 09:29 EXP-128-Patch protokolliert jetzt auch die Gradientennorm (Clipping-Wert später gemessen statt geraten).
+- 09:25 Pythia-160M kann ohne Nachtraining nicht addieren (0.7 %).
 
 - 09:23 Eigene Uhrzeiten korrigiert: einige Notizen hatten geschätzte statt gemessene Zeiten.
 - 09:21 **EXP-128 vorbereitet:** SGD mit Gradient-Clipping als Patch (Trainer ist wegen R12 gesperrt), alle Tests grün.

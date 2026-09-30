@@ -1,8 +1,8 @@
 ---
 id: EXP-127
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-30
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/negativ, neu/kandidat]
 ---
 # EXP-127: Steuert die Faktenauswahl beim Nachtrainieren eines vortrainierten LM (Pythia-160M) die Frequenzen der Zahl-Einbettungen?
 
@@ -51,3 +51,12 @@ Zurück: [[LAB]] · [[FINDINGS]] · [[JOURNAL]] Sitzung 58 · Vorläufer [[exper
 ## Ergebnis
 
 (offen)
+
+## Ergebnis (Sitzung 61, 30.09., Auswertung 17:25 Berlin gemessen): „bricht“
+
+`analyze.py` (unverändert, vor jedem Lauf geschrieben) → `summary_steps4000.json`. Tor erfüllt (Test 0.987 / 0.974 / 0.980 / 0.987, Training ≥ 0.996). **Primär Δ_pow der Rest-Änderung (Eingabe): +0.127 (Seed 4000), −0.170 (Seed 4001)** → |Δ_pow| ≤ 1 in beiden → Vorab-Lesart **„bricht“**. Sekundär: Δ_pow der Zeilen selbst 0.05 / 0.03, rohe Änderung 0.07 / −0.18, Ausgabeseite −0.09 / +0.05; Schrumpfung s ≈ 0.965 (Eingabe), 0.956 (Ausgabe). „Genutzt“ (C_both > 0.3 in allen 4) nein: C_in −0.27 / +0.19 (Seed 4000), +0.006 / +0.000 (Seed 4001).
+
+**Beschreibend (nicht Teil der Lesart):** Die Ablation trifft die vortrainiert starken Frequenzen, nicht die Ziele. Seed 4000: Sätze mit 2 (G-Ziele) oder 23 (zwei Kontrollen) kosten in *beiden* Armen 0.20–0.36; die F-Ziele (mit 45) nichts. Seed 4001 (Ziele ohne vortrainierte Spitzen): eigene/fremde Ziele weg → ≤ 0.006 Verlust, die Kontrolle {3, 11, 13, 20, 22} → 0.60 / 0.57 (Eingabe), in beiden Armen. Das passt zu „Wiederverwendung vortrainierter Zahlmerkmale“ (vgl. Zhou et al. 2024), trennt aber einzelne Frequenzen nicht → [[experiments/EXP-130-pythia-functional-spectrum/README|EXP-130]] (Ablation jeder einzelnen Frequenz, frische Splits, Lesarten vorab; beim Dienst).
+
+**Deutung nach dem Vorab-Satz:** *Im vortrainierten Modell steuert die Faktenauswahl die Zahl-Eingabeeinbettung nicht* (2 Pilot-Seeds, 4000 Schritte, lr 10⁻⁴, alle Parameter trainiert). Vorab vorgesehen: „Zwischenschichten messen, bevor etwas behauptet wird“ – die Steuerung könnte anderswo liegen; das ist noch offen (EXP-130 misst nur die Einbettungen, aber funktional). Grenzen: 2 Seeds, eine lr, wd 0.1 auch auf den Einbettungen, ein Modell. Kein Paper-Satz ohne Bestätigung; als Exploration höchstens im Ausblick („K2 did not transfer to fine-tuning a pretrained 160 M model in a 2-seed pilot“).
+

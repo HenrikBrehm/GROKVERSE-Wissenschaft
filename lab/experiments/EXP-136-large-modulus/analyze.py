@@ -82,6 +82,14 @@ def reading(x: np.ndarray, n_valid: int) -> str:
     return "unklar"
 
 
+def placebo_sd(F: dict, G: dict, n: int = 500) -> float:
+    """Descriptive noise floor (session 65, after the load test): SD of Delta_pow(2000) for random disjoint 5-sets outside F u G."""
+    rng = np.random.default_rng(136)
+    pool = np.array([k for k in range(1, len(F["pw"]) + 1) if k not in set(F["T"]) | set(G["T"])])
+    v = [delta_pow(F["pw"], G["pw"], list(c[:5]), list(c[5:])) for c in (rng.choice(pool, 10, replace=False) for _ in range(n))]
+    return float(np.std([x for x in v if x is not None]))
+
+
 def cell(p: int, fr: str, loader=load) -> dict:
     rows, bad = [], []
     for s in mj.SEEDS:
@@ -93,7 +101,7 @@ def cell(p: int, fr: str, loader=load) -> dict:
         if d is None or d_last is None:
             bad.append(f"seed {s}: Delta_pow not finite")
             continue
-        rows.append({"seed": s, "dpow_2000": d, "dpow_last": d_last,
+        rows.append({"seed": s, "dpow_2000": d, "dpow_last": d_last, "placebo_sd_2000": placebo_sd(F, G),
                      "last_step": [F["last_step"], G["last_step"]], "gen": [F["gen"], G["gen"]],
                      "final_acc": [F["final_acc"], G["final_acc"]],
                      "top5_own_2000": [len(top5(F["pw"]) & set(F["T"])), len(top5(G["pw"]) & set(G["T"]))]})

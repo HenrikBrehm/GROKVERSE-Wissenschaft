@@ -26,6 +26,8 @@ Zurück zu [[LAB]]. **Exploration (3 Seeds × F/G je Zelle), keine Bestätigung.
 - **Grenzen:** eine Architektur und ein Optimierer; p = 307 ist weit von LeDoux' 9973; der Datenanteil ist mit der Zahl der Paare gekoppelt (lo hält die Paarzahl fest, nicht den Anteil); Seeds über additive Salze wie EXP-043 (Astra 5: für einen Piloten hingenommen, eine Bestätigung braucht getrennte Ströme).
 - **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** (1) Smoke p = 307 hi, Seed 13600, F, 200 Schritte: Generalisierung schon nach 175 Schritten (bei großem p und 30 % kaum Grokking-Verzögerung) → deshalb die zweite Achse „lo“ ergänzt. (2) Smoke p = 307 lo, 300 Schritte (nur Tempo). (3) Lader-Test (nach dem Schreiben der Lesarten, `raw_loadtest/`, 2000 Schritte): Seed 13600, p = 211 lo, F und G: Δ_pow(2000) = 1.24, Top-5 = eigene Ziele in beiden Armen, Test 0.003 (noch keine Generalisierung). Dieser Seed ist damit teilweise gesehen; die Lesart wurde danach nicht geändert. Der Block-Lauf (20 000-Schritt-Budget, anderes Verzeichnis) wiederholt ihn.
 
+- **Rauschkalibrierung (beschreibend, 01:00, am schon gesehenen Lader-Test-Seed; ändert keine Lesart):** Δ_pow für 2000 zufällige disjunkte Placebo-Fünfermengen außerhalb F ∪ G in denselben Läufen (p = 211, 3831 Paare, Schritt 2000): Mittel 0.00, SD 0.14, 99 %-Quantil |Δ_pow| 0.34; echter Wert 1.24. Die Schwelle 1 liegt also ≈ 7 SD über dem Placebo-Rauschen (konservativ). `analyze.py` gibt die Placebo-SD je Seed beschreibend mit aus.
+
 ## Befehle
 
 ```

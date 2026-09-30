@@ -70,3 +70,15 @@ Lesart „constructed faster“ (q ≥ 3.15 / ≥ 2.61). **Der zweite Teil des v
 - **all „K2 haelt im LM“:** *Also with the loss on every position the facts were learned and steered (Δ_pow …), later than with the answer-only loss (…).*
 - **„bricht“ (ein Arm):** *In the … arm the facts were learned but the embedding was not steered (|Δ_pow| ≤ 1 in both seeds)* → erste Stufe, auf der K2 bricht (Regel 20e); Bestätigungsblock prüfen, bevor es in den Haupttext kommt.
 - **„unklar“ / „nur Repraesentation“:** nur *inconclusive (exploration)* bzw. *steered without held-out accuracy*; keine Richtung ableiten.
+
+## Nachtrag (Sitzung 56, 04:28 gemessen, vor jedem LM3-Ergebnis außer dem ersten Log-Schritt): LM3 und LM3-F (≈ 8.7 % Rechen-Tokens, bestätigend)
+
+**Stand beim Schreiben:** gesehen sind nur die Pilotwerte EXP-116 (Δ_pow 2.06 / 4.72 bei 15 000) und von LM3 die Zeile „step 250“ des ersten Laufs (gleich dem Smoke). Die Sätze hängen nicht davon ab.
+
+- **LM3 „bestätigt“:** *With only about 8.7 % arithmetic tokens (LM3, frozen before any run, 10 fresh seeds, 15 000 steps), the engineered fact splits again steered the number-token embedding: mean Δ_pow … [CI] at step 15 000, … of 10 seeds above the registered minimum effect 1 (exact sign-permutation p …); held-out fact accuracy was ≥ 0.5 in …/20 runs.* Ersetzt in Anhang K den Satz „(a confirmation on 10 fresh seeds, LM3, has been registered)“; in §7 (ii) Halbsatz „also at about 9 % arithmetic tokens (LM3)“. Keine Aussage über natürliche Sprachdaten ohne konstruierte Rechensätze.
+- **LM3 „unter Mindesteffekt“:** *At about 8.7 % arithmetic tokens the steering fell below the registered minimum effect (mean Δ_pow … [CI]), although the facts were learned* → erste Stufe der Leiter, auf der K2 bricht (Regel 20e); so in Anhang K und §7 berichten, die EXP-116-Piloten ausdrücklich als nicht bestätigt markieren.
+- **LM3 „unklar“:** *inconclusive at this share (mean Δ_pow … [CI])*; die Pilotaussage bleibt Exploration.
+- **LM3 „nicht auswertbar (Budget)“:** *At about 8.7 % arithmetic tokens fewer than 16 of 20 runs reached held-out accuracy 0.5 within 15 000 steps, so the block is not evaluable*; kein Befund über K2; Budget ist durch den Text-Umlauf begrenzt (≈ 15 135).
+- **LM3-F „bestätigt“:** *Removing the run's own target subspace lowered held-out accuracy far more than removing the other split's targets (mean C̄ … [CI], p …)* – nur zusammen mit LM3 „bestätigt“ in den Haupttext-Hinweis; sonst nur Anhang K.
+- **LM3-F andere Ausgänge:** wie bei LM1-F (Anhang K, keine Richtung ableiten).
+- Vor jedem Paper-Satz: unabhängige Nachrechnung (eigener Lader, Muster `LM1_independent_recompute.py`), dann Satzprüfung.

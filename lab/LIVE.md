@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 18:29 Berlin (16:29Z, vom Runner)
 - **Deadline:** 2026-09-30 21:29 Berlin (19:29Z)
-- **Zuletzt aktualisiert:** 20:21
+- **Zuletzt aktualisiert:** 20:38
 
 ## Hinweis für den Assistenten (19:24) – **erledigt 19:34: Prozess endete von selbst, nichts zu tun**
 
@@ -16,15 +16,17 @@ tags: [lab/live]
 
 ## Gerade
 
-- Beim Dienst: EXP-132 (Pythia auf Multiplikation, 2 von 4 Läufen, Schritt 2250/4000: Trainingsfakten auswendig, 1.00, zurückgehaltene kaum, Test 0.02–0.05; das vorab festgelegte Tor verlangt ≥ 0.5). EXP-133 wartet auf Grafikspeicher.
-- Ich sichere den Stand und plane den nächsten Schritt.
+- **Sitzung beendet.** Nächster Start laut Runner: 30.09. ≈ 22:04 Berlin (vorläufig, der Runner setzt ihn neu).
+- Beim Dienst: EXP-132 Seed 1001 (≈ 45 min), danach EXP-133 (4 Läufe, ≈ 1.5 h), dann EXP-125, EXP-128, EXP-129.
 
 ## Als Nächstes
 
-1. EXP-132 beobachten (erste zwei Läufe ≈ 20:40 fertig). 2. Nächste Sitzung: EXP-132/133 auswerten, dann ein Pythia-Absatz im Paper.
+1. EXP-132 abschließen (Lesart steht: „nicht auswertbar“). 2. EXP-133 auswerten -> ein Pythia-Absatz im Paper (Sätze liegen vorab bereit). 3. EXP-125 (größeres LM) im Blick.
 
 ## Verlauf dieser Sitzung
 
+- 20:38 Sitzung beendet, Stand gesichert.
+- 20:37 **EXP-132: Pythia lernt Multiplikation mod 113 nur auswendig** (Test 0.07 / 0.01) -> „nicht auswertbar“ steht fest.
 - 20:11 Literatur zur Wiederverwendung vortrainierter Merkmale nachgetragen (related_work).
 - 20:08 Erster Gradient für EXP-133: ≈ 0, keine Ziele -> spricht eher für „der vortrainierte Rest des Modells blockiert“ (Lesart formal „unklar“).
 - 20:06 **EXP-131: „nicht gesteuert“** – auch die inneren Schichten tragen die Auswahl nicht. Abstract nennt jetzt beide Sprachmodell-Blöcke (geprüft).

@@ -37,7 +37,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 0. Dienst-Lage prüfen (status.json, Logs).
 1. **EXP-113 (7/8, letzter Lauf läuft) und EXP-116 (2/4, 2 laufen)** fast fertig → zuerst auswerten (Punkt 2).
-2. **EXP-116** (4/4) → `EXP-116…/analyze.py`; **EXP-113** (8/8) → `analyze.py`, `analyze_folgt.py`, danach `EXP-114…/analyze.py`. Deutungssätze vorab in LM1_DEUTUNGEN.
+2. (Test 03:11: beide `analyze.py` brechen bei noch laufenden Läufen mit FileNotFoundError ab, statt „fehlt“ zu melden → erst bei 4/4 bzw. 8/8 starten; kein Fehler der fertigen Läufe.) **EXP-116** (4/4) → `EXP-116…/analyze.py`; **EXP-113** (8/8) → `analyze.py`, `analyze_folgt.py`, danach `EXP-114…/analyze.py`. Deutungssätze vorab in LM1_DEUTUNGEN.
 3. **EXP-119 Nachtrag 2** (wenn fertig): `python lab/tools/guarded_run.py -- <.venv-gpu python> lab/experiments/EXP-119-lm-speed-r5/commutativity_long_s55.py --device cuda`; dann Paper-Halbsatz „whether the random split would generalize later is not known“ ersetzen.
 4. **Offene Frage N57:** Warum steigt die Kommutativität auf konstruierten Splits ≈ 11× früher? (D verhält sich wie R.) [[experiments/EXP-124-commutativity-ban/README|EXP-124]] vorbereitet (Code, Jobs, Auswertung, blind geprüft, Lesarten über Δ korrigiert; offene Designpunkte in der README); nur rechnen, wenn Regel-20-Arbeit und GPU es zulassen. EXP-113-Deutungssätze stehen in LM1_DEUTUNGEN.
 5. **LM2** nur neu gefasst (BACKLOG „Sitzung 55“): „Beendet eine beliebige Spektralspitze das Plateau?“ – zuerst billig im Spielzeugmodell.

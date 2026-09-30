@@ -15,7 +15,8 @@ Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · Vortag [[paper/erklaer
 
 ## Was heute herauskam
 
-(wird eingetragen, sobald die Läufe fertig und ausgewertet sind)
+- **EXP-126 (30.09., 07:59, Sitzung 57): Klappt die Steuerung auch ohne Adam, mit einfachem SGD?** Nicht prüfbar: Bei Lernrate 0.05 lernt SGD gar nichts, bei 0.1 läuft es aus dem Ruder (die Zahlen werden unendlich). Das Urteil lautet deshalb, wie vorher festgelegt, „nicht auswertbar“. *Was es nicht bedeutet:* nicht, dass die Steuerung Adam braucht. Im einzigen Lauf, der vor dem Absturz lernte, lagen 92 % der Energie auf den Frequenzen, die unsere Datenauswahl vorgab. Das ist aber nur ein einzelner Lauf, also eine Beobachtung und kein Test. Für einen echten Test muss SGD zuerst stabil laufen (später, mit einer Trainer-Änderung).
+- (LM3, R12 und EXP-125 werden eingetragen, sobald sie fertig und ausgewertet sind.)
 
 ## Drei Fragen, die eine Jury stellen könnte
 

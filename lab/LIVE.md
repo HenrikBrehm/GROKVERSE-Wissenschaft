@@ -5,22 +5,24 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 05:50 Berlin (03:50Z, vom Runner)
 - **Deadline:** 2026-09-30 08:49 Berlin (06:49Z)
-- **Zuletzt aktualisiert:** 07:17 Berlin
+- **Zuletzt aktualisiert:** 07:59 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- **EXP-126** eingereiht: Steuert die Datenauswahl die Frequenzen auch mit einfachem SGD (ohne Adam)? Gutachter fragen das sicher. 16 kurze Läufe, starten, sobald Speicher frei wird; Auswertung wenn möglich noch in dieser Sitzung.
+- EXP-126 ist entschieden („nicht auswertbar“); die letzten 4 SGD-Läufe rechnen noch bis ≈ 08:20, danach Zahlen für den Paper-Satz.
 
 ## Als Nächstes
 
-EXP-126 beobachten und auswerten; R12 (≈ abends) und LM3 (≈ 16 Uhr) später.
+Sitzungsende ≈ 08:40 vorbereiten (Deadline 08:49). R12 (≈ abends) und LM3 (≈ 16 Uhr) wertet die nächste Sitzung aus.
 
 ## Dienst (07:17)
 
 LM3 2/20 fertig; EXP-126 4/16; R12 13/200 (pausiert hinter EXP-126); EXP-125 wartet.
 
 ## Verlauf dieser Sitzung
+
+- 07:59 **EXP-126 fertig entschieden: „nicht auswertbar“** – SGD lernt bei 0.05 nichts und divergiert bei 0.1. Beschreibend: der einzige lernende Lauf folgte der Datenauswahl (92 % der Energie auf den Zielen).
 
 - 07:17 EXP-126 Zwischenstand: Mit SGD bei Lernrate 0.05 lernt das Netz in 20 000 Schritten gar nichts (4 von 4 fertigen Läufen). Lernrate 0.1 läuft jetzt.
 

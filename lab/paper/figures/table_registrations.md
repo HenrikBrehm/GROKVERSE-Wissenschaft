@@ -23,3 +23,7 @@
 | R11 | lock-in window in add 97 and mul 113 | 14621ad6 | 3620–3649 | 30 | 240 | `lab/confirm/R11_REGISTRATION_DRAFT.md` |
 | L0 | K2 under i.i.d. minibatches (batch 256, 64) | 26419818 | 3720–3729 | 10 | 40 | `lab/confirm/L0_REGISTRATION_DRAFT.md` |
 | N54b | minibatch lock-in clock vs batch size and lr | 624c2213 | 3900–3909 | 10 | 840 | `lab/confirm/N54B_REGISTRATION_DRAFT.md` |
+| R12 | R5 speed-up in add 97 and mul 113 | 8e6f9b3f | 4200–4239 | 40 | 200 | `lab/confirm/R12_REGISTRATION_DRAFT.md` |
+| LM1 | K2 in a small language model (~79 % arithmetic tokens) | 2b70d8b9 | 4000–4009 | 10 | 20 | `lab/confirm/LM1_REGISTRATION.md` |
+| LM1F | K2-function in the LM1 models (ablation, no new training) | bfdab8d8 | 4000–4009 | 10 | 0 (reuses LM1) | `lab/confirm/LM1F_REGISTRATION.md` |
+| LM3 | K2 in the language model at ~8.7 % arithmetic tokens | ff1288a5 | 4010–4019 | 10 | 20 | `lab/confirm/LM3_REGISTRATION.md` |

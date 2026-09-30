@@ -21,6 +21,7 @@ HERE = Path(__file__).resolve().parent
 LAB = HERE.parents[1]
 C1, C2, INK, MUTED, SURFACE, GRID = "#2a78d6", "#eb6834", "#0b0b0b", "#52514e", "#fcfcfb", "#d9d8d3"
 ARMS = (("E2_0", "E2 (A)"), ("E2_1", "E2 (B)"), ("R", "random R"), ("D_0", "control D (A)"), ("D_1", "control D (B)"))
+VERDICT_EN = {"best\u00e4tigt": "confirmed", "nicht best\u00e4tigt": "not confirmed"}  # frozen summary uses German verdicts
 TASKS = (("add97", "addition mod 97"), ("mul113", "multiplication mod 113"))
 
 
@@ -50,8 +51,8 @@ def panel(ax: plt.Axes, rows: list[dict], h: dict, title: str, seed: int) -> Non
     ax.tick_params(colors=MUTED, labelsize=7)
     ax.set_title(title, fontsize=8.5, color=INK)
     er, ed = h["H-ER"], h["H-ED"]
-    ax.text(0.99, 0.02, f"R / E2(A): x{er['ratio_geo']:.1f} [{er['ratio_ci95'][0]:.1f}, {er['ratio_ci95'][1]:.1f}], {er['verdict']}\n"
-            f"D / E2: x{ed['ratio_geo']:.1f} [{ed['ratio_ci95'][0]:.1f}, {ed['ratio_ci95'][1]:.1f}], {ed['verdict']}\n"
+    ax.text(0.99, 0.02, f"R / E2(A): x{er['ratio_geo']:.1f} [{er['ratio_ci95'][0]:.1f}, {er['ratio_ci95'][1]:.1f}], {VERDICT_EN.get(er['verdict'], er['verdict'])}\n"
+            f"D / E2: x{ed['ratio_geo']:.1f} [{ed['ratio_ci95'][0]:.1f}, {ed['ratio_ci95'][1]:.1f}], {VERDICT_EN.get(ed['verdict'], ed['verdict'])}\n"
             f"n = {len(rows)} units; open markers: no event by 8000",
             transform=ax.transAxes, ha="right", va="bottom", fontsize=6.5, color=MUTED)
 

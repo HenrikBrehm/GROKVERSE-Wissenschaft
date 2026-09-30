@@ -38,8 +38,8 @@ GROUPS = {  # name: (run root, split dir)
 def load(d: Path) -> dict:
     r = json.loads((d / "result.json").read_text(encoding="utf-8"))
     cols = r["curve_cols"]
-    cur = np.asarray(r["curve"], float)
-    tr = dict(zip(cur[:, cols.index("step")].astype(int), cur[:, cols.index(next(c for c in cols if "train" in c))]))
+    i_s, i_t = cols.index("step"), cols.index("train_fact_acc")      # rows can differ in length (fix before reading any value)
+    tr = {int(row[i_s]): float(row[i_t]) for row in r["curve"]}
     W, st = np.load(d / "we_snapshots.npy"), np.load(d / "we_snapshot_steps.npy").astype(int)
     return {"k": r["config"]["arith_facts"], "tr": tr, "W": {int(s): W[i] for i, s in enumerate(st)}}
 

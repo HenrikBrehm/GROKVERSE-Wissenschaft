@@ -17,7 +17,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`), Reihenfolge
 
-1. `44zzzzz_l0b` – **L0b** (Bestätigung Menge gegen Reihenfolge bei B = 16, eingefroren bce36b1a, 420 Läufe, 8 Worker, ≈ 370 s je Lauf unter Last ≈ 1.3 Läufe/min; 44/420 um 00:12 → fertig ≈ 05:00).
+1. `44zzzzz_l0b` – **L0b** (Bestätigung Menge gegen Reihenfolge bei B = 16, eingefroren bce36b1a, 420 Läufe, 8 Worker, ≈ 370 s je Lauf unter Last ≈ 1.3 Läufe/min; 126/420 um 00:57 → ≈ 1.9 Läufe/min → fertig ≈ 03:30–03:40).
 2. `45_exp125_lm_size` – EXP-125 (LM ≈ 29.5 M, 4 Läufe, 6 GB je Lauf; Lauf 0 lernt, #1 wartet auf Speicher).
 3. `45z_exp134_textpre` – **EXP-134** (neu S64, N62): eigenes LM erst 6000 Schritte nur Text, dann LM1-Fakten F/G; steuert die Auswahl noch? 2 Jobs.
 4. `45zz_exp135_switch` – **EXP-135** (neu S64): K4 im LM, Faktenwechsel F → G nach 250/1000/3000 Schritten; Festlegung am Anfang oder mit dem Lernen? 6 Jobs.
@@ -28,7 +28,7 @@ Nichts davon selbst neu einreihen; vor dem Ablegen status.json prüfen; Jobdatei
 
 ## Nächste Schritte
 
-1. **L0b auswerten**, wenn `lab/queue/done/44zzzzz_l0b.summary.json` da ist: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_l0b.py --analyze lab/confirm/L0b_manifest.json`; dann unabhängige Nachrechnung `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/L0b_independent_recompute.py --analyze`; Abbildung `python lab/paper/figures/fig17_l0b_set_vs_order.py` (vorab geschrieben S65); Paper nach [[paper/L0b_DEUTUNGEN]] + unabhängige Textprüfung; FINDINGS, LAB, Tageserklärung.
+1. **L0b auswerten**, wenn `lab/queue/done/44zzzzz_l0b.summary.json` da ist: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_l0b.py --analyze lab/confirm/L0b_manifest.json`; dann unabhängige Nachrechnung `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/L0b_independent_recompute.py --analyze`; Abbildung `python lab/paper/figures/fig17_l0b_set_vs_order.py` (vorab geschrieben S65); post hoc (beschreibend, Lesart vorab) `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/L0b_posthoc_r5_s65.py` (R5 unter Minibatch); Paper nach [[paper/L0b_DEUTUNGEN]] + unabhängige Textprüfung; FINDINGS, LAB, Tageserklärung.
 2. **EXP-125** auswerten (Befehl im README), Paper nach [[paper/EXP125_DEUTUNGEN]].
 3. **EXP-134** / **EXP-135** auswerten: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-134-text-pretrain-steering/analyze.py` bzw. `.../EXP-135-lm-switch-lockin/analyze.py`; Lesarten vorab in den READMEs. Paper erst nach Entscheidung (Explorationen → höchstens Anhang).
 4. EXP-128 (`lab/experiments/EXP-128-sgd-clip/analyze.py`), EXP-129 (`lab/experiments/EXP-129-lm-k1-share/analyze.py`).

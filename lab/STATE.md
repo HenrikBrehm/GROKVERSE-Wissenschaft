@@ -35,7 +35,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 ## Aktive Queue / laufende Jobs (Stand Sitzung 57, 06:08 Berlin)
 
 - **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `43_lm3b` (LM3, 20 Läufe à 15 000 Schritte, 3 Worker, ≈ 90–110 min je Lauf, Block ≈ 10–12 h). `done/43_lm3.*` ist ein leerer Fehlversuch (Datei wurde gelesen, bevor sie geschrieben war) – ignorieren. **Jobdateien immer erst außerhalb von inbox schreiben, dann verschieben.**
-- `43z_exp126_sgd` (EXP-126) **fertig: „nicht auswertbar“** (lr 0.05: 0/8 lernen; lr 0.1: 8/8 divergieren; `summary.json`). Paper-Satz nach der Vorab-Deutung („SGD with momentum did not train reliably … not evaluable“) in §7 (i)/Anhang J noch einsetzen und prüfen lassen.
+- `43z_exp126_sgd` (EXP-126) **fertig: „nicht auswertbar“** (lr 0.05: 0/8 lernen; lr 0.1: 8/8 divergieren; `summary.json`). Satz in §7 (i) eingesetzt und geprüft (Sitzung 57).
 - `44_r12` (R12, 200 freq_ban-Läufe à 8000 Schritte, 6 Worker, gpu_gb 0.75; ≈ 6–9 min je Lauf unter Last → Block grob 5–7 h, schneller sobald LM3 fertig ist). **`confirm_r12.py` und die R12-Splits nicht ändern** (Hash im Manifest).
 - **`lm_stage2.py` nicht ändern** (Hash im LM3-Manifest). `confirm_lm3.py`/`confirm_lm3f.py` nicht ändern (eingefroren).
 

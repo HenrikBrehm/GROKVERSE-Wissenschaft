@@ -1,0 +1,69 @@
+{
+ "runs": {
+  "8": [
+   {
+    "run": "lm2_seed3862_seed3802_F",
+    "n_facts": 3831,
+    "onset_step": 9500,
+    "onset_exposures": 634.8211955103106
+   },
+   {
+    "run": "lm2_seed3862_seed3802_G",
+    "n_facts": 3831,
+    "onset_step": 9250,
+    "onset_exposures": 618.1153745758288
+   },
+   {
+    "run": "lm2_seed3863_seed3803_F",
+    "n_facts": 3831,
+    "onset_step": 7000,
+    "onset_exposures": 467.76298616549207
+   },
+   {
+    "run": "lm2_seed3863_seed3803_G",
+    "n_facts": 3831,
+    "onset_step": 6750,
+    "onset_exposures": 451.0571652310102
+   }
+  ],
+  "2": [
+   {
+    "run": "lm2_seed3864_seed3804_F",
+    "n_facts": 3831,
+    "onset_step": 10250,
+    "onset_exposures": 171.23466457843904
+   },
+   {
+    "run": "lm2_seed3864_seed3804_G",
+    "n_facts": 3831,
+    "onset_step": 6250,
+    "onset_exposures": 104.41138084051161
+   },
+   {
+    "run": "lm2_seed3865_seed3805_F",
+    "n_facts": 3831,
+    "onset_step": 12250,
+    "onset_exposures": 204.64630644740276
+   },
+   {
+    "run": "lm2_seed3865_seed3805_G",
+    "n_facts": 3831,
+    "onset_step": 11000,
+    "onset_exposures": 183.76403027930044
+   }
+  ]
+ },
+ "median_step_exposures": {
+  "8": [
+   8125.0,
+   542.9391803706604
+  ],
+  "2": [
+   10625.0,
+   177.49934742886973
+  ]
+ },
+ "ratio_steps_k2_over_k8": 1.3076923076923077,
+ "ratio_exposures_k8_over_k2": 3.0588235294117654,
+ "reading": "eher Schritte"
+}

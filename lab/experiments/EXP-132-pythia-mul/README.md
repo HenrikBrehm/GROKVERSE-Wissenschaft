@@ -46,7 +46,7 @@ Dienst `44zzz_exp132_mul`, Läufe #0/#1 (Seed 1000 F/G, 19:54–20:36): Training
 
 **Beschreibend, vorläufig:** Pythia-160M memoriert die Trainingsfakten der Multiplikation mod 113 in 4000 Schritten vollständig, verallgemeinert aber kaum (Zufall ≈ 0.009) – anders als bei der Addition (EXP-127/130: Test 0.97–0.99 mit derselben Einstellung). Das passt zur Hypothese N60, dass die vortrainierten Zahlmerkmale bei der Multiplikation nicht passen; es zeigt aber nur, dass das Modell die Aufgabe in diesem Budget nicht lernt, nicht, welche Frequenzen es sonst wählen würde. Vorab vorgesehen (EXP-127-Muster): „nicht auswertbar“ → längeres Budget oder höhere lr in einem neuen Piloten. Nach der Rückschau (JOURNAL S62) wird die Pythia-Linie nach EXP-133 geschlossen; ein neuer mul-Pilot nur mit Begründung gegen die offenen Fragen in [[FINDINGS]].
 
-## Ergebnis (Sitzung 63, 30.09., 21:40 Berlin gemessen): „nicht auswertbar (lernt nicht)“
+## Ergebnis (Sitzung 63, 30.09., 21:30 Berlin gemessen): „nicht auswertbar (lernt nicht)“
 
 `analyze.py` über den Wächter, 4/4 Läufe „ok“ (`summary.json`). **Vorab-Lesart: „nicht auswertbar (lernt nicht)“** – zurückgehaltene Genauigkeit am Ende 0.067 / 0.014 (Seed 1000 F/G) und 0.042 / 0.039 (Seed 1001), Tor ≥ 0.5 in ≥ 3/4 verfehlt (0/4); Trainingsgenauigkeit ≈ 1.00 in allen vier Läufen, Zufall ≈ 0.009.
 

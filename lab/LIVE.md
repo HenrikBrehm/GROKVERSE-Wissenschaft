@@ -5,17 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 10:49 Berlin (08:49Z, vom Runner)
 - **Deadline:** 2026-09-30 13:49 Berlin (11:49Z)
-- **Zuletzt aktualisiert:** 11:49 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 12:05 Berlin (gemessen)
 
 ## Gerade
 
-- Prüfagent kontrolliert den aktualisierten One-Pager (Zahlen, Überdehnungen, Länge).
+- Dienst beobachten; auswerten lässt sich heute noch nichts (LM3 11/20 + 3 laufen, R12 ≈ 90/200).
 
 ## Als Nächstes
 
-- Prüfpunkte einarbeiten; Dienst beobachten (LM3 11/20 + 3 laufen, R12 ≈ 85/200). Danach EXP-127, EXP-125, EXP-128.
+- Weiter beobachten; Sitzungsende gegen 13:39 mit Abschlussbericht.
 
 ## Verlauf dieser Sitzung
+
+- 12:04 Literatur-Nachsuche vor dem Paper-Ziel: 3 neue Arbeiten, keine schränkt unsere Kernaussagen ein.
+- 12:02 Vergleichswert gemessen: Im kleinen Spielzeugmodell zeigt die erste Lernrichtung die Wunschfrequenzen genauso deutlich (1.28/1.45) wie das LM mit einem Fakt je Zeile.
+- 12:01 Pythia-Aufbau frisch gestartet: Wunschfrequenzen wieder an der Spitze → das Hemmnis ist eher das Vortraining (nach Vorab-Regel „unklar“).
+- 11:56 Kurzfassung oben in der heutigen Tageserklärung; One-Pager-Prüfpunkte übernommen.
 
 - 11:48 Unabhängige Prüfung aller heutigen Notizen: Zahlen richtig; 2 Fehler (Beschreibung des Clipping-Arms C_B) und mehrere zu starke Formulierungen korrigiert.
 - 11:46 Test: Ein Fakt mit Text davor zeigt die Wunschfrequenzen weiter; Text stört nicht, nur andere Fakten. Meine Erklärung von 11:35 war damit falsch.

@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-30, 03:21 Berlin (Ende Sitzung 55) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-30, 04:27 Berlin (Sitzung 56) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -28,20 +28,21 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 55 (ab 00:49):** Anhang-J-Absätze (LM1-F, EXP-119, Kommutativität) unabhängig geprüft, 5 Formulierungen korrigiert. **EXP-121 „unklar“** (Lücken 570/223; flacher Zufallssplit verlässt das Kommutativitäts-Plateau, ohne Tauschpaar 0.68/0.98) → Anhang J (geprüft). Literatur N57: **He et al. 2026 (2602.16849)** kennt das Tauschpaar-Muster in Netzen mit eingebauter Kommutativität → Zitierpflicht; gelernte Stufe im Transformer + Datenauswahl-Stufe 2 nach Suche nicht gefunden. **EXP-123** vorab festgelegt (a07bc82f; 20 R5-Einheiten × R/E2_0/D_0, H1 Kommutativität zuerst, H2 Stufe 2 verkürzt) und beim Dienst; Deutungssätze vorab in [[paper/N57_DEUTUNGEN]]. **EXP-123 fertig: H1 gestützt (Kommutativität zuerst 18/18), H2 nur Richtung (d 0.041 < 0.05); post hoc verkürzen konstruierte Splits Stufe 1 ×11 > Stufe 2 ×4.6** → Anhangsabsatz + Abb. 15 im Paper (unabhängig geprüft, 5 Punkte eingearbeitet, u. a. Bildunterschrift 0.85 → 0.92). Post hoc: t_swap folgt in E2 der frühen Zielenergie wie t_gen (ρ −0.80), trennt nichts. Rf hat zufällige Spektralspitzen (post hoc; Häufigkeiten erklären das R-Plateau nicht). §4 zitiert Wang et al. 2024 (geprüft). EXP-119 Nachtrag 2 eingereiht.
 
-## Aktive Queue / laufende Jobs (Stand Sitzung 55, 02:47 Berlin)
+- **Sitzung 56 (ab 03:30):** Anhang K neu gegliedert (Kopfzeile, fünf Absätze, LM1 vor LM1-F) und geprüft; **Haupttext-Abschlussprüfung** (10 Punkte übernommen: D59 17/20 generalisiert, Batch-16-Zuordnung, N54b im Abstract, Tabellenlegende, Λ-Definition; Abstract 1905 Zeichen). **EXP-113 fertig:** answer „K2 haelt“ (Δ_pow 7.00/4.79), all „unklar“ (auswendig, zurückgehalten 0.11–0.51), H-folgt widerlegt, Kommutativität im all-Arm „teilweise“. **EXP-116 fertig: „K2 haelt im LM“ bei ≈ 8.7 % Rechen-Tokens** (Δ_pow 2.06/4.97). → **LM3 eingefroren** (ff1288a5; 10 frische Seeds 4010–4019, K = 2, 15 000 Schritte, Tor 16/20, dazu LM3-F funktional) und beim Dienst (`43_lm3b`). Anhang K, FINDINGS, LAB, Tageserklärung aktualisiert.
 
-- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `40_exp113_stage2b` (5/8 fertig, 2 laufen, 1 offen) → `41_exp116_lowshare` (1/4 fertig, 1 läuft, 2 offen; ≈ 1.7 h je Lauf) → `42_exp119_long_r` (EXP-119 Nachtrag 2, 16 000 Schritte). **PROBLEME.md nicht selbst bearbeiten**.
-- **`lm_stage2.py` nicht ändern**, solange EXP-113/116/119-lang laufen (Hash in Run-IDs).
+## Aktive Queue / laufende Jobs (Stand Sitzung 56, 04:27 Berlin)
+
+- **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `42_exp119_long_r` (EXP-119 Nachtrag 2, 1 Lauf, 16 000 Schritte, ≈ 2 h) und `43_lm3b` (LM3, 20 Läufe à 15 000 Schritte, 3 Worker, ≈ 90–110 min je Lauf, Block ≈ 10–12 h). `done/43_lm3.*` ist ein leerer Fehlversuch (Datei wurde gelesen, bevor sie geschrieben war) – ignorieren. **Jobdateien immer erst außerhalb von inbox schreiben, dann verschieben.**
+- **`lm_stage2.py` nicht ändern** (Hash im LM3-Manifest). `confirm_lm3.py`/`confirm_lm3f.py` nicht ändern (eingefroren).
 
 ## Nächste Schritte (Regel 20)
 
-0. Dienst-Lage prüfen (status.json, Logs).
-1. **EXP-113 (7/8, letzter Lauf läuft) und EXP-116 (2/4, 2 laufen)** fast fertig → zuerst auswerten (Punkt 2).
-2. (Test 03:11: beide `analyze.py` brechen bei noch laufenden Läufen mit FileNotFoundError ab, statt „fehlt“ zu melden → erst bei 4/4 bzw. 8/8 starten; kein Fehler der fertigen Läufe.) **EXP-116** (4/4) → `EXP-116…/analyze.py`; **EXP-113** (8/8) → `analyze.py`, `analyze_folgt.py`, danach `EXP-114…/analyze.py`. Deutungssätze vorab in LM1_DEUTUNGEN.
-3. **EXP-119 Nachtrag 2** (wenn fertig): `python lab/tools/guarded_run.py -- <.venv-gpu python> lab/experiments/EXP-119-lm-speed-r5/commutativity_long_s55.py --device cuda`; dann Paper-Halbsatz „whether the random split would generalize later is not known“ ersetzen.
-4. **Offene Frage N57:** Warum steigt die Kommutativität auf konstruierten Splits ≈ 11× früher? (D verhält sich wie R.) [[experiments/EXP-124-commutativity-ban/README|EXP-124]] vorbereitet (Code, Jobs, Auswertung, blind geprüft, Lesarten über Δ korrigiert; offene Designpunkte in der README); nur rechnen, wenn Regel-20-Arbeit und GPU es zulassen. EXP-113-Deutungssätze stehen in LM1_DEUTUNGEN.
-5. **LM2** nur neu gefasst (BACKLOG „Sitzung 55“): „Beendet eine beliebige Spektralspitze das Plateau?“ – zuerst billig im Spielzeugmodell.
-6. **Paper:** Prüfliste [[paper/logic_audit_S55_appK]] abarbeiten (Anhang K: Kopfzeile, Reihenfolge LM1/LM1-F, Doppelsatz, „queued“, Abbildungsnummern, langen Absatz teilen); sonst nur Nutzerentscheidungen in [[paper/STATUS]]. Nach jeder Textänderung Zahlen- UND Logikprüfung.
+0. Dienst-Lage prüfen (status.json, Logs `lab/queue/logs/43_lm3b/`).
+1. **EXP-119 Nachtrag 2** (wenn fertig): `python lab/tools/guarded_run.py -- <.venv-gpu python> lab/experiments/EXP-119-lm-speed-r5/commutativity_long_s55.py --device cuda`; dann im Anhang K den Halbsatz „whether the random split would generalize later … is not known“ ersetzen.
+2. **LM3** (wenn 20/20 fertig): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm3.py --analyze`, danach `… .venv-gpu python lab/confirm/confirm_lm3f.py`; Deutungssätze VORHER in [[paper/LM1_DEUTUNGEN]] festhalten; unabhängige Nachrechnung (Muster `LM1_independent_recompute.py`). Ausfälle: identisch neu einreihen (Checkpoint).
+3. Prüfbericht zu den heutigen Anhang-K-/Haupttext-Sätzen (Agent, Sitzung 56) einarbeiten, falls noch offen (JOURNAL).
+4. **Offene Frage N57** (Kommutativität): [[experiments/EXP-124-commutativity-ban/README|EXP-124]] bleibt vorbereitet (Regel 20a). LM2 nicht als Spielzeugtest (JOURNAL S56 Zyklus 2).
+5. **Paper:** nur noch Nutzerentscheidungen in [[paper/STATUS]]; nach jeder Textänderung Zahlen- UND Logikprüfung.
 
 ## Prioritäten
 

@@ -41,3 +41,5 @@ Keine Blocker. Geprüft: Zuordnung der Läufe über den Split-Dateinamen, exakte
 ## Ergebnis
 
 (noch nicht gelaufen; beim GPU-Dienst als `45zzz_exp136_modulus`)
+
+Paper-Sätze je Ausgang vorab: [[paper/EXP136_DEUTUNGEN]].

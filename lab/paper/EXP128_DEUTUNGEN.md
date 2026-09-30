@@ -12,9 +12,11 @@ Zweck wie [[paper/R12_DEUTUNGEN]]: Die Deutung jedes Ausgangs steht fest, bevor 
 
 **Ort:** §7 (i), Satz „An exploratory attempt to test the steering without Adam … all results are AdamW results.“ Der EXP-126-Satz bleibt; der passende Satz unten wird direkt danach angefügt. Zahlen einsetzen: auswertbare Seeds, Δ_pow bei 20 000 (Spanne), Anteil gekappter Schritte.
 
-## Arm C_B (0.1, kappt nur Spitzen; fast gewöhnliches SGD mit Momentum) – maßgeblich
+## Arm C_B (0.1; kappt die Anfangsschritte und im Smoke 62 % aller Schritte) – maßgeblich
 
-- **„K2 ohne Adam“:** *With gradient-norm clipping at 0.1 (a value three times the largest sampled pre-divergence norm, so most steps are ordinary momentum SGD; … % of steps clipped), SGD with momentum trained on … of 4 seeds and the engineered splits steered the learned frequencies (Δ_pow … to … at 20 000 steps, all > 1; exploration on seen seeds, EXP-128). The steering is therefore not specific to Adam's per-coordinate normalization in this setting; a confirmation on fresh seeds has not been run.* → danach Bestätigungsblock registrieren (frische Seeds, ≥ 10, Leistung aus der Pilotstreuung).
+*Korrigiert nach unabhängiger Prüfung (Sitzung 59, vor jedem Pilotlauf): C_B liegt unter der Anfangsnorm 0.108 und kappte im Smoke 1541/2500 Schritte; „kappt nur Spitzen / most steps are ordinary momentum SGD“ war falsch und ist gestrichen.*
+
+- **„K2 ohne Adam“:** *With global gradient-norm clipping at 0.1 (… % of steps clipped), SGD with momentum trained on … of 4 seeds and the engineered splits steered the learned frequencies (Δ_pow … to … at 20 000 steps, all > 1; exploration on seen seeds, EXP-128). This suggests that the steering is not specific to Adam's per-coordinate normalization in this setting; a confirmation on fresh seeds has not been run.* → danach Bestätigungsblock registrieren (frische Seeds, ≥ 10, Leistung aus der Pilotstreuung).
 - **„bricht“:** *With gradient-norm clipping at 0.1, SGD with momentum fitted the training set on … of 4 seeds but the engineered splits did not steer the learned frequencies (|Δ_pow| ≤ 1 in all; exploration, EXP-128). In this setting the steering may depend on Adam's per-coordinate normalization; we therefore restrict all claims to AdamW.* → Befund für N49 („Koordinatenbasis von Adam“); Paper sagt das so, ohne Mechanismus.
 - **„unklar“:** *With clipping at 0.1, SGD with momentum gave mixed results (Δ_pow … to …, … evaluable seeds; exploration, EXP-128); we draw no conclusion about optimizers other than AdamW.*
 - **„nicht auswertbar“:** *Stabilising SGD with gradient-norm clipping (0.1 and 0.017) did not make it evaluable either (… of 4 seeds fitted the training set within 20 000 steps; EXP-128).* – zusammen mit dem Satz zu C_A, wenn auch dieser „nicht auswertbar“ ist.
@@ -22,7 +24,7 @@ Zweck wie [[paper/R12_DEUTUNGEN]]: Die Deutung jedes Ausgangs steht fest, bevor 
 ## Arm C_A (0.017, kappt fast jeden Schritt; praktisch normiertes SGD mit Momentum) – nachrangig
 
 - **„K2 ohne Adam“:** nur als Halbsatz: *…; with clipping at 0.017, where almost every step is clipped (normalised momentum SGD), the splits steered as well (Δ_pow … to …).* Nicht als „ohne Adam“ verallgemeinern, falls C_B nicht ebenfalls so ausgeht (normiertes SGD ist nicht Standard-SGD).
-- **„bricht“:** *With clipping at 0.017 (normalised momentum SGD) the splits did not steer (|Δ_pow| ≤ 1).* Steht C_B auf „K2 ohne Adam“, heißt der Kontrast: die Steuerung hängt an der Schrittlänge bzw. am Regime, nicht an Adam – so beschreibend berichten, keine Ursache behaupten.
+- **„bricht“:** *With clipping at 0.017 (normalised momentum SGD) the splits did not steer (|Δ_pow| ≤ 1).* Steht C_B auf „K2 ohne Adam“, heißt der Kontrast: die Steuerung fällt mit Schrittlänge bzw. Regime zusammen, nicht mit Adam – so beschreibend berichten, keine Ursache behaupten.
 - **„unklar“ / „nicht auswertbar“:** kein eigener Satz (höchstens „… and at 0.017 it did not fit the training set within 20 000 steps“ im Satz zu C_B).
 
 ## Was in keinem Fall geschrieben wird

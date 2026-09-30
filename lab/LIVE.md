@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 08:29 Berlin (06:29Z, vom Runner)
 - **Deadline:** 2026-09-30 11:29 Berlin (09:29Z)
-- **Zuletzt aktualisiert:** 09:52 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 10:04 Berlin (gemessen)
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
@@ -25,6 +25,8 @@ tags: [lab/live]
 Neustart (P-017-Fix) erledigt, läuft wieder. LM3 8/20 fertig, 3 laufen; R12 26/200, 4 laufen; EXP-125 und EXP-127 warten auf Speicher.
 
 ## Verlauf dieser Sitzung (Uhrzeiten = Commit-/Wächterzeiten)
+
+- 10:02 Erster Seed des Gradiententests: Am vortrainierten Modell zeigt der erste Lernschritt die vorgegebenen Frequenzen *nicht* (Δ ≈ 0); die Zahlen-Vorprägung dominiert. Zweiter Seed läuft.
 
 - 09:29 EXP-128-Patch protokolliert jetzt auch die Gradientennorm (Clipping-Wert später gemessen statt geraten).
 - 09:25 Pythia-160M kann ohne Nachtraining nicht addieren (0.7 %).

@@ -34,6 +34,13 @@ Zurück: [[LAB]] · [[FINDINGS]] · [[JOURNAL]] Sitzung 58 · Vorläufer [[exper
 - „bricht“: Befund „im vortrainierten Modell nicht über die Eingabeeinbettung“ → Zwischenschichten messen, bevor etwas behauptet wird.
 - „nicht auswertbar“: längeres Budget oder höhere lr in einem neuen Piloten.
 
+
+## Skizze Bestätigungsblock (Sitzung 58, vor jedem Pilotergebnis; wird erst nach dem Piloten festgelegt)
+
+- Nur wenn der Pilot „K2 hält“ ergibt. Frische Splits (EXP-102-Konstruktion, neue Seeds, nie trainiert), dieselbe Testmenge je Seed für F/G; Einbettungen **ohne** Weight Decay (oder wd 0.01) vorab festlegen, damit die Rest-Messgröße nicht gebraucht wird (Rest-Messgröße trotzdem berichten); `ft_pythia.py` am Einfrier-Commit hash-binden; primär Δ_pow der Eingabe-Änderung > 1 (Mindesteffekt wie P1/LM1), sekundär/zweite Hypothese C_in > 0.1 (funktional, wie LM1-F), Holm über 2.
+- **Stichprobengröße (Simulation, normales Modell, Regel wie LM1: Bootstrap-KI-Untergrenze > 1 und Vorzeichen-Permutation p < 0.05):** bei LM1-Streuung (SD 0.75) und wahrem Mittel 2 reichen 6 Seeds (Power ≈ 0.81), 10 Seeds ≈ 0.99; bei SD 2 und Mittel 3: 10 Seeds ≈ 0.88, bei Mittel 2 nur ≈ 0.43. Zwei Pilot-Seeds schätzen die Streuung nicht (Gedächtnisregel: kleine Piloten schmeicheln) → **mindestens 10 Seeds, 16 wenn das Pilotmittel < 3 liegt oder die zwei Seeds um mehr als 2 auseinanderliegen**.
+- Optional als zweiter Arm („Konflikt“, N58): Ziele nur aus Frequenzen außerhalb der vortrainierten Spitzen {1–5, 11, 23, 45} gegen Ziele, die zwei dieser Spitzen enthalten – nur wenn der Hauptblock nicht darunter leidet.
+
 ## Ergebnis
 
 (offen)

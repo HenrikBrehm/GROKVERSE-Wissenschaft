@@ -1,8 +1,8 @@
 ---
 id: EXP-125
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-30
-tags: [exp/vorbereitet, lm-leiter]
+tags: [exp/abgeschlossen, befund/positiv, lm-leiter]
 ---
 # EXP-125: Sprachmodell-Leiter – hält die Steuerung in einem ≈ 2× größeren Modell?
 
@@ -28,6 +28,10 @@ python lab/experiments/EXP-125-lm-size/make_jobs.py > lab/queue/staging/45_exp12
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-125-lm-size/analyze.py
 ```
 
-## Ergebnis
+## Ergebnis (Sitzung 65, 01.10.2026, 01:40 Berlin gemessen; `analyze.py`, Lesart vorab)
 
-(noch nicht gelaufen)
+**Lesart: „K2 haelt im LM“** (Exploration, 2 Seeds; keine Bestätigung). Alle 4 Läufe vollständig (Dienst `45_exp125_lm_size`, 4/4, keine Fehler), je 29 545 472 Parameter (d 512, 8 Schichten, 8 Köpfe), Rechen-Token-Anteil 0.79, keine Textwiederholung.
+- Δ_pow am Ende (Schritt 6000): Seed 3868 **3.79**, Seed 3869 **5.42** (beide > 1; LM1 bei ≈ 13.8 M: 5.32 [4.86, 5.73], andere Seeds – kein Größenvergleich).
+- Zurückgehaltene Fakten am Ende: 0.961 / 0.928 (3868 F/G), 0.995 / 0.901 (3869 F/G); Trainingsfakten 0.995–0.999. Erster Schritt mit zurückgehaltener Genauigkeit ≥ 0.5: 2500 / 2750 / 2250 / 2500.
+- Verlauf (beschreibend): Δ_pow bleibt bis Schritt 1750 bei |Δ_pow| ≤ 0.14 und springt mit dem Faktenlernen (Seed 3868: 0.25 bei 2000 → 3.81 bei 2750, danach flach 3.77–3.82; Seed 3869: 1.18 bei 2000 → 4.32 bei 2500, danach langsam steigend bis 5.42). Wie bei LM1 entsteht die Steuerung mit dem Lernen, nicht davor.
+- Nicht gesagt: keine Skalierungsaussage (zwei Größen, zwei Seeds); der Betrag ist nicht mit LM1 vergleichbar (andere Seeds). Paper nach [[paper/EXP125_DEUTUNGEN]] (Anhang K, Grenze ii).

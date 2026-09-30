@@ -1,5 +1,5 @@
 diff --git a/lab/experiments/EXP-001-freq-ban/freq_ban.py b/lab/experiments/EXP-001-freq-ban/freq_ban.py
-index 6edb3031..d6acb5f1 100644
+index 6edb3031..642fcb91 100644
 --- a/lab/experiments/EXP-001-freq-ban/freq_ban.py
 +++ b/lab/experiments/EXP-001-freq-ban/freq_ban.py
 @@ -89,7 +89,8 @@ LATE_ARGS = {"lr_scale_after_switch": 1.0, "reset_optim_at_switch": False, "rese
@@ -37,18 +37,20 @@ index 6edb3031..d6acb5f1 100644
      if (a.rewind_at_switch is None) != (a.rewind_from is None):
          raise SystemExit("--rewind-at-switch and --rewind-from go together")
      if a.rewind_at_switch:           # EXP-073 (session 24): one part back to its own state (weights + AdamW state) at step R
-@@ -764,6 +770,10 @@ def run(a: argparse.Namespace) -> dict:
+@@ -764,6 +770,12 @@ def run(a: argparse.Namespace) -> dict:
          log_un = bool(a.log_update_norms and a.switch_step - 4 <= step <= a.switch_step + a.log_update_norms)
          if log_un:                       # EXP-058: size of the actual parameter update around the switch
              before = [q.detach().clone() for q in model.parameters()]
 +        if optim_name == "sgdm" and sgd_clip is not None:   # EXP-128 (s58): global gradient-norm clipping, after the projection
-+            events.setdefault("sgd_clip", {"max_norm": float(sgd_clip), "clipped_steps": 0})
-+            if float(torch.nn.utils.clip_grad_norm_(model.parameters(), float(sgd_clip))) > float(sgd_clip):
-+                events["sgd_clip"]["clipped_steps"] += 1
++            ev_c = events.setdefault("sgd_clip", {"max_norm": float(sgd_clip), "clipped_steps": 0, "norms": []})
++            gn = float(torch.nn.utils.clip_grad_norm_(model.parameters(), float(sgd_clip)))   # norm before clipping
++            ev_c["clipped_steps"] += int(gn > float(sgd_clip))
++            if step <= 200 or step % 250 == 0 or not np.isfinite(gn):   # for calibrating the clip value (pre-clip norms)
++                ev_c["norms"].append([step, gn])
          if optim_name == "sgdm":
              with torch.no_grad():        # L0: decoupled decay with AdamW's per-step shrink lr * wd, before the SGD step
                  for q in model.parameters():
-@@ -1019,6 +1029,8 @@ def main() -> None:
+@@ -1019,6 +1031,8 @@ def main() -> None:
      ap.add_argument("--optimizer", choices=("adamw", "sgdm"), default="adamw", help="L0: sgdm = SGD with momentum (decoupled matched decay)")
      ap.add_argument("--sgd-lr", type=float, default=None, help="L0: learning rate of --optimizer sgdm")
      ap.add_argument("--sgd-momentum", type=float, default=0.9, help="L0: momentum of --optimizer sgdm")
@@ -58,10 +60,10 @@ index 6edb3031..d6acb5f1 100644
                      help="EXP-039: lr * c on the first train set for steps <= 250, full lr afterwards (1.0 = off)")
      ap.add_argument("--lr-scale-after-switch", type=float, default=1.0,
 diff --git a/lab/tests/test_freq_ban_fingerprint.py b/lab/tests/test_freq_ban_fingerprint.py
-index ee08f777..2abc8872 100644
+index ee08f777..3c4b106b 100644
 --- a/lab/tests/test_freq_ban_fingerprint.py
 +++ b/lab/tests/test_freq_ban_fingerprint.py
-@@ -362,6 +362,43 @@ def test_minibatch_order(tmp: Path) -> None:
+@@ -362,6 +362,45 @@ def test_minibatch_order(tmp: Path) -> None:
          assert r.returncode != 0, bad
  
  
@@ -83,7 +85,9 @@ index ee08f777..2abc8872 100644
 +    hits = [h for h in out.glob("*sgdm0.1_0.0_clip1e-06") if h.is_dir()]
 +    assert len(hits) == 1, list(out.iterdir())
 +    res = json.loads((hits[0] / "result.json").read_text(encoding="utf-8"))
-+    assert res["events"]["sgd_clip"] == {"max_norm": 1e-06, "clipped_steps": 2}, res["events"].get("sgd_clip")
++    ec = res["events"]["sgd_clip"]
++    assert ec["max_norm"] == 1e-06 and ec["clipped_steps"] == 2 and [s for s, _ in ec["norms"]] == [1, 2], ec
++    assert all(g > 1e-06 for _, g in ec["norms"]), ec
 +    snaps = np.load(hits[0] / "we_snapshots.npy").astype(np.float64)
 +    steps = list(np.load(hits[0] / "we_snapshot_steps.npy"))
 +    D = snaps[steps.index(1)] - (1 - 1e-3) * snaps[steps.index(0)]
@@ -105,7 +109,7 @@ index ee08f777..2abc8872 100644
  def main() -> int:
      with tempfile.TemporaryDirectory() as t:
          tmp = Path(t)
-@@ -373,7 +410,8 @@ def main() -> int:
+@@ -373,7 +412,8 @@ def main() -> int:
                           ("hp_overrides", lambda: test_hp_overrides(tmp)),
                           ("pre_switch_betas", lambda: test_pre_switch_betas(tmp)),
                           ("pre_switch_grad_every", lambda: test_pre_switch_grad_every(tmp)),

@@ -1,6 +1,6 @@
 ---
 id: L0b
-status: entwurf
+status: eingefroren
 datum: 2026-09-30
 tags: [lab/confirm, exp/vorbereitet]
 ---
@@ -8,7 +8,7 @@ tags: [lab/confirm, exp/vorbereitet]
 
 Zurück: [[LAB]] · [[FINDINGS]] · Pilot [[experiments/EXP-106-l0-b16-long-epochs/README|EXP-106]] · Vorgänger [[confirm/L0_REGISTRATION_DRAFT|L0]] (K2 unter i.i.d.-Minibatch B 256/64, bestätigt; dort „kein H3“, Konflikt als eigene Registrierung L0b vorgesehen) · [[NOVEL_DIRECTIONS]] N52 · LeDoux 2026 (arXiv 2603.25047)
 
-**Stand:** Entwurf, Sitzung 63 (2026-09-30, 21:29 Berlin gemessen). Nicht eingefroren. Code `lab/tools/confirm_l0b.py` (Selbsttest grün), Stichprobengröße `lab/confirm/L0b_power_s63.py` → `L0b_power_s63.json`. **Überarbeitet nach der unabhängigen Prüfung (ab 21:41, vor dem Einfrieren):** δ 0.05 → 0.02, H3 als Nicht-Unterlegenheit statt „> 1“, n 64 → 70, o bei Schritt 10 000 beschreibend, Zensur-Richtungen und Deckeneffekt beschreibend, Zufallsströme genauer beschrieben (JOURNAL S63).
+**Stand:** eingefroren (Commit im Manifest `lab/confirm/L0b_manifest.json`), Entwurf ab Sitzung 63 (2026-09-30, 21:29 Berlin gemessen). Nicht eingefroren. Code `lab/tools/confirm_l0b.py` (Selbsttest grün), Stichprobengröße `lab/confirm/L0b_power_s63.py` → `L0b_power_s63.json`. **Überarbeitet nach der unabhängigen Prüfung (ab 21:41, vor dem Einfrieren):** δ 0.05 → 0.02, H3 als Nicht-Unterlegenheit statt „> 1“, n 64 → 70, o bei Schritt 10 000 beschreibend, Zensur-Richtungen und Deckeneffekt beschreibend, Zufallsströme genauer beschrieben (JOURNAL S63).
 
 ## Bezug zu FINDINGS
 
@@ -39,7 +39,7 @@ Bestätigt = Holm-p < 0.05 **und** Bootstrap-Regel (95-%-Perzentil-KI über Seed
 
 **Begründung der Grenzen (vor dem Einfrieren):** δ = 0.02 ist ein Achtel der Pilotwirkung auf R (0.155) und ≈ 1.5 Pilot-SD auf F/G (0.013); der Grundwert von o auf F/G liegt bei ≈ 0.013, δ erlaubt also höchstens etwa eine Verdopplung bis Verdreifachung des O-Anteils (die erste Fassung mit δ = 0.05 hätte ein Fünffaches zugelassen; Einwand der Prüfung). Die H3-Grenze 2 ist ≈ 20 % der Pilotsteuerung Δ_pow(iid) = 9.2; der Pilotunterschied war −0.6 [−1.41, 0.12]. **Deutung je Ausgang (vorab):** H1 + H2 bestätigt → „Die Reihenfolge verschiebt die Frequenzen auf Zufallssplits, auf konstruierten Splits nicht über ±0.02 hinaus; dort gewinnt die Menge den Konflikt (Endstand)“ (passt zu LeDoux §6.4). H1 nicht, H2 bestätigt → „Menge gewinnt; eine Reihenfolge-Wirkung auf Zufallssplits nicht bestätigt“. H2 nicht bestätigt → keine Aussage „Menge gewinnt“ (Richtung des F/G-Unterschieds wird berichtet). H3 und H4 werden unabhängig davon berichtet (Steuerung unter der Reihenfolge nicht wesentlich schwächer; Zeitkosten). Zensur in H4: ein nur im stride-Arm zensierter Lauf drückt x nach unten (konservativ), ein nur im iid-Arm zensierter nach oben; beide Zahlen werden berichtet.
 
-**Stichprobengröße:** `L0b_power_s63.py` (Normalmodell mit halbem Piloteffekt, 1.5-facher Pilot-SD, jeder Test bei α/4, 4000 Wiederholungen): n80 = 63 (H1), 17 (H2, TOST mit δ 0.02 und dem Pilotmittel 0.004), 18 (H3, Nicht-Unterlegenheit mit dem Pilotunterschied −0.6), 33 (H4) → Regel ergibt 64; **n = 70** (alle freien Seeds, weil H1 knapp ist und die Pilotwerte auf R zweigipflig sind: Seeds mit hohem o(R, iid) zeigen ≈ 0, Spearman −0.62 im Piloten; erste Fassung: n80 63/10/10/33).
+**Stichprobengröße:** `L0b_power_s63.py` (Normalmodell mit halbem Piloteffekt für H1/H4, ungehalbtem Pilotmittel für H2/H3, weil Halbieren dort begünstigen würde; 1.5-facher Pilot-SD, jeder Test bei α/4, 4000 Wiederholungen): n80 = 63 (H1), 17 (H2, TOST mit δ 0.02 und dem Pilotmittel 0.004), 18 (H3, Nicht-Unterlegenheit mit dem Pilotunterschied −0.6), 33 (H4) → Regel ergibt 64; **n = 70** (alle freien Seeds, weil H1 knapp ist und die Pilotwerte auf R zweigipflig sind: Seeds mit hohem o(R, iid) zeigen ≈ 0, Spearman −0.62 im Piloten; erste Fassung: n80 63/10/10/33).
 
 **Gültigkeit:** Jeder technische Fehler (fehlt, defekt, nicht gebunden, falsche Batch/Reihenfolge/Optimierer, fehlendes Minibatch-Ereignis, nicht endliche Potenz, Δ_pow nicht endlich) → ganzer Block „nicht auswertbar“ (wie L0). Reine Infrastrukturfehler (Absturz, HIP-Startfehler, Dienst-Abbruch) dürfen vor `--analyze` mit identischer Jobzeile wiederholt werden. Ein Lauf, der nie generalisiert, ist kein technischer Fehler (zensiert in H4; zählt in H1–H3 mit seinem Endspektrum).
 

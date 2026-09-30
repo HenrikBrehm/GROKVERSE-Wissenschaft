@@ -1,6 +1,6 @@
 """L0b confirmation (rule 20b, LeDoux 2026 conflict): set composition against a fixed data order in the LONG-EPOCH regime.
 Registration lab/confirm/L0b_REGISTRATION.md (session 63, 2026-09-30). Pilot: EXP-106 (seeds 3700-3707, SEEN; sample size from its
-spread: lab/confirm/L0b_power_s63.py -> 64). Trainer freq_ban.py unchanged (options --batch-size/--order/--weight-decay exist).
+spread: lab/confirm/L0b_power_s63.py -> rule 64; all free seeds used: 70). Trainer freq_ban.py unchanged (options --batch-size/--order/--weight-decay exist).
 
 Protocol: add 113; per seed the EXP-100 construction with its OWN streams SeedSequence([100300, seed, purpose]): engineered pair
 F/G as EXP-053/P1 (omega = 0, calibrated eps) with target sets drawn WITHOUT the stride-order frequencies O (purpose 0), and a

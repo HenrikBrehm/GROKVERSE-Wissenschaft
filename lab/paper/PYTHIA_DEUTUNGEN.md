@@ -33,3 +33,7 @@ Zurück zu [[paper/STATUS]] · [[LAB]] · [[experiments/EXP-127-pretrained-lm/RE
 **Beim Einsetzen:** Literatureintrag Biderman et al. 2023 (Pythia) fehlt in [[paper/references]] → ergänzen und Titel/Autoren/ID am arXiv-Abstract prüfen (nicht aus dem Gedächtnis).
 
 **Literatureintrag, geprüft (Sitzung 62, arXiv-Abstract 2304.01373 abgerufen):** `- Biderman, Schoelkopf, Anthony, Bradley, O'Brien, Hallahan, Khan, Purohit, Prashanth, Raff, Skowron, Sutawika, van der Wal (2023). *Pythia: A Suite for Analyzing Large Language Models Across Training and Scaling*. arXiv:2304.01373. https://arxiv.org/abs/2304.01373. [A]` – die arXiv-Seite nennt keine Venue (Kommentarfeld nur Code-Link); keine Venue aus dem Gedächtnis ergänzen. Erst mit dem Absatz in [[paper/references]] eintragen (sonst unzitierter Eintrag).
+
+## EXP-132 (Multiplikation mod 113), nachgetragen Sitzung 63 (30.09., 21:33 Berlin gemessen) – Ausgang steht fest: „nicht auswertbar (lernt nicht)“
+
+Halbsatz für den Pythia-Absatz in Anhang K (nach dem EXP-133-Satz): *On multiplication mod 113 (P1 splits, two seeds), the fine-tuned model only memorized the training facts (held-out accuracy 0.01–0.07 in all four runs after 4000 steps), so steering could not be assessed there.* Keine Zahl zur Steuerung (Tor verfehlt; die beschreibenden Δ_pow +0.84/+0.66 gehören nicht ins Paper).

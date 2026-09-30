@@ -5,11 +5,11 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 10:49 Berlin (08:49Z, vom Runner)
 - **Deadline:** 2026-09-30 13:49 Berlin (11:49Z)
-- **Zuletzt aktualisiert:** 12:05 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 12:27 Berlin (gemessen)
 
 ## Gerade
 
-- Dienst beobachten; auswerten lässt sich heute noch nichts (LM3 11/20 + 3 laufen, R12 ≈ 90/200).
+- Dienst beobachten: LM3 14/20 fertig + 3 laufen (Ende grob 15:30–16:00), R12 102/200, 0 Fehlschläge. Auswerten lässt sich in dieser Sitzung noch nichts.
 
 ## Als Nächstes
 

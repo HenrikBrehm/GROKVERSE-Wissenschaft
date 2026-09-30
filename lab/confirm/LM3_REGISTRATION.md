@@ -27,3 +27,13 @@ Zurück: [[LAB]] · [[FINDINGS]] (Programm A, Verallgemeinerung von K2; Regel 20
 **Bereits gesehene Daten und davon beeinflusste Entscheidungen.** EXP-116 (K = 2, Seeds 3864/3865, 16 000 Schritte; Lernbeginn, Endgenauigkeiten) → Wahl von K = 2, Budget 15 000, Tor. EXP-105-Pilot (K = 2, Verlust überall), EXP-113 (K = 8), LM1/LM1-F, EXP-114. Keiner der Seeds 4010–4019 wurde je trainiert.
 
 **Smoke (Sitzung 56, 03:47 Berlin gemessen, in der Sitzung über den Wächter, 159 s):** Seed 4010 F, 250 Schritte, `lm3_smoke/lm2_seed4110_seed4010_F_steps250_728dae53c7605c25`, completed; Rechen-Token-Anteil 0.0868, text_wraps 0. Lader liest Snapshots [0, 250], Ziele F = {16, 30, 39, 40, 43}; die Bindungsprüfung (Manifest im Speicher) meldet nur „config steps“ (erwartet). Permutationstest-Probe: zehnmal 5.0 → p = 1/1024; Werte 0.8/1.2 → p = 0.62. `confirm_lm3f.py --selftest` grün. Die Seeds 4010–4019/4110–4119 kommen in lab/ nur als Zahlenwerte in fremden result.json/Tokenizer-Dateien vor, nie als Seed (grep 30.09.). Der Smoke-Lauf zählt nicht.
+
+## Ergebnis (Sitzung 60, 30.09., 15:45 Berlin gemessen; eingefrorene Auswertung am Code des Einfrier-Commits ff1288a5, Hashes geprüft)
+
+Befehl: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm3.py --analyze` → `LM3_summary.json`. 20/20 Läufe fertig (Dienst `43_lm3b`, 0 Fehlschläge), 10 gültige Seeds, kein Defekt.
+
+- **H1: „bestätigt“.** Δ_pow bei 15 000 im Mittel **5.99 [4.64, 6.99]** (95 %-Bootstrap), exakter Vorzeichen-Permutationstest gegen den Mindesteffekt 1: **p = 2/1024 ≈ 0.002**; 10/10 Seeds > 0, 9/10 > 1 (Ausnahme Seed 4013: 0.79).
+- **Tor:** zurückgehaltene Faktengenauigkeit ≥ 0.5 in **20/20** Läufen (0.571–0.973; nötig 16).
+- **Beschreibend:** In allen 10 Seeds liegt `s_steer` vor `s_learn` (4 250–8 000 gegen 5 000–9 750; Definitionen oben).
+- **Unabhängige Nachrechnung** (`LM3_independent_recompute.py`, 15:46): identisch (Mittel 5.98696…, KI, p, Tor 20/20, „bestätigt“).
+- **LM3-F** (funktional) beim Dienst als `43y_lm3f_post` eingereiht (CPU, mit unabhängiger Nachrechnung).

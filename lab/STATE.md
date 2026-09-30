@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-30, 13:53 Berlin (Sitzung 60) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-30, 15:50 Berlin (Sitzung 60) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -11,7 +11,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 ## Lage
 
-- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion (Nanda 20/20, nachgerechnet), K4–K4e, R2–R10, K5, **R11** (Festlegung auch add 97 / mul 113), **L0** (K2 unter i.i.d.-Minibatch B 256/64, 10 frische Seeds, eingefroren 26419818, nachgerechnet).
+- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion (Nanda 20/20, nachgerechnet), K4–K4e, R2–R10, K5, **R11** (Festlegung auch add 97 / mul 113), **L0** (K2 unter i.i.d.-Minibatch B 256/64, 10 frische Seeds, eingefroren 26419818, nachgerechnet), LM1/LM1-F, **LM3** (S60: Δ_pow 5.99 [4.64, 6.99] bei ≈ 8.7 % Rechen-Tokens, p = 2/1024, Tor 20/20, nachgerechnet).
 - **Explorationen Sitzung 46:** EXP-100-Pilot (Reihenfolge wirkt bei B 256/64 nicht; SGD nicht kalibrierbar; B 16 lernt bei wd 1 nicht), Wechselläufe (unter B 256 keine Festlegung bis 50 Schritte), **EXP-106** (B 16, wd 0.1: Menge steuert; Reihenfolge verschiebt nur auf Zufallssplits, kostet auf konstruierten ×1.6 Zeit; nachgerechnet), **EXP-107** (unter B 256 Fenster bei 100–200 Schritten, t½ ≈ 133 = 8.9 Epochen; nachgerechnet), **EXP-108** (Batch-Reihe: Festlegung skaliert ≈ √(N/B), α = 0.54 [0.52, 0.56]; nachgerechnet; ohne Full-Batch-Punkt α = 0.556 [0.513, 0.595]), EXP-103 (lr·wd-Uhr ab ≈ 250 Schritten, früh zählt lr), EXP-101 (RFM ohne K2-Lesart).
 - **Paper:** Langfassung §3.16 (R10), §3.17 (R11); Kurzfassung §5 (R11), §6 mit L0-Pilot, Bestätigung, EXP-106/107, Grenzen angepasst. Abb. 4 aus echten Daten (Titel noch deutsch). §6 und Abstract nach unabhängiger Textprüfung korrigiert (19 Punkte, Sitzung 46); Abstract 1875 Zeichen.
 
@@ -40,7 +40,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `43_lm3b` (LM3, 20 Läufe à 15 000 Schritte, 3 Worker, ≈ 90–110 min je Lauf, Block ≈ 10–12 h). `done/43_lm3.*` ist ein leerer Fehlversuch (Datei wurde gelesen, bevor sie geschrieben war) – ignorieren. **Jobdateien immer erst außerhalb von inbox schreiben, dann verschieben.**
 - `43z_exp126_sgd` (EXP-126) **fertig: „nicht auswertbar“** (lr 0.05: 0/8 lernen; lr 0.1: 8/8 divergieren; `summary.json`). Satz in §7 (i) eingesetzt und geprüft (Sitzung 57).
-- **Dienst (Stand 13:47, Sitzung 60):** LM3 14/20 + 3 laufen (≈ 12 500/15 000; letzte 3 danach, grob bis 16:00), R12 139/200 + 4, 0 Fehlschläge. Reihenfolge: 43_lm3b → 44_r12 → 44z_exp127_pythia → 45_exp125 → 46_exp128_sgdclip → **47_exp129_k1**. `44z_exp127_pythia` (4 Läufe, gpu_gb 5), `46_exp128_sgdclip` (16 Läufe, gpu_gb 0.75); `ft_pythia.py` bis zur Auswertung nicht ändern (Skript-Hash in der Run-ID).
+- **Dienst (Stand 15:47, Sitzung 60):** LM3 fertig (20/20) und ausgewertet; **`43y_lm3f_post`** (LM3-F + unabhängige Nachrechnung, CPU 4 Threads, je ≈ 2 h) neu; R12 ≈ 190/200. Reihenfolge: 43y_lm3f_post → 44_r12 → 44z_exp127_pythia → 45_exp125 → 46_exp128_sgdclip → 47_exp129_k1. `ft_pythia.py` bis zur Auswertung nicht ändern (Skript-Hash in der Run-ID).
 - `44_r12` (R12, 200 freq_ban-Läufe à 8000 Schritte, 6 Worker, gpu_gb 0.75; ≈ 6–9 min je Lauf unter Last → Block grob 5–7 h, schneller sobald LM3 fertig ist). **`confirm_r12.py` und die R12-Splits nicht ändern** (Hash im Manifest).
 - **`lm_stage2.py` nicht ändern** (Hash im LM3-Manifest). `confirm_lm3.py`/`confirm_lm3f.py` nicht ändern (eingefroren).
 
@@ -50,7 +50,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 0. Dienst-Lage prüfen (status.json, Logs `lab/queue/logs/43_lm3b/`).
 1. **LM3-F nach `confirm_lm3.py --analyze`:** `lab/confirm/LM3F_post_STAGED.jobs` nach `lab/queue/inbox/43y_lm3f_post.jobs` kopieren (erst außerhalb von inbox als .tmp, dann `mv`). **EXP-129** (Sitzung 60, K = 1 ≈ 4.5 % Rechen-Tokens, Pilot) beim Dienst als `47_exp129_k1`; auswerten mit `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-129-lm-k1-share/analyze.py` (Lesarten im README; Vorwissen „eher Schritte“).
-2. **LM3** (wenn 20/20 fertig): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/confirm_lm3.py --analyze`, danach `… .venv-gpu python lab/confirm/confirm_lm3f.py`; Deutungssätze VORHER in [[paper/LM1_DEUTUNGEN]] festhalten; unabhängige Nachrechnung (Muster `LM1_independent_recompute.py`). Ausfälle: identisch neu einreihen (Checkpoint).
+2. **LM3 bestätigt (S60).** Offen: Paper – Satz „LM3 bestätigt“ aus [[paper/LM1_DEUTUNGEN]] (Nachtrag S56) in Anhang K (ersetzt „(a confirmation on 10 fresh seeds, LM3, has been registered)“) und Halbsatz in §7 (ii), dann unabhängige Textprüfung; LM3-F auswerten, wenn `done/43y_lm3f_post.summary.json` da ist (Ergebnisse in `LM3F_summary.json` bzw. `LM3F_independent_summary.json`), Deutung nach dem Vorab-Satz.
 2b. **R12** (wenn 200/200 fertig, Dienst-Summary `done/44_r12.summary.json`): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r12.py --analyze lab/confirm/R12_manifest.json`; Deutungssätze vorher in [[paper/R12_DEUTUNGEN]]; unabhängige Nachrechnung; dann Paper §7 (ii) und Anhang. Ausfälle identisch neu einreihen (der Wrapper überspringt Gebundenes).
 2c. **EXP-128 auswerten** (wenn `done/46_exp128_sgdclip.summary.json` da ist): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-128-sgd-clip/analyze.py`; Lesarten im README (Abschnitt „Pilot (Sitzung 59)“). Den Patch nach R12 trotzdem in `freq_ban.py` übernehmen (Tests), damit künftige Versuche ohne Kopie laufen. *Alt:* **SGD stabilisieren (nach R12, Trainer-Hash frei):** Patch EXP-128 anwenden (`git apply lab/experiments/EXP-128-sgd-clip/trainer_sgdclip.patch`, Tests im Fenster), Clipping-Wert vorab festlegen, dann Pilot mit Vorab-Lesart; Anlass EXP-126 (beschreibend lernt SGD, wenn es trainiert, die Ziele der Datenauswahl: 0.92 / 0.968 in 2 Einzelläufen).
 3. **EXP-127** (wenn `done/44z_exp127_pythia.summary.json` da ist): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-127-pretrained-lm/analyze.py`; Lesart laut README; bei „K2 hält“ Bestätigungsblock nach der Skizze im README (≥ 10 frische Seeds, Einbettungen ohne wd).

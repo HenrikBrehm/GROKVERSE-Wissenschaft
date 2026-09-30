@@ -72,3 +72,10 @@ Deutung (Exploration, 2 Läufe): Mit dem Zufallssplit hat das LM bis Schritt 600
 - **Aufbau:** Derselbe Lauf wie Seed 3866 / seed3806_R, aber `--steps 16000` (Lernrate nach dem Aufwärmen konstant, daher sind die ersten 6000 Schritte bis auf GPU-Nichtdeterminismus derselbe Lauf). Ein Lauf, Exploration. GPU-Dienst `42_exp119_long_r.jobs` (hinter EXP-116; Dauer ≈ 1.5–2 h).
 - **Lesart (vorab):** „spätes Grokking“, wenn zurückgehaltene Fakten bis 16 000 die 0.5 erreichen; „Plateau hält“, wenn sie bei 16 000 unter 0.4 liegen und die Genauigkeit ohne trainiertes Tauschpaar ≤ 0.1 ist (Messung wie `commutativity_s54.py` am Endmodell, Skript dann als `commutativity_long_s55.py`); sonst „unklar“. **Technische Kontrolle:** Kurve bis 6000 wie der Originallauf (zurückgehaltene Fakten bei 6000 innerhalb ±0.05 von 0.333), sonst nur beschreibend.
 - **Grenze:** ein Lauf; ein „Plateau hält“ bis 16 000 beweist nicht, dass es nie endet (§8).
+
+## Ergebnis Nachtrag 2 (Sitzung 56, 30.09. 05:45 Berlin gemessen; GPU-Dienst `42_exp119_long_r`, 1 Lauf ohne Fehler)
+
+Befehl: `python lab/tools/guarded_run.py -- <.venv-gpu python> lab/experiments/EXP-119-lm-speed-r5/commutativity_long_s55.py --device cuda` → `commutativity_long_s55.json`.
+- **Technische Kontrolle erfüllt** (zurückgehalten bei 6000: 0.324, Original 0.333, ±0.05).
+- **Vorab-Lesart: „unklar“** – zurückgehalten 0.472 bei 16 000 (nie ≥ 0.5; 0.348 bei 8000), ohne trainiertes Tauschpaar 0.226 (> 0.1), mit Tauschpaar 1.00.
+- **Deutung (1 Lauf, Exploration):** Das Kommutativitäts-Plateau hält nicht starr, es bröckelt langsam (übrige Fakten 0.03 bei 6000 → 0.23 bei 16 000); ein späteres Grokking ist möglich, aber nicht beobachtet. Kein weiterer Nachtrag (Regel 15b); falls die Frage wichtig wird, als eigener Versuch mit mehreren Seeds und längerem Budget.

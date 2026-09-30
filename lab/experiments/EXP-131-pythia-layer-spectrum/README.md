@@ -20,6 +20,7 @@ Zurück zu [[LAB]]. **Exploration (2 Seeds × F/G), keine Bestätigung. Kein eig
 - **Lesarten:** Tor: EXP-130-Basisgenauigkeit ≥ 0.5 in allen vier Modellen. **„gesteuert (Zwischenschichten)“**: Δ_pow_l > 1 in ≥ 3 aufeinanderfolgenden Schichten in beiden Seeds. **„nicht gesteuert“**: |Δ_pow_l| ≤ 1 in allen Schichten 1–12 in beiden Seeds. Sonst **„unklar“**.
 - **Beschreibend:** Δ_pow der rohen Zustände, Top 5 von U_l je Arm, Anteil der vortrainierten Top 8 an U_l.
 - **Was dagegen spräche (für „gesteuert“):** Die Einbettung (Stufe 0) war in EXP-127 nicht gesteuert; eine Steuerung erst in späteren Schichten würde heißen, dass die Faktenauswahl dort ansetzt, wo das Modell die Zahl weiterverarbeitet. „Nicht gesteuert“ stützt die Wiederverwendungs-Lesart.
+- **Nachtrag vor jedem Modell (18:07):** zusätzlich beschreibend die zurückgehaltene Genauigkeit getrennt nach a + b < 113 und a + b ≥ 113 (Übertrag/Abzug). Anlass: die Spekulation aus dem EXP-127-Verlauf, Pythia rechne mod 113 als Addition mit Abzug; ein deutlicher Unterschied wäre ein Hinweis, gleiche Werte widerlegen nichts. Keine Lesart daran gebunden. Selbsttest mit dieser Funktion grün (42 s).
 - **Grenzen vorab:** nur die Operandenposition, nicht die Position von „ =“; 12 Schichten × 2 Seeds ohne Korrektur für Mehrfachtests (deshalb 3 aufeinanderfolgende Schichten verlangt); 2 Seeds.
 - **Budget:** CPU, 4 Modelle à 113 kurze Prompts: Sekunden bis wenige Minuten. Selbsttest am vortrainierten Modell grün (17:28, 17 s).
 

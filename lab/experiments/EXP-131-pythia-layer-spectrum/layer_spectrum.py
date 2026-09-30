@@ -12,7 +12,7 @@ Readings (fixed in README before any model exists): gate = EXP-130 base accuracy
   "gesteuert (Zwischenschichten)" if Delta_pow_l > 1 on >= 3 consecutive layers l in 1..12 in both seeds;
   "nicht gesteuert" if |Delta_pow_l| <= 1 for all l in 1..12 in both seeds; else "unklar".
 Descriptive: Delta_pow of the raw states H_l(T); top-5 frequencies of U_l; share of the pretrained top-8 input
-frequencies {1, 2, 3, 11, 4, 5, 23, 45} in the power of U_l.
+frequencies {1, 2, 3, 11, 4, 5, 23, 45} in the power of U_l; held-out accuracy split by wrap-around (a + b < 113 vs >= 113).
 
   python lab/tools/guarded_run.py -- .venv-gpu/Scripts/python.exe lab/experiments/EXP-131-pythia-layer-spectrum/layer_spectrum.py [--device cpu]
   ... layer_spectrum.py --selftest     (pretrained model only: pipeline check, no reading)
@@ -45,6 +45,19 @@ def layer_states(model, ids: dict, device: str) -> np.ndarray:
     x = torch.tensor([[ids["eot"], n] for n in ids["num"]], device=device)
     hs = model.gpt_neox(x, output_hidden_states=True).hidden_states
     return np.stack([h[:, 1].float().cpu().numpy() for h in hs])
+
+
+@torch.no_grad()
+def wrap_accuracy(model, ids: dict, test: np.ndarray, device: str) -> dict:
+    """Descriptive (added S61 before any model exists): held-out accuracy for pairs without (a + b < 113) and with
+    (a + b >= 113) wrap-around. A model that adds like integers and then subtracts 113 might differ between the two."""
+    a, b = test // ft.P, test % ft.P
+    num = torch.tensor(ids["num"], device=device)
+    out = {}
+    for name, m in (("no_wrap", a + b < ft.P), ("wrap", a + b >= ft.P)):
+        x, c = ft.prompts(test[m], ids)
+        out[name] = {"n": int(m.sum()), "acc": ft.accuracy(model, x, c, num, device)}
+    return out
 
 
 def gate_ok() -> tuple[bool, dict]:
@@ -91,6 +104,8 @@ def main() -> None:
         W = np.random.default_rng(0).normal(size=(ft.P, 8))
         W2 = 0.9 * W + np.stack([np.cos(2 * np.pi * 17 * n / ft.P)] * 8, 1)
         assert top(power(residual(W2, W)))[0] == 17
+        t = np.load(LAB / "confirm/lm1_splits/seed4002_test.npy").astype(np.int64)[:200]
+        print("wrap accuracy (pretrained, 200 test pairs):", wrap_accuracy(model, ids, t, a.device))
         print("selftest ok")
         return
     ok, base = gate_ok()
@@ -106,6 +121,8 @@ def main() -> None:
             sd = torch.load(path, map_location=a.device)
             model.load_state_dict({k: v.float() for k, v in sd.items()})
             H[arm] = layer_states(model, ids, a.device)
+            test = np.load(LAB / f"confirm/lm1_splits/seed{s}_test.npy").astype(np.int64)
+            out.setdefault("wrap_accuracy", {})[f"{s}_{arm}"] = wrap_accuracy(model, ids, test, a.device)
         model.load_state_dict(pre_sd)
         rows = []
         for l in range(H0.shape[0]):

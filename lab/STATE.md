@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-30, 08:25 Berlin (Sitzung 57, Ende) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-30, 09:05 Berlin (Sitzung 58) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -32,16 +32,19 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 57 (ab 05:50):** **R12 eingefroren** (8e6f9b3f; R5-Design auf add 97 und mul 113 übertragen, je 20 Einheiten, Seeds 4200–4239, Arme R/E2_0/D_0/E2_1/D_1, H-ER und H-ED je Aufgabe, Holm über 4; Bezug: Paper §7 (ii) „R5 nur add 113“). Codeprüfung durch Agent ohne Blocker, 3 kleine Punkte übernommen; Smoke durch den Lader grün (Seed 4299). Läuft beim Dienst als `44_r12`. Außerdem: EXP-125 (LM ≈ 29.5 M Parameter, Pilot) als `45_exp125_lm_size` eingereiht; unabhängige R12-Nachrechnung und Abb. `fig16_r12_speed.py` vor jedem Ergebnis fertig; N57 post hoc: Spiegelpaare in allen Armen gleich häufig (0.30), Vertauschungsstufe bei ähnlicher W_E-Konzentration (≈ 0.3) in allen Armen, innerhalb der Arme an den Fortschritt gekoppelt (ρ 0.76–0.81, zu t_gen 0.85–0.90) → Satz in Anhang K (geprüft). Tageserklärung 01.10. mit Erwartungen angelegt.
 
-## Aktive Queue / laufende Jobs (Stand Sitzung 57, 06:08 Berlin)
+- **Sitzung 58 (ab 08:29):** **Paper: LM1/LM1-F sichtbar** (Satz im Abstract, 1907 Zeichen; Absatz „Beyond the toy model“ in §7; §7 (ii)/(iii) angepasst; unabhängig geprüft, 8 Formulierungen übernommen; d9d92fbd). **EXP-127 vorbereitet** (Pythia-160M nachtrainieren, mod 113, Operator „ @“, LM1-Splits 4000/4001, Pilot; Selbsttest + Smoke grün, 4.4 GB; Lesarten vorab; beim Dienst als `46_exp127_pythia`). `transformers 5.15.1` in .venv-gpu (tokenizers 0.22.1 festgehalten).
+
+## Aktive Queue / laufende Jobs (Stand Sitzung 58, 09:01 Berlin)
 
 - **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `43_lm3b` (LM3, 20 Läufe à 15 000 Schritte, 3 Worker, ≈ 90–110 min je Lauf, Block ≈ 10–12 h). `done/43_lm3.*` ist ein leerer Fehlversuch (Datei wurde gelesen, bevor sie geschrieben war) – ignorieren. **Jobdateien immer erst außerhalb von inbox schreiben, dann verschieben.**
 - `43z_exp126_sgd` (EXP-126) **fertig: „nicht auswertbar“** (lr 0.05: 0/8 lernen; lr 0.1: 8/8 divergieren; `summary.json`). Satz in §7 (i) eingesetzt und geprüft (Sitzung 57).
+- **Dienst im DRAIN (P-017-Fix) seit 08:29:** startet nichts Neues, bis die 3 laufenden LM3-Läufe fertig sind, dann Neustart durch die geplante Aufgabe. `46_exp127_pythia` (EXP-127-Pilot, 4 Läufe, gpu_gb 5) wartet dahinter; `ft_pythia.py` bis zur Auswertung nicht ändern (Skript-Hash in der Run-ID).
 - `44_r12` (R12, 200 freq_ban-Läufe à 8000 Schritte, 6 Worker, gpu_gb 0.75; ≈ 6–9 min je Lauf unter Last → Block grob 5–7 h, schneller sobald LM3 fertig ist). **`confirm_r12.py` und die R12-Splits nicht ändern** (Hash im Manifest).
 - **`lm_stage2.py` nicht ändern** (Hash im LM3-Manifest). `confirm_lm3.py`/`confirm_lm3f.py` nicht ändern (eingefroren).
 
 ## Nächste Schritte (Regel 20)
 
-**NEU, Nutzerentscheidungen 30.09. ≈ 08:25 (über den Assistenten, stehen als Regel 20 d2/e2 in SESSION_PREAMBLE):** (1) **Paper: LM1 und LM1-F sichtbar machen** – ein Satz ins Abstract (< 1920 Zeichen), ein kurzer, klar begrenzter Absatz in den Haupttext (Ende §6 oder §7: kleines LM, ≈ 79 % Rechen-Tokens, eine Aufgabe, gebundene Einbettung); Details bleiben im Anhang; LM3 nur, wenn vor der Einreichung bestätigt und nachgerechnet; unabhängige Textprüfung. **Das ist die erste Aufgabe der nächsten Sitzung.** Achtung: Abstract hat 1907/1920 Zeichen → für den LM1-Satz muss anderswo gekürzt werden (Haupttext jetzt 4589 Wörter). (2) Nach LM3/R12: vortrainiertes kleines LM (Pythia-160M oder GPT-2 small) nachtrainieren – vorher prüfen: Zahlen 0–112 einzelne Tokens? Ausgangsspektrum, getrennte Ein-/Ausgabe-Einbettungen; Pilot 2 Seeds, gpu_gb vorher messen. (3) Dienst bekommt den P-017-Fix (per DRAIN, nichts zu tun; Jobdateien weiter atomar).
+**NEU, Nutzerentscheidungen 30.09. ≈ 08:25 (über den Assistenten, stehen als Regel 20 d2/e2 in SESSION_PREAMBLE):** (1) **Paper: LM1 und LM1-F sichtbar machen** – ein Satz ins Abstract (< 1920 Zeichen), ein kurzer, klar begrenzter Absatz in den Haupttext (Ende §6 oder §7: kleines LM, ≈ 79 % Rechen-Tokens, eine Aufgabe, gebundene Einbettung); Details bleiben im Anhang; LM3 nur, wenn vor der Einreichung bestätigt und nachgerechnet; unabhängige Textprüfung. **Erledigt in Sitzung 58 (d9d92fbd).** Achtung: Abstract hat 1907/1920 Zeichen → für den LM1-Satz muss anderswo gekürzt werden (Haupttext jetzt 4589 Wörter). (2) Nach LM3/R12: vortrainiertes kleines LM (Pythia-160M oder GPT-2 small) nachtrainieren – vorher prüfen: Zahlen 0–112 einzelne Tokens? Ausgangsspektrum, getrennte Ein-/Ausgabe-Einbettungen; Pilot 2 Seeds, gpu_gb vorher messen. (3) Dienst bekommt den P-017-Fix (per DRAIN, nichts zu tun; Jobdateien weiter atomar).
 
 0. Dienst-Lage prüfen (status.json, Logs `lab/queue/logs/43_lm3b/`).
 1. ~~EXP-119 Nachtrag 2~~ erledigt (Sitzung 56, „unklar“: 0.47 bei 16 000, Plateau bröckelt; im Anhang K). Kein weiterer Nachtrag.

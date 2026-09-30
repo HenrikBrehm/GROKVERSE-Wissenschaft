@@ -31,3 +31,5 @@ Zurück zu [[paper/STATUS]] · [[LAB]] · [[experiments/EXP-127-pretrained-lm/RE
 „… and it was not found when fine-tuning a pretrained 160 M-parameter model (two-seed pilot; Appendix K).“
 
 **Beim Einsetzen:** Literatureintrag Biderman et al. 2023 (Pythia) fehlt in [[paper/references]] → ergänzen und Titel/Autoren/ID am arXiv-Abstract prüfen (nicht aus dem Gedächtnis).
+
+**Literatureintrag, geprüft (Sitzung 62, arXiv-Abstract 2304.01373 abgerufen):** `- Biderman, Schoelkopf, Anthony, Bradley, O'Brien, Hallahan, Khan, Purohit, Prashanth, Raff, Skowron, Sutawika, van der Wal (2023). *Pythia: A Suite for Analyzing Large Language Models Across Training and Scaling*. arXiv:2304.01373. https://arxiv.org/abs/2304.01373. [A]` – die arXiv-Seite nennt keine Venue (Kommentarfeld nur Code-Link); keine Venue aus dem Gedächtnis ergänzen. Erst mit dem Absatz in [[paper/references]] eintragen (sonst unzitierter Eintrag).

@@ -54,11 +54,11 @@ Befehl: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/to
 
 | Aufgabe | Hypothese | Zeitverhältnis (geom.) [95 %-KI] | Einheiten mit richtiger Ordnung | p (Holm über 4) | Urteil |
 |---|---|---|---|---|---|
-| add 97 | H-ER (E2_0 gegen R) | ×4.50 [3.76, 5.40] | 20/20 | 4·10⁻⁵ | bestätigt |
-| add 97 | H-ED (E2_0 gegen D_0) | ×4.60 [4.02, 5.24] | 20/20 | 4·10⁻⁵ | bestätigt |
+| add 97 | H-ER (E2_0 gegen R, Zielmenge A) | ×4.50 [3.76, 5.40] | 20/20 | 4·10⁻⁵ | bestätigt |
+| add 97 | H-ED (E2 gegen D, Mittel über beide Zielmengen) | ×4.60 [4.02, 5.24] | 20/20 | 4·10⁻⁵ | bestätigt |
 | mul 113 | H-ER | ×7.42 [5.92, 9.06] | 20/20 | 4·10⁻⁵ | bestätigt |
 | mul 113 | H-ED | ×7.14 [6.00, 8.36] | 20/20 | 4·10⁻⁵ | bestätigt |
 
-p = Auflösungsgrenze des Permutationstests (1/100 001) vor Holm. Beschreibend: Medianzeit (zensiert bei 8 000) add 97 R 6 513, E2_0 1 338, D_0 8 000, E2_1 1 388, D_1 7 238; mul 113 R 6 813, E2_0 863, D_0 6 538, E2_1 938, D_1 7 300. Beobachtete Generalisierung bis 8 000: R 14/12, D_0 9/15, D_1 14/11 von 20 (add 97/mul 113); konstruierte Arme 20/20. Die Kontrollen erreichen die Grenze oft nicht; die Zensierung ist in der Auswertung registriert.
+p = Auflösungsgrenze des Permutationstests (1/100 001) vor Holm. Beschreibend: Medianzeit (zensiert bei 8 000) add 97 R 6 513, E2_0 1 338, D_0 8 000, E2_1 1 388, D_1 7 238; mul 113 R 6 813, E2_0 863, D_0 6 538, E2_1 938, D_1 7 300. Beobachtete Generalisierung bis 8 000: R 14/12, D_0 9/15, D_1 14/11 von 20 (add 97/mul 113; also NICHT generalisiert: R 6/8, D_0 11/5, D_1 6/9); konstruierte Arme 20/20. Korrektur der Tabellenbeschriftung H-ED nach Textprüfung (16:00): der Code mittelt über beide Zielmengen. Die Kontrollen erreichen die Grenze oft nicht; die Zensierung ist in der Auswertung registriert.
 
 **Unabhängige Nachrechnung** (`R12_independent_recompute.py --analyze`, 15:52): identische Verhältnisse, Zeiten, p-Werte und Urteile („bestätigt“ ×4); KI weichen nur durch andere Bootstrap-Ziehungen ab (z. B. add 97 H-ER [3.76, 5.42]).

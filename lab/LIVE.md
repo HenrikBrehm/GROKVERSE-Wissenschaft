@@ -5,24 +5,25 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-30 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 01:55 Berlin
+- **Zuletzt aktualisiert:** 02:48 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange LÃ¤ufe Ã¼ber den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- Ein unabhÃ¤ngiger Agent prÃ¼ft den korrigierten Paper-Satz zu EXP-121 (Spektralspitzen).
-- EXP-123 lÃ¤uft (4/60 fertig; die ersten LÃ¤ufe treffen die alten Generalisierungsschritte genau).
+- Ein unabhängiger Agent prüft den neuen Paper-Anhangsabsatz zur Kommutativitäts-Stufe (EXP-123) und Abb. 15.
 
-## Als NÃ¤chstes
+## Als Nächstes
 
-EXP-123 beobachten und auswerten (â‰ˆ 03:00). Bis dahin: Denkarbeit zur Frage â€žBraucht das Verlassen des Plateaus eine Spektralspitze?â€œ.
+Prüfpunkte einarbeiten, Manuskript neu bauen, Abschlussbericht (Deadline 03:49).
 
-## Dienst (01:11)
+## Dienst (02:47)
 
-EXP-123: 4 fertig, 3 laufen. EXP-113: 5/8 fertig, 2 laufen. EXP-116: 1/4 fertig, 1 lÃ¤uft.
+EXP-123 fertig (60/60). EXP-113: 5/8 fertig, 2 laufen. EXP-116: 1/4 fertig, 1 läuft. EXP-119 Nachtrag 2 wartet.
 
 ## Verlauf dieser Sitzung
 
+- 02:45 **EXP-123:** Der Transformer lernt vor dem Grokking zuerst die Vertauschungsregel (18/18 Einheiten, vorher festgelegt). Meine Vermutung „die Datenauswahl beschleunigt vor allem den zweiten Schritt“ stimmt nicht: Sie beschleunigt beide, den ersten sogar stärker (×11 gegen ×4.6). Abb. 15 gezeichnet, Anhangsabsatz geschrieben.
+- 02:25 Auswerteskript für EXP-119 Nachtrag 2 vorab geschrieben und getestet.
 - 01:53 Paper §4: Satz zu Wang et al. 2024 nach Prüfung vorsichtiger formuliert.
 - 01:42 Blinde Code-Prüfung von EXP-123: kein Fehler; vier Unschärfen der Vorab-Festlegung vor dem Ergebnis schriftlich geklärt; Zusatzauswertung vorab geschrieben.
 - 01:23 **EXP-119 Nachtrag 2** eingereiht: Hält das Plateau des Zufallssplits im Sprachmodell bis 16 000 Schritte, oder kommt der Sprung doch noch?

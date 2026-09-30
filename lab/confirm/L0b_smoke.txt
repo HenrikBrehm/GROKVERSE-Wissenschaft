@@ -1,0 +1,3 @@
+L0b smoke (session 63, 2026-09-30 21:47-21:53 Berlin, measured): first job line of the frozen manifest (commit bce36b1a) via confirm_l0b.py --run, guarded, 317 s alone next to 2 Pythia jobs.
+[exp] EXP-018_baseline_seed3730_thr1_l0b_seed3730_F_bs16_wd0.1_devcuda completed: steps 30000, gen 7200, banned None, final top-5 [5, 10, 13, 30, 47], 0.01018 s/step
+Frozen loader (one_run): ok, t_gen 7200, o_end 0.0078, o_mid(10000) 0.0239; final top-5 [5, 10, 13, 30, 47] vs targets F [5, 13, 30, 42, 47]; split_mismatch(3730) None; seed 3730 G 'fehlt' as expected.

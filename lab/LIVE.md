@@ -5,23 +5,25 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 00:49 Berlin (22:49Z, vom Runner)
 - **Deadline:** 2026-09-30 03:49 Berlin (01:49Z)
-- **Zuletzt aktualisiert:** 02:48 Berlin
+- **Zuletzt aktualisiert:** 02:54 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange LÃ¤ufe Ã¼ber den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- Ein unabhängiger Agent prüft den neuen Paper-Anhangsabsatz zur Kommutativitäts-Stufe (EXP-123) und Abb. 15.
+- **Sitzung beendet (02:54).** Nächster geplanter Start laut Runner: 30.09. 04:24 Berlin (02:24Z). Der GPU-Dienst rechnet weiter.
 
 ## Als Nächstes
 
-Prüfpunkte einarbeiten, Manuskript neu bauen, Abschlussbericht (Deadline 03:49).
+EXP-113 und EXP-116 auswerten (fast fertig), dann EXP-119 Nachtrag 2 (langer Lauf).
 
-## Dienst (02:47)
+## Dienst (02:54)
 
-EXP-123 fertig (60/60). EXP-113: 5/8 fertig, 2 laufen. EXP-116: 1/4 fertig, 1 läuft. EXP-119 Nachtrag 2 wartet.
+EXP-123 fertig (60/60). EXP-113: 7/8 fertig, letzter läuft. EXP-116: 2/4 fertig, 2 laufen. EXP-119 Nachtrag 2 wartet auf Grafikspeicher.
 
 ## Verlauf dieser Sitzung
 
+- 02:54 Nachträglich: Der Zeitpunkt der Vertauschungsstufe hängt bei konstruierten Splits so eng an der frühen Zielenergie wie das Grokking selbst; das trennt die Ursachen nicht. Trennender Versuch vorgemerkt.
+- 02:52 Paper-Anhangsabsatz zu EXP-123 geprüft: Zahlen richtig; Bildunterschrift korrigiert (0.92 statt 0.85), Mediane mit Zensierung benannt.
 - 02:45 **EXP-123:** Der Transformer lernt vor dem Grokking zuerst die Vertauschungsregel (18/18 Einheiten, vorher festgelegt). Meine Vermutung „die Datenauswahl beschleunigt vor allem den zweiten Schritt“ stimmt nicht: Sie beschleunigt beide, den ersten sogar stärker (×11 gegen ×4.6). Abb. 15 gezeichnet, Anhangsabsatz geschrieben.
 - 02:25 Auswerteskript für EXP-119 Nachtrag 2 vorab geschrieben und getestet.
 - 01:53 Paper §4: Satz zu Wang et al. 2024 nach Prüfung vorsichtiger formuliert.

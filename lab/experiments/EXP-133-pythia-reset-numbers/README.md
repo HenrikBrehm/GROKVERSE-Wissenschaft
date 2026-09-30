@@ -42,3 +42,7 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 ## Ergebnis
 
 (offen)
+
+## Vorhersage erster Ordnung (Sitzung 62, Dienst-Job `44zzy_exp133_firstgrad`, 55 s GPU, ausgewertet 20:10 Berlin; vor jedem EXP-133-Trainingslauf)
+
+`first_gradient_reset.py` (Lesart vorab im Skript): Gradient des Antwortverlusts über eine ganze erste Runde (K = 1, Trainingsreihenfolge), an genau den Startgewichten von EXP-133. **Δ_pow(Gradient, Eingabe) +0.04 (Seed 4000), +0.09 (4001) → Vorab-Lesart „unklar“** (weder > 1 noch ≤ 0 in beiden). Beschreibend praktisch null: Top 5 der Eingabe sind in F und G desselben Seeds fast dieselben und keine Ziele (4000: {56, 26, 31, 40, 49} / {26, 4, 56, 31, 23}; 4001: {2, 34, 44, 42, 19} / {34, 2, 44, 23, 33}); Ausgabe +0.01 / −0.01. Zum Vergleich (S59): ganz zufällig initialisierte Pythia-Architektur 0.84 / 1.04 mit Top 5 = eigene Ziele in allen vier Armen; vortrainiertes Pythia −0.13 / −0.01. → Erster Ordnung nach unterdrückt der **vortrainierte Rumpf** das Signal auch bei zufälligen Zahlzeilen (beschreibend, Lesart formal „unklar“). Vorhersage für EXP-133 damit eher „nicht gesteuert (Rumpf)“; ob die erste Ordnung hier trifft, wird erst nach den Läufen gelesen. Der CPU-Zeittest (256 Fakten, −0.09 / −0.18) war gesehen, änderte nichts.

@@ -1,8 +1,8 @@
 ---
 id: EXP-126
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-30
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/unklar]
 ---
 # EXP-126: Ist die Split-Steuerung (K2) ein Adam-Artefakt? Full-Batch-SGD mit Momentum
 
@@ -37,6 +37,12 @@ python lab/experiments/EXP-126-sgd-steering/make_jobs.py > lab/queue/staging/43z
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-126-sgd-steering/analyze.py
 ```
 
-## Ergebnis
+## Ergebnis (Sitzung 57, 07:58 gemessen; 12/16 Läufe fertig, 3706/3707 bei lr 0.1 laufen noch – sie können die Lesart nicht mehr ändern)
 
-(noch nicht gelaufen)
+Befehl: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-126-sgd-steering/analyze.py` → `summary.json`.
+
+- **Vorab-Lesart: „nicht auswertbar“ bei beiden Lernraten.** lr 0.05: 8/8 Läufe lernen nichts (Train ≈ 0.012 nach 20 000 Schritten). lr 0.1: 4/4 fertige Läufe divergieren (erste nicht endliche Spektren bei 1250, 1250, 1500 und 14 750 Schritten); selbst wenn 3706 und 3707 beide lernen, bleiben höchstens 2 < 3 auswertbare Seeds.
+- **Korrektur an der Auswertung vor der endgültigen Lesart (dokumentiert):** Der Trainer setzt bei nicht endlichen Spektren nicht „completed“, sondern bleibt auf „finalizing“ (Artefaktprüfung, Exit 1). `analyze.py` zählte solche Läufe zuerst als „fehlt“ und ordnet sie jetzt, wie vorab definiert, als „divergiert“ ein (volle Schrittzahl, Spektrum bei 20 000 nicht endlich). Die Lesart ändert sich dadurch nicht.
+- **Beschreibend (ein Lauf, kein Δ_pow, gesehen):** 3704 G bei lr 0.1 lernte (Train ≥ 0.99 ab 1150), generalisierte (Test ≥ 0.95 ab 1175) und hatte 0.84 (Schritt 2000) bzw. 0.92 (5000–12 500) der W_E-Energie auf den eigenen Zielen, 0.004–0.011 auf den Zielen von F; bei 14 750 divergierte er. Zusammen mit dem L0-Kalibrierungslauf 3701 F (B 256, lr 0.1: 0.968 auf den eigenen Zielen) heißt das: **Wenn SGD mit Momentum hier überhaupt trainiert, folgen die gelernten Frequenzen der Datenauswahl** – als Beobachtung an 2 Einzelläufen, nicht als Test.
+- **Deutung:** Die Frage „Adam-Artefakt?“ ist mit diesem Aufbau nicht beantwortbar, weil SGD mit Momentum ohne Stabilisierung zwischen „lernt nicht“ (0.05) und „divergiert“ (0.1) kein brauchbares Fenster hat. Paper: Satz nach der Vorab-Deutung „nicht auswertbar“ (§7 i / Anhang J), die beiden Einzelläufe höchstens als Beobachtung.
+- **Nächster Schritt (vorgemerkt, nicht gestartet):** SGD stabilisieren (Gradienten-Clipping oder Warmup im SGD-Pfad, oder lr 0.07). Das braucht eine Trainer-Änderung; `freq_ban.py` ist bis zur R12-Auswertung per Hash gebunden → Patch erst danach, dann eigener Versuch mit Vorab-Lesart.

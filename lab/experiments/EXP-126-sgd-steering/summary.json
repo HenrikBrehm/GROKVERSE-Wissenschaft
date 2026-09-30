@@ -1,0 +1,134 @@
+{
+ "0.05": {
+  "reading": "nicht auswertbar",
+  "n_evaluable": 0,
+  "rows": [
+   {
+    "seed": 3704,
+    "F": "nicht gelernt",
+    "G": "nicht gelernt",
+    "first_nonfinite": [
+     null,
+     null
+    ],
+    "train_F": 0.012007308192551136,
+    "test_F": 0.007439310662448406,
+    "gen_F": null,
+    "train_G": 0.012268336489796638,
+    "test_G": 0.008613938465714455,
+    "gen_G": null
+   },
+   {
+    "seed": 3705,
+    "F": "nicht gelernt",
+    "G": "nicht gelernt",
+    "first_nonfinite": [
+     null,
+     null
+    ],
+    "train_F": 0.011746279895305634,
+    "test_F": 0.006264682859182358,
+    "gen_F": null,
+    "train_G": 0.01305142231285572,
+    "test_G": 0.006264682859182358,
+    "gen_G": null
+   },
+   {
+    "seed": 3706,
+    "F": "nicht gelernt",
+    "G": "nicht gelernt",
+    "first_nonfinite": [
+     null,
+     null
+    ],
+    "train_F": 0.012007308192551136,
+    "test_F": 0.010180110111832619,
+    "gen_F": null,
+    "train_G": 0.012268336489796638,
+    "test_G": 0.004698512144386768,
+    "gen_G": null
+   },
+   {
+    "seed": 3707,
+    "F": "nicht gelernt",
+    "G": "nicht gelernt",
+    "first_nonfinite": [
+     null,
+     null
+    ],
+    "train_F": 0.011746279895305634,
+    "test_F": 0.005481597501784563,
+    "gen_F": null,
+    "train_G": 0.012007308192551136,
+    "test_G": 0.006264682859182358,
+    "gen_G": null
+   }
+  ]
+ },
+ "0.1": {
+  "reading": "nicht auswertbar",
+  "n_evaluable": 0,
+  "rows": [
+   {
+    "seed": 3704,
+    "F": "divergiert",
+    "G": "divergiert",
+    "first_nonfinite": [
+     1250,
+     14750
+    ],
+    "train_F": null,
+    "test_F": null,
+    "gen_F": null,
+    "train_G": null,
+    "test_G": null,
+    "gen_G": null
+   },
+   {
+    "seed": 3705,
+    "F": "divergiert",
+    "G": "divergiert",
+    "first_nonfinite": [
+     1250,
+     1500
+    ],
+    "train_F": null,
+    "test_F": null,
+    "gen_F": null,
+    "train_G": null,
+    "test_G": null,
+    "gen_G": null
+   },
+   {
+    "seed": 3706,
+    "F": "fehlt",
+    "G": "fehlt",
+    "first_nonfinite": [
+     null,
+     null
+    ],
+    "train_F": null,
+    "test_F": null,
+    "gen_F": null,
+    "train_G": null,
+    "test_G": null,
+    "gen_G": null
+   },
+   {
+    "seed": 3707,
+    "F": "fehlt",
+    "G": "fehlt",
+    "first_nonfinite": [
+     null,
+     null
+    ],
+    "train_F": null,
+    "test_F": null,
+    "gen_F": null,
+    "train_G": null,
+    "test_G": null,
+    "gen_G": null
+   }
+  ]
+ }
+}

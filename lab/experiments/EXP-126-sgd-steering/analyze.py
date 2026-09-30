@@ -25,15 +25,19 @@ SEEDS, LRS, END = (3704, 3705, 3706, 3707), (0.05, 0.1), 20_000
 
 def run(s: int, x: str, lr: float) -> dict:
     ds = list((HERE / "raw").glob(f"*_seed{s}_thr1_seed{s}_{x}_sgdm{lr!r}_0.9_devcuda"))
-    if len(ds) != 1:
+    if len(ds) != 1 or not (ds[0] / "result.json").exists():
         return {"state": "fehlt"}
     r = json.loads((ds[0] / "result.json").read_text(encoding="utf-8"))
-    if r.get("status") != "completed" or r.get("steps_completed") != END:
+    # session 57 fix (after the first diverged runs, before the final reading): the trainer refuses 'completed' when its artifact check
+    # finds non-finite spectra, leaving status 'finalizing' at the full step count; such a run is 'divergiert' per the pre-set definition
+    if r.get("status") not in ("completed", "finalizing") or r.get("steps_completed") != END:
         return {"state": "fehlt"}
     S, st = np.load(ds[0] / "spectra.npy"), [int(v) for v in np.load(ds[0] / "spectra_steps.npy")]
     sp = {t: S[i] for i, t in enumerate(st)}
     if END not in sp or not np.isfinite(sp[END]).all() or not np.isfinite((r.get("final_acc") or {}).get("train", np.nan)):
-        return {"state": "divergiert"}
+        return {"state": "divergiert", "first_nonfinite": next((t for t in st if not np.isfinite(sp[t]).all()), None)}
+    if r.get("status") != "completed":
+        return {"state": "fehlt"}
     fa = r["final_acc"]
     return {"state": "ok" if fa["train"] >= 0.99 else "nicht gelernt", "end": sp[END], "at2k": sp.get(2000), "train": fa["train"],
             "test": fa.get("test"), "gen": (r.get("events") or {}).get("generalization_step")}
@@ -46,7 +50,7 @@ def main() -> None:
         for s in SEEDS:
             T = json.loads((SPL / f"seed{s}.json").read_text(encoding="utf-8"))["targets"]
             a, b = run(s, "F", lr), run(s, "G", lr)
-            row = {"seed": s, "F": a["state"], "G": b["state"]}
+            row = {"seed": s, "F": a["state"], "G": b["state"], "first_nonfinite": [a.get("first_nonfinite"), b.get("first_nonfinite")]}
             for k, v in (("F", a), ("G", b)):
                 row[f"train_{k}"], row[f"test_{k}"], row[f"gen_{k}"] = v.get("train"), v.get("test"), v.get("gen")
             if a["state"] == b["state"] == "ok":

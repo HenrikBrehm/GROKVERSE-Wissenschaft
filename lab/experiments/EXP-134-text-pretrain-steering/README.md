@@ -1,0 +1,40 @@
+---
+id: EXP-134
+status: vorbereitet
+datum: 2026-09-30
+tags: [exp/vorbereitet, lab/lm, neu/kandidat]
+verwandt: ["[[confirm/LM1_REGISTRATION|LM1]]", "[[experiments/EXP-127-pretrained-lm/README|EXP-127]]", "[[experiments/EXP-133-pythia-reset-numbers/README|EXP-133]]", "[[NOVEL_DIRECTIONS]]", "[[FINDINGS]]"]
+---
+# EXP-134: Steuert die Faktenauswahl noch, wenn der Rumpf des eigenen LM vorher nur auf Text trainiert wurde? (Pilot)
+
+Zurück zu [[LAB]]. **Exploration (2 Seeds × F/G), keine Bestätigung.** Kandidat [[NOVEL_DIRECTIONS]] N62.
+
+**Bezug zu FINDINGS:** K2 im Sprachmodell (LM1/LM3 bestätigt, von Grund auf) und seine Geltungsgrenze beim Nachtrainieren (Pythia-Linie: [[experiments/EXP-127-pretrained-lm/README|EXP-127]] „bricht“, [[experiments/EXP-133-pythia-reset-numbers/README|EXP-133]] mit neuen Zahlzeilen „lernt nicht“). EXP-133 konnte Rumpf gegen Zahlzeilen nicht trennen, weil Pythia mit neuen Zahlzeilen nicht verallgemeinert. Hier dieselbe Frage am eigenen Modell, das die Fakten von Grund auf sicher lernt (LM1: Test 0.90–0.99). Begründung trotz geschlossener Pythia-Linie: kein Pythia-Detail, sondern die Brücke zwischen den beiden LM-Befunden (Regel 15a, offene Frage „wo endet K2“).
+
+## Vorab (Sitzung 64, 30.09. 23:55 Berlin gemessen, vor jedem Lauf)
+
+- **Frage:** Unterdrückt ein auf Text vortrainierter Rumpf die Datensteuerung der Zahl-Einbettung, auch wenn die Zahl-Tokens selbst im Vortraining nie vorkamen?
+- **Aufbau:** unveränderter Trainer `lm_stage2.py` (Hash an LM1/LM3 gebunden), Wrapper `ft_textpre.py` tauscht nur Klassen im geladenen Modul. Je Modell-Seed S (4100, 4101) ein Job: **Phase 1** 6000 Schritte nur Text (`--arith-facts 0`, Verlust auf dem Text), Text aus der **zweiten Hälfte** der Token-Datei (Phase 2 liest wie LM1 von vorne → kein Text doppelt; 49 M von 56.8 M Tokens, kein Umlauf, geprüft per Assert); **Phase 2** Arme F und G genau wie LM1 (K = 19, Antwortverlust, 6000 Schritte, LM1-Splits 4000/4001 samt Testmengen), Start aber mit den Phase-1-Gewichten (neuer AdamW, Warmup 500 wie `run()` es baut). Die Zahl-Tokens kommen im Text nicht vor (`lm_stage2` prüft das beim Tokenisieren); ihre Zeilen bekommen in Phase 1 nur Ausgabe-Gradienten (Softmax) und Weight Decay, sind über die Zahlen austauschbar → keine Frequenzstruktur erwartet.
+- **Kontrolle:** die LM1-Läufe mit gleichem Modell-Seed, Splits, Testmenge, Fakten- und Textstrom (von Grund auf; Bestätigungsblock, schon gesehen, nur beschreibend als Partner). Mit denselben Regeln: „K2 haelt im LM“, Δ_pow 3.96 / 6.40, erste Testgenauigkeit ≥ 0.5 bei 2500–3000 Schritten (gerechnet 23:55 mit `analyze.py`, vor jedem EXP-134-Lauf).
+- **Hypothese (gerichtet, aus S62):** Der erste Gradient an den vortrainierten Pythia-Startgewichten trug das Datensignal nicht, auch mit zufälligen Zahlzeilen (EXP-133-Vorhersage „Rumpf“). Wenn das am Vortraining des Rumpfs liegt, sollte auch hier die Steuerung schwächer sein. Gegenhypothese: Der kleine Rumpf nach 6000 Schritten Text ist noch plastisch, K2 hält.
+- **Primäre Lesarten (`analyze.py`, Messung bei Schritt 6000 der Phase 2, Regeln wie EXP-105/116):** Vorrang „nicht gelernt (Budget)“ (Trainingsgenauigkeit < 0.1 in ≥ 3/4); „K2 haelt im LM“ (Δ_pow > 1 in beiden Seeds, Test > 0.5 in ≥ 3/4); „nur Repraesentation“ (Δ_pow > 1 in beiden, Test < 0.1 in ≥ 3/4); „bricht“ (|Δ_pow| ≤ 1 in beiden); sonst „unklar“.
+- **Beschreibend:** Startprüfung (Sidecar-Hash = Phase-1-Checkpoint, Zahlzeilen bei Schritt 0 = Phase-1-Ende; Δ_pow bei Schritt 0 ist bei gemeinsamem Start per Definition 0 und prüft nichts), erste Testgenauigkeit ≥ 0.5 gegen den LM1-Partner (Plastizität), Textverlust am Ende von Phase 1, Normverhältnis der Zahlzeilen (Phase-1-Ende / Init; Weight Decay allein ergäbe ≈ 0.7, AdamW kann die kleinen Ausgabe-Gradienten aber zu vollen Schritten in einer gemeinsamen Richtung machen, der Wert ist offen; jede Normänderung gegenüber dem Start von Grund auf gilt als Gegenerklärung für eine Verzögerung).
+- **Deutung vorab:** „K2 haelt“ → ein auf Text vortrainierter kleiner Rumpf allein hebt die Steuerung nicht auf; das Pythia-Ergebnis liegt dann eher an seinen vortrainierten Zahlmerkmalen, seiner Größe oder dem viel längeren Vortraining (nicht getrennt). „bricht“ → schon 6000 Schritte Text-Vortraining des Rumpfs unterdrücken die Steuerung, auch bei frischen Zahlzeilen (stützt die Rumpf-Lesart; nach Suche vom 30.09. nicht gefunden, dann Bestätigung erwägen). „nicht gelernt“ → Plastizitätsverlust, keine Aussage über K2. Kein Größen- oder Skalierungsschluss auf Pythia in jedem Fall.
+- **Was gegen die Hypothese spräche:** „K2 haelt“ mit Δ_pow in der Größe der LM1-Partner.
+- **Budget/Abbruch:** LM1 allein ≈ 0.12 s/Schritt, unter Last bis ≈ 0.35 → je Job 18 000 Schritte ≈ 40–105 min; 2 Jobs, 2 Worker, gpu_gb 3.5, job_minutes 300, stall_minutes 20 (Ausgabe alle 250 Schritte). Abbruch bei NaN (Trainer), Absturz.
+- **Bereits gesehene Daten:** der ganze LM1-Block (Kontrolle), LM3, die Pythia-Linie. Davon beeinflusst: Wahl der LM1-Konfiguration (sicheres Lernen) und der Seeds 4100/4101 (Paarvergleich).
+- **Selbsttest** (`--selftest`, GPU, 11 s, grün 30.09. 23:53): Phase 1 liest ab der Texthälfte, Phase 2 startet genau mit den Phase-1-Gewichten (Schritt-0-Snapshot = Phase-1-Zahlzeilen), ein Lauf von Grund auf mit gleichem Seed startet anders, Klassen danach zurückgesetzt, Sidecar `pretrain.json` geschrieben. Hinweis: Phase-2-Läufe haben dieselbe Run-ID wie ein Lauf von Grund auf (der Trainer kennt den Vortrainingsstand nicht) → eigener Ordner `raw_ft`, Herkunft im Sidecar.
+
+- **Unabhängige Codeprüfung (Claude-Agent, nur lesend, fertig 30.09. vor 23:58 gemessen):** keine Blocker; Konfiguration gegen LM1 und `--arith-facts 0` geprüft, Wiederaufnahme richtig. Übernommen vor jedem Lauf: (M1) Phase-1-Checkpoint muss beim letzten Schritt stehen (Assert; result.json wird vor dem letzten Checkpoint geschrieben); (M2/M3) Startprüfung über Sidecar-Hash und Schritt-0-Zeilen statt Δ_pow bei Schritt 0; (L1) None-Schutz in den Lesarten; (L2) F/G-Konfigurationsgleichheit; (L3) Normerwartung abgeschwächt. Selbsttest danach grün.
+
+## Literatur (Suche 30.09. ≈ 23:50, zwei WebSearch-Anfragen: „language model pretrained on text then trained on modular addition Fourier features number embeddings grokking plasticity“, „arXiv 2026 pretraining warm start grokking modular arithmetic transformer slower generalization loss of plasticity“)
+
+Nächstverwandt: Zhou, Fu, Sharan, Jia 2024 ([arXiv 2406.03445](https://arxiv.org/abs/2406.03445)): vortrainierte Token-Einbettungen bringen Fourier-Merkmale in ein von Grund auf trainiertes Modell (Gegenstück: dort Einbettungen vortrainiert, hier Rumpf vortrainiert, Zahlzeilen frisch). [arXiv 2504.13292](https://arxiv.org/html/2504.13292v1) (Grokking durch Einbettungs-Übertrag beschleunigen). Nicht gefunden: Datensteuerung der Zahlfrequenzen nach reinem Text-Vortraining des Rumpfs. Vorläufig, keine Neuheitsbehauptung.
+
+## Befehle
+
+Jobs: Datei `jobs_45z_exp134_textpre.txt` → nach `lab/queue/inbox/45z_exp134_textpre.jobs` verschieben. Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-134-text-pretrain-steering/analyze.py`.
+
+## Ergebnis
+
+(offen)

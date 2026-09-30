@@ -1,0 +1,3 @@
+#! workers=2 job_minutes=300 min_minutes=5 stall_minutes=20 crash_minutes=10 gpu_gb=3.5
+C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-134-text-pretrain-steering/ft_textpre.py --seed 4100 --pair 4000 --device cuda
+C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-134-text-pretrain-steering/ft_textpre.py --seed 4101 --pair 4001 --device cuda

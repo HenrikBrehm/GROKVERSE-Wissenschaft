@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 03:30 Berlin (01:30Z, vom Runner)
 - **Deadline:** 2026-09-30 06:29 Berlin (04:29Z)
-- **Zuletzt aktualisiert:** 05:48 Berlin
+- **Zuletzt aktualisiert:** 05:47 Berlin
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- **Sitzung beendet (05:48).** Nächster geplanter Start laut Runner: 30.09. 07:04 Berlin (05:04Z). Der GPU-Dienst rechnet LM3 weiter.
+- **Sitzung beendet (05:47).** Nächster geplanter Start laut Runner: 30.09. 07:04 Berlin (05:04Z). Der GPU-Dienst rechnet LM3 weiter.
 
 ## Als Nächstes
 

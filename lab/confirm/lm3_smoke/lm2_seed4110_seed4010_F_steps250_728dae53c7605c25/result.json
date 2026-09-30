@@ -1,0 +1,60 @@
+{
+ "status": "completed",
+ "run_id": "lm2_seed4110_seed4010_F_steps250_728dae53c7605c25",
+ "config": {
+  "seed": 4110,
+  "split_sha256": "53297fd4d5521b80e7fe46fe1fa188fbd121481c123a66586250ce8380a63aa1",
+  "test_sha256": "2bd5e81c468677ff00052df51017a833dfe47e6636aa3b5673ba5e32752821a2",
+  "steps": 250,
+  "batch": 32,
+  "ctx": 256,
+  "d": 384,
+  "layers": 6,
+  "heads": 6,
+  "lr": 0.0006,
+  "warmup": 500,
+  "wd": 0.1,
+  "arith_facts": 2,
+  "templates": [
+   "{a} <plus> {b} <eq> {c}",
+   "{a} plus {b} is {c}",
+   "the sum of {a} and {b} is {c}"
+  ],
+  "tokenizer_sha256": "b4b00f2f081c07daea1230c55d04bf02466ec5f0b646b8fec7f1bbf6f6476daa",
+  "text_tokens": 113651592,
+  "script_sha256": "3f7db47147fb915fcb31c6503bc4cfe5580b738eede892c63cfecdc5cdd553b0",
+  "device": "cuda",
+  "loss": "answer"
+ },
+ "config_hash": "728dae53c7605c25",
+ "steps_completed": 250,
+ "events": {},
+ "curve_cols": [
+  "step",
+  "train_fact_acc",
+  "test_fact_acc",
+  "val_text_loss",
+  "train_loss"
+ ],
+ "curve": [
+  [
+   0,
+   0.0105,
+   0.009397024275646046,
+   9.104825019836426
+  ],
+  [
+   250,
+   0.008,
+   0.007047768206734534,
+   3.959238052368164,
+   3.833712577819824
+  ]
+ ],
+ "arith_token_share": 0.08680301556420233,
+ "fact_rounds": 4,
+ "text_wraps": 0,
+ "n_params": 13891584,
+ "elapsed_s_this_segment": 155.22845619998407,
+ "torch": "2.9.1+rocm7.2.1"
+}

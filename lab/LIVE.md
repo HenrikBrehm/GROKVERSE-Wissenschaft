@@ -5,20 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 16:00 Berlin (14:00Z, vom Runner)
 - **Deadline:** 2026-09-30 18:59 Berlin (16:59Z)
-- **Zuletzt aktualisiert:** 17:11 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 17:29 Berlin (gemessen)
 
 ## Gerade
 
-- Warte auf die letzten zwei Pythia-Läufe (EXP-127, Seed 4001, fertig ≈ 17:25); dann Auswertung nach der Vorab-Lesart.
-- Die hängenden Prozesse von 16:25 hat der Assistent des Nutzers um 16:45 beendet (P-021); der Dienst rechnet wieder.
-- EXP-130 liegt beim Dienst (`44zz_exp130_sweep`, 4 Läufe, startet nach EXP-127).
+- **Hinweis für den Nutzer (17:29):** Auch die zwei Seed-4001-Läufe von EXP-127 (fertig ≈ 17:23, Ergebnisse gespeichert und ausgewertet) hängen beim Beenden (P-021); dahinter wartet EXP-130. Beenden bitte durch dich/deinen Assistenten, ich darf es nicht.
+- **EXP-127 ausgewertet: „bricht“.** Beim Nachtrainieren des vortrainierten Pythia steuert die Faktenauswahl die Zahl-Einbettung nicht. Das Modell scheint stattdessen die Zahlfrequenzen zu nutzen, die es schon aus dem Vortraining hat (2, 3, 11, 23).
+- EXP-130 (welche Frequenz braucht das Modell wirklich?) und EXP-131 (Zwischenschichten) sind vorbereitet.
 
 ## Als Nächstes
 
-1. EXP-127 auswerten (nach der Vorab-Lesart im README). 2. LM3-F auswerten, sobald fertig (Funktionstest bei Seed 4015 von 4010–4019).
+1. EXP-130 läuft, sobald die Grafikkarte frei ist (≈ 40 min), danach EXP-131 (Sekunden). 2. LM3-F auswerten, sobald fertig.
 
 ## Verlauf dieser Sitzung
 
+- 17:29 EXP-131 (Zwischenschichten) vorbereitet, Selbsttest grün.
+- 17:26 **EXP-127: „bricht“** (Δ_pow +0.13 / −0.17; nur vortrainierte Frequenzen werden gebraucht, beschreibend).
+- 17:27 EXP-130 speichert jetzt auch die Modelle.
 - 17:11 EXP-130: Smoke grün, Codeprüfung eingearbeitet, beim Dienst eingereiht.
 - 16:29 Pythia Seed 4000 F/G fertig (Test 0.987/0.974); Prozesse hängen beim Beenden, Beenden abgelehnt.
 - 16:25 EXP-130 (Ablation jeder einzelnen Frequenz im nachtrainierten Pythia) vorbereitet, CPU-Smoke läuft.

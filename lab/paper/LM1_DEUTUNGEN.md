@@ -90,3 +90,12 @@ Lesart „constructed faster“ (q ≥ 3.15 / ≥ 2.61). **Der zweite Teil des v
 - **„Plateau hält“:** *…; trained longer (one run, 16 000 steps, exploration), the random split stayed on the plateau (held-out … at step 16 000; … without a trained mirror), which does not show that it would never end.*
 - **„unklar“:** *…; trained longer (one run, 16 000 steps), held-out accuracy rose to … without reaching 0.5 (inconclusive).*
 - Technische Kontrolle verfehlt: nur beschreibend nennen.
+
+
+## Einsetzfertig (Sitzung 61, 18:20): LM3-F-Sätze mit Zahlen – erst NACH der unabhängigen Nachrechnung einsetzen
+
+Hauptauswertung „bestätigt“ (`LM3F_summary.json`); die Nachrechnung (Dienst-Job 43y_lm3f_post #1) läuft. Stimmt sie überein, dann:
+
+- **Anhang K, LM3-Absatz:** ersetze „Whether these models use the steered frequencies (LM3-F) is still being computed.“ durch: *Removing the run's own target subspace lowered held-out accuracy far more than removing the other split's targets (LM3-F, frozen with LM3, independently recomputed: mean C̄ 0.839 [0.747, 0.913], 10/10 seeds, exact one-sided sign-permutation p = 1/1024; median accuracy 0.92 at baseline, 0.010 without the run's own targets and 0.92 without the other split's targets; in seed 4013, which also had the smallest Δ_pow, removing the other split's targets cost 0.31 and 0.30 as well).* Kopf „(LM3 and LM3-F, …)“.
+- **§7 „Beyond the toy model“:** ersetze „and at a lower arithmetic share only the representation effect is confirmed so far (LM3, about 8.7 % arithmetic tokens: Δ_pow 5.99 [4.64, 6.99], 9/10 seeds above the minimum of 1; Appendix K)“ durch *„and both effects held again at a lower arithmetic share (LM3, about 8.7 % arithmetic tokens: Δ_pow 5.99 [4.64, 6.99], 9/10 seeds above the minimum of 1; ablation contrast 0.84 [0.75, 0.91], 10/10 seeds; Appendix K)“*; Kopfzeile „LM3 and LM3-F on 10 further fresh seeds“. Grenze (ii) „(LM3, representation only)“ → „(LM3)“.
+- Zahlen selbst geprüft gegen `LM3F_summary.json` (Median Basis 0.916, eigene 0.010, fremde 0.917; Seed 4013: 0.779 → 0.469, 0.914 → 0.615). Danach unabhängige Textprüfung; Abstract erst danach entscheiden (1917/1920 Zeichen).

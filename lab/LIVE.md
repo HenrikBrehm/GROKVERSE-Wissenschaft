@@ -5,21 +5,24 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 16:00 Berlin (14:00Z, vom Runner)
 - **Deadline:** 2026-09-30 18:59 Berlin (16:59Z)
-- **Zuletzt aktualisiert:** 17:53 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 18:20
+- **Status: Sitzung beendet.** Nächster Start laut Runner: 30.09. ≈ 19:34 Berlin (vorläufig, der Runner setzt ihn neu). Berlin (gemessen)
 
 ## Gerade
 
-- **Hinweis für den Nutzer:** Die zwei Seed-4001-Läufe von EXP-127 hängen seit ≈ 17:23 beim Beenden (P-021, Ergebnisse gesichert und ausgewertet). EXP-130 wartet dahinter. Beenden bitte durch dich/deinen Assistenten.
-- **LM3-F bestätigt:** Auch bei ≈ 8.7 % Rechentext *braucht* das Sprachmodell die gesteuerten Frequenzen: Werden sie entfernt, fällt die Genauigkeit auf ≈ 1 %; das Entfernen der fremden Frequenzen schadet kaum (C̄ 0.84 [0.75, 0.91], 10/10). Die unabhängige Nachrechnung läuft (≈ 2 h), danach kommt der Satz ins Paper.
-- Neue Frage N60 → **EXP-132** vorbereitet: Pythia auf *Multiplikation* mod 113 nachtrainieren (dort passen die Dezimalmerkmale nicht). Selbsttests grün; eine unabhängige Codeprüfung läuft.
-- Die Grafikkarte steht seit ≈ 17:23 still (P-021-Hänger), EXP-130 wartet.
+- Keine Sitzung aktiv. Der GPU-Dienst rechnet EXP-130 (Pythia, jede Frequenz einzeln, fertig ≈ 18:57), danach EXP-132 (Pythia auf Multiplikation), EXP-125, EXP-128, EXP-129. Auf der CPU läuft die LM3-F-Nachrechnung (fertig ≈ 19:50).
+- Die hängenden Pythia-Prozesse (P-021) hat der Assistent des Nutzers um 16:45 und 18:16 beendet. Neue Pythia-Jobs beenden solche Hänger jetzt selbst (stall_minutes 15).
 
 ## Als Nächstes
 
-1. Nächste Sitzung: LM3-F-Nachrechnung prüfen → Paper-Satz (Anhang K, §7) + Prüfung. 2. EXP-130 auswerten, dann EXP-131.
+1. LM3-F-Nachrechnung prüfen → Paper-Satz (liegt einsetzfertig in `paper/LM1_DEUTUNGEN`) + unabhängige Textprüfung. 2. EXP-130 auswerten, dann EXP-131 (Zwischenschichten, Sekunden). 3. EXP-132 auswerten.
 
 ## Verlauf dieser Sitzung
 
+- 18:20 Sitzung beendet (Stand gesichert).
+- 18:20 LM3-F-Sätze für das Paper einsatzfertig vorbereitet.
+- 18:18 Unabhängige Prüfung der heutigen Texte: Zahlen richtig, 4 Formulierungen korrigiert. EXP-130 läuft seit 18:17.
+- 18:06 EXP-132 (Multiplikation) eingereiht.
 - 17:53 EXP-132 vorbereitet (Selbsttest, Splits, Auswertung getestet).
 - 17:46 N60 notiert; Rückschau im JOURNAL.
 - 17:44 **LM3-F bestätigt** (C̄ 0.839 [0.747, 0.913], 10/10, p = 1/1024).

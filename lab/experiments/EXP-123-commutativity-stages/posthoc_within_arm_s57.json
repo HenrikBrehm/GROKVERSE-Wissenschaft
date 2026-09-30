@@ -1,0 +1,38 @@
+{
+ "R": {
+  "n": 18,
+  "never_reached": 0,
+  "rho_t03_tswap": 0.7562517155692463,
+  "p": 0.00039998000099995,
+  "rho_t03_tgen": 0.8983343397323309,
+  "p_tgen": 4.999750012499375e-05,
+  "n_tgen": 16,
+  "t03_median": 3875.0,
+  "tswap_median": 4150.0,
+  "reading": "gekoppelt"
+ },
+ "D_0": {
+  "n": 19,
+  "never_reached": 0,
+  "rho_t03_tswap": 0.8129429756076489,
+  "p": 4.999750012499375e-05,
+  "rho_t03_tgen": 0.8508417149691381,
+  "p_tgen": 9.99950002499875e-05,
+  "n_tgen": 14,
+  "t03_median": 4250.0,
+  "tswap_median": 4250.0,
+  "reading": "gekoppelt"
+ },
+ "E2_0": {
+  "n": 20,
+  "never_reached": 0,
+  "rho_t03_tswap": 0.7328121781470309,
+  "p": 0.000199990000499975,
+  "rho_t03_tgen": 0.64313417972243,
+  "p_tgen": 0.00119994000299985,
+  "n_tgen": 20,
+  "t03_median": 250.0,
+  "tswap_median": 325.0,
+  "reading": "beschreibend"
+ }
+}

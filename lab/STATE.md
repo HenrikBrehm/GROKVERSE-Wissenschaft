@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-09-30, 06:10 Berlin (Sitzung 57) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-09-30, 06:08 Berlin (Sitzung 57) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -32,7 +32,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] (eine Seite) · [[FINDINGS_D
 
 - **Sitzung 57 (ab 05:50):** **R12 eingefroren** (8e6f9b3f; R5-Design auf add 97 und mul 113 übertragen, je 20 Einheiten, Seeds 4200–4239, Arme R/E2_0/D_0/E2_1/D_1, H-ER und H-ED je Aufgabe, Holm über 4; Bezug: Paper §7 (ii) „R5 nur add 113“). Codeprüfung durch Agent ohne Blocker, 3 kleine Punkte übernommen; Smoke durch den Lader grün (Seed 4299). Läuft beim Dienst als `44_r12`.
 
-## Aktive Queue / laufende Jobs (Stand Sitzung 57, 06:10 Berlin)
+## Aktive Queue / laufende Jobs (Stand Sitzung 57, 06:08 Berlin)
 
 - **GPU-Dienst (Regel 21)**, `lab/queue/status.json`: `43_lm3b` (LM3, 20 Läufe à 15 000 Schritte, 3 Worker, ≈ 90–110 min je Lauf, Block ≈ 10–12 h). `done/43_lm3.*` ist ein leerer Fehlversuch (Datei wurde gelesen, bevor sie geschrieben war) – ignorieren. **Jobdateien immer erst außerhalb von inbox schreiben, dann verschieben.**
 - `44_r12` (R12, 200 freq_ban-Läufe à 8000 Schritte, 6 Worker, gpu_gb 0.75; ≈ 6–9 min je Lauf unter Last → Block grob 5–7 h, schneller sobald LM3 fertig ist). **`confirm_r12.py` und die R12-Splits nicht ändern** (Hash im Manifest).

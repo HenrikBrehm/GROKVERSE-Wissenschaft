@@ -5,7 +5,7 @@ datum: 2026-09-30
 tags: [lab/paper]
 verwandt: ["[[paper/draft_short]]", "[[confirm/R12_REGISTRATION_DRAFT|R12]]", "[[confirm/R5_REGISTRATION_DRAFT|R5]]"]
 ---
-# R12: Deutungssätze je Ausgang, vor jedem Ergebnis festgelegt (Sitzung 57, 2026-09-30, ≈ 06:12 Berlin)
+# R12: Deutungssätze je Ausgang, vor jedem Ergebnis festgelegt (Sitzung 57, 2026-09-30, fertig 06:08 Berlin gemessen)
 
 Zurück: [[paper/STATUS]] · Registrierung [[confirm/R12_REGISTRATION_DRAFT|R12]] (eingefroren 8e6f9b3f) · Lesart maschinell in `lab/tools/confirm_r12.py --analyze`.
 Zweck wie [[paper/LM1_DEUTUNGEN]]: Die Deutung jedes Ausgangs steht fest, bevor die Läufe ausgewertet sind. Beim Einsetzen nur Zahlen ergänzen (2^L̄ mit KI, n, p_Holm, Anzahl bestimmter Einheiten mit richtiger Reihenfolge); Abweichungen vom Wortlaut im JOURNAL begründen. **Stand beim Schreiben:** keine R12-Auswertung gesehen; gesehen sind nur die zwei Smoke-Logzeilen (Seed 4299, nicht im Block).

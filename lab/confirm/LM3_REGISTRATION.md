@@ -1,6 +1,6 @@
 ---
 id: LM3
-status: entwurf
+status: eingefroren
 datum: 2026-09-30
 tags: [confirm, lm-leiter]
 ---

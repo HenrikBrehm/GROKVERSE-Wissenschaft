@@ -261,3 +261,11 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 - Die alte Lesart „Paarstruktur schließt die Lücke → LM2 als Bestätigungsblock mit Rf“ ist damit überholt.
 
 - **Neu (S54, 23:42):** Kandidat N57 (Plateau = Kommutativität, im Spielzeugmodell prüfen) – [[NOVEL_DIRECTIONS]]. Vorrang: nach EXP-121 und der LM1-F-Nachrechnung; klein und billig.
+
+## Stand Sitzung 65 (01.10.2026, 01:59 Berlin): Reihenfolge der offenen Fragen
+
+1. **L0b auswerten** (Menge gegen Reihenfolge, B = 16; Kernfrage Regel 20b) inkl. vorab festgelegter Post-hoc-Frage R5 unter Minibatch (`lab/confirm/L0b_posthoc_r5_s65.py`).
+2. **EXP-134 / EXP-135** (LM: Text-Vortraining des Rumpfs; Festlegung K4 im LM) – Piloten, Lesarten vorab; bei klarem Ausgang Bestätigung erwägen (Regel 20e2: LM nur Anhang/Ausblick).
+3. **[[experiments/EXP-136-large-modulus/README|EXP-136]]** (K2 bei p = 211/307, 30 % gegen 3831 Paare): Ausgang entscheidet den nächsten Block. „lo steuert“ → Bestätigungsblock (≥ 10 frische Seeds, getrennte SeedSequence-Ströme, Messung auch am Ende) mit einem dritten, kleineren Anteil als Brücke zu LeDoux; „lo bricht“ → beschreibende Dosiskurve über die Paarzahl, im Paper als Grenze (ii).
+4. EXP-128 (SGD + Clipping), EXP-129 (K = 1): beim Dienst, Auswertung nach Vorlage.
+5. Zurückgestellt nach Regel 20a: Mechanismus-Detailversuche EXP-096–099, N57-Details.

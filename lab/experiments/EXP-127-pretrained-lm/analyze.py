@@ -44,21 +44,26 @@ def load(root: Path, seed: int, arm: str, steps: int) -> dict | str:
     hits = sorted(root.glob(f"pt_seed{seed}_seed{seed}_{arm}_steps{steps}_*"))
     if not hits:
         return "fehlt"
-    if len(hits) > 1:
-        return "defekt (mehrere Laufordner)"
-    d = hits[0]
-    if not (d / "result.json").exists():
-        return "fehlt"
-    r = json.loads((d / "result.json").read_text(encoding="utf-8"))
-    if r.get("status") != "completed":
-        return f"defekt ({r.get('status')})"
+    done, other = [], []
+    for d in hits:
+        rj = d / "result.json"
+        r = json.loads(rj.read_text(encoding="utf-8")) if rj.exists() else {}
+        (done if r.get("status") == "completed" and r["curve"][-1][0] == steps else other).append((d, r))
+    if len(done) != 1:
+        if done:
+            return f"defekt ({len(done)} fertige Laufordner)"
+        st = [r.get("status", "ohne result.json") for _, r in other]
+        return "fehlt" if all(s == "ohne result.json" for s in st) else f"defekt ({', '.join(map(str, st))})"
+    d, r = done[0]
     try:
         si, so = np.load(d / "in_snapshots.npy"), np.load(d / "out_snapshots.npy")
     except Exception as e:  # noqa: BLE001
         return f"defekt ({e})"
-    if not (np.isfinite(si).all() and np.isfinite(so).all()) or r["curve"][-1][0] != steps:
-        return "defekt (nicht endlich / Schritte)"
-    return {"r": r, "in": si, "out": so}
+    if not (np.isfinite(si).all() and np.isfinite(so).all()):
+        return "defekt (nicht endlich)"
+    if abs(r["ablation"]["base"] - r["curve"][-1][2]) > 1e-6:
+        return "defekt (Ablationsbasis weicht vom Log ab)"
+    return {"r": r, "in": si, "out": so, "extra_dirs": [str(x) for x, _ in other]}
 
 
 def main() -> None:
@@ -69,6 +74,9 @@ def main() -> None:
         runs = {arm: load(root, s, arm, steps) for arm in "FG"}
         status[s] = {arm: (v if isinstance(v, str) else "ok") for arm, v in runs.items()}
         if any(isinstance(v, str) for v in runs.values()):
+            continue
+        if runs["F"]["r"]["config"]["targets"] != runs["G"]["r"]["config"]["targets"]:
+            status[s]["targets"] = "defekt (Ziele in F und G verschieden)"
             continue
         F_, G_ = runs["F"]["r"]["config"]["targets"]["F"], runs["F"]["r"]["config"]["targets"]["G"]
         row = {"seed": s}
@@ -101,7 +109,7 @@ def main() -> None:
         reading = "bricht"
     else:
         reading = "unklar"
-    used = len(rows) == 2 and all(r[f"C_both_{a}"] > 0.3 for r in rows for a in "FG")
+    used = None if len(rows) < 2 else all(r[f"C_both_{a}"] > 0.3 for r in rows for a in "FG")
     out = {"reading": reading, "gate": gate, "genutzt_beschreibend": used, "status": status, "rows": rows, "steps": steps,
            "root": str(root)}
     (HERE / f"summary_steps{steps}.json").write_text(json.dumps(out, indent=1, ensure_ascii=False), encoding="utf-8")

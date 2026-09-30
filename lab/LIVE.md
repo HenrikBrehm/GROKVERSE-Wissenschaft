@@ -5,17 +5,23 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 13:29 Berlin (11:29Z, vom Runner)
 - **Deadline:** 2026-09-30 16:29 Berlin (14:29Z)
-- **Zuletzt aktualisiert:** 15:15 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 15:55 Berlin (gemessen)
+- **Status: Sitzung beendet.** Nächster Start laut Runner: 30.09. ≈ 17:04 Berlin (vorläufig, der Runner setzt ihn neu).
 
 ## Gerade
 
-- LM3: 17/20 fertig; die letzten 3 Läufe bei ≈ 11 000 von 15 000 (fertig grob 15:50). R12 176/200. Keine Fehlschläge.
+- Keine Sitzung aktiv. Der GPU-Dienst rechnet weiter: LM3-F (Funktionstest, CPU, ≈ 2 × 2 h), Pythia-Pilot EXP-127, dann EXP-125, EXP-128, EXP-129.
 
 ## Als Nächstes
 
-- LM3 auswerten, sobald 20/20 fertig (eingefroren; Deutungssätze liegen bereit), danach LM3-F beim Dienst einreihen.
+1. LM3-F auswerten, sobald fertig. 2. Paper: R12 ins Abstract („in three tasks“), Tabelle 1, Abbildung. 3. EXP-127 auswerten.
 
 ## Verlauf dieser Sitzung
+
+- 16:00 **R12 ins Paper** (Abschnitt 4, Einleitung, Grenzen); Prüfer fand einen Zählfehler von mir (vertauschte Anzahlen), korrigiert.
+- 15:52 **R12 bestätigt:** Konstruierte Datensätze beschleunigen das Grokking auch bei Addition mod 97 (×4.5) und Multiplikation mod 113 (×7.4), je 20/20; unabhängig nachgerechnet.
+- 15:50 **LM3 ins Paper** (Anhang K, Abschnitt 7), unabhängig geprüft.
+- 15:45 **LM3 bestätigt:** Auch bei nur ≈ 8.7 % Rechen-Tokens steuert die Faktenauswahl die Zahl-Einbettung (Δ_pow 5.99 [4.64, 6.99], 20/20 lernen); unabhängig nachgerechnet. Funktionstest LM3-F eingereiht.
 
 - 14:15 Literatur zur Schritt-Uhr: Zucchet et al. 2025 finden, dass Wiederholung das Lernen stark beschleunigen kann – das passt nicht ganz zu unseren alten Läufen; EXP-129 prüft es mit gleichen Seeds.
 

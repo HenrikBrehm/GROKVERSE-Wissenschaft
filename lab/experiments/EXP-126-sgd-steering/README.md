@@ -21,6 +21,15 @@ Zurück: [[LAB]] · [[FINDINGS]] · Vorlage/Splits [[experiments/EXP-100-set-vs-
 - **Budget/Abbruch:** ≈ 0.04–0.065 s/Schritt unter Last → 13–22 min je Lauf; 16 Läufe bei 4 Workern ≈ 1–1.5 h; harte Grenze 120 min je Lauf. Divergenz beendet nichts (Lauf zählt als „divergiert“).
 - **Priorität:** als `43z_exp126_sgd` vor R12 eingereiht (kurz; R12 verzögert sich dadurch um ≈ 1 h, ist ohnehin ≈ 10 h lang).
 
+## Deutung je Ausgang (vor dem Ergebnis festgelegt, 06:37 gemessen)
+
+Ort im Paper: nur als Exploration, ein Satz in §7 (i) *Regime* und im Anhang J (L0, SGD-Arm). Kein Kernsatz.
+- **„K2 ohne Adam“ (bei mindestens einer lr):** *In a pilot with full-batch SGD with momentum (4 seeds, exploration), engineered splits steered the learned frequencies as with AdamW (Δ_pow … to …), so the steering is not specific to Adam's per-coordinate normalization.* Die Festlegung (Result 3) bleibt ausdrücklich AdamW-gebunden (R9/K5 hängen an Adams Fenstern).
+- **„bricht“:** *With full-batch SGD with momentum the runs learned the training set but the engineered splits did not steer the frequencies (|Δ_pow| ≤ 1 in all evaluable seeds; pilot); the steering may depend on Adam.* Dann als Grenze in §7 (i) und Kandidat für eine Bestätigung.
+- **„unklar“:** nur Zahlen, keine Richtung behaupten.
+- **„nicht auswertbar“ (lernt nicht / divergiert):** *SGD with momentum did not train reliably in this setting (…/8 runs learned), so we could not test the steering without Adam.* Wie beim L0-Arm.
+- Verschiedene Ausgänge bei 0.05 und 0.1: beide berichten, keine Auswahl der günstigeren lr.
+
 ## Befehle
 
 ```

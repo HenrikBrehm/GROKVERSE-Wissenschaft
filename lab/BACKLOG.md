@@ -214,6 +214,7 @@ Nicht in `night_program.py` portierte Reste der alten CPU-Queues, gegen das Prog
 
 ## Sitzung 46: offene Linien aus L0-Machbarkeit und RFM
 
+- **L0b (P1, Sitzung 63):** Bestätigung zu EXP-106 (Menge gegen stride-Reihenfolge bei B = 16, wd 0.1): [[confirm/L0b_REGISTRATION]], 64 frische Seeds (3730–3793), H1 R-Verschiebung, H2 Äquivalenz auf F/G (±0.05), H3 Δ_pow(stride) > 1, H4 Zeitkosten; Paper-Sätze vorab [[paper/L0b_DEUTUNGEN]].
 - **L0-B16 (P2, nach dem L0-Piloten):** Bei B = 16 (240 Schritte je Epoche, LeDoux-näher) lernt das Netz mit AdamW 1e-3 / wd 1 in 30 000 Schritten nicht; eine feste Reihenfolge dominiert dann das W_E-Spektrum. Sonde mit kleinerer Lernrate bzw. weniger Weight Decay läuft ([[experiments/EXP-100-set-vs-order/README|EXP-100]], `b16probe.txt`). Lernt eine Variante: eigener Konfliktversuch bei B = 16 neu festlegen.
 - **RFM bei 50 % (P3):** [[experiments/EXP-101-rfm-k2/README|EXP-101]] Tor nicht bestanden (p = 113, 30 %, bis 60 Iterationen: 0.63–0.88). K2 in RFM bräuchte neu gebaute F/G-Splits bei höherem Trainingsanteil; nur wenn es zwischen Konkurrenzmodellen entscheidet (N50: braucht K2 einen Auswahldruck im Lerner?).
 

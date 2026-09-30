@@ -1,0 +1,5 @@
+[guard] start at 2026-09-30T06:05:48.731400+02:00 Berlin, hard timeout 163.9 min (binding: session_budget)
+add 97 E2_0 loader ok; dense grid valid; event observed: True ; we_share_250 is None: False
+mul 113 D_1 loader ok; dense grid valid; event observed: True ; we_share_250 is None: True
+R12 smoke ok
+[guard] completed (exit 0) after 0.2 s

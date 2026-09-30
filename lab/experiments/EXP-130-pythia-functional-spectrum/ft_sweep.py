@@ -5,7 +5,8 @@ the end-of-run ablation by a single-frequency sweep: for every k in 1..56 the co
 the 113 number-token rows of the input side, the output side, or both (ft_pythia.projector), and held-out accuracy is
 measured on the run's test prompts. Two extra sets: the pretrained top-8 input frequencies of Pythia-160M
 (pretrained_spectrum.json, EXP-127: 1, 2, 3, 11, 4, 5, 23, 45) and the "decimal" set 11, 23, 45 (periods ~10, 5, 2.5).
-Results go into result.json["ablation"]["sweep"]; a sidecar sweep_meta.json records this wrapper's hash.
+Results go into result.json["ablation"]["sweep"]; a sidecar sweep_meta.json records this wrapper's hash. The fine-tuned
+weights are saved (fp16) to <out-root>/models/model_split<seed>_<arm>.pt before the sweep (for layer-wise measures later).
 Written in session 61 BEFORE any EXP-130 run; UNTESTED until the smoke run has passed.
 
   python lab/tools/guarded_run.py -- .venv-gpu/Scripts/python.exe lab/experiments/EXP-130-pythia-functional-spectrum/ft_sweep.py \\
@@ -27,7 +28,23 @@ DECIMAL = [11, 23, 45]
 _orig_ablation = ft.ablation
 
 
+MODEL_DIR: Path | None = None   # set in main() from --out-root; the fine-tuned weights are kept for later layer-wise measures
+
+
+def save_model(model, split_seed: int, arm: str) -> None:
+    """fp16 state dict (~0.33 GB), written atomically BEFORE the sweep (session 61, before any EXP-130 run)."""
+    import torch
+    if MODEL_DIR is None:
+        return
+    path = MODEL_DIR / f"model_split{int(split_seed)}_{arm}.pt"
+    tmp = path.with_suffix(".pt.tmp")
+    torch.save({k: v.detach().half().cpu() for k, v in model.state_dict().items()}, tmp)
+    tmp.replace(path)
+
+
 def sweep_ablation(model, xt, ct, num, own, other, targets, split_seed, device) -> dict:
+    arm = "F" if list(own) == list(targets["F"]) else "G"
+    save_model(model, split_seed, arm)
     out = _orig_ablation(model, xt, ct, num, own, other, targets, split_seed, device)
     W = {"in": model.get_input_embeddings().weight.data, "out": model.get_output_embeddings().weight.data}
     X0 = {s: W[s][num].clone() for s in W}
@@ -57,11 +74,14 @@ def sweep_ablation(model, xt, ct, num, own, other, targets, split_seed, device) 
 
 
 def main() -> None:
+    global MODEL_DIR
     ft.ablation = sweep_ablation
     args = sys.argv[1:]
     if "--out-root" in args:
         root = Path(args[args.index("--out-root") + 1])
         root.mkdir(parents=True, exist_ok=True)
+        MODEL_DIR = root / "models"
+        MODEL_DIR.mkdir(exist_ok=True)
         meta = {"wrapper_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                 "ft_pythia_sha256": ft.sha(ft.__file__), "argv": args}
         (root / f"sweep_meta_{hashlib.sha256(json.dumps(args).encode()).hexdigest()[:12]}.json").write_text(json.dumps(meta, indent=1), encoding="utf-8")

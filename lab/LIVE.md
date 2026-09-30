@@ -5,16 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-09-30 08:29 Berlin (06:29Z, vom Runner)
 - **Deadline:** 2026-09-30 11:29 Berlin (09:29Z)
-- **Zuletzt aktualisiert:** 10:04 Berlin (gemessen)
+- **Zuletzt aktualisiert:** 10:34 Berlin (gemessen)
 - **Run-Fenster:** offen (durchgehend bis 06.10.). Lange Läufe über den GPU-Dienst (Regel 21).
 
 ## Gerade
 
-- Test vor dem Pythia-Piloten (CPU, kein Training): Trägt schon der allererste Lernschritt des vortrainierten Modells die Frequenzen, die unsere Faktenauswahl vorgibt? Die Vorhersage (Anhang G) ist vorher festgelegt.
-
-## Hinweis für den Nutzer
-
-- Mein CPU-Test `first_gradient.py` (PID 9988, gestartet 09:31) läuft viel langsamer als geplant und belegt ≈ 9 CPU-Kerne. Mein Abbruchversuch wurde von der Sicherheitsprüfung abgelehnt; der Wächter beendet ihn spätestens ≈ 11:30. Die GPU-Läufe sind davon nicht betroffen, laufen aber evtl. etwas langsamer. Wenn du ihn früher beenden willst: Prozessbaum des Wächters (PID 24808) beenden.
+- Stand sichern. Um ≈ 10:38–11:00 stellt der Assistent des Nutzers die Warteschlange um (EXP-127 vor EXP-125); danach passe ich STATE an und schreibe den Abschlussbericht.
 
 ## Als Nächstes
 
@@ -25,6 +21,9 @@ tags: [lab/live]
 Neustart (P-017-Fix) erledigt, läuft wieder. LM3 8/20 fertig, 3 laufen; R12 26/200, 4 laufen; EXP-125 und EXP-127 warten auf Speicher.
 
 ## Verlauf dieser Sitzung (Uhrzeiten = Commit-/Wächterzeiten)
+
+- 10:32 **Gradiententest fertig: „nicht gestützt“** – am vortrainierten Modell trägt der erste Lernschritt die gewünschten Frequenzen nicht; wenn Pythia gesteuert wird, dann erst im Lauf des Trainings. Der CPU-Prozess ist beendet (dauerte 62 statt wenige Minuten).
+- 10:12 Nutzerentscheidung: der Pythia-Pilot läuft vor EXP-125 (heute Abend fertig statt nachts).
 
 - 10:02 Erster Seed des Gradiententests: Am vortrainierten Modell zeigt der erste Lernschritt die vorgegebenen Frequenzen *nicht* (Δ ≈ 0); die Zahlen-Vorprägung dominiert. Zweiter Seed läuft.
 

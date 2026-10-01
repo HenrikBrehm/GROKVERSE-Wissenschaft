@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 13:46 Berlin (Sitzung 69, Ende) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 14:10 Berlin (Sitzung 70, läuft) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,13 +17,15 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`)
 
-Reihenfolge (13:44 gemessen): `52a6_exp141_alpha` (**EXP-141**, 7/12 fertig, Rest = Zelle 18 100; je ≈ 7 GB, einzeln) → `52a7_r15_p401` (**R15** p 401, 30 Läufe, gpu_gb 4) → `52b_exp139_p503` → `52c_exp139_p613`. Fertig: 52a, 52a5, 52a55 (EXP-140), **52a56 (R15 p 307, 30/30)**, **52a57 (EXP-142)**. Statuseinträge `52bz_…`/`52bzz_…` = Geister umbenannter Dateien (P-023; laufen am Ende leer). **Keine Jobdateien bei laufendem Dienst umbenennen** (Reihenfolge nur über neue Präfixe).
+Reihenfolge (14:10 gemessen): `52a6_exp141_alpha` (**EXP-141**, 11/12 fertig) → `52a7_r15_p401` (**R15** p 401, 30 Läufe, gpu_gb 4) → **`52a8_exp143_ledoux`** (**EXP-143**, 4 Läufe à 250 000 Schritte, gpu_gb 2.5, neu S70) → `52b_exp139_p503` → `52c_exp139_p613`. Fertig: 52a, 52a5, 52a55 (EXP-140), **52a56 (R15 p 307, 30/30)**, **52a57 (EXP-142)**. Statuseinträge `52bz_…`/`52bzz_…` = Geister umbenannter Dateien (P-023; laufen am Ende leer). **Keine Jobdateien bei laufendem Dienst umbenennen** (Reihenfolge nur über neue Präfixe).
 
 **R15** ([[confirm/R15_REGISTRATION]], eingefroren a8033017; Smoke grün): konstruierte (F/G) gegen gleich große Zufallsmenge (R) an der Datengrenze, 401/14 000 (H1) und 307/9425 (H2), Seeds 4500–4509. Auswertung nach 60/60: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r15.py --analyze lab/confirm/R15_manifest.json`; dann unabhängig nachrechnen, Wortwahl „konstruiert (ε 2, frequenzgezielt) gegen gleichverteilt“.
 
 **EXP-141** (7 Läufe gelesen): Zelle 503/16 100 vollständig, **alle 6 Arme generalisieren** (gen 14 850–28 425, Median ≈ 20 500) – damit generalisiert die Zelle (≥ 2 Seeds mit beiden Armen), gegen die α = 5/3-Vorhersage; später als beide vorab committeten Fortschreibungen (Nachtrag a: α_T ≈ 1.21 → Median ≈ 13 800; Nachtrag b: Tian 2025 N ∝ p ln p → ≈ 12 100). Auswerten mit `analyze.py` (Frage 1) und `iso_time_s69.py` (Nachtrag a/b).
 
 **S69-Befunde:** EXP-140 „Konstruktion ermöglicht Generalisierung“ (401/14 000: R 0/3 in 30 000, E ≈ 5 500; Pilot). EXP-142 „Frequenzstruktur nötig“ (permutierte F-Gewichte U 0/3; Pilot). Post hoc EXP-139: W_E ist auch in nie generalisierenden Zellen gesteuert (Δ_pow 2.0–3.6 ≫ Placebo-q99 0.3–0.4, 6/6; `posthoc_nolearn_s69.json`). Iso-Zeit-Paarzahlen wachsen ≈ p^1.2 (oder p ln p, nicht trennbar; beschreibend). Beides unabhängig nachgerechnet; Prägung schon bei Schritt 50–250 (frühe Gradienten-Einprägung, nicht „Memorisierung“).
+
+**EXP-143** ([[experiments/EXP-143-ledoux-regime/README|README]], neu S70, Pilot): LeDoux-Regime p = 9973, 300 000 Paare, Batch 256; Arme R/F × iid/stride, Seed 14300; Lesarten Q1–Q3 vorab. Läuft über den neuen Wrapper `lab/tools/freq_ban_large.py` (gestückelte Auswertung, Trainer unverändert; Gleichwertigkeit bei p 113 bitgleich geprüft). Auswertungsskript noch zu schreiben (gen, Top-5, Ziel- und Stride-Leistung 101 ± 1 / 1914 ± 1).
 
 ## Nächste Schritte
 

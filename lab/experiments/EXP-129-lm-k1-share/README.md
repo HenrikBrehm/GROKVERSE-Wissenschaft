@@ -1,8 +1,8 @@
 ---
 id: EXP-129
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-30
-tags: [exp/vorbereitet, lab/lm]
+tags: [exp/abgeschlossen, befund/positiv, lab/lm]
 verwandt: ["[[experiments/EXP-116-lm-low-share/README|EXP-116]]", "[[confirm/LM3_REGISTRATION|LM3]]", "[[FINDINGS]]", "[[BACKLOG]]"]
 ---
 # EXP-129: Sprachmodell-Leiter, ein Rechensatz je Sequenz (≈ 4.5 % Rechen-Tokens), Pilot
@@ -28,3 +28,7 @@ Zurück zu [[LAB]]. **Exploration (2 Seeds), keine Bestätigung.**
 - **Smoke:** Ein CPU-Kurzlauf (20 Schritte) wurde von meinem eigenen `timeout 500` abgebrochen (CPU-Auswertung zu langsam; eigener Fehler, kein Rest-Prozess). Nicht wiederholt: Trainer unverändert, K über `--arith-facts` im Selbsttest abgedeckt (K = 4), und der Datenstrom mit K = 1 lief in `wrap_budget.py` über 14 477 Schritte fehlerfrei.
 
 Befehle: Jobs `python lab/experiments/EXP-129-lm-k1-share/make_jobs.py > <außerhalb von inbox>`, dann verschieben nach `lab/queue/inbox/47_exp129_k1.jobs`. Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-129-lm-k1-share/analyze.py`.
+
+## Ergebnis (Sitzung 67, 01.10., 07:19 Berlin gemessen; Dienst 4/4, keine Fehler)
+
+`analyze.py` (Lesarten vorab): **„K2 haelt im LM“** – Δ_pow bei 14 000: 2.78 (Seed 3864) und 5.56 (3865); zurückgehaltene Fakten 0.61/0.80 (3864 F/G) und 0.79/0.80 (3865), alle > 0.5; Trainingsfakten 0.81–0.91; Rechen-Anteil 0.0454; 0 Textumläufe. **Uhr (sekundär): „Schritte“** – in allen 4 (trennenden) Läufen liegt a1 näher am Partner bei gleichem Schritt (0.63 gegen s 0.62 / e 0.30; 0.82 gegen 0.93 / 0.53; 0.86 gegen 0.81 / 0.01; 0.80 gegen 0.67 / 0.01). Deutung vorab: Steuerung bis ≈ 4.5 % Rechen-Tokens (Pilot, 2 Seeds); der Lernbeginn wird eher vom allgemeinen LM-Training als von den Wiederholungen je Fakt bestimmt (beschreibend, passt zum Vorwissen S60). Paper: Absatz in Anhang K (unabhängige Textprüfung läuft). Keine Bestätigung geplant (Regel 20d2: LM-Leiter nur Anhang).

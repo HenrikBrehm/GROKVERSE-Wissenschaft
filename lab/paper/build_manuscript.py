@@ -88,7 +88,7 @@ def ref_keys(refs_md: str) -> set[tuple[str, str]]:
 # Appendix plan (draft_short, "Abbildungen ... und Anhang"): letter -> (title, sources). "L:3.7" = long-draft subsection,
 # "L2:4 " = long-draft level-2 section, "S:Anhang J" = draft_short section. Copied verbatim; cross-references not yet edited.
 APPENDIX = [
-    ("A", "Robustness (R1/C1, P4/C3, R7, R2/C2)", ["L:3.7", "L:3.11", "L:3.12", "L:3.13"]),
+    ("A", "Robustness (R1/C1, P4/C3, R7, R2/C2, R14, R15)", ["L:3.7", "L:3.11", "L:3.12", "L:3.13"]),
     ("B", "Functional measures and their limit (P2d/P2e)", ["L:3.2"]),
     ("C", "Lock-in in detail (K4/K4b, K4c, resets K4d/K4e, R6/R8)", ["L:3.3", "L:3.4", "L:3.5", "L:3.8"]),
     ("D", "The clock of the lock-in (R3, R9/K5, R10, R11)", ["L:3.10", "L:3.15", "L:3.16", "L:3.17"]),

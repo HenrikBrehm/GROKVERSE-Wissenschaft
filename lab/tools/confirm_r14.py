@@ -9,7 +9,8 @@ Per arm: generalization step g = transitions.primary.generalization.first_crossi
 Per seed: Delta_pow at these two snapshots (P1 formula on the W_E group power, k = 1..153) and the 99 % quantile q99 of |placebo
 Delta_pow| (2000 random disjoint 5+5 frequency sets outside F u G, same two snapshots, stream SeedSequence([14, seed])).
 Primary statistic per seed: D = Delta_pow - q99; a seed with an arm that never generalizes (or no snapshot >= g + 1000) enters as
-D = -1 (counts against the claim; reported). Test: exact one-sided sign-flip test of mean D > 0 (n = 12, 2^12 patterns), single
+D = -max(q99 of the evaluable seeds) (-1 if none; counts against the claim like a seed at the largest placebo level; reported).
+A run whose steps_completed does not follow the stop rule is a technical failure. Test: exact one-sided sign-flip test of mean D > 0 (n = 12, 2^12 patterns), single
 hypothesis (no Holm), 95 % bootstrap CI of mean D. "bestaetigt" if p < 0.05 AND CI lower bound > 0 AND D > 0 in >= 10 of 12 seeds
 (added in the selftest before freezing: otherwise half the seeds failing could still pass on the mean); technical failure of any run
 (missing, unbound, config, non-finite) -> "nicht auswertbar".
@@ -157,6 +158,12 @@ def top5(pw: np.ndarray) -> set[int]:
     return {int(k) + 1 for k in np.lexsort((np.arange(len(pw)), -pw))[:5]}
 
 
+def stop_mismatch(done: object, gen: object, man: dict) -> str | None:
+    """steps_completed must follow the stop rule: all steps without generalization, else min(steps, gen + stop_after_gen)."""
+    want = man["steps"] if gen is None else min(man["steps"], int(gen) + man["stop_after_gen"])
+    return None if done == want else f"steps_completed {done!r} inconsistent with the stop rule (expected {want})"
+
+
 def run_info(man: dict, s: int, arm: str) -> dict | str:
     split = SPL / f"{stem(s, arm)}.npy"
     d = run_dir(shlex.split(job(man, s, arm)))
@@ -173,6 +180,8 @@ def run_info(man: dict, s: int, arm: str) -> dict | str:
         return "defekt: split bytes differ"
     steps = [int(x) for x in np.load(io.BytesIO(BLOCK.bound_bytes(man, d / "we_snapshot_steps.npy")))]
     gen = ((L.res.get("transitions") or {}).get("primary") or {}).get("generalization", {}).get("first_crossing_step")
+    if (why := stop_mismatch(L.res.get("steps_completed"), gen, man)):     # pre-freeze review s67
+        return f"defekt: {why}"
     post = [t for t in steps if gen is not None and t >= gen + POST]
     pre = [t for t in steps if gen is not None and t < gen]
     want = tuple(sorted({t for t in (post[:1] + pre[-1:] + [2000]) if t in steps}))
@@ -211,7 +220,9 @@ def seed_row(man: dict, s: int) -> dict:
 def verdict(rows: list[dict], rng: np.random.Generator) -> dict:
     if len(rows) != N_SEEDS or any(r.get("technical") for r in rows):
         return {"verdict": "nicht auswertbar", "n": len(rows), "n_technical": sum(bool(r.get("technical")) for r in rows)}
-    D = np.array([r["D"] for r in rows])
+    ev_q = [r["q99"] for r in rows if r["evaluable"]]
+    fail = -max(ev_q) if ev_q else -1.0                  # pre-freeze review s67: a non-generalizing seed counts like a seed at
+    D = np.array([r["D"] if r["evaluable"] else fail for r in rows])   # placebo level with the largest observed q99, not milder
     p = c1.sign_flip_p(D, rng)
     ci = c1.boot_ci(D, rng)
     ev = [r for r in rows if r["evaluable"]]
@@ -279,6 +290,10 @@ def selftest() -> None:
     assert verdict(nine, rng)["verdict"] == "nicht bestätigt"
     assert verdict(ok[:11], rng)["verdict"] == "nicht auswertbar"
     assert verdict(ok[:11] + [{"seed": 1, "technical": True}], rng)["verdict"] == "nicht auswertbar"
+    assert verdict(mixed, rng)["mean_D"] < (sum(r["D"] for r in ok[:6]) - 6 * 5.0) / 12 + 1e-9   # failures count as -max q99
+    m = {"steps": 30000, "stop_after_gen": 2000}
+    assert stop_mismatch(30000, None, m) is None and stop_mismatch(8125, 6125, m) is None and stop_mismatch(30000, 29000, m) is None
+    assert stop_mismatch(8000, None, m) and stop_mismatch(30000, 6125, m)
     selftest_binding(BLOCK, tj[0], tj[1], tj[2])
     assert set(CODE_FILES) <= set(BLOCK.code_hashes())
     print("[confirm_r14] selftest ok", flush=True)

@@ -12,7 +12,7 @@ Geschrieben 2026-10-01 07:33–07:34 Berlin (gemessen), **vor jedem R14-Blocklau
 
 ## Warum (Bezug zu FINDINGS / Paper)
 
-Gutachter-Einwand LeDoux 2026 (p = 9973, 0.3 % Daten: Frequenz „regardless of … training set composition“). K2 ist bei p = 97/113 mit 30 % bestätigt. Der Pilot EXP-137 fand bei add 307 mit 10 % Daten (9425 Paare) in 6/6 Läufen Generalisierung und danach Δ_pow 8.2–10.9, jeweils über dem 99-%-Quantil eines Placebos. R14 prüft das an frischen Seeds/Splits, damit Grenze (ii) des Papers eine bestätigte Aussage zu einem größeren Modulus bei geringer Dichte tragen kann. Keine neue Kernaussage (Regel 20a), Ort: Anhang A + Grenze (ii).
+Gutachter-Einwand LeDoux 2026 (p = 9973, 0.3 % Daten: Frequenz „regardless of … training set composition“). K2 ist bei p = 97/113 mit 30 % bestätigt. Der Pilot EXP-137 fand bei add 307 mit 10 % Daten (9425 Paare) in 6/6 Läufen Generalisierung und danach Δ_pow 8.2–10.9, jeweils über dem 99-%-Quantil eines Placebos; bei p = 211 mit 10 % (4452 Paare) generalisierte dagegen keiner von 6 Läufen in 30 000 Schritten – „geringe Dichte“ heißt hier also ≈ 9425 Paare, nicht ein Anteil an sich. R14 prüft das an frischen Seeds/Splits, damit Grenze (ii) des Papers eine bestätigte Aussage zu einem größeren Modulus bei geringer Dichte tragen kann. Keine neue Kernaussage (Regel 20a), Ort: Anhang A + Grenze (ii).
 
 ## Aufbau (Einzelheiten im Docstring von `confirm_r14.py`)
 
@@ -20,7 +20,7 @@ Gutachter-Einwand LeDoux 2026 (p = 9973, 0.3 % Daten: Frequenz „regardless of 
 - **Splits:** P1-Konstruktion (`confirm_splits`, ε = 2, je 5 Ziele F/G disjunkt aus k = 1..153) mit **Versuchs-ID 14** (eigene SeedSequence-Ströme) und Anteil 0.1 (9425 Paare; die Modulkonstante wird nur innerhalb von `build` überschrieben und wiederhergestellt).
 - **Seeds (frisch, reserviert):** 4430–4441 (n = 12), gleiche Init für F und G eines Seeds. Nicht verwendet im Labor (R13 nutzt 4400–4429; Smoke nutzt 4499).
 - **Messung je Arm:** erster Schnappschuss ≥ eigenes gen + 1000 (gen = `transitions.primary.generalization.first_crossing_step`, Test ≥ 0.95); Δ_pow (P1-Formel, W_E-Gruppenleistung) aus diesen zwei Spektren; q99 = 99-%-Quantil von |Placebo-Δ_pow| (2000 zufällige disjunkte 5+5-Mengen außerhalb F ∪ G, Strom `SeedSequence([14, Seed])`).
-- **Primär je Seed:** D = Δ_pow − q99. Ein Seed mit einem nie generalisierenden Arm (oder ohne Schnappschuss ≥ gen + 1000) geht mit **D = −1** ein (zählt gegen die Aussage, wird berichtet).
+- **Primär je Seed:** D = Δ_pow − q99. Ein Seed mit einem nie generalisierenden Arm (oder ohne Schnappschuss ≥ gen + 1000) geht mit **D = −(größtes q99 der auswertbaren Seeds)** ein (−1, falls keiner auswertbar; zählt wie ein Seed auf Placebo-Niveau, wird berichtet; nach der Prüfung vor dem Einfrieren strenger als die erste Fassung D = −1). Ein Lauf, dessen Schrittzahl nicht der Stoppregel folgt, ist ein technischer Ausfall.
 - **Test (eine Hypothese, kein Holm):** exakter einseitiger Vorzeichen-Flip-Test für Mittel D > 0 (2¹² Muster), 95-%-Bootstrap-KI. **„bestätigt“:** p < 0.05 **und** KI-Untergrenze > 0 **und** D > 0 in ≥ 10/12 Seeds (einseitiger Binomial-p 0.019; im Selbsttest vor dem Einfrieren ergänzt, weil sonst ein Mittel aus der Hälfte der Seeds genügen könnte). Technischer Ausfall eines Laufs → „nicht auswertbar“.
 - **Beschreibend:** Δ_pow, q99, Generalisierungsschritte, Δ_pow bei 2000 und am letzten Schnappschuss vor gen, Top-5-Überlappung.
 
@@ -35,7 +35,7 @@ n = 12. Pilot (3 Seeds, gesehen): D = Δ_pow − q99 ≈ 4.4 / 5.2 / 5.6. Selbst
 
 ## Bereits gesehene Daten und davon beeinflusste Entscheidungen
 
-EXP-136 (p 211/307, 30 % und 3831 Paare) und EXP-137 (p 211/307 × 10/15/20 %, alle Ergebnisse, inkl. Placebo-Werte, gen-Schritte, Nachrechnung) – beeinflusst: Wahl p = 307 und 10 % (kleinste Zelle, in der der Pilot generalisierte), Budget 30 000, Messpunkt nach gen, Placebo-Kriterium, n. R14-Smoke (Seed 4499, 2000 Schritte, außerhalb des Blocks): Laufkennung, Konfiguration, Schnappschuss-Liste geprüft; gen None bis 2000 (wie im Pilot erwartet). Andere p/Anteile: nicht Teil von R14.
+EXP-136 (p 211/307, 30 % und 3831 Paare) und EXP-137 (p 211/307 × 10/15/20 %, alle Ergebnisse, inkl. Placebo-Werte, gen-Schritte, Nachrechnung) – beeinflusst: Wahl p = 307 und 10 % (kleinste Zelle, in der der Pilot generalisierte), Budget 30 000, Messpunkt nach gen, Placebo-Kriterium, n. R14-Smoke (Seed 4499, 2000 Schritte, außerhalb des Blocks): Laufkennung, Konfiguration, Schnappschuss-Liste geprüft; gen None bis 2000 (wie im Pilot erwartet). Andere p/Anteile: nicht Teil von R14. Die Pilot-Splits stammen aus `EXP-043/make_split.py` (gleiche Wellen-/Schlüsselgewichtung, aber andere Zufallsströme und Zielziehung) – R14 nutzt die P1-Konstruktion.
 
 ## Wiederholungen (vorab)
 
@@ -43,7 +43,7 @@ Nur bei Infrastrukturfehlern (kein result.json, GPU nicht verfügbar, Abbruch du
 
 ## Einfrieren (Ablauf)
 
-Manifest `lab/confirm/R14_manifest.json` = REGISTERED (experiment 14, p 307, eps 2.0, train_frac 0.1, device cuda, threads 1, steps 30000, stop_after_gen 2000) + python + seeds 4430–4441 + registration + code_sha256; committen, Commit-ID eintragen, erneut committen; `--splits`, `--jobs` → Dienst (gpu_gb 1.5, workers 6).
+Manifest `lab/confirm/R14_manifest.json` = REGISTERED (experiment 14, p 307, eps 2.0, train_frac 0.1, device cuda, threads 1, steps 30000, stop_after_gen 2000) + python + seeds 4430–4441 + registration + code_sha256; committen, Commit-ID eintragen, erneut committen; `--splits`, `--jobs` → Dienst (gpu_gb 2.0 – im Pilot gemessen 1.7 GB max., workers 6, job_minutes 120).
 
 ## Grenzen (vorab)
 

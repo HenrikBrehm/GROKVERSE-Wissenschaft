@@ -12,7 +12,7 @@ Zurück zu [[paper/STATUS]] · [[confirm/R14_REGISTRATION]] · [[paper/EXP137_DE
 ## Grenze (ii), je Ausgang
 
 - **bestätigt:** *…; at addition mod 307 with only 10 % data (9425 pairs), the steering held after generalization in a confirmation with 12 fresh seeds (R14: Δ_pow minus the seed's 99 % placebo quantile …, CI […], … of 12 seeds positive; Appendix A); nothing was tested near LeDoux's 0.3 %;*
-- **nicht bestätigt, weil Seeds nicht generalisierten (≥ 3 Seeds mit D = −1):** *…; a confirmation at mod 307 with 10 % data was not confirmed because … of 12 seeds did not generalize within 30 000 steps (R14); where they did, …*
+- **nicht bestätigt, weil Seeds nicht generalisierten (≥ 3 Seeds nicht generalisiert):** *…; a confirmation at mod 307 with 10 % data was not confirmed because … of 12 seeds did not generalize within 30 000 steps (R14); where they did, …*
 - **nicht bestätigt bei generalisierenden Seeds:** *…; at mod 307 with 10 % data the steering after generalization was not confirmed on fresh seeds (R14: …), so steering at low data density remains open.*
 - **nicht auswertbar:** Halbsatz zu EXP-137 bleibt; Anhang: *(a confirmation, R14, was not evaluable: …)*.
 

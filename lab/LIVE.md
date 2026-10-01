@@ -5,19 +5,21 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 08:29 Berlin (06:29Z, vom Runner)
 - **Deadline:** 2026-10-01 11:29 Berlin (09:29Z)
-- **Zuletzt aktualisiert:** 10:16
+- **Zuletzt aktualisiert:** 11:02
 
 ## Gerade
 
-- GPU: Rest der Zelle 503/14 000, dann **EXP-141**: Zahlen bis 502 mit 16 100 bzw. 18 100 Paaren. Lernt das Netz dort, zählt ‚Paare je Zahl‘; lernt es nicht, passt die Theorie-Skalierung p^(5/3).
-- Ich beobachte und dokumentiere.
+- **Sitzung beendet** (11:02). Nächster geplanter Start laut Runner: **01.10. 12:04 Berlin** (next_start_utc 10:04Z; der Runner startet direkt nach dieser Sitzung).
+- GPU-Dienst rechnet weiter: EXP-141 (trennender Test), dann EXP-139 Rest, EXP-140, p 613.
 
 ## Als Nächstes
 
-1. EXP-139 beobachten (alle ~10 min), auswerten, sobald eine Zelle fertig ist.
-2. Tageserklärung 02.10. vorbereiten.
+1. EXP-141 und EXP-139 auswerten, sobald fertig; dann EXP-140.
+2. Paper nur nach den vorab geschriebenen Sätzen.
 
 ## Verlauf dieser Sitzung
+- 11:02 Sitzungsende. Erster EXP-141-Lauf (Zahlen bis 502, 16 100 Paare) lernt die Regel – spät (Schritt 25 600).
+- 10:50 Zahlen bis 502, 14 000 Paare: 0 von 6 Läufen lernen die Regel.
 - 10:16 EXP-141 vorbereitet und vorgezogen (trennt die beiden Erklärungen). Zelle 503/14 000: lernt nicht.
 - 10:00 Eine unabhängige Prüfung fand einen Fehler in meiner Rechnung (Vergleichsläufe mit viel kürzerer Trainingszeit mitgezählt). Korrigiert: Aussage gilt nur innerhalb von 30 000 Schritten und ist schwächer.
 - 09:49 Zahlen bis 502, 14 000 Paare: erster Lauf lernt die Regel nicht.

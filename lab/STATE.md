@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 09:27 Berlin (Sitzung 68) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 11:02 Berlin (Sitzung 68, Ende) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -19,7 +19,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 Reihenfolge (10:16 gemessen): `52a5_exp139_p503_n14000` (Rest der Zelle; Zelle generalisiert schon sicher nicht) → `52a6_exp141_alpha` (**EXP-141**, trennender α-Test, 12 Läufe, je ≈ 7 GB, einzeln) → `52b_exp139_p503` (503/9425; n14000-Zeilen werden übersprungen) → `52bz_exp140_p401` (EXP-140) → `52c_exp139_p613`. Fertig: `52a_exp139_p401`. Statuseintrag `52bzz_exp141_alpha` ist ein Rest ohne Datei (umbenannt vor Start).
 
-**EXP-139 Zwischenstand (09:25):** 401/9425 kein Lernen (0/6), 401/14 000 **steuert** (Δ_pow 11.6/11.3/7.9 > q99 5.6/5.4/4.4). Nachtrag a (N/p) und b (Intervall α ∈ [0.85, 1.78] für N/p^α über alle Labor-Zellen; Vorhersage: 503/14 000 trennt α = 1 von 5/3) vor den 503/613-Ergebnissen committet. `summary.json` ist eine Zwischenfassung (fehlende Zellen zählen dort als „nicht generalisiert“).
+**EXP-139 Stand (10:50):** 503/14 000 kein Lernen (0/6). **EXP-141 (11:02):** erster Lauf 503/16 100 F generalisiert spät (25 600). **EXP-139 Zwischenstand (09:25):** 401/9425 kein Lernen (0/6), 401/14 000 **steuert** (Δ_pow 11.6/11.3/7.9 > q99 5.6/5.4/4.4). Nachtrag a (N/p) und b (Intervall α ∈ [0.85, 1.78] für N/p^α über alle Labor-Zellen; Vorhersage: 503/14 000 trennt α = 1 von 5/3) vor den 503/613-Ergebnissen committet. `summary.json` ist eine Zwischenfassung (fehlende Zellen zählen dort als „nicht generalisiert“).
 
 Vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`. Der Dienst beendet sich bei leerer Warteschlange; neue Dateien mit `powershell -NoProfile -Command "Start-ScheduledTask -TaskName GROKVERSE-GPU-Daemon"` sofort starten.
 

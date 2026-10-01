@@ -1,7 +1,0 @@
-{
- "wrapper": "freq_ban_large",
- "version": 1,
- "eval_chunk": 8192,
- "eval_every": 200,
- "spectrum_every": 300
-}

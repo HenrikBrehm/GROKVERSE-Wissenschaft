@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 08:40 Berlin (Sitzung 68) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 09:27 Berlin (Sitzung 68) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,16 +17,19 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`)
 
-**EXP-139** (Pilot, Paarzahl statt Anteil, 36 Läufe) seit 08:34 als `52a_exp139_p401` (läuft, 4 Worker), `52b_exp139_p503`, `52c_exp139_p613` (warten; Speicher). gpu_gb live korrigiert auf 4.0 / 6.0 / 9.0 (p 401 belegt ≈ 3.7 GB je Lauf, p 613 allein 7.6 GB allokiert). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-139-pair-count/analyze.py` (Lesarten vorab, Selbsttest grün). Erwartete Dauer: 401 ≈ 20–40 min, 503 ≈ 40–80 min, 613 bis ≈ 4 h (ein Worker).
+Reihenfolge: `52b_exp139_p503` (läuft, 2 Worker, gpu_gb 6.0) → `52bz_exp140_p401` (3 R-Läufe) → `52c_exp139_p613` (12 Läufe, 1 Worker, 9 GB, bis ≈ 4 h). Fertig: `52a_exp139_p401`.
+
+**EXP-139 Zwischenstand (09:25):** 401/9425 kein Lernen (0/6), 401/14 000 **steuert** (Δ_pow 11.6/11.3/7.9 > q99 5.6/5.4/4.4). Nachtrag a (N/p) und b (Intervall α ∈ [0.85, 1.78] für N/p^α über alle Labor-Zellen; Vorhersage: 503/14 000 trennt α = 1 von 5/3) vor den 503/613-Ergebnissen committet. `summary.json` ist eine Zwischenfassung (fehlende Zellen zählen dort als „nicht generalisiert“).
 
 Vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`. Der Dienst beendet sich bei leerer Warteschlange; neue Dateien mit `powershell -NoProfile -Command "Start-ScheduledTask -TaskName GROKVERSE-GPU-Daemon"` sofort starten.
 
+
 ## Nächste Schritte
 
-1. **EXP-139** beobachten und auswerten (Lesarten Frage 1/2 im README); Paper nur nach einer vorab geschriebenen Vorlage (paper/EXP139_DEUTUNGEN, noch anzulegen, vor dem Ergebnis).
-2. Tageserklärung ab 02.10.: [[paper/erklaerung/ERKLAERUNG_2026-10-02]] (R14, EXP-137, EXP-129, ggf. EXP-139).
-3. Paper sonst laborseitig aktuell; offen nur Nutzerentscheidungen ([[paper/STATUS]]).
-4. GPU-Folgearbeit nur mit Begründung (Regel 15b): shuf-Block unter SGD (BACKLOG 4) nur, falls das Paper es braucht.
+1. **EXP-139 fertig auswerten**, sobald alle 36 Läufe da sind (`analyze.py`; Lesarten + Nachträge a/b im README); dann EXP-140 für weitere generalisierende Zellen p ≤ 503 nachreichen (`make_jobs.py` erneut, nur neue Zellen als eigene Jobdatei). Paper nur nach [[paper/EXP139_DEUTUNGEN]].
+2. **EXP-140** auswerten (`analyze.py`, braucht EXP-139/summary.json).
+3. Tageserklärung [[paper/erklaerung/ERKLAERUNG_2026-10-02]] füllen.
+4. Danach (BACKLOG 7): LeDoux-Regime nur mit geprüftem Wrapper (gestückelte Auswertung).
 
 ## Nicht ändern (Hashes gebunden)
 

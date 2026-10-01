@@ -5580,3 +5580,7 @@ Keine STOP-Datei; GPU-Dienst idle (0 laufend, Inbox leer); keine Trainingsprozes
 ## 2026-10-01 19:51 Berlin – Sitzung 75: Lagekontrolle (Regel 23)
 
 Keine STOP-Datei; GPU-Dienst idle (Heartbeat 19:50, 0 laufend, Inbox leer); keine Trainingsprozesse (nur der Dienst, PID 19556). Nichts gestartet. **Pause aktiv (Regel 23).** Nächster Start laut runner-state.json 23:24 Berlin.
+
+## 2026-10-01 20:01 Berlin – Sitzung 76: Lagekontrolle (Regel 23)
+
+Keine STOP-Datei; GPU-Dienst idle (neu gestartet 19:58, PID 27480, 0 laufend, Inbox leer); keine Trainingsprozesse. Nichts gestartet. **Pause aktiv (Regel 23).** Nächster Start laut runner-state.json 23:34 Berlin.

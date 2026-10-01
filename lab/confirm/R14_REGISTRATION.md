@@ -1,8 +1,8 @@
 ---
 id: R14
-status: entwurf
+status: ausgewertet
 datum: 2026-10-01
-tags: [lab/confirm, programm/A, paper, exp/vorbereitet]
+tags: [lab/confirm, programm/A, paper, exp/abgeschlossen, befund/positiv]
 ---
 # R14: Steuert die Trainingsmenge bei add 307 mit nur 10 % Daten die Frequenzen, gemessen nach der Generalisierung? (Registrierung, Sitzung 67)
 
@@ -48,3 +48,9 @@ Manifest `lab/confirm/R14_manifest.json` = REGISTERED (experiment 14, p 307, eps
 ## Grenzen (vorab)
 
 Ein Modulus (307), ein Anteil (10 %), eine Architektur, AdamW; p und Paarzahl nicht getrennt; Messpunkt je Arm 1000–2000 Schritte nach der eigenen Generalisierung; Einbettungsenergie, keine Ablation; weit weg von LeDoux' Regime (p = 9973, 0.3 %).
+
+## Ergebnis (Sitzung 67, 01.10., 08:21 Berlin gemessen; eingefrorene Auswertung, Manifest-Commit 68a0209c)
+
+`PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r14.py --analyze lab/confirm/R14_manifest.json` → `R14_summary.json`. 24/24 Läufe (Dienst `51_r14`, 0 Fehlschläge), alle 24 Arme generalisiert (gen 5850–23 000), 0 technische Ausfälle.
+
+**bestätigt:** mittleres D = Δ_pow − q99 = **5.28 [4.72, 5.81]**, 12/12 Seeds positiv, exakter Vorzeichen-Flip p = 2.4·10⁻⁴ (= 2⁻¹²). Mittel Δ_pow 10.57 (Spanne 7.92–12.06), mittleres q99 5.30 (4.48–6.26); Top-5 nach gen: 3–5 eigene Ziele je Arm. **Unabhängige Nachrechnung und Paper-Text: nächste Sitzung** (Vorlage [[paper/R14_DEUTUNGEN]], „bestätigt“).

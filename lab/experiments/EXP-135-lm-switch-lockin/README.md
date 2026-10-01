@@ -1,8 +1,8 @@
 ---
 id: EXP-135
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-10-01
-tags: [exp/vorbereitet, lab/lm, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, lab/lm, neu/kandidat]
 verwandt: ["[[confirm/LM1_REGISTRATION|LM1]]", "[[experiments/EXP-020-data-switch/README|EXP-020]]", "[[experiments/EXP-107-lockin-epochs/README|EXP-107]]", "[[experiments/EXP-134-text-pretrain-steering/README|EXP-134]]", "[[FINDINGS]]"]
 ---
 # EXP-135: Frühe Festlegung (K4) im Sprachmodell? Faktenwechsel F → G nach t Schritten (Pilot)
@@ -34,4 +34,17 @@ Jobs: `jobs_45zz_exp135_switch.txt` → `lab/queue/inbox/45zz_exp135_switch.jobs
 
 ## Ergebnis
 
-(offen)
+**Ausgewertet Sitzung 66 (01.10., 04:32 Berlin gemessen). Lesart: „Festlegung mit dem Lernen“** (die vorab erwartete; Exploration, 2 Seeds). Dienst 6/6 fertig, keine Fehler; Tor bestanden (zurückgehaltene Fakten am Ende 0.957–0.996 in 6/6).
+
+| t | Seed | π | F-Neigung beim Wechsel | F-Neigung am Ende | zurückgehalten am Ende |
+|---|---|---|---|---|---|
+| 250 | 4100 / 4101 | −0.03 / +0.06 | −0.03 / −0.01 | −2.80 / −2.68 | 0.991 / 0.971 |
+| 1000 | 4100 / 4101 | −0.01 / −0.03 | −0.02 / −0.01 | −2.72 / −3.29 | 0.963 / 0.957 |
+| 3000 | 4100 / 4101 | **1.18 / 1.05** | 2.10 / 2.67 | 2.02 / 3.67 | 0.995 / 0.996 |
+
+(Referenzen L_F / L_G aus LM1 bei 6000: 1.29 / −2.67 (4100), 3.34 / −3.07 (4101).) Je t: 250 „ueberschrieben“, 1000 „ueberschrieben“, 3000 „haelt fest“.
+
+- **Gegen das Start-Modell:** Die Übertragung des Spielzeuggesetzes N54b sagte für t = 1000 volle Festlegung vorher (Λ = 0.45 ≫ 0.069); beobachtet π ≈ 0. Beim Wechsel war die F-Neigung bei 250 und 1000 noch ≈ 0 (wie S59: keine frühe frequenzselektive Bewegung im LM).
+- **Beschreibend:** Nach dem Wechsel bei 3000 ist die gemeinsame Testmenge (für F und G zurückgehalten) am Ende bei ≈ 0.995 und die alten F-Fakten bei 0.99 (Trainingsgenauigkeit auf G wird nicht gesondert protokolliert); das Modell behält aber die F-Frequenzen (bei 4101 wächst die F-Neigung nach dem Wechsel sogar weiter, 2.67 → 3.67). Die gelernte Rechenschaltung genügt offenbar für die neuen Fakten; es gibt keinen Druck, die Frequenzen zu wechseln.
+- **Deutung (vorsichtig):** Im LM legt sich die Wahl fest, wenn die Fakten gelernt werden, nicht in den ersten Schritten. Das ist ein Unterschied zum Spielzeugmodell (dort Festlegung nach 25–50 Schritten, lange vor der Generalisierung). Bei t = 3000 ist das Festhalten nahe an „eine fertige Lösung bleibt“; der Versuch trennt nicht, ob es eine Festlegung im Sinn von K4 (frühe, unsichtbare Prägung) im LM überhaupt gibt, nur dass sie, wenn es sie gibt, nach 1000 Schritten noch nicht eingetreten ist. Zwischen 1000 und 3000 nicht aufgelöst.
+- **Paper:** Anhang K, Satz „Festlegung mit dem Lernen“ aus [[paper/EXP134_135_DEUTUNGEN]] mit unabhängiger Textprüfung. Kein Bestätigungsblock (Regel 20e2).

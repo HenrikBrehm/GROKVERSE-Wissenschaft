@@ -5,25 +5,24 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 05:39 Berlin (03:39Z, vom Runner)
 - **Deadline:** 2026-10-01 08:39 Berlin (06:39Z)
-- **Zuletzt aktualisiert:** 06:56
+- **Zuletzt aktualisiert:** 07:01
 
 ## Gerade
 
-- **R13 bestätigt:** Die Auswahl der Trainingsdaten steuert die Frequenzen der Zahl-Einbettung auch ohne Adam (SGD mit Clipping, 30 frische Seeds). Kontrolle EXP-138: Es liegt an der Paarstruktur, nicht nur an den Zahlenhäufigkeiten. Unabhängige Nachrechnung und Textprüfung laufen.
+- Warte auf EXP-137 (Datendichte-Leiter, ≈ 20/36) und den letzten EXP-129-Lauf; GPU wieder voll ausgelastet.
 
 ## Als Nächstes
 
-- Prüfungen einarbeiten; EXP-137 und EXP-129 weiter beobachten (EXP-137 jetzt wieder mit mehr Platz).
+- EXP-137 und EXP-129 auswerten, sobald fertig (Lesarten liegen vorab fest).
 
 ## Verlauf dieser Sitzung
-- 06:55 R13 bestätigt (beide Clip-Werte, je 15/15 Seeds); EXP-138: Paarstruktur trägt. Paper-Grenze (i) und Anhang J angepasst.
-- 06:38 Fortschritt: R13 24/60, EXP-138 4/32.
+- 07:05 Paper: Abbildungsnummern in den umbenannten Anhängen korrigiert; Tageserklärung um R13 ergänzt.
+- 06:59 R13/EXP-138 unabhängig nachgerechnet (0 Abweichung) und Text nach Prüfung präzisiert.
+- 06:55 **R13 bestätigt**: Datenauswahl steuert die Zahl-Einbettung auch ohne Adam; EXP-138: Paarstruktur trägt.
 - 06:21 EXP-138 eingereiht.
 - 06:19 R13 eingefroren und eingereiht.
 - 06:10 R13 registriert; Smoke fand Fehler, behoben.
-- 06:03 EXP-128 nach Prüfung präzisiert.
 - 05:57 EXP-128 ausgewertet: „nicht auswertbar“.
-- 05:56 EXP-137-Auswertung placebo-geeicht.
 - 05:47 EXP-137 eingereiht.
-- 05:46 EXP-136-Satz in Anhang A präzisiert.
+- 05:46 EXP-136-Satz in Anhang A.
 - 05:40 Start.

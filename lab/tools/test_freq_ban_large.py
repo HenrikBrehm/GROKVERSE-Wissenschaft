@@ -5,7 +5,7 @@ Each case trains once with plain freq_ban.py and once through the wrapper (same 
   - accuracy series equal to 1e-6 (original: float32 mean), loss series to 1e-6 (chunked sums vs one mean),
   - W_E spectra identical, generalisation event identical,
   - wrapper bookkeeping: WRAPPER.json, wrapper.json, argv with the wrapper flags; a plain out-root is refused.
-Cases: full batch (chunk 500 < n_train 3831 and n_test 2000), minibatch 64 with stride order.
+Cases: full batch (chunk 500 < n_train 3831 and n_test 2000), minibatch 64 with stride order; --d-model (session 71).
 """
 from __future__ import annotations
 
@@ -94,6 +94,27 @@ def main() -> None:
                  "--condition", "baseline", "--out-root", str(tmp / "wrap_fullbatch")])
         assert r.returncode != 0 and "other settings" in (r.stdout + r.stderr), "changed settings were not refused"
         print("[ok] out-root guards", flush=True)
+        # session 71: --d-model. 128 is the preset (n_heads 4, d_head 32, d_mlp 512), so the config-replace path must
+        # give weights bit-identical to the plain run; 32 must build a narrower model and enter the marker.
+        base = [*common, "--steps", "600", "--threads", "1", "--save-model", "--condition", "baseline"]
+        assert run([sys.executable, str(WRAPPER), "--eval-chunk", "500", "--d-model", "128", "--", *base,
+                    "--out-root", str(tmp / "w128")]).returncode == 0
+        sp = torch.load(only_run_dir(tmp / "plain_fullbatch") / "model_final.pt")
+        s128 = torch.load(only_run_dir(tmp / "w128") / "model_final.pt")
+        assert sp.keys() == s128.keys() and all(torch.equal(sp[k], s128[k]) for k in sp), "--d-model 128 differs"
+        assert json.loads((tmp / "w128" / "WRAPPER.json").read_text())["d_model"] == 128
+        assert run([sys.executable, str(WRAPPER), "--d-model", "32", "--", *common, "--steps", "50", "--threads", "1",
+                    "--save-model", "--condition", "baseline", "--out-root", str(tmp / "w32")]).returncode == 0
+        d32 = only_run_dir(tmp / "w32")
+        s32 = torch.load(d32 / "model_final.pt")
+        shapes = {tuple(v.shape) for v in s32.values()}
+        assert (114, 32) in shapes and (114, 128) not in shapes and (32, 128) in shapes, shapes   # W_E 114 x 32, MLP 32 x 128
+        cfg = json.loads((d32 / "result.json").read_text())["config"]
+        assert (cfg["d_model"], cfg["n_heads"], cfg["d_head"], cfg["d_mlp"]) == (32, 4, 8, 128), cfg
+        r = run([sys.executable, str(WRAPPER), "--d-model", "64", "--", *common, "--steps", "10", "--threads", "1",
+                 "--condition", "baseline", "--out-root", str(tmp / "w32")])
+        assert r.returncode != 0 and "other settings" in (r.stdout + r.stderr), "other width was not refused"
+        print("[ok] --d-model: 128 bit-identical to plain, 32 builds d 32 / d_mlp 128, marker guards width", flush=True)
     print("ALL OK")
 
 

@@ -10,6 +10,10 @@ is NOT edited. This wrapper imports it by file path and replaces four module glo
                    n <= chunk call the original evaluate, so small runs are bit-identical.
   get_config    -> optional --eval-every E sets eval_every_train = eval_every_test = E (default: preset 10 / 25).
   SPECTRUM_EVERY-> optional --spectrum-every S (default: preset 250). The p x p Fourier basis is built once.
+  --d-model D   -> optional width (session 71, EXP-144): d_model = D, n_heads = 4, d_head = D / 4, d_mlp = 4 D, exactly as
+                   EXP-049/width_train.py (P4). Left unset, the config and the out-root marker are unchanged. The run id
+                   does not show D (the fingerprint sees only trainer flags), so D enters the WRAPPER.json marker and a
+                   width run needs its own --out-root.
 
 Training itself (init, data order, optimizer, minibatches) is untouched: with --eval-every / --spectrum-every left at
 the preset values the trajectory equals a plain freq_ban.py run (CPU: bit-identical weights; see the equivalence test
@@ -67,7 +71,10 @@ def parse_wrapper_args(argv: list[str]) -> tuple[argparse.Namespace, list[str]]:
     ap.add_argument("--eval-chunk", type=int, default=8192, help="rows per evaluation forward pass")
     ap.add_argument("--eval-every", type=int, default=None, help="eval_every_train = eval_every_test (default: preset)")
     ap.add_argument("--spectrum-every", type=int, default=None, help="steps between W_E spectra (default: preset 250)")
+    ap.add_argument("--d-model", type=int, default=None, help="width as in EXP-049 (default: preset 128, unchanged)")
     w = ap.parse_args(argv[:cut])
+    if w.d_model is not None and (w.d_model < 4 or w.d_model % 4):
+        raise SystemExit("--d-model must be a positive multiple of 4")
     if w.eval_chunk < 1 or (w.eval_every is not None and w.eval_every < 1) or (
             w.spectrum_every is not None and w.spectrum_every < 1):
         raise SystemExit("--eval-chunk / --eval-every / --spectrum-every must be >= 1")
@@ -128,6 +135,8 @@ def install(fb, w: argparse.Namespace) -> None:
         cfg = orig_cfg(*args, **kw)
         if w.eval_every is not None:
             cfg = dataclasses.replace(cfg, eval_every_train=w.eval_every, eval_every_test=w.eval_every)
+        if w.d_model is not None:
+            cfg = dataclasses.replace(cfg, d_model=w.d_model, n_heads=4, d_head=w.d_model // 4, d_mlp=4 * w.d_model)
         return cfg
 
     fb.make_dataset, fb.evaluate, fb.get_config = make_dataset_lazy, evaluate_chunked, get_config_cadence
@@ -147,6 +156,8 @@ def main(argv: list[str] | None = None) -> None:
         raise SystemExit("[large] needs an explicit --out-root (never the default raw/ of EXP-001)")
     settings = {"wrapper": "freq_ban_large", "version": WRAPPER_VERSION, "eval_chunk": w.eval_chunk,
                 "eval_every": w.eval_every, "spectrum_every": w.spectrum_every}
+    if w.d_model is not None:             # only when set: markers of existing out-roots stay valid
+        settings["d_model"] = w.d_model
     check_out_root(Path(out_root), settings)
     fb = load_trainer()
     install(fb, w)

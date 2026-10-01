@@ -1,8 +1,8 @@
 ---
 id: EXP-128
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-30
-tags: [exp/vorbereitet]
+tags: [exp/abgeschlossen, befund/unklar]
 ---
 # EXP-128: K2 ohne Adam, zweiter Anlauf – Full-Batch-SGD mit Momentum und Gradient-Clipping
 
@@ -28,3 +28,12 @@ Zurück: [[LAB]] · [[FINDINGS]] · Vorläufer [[experiments/EXP-126-sgd-steerin
 - **Abbruch:** harte Grenze 120 min je Lauf; Divergenz beendet nichts.
 
 - **Unabhängige Codeprüfung (Sitzung 59, Claude-Agent, nur lesend): keine Blocker.** Bestätigt: Clipping nach der Projektion und vor dem Schritt über genau die trainierten Parameter, Decay nicht gekappt (10⁻³ je Schritt wie EXP-126), Normprotokoll = Norm vor dem Clipping, Run-ID passt zum Glob in `analyze.py`, Lesarten = README, 16 Jobzeilen richtig. Übernommen: (a) **Smoke für C_B nachgeholt** (Seed 3704 F, 2500 Schritte, gesehen): keine Divergenz, aber unruhig – Train 0.01 → 0.55 (1600) → 0.42 (2500), Test 0.25, Norm ab ≈ 1250 dauerhaft ≈ 0.8–1.07 und gekappt (1541/2500 Schritte). (b) „größte Norm vor dem Aufschaukeln 0.035“ ist ein **Stichprobenmaximum** (nur Schritte 250/500/750 protokolliert; zwischen 1001 und 1125 lag mindestens ein ungeloggter Schritt mit Norm > 10⁶, daher `clipped_steps` 876 = 875 unendliche + 1). (c) `analyze.py` prüft jetzt, dass das Clipping-Ereignis existiert und `max_norm` dem Arm entspricht (sonst „fehlt“); an Smoke-/Kalibrierdaten getestet. Nicht geändert: NaN-Normen zählen nicht als gekappt (nur beschreibend; Divergenz wird über das Normprotokoll erkannt). Erwartung (kein Kriterium): C_A erreicht Train 0.99 in 20 000 Schritten womöglich nicht → „nicht auswertbar“ ist dort realistisch.
+
+## Ergebnis (Sitzung 67, 01.10., 05:56 Berlin gemessen; Dienst 16/16, keine Fehler)
+
+`analyze.py` (Lesarten vorab, S59): **C_A (0.017): „nicht auswertbar“** (0/8 Läufe Train ≥ 0.99; Train am Ende 0.03–0.36; 96–99 % der Schritte gekappt). **C_B (0.1): „nicht auswertbar“** (2/8 Läufe gelernt: 3704 G und 3705 F, je generalisiert bei 1675 / 1600, nur 4.5 % bzw. 4.4 % der Schritte gekappt; die übrigen 6 stiegen bis etwa Schritt 2000 auf Train 0.41–0.96 und fielen dann auf 0.23–0.82 am Ende zurück (94–96 % der Schritte gekappt); in keinem Seed lernten F und G beide, also kein Δ_pow). Keine Divergenz in beiden Armen (alle Spektren und protokollierten Normen endlich; EXP-126 bei lr 0.1 ohne Clipping, gleiche Seeds/Init/Splits: 8/8 divergiert) – das Clipping hält die Läufe endlich (bei begrenzten Schritten fast zwangsläufig), aber 14/16 erreichen Train 0.99 nicht.
+- **Beschreibend (2 Einzelläufe, gesehen, kein Test):** Top-5 der W_E-Energie am Ende: 3704 G [44, 1, 13, 26, 39] (3 von 5 eigenen Zielen 1, 13, 44; keines von F), 3705 F [14, 30, 42, 28, 43] (2 eigene: 14, 30; keines von G). Anteil der W_E-Energie auf den eigenen Zielen bei 20 000: 3704 G 0.92 (0.004 auf F), 3705 F 0.985 (0.000 auf G) – gleiche Messgröße wie EXP-126 (0.92). Zusammen mit EXP-126 (ein lernender Lauf, 0.92 eigene Ziele): Wenn SGDm hier lernt, liegen eigene Ziele unter den stärksten Frequenzen – als Beobachtung, nicht als K2-Test.
+- **Auffällig (beschreibend):** Zweigeteilt – Läufe lernen entweder schnell mit fast ungekappten Schritten oder fallen zurück mit fast immer gekappten; das passt zu „Gradientennorm wächst in den zurückfallenden Läufen über die Schwelle“ (Endnorm 1.4–2.5 gegen 0.024 bei den lernenden, laut Prüfer), ist aber nicht untersucht.
+- **Paper (nach [[paper/EXP128_DEUTUNGEN]], Fall „nicht auswertbar“):** Halbsatz in Grenze (i) von draft_short: *stabilizing it with global gradient-norm clipping at 0.1 or 0.017 … did not make it evaluable either (2 of 8 and 0 of 8 runs …)*; „all results are AdamW results“ bleibt.
+- **Entscheidung:** Kein weiterer SGD-Anlauf jetzt (Regel 15b; Regel 20 stellt die Optimiererfrage nicht nach vorn). Eine SGD-Version bräuchte eine andere Lernrate/Warmup-Suche – als BACKLOG-Option, nicht eingereiht.
+- **Post hoc (nach der Textprüfung, 06:03 nachgerechnet, gesehene Seeds, kein Test):** Auch die 14 nicht lernenden Läufe tragen den Großteil der W_E-Energie auf den eigenen Zielen: über alle 16 Läufe 0.73–0.998 (C_B 0.87–0.998, C_A 0.73–0.99), auf den Zielen des anderen Splits höchstens 0.13. Die Repräsentationsseite der Steuerung tritt unter SGDm also auch ohne Anpassung an die Trainingsmenge auf – passend zur Theorie erster Ordnung (Gradient trägt das Maskenspektrum), aber ohne Vorab-Lesart und nicht im Paper als Befund. Ein vorab registrierter SGD-Test der Repräsentation allein (wie P4 integer addition, „steuert ohne Generalisierung“) wäre die saubere Fassung → BACKLOG-Option, nicht eingereiht.

@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 06:11 Berlin (Sitzung 67, laufend) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 07:00 Berlin (Sitzung 67, laufend) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -11,24 +11,24 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Lage (Kurzform)
 
-- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion, K4–K4e, R2–R12, K5, L0 (Minibatch), N54b (Festlegung ≈ √(N/B)), LM1/LM1-F, LM3/LM3-F. **Neu S66: L0b teilweise bestätigt** (B = 16: Reihenfolge verschiebt O-Anteil auf Zufallssplits +0.063, H1; auf konstruierten +0.022, H2 *nicht* bestätigt → keine Aussage „Menge gewinnt“; Steuerung bleibt H3; Verzögerung ×1.5 H4; unabhängig nachgerechnet). Paper §6, Anhang J (Abb. J1), Grenzen, Abstract (1916 Zeichen), unabhängig geprüft und eingearbeitet; Manuskript neu gebaut. **EXP-136** (S66): K2 hält bei p 211/307 mit 30 % (Δ_pow 8.5–12.4); mit 3831 Paaren generalisiert kein Lauf (Pilot, noch nicht im Paper).
+- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion, K4–K4e, R2–R12, K5, L0 (Minibatch), N54b (Festlegung ≈ √(N/B)), LM1/LM1-F, LM3/LM3-F. **Neu S66: L0b teilweise bestätigt** (B = 16: Reihenfolge verschiebt O-Anteil auf Zufallssplits +0.063, H1; auf konstruierten +0.022, H2 *nicht* bestätigt → keine Aussage „Menge gewinnt“; Steuerung bleibt H3; Verzögerung ×1.5 H4; unabhängig nachgerechnet). Paper §6, Anhang J (Abb. J1), Grenzen, Abstract (1916 Zeichen), unabhängig geprüft und eingearbeitet; Manuskript neu gebaut. **EXP-136** (S66): K2 hält bei p 211/307 mit 30 % (Δ_pow 8.5–12.4); mit 3831 Paaren generalisiert kein Lauf (Pilot; S67 in Anhang A). **Neu S67: R13 bestätigt** – K2 (W_E-Spektrum) auch unter geclipptem SGDm (7.80 / 4.78, je 15/15); EXP-138: Paarstruktur trägt; Paper Grenze (i) + Anhang J, unabhängig nachgerechnet und geprüft.
 - **Piloten LM (Anhang K):** EXP-125 (29.5 M), EXP-134 (Text-Vortraining; Zahlzeilen-Wachstum = 96 % gemeinsame Verschiebung, S66), **EXP-135 „Festlegung mit dem Lernen“** (S66: Wechsel bei 250/1000 überschrieben, bei 3000 hält F).
 - **Pythia-Linie geschlossen.** Paper laborseitig fertig; offen nur Nutzerentscheidungen ([[paper/STATUS]]).
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`), Reihenfolge
 
-1. `47_exp129_k1` (EXP-129, ≈ 4.5 % Rechen-Tokens; 1/4 fertig, 2 liefen um 06:10).
-2. `48_exp137_density` (EXP-137, Datendichte-Leiter p 211/307 × 10/15/20 %, 36 Läufe; 0/36 fertig um 06:10; schlimmstenfalls ≈ 4 h).
-3. `49_r13` (R13, eingefroren a77dbebb, 60 Läufe à ≈ 2.7 min; 0/60 um 06:19). `48_exp137_density` dafür auf workers=2 gesenkt (Kopfzeile).
+1. `47_exp129_k1` (EXP-129; 3/4 fertig um 07:00, letzter Lauf läuft).
+2. `48_exp137_density` (EXP-137, Datendichte-Leiter p 211/307 × 10/15/20 %, 36 Läufe; 18/36 um 07:00, workers=5).
 
-EXP-128 fertig und ausgewertet (S67: beide Arme „nicht auswertbar“). Nichts davon selbst neu einreihen; vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`.
+Fertig und ausgewertet in S67: EXP-128 („nicht auswertbar“), **R13 bestätigt** (eingefroren a77dbebb), EXP-138 („Paarstruktur trägt“). Nichts davon neu einreihen; vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`.
 
 ## Nächste Schritte
 
-1. **R13** ([[confirm/R13_REGISTRATION]], eingefroren a77dbebb, beim Dienst). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r13.py --analyze lab/confirm/R13_manifest.json`, dann unabhängige Nachrechnung; Paper-Sätze vorher je Ausgang festlegen (Grenze (i)).
-2. **EXP-137** auswerten, wenn fertig (`analyze.py`; Gesamtlesart placebo-kalibriert; Paper-Sätze [[paper/EXP137_DEUTUNGEN]]).
-3. **EXP-129** auswerten (`lab/experiments/EXP-129-lm-k1-share/analyze.py`).
-4. Tageserklärung ab 02.10.: [[paper/erklaerung/ERKLAERUNG_2026-10-02]] (EXP-128, EXP-136-Anhang, R13, EXP-137 aufnehmen).
+1. **EXP-137** auswerten, wenn 36/36 (`PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-137-modulus-density/analyze.py`; Gesamtlesart placebo-kalibriert; Paper-Sätze [[paper/EXP137_DEUTUNGEN]]); unabhängige Prüfung.
+2. **EXP-129** auswerten (`lab/experiments/EXP-129-lm-k1-share/analyze.py`, Lesarten im README).
+3. Folge R13 (BACKLOG 4): shuf unter SGD als Block nur, wenn das Paper es braucht; sonst Pilot EXP-138 reicht als Anhang.
+4. Tageserklärung ab 02.10.: [[paper/erklaerung/ERKLAERUNG_2026-10-02]] (EXP-137, EXP-129).
+5. Offen (LOW, älter): „Figure J1“ wird im Manuskript in Anhang I nicht umbenannt (build_manuscript.py).
 
 ## Nicht ändern (Hashes gebunden)
 

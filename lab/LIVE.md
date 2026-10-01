@@ -5,19 +5,22 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 15:19 Berlin (13:19Z, vom Runner)
 - **Deadline:** 2026-10-01 18:19 Berlin (16:19Z)
-- **Zuletzt aktualisiert:** 16:25
+- **Zuletzt aktualisiert:** 16:56
 
 ## Gerade
 
-- **R15 bestätigt (beide Zellen):** An der Datengrenze lernt die gezielt ausgewählte Menge die Regel in 10 von 10 Seeds, die gleich große Zufallsmenge in 0 von 10 (in 30 000 Schritten). Unabhängige Nachrechnung läuft.
-- EXP-143 rechnet auf der Grafikkarte (3–4 Läufe).
+- Warte auf die zwei langen Läufe mit sortierter Reihenfolge (600 000 Schritte, ≈ 17:35 fertig). Danach wird EXP-144 (breiteres Netz) auf der Grafikkarte starten.
+- Literatur: Das Muster „Frequenz 101 + Obertöne“ beschreibt LeDoux selbst; unser Netz zeigt dasselbe Muster, lernt aber nicht.
 
 ## Als Nächstes
 
-1. Nach der Nachrechnung: FINDINGS und Paper-Absatz (Anhang A) schreiben und prüfen lassen.
-2. EXP-143 beobachten.
+1. Lange Läufe auswerten (Frage 2 und 3 von EXP-143).
+2. Stand sichern, Abschlussbericht (Deadline 18:19).
 
 ## Verlauf dieser Sitzung
+- 16:56 EXP-143 (250 000 Schritte) ausgewertet: keine Aussage zu Menge gegen Reihenfolge, weil das kleine Netz nichts lernt. Nachfolger EXP-144 mit 4-mal breiterem Netz geprüft, getestet und eingereicht.
+- 16:30 Paper: R15-Text nach unabhängiger Prüfung korrigiert (u. a. ein Fehler beim Zusammenbau des Manuskripts behoben).
+- 16:27 R15 unabhängig nachgerechnet (alle Werte stimmen); FINDINGS, Übersicht und Paper ergänzt.
 - 16:25 **R15 fertig: beide Lagen bestätigt** (Zahlen bis 400 mit 14 000 Paaren und bis 306 mit 9425 Paaren). Gezielt: 10/10 lernen. Zufall gleicher Größe: 0/10.
 - 15:54 EXP-143 gestartet (15:48): drei Läufe auf der Grafikkarte, schnell und stabil.
 - 15:34 **Vorläufe EXP-143 über 3 Seeds:** In allen drei prägt die gezielte Auswahl ihre 5 Ziele, und die sortierte Reihenfolge hebt Frequenz 101 auf Platz 1 (unabhängig nachgerechnet). Ob die Reihenfolge ein ganzes Muster ihres Sortierschlüssels einprägt (Oberwellen), bleibt unklar – das Signal ist zu schwach. Gromov-Zitat im Volltext wörtlich bestätigt.

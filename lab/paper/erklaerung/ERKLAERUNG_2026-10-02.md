@@ -14,6 +14,8 @@ Zurück zu [[LAB]] · [[FINDINGS]] · [[paper/STATUS]] · Vortag [[paper/erklaer
 
 3. **EXP-143 (neu, Sitzung 70, Vorversuch mit 1 Seed je Lauf): der LeDoux-Test selbst.** Zahlen bis 9972, nur 300 000 Trainingsaufgaben (0,3 %), Stapel von 256 – genau LeDoux' Einstellung, aber mit unserem Netz. Vier Läufe: zufällige oder gezielte Auswahl × gemischte oder sortierte Reihenfolge (LeDoux' „Stride“). Vorher aufgeschrieben: (a) Lernt nur die gezielte Auswahl bei gemischter Reihenfolge, ersetzt der Inhalt die Reihenfolge. (b) Lernt die zufällige Auswahl mit sortierter Reihenfolge und zeigt Frequenz 101, haben wir LeDoux' Effekt mit unserem Netz nachgestellt. (c) Im Konfliktlauf (gezielt + sortiert) sehen wir, ob unsere Ziel-Frequenzen oder die der Reihenfolge gewinnen. Ehrliche Erwartung: Es kann gut sein, dass in 250 000 Schritten gar kein Lauf lernt – unsere Hochrechnung sagt, dass 300 000 Paare für unser Netz eher zu wenig sind. Das wäre dann „keine Aussage“, kein Gegenbeweis.
 
+4. **EXP-144 (neu, Sitzung 71, Vorversuch mit 1 Seed je Lauf): dasselbe wie EXP-143, aber mit einem 4-mal breiteren Netz.** In EXP-143 hat unser kleines Netz in LeDoux' Einstellung nicht einmal die Trainingsaufgaben gelernt, also konnten wir die Frage „Menge oder Reihenfolge“ dort gar nicht stellen. Jetzt prüfen wir zuerst, ob ein breiteres Netz die Trainingsaufgaben lernt (Frage 0), und dann dieselben Fragen wie vorher. Ehrliche Erwartung: Die zufällige Auswahl mit gemischter Reihenfolge lernt wahrscheinlich nicht – das war auch bei LeDoux so. Spannend ist, ob unsere gezielte Auswahl ohne Sortierung lernt.
+
 ## Was heute herauskam
 
 (wird nach den Auswertungen ergänzt)

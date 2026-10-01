@@ -1,0 +1,693 @@
+{
+ "cells": [
+  {
+   "p": 211,
+   "fraction": "f10",
+   "train_frac": 0.1,
+   "verdict_cal": "kein Lernen im Budget",
+   "verdict_thr1": "kein Lernen im Budget",
+   "n_both_generalised": 0,
+   "n_evaluable": 0,
+   "n_not_generalised": 6,
+   "rows": [
+    {
+     "seed": 13700,
+     "gen": [
+      null,
+      null
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.8366068601608276
+      },
+      {
+       "train": 1.0,
+       "test": 0.008485362865030766
+      }
+     ],
+     "dpow_2000": 1.9343131778379066,
+     "dpow_post": null,
+     "post_step": null,
+     "dpow_pre": null,
+     "pre_step": null
+    },
+    {
+     "seed": 13701,
+     "gen": [
+      null,
+      null
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.005265916232019663
+      },
+      {
+       "train": 1.0,
+       "test": 0.0087349321693182
+      }
+     ],
+     "dpow_2000": 1.6229136839223148,
+     "dpow_post": null,
+     "post_step": null,
+     "dpow_pre": null,
+     "pre_step": null
+    },
+    {
+     "seed": 13702,
+     "gen": [
+      null,
+      null
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.02792682684957981
+      },
+      {
+       "train": 1.0,
+       "test": 0.017245251685380936
+      }
+     ],
+     "dpow_2000": 1.8591265885001402,
+     "dpow_post": null,
+     "post_step": null,
+     "dpow_pre": null,
+     "pre_step": null
+    }
+   ],
+   "problems": []
+  },
+  {
+   "p": 211,
+   "fraction": "f15",
+   "train_frac": 0.15,
+   "verdict_cal": "steuert",
+   "verdict_thr1": "steuert",
+   "n_both_generalised": 3,
+   "n_evaluable": 3,
+   "n_not_generalised": 0,
+   "rows": [
+    {
+     "seed": 13700,
+     "gen": [
+      10700,
+      4425
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.9999735951423645
+      },
+      {
+       "train": 1.0,
+       "test": 0.9998943209648132
+      }
+     ],
+     "dpow_2000": 4.496387891592327,
+     "dpow_post": 11.110368971805617,
+     "post_step": [
+      12000,
+      6000
+     ],
+     "dpow_pre": 7.628514724290362,
+     "pre_step": [
+      10000,
+      4000
+     ],
+     "placebo_q90": 2.8702774782652893,
+     "placebo_q99": 4.25789771974519,
+     "placebo_sd": 1.6848145320046415,
+     "top5_own_post": [
+      4,
+      5
+     ]
+    },
+    {
+     "seed": 13701,
+     "gen": [
+      3700,
+      4250
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 4.83314708770442,
+     "dpow_post": 10.55309418687689,
+     "post_step": [
+      5000,
+      6000
+     ],
+     "dpow_pre": 6.849996915226468,
+     "pre_step": [
+      3000,
+      4000
+     ],
+     "placebo_q90": 3.3425004628188417,
+     "placebo_q99": 5.807776967125499,
+     "placebo_sd": 2.134560741208677,
+     "top5_own_post": [
+      3,
+      4
+     ]
+    },
+    {
+     "seed": 13702,
+     "gen": [
+      3125,
+      5275
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.9999471306800842
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 4.026632083701626,
+     "dpow_post": 10.899127675313496,
+     "post_step": [
+      5000,
+      7000
+     ],
+     "dpow_pre": 6.625571090334774,
+     "pre_step": [
+      3000,
+      5000
+     ],
+     "placebo_q90": 3.102235248753876,
+     "placebo_q99": 4.832378622402005,
+     "placebo_sd": 1.8329932692778643,
+     "top5_own_post": [
+      4,
+      4
+     ]
+    }
+   ],
+   "problems": []
+  },
+  {
+   "p": 211,
+   "fraction": "f20",
+   "train_frac": 0.2,
+   "verdict_cal": "steuert",
+   "verdict_thr1": "steuert",
+   "n_both_generalised": 3,
+   "n_evaluable": 3,
+   "n_not_generalised": 0,
+   "rows": [
+    {
+     "seed": 13700,
+     "gen": [
+      1225,
+      550
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 10.822728775975587,
+     "dpow_post": 11.765970131371606,
+     "post_step": [
+      3000,
+      2000
+     ],
+     "dpow_pre": 6.044321501598821,
+     "pre_step": [
+      1000,
+      500
+     ],
+     "placebo_q90": 2.559065077662434,
+     "placebo_q99": 4.415377461391644,
+     "placebo_sd": 1.5047795913642634,
+     "top5_own_post": [
+      4,
+      4
+     ]
+    },
+    {
+     "seed": 13701,
+     "gen": [
+      650,
+      550
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 10.298215606011373,
+     "dpow_post": 10.298215606011373,
+     "post_step": [
+      2000,
+      2000
+     ],
+     "dpow_pre": 5.410912661724145,
+     "pre_step": [
+      500,
+      500
+     ],
+     "placebo_q90": 2.9184254135761813,
+     "placebo_q99": 4.903930165832935,
+     "placebo_sd": 1.7531558278113788,
+     "top5_own_post": [
+      3,
+      4
+     ]
+    },
+    {
+     "seed": 13702,
+     "gen": [
+      525,
+      550
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 10.933378792721687,
+     "dpow_post": 10.933378792721687,
+     "post_step": [
+      2000,
+      2000
+     ],
+     "dpow_pre": 5.524507743706266,
+     "pre_step": [
+      500,
+      500
+     ],
+     "placebo_q90": 2.384591437636494,
+     "placebo_q99": 3.8598158476498536,
+     "placebo_sd": 1.4461537396949296,
+     "top5_own_post": [
+      5,
+      4
+     ]
+    }
+   ],
+   "problems": []
+  },
+  {
+   "p": 307,
+   "fraction": "f10",
+   "train_frac": 0.1,
+   "verdict_cal": "steuert",
+   "verdict_thr1": "steuert",
+   "n_both_generalised": 3,
+   "n_evaluable": 3,
+   "n_not_generalised": 0,
+   "rows": [
+    {
+     "seed": 13700,
+     "gen": [
+      6300,
+      8850
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.9999999403953552
+      },
+      {
+       "train": 1.0,
+       "test": 0.9995991587638855
+      }
+     ],
+     "dpow_2000": 3.4550095652009327,
+     "dpow_post": 8.175597265714448,
+     "post_step": [
+      8000,
+      10000
+     ],
+     "dpow_pre": 6.331236246671478,
+     "pre_step": [
+      6000,
+      8000
+     ],
+     "placebo_q90": 2.7041554335584195,
+     "placebo_q99": 3.7954574172723623,
+     "placebo_sd": 1.4536996550258006,
+     "top5_own_post": [
+      3,
+      4
+     ]
+    },
+    {
+     "seed": 13701,
+     "gen": [
+      6125,
+      8175
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.9999999403953552
+      },
+      {
+       "train": 1.0,
+       "test": 0.9998113512992859
+      }
+     ],
+     "dpow_2000": 3.2790589876472254,
+     "dpow_post": 10.855692747842422,
+     "post_step": [
+      8000,
+      10000
+     ],
+     "dpow_pre": 7.690734016311904,
+     "pre_step": [
+      6000,
+      8000
+     ],
+     "placebo_q90": 3.293770378568311,
+     "placebo_q99": 5.6865479175519615,
+     "placebo_sd": 1.9486457188135233,
+     "top5_own_post": [
+      4,
+      4
+     ]
+    },
+    {
+     "seed": 13702,
+     "gen": [
+      9100,
+      11500
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.9999999403953552
+      },
+      {
+       "train": 1.0,
+       "test": 0.9929147362709045
+      }
+     ],
+     "dpow_2000": 2.8509970132573694,
+     "dpow_post": 10.393407065693745,
+     "post_step": [
+      11000,
+      13000
+     ],
+     "dpow_pre": 7.704649597155393,
+     "pre_step": [
+      9000,
+      11000
+     ],
+     "placebo_q90": 3.209347689870208,
+     "placebo_q99": 4.802076517245906,
+     "placebo_sd": 1.8150060096105458,
+     "top5_own_post": [
+      4,
+      3
+     ]
+    }
+   ],
+   "problems": []
+  },
+  {
+   "p": 307,
+   "fraction": "f15",
+   "train_frac": 0.15,
+   "verdict_cal": "steuert",
+   "verdict_thr1": "steuert",
+   "n_both_generalised": 3,
+   "n_evaluable": 3,
+   "n_not_generalised": 0,
+   "rows": [
+    {
+     "seed": 13700,
+     "gen": [
+      550,
+      550
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 0.999962568283081
+      }
+     ],
+     "dpow_2000": 9.302533468651829,
+     "dpow_post": 9.302533468651829,
+     "post_step": [
+      2000,
+      2000
+     ],
+     "dpow_pre": 6.127628088930711,
+     "pre_step": [
+      500,
+      500
+     ],
+     "placebo_q90": 2.551232126607748,
+     "placebo_q99": 3.4837565912665234,
+     "placebo_sd": 1.3270276875545897,
+     "top5_own_post": [
+      4,
+      5
+     ]
+    },
+    {
+     "seed": 13701,
+     "gen": [
+      475,
+      500
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 10.522323006588884,
+     "dpow_post": 10.522323006588884,
+     "post_step": [
+      2000,
+      2000
+     ],
+     "dpow_pre": 5.3279844592101675,
+     "pre_step": [
+      250,
+      250
+     ],
+     "placebo_q90": 3.028211419870896,
+     "placebo_q99": 4.9849796864963345,
+     "placebo_sd": 1.6917300694593733,
+     "top5_own_post": [
+      4,
+      4
+     ]
+    },
+    {
+     "seed": 13702,
+     "gen": [
+      675,
+      500
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 8.926130547958026,
+     "dpow_post": 8.926130547958026,
+     "post_step": [
+      2000,
+      2000
+     ],
+     "dpow_pre": 5.357223437759662,
+     "pre_step": [
+      500,
+      250
+     ],
+     "placebo_q90": 2.7885944004319128,
+     "placebo_q99": 4.917313483972749,
+     "placebo_sd": 1.689640030918755,
+     "top5_own_post": [
+      4,
+      5
+     ]
+    }
+   ],
+   "problems": []
+  },
+  {
+   "p": 307,
+   "fraction": "f20",
+   "train_frac": 0.2,
+   "verdict_cal": "steuert",
+   "verdict_thr1": "steuert",
+   "n_both_generalised": 3,
+   "n_evaluable": 3,
+   "n_not_generalised": 0,
+   "rows": [
+    {
+     "seed": 13700,
+     "gen": [
+      325,
+      250
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 9.186094154859553,
+     "dpow_post": 9.186094154859553,
+     "post_step": [
+      2000,
+      2000
+     ],
+     "dpow_pre": 4.02922383609506,
+     "pre_step": [
+      250,
+      50
+     ],
+     "placebo_q90": 3.071417925961644,
+     "placebo_q99": 4.321532044809091,
+     "placebo_sd": 1.5138716393824667,
+     "top5_own_post": [
+      4,
+      4
+     ]
+    },
+    {
+     "seed": 13701,
+     "gen": [
+      225,
+      200
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 11.816612136505356,
+     "dpow_post": 11.816612136505356,
+     "post_step": [
+      2000,
+      2000
+     ],
+     "dpow_pre": 1.4246259256367986,
+     "pre_step": [
+      50,
+      50
+     ],
+     "placebo_q90": 3.1636124496778835,
+     "placebo_q99": 4.325679501821399,
+     "placebo_sd": 1.5276197239197034,
+     "top5_own_post": [
+      4,
+      3
+     ]
+    },
+    {
+     "seed": 13702,
+     "gen": [
+      200,
+      225
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 9.020193465452298,
+     "dpow_post": 9.020193465452298,
+     "post_step": [
+      2000,
+      2000
+     ],
+     "dpow_pre": 1.423563177291053,
+     "pre_step": [
+      50,
+      50
+     ],
+     "placebo_q90": 3.066078146910944,
+     "placebo_q99": 4.791346019017864,
+     "placebo_sd": 1.683067421824638,
+     "top5_own_post": [
+      4,
+      4
+     ]
+    }
+   ],
+   "problems": []
+  }
+ ],
+ "overall": {
+  "211": "K2 haelt bei p mit weniger Daten",
+  "307": "K2 haelt bei p mit weniger Daten"
+ },
+ "mask_prediction_check": {
+  "spearman_pooled": -0.0964285714285714,
+  "spearman_within_p": {
+   "211": 0.028571428571428574,
+   "307": -0.11666666666666665
+  },
+  "n": 15,
+  "mean_dpow_post": {
+   "211_f10": null,
+   "211_f15": 10.854196944665334,
+   "211_f20": 10.999188176701557,
+   "307_f10": 9.808232359750205,
+   "307_f15": 9.583662341066246,
+   "307_f20": 10.007633252272402
+  }
+ }
+}

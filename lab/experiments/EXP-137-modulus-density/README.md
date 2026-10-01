@@ -1,8 +1,8 @@
 ---
 id: EXP-137
-status: laufend
+status: abgeschlossen
 datum: 2026-10-01
-tags: [exp/laufend, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[experiments/EXP-136-large-modulus/README|EXP-136]]", "[[experiments/EXP-043-generalize-steering/README|EXP-043]]", "[[FINDINGS]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-137: Steuert die Trainingsmenge bei größerem Modulus auch mit weniger Daten, wenn das Netz noch generalisiert? (Pilot)
@@ -44,4 +44,21 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 
 ## Ergebnis
 
-Noch nicht ausgeführt (beim GPU-Dienst als `48_exp137_density`).
+**Ausgewertet Sitzung 67 (01.10., 07:29 Berlin gemessen; Dienst 36/36, keine Fehler). Gesamtlesart (placebo-kalibriert): p 211 und p 307 je „K2 hält bei p mit weniger Daten“.** Pilot, 3 Seeds je Zelle.
+
+| p | Anteil | Zelle (kalibriert / Schwelle 1) | Δ_pow nach Generalisierung je Seed | Placebo-q99 | Δ_pow vor gen | gen-Schritte (F, G) |
+|---|---|---|---|---|---|---|
+| 211 | 10 % | kein Lernen im Budget | – (0/6 generalisiert; Test bis 0.84) | – | – | – |
+| 211 | 15 % | steuert / steuert | 11.11 / 10.55 / 10.90 | 4.26 / 5.81 / 4.83 | 7.63 / 6.85 / 6.63 | 10700/4425, 3700/4250, 3125/5275 |
+| 211 | 20 % | steuert / steuert | 11.77 / 10.30 / 10.93 | 4.42 / 4.90 / 3.86 | 6.04 / 5.41 / 5.52 | 1225/550, 650/550, 525/550 |
+| 307 | 10 % | steuert / steuert | 8.18 / 10.86 / 10.39 | 3.80 / 5.69 / 4.80 | 6.33 / 7.69 / 7.70 | 6300/8850, 6125/8175, 9100/11500 |
+| 307 | 15 % | steuert / steuert | 9.30 / 10.52 / 8.93 | 3.48 / 4.98 / 4.92 | 6.13 / 5.33 / 5.36 | ≈ 500 |
+| 307 | 20 % | steuert / steuert | 9.19 / 11.82 / 9.02 | 4.32 / 4.33 / 4.79 | 4.03 / 1.42 / 1.42 | ≈ 200–325 |
+
+- **Hauptbefund (Pilot):** Wo das Netz bei größerem p mit weniger Daten noch generalisiert (bis 10 % bei 307, bis 15 % bei 211), steuert die Split-Konstruktion die Frequenzen auch nach der Generalisierung deutlich (Δ_pow 8.2–11.8, jeweils über dem Placebo-99-%-Quantil). Top-5 nach Generalisierung: 3–5 eigene Ziele je Arm.
+- **Vorhersage erster Ordnung trifft nicht:** Δ_pow steigt nach der Generalisierung nicht mit dem Anteil (Mittel je Zelle 9.6–11.0), Spearman(Masken-Δ, Δ_pow) −0.10 (n = 15), je p 0.03 / −0.12. Die Masken-Ordnung aus EXP-136 (0.85) war also, wie die Prüfung vermutete, vor allem der Gegensatz generalisiert/auswendig; nach der Generalisierung sättigt Δ_pow.
+- **Beschreibend:** Schon am letzten Schnappschuss vor der Generalisierung war die Neigung groß (1.4–7.7); bei den spät generalisierenden Zellen (211 f15, 307 f10) am größten.
+- **Paarzahl statt Anteil?** 307 mit 10 % = 9425 Paare generalisiert, 211 mit 10 % = 4452 Paare nicht (und EXP-136: 3831 Paare nie) – passt eher zu einer Mindest-Paarzahl als zu einem Mindestanteil; nicht getrennt.
+- **Einordnung zu LeDoux:** Die Steuerung reicht bis zur Grenze, an der in unserem Budget überhaupt generalisiert wird; über 0.3 % / p = 9973 sagt der Pilot nichts.
+- **Paper:** Absatz in Anhang A.2 (draft §3.11, nach EXP-136), Grenze (ii) ergänzt; unabhängige Nachrechnung und Textprüfung laufen.
+- **Folge (offen, nicht eingereiht):** Bestätigungsblock bei p = 307, 10 % (≥ 10 frische Seeds, SeedSequence, eingefroren, Placebo-Lesart) – wenn das Paper die Verallgemeinerung über p als Ergebnis tragen soll.

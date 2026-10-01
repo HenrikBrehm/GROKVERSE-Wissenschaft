@@ -1,0 +1,32 @@
+{
+ "reading": "Frequenzstruktur noetig (nicht blosses Ungleichgewicht)",
+ "rows": [
+  {
+   "seed": 13900,
+   "problem": false,
+   "gen_F": 6575,
+   "gen_G": 5725,
+   "gen_R": null,
+   "gen_U": null,
+   "gen_E": 6150.0
+  },
+  {
+   "seed": 13901,
+   "problem": false,
+   "gen_F": 5600,
+   "gen_G": 4425,
+   "gen_R": null,
+   "gen_U": null,
+   "gen_E": 5012.5
+  },
+  {
+   "seed": 13902,
+   "problem": false,
+   "gen_F": 5000,
+   "gen_G": 5525,
+   "gen_R": null,
+   "gen_U": null,
+   "gen_E": 5262.5
+  }
+ ]
+}

@@ -1,8 +1,8 @@
 ---
 id: EXP-142
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-10-01
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[experiments/EXP-140-random-at-edge/README|EXP-140]]", "[[confirm/R15_REGISTRATION|R15]]", "[[experiments/EXP-139-pair-count/README|EXP-139]]", "[[FINDINGS]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-142: Reicht irgendeine gleich starke Ungleichgewichtung der Paare, oder braucht es die Frequenzstruktur? (Pilot)
@@ -32,4 +32,6 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 
 ## Ergebnis
 
-Offen (beim GPU-Dienst als `52a57_exp142_shuf`, nach R15 p 307, vor EXP-141).
+**Sitzung 69 (01.10., 13:34 Berlin, gemessen), Pilot, nach Vorlage: „Frequenzstruktur nötig (nicht bloßes Ungleichgewicht)“.** Alle 3 U-Arme (Gewichte von F über die Paare permutiert) generalisieren in 30 000 Schritten nicht, wie die Zufallsarme R aus EXP-140; die konstruierten Arme derselben Seeds bei gen_E 6150 / 5013 / 5263. `analyze.py` → `summary.json`, keine Probleme.
+- **Lesart:** An dieser Datengrenze ersetzt nicht irgendeine gleich starke Ungleichgewichtung der Paare die fehlende Dichte, sondern die frequenzgerichtete (gleiche Gewichtsverteilung, gleiche Abdeckung je Zahl/Ausgabe, nur die Anordnung über die Paare zerstört).
+- **Grenzen:** Pilot (3 Seeds, eine Zelle, ein Budget); die Permutation ist nur eine von vielen unstrukturierten Kontrollen (zerstört auch Zeilen-/Spaltenmuster); für R15 keine Bestätigung, nur Deutungshilfe (Wortwahl im Paper nach [[paper/R15_DEUTUNGEN]] höchstens als Pilot-Satz).

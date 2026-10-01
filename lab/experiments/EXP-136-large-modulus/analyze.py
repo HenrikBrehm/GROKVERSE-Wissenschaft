@@ -111,9 +111,27 @@ def cell(p: int, fr: str, loader=load) -> dict:
             "rows": rows, "problems": bad}
 
 
+def mask_check(cells: list[dict]) -> dict | None:
+    """Descriptive check of the first-order prediction fixed before the block (mask_prediction_s65.json)."""
+    f = HERE / "mask_prediction_s65.json"
+    if not f.exists():
+        return None
+    m = {(r["p"], r["fraction"], r["seed"]): r["delta_mask"] for r in json.loads(f.read_text(encoding="utf-8"))}
+    pairs = [(m[(c["p"], c["fraction"], r["seed"])], r["dpow_2000"]) for c in cells for r in c["rows"]]
+    if len(pairs) < 3:
+        return None
+    x, y = np.array(pairs).T
+    rk = lambda w: np.argsort(np.argsort(w)).astype(float)   # noqa: E731
+    lo_below_hi = {p: (np.mean([r["dpow_2000"] for c in cells if c["p"] == p and c["fraction"] == "lo" for r in c["rows"]] or [np.nan])
+                       < np.mean([r["dpow_2000"] for c in cells if c["p"] == p and c["fraction"] == "hi" for r in c["rows"]] or [np.nan]))
+                   for p in mj.PS}
+    return {"spearman_mask_vs_dpow2000": float(np.corrcoef(rk(x), rk(y))[0, 1]), "n": len(pairs),
+            "lo_below_hi": {str(k): bool(v) for k, v in lo_below_hi.items()}}
+
+
 def main(loader=load) -> dict:
-    out = {"cells": [cell(p, fr, loader) for p in mj.PS for fr in ("hi", "lo")]}
-    return out
+    cells = [cell(p, fr, loader) for p in mj.PS for fr in ("hi", "lo")]
+    return {"cells": cells, "mask_prediction_check": mask_check(cells)}
 
 
 def selftest() -> None:
@@ -141,3 +159,4 @@ if __name__ == "__main__":
         for c in res["cells"]:
             print(c["p"], c["fraction"], c["verdict"], [round(r["dpow_2000"], 2) for r in c["rows"]], "| end:", c["verdict_end"],
                   [round(r["dpow_last"], 2) for r in c["rows"]], "| not generalised:", c["n_not_generalised"], c["problems"])
+        print("first-order prediction check:", res["mask_prediction_check"])

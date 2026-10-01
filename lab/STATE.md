@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 05:32 Berlin (Sitzung 66, Ende) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 06:11 Berlin (Sitzung 67, laufend) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,17 +17,18 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`), Reihenfolge
 
-1. `46_exp128_sgdclip` (EXP-128, SGD + Clipping; 10/16 fertig, 4 laufen um 05:32).
-2. `47_exp129_k1` (EXP-129, ≈ 4.5 % Rechen-Tokens; 1/4 fertig, 2 laufen um 05:32).
+1. `47_exp129_k1` (EXP-129, ≈ 4.5 % Rechen-Tokens; 1/4 fertig, 2 liefen um 06:10).
+2. `48_exp137_density` (EXP-137, Datendichte-Leiter p 211/307 × 10/15/20 %, 36 Läufe; 0/36 fertig um 06:10; schlimmstenfalls ≈ 4 h).
+3. (geplant) `49_r13` – R13 erst nach der laufenden Vorab-Prüfung einfrieren (Manifest-Commit), dann `confirm_r13.py --splits/--jobs` und einreihen.
 
-Danach ist der Dienst leer. Nichts davon selbst neu einreihen; vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`.
+EXP-128 fertig und ausgewertet (S67: beide Arme „nicht auswertbar“). Nichts davon selbst neu einreihen; vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`.
 
 ## Nächste Schritte
 
-1. **EXP-136 Anhang-A-Satz** (Halbsatz in Grenze (ii) steht und ist geprüft, S66): Satz nach [[paper/EXP136_DEUTUNGEN]] („sonst“) in Anhang A – der wird aus `draft.md` (Langfassung, §3.7/3.11–3.13) gebaut; danach `build_manuscript.py`, unabhängige Textprüfung.
-2. **EXP-128** auswerten, wenn fertig (`lab/experiments/EXP-128-sgd-clip/analyze.py`, [[paper/EXP128_DEUTUNGEN]]); **EXP-129** (`lab/experiments/EXP-129-lm-k1-share/analyze.py`).
-3. **GPU nicht leer laufen lassen** (Regel 20i): Kandidaten in Reihenfolge – (a) EXP-136-Folge: Budget, in dem „lo“ generalisiert (mehr Paare, z. B. 2–4× 3831, oder längeres Training) – erst Smoke, Lesarten vorab; (b) Bestätigungsblock K2 bei p 211/307 und 30 % (≥ 10 frische Seeds, eingefroren), wenn die Verallgemeinerung ins Paper soll; (c) BACKLOG Option 6 (EXP-134 Mittelvektor-Intervention) nur als Füllarbeit.
-4. Tageserklärung: ab 02.10. neue Datei [[paper/erklaerung/ERKLAERUNG_2026-10-02]] (heute: L0b, EXP-135, EXP-136, EXP-134-Nachtrag eingetragen).
+1. **R13** ([[confirm/R13_REGISTRATION]]): Prüfung einarbeiten → Manifest `lab/confirm/R13_manifest.json` (REGISTERED-Felder + python + seeds {c01: 4400–4414, c0017: 4415–4429} + code_sha256 aus `--hash-code`) committen, Commit-ID eintragen, `--splits`, `--jobs` → Dienst (gpu_gb 0.75, workers 4, stall_minutes 0). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r13.py --analyze lab/confirm/R13_manifest.json`, dann unabhängige Nachrechnung; Paper-Sätze vorher je Ausgang festlegen (Grenze (i)).
+2. **EXP-137** auswerten, wenn fertig (`analyze.py`; Gesamtlesart placebo-kalibriert; Paper-Sätze [[paper/EXP137_DEUTUNGEN]]).
+3. **EXP-129** auswerten (`lab/experiments/EXP-129-lm-k1-share/analyze.py`).
+4. Tageserklärung ab 02.10.: [[paper/erklaerung/ERKLAERUNG_2026-10-02]] (EXP-128, EXP-136-Anhang, R13, EXP-137 aufnehmen).
 
 ## Nicht ändern (Hashes gebunden)
 

@@ -1,4 +1,4 @@
-"""EXP-136, first-order prediction fixed BEFORE any block run (session 65, 2026-10-01, ~02:05 Berlin).
+"""EXP-136, first-order prediction fixed BEFORE any block run (session 65, 2026-10-01, 02:00 Berlin measured).
 Mask analogue of the primary measure: Delta_mask = log[M_F(F)/M_F(G)] + log[M_G(G)/M_G(F)], with M = the EXP-015 mask power
 of the train split (make_split.mask_power) instead of the W_E group power. Pure numpy, no training.
 Prediction (descriptive check after the block, not a verdict): (1) Delta_mask is lower in 'lo' than in 'hi' for each p;

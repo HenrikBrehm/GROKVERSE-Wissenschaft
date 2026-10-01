@@ -1,8 +1,8 @@
 ---
 id: EXP-143
-status: laufend
+status: abgeschlossen
 datum: 2026-10-01
-tags: [exp/laufend, neu/kandidat]
+tags: [exp/abgeschlossen, befund/unklar, neu/kandidat]
 verwandt: ["[[experiments/EXP-140-random-at-edge/README|EXP-140]]", "[[experiments/EXP-142-shuffled-weights/README|EXP-142]]", "[[experiments/EXP-141-alpha-test/README|EXP-141]]", "[[confirm/R15_REGISTRATION|R15]]", "[[FINDINGS]]", "[[NOVEL_DIRECTIONS]]", "[[BACKLOG]]"]
 ---
 # EXP-143: Menge gegen Reihenfolge im LeDoux-Regime (p = 9973, 0.30 % der Paare, Batch 256) – Pilot
@@ -136,6 +136,12 @@ Schritt 3000, T/med = Median der Zielleistungen / Median aller k; k = 101 als Le
 - Nebenarm wd 1.0 (`52a8`) läuft, wird beschreibend berichtet.
 - **Literatur (16:55):** Dieser Verlauf ist bei LeDoux beschrieben (§5.1.2: F = 101 Spitze ab Epoche 3, > 10× ab Epoche 14, dann 202 bei Epoche 21, 404 bei 39, 808 bei 61) – unser Modell reproduziert die Stride-Signatur, aber nicht sein Lernen (dort 90 % Train bei Epoche 140). #neu/bekannt.
 
-## Ergebnis
+## Ergebnis (primärer Satz wd 0.1; Sitzung 71, 17:24 Berlin (gemessen); Pilot, 1 Seed)
 
-Offen.
+**Lesarten (vorab, Nachtrag d):** **Q1 = „im Budget keine Aussage“** (F-iid und R-iid ohne gen in 250 000 Schritten ≈ 213 Epochen). **Q2 = „nicht im Budget“** (gelesen am 600 000-Arm R-stride ≈ 512 Epochen, also länger als LeDoux' 487: keine Generalisierung, Test höchstens 0.0009). **Q3 nur beschreibend** (M1: F-stride generalisiert nicht; Muster „Reihenfolge gewinnt“: am Ende Top-5 = 101, 202, 303, 404, 505, kein F-Ziel, T/med 3.6; Test höchstens 0.0027).
+
+600 000-Stride-Arme am Ende: F-stride Train 0.21 (Spitze 0.26), k = 101 220 × Median (Rang 3 hinter seinen Vielfachen), Familienanteil 0.041; R-stride Train 0.12 (Spitze 0.15), k = 101 695 × Median (Rang 1), Familienanteil 0.124. Von den Vielfachen gehört nur 101 selbst zur vorab definierten Stride-Familie (|99 k mod p| ≤ 26; 202 → 52, 303 → 78, 404 → 104, 505 → 130); „Familie in den Top-5“ ist also allein durch k = 101 erfüllt.
+
+**Was es bedeutet:** Mit unserem 1-Schicht-Modell (d 128, AdamW β 0.9/0.98, konstante lr) lässt sich im LeDoux-Regime weder unser Befund (Menge) noch LeDoux' Befund (Reihenfolge → Generalisierung) prüfen: Das Modell passt nicht einmal die Trainingsmenge an. Reproduziert ist nur LeDoux' **Spektralsignatur** unter Stride (F = 101 mit Vielfachen, §5.1.2), und die Menge prägt W_E dauerhaft auf ihre Ziele (F-iid: Ziele = Top-5 über den ganzen Lauf). **Was nicht:** keine Aussage „Reihenfolge gewinnt“ oder „Menge gewinnt“ (beides ohne lernendes Modell nicht lesbar); ein Seed; anderes Modell und andere Optimierer-Einstellungen als LeDoux. Weiter mit [[experiments/EXP-144-ledoux-width/README|EXP-144]] (d 512). Nebenarm wd 1.0: F-iid ohne gen (Train 0.005, Test 0.003), Rest läuft.
+
+**Unabhängige Nachrechnung (17:25, Claude-Agent, eigener numpy-Code, nur lesend):** alle Zahlen der Tabelle und der 600 000-Arme reproduziert; 7 GPU-Läufe completed, keiner mit gen; 600 000 / 1172 = 512 Epochen (> LeDoux' 487). **Übernommene Präzisierungen:** (1) Q3-Muster beruht allein auf k = 101 (einziges Familienmitglied) und seinen Vielfachen, nicht auf einer breiteren Familie. (2) Im 600 000-F-stride-Arm steigt die Testgenauigkeit langsam (Quintilmittel 0.0003 → 0.0018; ≈ 36 richtige von 20 000 gegen ≈ 2 zufällig), während die Train-Genauigkeit von 0.26 (500 000) auf 0.21 fällt und der Anteil von k = 101 zugunsten der Vielfachen sinkt – über Zufall, aber weit von Generalisierung; R-stride bleibt flach (≈ 0.0004). (3) **Nebenarm wd 1.0, F-iid:** Train 0.005, Test bis 0.0033 (≈ 33 × Zufall, Spitze bei 221 000); das Spektrum wird von einem einzigen Ziel beherrscht (k = 2511, ≈ 16 600 × Median, Rang 2) – beschreibend, ein Seed, nur Energie; bei 0.3 % Daten sind Testgewinne nahe Zufall nicht als Lernen zu lesen.

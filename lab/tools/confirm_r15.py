@@ -13,6 +13,11 @@ Per seed: g_E = mean of the censored g_F and g_G; L = ln(g_R / g_E) (censored va
 95 % bootstrap CI of mean L. Cell "bestaetigt" if Holm-p < 0.05 AND CI lower bound > 0 AND L > 0 in >= 9 of 10 seeds
 (one-sided binomial p 0.011). Pre-stated description of a confirmed cell: "ermoeglicht" if R generalizes in <= 2 of 10 seeds and
 both E arms in >= 8 of 10, else "beschleunigt". Any technical failure (missing, unbound, config, stop rule) -> "nicht auswertbar".
+Diverged run (pre-freeze review s69): freq_ban.py never marks it completed (status 'finalizing', steps_completed = budget, exit 1,
+so it is not bound); it is a result, not a failure, and counts AGAINST the claim: a diverged E arm is censored at 30 000, a diverged
+R arm sets L = 0 for that seed and counts as "R generalized" in the description. Not repeated.
+Validity (review s69): g_E is a mean of two arms, so L is not exactly symmetric under H0 near the budget; simulated exchangeable arms
+gave P(L > 0) 0.45-0.55, and the combined rule (>= 9/10 and Holm-p < 0.05) kept false positives <= 0.017.
 
   python lab/tools/confirm_r15.py --selftest
   python lab/tools/confirm_r15.py --splits|--jobs|--analyze lab/confirm/R15_manifest.json
@@ -103,10 +108,13 @@ def write_splits(man: dict) -> None:
 
 def split_mismatch(p: int, s: int) -> str | None:
     for a in ARMS:
-        idx, _ = build(p, s, a)
-        f = SPL / f"{stem(p, s, a)}.npy"
-        if not f.exists() or not np.array_equal(np.load(f), idx.astype(np.int64)):
+        idx, T = build(p, s, a)
+        f, j = SPL / f"{stem(p, s, a)}.npy", SPL / f"{stem(p, s, a)}.json"
+        if not f.exists() or not j.exists() or not np.array_equal(np.load(f), idx.astype(np.int64)):
             return f"{stem(p, s, a)}: split missing or differs from the deterministic rebuild"
+        meta = json.loads(j.read_text(encoding="utf-8"))
+        if meta.get("seed") != s or meta.get("p") != p or meta.get("arm") != a or meta.get("targets") != T["G" if a == "G" else "F"]:
+            return f"{stem(p, s, a)}: split metadata differs"
     return None
 
 
@@ -151,7 +159,7 @@ def run_info(man: dict, p: int, s: int, arm: str) -> dict | str:
     if not d.exists():
         return "fehlt"
     if (why := BLOCK.unbound(man, d)):
-        return f"defekt: {why}"
+        return diverged(man, p, s, d, split) or f"defekt: {why}"
     L = load_run(d, Expect(seed=s, device=man["device"], max_steps=man["steps"], min_steps_completed=1, split_file=split,
                            config={"p": p, "task": "add", "arch": "transformer", "train_frac": frac(p)}))
     if L.status != "ok":
@@ -161,7 +169,21 @@ def run_info(man: dict, p: int, s: int, arm: str) -> dict | str:
     gen = ((L.res.get("transitions") or {}).get("primary") or {}).get("generalization", {}).get("first_crossing_step")
     if (why := stop_mismatch(L.res.get("steps_completed"), gen, man)):
         return f"defekt: {why}"
-    return {"gen": gen, "test_acc": (L.res.get("final_acc") or {}).get("test")}
+    if (why := BLOCK.unbound(man, d)):
+        return f"defekt after load: {why}"
+    return {"diverged": False, "gen": gen, "test_acc": (L.res.get("final_acc") or {}).get("test")}
+
+
+def diverged(man: dict, p: int, s: int, d: Path, split: Path) -> dict | None:
+    """A diverged run: result.json 'finalizing' with the full budget, matching seed, p, device and split bytes (not bindable)."""
+    f = d / "result.json"
+    if not f.exists():
+        return None
+    r = json.loads(f.read_text(encoding="utf-8"))
+    ok = (r.get("status") == "finalizing" and r.get("steps_completed") == man["steps"] and r.get("seed") == s
+          and (r.get("config") or {}).get("p") == p and r.get("device") == man["device"]
+          and (r.get("fingerprint_fields") or {}).get("split_file_sha256") == sha(split))
+    return {"diverged": True, "gen": None, "test_acc": None} if ok else None
 
 
 def seed_row(man: dict, p: int, s: int) -> dict:
@@ -171,8 +193,10 @@ def seed_row(man: dict, p: int, s: int) -> dict:
         return {"seed": s, "technical": True, "reason": "; ".join(bad)}
     c = {a: man["steps"] if R[a]["gen"] is None else R[a]["gen"] for a in ARMS}
     g_e = (c["F"] + c["G"]) / 2
+    r_div = R["R"]["diverged"]
     return {"seed": s, "technical": False, "gen": {a: R[a]["gen"] for a in ARMS}, "test_acc": {a: R[a]["test_acc"] for a in ARMS},
-            "g_E": g_e, "L": math.log(c["R"] / g_e), "R_generalised": R["R"]["gen"] is not None,
+            "diverged": [a for a in ARMS if R[a]["diverged"]],
+            "g_E": g_e, "L": 0.0 if r_div else math.log(c["R"] / g_e), "R_generalised": r_div or R["R"]["gen"] is not None,
             "E_both_generalised": R["F"]["gen"] is not None and R["G"]["gen"] is not None}
 
 
@@ -263,6 +287,18 @@ def selftest() -> None:
     m = {"steps": 30000, "stop_after_gen": 2000}
     assert stop_mismatch(30000, None, m) is None and stop_mismatch(8125, 6125, m) is None and stop_mismatch(30000, 29000, m) is None
     assert stop_mismatch(8000, None, m) and stop_mismatch(30000, 6125, m)
+    # diverged-run rule (review s69): recognised only with status finalizing, full budget, matching seed/p/device/split bytes
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        d, sp = Path(tmp), Path(tmp) / "s.npy"
+        np.save(sp, np.arange(5))
+        good = {"status": "finalizing", "steps_completed": 30000, "seed": 4500, "config": {"p": 401}, "device": "cuda",
+                "fingerprint_fields": {"split_file_sha256": sha(sp)}}
+        man2 = {**man, "steps": 30000}
+        for res, want in ((good, True), ({**good, "status": "running"}, False), ({**good, "steps_completed": 12000}, False),
+                          ({**good, "seed": 4501}, False), ({**good, "fingerprint_fields": {}}, False)):
+            (d / "result.json").write_text(json.dumps(res), encoding="utf-8")
+            assert (diverged(man2, 401, 4500, d, sp) is not None) == want, res
     selftest_binding(BLOCK, tj[0], tj[1], tj[2])
     assert set(CODE_FILES) <= set(BLOCK.code_hashes())
     print("[confirm_r15] selftest ok", flush=True)

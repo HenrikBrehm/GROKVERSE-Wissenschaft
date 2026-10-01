@@ -22,8 +22,11 @@ Regel 20b (LeDoux 2026: bei p = 9973 und 0.3 % Daten generalisiert dort eine Zuf
 - **Seeds (frisch, reserviert):** 4500–4509 (n = 10), im Labor nicht verwendet (Smoke: 4599).
 - **Je Arm:** gen = `transitions.primary.generalization.first_crossing_step` (Test ≥ 0.95), ohne gen zensiert bei 30 000 (untere Schranke).
 - **Primär je Seed:** L = ln(g_R / g_E), g_E = Mittel der zensierten g_F, g_G. Nur R zensiert → L ist eine untere Schranke (konservativ); alle zensiert → L = 0.
-- **Test je Zelle:** exakter einseitiger Vorzeichen-Flip-Test für Mittel L > 0 (2¹⁰ Muster), Holm über H1/H2, 95-%-Bootstrap-KI. **„bestätigt“:** Holm-p < 0.05 **und** KI-Untergrenze > 0 **und** L > 0 in ≥ 9/10 Seeds (einseitiger Binomial-p 0.011). **Beschreibung (vorab):** bestätigte Zelle „ermöglicht“, wenn R in ≤ 2/10 Seeds generalisiert und beide E-Arme in ≥ 8/10; sonst „beschleunigt“. Technischer Ausfall eines Laufs (fehlt, ungebunden, Konfiguration, Stoppregel) → „nicht auswertbar“.
+- **Test je Zelle:** exakter einseitiger Vorzeichen-Flip-Test für Mittel L > 0 (2¹⁰ Muster), Holm über H1/H2, 95-%-Bootstrap-KI. **„bestätigt“:** Holm-p < 0.05 **und** KI-Untergrenze > 0 **und** L > 0 in ≥ 9/10 Seeds (einseitiger Binomial-p 0.011). **Beschreibung (vorab):** bestätigte Zelle „ermöglicht“, wenn R in ≤ 2/10 Seeds generalisiert und beide E-Arme in ≥ 8/10; sonst „beschleunigt“. Technischer Ausfall eines Laufs (fehlt, ungebunden, Konfiguration, Stoppregel) → „nicht auswertbar“. **Divergierter Lauf** (Status „finalizing“ mit vollem Budget, passende Seed/p/Gerät/Split-Bytes; nicht bindbar) ist ein Ergebnis und zählt **gegen** die Aussage: divergierter E-Arm → zensiert bei 30 000; divergierter R-Arm → L = 0 für diesen Seed und „R generalisiert“ in der Beschreibung. Keine Wiederholung.
 - **Beschreibend:** gen je Arm, Test-Genauigkeit am Ende, Median g_E, Zahl generalisierender R-Arme.
+
+- **Gültigkeit (Prüfung S69):** g_E ist ein Mittel aus zwei Armen, daher ist L unter H0 nahe am Budget nicht exakt symmetrisch (Simulation des Prüfers mit austauschbaren Armen: P(L > 0) 0.45–0.55). Die kombinierte Regel (≥ 9/10 und Holm-p < 0.05) hielt dort die Fehlerrate ≤ 0.017; die Gültigkeit stützt sich auf beide Bedingungen zusammen.
+- **Wortwahl (vorab):** Ergebnis heißt „konstruierte Menge (ε = 2, frequenzgezielt) gegen gleichverteilte Zufallsmenge“, nicht „spektraler Inhalt ersetzt Dichte“: Eine gleich starke, aber nicht frequenzgerichtete Ungleichgewichtung ist nicht Teil des Blocks.
 
 ## Stichprobengröße
 
@@ -49,6 +52,10 @@ Manifest `lab/confirm/R15_manifest.json` = REGISTERED (experiment 15, cells {401
 ## Grenzen (vorab)
 
 Zwei Zellen, ein Budget (zensierte Läufe beweisen nicht, dass R nie generalisiert), Full-Batch, eine Architektur, AdamW; eine Zufallsteilmenge ohne Reihenfolge ist kein Nachbau von LeDoux' Aufbau (Minibatch, 2 Schichten, p = 9973); gen-Zeit, keine Ablation.
+
+## Unabhängige Prüfung vor dem Einfrieren (Sitzung 69, ≈ 11:51–11:54 Berlin; Claude-Agent, nur lesend, eigene Prüfskripte)
+
+Kein CRITICAL/HIGH. Geprüft: Laufkennungen = freq_ban-Regel; N exakt (14 000 / 9 425); R ist eine gleichverteilte Teilmenge unabhängig von den Zielen; **keine Abdeckungs-Störgröße** (Seeds 4500–4502: Streuung der Zählungen je Ausgabe F/G 5.25–5.64 gegen R 5.56–5.73 bei 401, 4.87–5.36 gegen 4.74–5.60 bei 307; je Zahl 5.2–6.0 in allen Armen; Minimum je Ausgabe F/G 15–22, R 19–21; Anteil mit Tausch (b, a) im Training F/G 0.086–0.093, R 0.093; Masken-Top-5 nur bei F/G = eigene Ziele); Seeds 4500–4509 sonst unbenutzt. *Übernommen:* MEDIUM 1 (Divergenz-Regel, oben, im Code mit Selbsttest), MEDIUM 2 (Wortwahl, oben), LOW 3 (Gültigkeitssatz, oben), LOW 4 (Bindung nach dem Laden erneut prüfen, Split-Metadaten prüfen – aus R14 übernommen). LOW 5 (H2 ohne R-Pilot) ist oben schon erklärt.
 
 ## Ergebnis
 

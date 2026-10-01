@@ -223,6 +223,9 @@ def main() -> None:
                       "**Superseded caption of an earlier Figure 4 (pilot version; the current Figure 4 is above):** **L0:")):
         assert text_out.count(old) == 1, old
         text_out = text_out.replace(old, new)
+    # s67 (review): appendix figures follow the relettering of their appendix (Figure J1 sits in Appendix I).
+    assert not re.search(r"Fig(?:ure|\.) [ILM]\d", text_out)
+    text_out = re.sub(r"(Fig(?:ure|\.) )([JK])(\d)", lambda m: m.group(1) + {"J": "I", "K": "J"}[m.group(2)] + m.group(3), text_out)
     (HERE / "manuscript.md").write_text(text_out, encoding="utf-8")
 
     text = "\n".join(p for pre in SECTIONS for p in find(short, pre)[1]) + "\n".join(captions)

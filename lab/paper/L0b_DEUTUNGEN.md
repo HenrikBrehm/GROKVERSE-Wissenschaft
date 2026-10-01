@@ -31,3 +31,7 @@ Das Abstract (draft_short) hat 1919 Zeichen; der heutige Halbsatz „a fixed dat
 - H1 und H2: *a fixed data order shifted random but not engineered splits (batch 16, 70 fresh seeds)* (86 → 1936; dann 16+ Zeichen an anderer Stelle kürzen, z. B. „(batch 1024–64, confirmed, energy measure)“ → „(batch 1024–64; confirmed, energy)“; Wahl erst nach dem Ergebnis, mit unabhängiger Textprüfung).
 - nur H2: *a fixed data order did not shift engineered splits (batch 16, 70 fresh seeds)* (77 → 1927; 8 Zeichen kürzen).
 - Wenn keine der beiden Bedingungen erfüllt ist, bleibt das Abstract unverändert (Regel oben).
+
+## Nachtrag Sitzung 66 (01.10., nach der Auswertung): verwendete Fassung
+
+Ausgang: H1, H3, H4 bestätigt, **H2 nicht**. Verwendet wurde die Vorlage „H2 nicht bestätigt“ (§6 + Anhang J). **Abweichung:** Die Vorlage sah eine Abstract-Änderung nur bei H1 + H2 (oder nur H2) vor; der bisherige Pilot-Halbsatz „a fixed data order did not shift the frequencies at 30 % data (pilot)“ widerspricht aber dem bestätigten H1 und der H2-Richtung und wurde deshalb ersetzt durch *at batch 16 a fixed order moved some energy to its frequencies; steering held (70 fresh seeds)* (Abstract 1916 Zeichen; Kürzungen: „Beyond full batch, under“, „(batch 1024–64; confirmed, energy)“, „steps ≤ 8000“). Begründung und unabhängige Textprüfung im JOURNAL, Sitzung 66.

@@ -1,0 +1,8 @@
+{
+ "n_seeds": 70,
+ "rho1_shift_vs_log2tgen_iid": 0.078680780334179,
+ "reading1": "kein klarer Zusammenhang",
+ "rho2_shift_vs_delay_xH4": 0.11059399877526027,
+ "n_seeds_shift_gt_0.05": 12,
+ "mean_shift": 0.02176121770171289
+}

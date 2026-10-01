@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 04:38 Berlin (Sitzung 66) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 05:32 Berlin (Sitzung 66, Ende) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -11,24 +11,23 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Lage (Kurzform)
 
-- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion, K4–K4e, R2–R12, K5, L0 (Minibatch), N54b (Festlegung ≈ √(N/B)), LM1/LM1-F, LM3/LM3-F. **Neu S66: L0b teilweise bestätigt** (B = 16: Reihenfolge verschiebt O-Anteil auf Zufallssplits +0.063, H1; auf konstruierten +0.022, H2 *nicht* bestätigt → keine Aussage „Menge gewinnt“; Steuerung bleibt H3; Verzögerung ×1.5 H4; unabhängig nachgerechnet). Paper §6, Anhang J (Abb. J1), Grenzen, Abstract (1916 Zeichen) – unabhängige Textprüfung lief in S66 (Ergebnis im JOURNAL).
+- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion, K4–K4e, R2–R12, K5, L0 (Minibatch), N54b (Festlegung ≈ √(N/B)), LM1/LM1-F, LM3/LM3-F. **Neu S66: L0b teilweise bestätigt** (B = 16: Reihenfolge verschiebt O-Anteil auf Zufallssplits +0.063, H1; auf konstruierten +0.022, H2 *nicht* bestätigt → keine Aussage „Menge gewinnt“; Steuerung bleibt H3; Verzögerung ×1.5 H4; unabhängig nachgerechnet). Paper §6, Anhang J (Abb. J1), Grenzen, Abstract (1916 Zeichen), unabhängig geprüft und eingearbeitet; Manuskript neu gebaut. **EXP-136** (S66): K2 hält bei p 211/307 mit 30 % (Δ_pow 8.5–12.4); mit 3831 Paaren generalisiert kein Lauf (Pilot, noch nicht im Paper).
 - **Piloten LM (Anhang K):** EXP-125 (29.5 M), EXP-134 (Text-Vortraining; Zahlzeilen-Wachstum = 96 % gemeinsame Verschiebung, S66), **EXP-135 „Festlegung mit dem Lernen“** (S66: Wechsel bei 250/1000 überschrieben, bei 3000 hält F).
 - **Pythia-Linie geschlossen.** Paper laborseitig fertig; offen nur Nutzerentscheidungen ([[paper/STATUS]]).
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`), Reihenfolge
 
-1. `45zzz_exp136_modulus` – **EXP-136** (K2 bei add 211/307, 30 % gegen 3831 Paare; LeDoux-Einwand), 24 Läufe à 6–15 min, 6/24 fertig, 4 laufen (04:38). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-136-large-modulus/analyze.py` (Lesarten + Zweitlesart im README; Vorhersage `mask_prediction_s65.json`; Paper-Sätze [[paper/EXP136_DEUTUNGEN]]).
-2. `46_exp128_sgdclip` (EXP-128, SGD + Clipping; 4/16 laufen) und `47_exp129_k1` (EXP-129, ≈ 4.5 % Rechen-Tokens; 1/4 läuft), beide schon gestartet (04:38).
+1. `46_exp128_sgdclip` (EXP-128, SGD + Clipping; 10/16 fertig, 4 laufen um 05:32).
+2. `47_exp129_k1` (EXP-129, ≈ 4.5 % Rechen-Tokens; 1/4 fertig, 2 laufen um 05:32).
 
-Nichts davon selbst neu einreihen; vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`.
+Danach ist der Dienst leer. Nichts davon selbst neu einreihen; vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`.
 
 ## Nächste Schritte
 
-1. Falls der L0b-Prüfbericht in S66 nicht mehr eingearbeitet wurde: JOURNAL S66 lesen, Punkte übernehmen.
-2. **EXP-136** auswerten (Befehl oben), Paper nach [[paper/EXP136_DEUTUNGEN]] + Textprüfung.
-3. EXP-128 (`lab/experiments/EXP-128-sgd-clip/analyze.py`, [[paper/EXP128_DEUTUNGEN]]), EXP-129 (`lab/experiments/EXP-129-lm-k1-share/analyze.py`).
-4. Nach L0b: Folgefrage für Regel 20b ist nur noch der Regimeabstand zu LeDoux (EXP-136); GPU-Leerlauf vermeiden – BACKLOG Option 6 (EXP-134 Mittelvektor-Intervention) nur als Füllarbeit.
-5. Tageserklärung [[paper/erklaerung/ERKLAERUNG_2026-10-01]] (L0b, EXP-135 eingetragen); ab 02.10. neue Datei.
+1. **EXP-136 ins Paper** (ausgewertet S66, Gesamtlesart „beschreibend“: 30 % steuert bei p 211/307, 3831 Paare generalisieren nie): Satz nach [[paper/EXP136_DEUTUNGEN]] (Fall „sonst“) in Anhang + Grenze (ii), unabhängige Textprüfung, `build_manuscript.py` neu.
+2. **EXP-128** auswerten, wenn fertig (`lab/experiments/EXP-128-sgd-clip/analyze.py`, [[paper/EXP128_DEUTUNGEN]]); **EXP-129** (`lab/experiments/EXP-129-lm-k1-share/analyze.py`).
+3. **GPU nicht leer laufen lassen** (Regel 20i): Kandidaten in Reihenfolge – (a) EXP-136-Folge: Budget, in dem „lo“ generalisiert (mehr Paare, z. B. 2–4× 3831, oder längeres Training) – erst Smoke, Lesarten vorab; (b) Bestätigungsblock K2 bei p 211/307 und 30 % (≥ 10 frische Seeds, eingefroren), wenn die Verallgemeinerung ins Paper soll; (c) BACKLOG Option 6 (EXP-134 Mittelvektor-Intervention) nur als Füllarbeit.
+4. Tageserklärung: ab 02.10. neue Datei [[paper/erklaerung/ERKLAERUNG_2026-10-02]] (heute: L0b, EXP-135, EXP-136, EXP-134-Nachtrag eingetragen).
 
 ## Nicht ändern (Hashes gebunden)
 

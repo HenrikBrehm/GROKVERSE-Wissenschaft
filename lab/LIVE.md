@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 08:29 Berlin (06:29Z, vom Runner)
 - **Deadline:** 2026-10-01 11:29 Berlin (09:29Z)
-- **Zuletzt aktualisiert:** 09:25
+- **Zuletzt aktualisiert:** 09:38
 
 ## Gerade
 
-- GPU: EXP-139 p 503 läuft (2 gleichzeitig, je ≈ 6 GB), danach EXP-140 (p 401, Zufallsauswahl), dann p 613 (einzeln, 9 GB).
-- Ich dokumentiere die Zwischenergebnisse.
+- GPU: die entscheidende Zelle **503/14 000** läuft (einzeln, ≈ 7 GB je Lauf). Vorher festgehalten: Lernt das Netz dort, passt „Paare je Zahl“ besser als die Theorie-Skalierung p^(5/3).
+- Danach: übrige 503-Läufe, EXP-140 (Zufallsauswahl), p 613.
 
 ## Als Nächstes
 
@@ -18,6 +18,7 @@ tags: [lab/live]
 2. Tageserklärung 02.10. vorbereiten.
 
 ## Verlauf dieser Sitzung
+- 09:38 Rechnung über alle bisherigen Zellen: weder reine Paarzahl noch reiner Anteil erklärt, wann das Netz lernt; ‚Paare je Zahl‘ (oder p^(5/3)) schon. Vorhersage für 503/14 000 vorab committet.
 - 09:25 Zahlen bis 400: mit 14 000 Paaren lernt das Netz die Regel, und die Datenauswahl **steuert** (3/3 Seeds); mit 9425 nicht. EXP-140 (Zufallsauswahl, gleiche Zelle) eingereiht.
 - 08:55 EXP-139 Zwischenstand: 9425 Paare bei Zahlen bis 400 reichen **nicht** zum Verallgemeinern (3 von 3 fertigen Läufen). Die reine Paarzahl ist es also nicht.
 - 08:45 EXP-140 vorbereitet; Nachtrag zu EXP-139 (Paare je Zahl als dritte Erklärung) vor den Ergebnissen.

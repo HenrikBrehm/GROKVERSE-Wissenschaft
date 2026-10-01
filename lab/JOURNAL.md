@@ -5571,3 +5571,8 @@ Start (05:40 gemessen): kein STOP, Fenster offen, Dienst: EXP-128 13/16 (3 laufe
 **Zyklus 3 (19:25 gemessen): EXP-143 Nebenarm wd 1.0 abgeschlossen (beschreibend).** Alle 4 Arme: kein Lernen (Train am Ende 0.0048 / 0.0014 / 0.0006 / 0.0006, Test hÃ¶chstens 0.0039). In beiden Stride-Armen besteht W_E zu 85â€“86 % aus der Stride-Familie (Top-5 100, 101, 202, 303, 404; k101 â‰ˆ 37 000â€“42 000 Ã— Median): starke GewichtsdÃ¤mpfung lÃ¤sst nur die durch die Reihenfolge eingeprÃ¤gte Komponente Ã¼brig. Eigene Nachrechnung (numpy, Familie |99k mod p| â‰¤ 26) reproduziert Top-5, Anteile und Train-Werte. wd 1.0 ist in diesem Regime fÃ¼r die Frage unbrauchbar.
 
 **Fazit LeDoux-Linie (Regel 23):** EXP-143 und EXP-144 sind vollstÃ¤ndig ausgewertet. In keiner Einstellung (d 128/512, wd 0.1/1.0, bis 512 Epochen) generalisiert ein Arm; die Frage â€žMenge gegen Reihenfolgeâ€œ im LeDoux-Regime bleibt **offen**, Grenze (ii) im Paper unverÃ¤ndert, nichts Neues ins Paper. Leitfragen zu EXP-144 und wd 1.0 als Fragen ohne Antworten in [[paper/erklaerung/LEITFRAGEN_LEDOUX]] ergÃ¤nzt. Der Dienst ist leer (0 laufend, 0 offen). **Pause aktiv (Regel 23).**
+
+
+## 2026-10-01 19:41 Berlin – Sitzung 74: Lagekontrolle (Regel 23)
+
+Keine STOP-Datei; GPU-Dienst idle (0 laufend, Inbox leer); keine Trainingsprozesse. Nichts gestartet. **Pause aktiv (Regel 23).** Nächster Start laut runner-state.json 23:14 Berlin.

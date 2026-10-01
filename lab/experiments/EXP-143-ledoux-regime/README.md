@@ -30,11 +30,16 @@ Zurück zu [[LAB]]. **Exploration (ein Seed je Arm), keine Bestätigung.** [[BAC
 - **Grenzen:** ein Seed je Arm, anderes Modell als LeDoux, ein Budget. Ergebnisse sind Pilot; ein Bestätigungsblock bräuchte frische Seeds und ein eingefrorenes Manifest.
 - **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** LeDoux' Zahlen (Volltext, S43/44), EXP-139/140/141/142 (Datengrenze bei N/p ≈ 30 für p ≤ 503), die Maske der R-Menge mit 298 380 Paaren (erster Bau, verworfen wegen falscher Paarzahl; Masken-Top-5 [95, 234, 1013, 3002, 4121], keine Zielanreicherung).
 
+## Nachtrag Budget (Sitzung 70, 14:07 Berlin (gemessen), nach dem GPU-Smoke, vor dem Einreichen)
+
+Smoke (R-iid, 600 Schritte, Auswertung alle 200, allein neben einem 7-GB-Dienstlauf): 0.0253 s/Schritt einschließlich Auswertungen und Spektren, 2.1 GB Grafikspeicher, ≈ 70 s Einrichtung; Train- und Testgenauigkeit auf Zufallsniveau (≈ 1e-4), Verlust ≈ 9.21 ≈ ln 9973. Festgelegt: **250 000 Schritte je Arm** (≈ 213 Epochen à 1172 Schritte; LeDoux brauchte mit Stride 487 Epochen mit seinem Modell), Stopp 5000 Schritte nach gen, Auswertung alle 1000 Schritte (gen-Auflösung 1000), Spektrum alle 5000. 4 Arme parallel beim Dienst (`gpu_gb` 2.5, `job_minutes` 330), hinter R15 p 401. Erwartet 2–4 h je Arm unter Last. Ein Arm, der in 250 000 Schritten nicht generalisiert, heißt nur „nicht im Budget“.
+
 ## Befehle
 
 ```
 python lab/tools/guarded_run.py -- python lab/tools/test_freq_ban_large.py
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-143-ledoux-regime/make_splits.py --arms R,F --seeds 14300 --mask
+python lab/experiments/EXP-143-ledoux-regime/make_jobs.py > lab/queue/staging/52a8_exp143_ledoux.jobs
 ```
 
 ## Ergebnis

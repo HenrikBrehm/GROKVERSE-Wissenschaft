@@ -30,7 +30,7 @@ Reihenfolge (11:57 gemessen): `52a56_r15_p307` (**R15** p 307, 30 Läufe, gpu_gb
 1. **EXP-141** auswerten (Frage 1 + Nachtrag a/b), sobald 12/12 da sind; dann EXP-139 Rest (52b/52c) nach Vorlage.
 2. **R15** auswerten (60/60), nachrechnen lassen; bei „bestätigt“ Paper-Vorlage (Anhang A / LeDoux-Absatz) schreiben, unabhängig prüfen.
 3. Tageserklärung [[paper/erklaerung/ERKLAERUNG_2026-10-01]] um S69 ergänzen; [[paper/erklaerung/ERKLAERUNG_2026-10-02]] füllen.
-4. Danach (BACKLOG 7): LeDoux-Regime nur mit geprüftem Wrapper (gestückelte Auswertung). Hinweis: LeDoux' 0.3 % bei p 9973 sind N/p ≈ 30 – genau unsere Grenzgegend; unter N ∝ p ln p bzw. p^1.2 bräuchte es dort deutlich mehr (≈ 0.5 %), nur grob extrapoliert.
+4. Danach (BACKLOG 7): LeDoux-Regime nur mit geprüftem Wrapper (gestückelte Auswertung). Hinweis: LeDoux' 0.3 % bei p 9973 sind N/p ≈ 30 – genau unsere Grenzgegend; unter N ∝ p ln p bzw. p^1.2 bräuchte es dort ≈ 0.5–0.7 % (nur grob extrapoliert).
 
 ## Nicht ändern (Hashes gebunden)
 

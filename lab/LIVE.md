@@ -5,7 +5,7 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 11:19 Berlin (09:19Z, vom Runner)
 - **Deadline:** 2026-10-01 14:19 Berlin (12:19Z)
-- **Zuletzt aktualisiert:** 11:59
+- **Zuletzt aktualisiert:** 12:03
 
 ## Gerade
 
@@ -22,6 +22,8 @@ tags: [lab/live]
 2. R15 auswerten nach 60/60 Läufen (nächste Sitzung).
 
 ## Verlauf dieser Sitzung
+- 12:02 EXP-142 eingereiht: Liegt es an den Frequenzen oder nur daran, dass die Auswahl ungleichmäßig ist? Gleich ungleichmäßige Auswahl ohne Frequenzmuster, 3 Läufe.
+- 12:00 EXP-141: bei 16 100 Paaren lernen jetzt 2 Seeds mit beiden Datensätzen die Regel (spät).
 - 11:57 R15 eingefroren und eingereiht (60 Läufe).
 - 11:46 EXP-140: Zufallsauswahl lernt nicht (0/3), gezielte Auswahl schon.
 - 11:28 Theorie gefunden, die vorhersagt, wie die nötige Datenmenge mit der Zahlengröße wächst (Tian 2025: ∝ p·log p). Unsere bisherigen Zellen passen dazu überraschend gut; Vorhersage vor den restlichen Läufen festgehalten. Bisher lernen die Netze bei Zahlen bis 502 aber später als vorhergesagt.

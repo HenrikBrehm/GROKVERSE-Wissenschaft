@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 14:32 Berlin (Sitzung 70, läuft) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 14:59 Berlin (Sitzung 70, läuft) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -21,7 +21,7 @@ Reihenfolge (14:10 gemessen): `52a6_exp141_alpha` (**EXP-141**, 11/12 fertig) �
 
 **R15** ([[confirm/R15_REGISTRATION]], eingefroren a8033017; Smoke grün): konstruierte (F/G) gegen gleich große Zufallsmenge (R) an der Datengrenze, 401/14 000 (H1) und 307/9425 (H2), Seeds 4500–4509. Auswertung nach 60/60: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r15.py --analyze lab/confirm/R15_manifest.json`; dann unabhängig nachrechnen, Wortwahl „konstruiert (ε 2, frequenzgezielt) gegen gleichverteilt“.
 
-**EXP-141** (7 Läufe gelesen): Zelle 503/16 100 vollständig, **alle 6 Arme generalisieren** (gen 14 850–28 425, Median ≈ 20 500) – damit generalisiert die Zelle (≥ 2 Seeds mit beiden Armen), gegen die α = 5/3-Vorhersage; später als beide vorab committeten Fortschreibungen (Nachtrag a: α_T ≈ 1.21 → Median ≈ 13 800; Nachtrag b: Tian 2025 N ∝ p ln p → ≈ 12 100). Auswerten mit `analyze.py` (Frage 1) und `iso_time_s69.py` (Nachtrag a/b).
+**EXP-141 ausgewertet (S70, nachgerechnet):** 503/16 100 und 18 100 generalisieren (12/12) → passt zu α ≈ 1 (Grenze N/p ≈ 28–31), nicht p^(5/3); K2 hält; Iso-Zeit-Exponent 1.30 (95 %-KI 1.09–1.58). **EXP-143 Vorbefund (S70, CPU, 1 Seed, nachgerechnet):** bei p 9973/0.30 %/B 256/wd 0.1 prägt die F-Menge W_E nach ≈ 2 Epochen auf ihre Ziele (Placebo p < 1e-4), Stride hebt nur k = 101 (LeDoux' F) auf Rang 1; Wiederholung mit Seeds 14301/14302 läuft auf der CPU (`raw_cpu_early`, Nachtrag f; Auswertung `analyze.py --root lab/experiments/EXP-143-ledoux-regime/raw_cpu_early --traj`). Literatur S70: Gromov 2023 §5.2 vermutet schon, dass die Stichprobenwahl die kritische Datenmenge senkt → bei R15 im Paper zitieren ([[paper/R15_DEUTUNGEN]]).
 
 **S69-Befunde:** EXP-140 „Konstruktion ermöglicht Generalisierung“ (401/14 000: R 0/3 in 30 000, E ≈ 5 500; Pilot). EXP-142 „Frequenzstruktur nötig“ (permutierte F-Gewichte U 0/3; Pilot). Post hoc EXP-139: W_E ist auch in nie generalisierenden Zellen gesteuert (Δ_pow 2.0–3.6 ≫ Placebo-q99 0.3–0.4, 6/6; `posthoc_nolearn_s69.json`). Iso-Zeit-Paarzahlen wachsen ≈ p^1.2 (oder p ln p, nicht trennbar; beschreibend). Beides unabhängig nachgerechnet; Prägung schon bei Schritt 50–250 (frühe Gradienten-Einprägung, nicht „Memorisierung“).
 
@@ -30,7 +30,7 @@ Reihenfolge (14:10 gemessen): `52a6_exp141_alpha` (**EXP-141**, 11/12 fertig) �
 ## Nächste Schritte
 
 1. **EXP-143** beobachten (Start nach R15; erste Schritte, Tempo, Speicher) und nach Abschluss auswerten. EXP-141 ist ausgewertet (S70, nachgerechnet); EXP-139 Rest (52b/52c) nach Vorlage.
-2. **R15** auswerten (60/60), nachrechnen lassen; bei „bestätigt“ Paper-Vorlage (Anhang A / LeDoux-Absatz) schreiben, unabhängig prüfen.
+2. **R15** auswerten (60/60; um 14:55 p 401 14/30), nachrechnen lassen, Gromov 2023 zitieren; bei „bestätigt“ Paper-Vorlage (Anhang A / LeDoux-Absatz) schreiben, unabhängig prüfen.
 3. Tageserklärung [[paper/erklaerung/ERKLAERUNG_2026-10-01]] um S69 ergänzen; [[paper/erklaerung/ERKLAERUNG_2026-10-02]] füllen.
 4. Danach (BACKLOG 7): LeDoux-Regime nur mit geprüftem Wrapper (gestückelte Auswertung). Hinweis: LeDoux' 0.3 % bei p 9973 sind N/p ≈ 30 – genau unsere Grenzgegend; unter N ∝ p ln p bzw. p^1.2 bräuchte es dort ≈ 0.5–0.7 % (nur grob extrapoliert).
 

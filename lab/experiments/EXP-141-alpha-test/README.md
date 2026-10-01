@@ -32,6 +32,13 @@ python lab/experiments/EXP-141-alpha-test/make_jobs.py --mask
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-141-alpha-test/analyze.py [--selftest]
 ```
 
+## Nachtrag a (Sitzung 69, 2026-10-01, 11:22 Berlin (gemessen), vor 10 der 12 Läufe): Iso-Zeit-Exponent (beschreibend)
+
+Die Schwellenfrage (lernt die Zelle in 30 000 Schritten?) ist grob; der Median-gen-Schritt g ist stetig. Zusätzliche, **beschreibende** Frage: Wie wächst die Paarzahl N_T(p), bei der der Median g = T ist, mit p (N_T ~ p^α_T)? α_T ist nicht das Schwellen-α aus EXP-139 Nachtrag b. Verfahren fest in `iso_time_s69.py` (Docstring): Zellmedian über 6 Arme (nicht generalisiert = > 30 000; nur bei ≥ 4/6), lokale Steigung s = d log g / d log N aus p 211/307 (−7.18, −6.87; s = −7.02), N_T per log-Interpolation zwischen Zellen (sonst eine Zelle + s), Fit über p 211/307/401.
+- **Vorhersage (nur bereits gesehene Daten, EXP-141 ausgeschlossen; `--seen-only`):** T = 5000: N_T = 6547 / 10 184 / 14 214 (p 211/307/401), α_T = 1.21; N_T(503) ≈ 18 600; Median g bei 503/16 100 ≈ 13 800, bei 503/18 100 ≈ 6 100 (T = 3000/8000 praktisch gleich).
+- **Lesart nach EXP-141:** α_T(401 → 503) aus den EXP-141-Zellen: 1.0–1.4 → „Iso-Zeit-Exponent konstant (≈ 1.2)“; > 1.4 → „steigt mit p“; < 1.0 → „fällt“. Zur Einordnung: α_T 1.0 bzw. 1.4 entsprechen bei 18 100 einem Median g ≈ 4 500 bzw. ≈ 8 500.
+- **Schon gesehen:** Seed 13910 bei 16 100 (gen 23 100 / 25 600, beide über der Vorhersage 13 800 – ein Hinweis Richtung „steigt“, aber ein Seed; bei s ≈ −7 bedeutet ±10 % in N einen Faktor 2 in g). Grenzen: 4 p-Werte, je 3 Seeds, Steigung aus zwei p geborgt, T willkürlich (Empfindlichkeit berichtet).
+
 ## Ergebnis
 
-Offen (beim GPU-Dienst als `52bzz_exp141_alpha`, nach EXP-140, vor EXP-139 p 613).
+Offen (beim GPU-Dienst als `52a6_exp141_alpha`; zuerst als `52bzz_…` abgelegt und vor dem ersten Start umbenannt).

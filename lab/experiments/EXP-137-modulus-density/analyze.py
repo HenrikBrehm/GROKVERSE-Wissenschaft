@@ -1,8 +1,11 @@
 """EXP-137 analysis (readings fixed in README and here before any block run, session 67).
 Per cell (p, fraction) and seed, both arms F and G must have generalized (first_crossing_step of the primary
 generalization transition) for the seed to count. Primary measure: Delta_pow (as P1/EXP-043/EXP-136) of the W_E group
-power at the post-generalization snapshot = the first stored snapshot >= max(gen_F, gen_G) + 1000 that exists in both
-arms (snapshots every 1000 steps, a run stops at gen + 2000, so it exists if both arms generalized).
+power at the post-generalization snapshots: per arm the first stored snapshot >= its own gen + 1000 (snapshots every 1000
+steps, a run stops at gen + 2000, so it exists if the arm generalized). Delta_pow is a sum of two within-run log ratios,
+so the two arms may be read at different steps. (Changed before any block result, session 67, 05:50: the first version
+required one common step >= max(gen_F, gen_G) + 1000, which does not exist when one arm generalizes > 1000 steps earlier
+and therefore stops earlier.)
 Cell reading: fewer than 2 seeds with both arms generalized -> 'kein Lernen im Budget';
 otherwise among those seeds: all Delta_pow > 1 -> 'steuert'; at least half |Delta_pow| <= 1 -> 'bricht'; else 'unklar'.
 Overall reading per p (descriptive across fractions, pilot): every evaluable cell 'steuert' and the lowest evaluable
@@ -98,14 +101,14 @@ def cell(p: int, fr: str, loader=load) -> dict:
                "dpow_2000": delta_pow(F["snaps"][STEP], G["snaps"][STEP], F["T"], G["T"]) if both2000 else None,
                "dpow_post": None, "post_step": None}
         if F["gen"] is not None and G["gen"] is not None:
-            common = sorted(set(F["snaps"]) & set(G["snaps"]))
-            cand = [t for t in common if t >= max(F["gen"], G["gen"]) + POST]
-            if cand:
-                t = cand[0]
-                row.update(post_step=t, dpow_post=delta_pow(F["snaps"][t], G["snaps"][t], F["T"], G["T"]),
-                           top5_own_post=[len(top5(F["snaps"][t]) & set(F["T"])), len(top5(G["snaps"][t]) & set(G["T"]))])
+            tF = [t for t in sorted(F["snaps"]) if t >= F["gen"] + POST]
+            tG = [t for t in sorted(G["snaps"]) if t >= G["gen"] + POST]
+            if tF and tG:
+                a, b = F["snaps"][tF[0]], G["snaps"][tG[0]]
+                row.update(post_step=[tF[0], tG[0]], dpow_post=delta_pow(a, b, F["T"], G["T"]),
+                           top5_own_post=[len(top5(a) & set(F["T"])), len(top5(b) & set(G["T"]))])
             else:
-                bad.append(f"seed {s}: no common snapshot >= gen + {POST}")
+                bad.append(f"seed {s}: no snapshot >= gen + {POST}")
         rows.append(row)
     x = [r["dpow_post"] for r in rows if r["dpow_post"] is not None]
     return {"p": p, "fraction": fr, "train_frac": mj.FRACS[fr], "verdict": reading(x), "n_evaluable": len(x),
@@ -161,7 +164,7 @@ def selftest() -> None:
                     "last_step": 3000}
         return ld
     r = main(fake(lambda fr: 5.0))
-    assert all(c["verdict"] == "steuert" and c["rows"][0]["post_step"] == 2000 for c in r["cells"]), r["cells"][0]
+    assert all(c["verdict"] == "steuert" and c["rows"][0]["post_step"] == [2000, 2000] for c in r["cells"]), r["cells"][0]
     assert set(r["overall"].values()) == {"K2 haelt bei p mit weniger Daten"}
     r = main(fake(lambda fr: 5.0 if fr == "f20" else 0.0))
     assert set(r["overall"].values()) == {"Steuerung schwindet mit der Dichte"}, r["overall"]
@@ -174,6 +177,10 @@ def selftest() -> None:
     assert set(r["overall"].values()) == {"beschreibend"}                       # only f20 evaluable
     r = main(fake(lambda fr: 5.0, gen=2500))
     assert all(c["verdict"] == "kein Lernen im Budget" and c["problems"] for c in r["cells"])   # no snapshot >= gen + 1000
+    r = main(fake(lambda fr: 5.0, gen=lambda fr: None))
+    gens = iter([500, 1900] * 100)                         # arms generalize 1400 steps apart: read at 2000 and 3000
+    r = main(lambda p, fr, s, arm: dict(fake(lambda f: 5.0)(p, fr, s, arm), gen=next(gens)))
+    assert all(c["verdict"] == "steuert" and c["rows"][0]["post_step"] == [2000, 3000] for c in r["cells"]), r["cells"][0]
     assert all(c["verdict"] == "kein Lernen im Budget" for c in main(lambda *a: "x: fehlt")["cells"])
     print("[exp137] selftest ok")
 

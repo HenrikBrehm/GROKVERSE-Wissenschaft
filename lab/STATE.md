@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 02:58 Berlin (Sitzung 65) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 04:38 Berlin (Sitzung 66) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -11,26 +11,24 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Lage (Kurzform)
 
-- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion, K4–K4e, R2–R12, K5, L0 (Minibatch), N54b (Festlegung ≈ √(N/B)), LM1/LM1-F (≈ 79 % Rechen-Tokens), LM3/LM3-F (≈ 8.7 %). Alle im Paper. Piloten S65: EXP-125 (≈ 29.5 M LM) und EXP-134 (Rumpf erst nur Text) je „K2 hält im LM“ (Δ_pow 3.79/5.42 bzw. 4.62/6.71), im Anhang K; Abstract 1919/1920 Zeichen.
-- **Pythia-Linie geschlossen** (EXP-127/130/131/132/133): beim Nachtrainieren von Pythia-160M keine Datensteuerung; im Paper Anhang K + Grenze (ii).
-- **Paper:** laborseitig fertig bis auf L0b (Sätze vorab in [[paper/L0b_DEUTUNGEN]], Zeichenbudget im Nachtrag S65); EXP-125 eingearbeitet und geprüft (S65). Offen nur Nutzerentscheidungen ([[paper/STATUS]]).
+- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion, K4–K4e, R2–R12, K5, L0 (Minibatch), N54b (Festlegung ≈ √(N/B)), LM1/LM1-F, LM3/LM3-F. **Neu S66: L0b teilweise bestätigt** (B = 16: Reihenfolge verschiebt O-Anteil auf Zufallssplits +0.063, H1; auf konstruierten +0.022, H2 *nicht* bestätigt → keine Aussage „Menge gewinnt“; Steuerung bleibt H3; Verzögerung ×1.5 H4; unabhängig nachgerechnet). Paper §6, Anhang J (Abb. J1), Grenzen, Abstract (1916 Zeichen) – unabhängige Textprüfung lief in S66 (Ergebnis im JOURNAL).
+- **Piloten LM (Anhang K):** EXP-125 (29.5 M), EXP-134 (Text-Vortraining; Zahlzeilen-Wachstum = 96 % gemeinsame Verschiebung, S66), **EXP-135 „Festlegung mit dem Lernen“** (S66: Wechsel bei 250/1000 überschrieben, bei 3000 hält F).
+- **Pythia-Linie geschlossen.** Paper laborseitig fertig; offen nur Nutzerentscheidungen ([[paper/STATUS]]).
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`), Reihenfolge
 
-1. `44zzzzz_l0b` – **L0b** (Bestätigung Menge gegen Reihenfolge bei B = 16, eingefroren bce36b1a, 420 Läufe, 8 Worker, ≈ 370 s je Lauf unter Last ≈ 1.3 Läufe/min; 298/420 um 02:57, ≈ 1.3 Läufe/min → fertig ≈ 04:30).
-2. `45zz_exp135_switch` – **EXP-135** (neu S64): K4 im LM, Faktenwechsel F → G nach 250/1000/3000 Schritten; Festlegung am Anfang oder mit dem Lernen? 6 Jobs, 2 laufen seit ≈ 02:56.
-3. `45zzz_exp136_modulus` – **EXP-136** (neu S65, N63): K2 bei add 211/307, 30 % und 3831 Paaren (LeDoux-Einwand), 24 Läufe à 6–15 min. Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-136-large-modulus/analyze.py` (Lesarten + Zweitlesart im README).
-4. `46_exp128_sgdclip` (EXP-128, SGD + Clipping), `47_exp129_k1` (EXP-129, ≈ 4.5 % Rechen-Tokens).
+1. `45zzz_exp136_modulus` – **EXP-136** (K2 bei add 211/307, 30 % gegen 3831 Paare; LeDoux-Einwand), 24 Läufe à 6–15 min, 6/24 fertig, 4 laufen (04:38). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-136-large-modulus/analyze.py` (Lesarten + Zweitlesart im README; Vorhersage `mask_prediction_s65.json`; Paper-Sätze [[paper/EXP136_DEUTUNGEN]]).
+2. `46_exp128_sgdclip` (EXP-128, SGD + Clipping; 4/16 laufen) und `47_exp129_k1` (EXP-129, ≈ 4.5 % Rechen-Tokens; 1/4 läuft), beide schon gestartet (04:38).
 
 Nichts davon selbst neu einreihen; vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`.
 
 ## Nächste Schritte
 
-1. **L0b auswerten**, wenn `lab/queue/done/44zzzzz_l0b.summary.json` da ist: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_l0b.py --analyze lab/confirm/L0b_manifest.json`; dann unabhängige Nachrechnung `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/L0b_independent_recompute.py --analyze`; Abbildung `python lab/paper/figures/fig17_l0b_set_vs_order.py` (vorab geschrieben S65); post hoc (beschreibend, Lesart vorab) `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/confirm/L0b_posthoc_r5_s65.py` (R5 unter Minibatch); Paper nach [[paper/L0b_DEUTUNGEN]] + unabhängige Textprüfung; FINDINGS, LAB, Tageserklärung.
-2. **EXP-135** auswerten: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-135-lm-switch-lockin/analyze.py`; Lesarten vorab in den READMEs. Paper erst nach Entscheidung (Explorationen → höchstens Anhang).
-3. **EXP-136** auswerten (Befehl oben), Paper nach [[paper/EXP136_DEUTUNGEN]].
-4. EXP-128 (`lab/experiments/EXP-128-sgd-clip/analyze.py`), EXP-129 (`lab/experiments/EXP-129-lm-k1-share/analyze.py`).
-5. Tägliche Erklärung [[paper/erklaerung/ERKLAERUNG_2026-10-01]] fortschreiben (Punkte 7–9 = L0b, EXP-134, EXP-136 angelegt; EXP-125 eingetragen).
+1. Falls der L0b-Prüfbericht in S66 nicht mehr eingearbeitet wurde: JOURNAL S66 lesen, Punkte übernehmen.
+2. **EXP-136** auswerten (Befehl oben), Paper nach [[paper/EXP136_DEUTUNGEN]] + Textprüfung.
+3. EXP-128 (`lab/experiments/EXP-128-sgd-clip/analyze.py`, [[paper/EXP128_DEUTUNGEN]]), EXP-129 (`lab/experiments/EXP-129-lm-k1-share/analyze.py`).
+4. Nach L0b: Folgefrage für Regel 20b ist nur noch der Regimeabstand zu LeDoux (EXP-136); GPU-Leerlauf vermeiden – BACKLOG Option 6 (EXP-134 Mittelvektor-Intervention) nur als Füllarbeit.
+5. Tageserklärung [[paper/erklaerung/ERKLAERUNG_2026-10-01]] (L0b, EXP-135 eingetragen); ab 02.10. neue Datei.
 
 ## Nicht ändern (Hashes gebunden)
 

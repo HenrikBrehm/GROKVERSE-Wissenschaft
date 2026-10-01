@@ -1,8 +1,8 @@
 ---
 id: EXP-134
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-09-30
-tags: [exp/vorbereitet, lab/lm, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, lab/lm, neu/kandidat]
 verwandt: ["[[confirm/LM1_REGISTRATION|LM1]]", "[[experiments/EXP-127-pretrained-lm/README|EXP-127]]", "[[experiments/EXP-133-pythia-reset-numbers/README|EXP-133]]", "[[NOVEL_DIRECTIONS]]", "[[FINDINGS]]"]
 ---
 # EXP-134: Steuert die Faktenauswahl noch, wenn der Rumpf des eigenen LM vorher nur auf Text trainiert wurde? (Pilot)
@@ -35,6 +35,10 @@ Nächstverwandt: Zhou, Fu, Sharan, Jia 2024 ([arXiv 2406.03445](https://arxiv.or
 
 Jobs: Datei `jobs_45z_exp134_textpre.txt` → nach `lab/queue/inbox/45z_exp134_textpre.jobs` verschieben. Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-134-text-pretrain-steering/analyze.py`.
 
-## Ergebnis
+## Ergebnis (Sitzung 65, 01.10.2026, 02:57 Berlin gemessen; `analyze.py`, Lesart vorab)
 
-(offen)
+**Lesart: „K2 haelt im LM“** (Exploration, 2 Seeds). Dienst 2/2 fertig, keine Fehler; Startprüfung bestanden (Schritt-0-Zahlzeilen = Phase-1-Ende in allen 4 Armen).
+- Δ_pow bei Phase-2-Schritt 6000: Seed 4100 **4.62**, Seed 4101 **6.71** (LM1-Partner von Grund auf, gleiche Seeds/Splits, beschreibend: 3.96 / 6.40).
+- Zurückgehaltene Fakten am Ende: 0.31 / 0.87 (4100 F/G), 0.98 / 0.92 (4101 F/G) → 3/4 > 0.5; Trainingsfakten 0.97–1.00.
+- Beschreibend (Plastizität): erste zurückgehaltene Genauigkeit ≥ 0.5 bei 4000–4750 Schritten (4100 F nie bis 6000) gegen 2500–3000 beim LM1-Partner; das Lernen der Fakten setzt also ≈ 1000–2000 Schritte später ein. Textverlust am Ende von Phase 1: 1.80 / 1.86. **Normverhältnis der Zahlzeilen Phase-1-Ende / Init: 4.99 / 5.11** – die nie als Eingabe gesehenen Zahlzeilen wuchsen im Text-Vortraining (gebundene Einbettung: nur Ausgabe-Gradienten) auf das ≈ 5-Fache; nach der Vorab-Regel ist das eine Gegenerklärung für die Verzögerung (nicht vom vortrainierten Rumpf getrennt).
+- Deutung (vorab formuliert): Ein auf Text vortrainierter kleiner Rumpf hebt die Steuerung nicht auf; das Pythia-Ergebnis liegt eher an seinen vortrainierten Zahlmerkmalen, seiner Größe oder dem viel längeren Vortraining (nicht getrennt). Kein Größen- oder Skalierungsschluss.

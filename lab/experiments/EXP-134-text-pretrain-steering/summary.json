@@ -1,0 +1,130 @@
+{
+ "reading": "K2 haelt im LM",
+ "rows_text_pretrained": [
+  {
+   "seed": 4100,
+   "dpow_end": 4.622561311493679,
+   "start_check": {
+    "seed4000_F": 0.0,
+    "seed4000_G": 0.0
+   },
+   "test_acc": [
+    0.31323414252153486,
+    0.8688332028191073
+   ],
+   "train_acc": [
+    0.985,
+    0.9865
+   ],
+   "val_loss": [
+    3.799010753631592,
+    3.5195810794830322
+   ],
+   "first_step_heldout_ge_0.5": [
+    null,
+    4750
+   ],
+   "gen": [
+    null,
+    null
+   ]
+  },
+  {
+   "seed": 4101,
+   "dpow_end": 6.713362968926754,
+   "start_check": {
+    "seed4001_F": 0.0,
+    "seed4001_G": 0.0
+   },
+   "test_acc": [
+    0.9776820673453407,
+    0.9166014095536413
+   ],
+   "train_acc": [
+    0.9975,
+    0.971
+   ],
+   "val_loss": [
+    3.894435405731201,
+    3.775054454803467
+   ],
+   "first_step_heldout_ge_0.5": [
+    4000,
+    4000
+   ],
+   "gen": [
+    6000,
+    5000
+   ]
+  }
+ ],
+ "descriptive_from_scratch_LM1_partners": {
+  "reading_same_rules": "K2 haelt im LM",
+  "rows": [
+   {
+    "seed": 4100,
+    "dpow_end": 3.9633089642461714,
+    "start_check": null,
+    "test_acc": [
+     0.8981989036805011,
+     0.9768989819890368
+    ],
+    "train_acc": [
+     0.9965,
+     0.998
+    ],
+    "val_loss": [
+     3.504422664642334,
+     3.500802755355835
+    ],
+    "first_step_heldout_ge_0.5": [
+     3000,
+     2500
+    ],
+    "gen": [
+     null,
+     4000
+    ]
+   },
+   {
+    "seed": 4101,
+    "dpow_end": 6.403551435332158,
+    "start_check": null,
+    "test_acc": [
+     0.9882537196554424,
+     0.9686765857478465
+    ],
+    "train_acc": [
+     1.0,
+     0.9965
+    ],
+    "val_loss": [
+     3.4961190223693848,
+     3.6521053314208984
+    ],
+    "first_step_heldout_ge_0.5": [
+     2500,
+     2500
+    ],
+    "gen": [
+     2750,
+     4500
+    ]
+   }
+  ]
+ },
+ "phase1": {
+  "lm2_seed4100_seed4000_F_steps6000_f49913c298e8e394": {
+   "status": "completed",
+   "val_loss_end": 1.7953386306762695,
+   "text_wraps": 0,
+   "num_row_norm_ratio_end_vs_init": 4.989261150360107
+  },
+  "lm2_seed4101_seed4001_F_steps6000_dd0117fd824dccf2": {
+   "status": "completed",
+   "val_loss_end": 1.8576176166534424,
+   "text_wraps": 0,
+   "num_row_norm_ratio_end_vs_init": 5.108512878417969
+  }
+ }
+}

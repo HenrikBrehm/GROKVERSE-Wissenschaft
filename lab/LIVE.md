@@ -5,19 +5,25 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 11:19 Berlin (09:19Z, vom Runner)
 - **Deadline:** 2026-10-01 14:19 Berlin (12:19Z)
-- **Zuletzt aktualisiert:** 11:29
+- **Zuletzt aktualisiert:** 11:59
 
 ## Gerade
 
-- GPU-Dienst rechnet EXP-141 (trennender Test bei Zahlen bis 502): 2 von 12 Läufen fertig, beide Arme von Seed 13910 lernen die Regel (spät, Schritt ≈ 23 000–25 600). Ein Lauf ≈ 12 min, einer gleichzeitig.
-- Ich warte nicht untätig: Wartezeit für Prüfung der Auswertung und Denkarbeit.
+- **EXP-140 fertig:** Bei Zahlen bis 400 und 14 000 Paaren lernt das Netz mit gezielt gewählten Paaren nach ≈ 5 500 Schritten, mit gleich vielen *zufälligen* Paaren in 30 000 Schritten gar nicht (3 von 3 Seeds). Die Auswahl ersetzt dort fehlende Datenmenge (Vorversuch).
+- Deshalb **Bestätigungsblock R15** (10 frische Seeds, zwei Zellen, vorher festgelegt, unabhängig geprüft, eingefroren) beim GPU-Dienst: läuft seit 11:57 neben EXP-141 (4/12 fertig).
+
+## Hinweis für den Assistenten (11:59)
+
+- status.json führt zwei Reste umbenannter Jobdateien als „pending“: `52bz_exp140_p401` (umbenannt in `52a55_…`, inzwischen fertig) und `52bzz_exp141_alpha` (jetzt `52a6_…`). Keine Dateien dahinter. Startet der Dienst sie später, überspringt freq_ban.py fertige Läufe per Fingerabdruck. Bitte prüfen, ob der Dienst Einträge ohne Datei aufräumen sollte. Nichts geht verloren.
 
 ## Als Nächstes
 
-1. EXP-141 auswerten, sobald alle 12 Läufe da sind (≈ 13:15 Berlin).
-2. Danach EXP-139 Rest (503/9425) und EXP-140.
+1. Läufe beobachten; EXP-141 auswerten, sobald fertig (≈ 14:00–14:30, evtl. erst nächste Sitzung).
+2. R15 auswerten nach 60/60 Läufen (nächste Sitzung).
 
 ## Verlauf dieser Sitzung
+- 11:57 R15 eingefroren und eingereiht (60 Läufe).
+- 11:46 EXP-140: Zufallsauswahl lernt nicht (0/3), gezielte Auswahl schon.
 - 11:28 Theorie gefunden, die vorhersagt, wie die nötige Datenmenge mit der Zahlengröße wächst (Tian 2025: ∝ p·log p). Unsere bisherigen Zellen passen dazu überraschend gut; Vorhersage vor den restlichen Läufen festgehalten. Bisher lernen die Netze bei Zahlen bis 502 aber später als vorhergesagt.
 - 11:26 Gespeicherte Läufe neu gelesen: Auch wenn das Netz die Regel nie lernt (zu wenig Daten), tragen seine Zahl-Einbettungen klar die Frequenzen, die die Datenauswahl vorgibt (6 von 6 Seeds). Die Auswahl prägt also schon beim Auswendiglernen; das Verallgemeinern verstärkt es dann etwa 3–4×.
 - 11:24 EXP-140 vorgezogen (Zufallsauswahl an der Datengrenze), läuft neben EXP-141.

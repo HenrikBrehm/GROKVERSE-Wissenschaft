@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 11:02 Berlin (Sitzung 68, Ende) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 12:00 Berlin (Sitzung 69) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,19 +17,20 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`)
 
-Reihenfolge (10:16 gemessen): `52a5_exp139_p503_n14000` (Rest der Zelle; Zelle generalisiert schon sicher nicht) → `52a6_exp141_alpha` (**EXP-141**, trennender α-Test, 12 Läufe, je ≈ 7 GB, einzeln) → `52b_exp139_p503` (503/9425; n14000-Zeilen werden übersprungen) → `52bz_exp140_p401` (EXP-140) → `52c_exp139_p613`. Fertig: `52a_exp139_p401`. Statuseintrag `52bzz_exp141_alpha` ist ein Rest ohne Datei (umbenannt vor Start).
+Reihenfolge (11:57 gemessen): `52a56_r15_p307` (**R15** p 307, 30 Läufe, gpu_gb 2, läuft neben EXP-141) → `52a6_exp141_alpha` (**EXP-141**, 4/12 fertig, je ≈ 7 GB, einzeln) → `52a7_r15_p401` (**R15** p 401, 30 Läufe, gpu_gb 4) → `52b_exp139_p503` (503/9425, Zelle fast sicher „kein Lernen“) → `52c_exp139_p613`. Fertig: 52a, 52a5, **52a55 (EXP-140)**. Statuseinträge `52bz_…`/`52bzz_…` sind Reste umbenannter Dateien (Hinweis an den Assistenten in LIVE).
 
-**EXP-139 Stand (10:50):** 503/14 000 kein Lernen (0/6). **EXP-141 (11:02):** erster Lauf 503/16 100 F generalisiert spät (25 600). **EXP-139 Zwischenstand (09:25):** 401/9425 kein Lernen (0/6), 401/14 000 **steuert** (Δ_pow 11.6/11.3/7.9 > q99 5.6/5.4/4.4). Nachtrag a (N/p) und b (Intervall α ∈ [0.85, 1.78] für N/p^α über alle Labor-Zellen; Vorhersage: 503/14 000 trennt α = 1 von 5/3) vor den 503/613-Ergebnissen committet. `summary.json` ist eine Zwischenfassung (fehlende Zellen zählen dort als „nicht generalisiert“).
+**R15** ([[confirm/R15_REGISTRATION]], eingefroren a8033017; Smoke grün): konstruierte (F/G) gegen gleich große Zufallsmenge (R) an der Datengrenze, 401/14 000 (H1) und 307/9425 (H2), Seeds 4500–4509. Auswertung nach 60/60: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r15.py --analyze lab/confirm/R15_manifest.json`; dann unabhängig nachrechnen, Wortwahl „konstruiert (ε 2, frequenzgezielt) gegen gleichverteilt“.
 
-Vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`. Der Dienst beendet sich bei leerer Warteschlange; neue Dateien mit `powershell -NoProfile -Command "Start-ScheduledTask -TaskName GROKVERSE-GPU-Daemon"` sofort starten.
+**EXP-141** (3 Läufe gelesen): 503/16 100 generalisiert spät (gen 23 100 / 25 600 / 28 425) – später als beide vorab committeten Fortschreibungen (Nachtrag a: α_T ≈ 1.21 → Median ≈ 13 800; Nachtrag b: Tian 2025 N ∝ p ln p → ≈ 12 100). Auswerten mit `analyze.py` (Frage 1) und `iso_time_s69.py` (Nachtrag a/b).
 
+**S69-Befunde:** EXP-140 „Konstruktion ermöglicht Generalisierung“ (401/14 000: R 0/3 in 30 000, E ≈ 5 500; Pilot). Post hoc EXP-139: W_E ist auch in nie generalisierenden Zellen gesteuert (Δ_pow 2.0–3.6 ≫ Placebo-q99 0.3–0.4, 6/6; `posthoc_nolearn_s69.json`). Iso-Zeit-Paarzahlen in N/(p ln p) konstant (5.80/5.79/5.91 bei p 211/307/401; beschreibend).
 
 ## Nächste Schritte
 
-1. **EXP-139 fertig auswerten**, sobald alle 36 Läufe da sind (`analyze.py`; Lesarten + Nachträge a/b im README); dann EXP-140 für weitere generalisierende Zellen p ≤ 503 nachreichen (`make_jobs.py` erneut, nur neue Zellen als eigene Jobdatei). Paper nur nach [[paper/EXP139_DEUTUNGEN]].
-2. **EXP-141** auswerten (`EXP-141-alpha-test/analyze.py`; Lesart α = 1 gegen 5/3 vorab). **EXP-140** auswerten (`analyze.py`, braucht EXP-139/summary.json).
-3. Tageserklärung [[paper/erklaerung/ERKLAERUNG_2026-10-02]] füllen.
-4. Danach (BACKLOG 7): LeDoux-Regime nur mit geprüftem Wrapper (gestückelte Auswertung).
+1. **EXP-141** auswerten (Frage 1 + Nachtrag a/b), sobald 12/12 da sind; dann EXP-139 Rest (52b/52c) nach Vorlage.
+2. **R15** auswerten (60/60), nachrechnen lassen; bei „bestätigt“ Paper-Vorlage (Anhang A / LeDoux-Absatz) schreiben, unabhängig prüfen.
+3. Tageserklärung [[paper/erklaerung/ERKLAERUNG_2026-10-01]] um S69 ergänzen; [[paper/erklaerung/ERKLAERUNG_2026-10-02]] füllen.
+4. Danach (BACKLOG 7): LeDoux-Regime nur mit geprüftem Wrapper (gestückelte Auswertung). Hinweis: LeDoux' 0.3 % bei p 9973 sind N/p ≈ 30 – genau unsere Grenzgegend; unter N ∝ p ln p (Konstante ≈ 5.8) bräuchte es dort ≈ 5.3·10⁵ Paare (≈ 0.54 %), beschreibend.
 
 ## Nicht ändern (Hashes gebunden)
 

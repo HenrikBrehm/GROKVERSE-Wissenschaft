@@ -1,8 +1,8 @@
 ---
 id: EXP-136
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-10-01
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/unklar, neu/kandidat]
 verwandt: ["[[experiments/EXP-043-generalize-steering/README|EXP-043]]", "[[confirm/L0_REGISTRATION_DRAFT|L0]]", "[[FINDINGS]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-136: Steuert die Trainingsmenge die Frequenzwahl auch bei größerem Modulus und kleinem Datenanteil? (Pilot)
@@ -44,6 +44,19 @@ Keine Blocker. Geprüft: Zuordnung der Läufe über den Split-Dateinamen, exakte
 
 ## Ergebnis
 
-(noch nicht gelaufen; beim GPU-Dienst als `45zzz_exp136_modulus`)
+**Ausgewertet Sitzung 66 (01.10., 05:31 Berlin gemessen; Dienst 24/24, keine Fehler). Gesamtlesart: keines der drei vorab benannten Muster → „beschreibend“** (Pilot, 3 Seeds je Zelle).
+
+| p | Daten | Δ_pow(2000) je Seed | Zelle | Δ_pow am Ende | Zweitlesart | nie generalisiert |
+|---|---|---|---|---|---|---|
+| 211 | 30 % | 9.86 / 9.52 / 11.07 | steuert | gleich | steuert | 0/6 |
+| 211 | 3831 Paare | 1.24 / 1.37 / 1.39 | steuert | 1.61 / 1.77 / 1.64 | steuert | **6/6** |
+| 307 | 30 % | 10.41 / 8.49 / 12.35 | steuert | gleich | steuert | 0/6 |
+| 307 | 3831 Paare | 0.73 / 0.82 / 0.86 | bricht | 0.62 / 0.74 / 0.87 | bricht | **6/6** |
+
+- **Bei 30 % Daten hält K2 bei größerem p deutlich** (Δ_pow 8.5–12.4, alle Läufe generalisieren).
+- **Mit wenig Daten generalisiert kein Lauf** innerhalb von 20 000 Schritten (beide p, 12/12). Die Δ_pow-Werte dort beschreiben also die Repräsentation eines auswendig lernenden Netzes, nicht einer gelernten Rechenregel; die vorab bedachte Lesart „Steuerung braucht Datendichte“ ist deshalb nicht vergeben (sie hätte auch bei p 211 „bricht“ verlangt). Ein abgebrochener bzw. nicht generalisierter Lauf beweist nicht, dass Generalisierung hier unmöglich ist (längeres Budget nicht geprüft).
+- **Vorhersage erster Ordnung (vorab, S65) trifft:** lo < hi bei beiden p; Spearman(Masken-Δ, Δ_pow(2000)) = 0.85 (n = 12 Seed-Zellen). Die Stärke der Neigung folgt dem Frequenzsignal der Maske (Masken-Δ p 211 lo 0.98–1.04 → Δ_pow 1.2–1.4; p 307 lo 0.64–0.80 → 0.7–0.9).
+- **Einordnung zu LeDoux:** Bei wenig Daten fehlt in unserem Budget schon die Generalisierung; über LeDoux' Regime (p = 9973, 0.3 %) sagt der Pilot nichts. Was er zeigt: Die Datensteuerung ist nicht auf p ≤ 113 beschränkt, und ihre Stärke skaliert mit dem Signal der Maske.
+- **Nächster Schritt (offen, nicht eingereiht):** Paper nach [[paper/EXP136_DEUTUNGEN]] (Fall „sonst beschreibend“; Satz für Anhang/Grenze (ii)) mit unabhängiger Textprüfung. Folgeversuch nach BACKLOG Punkt 3: „hi steuert“ → Bestätigungsblock bei p = 211/307, 30 % (≥ 10 frische Seeds) erwägen; für „lo“ zuerst ein Budget, in dem überhaupt generalisiert wird (z. B. 4× Paare oder längeres Training), sonst bleibt die Frage unbeantwortbar.
 
 Paper-Sätze je Ausgang vorab: [[paper/EXP136_DEUTUNGEN]].

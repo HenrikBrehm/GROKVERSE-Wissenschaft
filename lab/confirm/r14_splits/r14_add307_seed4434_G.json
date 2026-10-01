@@ -1,0 +1,22 @@
+{
+ "seed": 4434,
+ "arm": "G",
+ "targets": [
+  14,
+  16,
+  18,
+  89,
+  96
+ ],
+ "other_targets": [
+  5,
+  22,
+  101,
+  115,
+  137
+ ],
+ "eps": 2.0,
+ "train_frac": 0.1,
+ "n": 9425,
+ "manifest_commit": "68a0209c"
+}

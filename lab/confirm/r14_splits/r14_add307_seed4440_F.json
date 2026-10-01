@@ -1,0 +1,22 @@
+{
+ "seed": 4440,
+ "arm": "F",
+ "targets": [
+  2,
+  10,
+  48,
+  60,
+  126
+ ],
+ "other_targets": [
+  12,
+  53,
+  57,
+  130,
+  152
+ ],
+ "eps": 2.0,
+ "train_frac": 0.1,
+ "n": 9425,
+ "manifest_commit": "68a0209c"
+}

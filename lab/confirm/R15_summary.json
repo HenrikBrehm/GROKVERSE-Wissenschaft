@@ -1,0 +1,431 @@
+{
+ "manifest_commit": "a8033017",
+ "result": {
+  "verdict": {
+   "H1_401": "bestätigt",
+   "H2_307": "bestätigt"
+  },
+  "cells": {
+   "401": {
+    "technical": false,
+    "n": 10,
+    "mean_L": 1.5526842446674114,
+    "ci95_L": [
+     1.3745784774493632,
+     1.7461030161896383
+    ],
+    "p": 0.0009765625,
+    "n_positive": 10,
+    "n_R_generalised": 0,
+    "n_E_both": 10,
+    "median_g_E": 6687.5,
+    "p_holm": 0.001953125,
+    "verdict": "bestätigt",
+    "description": "ermöglicht"
+   },
+   "307": {
+    "technical": false,
+    "n": 10,
+    "mean_L": 1.1505776125909328,
+    "ci95_L": [
+     1.0250126893601887,
+     1.27631917742851
+    ],
+    "p": 0.0009765625,
+    "n_positive": 10,
+    "n_R_generalised": 0,
+    "n_E_both": 10,
+    "median_g_E": 9500.0,
+    "p_holm": 0.001953125,
+    "verdict": "bestätigt",
+    "description": "ermöglicht"
+   }
+  }
+ },
+ "rows": {
+  "401": [
+   {
+    "seed": 4500,
+    "technical": false,
+    "gen": {
+     "F": 6600,
+     "G": 5800,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9999659061431885,
+     "G": 1.0,
+     "R": 0.002554478356614709
+    },
+    "diverged": [],
+    "g_E": 6200.0,
+    "L": 1.5766480896111095,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4501,
+    "technical": false,
+    "gen": {
+     "F": 5150,
+     "G": 9850,
+     "R": null
+    },
+    "test_acc": {
+     "F": 1.0,
+     "G": 1.0,
+     "R": 0.002282000845298171
+    },
+    "diverged": [],
+    "g_E": 7500.0,
+    "L": 1.3862943611198906,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4502,
+    "technical": false,
+    "gen": {
+     "F": 7525,
+     "G": 6825,
+     "R": null
+    },
+    "test_acc": {
+     "F": 1.0,
+     "G": 0.9999727010726929,
+     "R": 0.0020640185102820396
+    },
+    "diverged": [],
+    "g_E": 7175.0,
+    "L": 1.4305946200164705,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4503,
+    "technical": false,
+    "gen": {
+     "F": 6675,
+     "G": 4825,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9999931454658508,
+     "G": 1.0,
+     "R": 0.003167553339153528
+    },
+    "diverged": [],
+    "g_E": 5750.0,
+    "L": 1.6519975268528964,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4504,
+    "technical": false,
+    "gen": {
+     "F": 5500,
+     "G": 4525,
+     "R": null
+    },
+    "test_acc": {
+     "F": 1.0,
+     "G": 0.9999931454658508,
+     "R": 0.005919578019529581
+    },
+    "diverged": [],
+    "g_E": 5012.5,
+    "L": 1.7892625890294678,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4505,
+    "technical": false,
+    "gen": {
+     "F": 2650,
+     "G": 7475,
+     "R": null
+    },
+    "test_acc": {
+     "F": 1.0,
+     "G": 1.0,
+     "R": 0.00116484216414392
+    },
+    "diverged": [],
+    "g_E": 5062.5,
+    "L": 1.7793369492294977,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4506,
+    "technical": false,
+    "gen": {
+     "F": 9650,
+     "G": 9625,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9790260195732117,
+     "G": 0.9999727010726929,
+     "R": 0.004564001690596342
+    },
+    "diverged": [],
+    "g_E": 9637.5,
+    "L": 1.1355356427727075,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4507,
+    "technical": false,
+    "gen": {
+     "F": 9800,
+     "G": 8125,
+     "R": null
+    },
+    "test_acc": {
+     "F": 1.0,
+     "G": 1.0,
+     "R": 0.0043596429750323296
+    },
+    "diverged": [],
+    "g_E": 8962.5,
+    "L": 1.2081481757364165,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4508,
+    "technical": false,
+    "gen": {
+     "F": 3475,
+     "G": 3200,
+     "R": null
+    },
+    "test_acc": {
+     "F": 1.0,
+     "G": 1.0,
+     "R": 0.005054461304098368
+    },
+    "diverged": [],
+    "g_E": 3337.5,
+    "L": 2.1959753579357875,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4509,
+    "technical": false,
+    "gen": {
+     "F": 10600,
+     "G": 4600,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9998841881752014,
+     "G": 1.0,
+     "R": 0.0013010810362175107
+    },
+    "diverged": [],
+    "g_E": 7600.0,
+    "L": 1.3730491343698699,
+    "R_generalised": false,
+    "E_both_generalised": true
+   }
+  ],
+  "307": [
+   {
+    "seed": 4500,
+    "technical": false,
+    "gen": {
+     "F": 7425,
+     "G": 14750,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9999999403953552,
+     "G": 0.9999999403953552,
+     "R": 0.0026643401943147182
+    },
+    "diverged": [],
+    "g_E": 11087.5,
+    "L": 0.9953790340264574,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4501,
+    "technical": false,
+    "gen": {
+     "F": 7800,
+     "G": 5925,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9999881982803345,
+     "G": 0.9999527931213379,
+     "R": 0.0031476940494030714
+    },
+    "diverged": [],
+    "g_E": 6862.5,
+    "L": 1.4751255748265064,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4502,
+    "technical": false,
+    "gen": {
+     "F": 8325,
+     "G": 13075,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9999999403953552,
+     "G": 0.9999999403953552,
+     "R": 0.0013911157147958875
+    },
+    "diverged": [],
+    "g_E": 10700.0,
+    "L": 1.030953640194295,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4503,
+    "technical": false,
+    "gen": {
+     "F": 6650,
+     "G": 7675,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9999645948410034,
+     "G": 0.9991393685340881,
+     "R": 0.0023814013693481684
+    },
+    "diverged": [],
+    "g_E": 7162.5,
+    "L": 1.4323382996212974,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4504,
+    "technical": false,
+    "gen": {
+     "F": 17300,
+     "G": 4850,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9919480085372925,
+     "G": 0.9999999403953552,
+     "R": 0.0025464489590376616
+    },
+    "diverged": [],
+    "g_E": 11075.0,
+    "L": 0.996507065730956,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4505,
+    "technical": false,
+    "gen": {
+     "F": 6250,
+     "G": 21250,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9999999403953552,
+     "G": 0.9967815279960632,
+     "R": 0.003819673554971814
+    },
+    "diverged": [],
+    "g_E": 13750.0,
+    "L": 0.780158557549575,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4506,
+    "technical": false,
+    "gen": {
+     "F": 6900,
+     "G": 9125,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.999976396560669,
+     "G": 0.999504804611206,
+     "R": 0.00547014968469739
+    },
+    "diverged": [],
+    "g_E": 8012.5,
+    "L": 1.320194559415367,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4507,
+    "technical": false,
+    "gen": {
+     "F": 11400,
+     "G": 7775,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9999999403953552,
+     "G": 0.9999999403953552,
+     "R": 0.003949353937059641
+    },
+    "diverged": [],
+    "g_E": 9587.5,
+    "L": 1.1407372149687807,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4508,
+    "technical": false,
+    "gen": {
+     "F": 9650,
+     "G": 9175,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9999999403953552,
+     "G": 0.9999999403953552,
+     "R": 0.004137979820370674
+    },
+    "diverged": [],
+    "g_E": 9412.5,
+    "L": 1.1591587885361434,
+    "R_generalised": false,
+    "E_both_generalised": true
+   },
+   {
+    "seed": 4509,
+    "technical": false,
+    "gen": {
+     "F": 11575,
+     "G": 6950,
+     "R": null
+    },
+    "test_acc": {
+     "F": 0.9953668713569641,
+     "G": 0.9999999403953552,
+     "R": 0.0019923606887459755
+    },
+    "diverged": [],
+    "g_E": 9262.5,
+    "L": 1.17522339103995,
+    "R_generalised": false,
+    "E_both_generalised": true
+   }
+  ]
+ }
+}

@@ -7,7 +7,7 @@ tags: [lab/paper]
 
 Zurück zu [[paper/STATUS]] · [[confirm/R15_REGISTRATION]] · [[experiments/EXP-140-random-at-edge/README|EXP-140]] · [[experiments/EXP-142-shuffled-weights/README|EXP-142]]
 
-**Geschrieben in Sitzung 69 (01.10.2026, 12:12 Berlin gemessen), nach dem Einfrieren (a8033017), vor jedem gelesenen R15-Ergebnis** (bis dahin nur Status von 2 Läufen bei 307 gesehen: Seed 4500 F/G generalisiert). Ort: Anhang A, ein Absatz nach dem R14-Absatz („Confirmation at mod 307 with 10 % data“); in §2 ein Halbsatz beim LeDoux-Vergleich (Mengen-Seite von LeDoux §6.4). **Kein Abstract, keine neue Kernaussage** (Regel 20a). Zahlen nach `confirm_r15.py --analyze`, unabhängige Nachrechnung und Textprüfung. Wortwahl in allen Fällen: „engineered (ε = 2, frequency-targeted) vs. uniform random subset of the same size“, nie „spectral content replaces density“, außer EXP-142 zeigt „Frequenzstruktur nötig“ (dann als *Pilot*-Satz dazu, nicht als Teil der Bestätigung).
+**Geschrieben in Sitzung 69 (01.10.2026, 12:10 Berlin gemessen), nach dem Einfrieren (a8033017), vor jedem gelesenen R15-Ergebnis** (bis dahin nur Status von 2 Läufen bei 307 gesehen: Seed 4500 F/G generalisiert). Ort: Anhang A, ein Absatz nach dem R14-Absatz („Confirmation at mod 307 with 10 % data“); in §2 ein Halbsatz beim LeDoux-Vergleich (Mengen-Seite von LeDoux §6.4). **Kein Abstract, keine neue Kernaussage** (Regel 20a). Zahlen nach `confirm_r15.py --analyze`, unabhängige Nachrechnung und Textprüfung. Wortwahl in allen Fällen: „engineered (ε = 2, frequency-targeted) vs. uniform random subset of the same size“, nie „spectral content replaces density“, außer EXP-142 zeigt „Frequenzstruktur nötig“ (dann als *Pilot*-Satz dazu, nicht als Teil der Bestätigung).
 
 ## Anhang A, je Ausgang
 

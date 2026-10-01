@@ -14,3 +14,10 @@ print("alpha separating:", (min(ok), max(ok)) if ok else None)
 for a in (1.0, 5/3, 2.0):
     y = [N / p ** a for p, N, g, *_ in pts if g]; n = [N / p ** a for p, N, g, *_ in pts if not g]
     print(f"alpha={a:.2f}: max no {max(n):.4g} < min yes {min(y):.4g}? {max(n) < min(y)}")
+
+# Nachtrag c (session 68, after the independent check): P1 points had a 2000-step budget (add 97: only 25/50 seeds with
+# both arms generalized), EXP-136 20 000 steps. Comparable cells: the 30 000-step cells only (EXP-137, EXP-139).
+pts30 = [q for q in pts if q[4] == 30000]
+ok30 = [round(a, 2) for a in np.arange(0.0, 2.51, 0.01)
+        if max(N / p ** a for p, N, g, *_ in pts30 if not g) < min(N / p ** a for p, N, g, *_ in pts30 if g)]
+print("30k cells only, alpha separating:", (min(ok30), max(ok30)) if ok30 else None)

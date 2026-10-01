@@ -38,6 +38,10 @@ Smoke (R-iid, 600 Schritte, Auswertung alle 200, allein neben einem 7-GB-Dienstl
 
 Aus den Iso-Zeit-Paarzahlen von EXP-139/141 (Vollbatch, T = 5000 Schritte): N_T ≈ 14 214 · (9973/401)^1.2 ≈ 670 000 bzw. unter N ∝ p ln p ≈ 5.84 · p ln p ≈ 536 000. LeDoux' 300 000 Paare liegen also bei etwa der Hälfte davon (N/(p ln p) ≈ 3.3; bei p ≤ 401 generalisierte keine Zufallszelle unter ≈ 4.5 in 30 000 Schritten). Erwartet daher: R-iid nicht im Budget; F-iid offen (bei p 401 half die Konstruktion an der Grenze, hier liegt N weiter darunter); Stride-Arme ohne Vorhersage, weil unser Modell und unsere Regularisierung (wd 1.0) von LeDoux abweichen und Minibatch-Schritte nicht Vollbatch-Schritten entsprechen. Diese Hochrechnung überspannt einen Faktor 25 in p und ist nur eine Einordnungshilfe.
 
+## Maskenvergleich vor dem Start (Sitzung 70, 14:21 Berlin; erster Ordnung, kein Trainingsergebnis)
+
+Zielleistung der Maske / Median: p 9973 F 2.05 (R 1.00) gegen p 401/14 000 F 2.33/2.28 und p 503/18 100 F 2.28/2.30 (EXP-139/141, die generalisierten). Standardisiert (Mittel der Ziele minus Mittel der übrigen, durch deren Streuung): 103 bei p 9973 gegen 26–29 bei p 401/503 – der Hintergrund ist bei großem p viel glatter (größter Nicht-Zielwert 1.04 × Median). Die Stride-Frequenzen 101 und 1914 sind in beiden Mengen neutral (0.99–1.01 × Median), die Menge bevorzugt sie also nicht; ein Stride-Signal im Konfliktarm käme allein aus der Reihenfolge. ε = 2 bleibt.
+
 ## Befehle
 
 ```

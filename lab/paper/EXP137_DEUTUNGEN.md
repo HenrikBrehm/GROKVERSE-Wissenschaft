@@ -12,7 +12,7 @@ Zurück zu [[paper/STATUS]] · [[LAB]] · [[experiments/EXP-137-modulus-density/
 ## Satz im Anhang A.2 (an den EXP-136-Absatz), je Gesamtlesart (p 211 und p 307 getrennt; bei verschiedenen Lesarten je p ein Halbsatz)
 
 - **„K2 hält bei p mit weniger Daten“:** *A follow-up pilot (EXP-137, three seeds per cell) used 10, 15 and 20 % data; where both arms generalized (… of … seeds), the engineered splits steered the embedding frequencies after generalization (Δ_pow 1000–2000 steps after generalization …–…, down to … % data at mod …).*
-- **„Steuerung schwindet mit der Dichte“:** *… at 20 % data the splits still steered the frequencies after generalization (Δ_pow …–…), but at … % data, where the networks still generalized, they did not (Δ_pow …–…, threshold 1). In this pilot the steering weakened with data density before generalization failed, which is consistent with LeDoux's (2026) report at much lower density.*
+- **„Steuerung schwindet mit der Dichte“:** *… at 20 % data the splits still steered the frequencies after generalization (Δ_pow …–…), but at … % data, where the networks still generalized, Δ_pow was not distinguishable from placebo frequency sets (Δ_pow …–…, placebo 90 % quantile …). In this pilot the steering weakened with data density before generalization failed, which is consistent with LeDoux's (2026) report at much lower density.*
 - **„kein Lernen im Budget“ (alle Anteile):** *… with 10–20 % data … of … runs generalized within 30 000 steps, too few to read the steering after generalization.*
 - **„beschreibend“ (gemischt):** *A follow-up pilot with 10–20 % data (EXP-137) gave no consistent picture (…).* + die Zahlen der auswertbaren Zellen.
 
@@ -29,3 +29,5 @@ Zurück zu [[paper/STATUS]] · [[LAB]] · [[experiments/EXP-137-modulus-density/
 - kein Vergleich der Δ_pow-Beträge mit EXP-136 (andere Seeds, anderer Messpunkt) außer beschreibend;
 - Einbettungsenergie, keine Ablation (Funktion nicht geprüft);
 - Mittel über 3 Seeds sind keine Effektschätzung; keine KI, keine p-Werte.
+
+*Nachtrag 05:56 (vor jedem Ergebnis):* Die Gesamtlesart nutzt jetzt die placebo-kalibrierte Zellenlesart (siehe README); Sätze nennen deshalb das Placebo-Quantil statt der Schwelle 1.

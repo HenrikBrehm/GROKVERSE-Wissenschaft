@@ -11,7 +11,7 @@ Zurück zu [[LAB]]. **Exploration (3 Seeds), keine Bestätigung.** [[NOVEL_DIREC
 
 **Bezug zu FINDINGS:** R5 und der LeDoux-Einwand (Regel 20b). [[experiments/EXP-140-random-at-edge/README|EXP-140]] zeigte bei add 401 / 14 000 Paaren: konstruierte Menge (ε = 2) generalisiert bei ≈ 5 500 Schritten, gleich große Zufallsmenge nicht in 30 000. Die Prüfung vor dem Einfrieren von [[confirm/R15_REGISTRATION|R15]] (MEDIUM 2) wies darauf hin, dass damit nur „konstruiert gegen gleichverteilt“ verglichen ist, nicht „frequenzgerichtet gegen beliebig ungleich“. Regel-15b-Begründung: kein Rest-Nachtrag, sondern die fehlende Kontrolle für die Deutung von EXP-140/R15; drei billige Läufe.
 
-## Vorab (Sitzung 69, 2026-10-01, geschrieben 12:07 Berlin (gemessen), vor jedem EXP-142-Lauf)
+## Vorab (Sitzung 69, 2026-10-01, geschrieben 12:02 Berlin (gemessen), vor jedem EXP-142-Lauf)
 
 - **Frage:** Generalisiert ein Arm U im Budget, dessen Paargewichte genau die von F sind, aber zufällig über die p² Paare permutiert (gleiche Gewichtsverteilung, keine Frequenzstruktur)?
 - **Aufbau:** Gewichte q von F exakt wie `EXP-043/make_split.engineered_train_idx` (Seed, Ziele, Phasen; Reproduktion des F-Splits von EXP-139 geprüft, bitgleich), dann Permutation und gewichtete Schlüsselziehung mit eigenem Strom (Salz 3000); genau 14 000 Paare. Seeds 13900–13902 (gleiche Init wie EXP-139 F/G und EXP-140 R), `freq_ban.py` unverändert, GPU, 30 000 Schritte, Stopp 2000 nach gen.

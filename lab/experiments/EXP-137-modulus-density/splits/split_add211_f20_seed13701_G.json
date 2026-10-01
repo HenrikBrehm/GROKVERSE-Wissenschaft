@@ -1,0 +1,17 @@
+{
+ "seed": 13701,
+ "p": 211,
+ "fraction": "f20",
+ "train_frac": 0.2,
+ "arm": "G",
+ "eps": 2.0,
+ "targets": [
+  5,
+  23,
+  61,
+  77,
+  83
+ ],
+ "n_train": 8904,
+ "target_power_share": 0.11368229470969217
+}

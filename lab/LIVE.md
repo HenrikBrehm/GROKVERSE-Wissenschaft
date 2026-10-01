@@ -5,24 +5,26 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 11:19 Berlin (09:19Z, vom Runner)
 - **Deadline:** 2026-10-01 14:19 Berlin (12:19Z)
-- **Zuletzt aktualisiert:** 13:35
+- **Zuletzt aktualisiert:** 13:46
 
 ## Gerade
 
-- **EXP-140 fertig:** Bei Zahlen bis 400 und 14 000 Paaren lernt das Netz mit gezielt gewählten Paaren nach ≈ 5 500 Schritten, mit gleich vielen *zufälligen* Paaren in 30 000 Schritten gar nicht (3 von 3 Seeds). Die Auswahl ersetzt dort fehlende Datenmenge (Vorversuch).
-- Deshalb **Bestätigungsblock R15** (10 frische Seeds, zwei Zellen, vorher festgelegt, unabhängig geprüft, eingefroren) beim GPU-Dienst: läuft seit 11:57: Teil „Zahlen bis 306“ fertig (30/30), Teil „bis 400“ folgt nach EXP-141 (5/12, läuft wieder).
-- **EXP-142 fertig:** Eine Auswahl, die genauso ungleichmäßig ist wie unsere, aber ohne Frequenzmuster, lernt ebenfalls nicht (0/3). Es kommt also auf das Frequenzmuster an, nicht auf Ungleichmäßigkeit an sich (Vorversuch).
+- **Sitzung beendet** (13:46). Nächster geplanter Start laut Runner: **01.10. 14:54 Berlin** (next_start_utc 12:54Z).
+- Der GPU-Dienst rechnet weiter: EXP-141 (Rest, Zahlen bis 502 mit 18 100 Paaren) → R15 Teil „bis 400“ → EXP-139 Rest.
+- Heute: Gezielte Auswahl lässt das Netz an der Datengrenze lernen, wo Zufall es nicht tut (EXP-140); dafür ist das Frequenzmuster nötig, nicht bloße Ungleichmäßigkeit (EXP-142). Beides Vorversuche; die Bestätigung R15 läuft.
 
-## Hinweis für den Assistenten (11:59)
+## Hinweis für den Assistenten (11:59, erledigt: Antwort 12:07, P-023)
 
 - status.json führt zwei Reste umbenannter Jobdateien als „pending“: `52bz_exp140_p401` (umbenannt in `52a55_…`, inzwischen fertig) und `52bzz_exp141_alpha` (jetzt `52a6_…`). Keine Dateien dahinter. Startet der Dienst sie später, überspringt freq_ban.py fertige Läufe per Fingerabdruck. Bitte prüfen, ob der Dienst Einträge ohne Datei aufräumen sollte. Nichts geht verloren.
 
 ## Als Nächstes
 
-1. Läufe beobachten; EXP-141 auswerten, sobald fertig (≈ 14:00–14:30, evtl. erst nächste Sitzung).
-2. R15 auswerten nach 60/60 Läufen (nächste Sitzung).
+1. EXP-141 auswerten, sobald 12/12 (nächste Sitzung).
+2. R15 auswerten nach 60/60 und unabhängig nachrechnen lassen.
 
 ## Verlauf dieser Sitzung
+- 13:46 Sitzungsende; Stand gesichert.
+- 13:44 EXP-141: Bei Zahlen bis 502 und 16 100 Paaren lernen alle 6 Läufe die Regel (spät, Median ≈ 20 500 Schritte).
 - 13:34 EXP-142: gleich ungleichmäßige Auswahl ohne Frequenzmuster lernt nicht (0/3) → das Frequenzmuster ist nötig.
 - 12:27 Nachrechnung: alle Zahlen stimmen. Zwei meiner Deutungen waren zu stark und sind korrigiert: Die Prägung entsteht schon in den ersten 50–250 Schritten (vor dem Auswendiglernen); „p·log p“ ist von „p^1,2“ nicht zu unterscheiden.
 - 12:19 Lasse die beiden Nachauswertungen von heute unabhängig nachrechnen. Paper-Sätze für jeden R15-Ausgang vorab geschrieben.

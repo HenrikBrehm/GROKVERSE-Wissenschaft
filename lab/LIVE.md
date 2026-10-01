@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 13:49 Berlin (11:49Z, vom Runner)
 - **Deadline:** 2026-10-01 16:49 Berlin (14:49Z)
-- **Zuletzt aktualisiert:** 14:18
+- **Zuletzt aktualisiert:** 14:21
 
 ## Gerade
 
-- GPU-Dienst rechnet R15 (Teil „Zahlen bis 400“, 3 parallel, ≈ 2 von 30 fertig); EXP-143 (LeDoux-Test) startet danach automatisch.
-- Ich bereite die nächsten Schritte vor (Auswertungen stehen schon bereit).
+- Ein unabhängiger Prüfer greift die neue Hülle und den Aufbau von EXP-143 an, bevor die Läufe starten.
+- GPU-Dienst: R15 (Zahlen bis 400) 3/30 fertig, 3 laufen; danach EXP-143 (zuerst mit schwächerem Weight Decay 0,1).
 
 ## Als Nächstes
 
-1. R15-Fortschritt beobachten; EXP-143-Start prüfen (erste Schritte, Speicher, Tempo).
-2. Nach 60/60: R15 auswerten und unabhängig nachrechnen lassen.
+1. Prüfbericht lesen; nötige Korrekturen vor dem Start einbauen.
+2. EXP-143-Start beobachten (Tempo, Speicher); R15 nach 60/60 auswerten.
 
 ## Verlauf dieser Sitzung
+- 14:21 EXP-143 vor dem Start verbessert: Mit unserem üblichen starken Weight Decay (1,0) lernt das Netz bei kleinen Stapeln in früheren Versuchen gar nicht. Deshalb rechnet EXP-143 jetzt zuerst mit 0,1 (wie LeDoux); die 1,0-Läufe bleiben als Nebenvergleich.
 - 14:18 Vor dem Start von EXP-143 geprüft: Die gezielte Auswahl bei Zahlen bis 9972 trägt ihr Frequenzmuster sehr sauber (viel klarer über dem Rauschen als bei 400/502); die „sortierte Reihenfolge“-Frequenzen sind in beiden Mengen neutral.
 - 14:15 Literatur: Gromov (2023) hat schon vermutet, dass eine geschickte Auswahl der Trainingsdaten mit weniger Daten auskommt – ohne es zu testen. Wir zitieren das; unser Beitrag ist der Test mit Kontrollen und die Frequenzrichtung. Korrektur 14:18: Gromov ist im Paper schon zitiert (Einleitung); neu ist nur der Bezug auf seine Vermutung zur Datenauswahl.
 - 14:14 Unabhängige Nachrechnung von EXP-141: alle Zahlen stimmen; der Exponent ist unsicherer als ich schrieb (zwischen etwa 1,1 und 1,6). Korrigiert.

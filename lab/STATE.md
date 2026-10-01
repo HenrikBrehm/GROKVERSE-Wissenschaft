@@ -23,7 +23,7 @@ Reihenfolge (11:57 gemessen): `52a56_r15_p307` (**R15** p 307, 30 Läufe, gpu_gb
 
 **EXP-141** (3 Läufe gelesen): 503/16 100 generalisiert spät (gen 23 100 / 25 600 / 28 425) – später als beide vorab committeten Fortschreibungen (Nachtrag a: α_T ≈ 1.21 → Median ≈ 13 800; Nachtrag b: Tian 2025 N ∝ p ln p → ≈ 12 100). Auswerten mit `analyze.py` (Frage 1) und `iso_time_s69.py` (Nachtrag a/b).
 
-**S69-Befunde:** EXP-140 „Konstruktion ermöglicht Generalisierung“ (401/14 000: R 0/3 in 30 000, E ≈ 5 500; Pilot). Post hoc EXP-139: W_E ist auch in nie generalisierenden Zellen gesteuert (Δ_pow 2.0–3.6 ≫ Placebo-q99 0.3–0.4, 6/6; `posthoc_nolearn_s69.json`). Iso-Zeit-Paarzahlen wachsen ≈ p^1.2 (oder p ln p, nicht trennbar; beschreibend). Beides unabhängig nachgerechnet; Prägung schon bei Schritt 50–250 (frühe Gradienten-Einprägung, nicht „Memorisierung“).
+**S69-Befunde:** EXP-140 „Konstruktion ermöglicht Generalisierung“ (401/14 000: R 0/3 in 30 000, E ≈ 5 500; Pilot). EXP-142 „Frequenzstruktur nötig“ (permutierte F-Gewichte U 0/3; Pilot). Post hoc EXP-139: W_E ist auch in nie generalisierenden Zellen gesteuert (Δ_pow 2.0–3.6 ≫ Placebo-q99 0.3–0.4, 6/6; `posthoc_nolearn_s69.json`). Iso-Zeit-Paarzahlen wachsen ≈ p^1.2 (oder p ln p, nicht trennbar; beschreibend). Beides unabhängig nachgerechnet; Prägung schon bei Schritt 50–250 (frühe Gradienten-Einprägung, nicht „Memorisierung“).
 
 ## Nächste Schritte
 

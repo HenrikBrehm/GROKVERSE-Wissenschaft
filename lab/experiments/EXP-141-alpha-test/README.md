@@ -39,6 +39,13 @@ Die Schwellenfrage (lernt die Zelle in 30 000 Schritten?) ist grob; der Median-g
 - **Lesart nach EXP-141:** α_T(401 → 503) aus den EXP-141-Zellen: 1.0–1.4 → „Iso-Zeit-Exponent konstant (≈ 1.2)“; > 1.4 → „steigt mit p“; < 1.0 → „fällt“. Zur Einordnung: α_T 1.0 bzw. 1.4 entsprechen bei 18 100 einem Median g ≈ 4 500 bzw. ≈ 8 500.
 - **Schon gesehen:** Seed 13910 bei 16 100 (gen 23 100 / 25 600, beide über der Vorhersage 13 800 – ein Hinweis Richtung „steigt“, aber ein Seed; bei s ≈ −7 bedeutet ±10 % in N einen Faktor 2 in g). Grenzen: 4 p-Werte, je 3 Seeds, Steigung aus zwei p geborgt, T willkürlich (Empfindlichkeit berichtet).
 
+## Nachtrag b (Sitzung 69, 11:28 Berlin (gemessen), nach 3 der 12 Läufe): dritte Konkurrenzlesart N ∝ p·ln p (Tian 2025)
+
+Literatursuche (01.10., 11:27, eine WebSearch-Anfrage „grokking time diverges near critical dataset size scaling with modulus p modular addition power law“; Volltext per WebFetch): **Tian 2025, *Provable Scaling Laws of Feature Emergence from Learning Dynamics of Grokking*, arXiv 2509.21519** (Theorem 4): Bei zufällig gezogenen Paaren erhalten n ≳ d k² M log(M/δ) Paare die lokalen Maxima der Energiefunktion, also Datenanteil n/M² = O(M⁻¹ log M); Experimente (Abb. 5, M bis 127, Zweischicht-Netz mit x², ℓ2-Verlust, K = 2048) zeigen den Übergang bei p ∼ M⁻¹ log M. Das ist eine theoretische Lesart „α ≈ 1 mit Log-Korrektur“, die wir vorher nicht geführt hatten.
+- **Beschreibend, an bereits gesehenen Daten (post hoc):** Die Iso-Zeit-Paarzahlen aus Nachtrag a sind in N/(p ln p) praktisch konstant: 5.80 / 5.79 / 5.91 (p 211/307/401, T = 5000). Die Schwellenzellen: generalisiert bei 5.36–5.91, nicht bei 3.92–4.47.
+- **Vorhersage unter N ∝ p ln p (Konstante 5.84):** N_T(503) ≈ 18 260; Median g bei 16 100 ≈ 12 100, bei 18 100 ≈ 5 300; erwartetes α_T(401 → 503) = 1.16 (innerhalb der Lesart „konstant“ aus Nachtrag a, also von α_T ≈ 1.2 nicht trennbar). EXP-141-Zellen: N/(p ln p) = 5.15 (16 100, zwischen den beobachteten Schwellenwerten 4.47 und 5.36: unentschieden) und 5.78 (18 100: „ja“).
+- **Einordnung (keine neue Lesart, Frage 1 unverändert):** Unterschiede zu Tian: Transformer statt Zweischicht-x²-Netz, Kreuzentropie statt ℓ2, konstruierte statt zufälliger Paare, Zeitbudget statt Landschaftsaussage. Eine Übereinstimmung wäre nur beschreibend. Gesehen vor diesem Nachtrag: Seed 13910 F/G (gen 25 600 / 23 100) und 13911 F (gen 28 425) bei 16 100 – alle später als beide Vorhersagen (12 100 bzw. 13 800).
+
 ## Ergebnis
 
 Offen (beim GPU-Dienst als `52a6_exp141_alpha`; zuerst als `52bzz_…` abgelegt und vor dem ersten Start umbenannt).

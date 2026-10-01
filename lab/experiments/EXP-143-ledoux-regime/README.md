@@ -56,6 +56,14 @@ python lab/experiments/EXP-143-ledoux-regime/make_jobs.py > lab/queue/staging/52
 python lab/experiments/EXP-143-ledoux-regime/make_jobs.py --wd 0.1 > lab/queue/staging/52a7z_exp143_wd01.jobs
 ```
 
+Split-Dateien (nicht in git, mit `make_splits.py` deterministisch nachbaubar), SHA-256:
+
+```
+c84ddbdd0069c0996c866c0b78400c590726edbf7a30814a7f482535f7a78ed4 *split_add9973_n300000_seed14300_F.npy
+bee06c667831d122cee63ba72e40b497bfa7acf9c95f7aafad657c825c789039 *split_add9973_n300000_seed14300_R.npy
+20dd43656d4d733f9cf46944bf16e6d849149914a58fc06c1b1875f9ade38284 *test_add9973_n20000.npy
+```
+
 ## Ergebnis
 
 Offen.

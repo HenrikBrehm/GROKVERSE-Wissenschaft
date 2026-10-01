@@ -21,4 +21,4 @@ Zurück zu [[paper/STATUS]] · [[confirm/R13_REGISTRATION]] · [[experiments/EXP
 - nicht „optimizer-independent“ oder „holds for SGD“: nur geclipptes Full-Batch-SGDm, eine Lernrate, add 113, ein Messschritt;
 - keine Aussage über gelernte Lösungen, Funktion (keine Ablation), Festlegung (K4) oder Geschwindigkeit (R5) unter SGD;
 - keine Deutung als Mechanismus („Adam-Normierung spielt keine Rolle“); höchstens: die Repräsentationsseite der Steuerung braucht Adams koordinatenweise Normierung nicht;
-- die Theorie erster Ordnung (Maskenspektrum im Gradienten) sagt diese Richtung für jeden Gradientenverfahren voraus – das wird als Einordnung genannt, nicht als neuer Befund.
+- die Theorie erster Ordnung (Maskenspektrum im Gradienten) sagt diese Richtung für jedes Gradientenverfahren voraus – das wird als Einordnung genannt, nicht als neuer Befund.

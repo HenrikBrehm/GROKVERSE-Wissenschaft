@@ -8,7 +8,7 @@ tags: [lab/confirm, programm/A, paper, exp/vorbereitet]
 
 Zurück: [[LAB]] · [[FINDINGS]] · Pilot: [[experiments/EXP-137-modulus-density/README|EXP-137]] (davor [[experiments/EXP-136-large-modulus/README|EXP-136]]) · Vorlage [[confirm/P1_REGISTRATION_DRAFT|P1]] · [[JOURNAL]] Sitzung 67.
 
-Geschrieben 2026-10-01 ab 07:35 Berlin (gemessen), **vor jedem R14-Blocklauf**. Code: `lab/tools/confirm_r14.py` (Selbsttest grün 07:33 über den Wächter).
+Geschrieben 2026-10-01 07:33–07:34 Berlin (gemessen), **vor jedem R14-Blocklauf**. Code: `lab/tools/confirm_r14.py` (Selbsttest grün 07:33 über den Wächter).
 
 ## Warum (Bezug zu FINDINGS / Paper)
 

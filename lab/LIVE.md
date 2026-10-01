@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 15:19 Berlin (13:19Z, vom Runner)
 - **Deadline:** 2026-10-01 18:19 Berlin (16:19Z)
-- **Zuletzt aktualisiert:** 17:26
+- **Zuletzt aktualisiert:** 17:41
 
 ## Gerade
 
-- **Pause nach der LeDoux-Linie (Regel 23, dein Wunsch ≈ 17:15):** keine neuen Versuche mehr. Es rechnen nur noch EXP-144 (breiteres Netz, 4 Läufe) und die Reste des Nebenarms von EXP-143.
-- EXP-144, erster Lauf: lernt 85 % der Trainingsaufgaben (kleines Netz nur 36 %), aber die Regel noch nicht.
+- **Sitzung 71 beendet.** Pause nach der LeDoux-Linie (Regel 23) ist vorgemerkt; es rechnen nur noch EXP-144 (3 Läufe) und die Reste des EXP-143-Nebenarms beim GPU-Dienst.
+- Nächster geplanter Start: 01.10. 18:54 Berlin (wertet EXP-144 aus, danach „Pause aktiv“).
 
 ## Als Nächstes
 
-1. Ersten EXP-144-Lauf zu Ende beobachten (≈ 17:47).
-2. Sitzung sichern; die nächsten Sitzungen werten EXP-144 aus, danach „Pause aktiv“.
+1. EXP-144 auswerten (nächste Sitzung).
+2. Danach Pause (Regel 23).
 
 ## Verlauf dieser Sitzung
+- 17:41 EXP-144, erster Lauf fertig: Das breitere Netz lernt 86 % der Trainingsaufgaben (kleines: 36 %), aber nicht die Regel. Sitzung gesichert.
 - 17:26 EXP-143 fertig: auch nach 512 Durchgängen kein Lernen der Regel → keine Aussage zu Menge gegen Reihenfolge; unabhängig nachgerechnet. Leitfragen zur LeDoux-Linie für dich angelegt ([[paper/erklaerung/LEITFRAGEN_LEDOUX]]).
 - 16:56 EXP-143 (250 000 Schritte) ausgewertet: keine Aussage zu Menge gegen Reihenfolge, weil das kleine Netz nichts lernt. Nachfolger EXP-144 mit 4-mal breiterem Netz geprüft, getestet und eingereicht.
 - 16:30 Paper: R15-Text nach unabhängiger Prüfung korrigiert (u. a. ein Fehler beim Zusammenbau des Manuskripts behoben).

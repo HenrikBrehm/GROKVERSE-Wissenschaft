@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 17:24 Berlin (Sitzung 71, läuft) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 17:41 Berlin (Sitzung 71 beendet; **Regel 23: Pause nach der LeDoux-Linie**) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -31,7 +31,7 @@ Reihenfolge (14:10 gemessen): `52a6_exp141_alpha` (**EXP-141**, 11/12 fertig) �
 
 ## Nächste Schritte (Regel 23)
 
-1. **EXP-144** auswerten, sobald fertig: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-143-ledoux-regime/analyze.py --root lab/experiments/EXP-144-ledoux-width/raw --traj`; Q0 zuerst (Train ≥ 0.9?), dann Q1–Q3 nach README; unabhängig nachrechnen; README/LAB/JOURNAL. Kein Nachfolgeversuch (Regel 23).
+1. **EXP-144** auswerten, sobald fertig (S71: F-iid fertig – kein gen, Train Spitze 0.911 / Ende 0.864; R-iid, R-stride, F-stride laufen, je ≈ 1 h): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-143-ledoux-regime/analyze.py --root lab/experiments/EXP-144-ledoux-width/raw --traj`; Q0 zuerst (Train ≥ 0.9?), dann Q1–Q3 nach README; unabhängig nachrechnen; README/LAB/JOURNAL. Kein Nachfolgeversuch (Regel 23).
 2. **EXP-143 Nebenarm wd 1.0** (`52a8`) nach Abschluss beschreibend in die README (F-iid: kein gen, Train 0.005, Test 0.003).
 3. EXP-143 primär ist ausgewertet (S71): Q1 keine Aussage, Q2 nicht im Budget (600k), Q3 nur beschreibend; LeDoux' Stride-Signatur reproduziert (bekannt, §5.1.2).
 4. Erlaubt nach Regel 23: Lernmaterial für den Nutzer als Leitfragen + Leseliste (nicht als fertiger Text), Tageserklärung. Keine neuen Ergebnisse ins Paper. Ist die LeDoux-Linie (inkl. EXP-144) ausgewertet: Sitzungen nach kurzer Lagekontrolle mit „Pause aktiv (Regel 23)“ in LIVE beenden.

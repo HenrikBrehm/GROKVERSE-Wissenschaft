@@ -28,6 +28,8 @@ Zurück zu [[LAB]]. **Exploration (3 Seeds × F/G je Zelle), keine Bestätigung.
 
 - **Rauschkalibrierung (beschreibend, 01:00, am schon gesehenen Lader-Test-Seed; ändert keine Lesart):** Δ_pow für 2000 zufällige disjunkte Placebo-Fünfermengen außerhalb F ∪ G in denselben Läufen (p = 211, 3831 Paare, Schritt 2000): Mittel 0.00, SD 0.14, 99 %-Quantil |Δ_pow| 0.34; echter Wert 1.24. Die Schwelle 1 liegt also ≈ 7 SD über dem Placebo-Rauschen (konservativ). `analyze.py` gibt die Placebo-SD je Seed beschreibend mit aus.
 
+- **Vorhersage erster Ordnung (vorab, 02:00, `mask_prediction_s65.py`, kein Lauf):** Masken-Δ (Formel von Δ_pow auf dem Maskenspektrum der Splits) je Seed: p = 211 hi 2.53–2.61, lo 0.98–1.04; p = 307 hi 3.16–3.22, lo 0.64–0.80. Vorhersage (beschreibend, kein Urteil): (1) Δ_pow(2000) ist je p bei „lo“ kleiner als bei „hi“; (2) über die 12 Seed-Zellen ist die Spearman-Korrelation von Masken-Δ und Δ_pow(2000) positiv. Ein Widerspruch hieße: Die Theorie erster Ordnung ordnet die Stärke der Steuerung in diesem Regime nicht.
+
 ## Befehle
 
 ```

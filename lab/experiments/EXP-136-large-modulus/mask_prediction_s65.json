@@ -1,0 +1,74 @@
+[
+ {
+  "p": 211,
+  "fraction": "hi",
+  "seed": 13600,
+  "delta_mask": 2.559952813674852
+ },
+ {
+  "p": 211,
+  "fraction": "hi",
+  "seed": 13601,
+  "delta_mask": 2.6076987630776567
+ },
+ {
+  "p": 211,
+  "fraction": "hi",
+  "seed": 13602,
+  "delta_mask": 2.5298134837793844
+ },
+ {
+  "p": 211,
+  "fraction": "lo",
+  "seed": 13600,
+  "delta_mask": 0.9801808260637743
+ },
+ {
+  "p": 211,
+  "fraction": "lo",
+  "seed": 13601,
+  "delta_mask": 1.0211296756373809
+ },
+ {
+  "p": 211,
+  "fraction": "lo",
+  "seed": 13602,
+  "delta_mask": 1.0411247585120624
+ },
+ {
+  "p": 307,
+  "fraction": "hi",
+  "seed": 13600,
+  "delta_mask": 3.157408798270761
+ },
+ {
+  "p": 307,
+  "fraction": "hi",
+  "seed": 13601,
+  "delta_mask": 3.2160792104190583
+ },
+ {
+  "p": 307,
+  "fraction": "hi",
+  "seed": 13602,
+  "delta_mask": 3.169857652283177
+ },
+ {
+  "p": 307,
+  "fraction": "lo",
+  "seed": 13600,
+  "delta_mask": 0.6432370353092525
+ },
+ {
+  "p": 307,
+  "fraction": "lo",
+  "seed": 13601,
+  "delta_mask": 0.7626952670351066
+ },
+ {
+  "p": 307,
+  "fraction": "lo",
+  "seed": 13602,
+  "delta_mask": 0.7964216977417489
+ }
+]

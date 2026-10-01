@@ -105,6 +105,21 @@ Kein Arm generalisiert in 3000 Schritten (erwartet; Test 1e-4). W_E-Spektrum bei
 - **Grenzen:** 1 Seed, CPU, keine Generalisierung, nur Repräsentationsenergie (keine Ablation), 3000 Schritte. Ob die frühe Prägung die spätere Lösung bestimmt, beantworten erst die GPU-Läufe.
 - **Unabhängige Nachrechnung (14:55, Claude-Agent, eigener numpy-Code, nur lesend):** alle Zahlen reproduziert. Placebo (10 000 zufällige 5er-Mengen ohne Ziele, Schritt 3000): beide F-Arme p < 1e-4 (Placebo-Maximum T/med ≈ 1.22), R-Arme p 0.62 / 0.92; Schritt 2000: F-iid p < 3e-4, F-stride p = 3e-4; Schritte 500/1000 nicht signifikant (p 0.2–0.77). k = 101: 2.00 / 2.76 × Median liegt über jedem Wert der i.i.d.-Arme (deren Maximum über alle k ≈ 1.45, 99.9-%-Quantil 1.34–1.47). **Übernommene Korrekturen:** (1) Der Stride-Effekt ist **eine einzelne Frequenz** (k = 101, genau am Rand der Familie: 99 · 101 ≡ 26), keine Anreicherung der Familie (ohne 101 Familienanteil 0.0050–0.0052; nächstbeste Familienränge 16/20 bzw. 230) – eine schwache frühe Prägung, keine Fourier-Lösung. (2) Die Mengenprägung ist ab ≈ 1.7 Epochen nachweisbar; „Top-5 = Ziele“ gilt nur für F-iid bei 2.56 Epochen, in F-stride ist sie schwächer (2511 nur Rang 8). k = 151 ist schon bei der Initialisierung oben (1.39 × bei Schritt 0), eine Init-Eigenheit.
 
+## Ergebnis Nachtrag f (Sitzung 71, 15:32 Berlin (gemessen); CPU, Seeds 14301/14302 neu, 3000 Schritte, Exploration)
+
+Schritt 3000, T/med = Median der Zielleistungen / Median aller k; k = 101 als Leistung/Median (Rang):
+
+| Seed | F-iid | F-stride | R-iid | R-stride | k = 101 F-stride / R-stride | (i) | (ii) |
+|---|---|---|---|---|---|---|---|
+| 14300 (Nachtrag e) | 1.66 (5/5 Ziele in Top-5) | 1.36 (3/5) | 0.98 | 0.93 | 2.00 (1) / 2.76 (1) | ja | ja |
+| 14301 | 1.80 (5/5) | 1.54 (3/5) | 1.08 | 0.99 | 2.10 (1) / 2.25 (1) | ja | ja |
+| 14302 | 1.54 (5/5) | 1.24 (2/5) | 0.92 | 0.96 | 3.17 (1) / 2.68 (1) | ja | ja |
+
+- **(i) „Menge prägt früh“: 3/3 Seeds; (ii) „Stride prägt k = 101“: 3/3 Seeds** (k = 101 in den i.i.d.-Armen Rang 732–3605). Die Seeds 14300–14302 gelten damit als gesehen.
+- In jedem Seed ist die Zielprägung unter Stride schwächer als unter i.i.d. (T/med 1.24–1.54 gegen 1.54–1.80); Seed 14302 F-stride hat k = 202 in den Top-5.
+- **Oberwellen (Exploration, post hoc an gespeicherten Spektren; Vorab-Lesart im [[JOURNAL]] S71 Zyklus 1, vor dem Rechnen festgelegt; das Skript lief einmal als Probe auf 4 der 6 Stride-Arme, bevor Seed 14302 fertig war):** Ein Profil g(a mod 99) des Sortierschlüssels hat Leistung nur bei k ≈ m · p/99. Mittel der 6 Stride-Arme, z gegen alle k: 101 +29.1; 201 +3.23; 202 +2.61; **302 +3.08; 403 +2.42**; 504 +1.63 (Ränge 1, 3, 18, 5, 32, 194 von 4986). In den 6 i.i.d.-Armen alle |z| < 1.2. **Vorab-Lesart: „unklar“** (403 verfehlt z > 3). Beschreibend sind alle fünf Oberwellen im Stride-Mittel erhöht und in i.i.d. nicht, was zu einem nicht-sinusförmigen Profil des Sortierschlüssels passt (eine Spur der Epochenposition, keine einzelne Fourier-Frequenz); geprüft ist das nicht.
+- **Grenzen:** CPU, 3000 Schritte, keine Generalisierung, nur Repräsentationsenergie. Über die Endlösung entscheiden die GPU-Läufe (Q1–Q3).
+
 ## Ergebnis
 
 Offen.

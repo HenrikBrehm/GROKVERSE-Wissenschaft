@@ -7,7 +7,7 @@ tags: [lab/paper]
 
 Zurück zu [[paper/STATUS]] · [[confirm/R14_REGISTRATION]] · [[paper/EXP137_DEUTUNGEN]]
 
-**Geschrieben in Sitzung 67 (01.10.2026, 07:35 Berlin), vor dem Einfrieren und vor jedem R14-Blocklauf.** Ort: Grenze (ii) der Kurzfassung (ersetzt den EXP-137-Halbsatz) und ein Satz in Anhang A.2 nach dem EXP-137-Absatz. **Kein Abstract, keine neue Kernaussage.** Zahlen nach `confirm_r14.py --analyze`, unabhängige Nachrechnung und Textprüfung.
+**Geschrieben in Sitzung 67 (01.10.2026, 07:34 Berlin gemessen), vor dem Einfrieren und vor jedem R14-Blocklauf.** Ort: Grenze (ii) der Kurzfassung (ersetzt den EXP-137-Halbsatz) und ein Satz in Anhang A.2 nach dem EXP-137-Absatz. **Kein Abstract, keine neue Kernaussage.** Zahlen nach `confirm_r14.py --analyze`, unabhängige Nachrechnung und Textprüfung.
 
 ## Grenze (ii), je Ausgang
 

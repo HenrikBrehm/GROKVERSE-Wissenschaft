@@ -1,0 +1,22 @@
+{
+ "cond": "c0017",
+ "seed": 4420,
+ "arm": "F",
+ "targets": [
+  13,
+  21,
+  23,
+  42,
+  51
+ ],
+ "other_targets": [
+  9,
+  16,
+  18,
+  20,
+  56
+ ],
+ "eps": 2.0,
+ "n": 3831,
+ "manifest_commit": "a77dbebb"
+}

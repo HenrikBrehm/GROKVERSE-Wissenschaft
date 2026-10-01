@@ -61,6 +61,7 @@ Adversariale Prüfung (Claude-Agent, nur lesend, eigene Prüfskripte unter C:/tm
 
 - **Frage:** Prägt im LeDoux-Regime (wd 0.1, Batch 256) schon der Anfang des Trainings W_E – die Menge ihre Ziele, die Stride-Reihenfolge ihre Familie –, wie bei p 401 im Vollbatch (Sitzung 69: Prägung ab Schritt 50–250)?
 - **Aufbau:** dieselben 4 Arme (F/R × iid/stride), Seed 14300, wd 0.1, **CPU** (`--device cpu --threads 4`), 3000 Schritte (≈ 2.6 Epochen), Spektren alle 250 Schritte, Auswertung alle 1500; Ausgabeordner `raw_cpu_early` (eigener Marker). Nicht mit den GPU-Läufen vermischt (anderes Gerät, Regel 16d).
+- **Änderung vor dem Lauf (14:36, nach dem Zeitlauf):** Zeitlauf F-iid 250 Schritte (`cpu_timing`, 80.8 s, T/med 0.97 = Init, noch keine Prägung nach 0.2 Epochen); daher `--threads 3`, zwei Arme parallel, Auswertung nur bei 0 und 3000 (`--eval-every 3000`); Rest unverändert.
 - **Messgrößen / Lesart (vorab):** bei Schritt 3000 (und Verlauf): Zielverhältnis T/med (Median der Zielleistungen / Median aller) in F gegen R; Familienanteil in stride gegen iid. „Menge prägt früh“, wenn T/med(F) > max(T/med(R-Arme)) + 0.2 in beiden F-Armen; „Reihenfolge prägt früh“, wenn der Familienanteil in beiden stride-Armen > 1.2 × dem größeren der beiden iid-Arme; sonst „nicht in 3000 Schritten“. Ein Seed, beschreibend.
 
 ## Befehle

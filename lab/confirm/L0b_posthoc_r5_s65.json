@@ -1,0 +1,36 @@
+{
+ "manifest_commit": "bce36b1a",
+ "note": "post hoc, descriptive, not part of the registered family",
+ "iid16w": {
+  "mean_log2": 1.2000109135669288,
+  "ci95": [
+   1.0996314895448585,
+   1.3027492855927763
+  ],
+  "ratio_geo": 2.2974140891954122,
+  "share_positive": 1.0,
+  "n": 70,
+  "reading": "R5 haelt unter Minibatch (beschreibend)",
+  "censored": {
+   "F": 0,
+   "G": 0,
+   "R": 0
+  }
+ },
+ "stride16w": {
+  "mean_log2": 0.9390039901673989,
+  "ci95": [
+   0.8228957892689711,
+   1.0563305664883755
+  ],
+  "ratio_geo": 1.917204179530717,
+  "share_positive": 0.9428571428571428,
+  "n": 70,
+  "reading": "R5 haelt unter Minibatch (beschreibend)",
+  "censored": {
+   "F": 0,
+   "G": 0,
+   "R": 1
+  }
+ }
+}

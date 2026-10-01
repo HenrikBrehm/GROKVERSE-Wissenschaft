@@ -23,14 +23,14 @@ Reihenfolge (11:57 gemessen): `52a56_r15_p307` (**R15** p 307, 30 Läufe, gpu_gb
 
 **EXP-141** (3 Läufe gelesen): 503/16 100 generalisiert spät (gen 23 100 / 25 600 / 28 425) – später als beide vorab committeten Fortschreibungen (Nachtrag a: α_T ≈ 1.21 → Median ≈ 13 800; Nachtrag b: Tian 2025 N ∝ p ln p → ≈ 12 100). Auswerten mit `analyze.py` (Frage 1) und `iso_time_s69.py` (Nachtrag a/b).
 
-**S69-Befunde:** EXP-140 „Konstruktion ermöglicht Generalisierung“ (401/14 000: R 0/3 in 30 000, E ≈ 5 500; Pilot). Post hoc EXP-139: W_E ist auch in nie generalisierenden Zellen gesteuert (Δ_pow 2.0–3.6 ≫ Placebo-q99 0.3–0.4, 6/6; `posthoc_nolearn_s69.json`). Iso-Zeit-Paarzahlen in N/(p ln p) konstant (5.80/5.79/5.91 bei p 211/307/401; beschreibend).
+**S69-Befunde:** EXP-140 „Konstruktion ermöglicht Generalisierung“ (401/14 000: R 0/3 in 30 000, E ≈ 5 500; Pilot). Post hoc EXP-139: W_E ist auch in nie generalisierenden Zellen gesteuert (Δ_pow 2.0–3.6 ≫ Placebo-q99 0.3–0.4, 6/6; `posthoc_nolearn_s69.json`). Iso-Zeit-Paarzahlen wachsen ≈ p^1.2 (oder p ln p, nicht trennbar; beschreibend). Beides unabhängig nachgerechnet; Prägung schon bei Schritt 50–250 (frühe Gradienten-Einprägung, nicht „Memorisierung“).
 
 ## Nächste Schritte
 
 1. **EXP-141** auswerten (Frage 1 + Nachtrag a/b), sobald 12/12 da sind; dann EXP-139 Rest (52b/52c) nach Vorlage.
 2. **R15** auswerten (60/60), nachrechnen lassen; bei „bestätigt“ Paper-Vorlage (Anhang A / LeDoux-Absatz) schreiben, unabhängig prüfen.
 3. Tageserklärung [[paper/erklaerung/ERKLAERUNG_2026-10-01]] um S69 ergänzen; [[paper/erklaerung/ERKLAERUNG_2026-10-02]] füllen.
-4. Danach (BACKLOG 7): LeDoux-Regime nur mit geprüftem Wrapper (gestückelte Auswertung). Hinweis: LeDoux' 0.3 % bei p 9973 sind N/p ≈ 30 – genau unsere Grenzgegend; unter N ∝ p ln p (Konstante ≈ 5.8) bräuchte es dort ≈ 5.3·10⁵ Paare (≈ 0.54 %), beschreibend.
+4. Danach (BACKLOG 7): LeDoux-Regime nur mit geprüftem Wrapper (gestückelte Auswertung). Hinweis: LeDoux' 0.3 % bei p 9973 sind N/p ≈ 30 – genau unsere Grenzgegend; unter N ∝ p ln p bzw. p^1.2 bräuchte es dort deutlich mehr (≈ 0.5 %), nur grob extrapoliert.
 
 ## Nicht ändern (Hashes gebunden)
 

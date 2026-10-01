@@ -3,7 +3,7 @@ Per cell (p, fraction) and seed, both arms F and G must have generalized (first_
 generalization transition) for the seed to count. Primary measure: Delta_pow (as P1/EXP-043/EXP-136) of the W_E group
 power at the post-generalization snapshots: per arm the first stored snapshot >= its own gen + 1000 (snapshots every 1000
 steps, a run stops at gen + 2000, so it exists if the arm generalized). Delta_pow is a sum of two within-run log ratios,
-so the two arms may be read at different steps. (Changed before any block result, session 67, 05:50: the first version
+so the two arms may be read at different steps. (Changed before any block result, session 67, ~05:46 Berlin (between measurements 05:45 and 05:47): the first version
 required one common step >= max(gen_F, gen_G) + 1000, which does not exist when one arm generalizes > 1000 steps earlier
 and therefore stops earlier.)
 Cell reading: fewer than 2 seeds with both arms generalized -> 'kein Lernen im Budget';

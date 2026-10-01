@@ -16,7 +16,7 @@ tags: [lab/live]
 - EXP-128 auswerten, sobald 16/16 fertig; danach EXP-129. Codeprüfung EXP-137 einarbeiten.
 
 ## Verlauf dieser Sitzung
-- 05:52 EXP-137 eingereiht: Datendichte-Leiter bei größeren Zahlen (10/15/20 % Daten), Messung nach dem Generalisieren; Auswertungslücke vor jedem Ergebnis selbst gefunden und behoben.
-- 05:49 EXP-136-Satz in Anhang A nach unabhängiger Prüfung präzisiert (die Korrelation 0.85 kommt fast nur aus generalisiert gegen auswendig).
+- 05:47 EXP-137 eingereiht: Datendichte-Leiter bei größeren Zahlen (10/15/20 % Daten), Messung nach dem Generalisieren; Auswertungslücke vor jedem Ergebnis selbst gefunden und behoben.
+- 05:46 EXP-136-Satz in Anhang A nach unabhängiger Prüfung präzisiert (die Korrelation 0.85 kommt fast nur aus generalisiert gegen auswendig).
 - 05:41 EXP-136-Satz in Anhang A (draft §3.11) eingetragen, Manuskript neu gebaut.
 - 05:40 Start: kein STOP, Fenster offen, Dienst: EXP-128 13/16, EXP-129 1/4.

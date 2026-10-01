@@ -1,8 +1,8 @@
 ---
 id: EXP-138
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-10-01
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv]
 verwandt: ["[[confirm/R13_REGISTRATION]]", "[[experiments/EXP-047-marginal-control/README|EXP-047]]", "[[experiments/EXP-128-sgd-clip/README|EXP-128]]", "[[FINDINGS]]"]
 ---
 # EXP-138: Steuert die Trainingsmenge unter SGD über die Paarstruktur oder über die Token-Häufigkeiten? (Pilot)
@@ -31,6 +31,14 @@ python lab/experiments/EXP-138-sgd-shuf/make_jobs.py > lab/queue/staging/50_exp1
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-138-sgd-shuf/analyze.py [--selftest]
 ```
 
-## Ergebnis
 
-Noch nicht ausgeführt.
+## Ergebnis (Sitzung 67, 01.10., 06:54 Berlin gemessen; Dienst 32/32, keine Fehler)
+
+`analyze.py` (Lesarten vorab): **Clip 0.1: „Paarstruktur trägt“**, **Clip 0.017: „Paarstruktur trägt“**; „Häufigkeiten tragen“ bei keinem.
+
+| Clip | Seed 150 | 151 | 152 | 153 |
+|---|---|---|---|---|
+| 0.1: Δ_eng / Δ_shuf | 6.68 / 0.37 | 7.56 / 2.19 | 7.19 / 0.17 | 7.38 / 2.48 |
+| 0.017: Δ_eng / Δ_shuf | 4.40 / 0.19 | 4.40 / 0.27 | 5.18 / 0.34 | 5.19 / 0.67 |
+
+Beschreibend: bei 250 Δ_eng 0.17–0.36, Δ_shuf −0.02–0.04. Bei Clip 0.1 liegt Δ_shuf in 2/4 Seeds über 1 (2.19, 2.48) – unter der Regel „≥ 3/4“, aber ein kleiner Beitrag der Token-Häufigkeiten unter SGD ist damit nicht ausgeschlossen (unter AdamW in EXP-047: 0.02 ± 0.65). Deutung: Auch unter SGD trägt vor allem die Paarstruktur die Steuerung (Pilot, 4 Seeds). Paper: Halbsatz in Grenze (i) und Satz in Anhang J (mit R13).

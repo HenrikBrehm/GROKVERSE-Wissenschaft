@@ -1,8 +1,8 @@
 ---
 id: R13
-status: entwurf (Prüfung eingearbeitet 06:18)
+status: ausgewertet
 datum: 2026-10-01
-tags: [lab/confirm, programm/A, paper, exp/vorbereitet]
+tags: [lab/confirm, programm/A, paper, exp/abgeschlossen, befund/positiv]
 ---
 # R13: Steuert die Trainingsmenge das W_E-Spektrum auch ohne Adam – unter Full-Batch-SGD mit Momentum und Gradient-Clipping? (Registrierung, Sitzung 67)
 
@@ -55,3 +55,14 @@ Manifest `lab/confirm/R13_manifest.json` = REGISTERED-Felder (experiment 13, p 1
 ## Grenzen (vorab)
 
 Eine Architektur, eine Aufgabe (add 113), eine Lernrate (0.1) mit Momentum 0.9 und AdamW-angepasster entkoppelter Gewichtsabnahme (10⁻³/Schritt), zwei Clip-Werte, keine Trennung von Paarstruktur und Token-Häufigkeit, ε = 2, 30 % Daten; Messung nur bei Schritt 2000 und nur Einbettungsenergie (keine Ablation, keine Aussage über eine gelernte Lösung); Full-Batch. Keine Aussage über SGD ohne Clipping oder über Minibatch-SGD.
+
+## Ergebnis (Sitzung 67, 01.10., 06:54 Berlin gemessen; eingefrorene Auswertung, Manifest-Commit a77dbebb)
+
+Befehl: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r13.py --analyze lab/confirm/R13_manifest.json` → `R13_summary.json`. 60/60 Läufe (Dienst `49_r13`, 0 Fehlschläge), 0 technische Ausfälle.
+
+| Bedingung | Δ_pow bei 2000, Mittel [95-%-KI] | SD | positiv | p (Holm über 2) | Urteil |
+|---|---|---|---|---|---|
+| c01 (Clip 0.1) | **7.80** [7.51, 8.07] | 0.57 | 15/15 | 6.1·10⁻⁵ | **bestätigt** |
+| c0017 (Clip 0.017) | **4.78** [4.59, 4.96] | 0.38 | 15/15 | 6.1·10⁻⁵ | **bestätigt** |
+
+Beschreibend: Δ_pow bei 250 im Mittel 0.31 / 0.19; Train ≥ 0.99 in 7/30 (c01, Median 0.75, 5 Arme generalisiert) bzw. 0/30 Armen (c0017, Median 0.06); Median gekappter Anteil 0.49 / 0.78; keine nicht endliche Norm. **Deutung nach Vorlage [[paper/R13_DEUTUNGEN]] („beide bestätigt“, enge Fassung):** Die Trainingsmenge steuert das W_E-Spektrum auch unter geclipptem Full-Batch-SGDm; das beantwortet den Einwand „Artefakt von Adams Normierung“ für die Repräsentation, nicht für gelernte Lösungen, Festlegung oder Tempo. Mechanismus-Kontrolle als Pilot: [[experiments/EXP-138-sgd-shuf/README|EXP-138]] („Paarstruktur trägt“ bei beiden Clip-Werten). Unabhängige Nachrechnung: läuft (Ergebnis im JOURNAL).

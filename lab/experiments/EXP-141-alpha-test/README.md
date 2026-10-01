@@ -1,8 +1,8 @@
 ---
 id: EXP-141
-status: laufend
+status: abgeschlossen
 datum: 2026-10-01
-tags: [exp/laufend, neu/kandidat]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
 verwandt: ["[[experiments/EXP-139-pair-count/README|EXP-139]]", "[[experiments/EXP-140-random-at-edge/README|EXP-140]]", "[[FINDINGS]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-141: Daten je Zahl (N/p) oder Margin-Skalierung (N/p^{5/3})? Ein trennender Test bei p = 503 (Pilot)
@@ -46,6 +46,18 @@ Literatursuche (01.10., 11:27, eine WebSearch-Anfrage „grokking time diverges 
 - **Vorhersage unter N ∝ p ln p (Konstante 5.84):** N_T(503) ≈ 18 260; Median g bei 16 100 ≈ 12 100, bei 18 100 ≈ 5 300; erwartetes α_T(401 → 503) = 1.16 (innerhalb der Lesart „konstant“ aus Nachtrag a, also von α_T ≈ 1.2 nicht trennbar). EXP-141-Zellen: N/(p ln p) = 5.15 (16 100, zwischen den beobachteten Schwellenwerten 4.47 und 5.36: unentschieden) und 5.78 (18 100: „ja“).
 - **Einordnung (keine neue Lesart, Frage 1 unverändert):** Unterschiede zu Tian: Transformer statt Zweischicht-x²-Netz, Kreuzentropie statt ℓ2, konstruierte statt zufälliger Paare, Zeitbudget statt Landschaftsaussage. Eine Übereinstimmung wäre nur beschreibend. Gesehen vor diesem Nachtrag: Seed 13910 F/G (gen 25 600 / 23 100) und 13911 F (gen 28 425) bei 16 100 – alle später als beide Vorhersagen (12 100 bzw. 13 800).
 
-## Ergebnis
+## Ergebnis (Sitzung 70, 2026-10-01, 14:12 Berlin (gemessen); Pilot, 3 Seeds × F/G je Zelle)
 
-Offen (beim GPU-Dienst als `52a6_exp141_alpha`; zuerst als `52bzz_…` abgelegt und vor dem ersten Start umbenannt).
+12/12 Läufe fertig, 0 Fehlschläge beim Dienst. `analyze.py` und `iso_time_s69.py` unverändert ausgeführt.
+
+| Zelle (p 503) | N/p | gen-Schritte (F, G je Seed 13910/13911/13912) | Median | Δ_pow nach gen (Placebo-q99) |
+|---|---|---|---|---|
+| 16 100 (6.36 %) | 32.0 | 25 600/23 100 · 28 425/17 975 · 15 425/14 850 | 20 538 | 12.45 / 8.50 / 11.86 (5.33 / 4.34 / 5.15) |
+| 18 100 (7.15 %) | 36.0 | 10 275/5 575 · 8 775/8 175 · 5 200/7 425 | 7 800 | 12.38 / 9.05 / 12.98 (5.16 / 4.44 / 5.12) |
+
+- **Frage 1 (vorab):** beide Zellen generalisieren (je 3/3 Seeds mit beiden Armen) → **„passt zu α ≈ 1 (Daten je Zahlzeile), nicht zu p^{5/3}“**. Die α = 5/3-Lesart sagte für beide Zellen „nein“ voraus.
+- **Frage 2:** K2 (Steuerung) hält in beiden Zellen, 6/6 über Placebo-q99; kleinster generalisierender Anteil 6.36 %.
+- **Nachtrag a (Iso-Zeit, beschreibend):** N_T(503) = 19 100 (T = 5000); α_T(401 → 503) = **1.30** (T = 3000: 1.26; T = 8000: 1.35) → vorab festgelegte Lesart **„Iso-Zeit-Exponent konstant (≈ 1.2)“** (Band 1.0–1.4), aber am oberen Rand. Die Mediane liegen später als vorhergesagt (20 538 statt ≈ 13 800; 7 800 statt ≈ 6 100); die lokale Steigung d log g / d log N bei p 503 ist ≈ −8.3 (bei p 211/307: −7.2/−6.9).
+- **Nachtrag b (Tian 2025, beschreibend):** N_T/(p ln p) = 5.80 / 5.79 / 5.91 / **6.10** (p 211/307/401/503), N_T/p^1.2 = 10.64 / 10.55 / 10.69 / 10.94: beide driften bei 503 leicht nach oben (+3–5 %). Erwartet unter p ln p war α_T ≈ 1.16, beobachtet 1.30. Haltbar: „N_T wächst etwas schneller als linear (Exponent ≈ 1.2–1.3 über p 211–503)“; p ln p und p^1.2 bleiben nicht trennbar.
+- **Grenzen:** ein p-Wert neu, 3 Seeds je Zelle, ein Budget (30 000), Steigung aus wenigen Zellen; additive Salze. Pilot, keine Bestätigung.
+- **Nachrechnung:** unabhängige Prüfung (Claude-Agent, eigener Code) läuft; Ergebnis folgt im JOURNAL.

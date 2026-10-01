@@ -1,35 +1,28 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 65
+# LIVE: Laborsitzung 66
 
-- **Sitzungsstart:** 2026-10-01 00:39 Berlin (22:39Z, vom Runner)
-- **Deadline:** 2026-10-01 03:39 Berlin (01:39Z)
-- **Zuletzt aktualisiert:** 03:02
+- **Sitzungsstart:** 2026-10-01 03:09 Berlin (01:09Z, vom Runner)
+- **Deadline:** 2026-10-01 06:09 Berlin (04:09Z)
+- **Zuletzt aktualisiert:** 05:38
 
 ## Gerade
 
-- **Sitzung beendet** (03:02). Nächster geplanter Start: **01.10. 04:14 Berlin** (runner-state next_start_utc 02:14Z).
-- Heute herausgekommen: Die Datensteuerung hält auch in einem doppelt so großen Sprachmodell (EXP-125) und in einem Modell, das vorher nur Text gelesen hat (EXP-134) – beides Vorversuche mit 2 Seeds, im Paper-Anhang.
-- Dienst läuft weiter: **L0b** 300/420 (fertig ≈ 04:30), **EXP-135** läuft, danach **EXP-136** (neu: größere Zahlen, wenig Daten), EXP-128, EXP-129.
+- **Sitzung beendet** (05:38). Nächster geplanter Start: **01.10. 06:44 Berlin** (runner-state next_start_utc 04:44Z).
+- Heute herausgekommen: L0b (die feste Reihenfolge verschiebt die Frequenzen etwas, die Steuerung bleibt; „die Auswahl gewinnt“ ist nicht bestätigt), EXP-135 (Sprachmodell legt sich erst beim Lernen fest), EXP-136 (größere Zahlen: Steuerung bei 30 % Daten ja; mit wenig Daten lernt das Netz nicht).
+- Dienst läuft weiter: EXP-128 (12/16), EXP-129 (1/4).
 
 ## Als Nächstes
 
-1. L0b auswerten (Befehle in [[STATE]]), Abbildung fig17, Paper nach [[paper/L0b_DEUTUNGEN]].
-2. EXP-135, EXP-136 auswerten.
+1. EXP-128/129 auswerten; EXP-136-Satz in Anhang A (siehe [[STATE]]).
+2. GPU-Folgearbeit planen (EXP-136 mit mehr Daten oder Bestätigungsblock).
 
 ## Verlauf dieser Sitzung
-- 03:02 Sitzungsende: Stand gesichert.
-- 03:01 EXP-134 ins Paper (Anhang K), unabhängig geprüft; 1 Überformulierung korrigiert.
-- 02:57 EXP-134 ausgewertet: „K2 hält im LM“ auch nach reinem Text-Vortraining (Pilot).
-- 02:01 EXP-136: Vorhersage aus der Theorie erster Ordnung vorab festgelegt (wie stark die Steuerung je Zelle sein sollte); Backlog-Reihenfolge aktualisiert.
-- 01:58 Zenodo-Paket um alle im Manuskript zitierten Versuche ergänzt (109 MB, nichts hochgeladen); Vorwärtszitate LeDoux: nichts Neues.
-- 01:47 EXP-125-Text unabhängig geprüft: alle Zahlen bestätigt, 1 Formulierung korrigiert.
-- 01:41 EXP-125 ausgewertet: „K2 hält im LM“ (Pilot); README, FINDINGS, LAB, Paper-Anhang K, Tageserklärung.
-- 01:15 L0b: Zeichenbudget des Abstracts vorab gerechnet (vorgesehener Satz zu lang, kürzere Fassungen notiert).
-- 01:00 EXP-136: Paper-Sätze je Ausgang vorab; Placebo-Rauschen geprüft (Schwelle ≈ 7 SD darüber).
-- 00:58 L0b: Skript für die Nachfrage „groken ausgewählte Daten auch mit kleinen Stapeln früher?“ vorab (Lesart vor den Daten).
-- 00:54 EXP-136 geprüft (keine Blocker, 2 Punkte übernommen) und beim Dienst eingereiht.
-- 00:52 EXP-136 vorab festgelegt (Konstruktion bei p 211/307 geprüft, 2 Smokes, Lader-Test, Literatursuche N63).
-- 00:43 Abbildung für L0b vorab als Skript (fig17, Demo geprüft).
-- 00:40 Start: kein STOP, Fenster offen, Dienst läuft (L0b, EXP-125).
+- 05:38 Sitzungsende: alles gesichert und committet; EXP-136-Halbsatz nach Prüfung präzisiert.
+- 05:33 EXP-136 ausgewertet (Gesamtlesart „beschreibend“); README, LAB, FINDINGS, Tageserklärung, Grenze (ii) im Paper.
+- 04:50 Manuskript neu gebaut; zwei überholte Pilot-Sätze im Anhang mit Hinweis auf L0b versehen.
+- 04:40 L0b-Text nach unabhängiger Prüfung präzisiert (u. a.: die Reihenfolge wirkt auf Zufallsdaten nur *absolut* stärker; Abstract angepasst, 1916 Zeichen).
+- 04:37 L0b ausgewertet und unabhängig nachgerechnet: H1, H3, H4 bestätigt, H2 nicht; Paper angepasst. EXP-135 ausgewertet: Im Sprachmodell legt sich die Wahl erst beim Lernen der Fakten fest, nicht in den ersten 1000 Schritten (Vorversuch).
+- 03:13 EXP-134 nachgeprüft: Das 5-fache Wachstum der Zahl-Einbettungen beim reinen Textlernen ist zu 96 % eine für alle Zahlen gleiche Verschiebung, keine Zahlstruktur.
+- 03:10 Start: kein STOP, Fenster offen, Dienst läuft (L0b 312/420, EXP-135 2/6 laufen).

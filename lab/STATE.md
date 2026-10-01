@@ -24,7 +24,7 @@ Danach ist der Dienst leer. Nichts davon selbst neu einreihen; vor dem Ablegen s
 
 ## Nächste Schritte
 
-1. **EXP-136 ins Paper** (ausgewertet S66, Gesamtlesart „beschreibend“: 30 % steuert bei p 211/307, 3831 Paare generalisieren nie): Satz nach [[paper/EXP136_DEUTUNGEN]] (Fall „sonst“) in Anhang + Grenze (ii), unabhängige Textprüfung, `build_manuscript.py` neu.
+1. **EXP-136 Anhang-A-Satz** (Halbsatz in Grenze (ii) steht und ist geprüft, S66): Satz nach [[paper/EXP136_DEUTUNGEN]] („sonst“) in Anhang A – der wird aus `draft.md` (Langfassung, §3.7/3.11–3.13) gebaut; danach `build_manuscript.py`, unabhängige Textprüfung.
 2. **EXP-128** auswerten, wenn fertig (`lab/experiments/EXP-128-sgd-clip/analyze.py`, [[paper/EXP128_DEUTUNGEN]]); **EXP-129** (`lab/experiments/EXP-129-lm-k1-share/analyze.py`).
 3. **GPU nicht leer laufen lassen** (Regel 20i): Kandidaten in Reihenfolge – (a) EXP-136-Folge: Budget, in dem „lo“ generalisiert (mehr Paare, z. B. 2–4× 3831, oder längeres Training) – erst Smoke, Lesarten vorab; (b) Bestätigungsblock K2 bei p 211/307 und 30 % (≥ 10 frische Seeds, eingefroren), wenn die Verallgemeinerung ins Paper soll; (c) BACKLOG Option 6 (EXP-134 Mittelvektor-Intervention) nur als Füllarbeit.
 4. Tageserklärung: ab 02.10. neue Datei [[paper/erklaerung/ERKLAERUNG_2026-10-02]] (heute: L0b, EXP-135, EXP-136, EXP-134-Nachtrag eingetragen).

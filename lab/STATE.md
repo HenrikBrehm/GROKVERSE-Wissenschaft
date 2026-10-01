@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 14:10 Berlin (Sitzung 70, läuft) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 14:32 Berlin (Sitzung 70, läuft) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,7 +17,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`)
 
-Reihenfolge (14:10 gemessen): `52a6_exp141_alpha` (**EXP-141**, 11/12 fertig) → `52a7_r15_p401` (**R15** p 401, 30 Läufe, gpu_gb 4) → **`52a7z_exp143_wd01`** (**EXP-143 primär**, wd 0.1, 4 Läufe à 250 000 Schritte, gpu_gb 2.5, neu S70) → `52a8_exp143_ledoux` (EXP-143 Nebenarm wd 1.0) → `52b_exp139_p503` → `52c_exp139_p613`. Fertig: 52a, 52a5, 52a55 (EXP-140), **52a56 (R15 p 307, 30/30)**, **52a57 (EXP-142)**. Statuseinträge `52bz_…`/`52bzz_…` = Geister umbenannter Dateien (P-023; laufen am Ende leer). **Keine Jobdateien bei laufendem Dienst umbenennen** (Reihenfolge nur über neue Präfixe).
+Reihenfolge (14:10 gemessen): `52a6_exp141_alpha` (**EXP-141**, 11/12 fertig) → `52a7_r15_p401` (**R15** p 401, 30 Läufe, gpu_gb 4) → **`52a7z_exp143_wd01`** (**EXP-143 primär**, wd 0.1, 4 Läufe à 250 000 Schritte, gpu_gb 2.5, neu S70) → **`52a7zz_exp143_stride600k`** (2 Stride-Arme wd 0.1, 600 000 Schritte, raw_long; Q2/Q3 werden hier gelesen) → `52a8_exp143_ledoux` (Nebenarm wd 1.0) → `52b_exp139_p503` → `52c_exp139_p613`. Fertig: 52a, 52a5, 52a55 (EXP-140), **52a56 (R15 p 307, 30/30)**, **52a57 (EXP-142)**. Statuseinträge `52bz_…`/`52bzz_…` = Geister umbenannter Dateien (P-023; laufen am Ende leer). **Keine Jobdateien bei laufendem Dienst umbenennen** (Reihenfolge nur über neue Präfixe).
 
 **R15** ([[confirm/R15_REGISTRATION]], eingefroren a8033017; Smoke grün): konstruierte (F/G) gegen gleich große Zufallsmenge (R) an der Datengrenze, 401/14 000 (H1) und 307/9425 (H2), Seeds 4500–4509. Auswertung nach 60/60: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/tools/confirm_r15.py --analyze lab/confirm/R15_manifest.json`; dann unabhängig nachrechnen, Wortwahl „konstruiert (ε 2, frequenzgezielt) gegen gleichverteilt“.
 
@@ -25,7 +25,7 @@ Reihenfolge (14:10 gemessen): `52a6_exp141_alpha` (**EXP-141**, 11/12 fertig) �
 
 **S69-Befunde:** EXP-140 „Konstruktion ermöglicht Generalisierung“ (401/14 000: R 0/3 in 30 000, E ≈ 5 500; Pilot). EXP-142 „Frequenzstruktur nötig“ (permutierte F-Gewichte U 0/3; Pilot). Post hoc EXP-139: W_E ist auch in nie generalisierenden Zellen gesteuert (Δ_pow 2.0–3.6 ≫ Placebo-q99 0.3–0.4, 6/6; `posthoc_nolearn_s69.json`). Iso-Zeit-Paarzahlen wachsen ≈ p^1.2 (oder p ln p, nicht trennbar; beschreibend). Beides unabhängig nachgerechnet; Prägung schon bei Schritt 50–250 (frühe Gradienten-Einprägung, nicht „Memorisierung“).
 
-**EXP-143** ([[experiments/EXP-143-ledoux-regime/README|README]], neu S70, Pilot): LeDoux-Regime p = 9973, 300 000 Paare, Batch 256; Arme R/F × iid/stride, Seed 14300; Lesarten Q1–Q3 vorab, gelten für den wd-0.1-Satz (Nachtrag c: wd 1.0 lernt bei kleinem B/N in L0 nicht). Läuft über den neuen Wrapper `lab/tools/freq_ban_large.py` (gestückelte Auswertung, Trainer unverändert; Gleichwertigkeit bei p 113 bitgleich geprüft). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-143-ledoux-regime/analyze.py [--traj]` (gen, Top-5, Ziel- und Stride-Leistung 101 ± 1 / 1914 ± 1, getrennt nach wd).
+**EXP-143** ([[experiments/EXP-143-ledoux-regime/README|README]], neu S70, Pilot): LeDoux-Regime p = 9973, 300 000 Paare, Batch 256; Arme R/F × iid/stride, Seed 14300; Lesarten Q1–Q3 vorab, gelten für den wd-0.1-Satz (Nachtrag c: wd 1.0 lernt bei kleinem B/N in L0 nicht); Nachtrag d (unabhängige Prüfung): Stride-Familie |99k mod p| ≤ 26, Q3 nur bei generalisiertem Arm, Q2/Q3 an den 600k-Armen. Erst nach R15 (Dienst). Läuft über den neuen Wrapper `lab/tools/freq_ban_large.py` (gestückelte Auswertung, Trainer unverändert; Gleichwertigkeit bei p 113 bitgleich geprüft). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-143-ledoux-regime/analyze.py [--traj]` (gen, Top-5, Ziel- und Stride-Leistung 101 ± 1 / 1914 ± 1, getrennt nach wd).
 
 ## Nächste Schritte
 

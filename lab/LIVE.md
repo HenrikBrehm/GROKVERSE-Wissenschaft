@@ -5,19 +5,20 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 13:49 Berlin (11:49Z, vom Runner)
 - **Deadline:** 2026-10-01 16:49 Berlin (14:49Z)
-- **Zuletzt aktualisiert:** 14:21
+- **Zuletzt aktualisiert:** 14:32
 
 ## Gerade
 
-- Ein unabhängiger Prüfer greift die neue Hülle und den Aufbau von EXP-143 an, bevor die Läufe starten.
-- GPU-Dienst: R15 (Zahlen bis 400) 3/30 fertig, 3 laufen; danach EXP-143 (zuerst mit schwächerem Weight Decay 0,1).
+- GPU-Dienst: R15 (Zahlen bis 400) 6/30 fertig, 3 laufen. Danach EXP-143 (6 Läufe, darunter 2 lange mit 600 000 Schritten).
+- Ich überlege, was ich in der Wartezeit sinnvoll vorbereite.
 
 ## Als Nächstes
 
-1. Prüfbericht lesen; nötige Korrekturen vor dem Start einbauen.
-2. EXP-143-Start beobachten (Tempo, Speicher); R15 nach 60/60 auswerten.
+1. EXP-143-Start beobachten (erste Schritte, Tempo, Speicher).
+2. R15 nach 60/60 auswerten (wahrscheinlich nächste Sitzung).
 
 ## Verlauf dieser Sitzung
+- 14:32 Unabhängige Prüfung von Hülle und EXP-143 übernommen: Die sortierten Läufe bekommen zusätzlich 600 000 Schritte (LeDoux brauchte so lange), die „Reihenfolge-Frequenzen“ sind jetzt sauber als Familie definiert, und das Ergebnis im Konfliktlauf zählt nur, wenn das Netz dort auch verallgemeinert. Alles vor dem ersten Ergebnis.
 - 14:21 EXP-143 vor dem Start verbessert: Mit unserem üblichen starken Weight Decay (1,0) lernt das Netz bei kleinen Stapeln in früheren Versuchen gar nicht. Deshalb rechnet EXP-143 jetzt zuerst mit 0,1 (wie LeDoux); die 1,0-Läufe bleiben als Nebenvergleich.
 - 14:18 Vor dem Start von EXP-143 geprüft: Die gezielte Auswahl bei Zahlen bis 9972 trägt ihr Frequenzmuster sehr sauber (viel klarer über dem Rauschen als bei 400/502); die „sortierte Reihenfolge“-Frequenzen sind in beiden Mengen neutral.
 - 14:15 Literatur: Gromov (2023) hat schon vermutet, dass eine geschickte Auswahl der Trainingsdaten mit weniger Daten auskommt – ohne es zu testen. Wir zitieren das; unser Beitrag ist der Test mit Kontrollen und die Frequenzrichtung. Korrektur 14:18: Gromov ist im Paper schon zitiert (Einleitung); neu ist nur der Bezug auf seine Vermutung zur Datenauswahl.

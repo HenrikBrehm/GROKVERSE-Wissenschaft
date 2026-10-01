@@ -27,3 +27,7 @@ Zurück zu [[paper/STATUS]] · [[confirm/R15_REGISTRATION]] · [[experiments/EXP
 - nichts über p = 9973 / 0.3 %, Minibatch oder LeDoux' Architektur; keine Aussage „LeDoux widerlegt“;
 - keine Aussage über Frequenzstruktur als Ursache ohne EXP-142 (und auch dann nur Pilot);
 - keine Ablation, keine Messung der Nutzung; zwei Zellen, ein Budget, eine Architektur, AdamW.
+
+## Nachtrag Sitzung 70 (01.10., 14:17): Zitatpflicht
+
+Unabhängig vom Ausgang: Gromov 2023 (arXiv 2301.02679, §5.2) vermutet ausdrücklich, dass „the appropriate choice of the sampling method may thus improve the data efficiency“. Jeder R15-Satz im Paper nennt das als Anlass; unser Beitrag ist der kontrollierte Test (gleich große Zufallsmenge; EXP-142: gleich ungleiche Menge ohne Frequenzstruktur) und die Frequenzrichtung, nicht die Idee. Zitat vorher im Volltext gegenlesen ([[paper/related_work]] Nachtrag S70).

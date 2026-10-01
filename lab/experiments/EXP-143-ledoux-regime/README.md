@@ -83,6 +83,23 @@ bee06c667831d122cee63ba72e40b497bfa7acf9c95f7aafad657c825c789039 *split_add9973_
 20dd43656d4d733f9cf46944bf16e6d849149914a58fc06c1b1875f9ade38284 *test_add9973_n20000.npy
 ```
 
+## Ergebnis Nachtrag e (Sitzung 70, 14:54 Berlin (gemessen); CPU, 1 Seed, 3000 Schritte ≈ 2.6 Epochen, Exploration)
+
+Kein Arm generalisiert in 3000 Schritten (erwartet; Test 1e-4). W_E-Spektrum bei Schritt 3000:
+
+| Arm | Top-5 | T/med (Ziele) | k = 101 (Rang; Leistung/Median) | Familienanteil (Gleichvert. 0.0052) |
+|---|---|---|---|---|
+| F-iid | **1100, 1296, 1691, 2142, 2511** (= alle 5 Ziele) | **1.66** | 3605; 0.94 | 0.0052 |
+| F-stride | **101**, 151, 1100, 1296, 1691 | **1.36** | **1**; 2.00 | 0.0056 |
+| R-iid | 1347, 1369, 2151, 2294, 3790 | 0.98 | 732; 1.11 | 0.0052 |
+| R-stride | **101**, 151, 835, 2525, 3432 | 0.93 | **1**; 2.76 | 0.0055 |
+
+- **Lesart „Menge prägt früh“: erfüllt** (T/med F 1.66 und 1.36 > 0.98 + 0.2). Die Ziele erscheinen nach ≈ 2–2.5 Epochen (F-iid: T/med 1.00 bei 1000, 1.26 bei 2000, 1.66 bei 3000); nach 250 Schritten (0.2 Epochen) noch nichts – unter Minibatch zählt die Prägung in Epochen, nicht in Schritten (im Vollbatch bei p 401 ab Schritt 50–250, Sitzung 69).
+- **Lesart „Reihenfolge prägt früh“: nach dem vorab festgelegten Kriterium nicht erfüllt** (Familienanteil stride 0.0055/0.0056 < 1.2 × 0.0052). **Beschreibend, post hoc:** k = 101 – LeDoux' F = 101 – steht in beiden Stride-Armen auf Rang 1 (R-stride schon bei Schritt 500 auf Rang 3, bei 1000 auf Rang 1), in den i.i.d.-Armen nicht (Rang 732/3605). Das Familienmaß über 26 Frequenzen verdünnt dieses Einzelsignal; die übrigen Familienmitglieder wachsen kaum. Das Kriterium war damit schlecht gewählt; es wird nicht nachträglich ersetzt, die GPU-Lesarten Q2/Q3 („Familie in den Top-5“, k = 101 gehört dazu) bleiben unverändert.
+- **Konflikt (F-stride), beschreibend:** beide prägen nebeneinander – 101 auf Rang 1 und 3 der 5 Ziele in den Top-5; die Zielprägung ist schwächer als ohne Stride (T/med 1.36 gegen 1.66).
+- k = 151 steht schon bei der Initialisierung in den Top-5 (Init-Eigenheit, in allen Armen).
+- **Grenzen:** 1 Seed, CPU, keine Generalisierung, nur Repräsentationsenergie (keine Ablation), 3000 Schritte. Ob die frühe Prägung die spätere Lösung bestimmt, beantworten erst die GPU-Läufe.
+
 ## Ergebnis
 
 Offen.

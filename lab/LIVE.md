@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 13:49 Berlin (11:49Z, vom Runner)
 - **Deadline:** 2026-10-01 16:49 Berlin (14:49Z)
-- **Zuletzt aktualisiert:** 14:32
+- **Zuletzt aktualisiert:** 14:54
 
 ## Gerade
 
 - GPU-Dienst: R15 (Zahlen bis 400) 6/30 fertig, 3 laufen. Danach EXP-143 (6 Läufe, darunter 2 lange mit 600 000 Schritten).
-- Ich überlege, was ich in der Wartezeit sinnvoll vorbereite.
+- Vorläufe ausgewertet (siehe Verlauf); Dokumentation.
 
 ## Als Nächstes
 
@@ -18,6 +18,9 @@ tags: [lab/live]
 2. R15 nach 60/60 auswerten (wahrscheinlich nächste Sitzung).
 
 ## Verlauf dieser Sitzung
+- 14:54 **Vorläufe EXP-143 fertig (1 Seed, Exploration):** Bei Zahlen bis 9972 und 0,3 % Daten prägt unsere gezielte Auswahl die Zahl-Vektoren nach ≈ 2 Durchgängen (genau die 5 Ziele oben). LeDoux' sortierte Reihenfolge prägt mit unserem Netz ebenfalls früh seine Frequenz 101 (Rang 1). Im Konfliktlauf stehen beide nebeneinander. Mein vorab gewähltes Maß für die Reihenfolge war zu grob und zeigt das nicht – ehrlich so notiert.
+- 14:45 Zwischenstand Vorläufe (noch ohne Vergleich mit Zufallsauswahl): Mit gezielter Auswahl und gemischter Reihenfolge stehen nach ≈ 2 Durchgängen genau die 5 Zielfrequenzen oben. Mit sortierter Reihenfolge rückt LeDoux' Frequenz 101 schon nach ≈ 1 Durchgang nach oben – und 3 unserer Ziele daneben. Beide prägen früh.
+- 14:36 Kurzer Zeitlauf: Nach 250 kleinen Schritten (ein Fünftel der Daten gesehen) zeigt die gezielte Auswahl noch keine Prägung. Jetzt 4 Vorläufe mit 3000 Schritten (≈ 2,6 Durchgänge durch die Daten).
 - 14:32 Unabhängige Prüfung von Hülle und EXP-143 übernommen: Die sortierten Läufe bekommen zusätzlich 600 000 Schritte (LeDoux brauchte so lange), die „Reihenfolge-Frequenzen“ sind jetzt sauber als Familie definiert, und das Ergebnis im Konfliktlauf zählt nur, wenn das Netz dort auch verallgemeinert. Alles vor dem ersten Ergebnis.
 - 14:21 EXP-143 vor dem Start verbessert: Mit unserem üblichen starken Weight Decay (1,0) lernt das Netz bei kleinen Stapeln in früheren Versuchen gar nicht. Deshalb rechnet EXP-143 jetzt zuerst mit 0,1 (wie LeDoux); die 1,0-Läufe bleiben als Nebenvergleich.
 - 14:18 Vor dem Start von EXP-143 geprüft: Die gezielte Auswahl bei Zahlen bis 9972 trägt ihr Frequenzmuster sehr sauber (viel klarer über dem Rauschen als bei 400/502); die „sortierte Reihenfolge“-Frequenzen sind in beiden Mengen neutral.

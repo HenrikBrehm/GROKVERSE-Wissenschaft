@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 08:29 Berlin (06:29Z, vom Runner)
 - **Deadline:** 2026-10-01 11:29 Berlin (09:29Z)
-- **Zuletzt aktualisiert:** 09:38
+- **Zuletzt aktualisiert:** 10:16
 
 ## Gerade
 
-- GPU: die entscheidende Zelle **503/14 000** läuft (einzeln, ≈ 7 GB je Lauf). Vorher festgehalten: Lernt das Netz dort, passt „Paare je Zahl“ besser als die Theorie-Skalierung p^(5/3).
-- Danach: übrige 503-Läufe, EXP-140 (Zufallsauswahl), p 613.
+- GPU: Rest der Zelle 503/14 000, dann **EXP-141**: Zahlen bis 502 mit 16 100 bzw. 18 100 Paaren. Lernt das Netz dort, zählt ‚Paare je Zahl‘; lernt es nicht, passt die Theorie-Skalierung p^(5/3).
+- Ich beobachte und dokumentiere.
 
 ## Als Nächstes
 
@@ -18,6 +18,9 @@ tags: [lab/live]
 2. Tageserklärung 02.10. vorbereiten.
 
 ## Verlauf dieser Sitzung
+- 10:16 EXP-141 vorbereitet und vorgezogen (trennt die beiden Erklärungen). Zelle 503/14 000: lernt nicht.
+- 10:00 Eine unabhängige Prüfung fand einen Fehler in meiner Rechnung (Vergleichsläufe mit viel kürzerer Trainingszeit mitgezählt). Korrigiert: Aussage gilt nur innerhalb von 30 000 Schritten und ist schwächer.
+- 09:49 Zahlen bis 502, 14 000 Paare: erster Lauf lernt die Regel nicht.
 - 09:38 Rechnung über alle bisherigen Zellen: weder reine Paarzahl noch reiner Anteil erklärt, wann das Netz lernt; ‚Paare je Zahl‘ (oder p^(5/3)) schon. Vorhersage für 503/14 000 vorab committet.
 - 09:25 Zahlen bis 400: mit 14 000 Paaren lernt das Netz die Regel, und die Datenauswahl **steuert** (3/3 Seeds); mit 9425 nicht. EXP-140 (Zufallsauswahl, gleiche Zelle) eingereiht.
 - 08:55 EXP-139 Zwischenstand: 9425 Paare bei Zahlen bis 400 reichen **nicht** zum Verallgemeinern (3 von 3 fertigen Läufen). Die reine Paarzahl ist es also nicht.

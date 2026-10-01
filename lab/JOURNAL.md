@@ -5626,3 +5626,7 @@ Keine STOP-Datei; GPU-Dienst idle (neu gestartet 19:58, PID 27480, 0 laufend, In
 ## 2026-10-01 21:41 – Sitzung 86: Lagekontrolle (Regel 23)
 
 - Frage: Ist die Pause unverändert gültig und der Betrieb ruhig? Ergebnis: keine STOP-Datei, GPU-Dienst idle (PID 13232, keine Jobs, Inbox leer), keine Trainingsprozesse. Entscheidung: nichts rechnen, Sitzung beendet. Nächster Start 01:14 Berlin (02.10.).
+
+## 2026-10-01 21:51 – Sitzung 87: Lagekontrolle (Regel 23)
+
+- Frage: Ist die Pause unverändert gültig und der Betrieb ruhig? Ergebnis: keine STOP-Datei, GPU-Dienst idle (Heartbeat 19:50Z, keine Jobs, Inbox leer), nur ein Python-Prozess (PID 17204, ≈ 20 MB), keine Trainingsprozesse. Entscheidung: nichts rechnen, Sitzung beendet. Nächster Start 01:24 Berlin (02.10.).

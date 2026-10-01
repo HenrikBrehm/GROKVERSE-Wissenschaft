@@ -57,6 +57,12 @@ Adversariale Prüfung (Claude-Agent, nur lesend, eigene Prüfskripte unter C:/tm
 - **M3:** abgebrochene/divergierte Arme werden als „teilweise“ ausgewiesen statt weggelassen. **L4:** Q1 „beide ja“ heißt jetzt „mit unserem Modell generalisiert auch Zufall + i.i.d. (anders als bei LeDoux' Modell)“.
 - **Nicht behoben (M2):** freq_ban.py legt vor dem Ersetzen durch die Test-Stichprobe noch ein p²-Indexfeld an (≈ 3.6 GB RAM-Spitze, ≈ 74 s je Start; Trainer hash-gebunden). Der Dienst prüft freien RAM vor jedem Start; Auslagerung möglich, kein Absturz erwartet. L1–L3 (Startwettlauf am Marker, wrapper.json nur bei fertigen Läufen, GPU-Pfad nur per Smoke geprüft) als Risiko vermerkt.
 
+## Nachtrag e (Sitzung 70, 14:33 Berlin (gemessen), vor dem Lauf): frühe Prägung auf der CPU (Exploration, nicht Teil von Q1–Q3)
+
+- **Frage:** Prägt im LeDoux-Regime (wd 0.1, Batch 256) schon der Anfang des Trainings W_E – die Menge ihre Ziele, die Stride-Reihenfolge ihre Familie –, wie bei p 401 im Vollbatch (Sitzung 69: Prägung ab Schritt 50–250)?
+- **Aufbau:** dieselben 4 Arme (F/R × iid/stride), Seed 14300, wd 0.1, **CPU** (`--device cpu --threads 4`), 3000 Schritte (≈ 2.6 Epochen), Spektren alle 250 Schritte, Auswertung alle 1500; Ausgabeordner `raw_cpu_early` (eigener Marker). Nicht mit den GPU-Läufen vermischt (anderes Gerät, Regel 16d).
+- **Messgrößen / Lesart (vorab):** bei Schritt 3000 (und Verlauf): Zielverhältnis T/med (Median der Zielleistungen / Median aller) in F gegen R; Familienanteil in stride gegen iid. „Menge prägt früh“, wenn T/med(F) > max(T/med(R-Arme)) + 0.2 in beiden F-Armen; „Reihenfolge prägt früh“, wenn der Familienanteil in beiden stride-Armen > 1.2 × dem größeren der beiden iid-Arme; sonst „nicht in 3000 Schritten“. Ein Seed, beschreibend.
+
 ## Befehle
 
 ```

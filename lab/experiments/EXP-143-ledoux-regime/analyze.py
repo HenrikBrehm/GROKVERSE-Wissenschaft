@@ -47,7 +47,8 @@ def load(root: Path) -> list[dict]:
         r = json.loads(f.read_text())
         m = re.search(r"seed(\d+)_([FR])\.npy$", r["split_file"])
         seed, arm = int(m.group(1)), m.group(2)
-        row = {"seed": seed, "set": arm, "order": r.get("order", "iid"), "status": r["status"],
+        row = {"seed": seed, "wd": float(r["config"]["weight_decay"]), "set": arm, "order": r.get("order", "iid"),
+               "status": r["status"],
                "steps": r.get("steps_completed"), "gen": (r.get("events") or {}).get("generalization_step"),
                "test_last": (r["dense"]["test_acc"] or [None])[-1] if r.get("dense") else None,
                "test_final": (r.get("final_acc") or {}).get("test"), "dir": d}
@@ -66,8 +67,9 @@ def gen_ok(row: dict | None) -> bool | None:
     return None if row is None else row["gen"] is not None
 
 
-def reading(rows: list[dict], seed: int) -> dict:
-    get = lambda s, o: next((r for r in rows if r["seed"] == seed and r["set"] == s and r["order"] == o), None)  # noqa: E731
+def reading(rows: list[dict], seed: int, wd: float) -> dict:
+    sel = [r for r in rows if r["seed"] == seed and r["wd"] == wd]
+    get = lambda s, o: next((r for r in sel if r["set"] == s and r["order"] == o), None)  # noqa: E731
     fi, ri, fs, rs = get("F", "iid"), get("R", "iid"), get("F", "stride"), get("R", "stride")
     done = lambda r: r is not None and r["status"] == "completed"   # noqa: E731
     out = {}
@@ -103,7 +105,7 @@ def main() -> None:
     rows = load(Path(a.root))
     if not rows:
         raise SystemExit(f"no runs under {a.root}")
-    keys = ("seed", "set", "order", "status", "steps", "gen", "test_last", "test_final", "spec_step", "top5",
+    keys = ("seed", "wd", "set", "order", "status", "steps", "gen", "test_last", "test_final", "spec_step", "top5",
             "targets_in_top5", "target_median_ratio", "k101_max_ratio", "k101_best_rank", "k1914_max_ratio",
             "k1914_best_rank")
     for r in rows:
@@ -113,8 +115,9 @@ def main() -> None:
                 print(f"   step {s:>7}: top5 {ro['top5']}, T/med {ro['target_median_ratio']:.2f}, "
                       f"k101 {ro['k101_max_ratio']:.2f} (rank {ro['k101_best_rank']}), "
                       f"k1914 {ro['k1914_max_ratio']:.2f} (rank {ro['k1914_best_rank']})")
-    for seed in sorted({r["seed"] for r in rows}):
-        print(f"seed {seed}:", json.dumps(reading(rows, seed), ensure_ascii=False))
+    for seed, wd in sorted({(r["seed"], r["wd"]) for r in rows}):
+        tag = "primär" if wd == 0.1 else "Nebenarm"   # S70 Nachtrag c: wd 0.1 primary, preset wd 1.0 secondary
+        print(f"seed {seed} wd {wd} ({tag}):", json.dumps(reading(rows, seed, wd), ensure_ascii=False))
 
 
 if __name__ == "__main__":

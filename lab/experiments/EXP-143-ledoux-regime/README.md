@@ -42,12 +42,18 @@ Aus den Iso-Zeit-Paarzahlen von EXP-139/141 (Vollbatch, T = 5000 Schritte): N_T 
 
 Zielleistung der Maske / Median: p 9973 F 2.05 (R 1.00) gegen p 401/14 000 F 2.33/2.28 und p 503/18 100 F 2.28/2.30 (EXP-139/141, die generalisierten). Standardisiert (Mittel der Ziele minus Mittel der übrigen, durch deren Streuung): 103 bei p 9973 gegen 26–29 bei p 401/503 – der Hintergrund ist bei großem p viel glatter (größter Nicht-Zielwert 1.04 × Median). Die Stride-Frequenzen 101 und 1914 sind in beiden Mengen neutral (0.99–1.01 × Median), die Menge bevorzugt sie also nicht; ein Stride-Signal im Konfliktarm käme allein aus der Reihenfolge. ε = 2 bleibt.
 
+## Nachtrag c (Sitzung 70, 14:20 Berlin (gemessen), vor jedem Ergebnis eines p-9973-Laufs): wd 0.1 als primärer Satz
+
+**Anlass (bereits gesehene eigene Daten, nicht EXP-143):** In L0/EXP-100/EXP-106 (p 113, 30 %) generalisiert unser Modell unter Minibatch mit wd 1.0 umso schlechter, je kleiner B relativ zur Trainingsmenge ist: Vollbatch Median 875 Schritte (59/64), B 256 1 250 (79/80), B 64 5 150 (40/47), **B 16 0/9**; mit wd 0.1 lernt B 16 (3/3, Median 8 750). Bei p 9973 ist B 256 nur 0.085 % der 300 000 Paare (B 16 bei p 113: 0.42 %). Mit wd 1.0 drohen also alle vier Arme aus einem Grund zu scheitern, der mit Menge gegen Reihenfolge nichts zu tun hat. LeDoux verwendet wd 0.1.
+**Änderung:** Primär sind jetzt die vier Arme mit `--weight-decay 0.1` (Jobdatei `52a7z_exp143_wd01`, nach R15, vor dem wd-1.0-Satz); die Lesarten Q1–Q3 gelten für diesen Satz. Der bereits eingereihte wd-1.0-Satz (`52a8_exp143_ledoux`, Voreinstellung) läuft als **Nebenarm** und wird nur beschreibend berichtet (der Dienst lädt Jobzeilen nicht neu; ihn nicht zu rechnen wäre nur über eine Ablehnung der Datei gegangen, und er beantwortet nebenbei, ob wd 1.0 in diesem Regime überhaupt lernt). Längere Zeitskala bei wd 0.1 (Grokking-Zeit ∝ 1/(lr·wd)) ist bewusst in Kauf genommen; das Budget bleibt 250 000 Schritte. `analyze.py` trennt nach wd.
+
 ## Befehle
 
 ```
 python lab/tools/guarded_run.py -- python lab/tools/test_freq_ban_large.py
 python lab/tools/guarded_run.py -- python lab/experiments/EXP-143-ledoux-regime/make_splits.py --arms R,F --seeds 14300 --mask
 python lab/experiments/EXP-143-ledoux-regime/make_jobs.py > lab/queue/staging/52a8_exp143_ledoux.jobs
+python lab/experiments/EXP-143-ledoux-regime/make_jobs.py --wd 0.1 > lab/queue/staging/52a7z_exp143_wd01.jobs
 ```
 
 ## Ergebnis

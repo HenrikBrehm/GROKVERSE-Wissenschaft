@@ -9,7 +9,7 @@ tags: [lab/live]
 
 ## Gerade
 
-- **Sitzung beendet** (08:22). Nächster geplanter Start: **01.10. 09:14 Berlin** (runner-state next_start_utc 07:14Z).
+- **Sitzung beendet** (08:21). Nächster geplanter Start: **01.10. 09:14 Berlin** (runner-state next_start_utc 07:14Z).
 - Heute in dieser Sitzung: **R13 bestätigt** (Datenauswahl steuert auch ohne Adam), **R14 bestätigt** (auch bei Zahlen bis 306 mit nur 10 % Daten), EXP-137/138/129/128 ausgewertet.
 
 ## Als Nächstes
@@ -18,7 +18,7 @@ tags: [lab/live]
 2. Tageserklärung 02.10. anlegen.
 
 ## Verlauf dieser Sitzung
-- 08:22 **R14 bestätigt** (12/12 Seeds); Sitzungsende.
+- 08:21 **R14 bestätigt** (12/12 Seeds); Sitzungsende.
 - 08:03 R14 12/24 fertig.
 - 07:44 R14 eingefroren und eingereiht; GPU-Dienst neu gestartet.
 - 07:34 R14 registriert; Selbsttest fand eine Regel-Lücke, behoben.

@@ -64,6 +64,10 @@ Adversariale Prüfung (Claude-Agent, nur lesend, eigene Prüfskripte unter C:/tm
 - **Änderung vor dem Lauf (14:36, nach dem Zeitlauf):** Zeitlauf F-iid 250 Schritte (`cpu_timing`, 80.8 s, T/med 0.97 = Init, noch keine Prägung nach 0.2 Epochen); daher `--threads 3`, zwei Arme parallel, Auswertung nur bei 0 und 3000 (`--eval-every 3000`); Rest unverändert.
 - **Messgrößen / Lesart (vorab):** bei Schritt 3000 (und Verlauf): Zielverhältnis T/med (Median der Zielleistungen / Median aller) in F gegen R; Familienanteil in stride gegen iid. „Menge prägt früh“, wenn T/med(F) > max(T/med(R-Arme)) + 0.2 in beiden F-Armen; „Reihenfolge prägt früh“, wenn der Familienanteil in beiden stride-Armen > 1.2 × dem größeren der beiden iid-Arme; sonst „nicht in 3000 Schritten“. Ein Seed, beschreibend.
 
+## Nachtrag f (Sitzung 70, 14:56 Berlin (gemessen), vor den Läufen): Wiederholung der frühen Prägung mit Seeds 14301, 14302 (CPU, Exploration)
+
+Gleicher Aufbau wie Nachtrag e (4 Arme, wd 0.1, 3000 Schritte, CPU, 3 Threads, `raw_cpu_early`), neue Splits per `make_splits.py --seeds 14301,14302` (gleiche Test-Stichprobe ausgeschlossen). Lesart je Seed: (i) „Menge prägt“ wie in Nachtrag e (T/med beider F-Arme > größter R-Arm + 0.2); (ii) **neu, nach Nachtrag e explizit festgelegt:** „Stride prägt k = 101“, wenn k = 101 in beiden Stride-Armen in den Top-5 steht und in keinem i.i.d.-Arm. Ergebnis über 3 Seeds wird berichtet als Anzahl Seeds mit (i) bzw. (ii). Diese Seeds gelten danach als gesehen (keine Bestätigungs-Seeds).
+
 ## Befehle
 
 ```

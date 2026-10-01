@@ -179,9 +179,37 @@ def mask_check(cells: list[dict]) -> dict | None:
     return {"spearman_pooled": spearman(pairs), "n": len(pairs)}
 
 
-def main(loader=load) -> dict:
+def threshold_fit(points: list[dict]) -> dict:
+    """Amendment a (session 68, before any result): which single-variable threshold separates generalizing from
+    non-generalizing cells? points: {p, n_pairs, generalises}. A variable fits if max over non-generalizing cells <
+    min over generalizing cells (or one group is empty). Descriptive only."""
+    var = {"pairs_per_p": lambda c: c["n_pairs"] / c["p"], "fraction": lambda c: c["n_pairs"] / c["p"] ** 2,
+           "n_pairs": lambda c: c["n_pairs"]}
+    fits = {}
+    for k, f in var.items():
+        yes = [f(c) for c in points if c["generalises"]]
+        no = [f(c) for c in points if not c["generalises"]]
+        fits[k] = (not yes or not no) or max(no) < min(yes)
+    ok = [k for k, v in fits.items() if v]
+    reading = ("Muster passt zu Paaren je Token" if ok == ["pairs_per_p"] else
+               "nicht getrennt" if len(ok) > 1 else "passt zu keiner Einzelschwelle" if not ok else f"passt nur zu {ok[0]}")
+    return {"fits": fits, "reading": reading}
+
+
+def exp137_points() -> list[dict]:
+    f = HERE.parent / "EXP-137-modulus-density" / "summary.json"
+    if not f.exists():
+        return []
+    return [{"p": c["p"], "n_pairs": int(round(c["train_frac"] * c["p"] ** 2)), "generalises": c["n_both_generalised"] >= 2,
+             "source": "EXP-137"} for c in json.loads(f.read_text(encoding="utf-8"))["cells"]]
+
+
+def main(loader=load, extra=None) -> dict:
     cells = [cell_eval(p, c, loader) for p in mj.PS for c in mj.NS]
-    return {"cells": cells, "q1": q1(cells), "q2": q2(cells), "mask_prediction_check": mask_check(cells)}
+    pts = [{"p": c["p"], "n_pairs": mj.NS[c["cell"]], "generalises": c["generalises"], "source": "EXP-139"} for c in cells]
+    pts += exp137_points() if extra is None else extra
+    return {"cells": cells, "q1": q1(cells), "q2": q2(cells), "mask_prediction_check": mask_check(cells),
+            "threshold_fit": threshold_fit(pts), "threshold_points": pts}
 
 
 def selftest() -> None:
@@ -229,6 +257,19 @@ def selftest() -> None:
     r = main(fake(lambda p, c: 5.0, gen=lambda p, c, arm: 500 if arm == "F" else None))   # one arm never generalizes
     assert all(not c["generalises"] and c["n_not_generalised"] == 3 for c in r["cells"])
     assert all(c["verdict_cal"] == "kein Lernen im Budget" for c in main(lambda *a: "x: fehlt")["cells"])
+    # amendment a: threshold fit (N/p of the cells: 23.5 18.7 15.4 | 34.9 27.8 22.8)
+    gen = lambda p, c, arm: 500 if mj.NS[c] / p > 22 else None   # noqa: E731  -> 401/9425, 401/14000, 503/14000, 613/14000
+    r = main(fake(lambda p, c: 5.0, gen=gen), extra=[])     # without EXP-137 the six cells cannot exclude a fraction threshold
+    assert r["threshold_fit"]["reading"] == "nicht getrennt", r["threshold_fit"]
+    e137 = [{"p": 211, "n_pairs": 4452, "generalises": False}, {"p": 307, "n_pairs": 9425, "generalises": True}]
+    r = main(fake(lambda p, c: 5.0, gen=gen), extra=e137)  # equal fraction 10 %, different outcome -> fraction excluded
+    assert r["threshold_fit"]["reading"] == "Muster passt zu Paaren je Token", r["threshold_fit"]
+    r = main(fake(lambda p, c: 5.0, gen=lambda p, c, arm: 500 if c == "n14000" else None), extra=[])
+    assert r["threshold_fit"]["reading"] == "passt nur zu n_pairs", r["threshold_fit"]   # 401/9425 (23.5/p) fails but 613/14000 (22.8/p) generalizes
+    r = main(fake(lambda p, c: 5.0, gen=lambda p, c, arm: 500 if (p, c) == (503, "n9425") else None), extra=[])
+    assert r["threshold_fit"]["reading"] == "passt zu keiner Einzelschwelle", r["threshold_fit"]
+    pts = exp137_points()
+    assert not pts or {(q["p"], q["n_pairs"]): q["generalises"] for q in pts}[(211, 4452)] is False
     print("[exp139] selftest ok")
 
 

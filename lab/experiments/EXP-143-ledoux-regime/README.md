@@ -1,8 +1,8 @@
 ---
 id: EXP-143
-status: vorbereitet
+status: laufend
 datum: 2026-10-01
-tags: [exp/vorbereitet, neu/kandidat]
+tags: [exp/laufend, neu/kandidat]
 verwandt: ["[[experiments/EXP-140-random-at-edge/README|EXP-140]]", "[[experiments/EXP-142-shuffled-weights/README|EXP-142]]", "[[experiments/EXP-141-alpha-test/README|EXP-141]]", "[[confirm/R15_REGISTRATION|R15]]", "[[FINDINGS]]", "[[NOVEL_DIRECTIONS]]", "[[BACKLOG]]"]
 ---
 # EXP-143: Menge gegen Reihenfolge im LeDoux-Regime (p = 9973, 0.30 % der Paare, Batch 256) – Pilot
@@ -120,6 +120,20 @@ Schritt 3000, T/med = Median der Zielleistungen / Median aller k; k = 101 als Le
 - **Oberwellen (Exploration, post hoc an gespeicherten Spektren; Vorab-Lesart im [[JOURNAL]] S71 Zyklus 1, vor dem Rechnen festgelegt; das Skript lief einmal als Probe auf 4 der 6 Stride-Arme, bevor Seed 14302 fertig war):** Ein Profil g(a mod 99) des Sortierschlüssels hat Leistung nur bei k ≈ m · p/99. Mittel der 6 Stride-Arme, z gegen alle k: 101 +29.1; 201 +3.23; 202 +2.61; **302 +3.08; 403 +2.42**; 504 +1.63 (Ränge 1, 3, 18, 5, 32, 194 von 4986). In den 6 i.i.d.-Armen alle |z| < 1.2. **Vorab-Lesart: „unklar“** (403 verfehlt z > 3). Beschreibend sind alle fünf Oberwellen im Stride-Mittel erhöht und in i.i.d. nicht, was zu einem nicht-sinusförmigen Profil des Sortierschlüssels passt (eine Spur der Epochenposition, keine einzelne Fourier-Frequenz); geprüft ist das nicht.
 - **Grenzen:** CPU, 3000 Schritte, keine Generalisierung, nur Repräsentationsenergie. Über die Endlösung entscheiden die GPU-Läufe (Q1–Q3).
 - **Unabhängige Nachrechnung (15:34, Claude-Agent, eigener numpy-Code, nur lesend):** alle Zahlen reproduziert (Schnappschuss, k-Indizierung, Median geprüft; k = 101 wächst von z ≈ 7 bei Schritt 500 auf ≈ 32 bei 2500). **Übernommene Einschränkung:** Das Oberwellen-Signal ist schwach. Auch ohne Ziele und k = 101 in der Nullverteilung haben 8 (Stride-Mittel) bzw. 10 (i.i.d.-Mittel) beliebige k ein z > 3 (≈ 7 erwartet) – z ≈ 3 liegt im Schwanz der Nullverteilung; im R-stride-Mittel allein sind nur 201 und 302 erhöht. Die Rangsumme der fünf vorab genannten k ist auffällig (alle fünf in den Top-200: zufällig ≈ 1e-7, post hoc, unabhängige k angenommen), trägt aber vor allem auf 201 und 302. **Der beschreibende Satz oben („passt zu einem nicht-sinusförmigen Profil“) gilt deshalb nur als schwacher Hinweis, nicht als Stütze.** Gemeint sind die Oberwellen k ≈ m · p/99 (nächste ganze Zahl), nicht die Vielfachen von 101 (303, 404, 505 sind nicht erhöht: z 1.7 / 0.2 / −1.0).
+
+## Zwischenergebnis 250 000 Schritte, wd 0.1 (Sitzung 71, 16:55 Berlin (gemessen); GPU, Seed 14300, `analyze.py`)
+
+| Arm | gen | Test am Ende | Train am Ende | Top-5 (Schritt 250 000) | Ziele in Top-5 | T/med | k = 101 / Median | Familienanteil |
+|---|---|---|---|---|---|---|---|---|
+| F-iid | – | 1e-4 | 0.36 | 1100, 1296, 1691, 2142, 2511 | 5 | 4.41 | 0.95 | 0.005 |
+| R-iid | – | 1e-4 | 0.41 | 47, 1183, 3751, 3768, 4837 | 0 | 1.01 | 0.95 | 0.005 |
+| F-stride | – | 1e-4 | 0.15 | 101, 202, 303, 404, 2511 | 1 | 4.84 | 466 | 0.085 |
+| R-stride | – | 3e-4 | 0.14 | 1, 101, 202, 303, 404 | 0 | 1.07 | 794 | 0.138 |
+
+- **Q1 = „im Budget keine Aussage“** (beide i.i.d.-Arme ohne gen). **Q2 (250 000, Zwischenstand) = „nicht im Budget“**; gelesen wird Q2 laut Nachtrag d an den 600 000-Armen (laufen). **Q3 nur beschreibend** (M1; Muster „Reihenfolge gewinnt“: Stride-Familie in den Top-5, 1 Ziel).
+- **Das Modell lernt in diesem Regime nicht einmal die Trainingsmenge:** Train-Genauigkeit stagniert bzw. sinkt in der zweiten Hälfte (F-iid 0.38 bei 153 000 → 0.36). Die Frage „Menge gegen Reihenfolge“ ist mit d 128 hier nicht beantwortbar → Nachfolger [[experiments/EXP-144-ledoux-width/README|EXP-144]] (d 512).
+- **Beschreibend:** Die Menge prägt W_E auch ohne Lernen dauerhaft (F-iid: genau die 5 Ziele als Top-5 von Schritt 5000 bis 250 000, T/med Spitze ≈ 8). Die Stride-Reihenfolge erzeugt eine um zwei Größenordnungen stärkere Komponente bei k = 101 mit den exakten Vielfachen 202/303/404 (und k = 1); im Konfliktarm bleiben die Ziele daneben erhöht (T/med 4.8). Post hoc (JOURNAL S71 Zyklus 3): bis Schritt 5000 sind leicht die Oberwellen des Sortierschlüssels erhöht (201/302/403), zwischen 5 000 und 10 000 Schritten springt k = 101 von ≈ 5 auf ≈ 300 × Median, danach wachsen die Vielfachen von 101 – aus der Spur der Reihenfolge wird eine Mode von Z_p. Ein Seed, nur Energie.
+- Nebenarm wd 1.0 (`52a8`) läuft, wird beschreibend berichtet.
 
 ## Ergebnis
 

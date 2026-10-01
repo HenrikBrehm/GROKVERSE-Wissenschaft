@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 14:59 Berlin (Sitzung 70, läuft) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 15:54 Berlin (Sitzung 71, läuft) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -25,7 +25,7 @@ Reihenfolge (14:10 gemessen): `52a6_exp141_alpha` (**EXP-141**, 11/12 fertig) �
 
 **S69-Befunde:** EXP-140 „Konstruktion ermöglicht Generalisierung“ (401/14 000: R 0/3 in 30 000, E ≈ 5 500; Pilot). EXP-142 „Frequenzstruktur nötig“ (permutierte F-Gewichte U 0/3; Pilot). Post hoc EXP-139: W_E ist auch in nie generalisierenden Zellen gesteuert (Δ_pow 2.0–3.6 ≫ Placebo-q99 0.3–0.4, 6/6; `posthoc_nolearn_s69.json`). Iso-Zeit-Paarzahlen wachsen ≈ p^1.2 (oder p ln p, nicht trennbar; beschreibend). Beides unabhängig nachgerechnet; Prägung schon bei Schritt 50–250 (frühe Gradienten-Einprägung, nicht „Memorisierung“).
 
-**EXP-143** ([[experiments/EXP-143-ledoux-regime/README|README]], neu S70, Pilot): LeDoux-Regime p = 9973, 300 000 Paare, Batch 256; Arme R/F × iid/stride, Seed 14300; Lesarten Q1–Q3 vorab, gelten für den wd-0.1-Satz (Nachtrag c: wd 1.0 lernt bei kleinem B/N in L0 nicht); Nachtrag d (unabhängige Prüfung): Stride-Familie |99k mod p| ≤ 26, Q3 nur bei generalisiertem Arm, Q2/Q3 an den 600k-Armen. Erst nach R15 (Dienst). Läuft über den neuen Wrapper `lab/tools/freq_ban_large.py` (gestückelte Auswertung, Trainer unverändert; Gleichwertigkeit bei p 113 bitgleich geprüft). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-143-ledoux-regime/analyze.py [--traj]` (gen, Top-5, Ziel- und Stride-Leistung 101 ± 1 / 1914 ± 1, getrennt nach wd).
+**EXP-143 läuft seit 15:48 beim Dienst (S71):** wd-0.1-Arme ≈ 100 Schritte/s je Lauf (250 000 Schritte ≈ 45–60 min); bei Start Train ≈ 0.2, Test ≈ 0. **Nachtrag f ausgewertet (S71, nachgerechnet):** frühe Prägung durch Menge 3/3 Seeds, Stride k = 101 3/3; Oberwellen „unklar“ (schwach). Seeds 14300–14302 gesehen. **EXP-143** ([[experiments/EXP-143-ledoux-regime/README|README]], neu S70, Pilot): LeDoux-Regime p = 9973, 300 000 Paare, Batch 256; Arme R/F × iid/stride, Seed 14300; Lesarten Q1–Q3 vorab, gelten für den wd-0.1-Satz (Nachtrag c: wd 1.0 lernt bei kleinem B/N in L0 nicht); Nachtrag d (unabhängige Prüfung): Stride-Familie |99k mod p| ≤ 26, Q3 nur bei generalisiertem Arm, Q2/Q3 an den 600k-Armen. Erst nach R15 (Dienst). Läuft über den neuen Wrapper `lab/tools/freq_ban_large.py` (gestückelte Auswertung, Trainer unverändert; Gleichwertigkeit bei p 113 bitgleich geprüft). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-143-ledoux-regime/analyze.py [--traj]` (gen, Top-5, Ziel- und Stride-Leistung 101 ± 1 / 1914 ± 1, getrennt nach wd).
 
 ## Nächste Schritte
 

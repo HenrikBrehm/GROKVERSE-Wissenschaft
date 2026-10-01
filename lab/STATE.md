@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 08:21 Berlin (Sitzung 67, Ende) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 08:40 Berlin (Sitzung 68) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -11,22 +11,22 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Lage (Kurzform)
 
-- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion, K4–K4e, R2–R12, K5, L0 (Minibatch), N54b (Festlegung ≈ √(N/B)), LM1/LM1-F, LM3/LM3-F. **Neu S66: L0b teilweise bestätigt** (B = 16: Reihenfolge verschiebt O-Anteil auf Zufallssplits +0.063, H1; auf konstruierten +0.022, H2 *nicht* bestätigt → keine Aussage „Menge gewinnt“; Steuerung bleibt H3; Verzögerung ×1.5 H4; unabhängig nachgerechnet). Paper §6, Anhang J (Abb. J1), Grenzen, Abstract (1916 Zeichen), unabhängig geprüft und eingearbeitet; Manuskript neu gebaut. **EXP-136** (S66): K2 hält bei p 211/307 mit 30 % (Δ_pow 8.5–12.4); mit 3831 Paaren generalisiert kein Lauf (Pilot; S67 in Anhang A). **Neu S67: R14 bestätigt** (K2 bei add 307 mit 10 % Daten nach gen, über Placebo, 12/12; Nachrechnung offen). **R13 bestätigt** – K2 (W_E-Spektrum) auch unter geclipptem SGDm (7.80 / 4.78, je 15/15); EXP-138: Paarstruktur trägt; Paper Grenze (i) + Anhang J, unabhängig nachgerechnet und geprüft.
+- **Bestätigt ([[FINDINGS]]):** K2 (4 Aufgaben + MLP/4× Breite/Integer/2 Schichten), K2-Funktion, K4–K4e, R2–R12, K5, L0 (Minibatch), N54b (Festlegung ≈ √(N/B)), LM1/LM1-F, LM3/LM3-F. **Neu S66: L0b teilweise bestätigt** (B = 16: Reihenfolge verschiebt O-Anteil auf Zufallssplits +0.063, H1; auf konstruierten +0.022, H2 *nicht* bestätigt → keine Aussage „Menge gewinnt“; Steuerung bleibt H3; Verzögerung ×1.5 H4; unabhängig nachgerechnet). Paper §6, Anhang J (Abb. J1), Grenzen, Abstract (1916 Zeichen), unabhängig geprüft und eingearbeitet; Manuskript neu gebaut. **EXP-136** (S66): K2 hält bei p 211/307 mit 30 % (Δ_pow 8.5–12.4); mit 3831 Paaren generalisiert kein Lauf (Pilot; S67 in Anhang A). **Neu S67: R14 bestätigt** (K2 bei add 307 mit 10 % Daten nach gen, über Placebo, 12/12; S68 unabhängig nachgerechnet, im Paper: Grenze (ii), Anhang A.2, Tabelle 1). **R13 bestätigt** – K2 (W_E-Spektrum) auch unter geclipptem SGDm (7.80 / 4.78, je 15/15); EXP-138: Paarstruktur trägt; Paper Grenze (i) + Anhang J, unabhängig nachgerechnet und geprüft.
 - **Piloten LM (Anhang K):** EXP-129 (≈ 4.5 % Rechen-Tokens, K2 hält, S67), EXP-125 (29.5 M), EXP-134 (Text-Vortraining; Zahlzeilen-Wachstum = 96 % gemeinsame Verschiebung, S66), **EXP-135 „Festlegung mit dem Lernen“** (S66: Wechsel bei 250/1000 überschrieben, bei 3000 hält F).
 - **Pythia-Linie geschlossen.** Paper laborseitig fertig; offen nur Nutzerentscheidungen ([[paper/STATUS]]).
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`)
 
-Leer (08:21). R14 fertig (24/24) und mit der eingefrorenen Auswertung **bestätigt** (D = 5.28 [4.72, 5.81], 12/12).
+**EXP-139** (Pilot, Paarzahl statt Anteil, 36 Läufe) seit 08:34 als `52a_exp139_p401` (läuft, 4 Worker), `52b_exp139_p503`, `52c_exp139_p613` (warten; Speicher). gpu_gb live korrigiert auf 4.0 / 6.0 / 9.0 (p 401 belegt ≈ 3.7 GB je Lauf, p 613 allein 7.6 GB allokiert). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-139-pair-count/analyze.py` (Lesarten vorab, Selbsttest grün). Erwartete Dauer: 401 ≈ 20–40 min, 503 ≈ 40–80 min, 613 bis ≈ 4 h (ein Worker).
 
-Fertig und ausgewertet in S67: EXP-128 („nicht auswertbar“), **R13 bestätigt** (a77dbebb), EXP-138 („Paarstruktur trägt“), EXP-129 („K2 hält im LM“ bei ≈ 4.5 %), EXP-137 („K2 hält bei p mit weniger Daten“, beide p). Vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`. Hinweis: Der Dienst beendet sich bei leerer Warteschlange; neue Dateien ggf. mit `powershell -NoProfile -Command "Start-ScheduledTask -TaskName GROKVERSE-GPU-Daemon"` sofort starten.
+Vor dem Ablegen status.json prüfen; Jobdateien außerhalb von inbox schreiben, dann `mv`. Der Dienst beendet sich bei leerer Warteschlange; neue Dateien mit `powershell -NoProfile -Command "Start-ScheduledTask -TaskName GROKVERSE-GPU-Daemon"` sofort starten.
 
 ## Nächste Schritte
 
-1. **R14** ist ausgewertet (bestätigt, `lab/confirm/R14_summary.json`); offen: unabhängige Nachrechnung (eigener numpy-Code) und Paper nach [[paper/R14_DEUTUNGEN]] (Grenze (ii) + Anhang A.2), Textprüfung.
-2. Paper ist sonst laborseitig aktuell (S67: Anhang A.2 EXP-136/137, Grenze (i) R13/EXP-138, Anhang J R13, Anhang K EXP-129, Abbildungsnummern). Offen nur Nutzerentscheidungen ([[paper/STATUS]]).
-3. GPU-Folgearbeit (nur mit Begründung, Regel 15b): (a) shuf-Block unter SGD (BACKLOG 4) nur, falls das Paper es braucht; (b) Mindest-Paarzahl statt Anteil (EXP-137: 9425 Paare generalisieren, 4452 nicht) – Pilot bei p 211 mit ≈ 9425 Paaren (≈ 21 %)? schon durch f20/f15 abgedeckt; eher p 401 mit ≈ 9425 Paaren (5.9 %).
-4. Tageserklärung ab 02.10.: [[paper/erklaerung/ERKLAERUNG_2026-10-02]] (R14, EXP-137, EXP-129).
+1. **EXP-139** beobachten und auswerten (Lesarten Frage 1/2 im README); Paper nur nach einer vorab geschriebenen Vorlage (paper/EXP139_DEUTUNGEN, noch anzulegen, vor dem Ergebnis).
+2. Tageserklärung ab 02.10.: [[paper/erklaerung/ERKLAERUNG_2026-10-02]] (R14, EXP-137, EXP-129, ggf. EXP-139).
+3. Paper sonst laborseitig aktuell; offen nur Nutzerentscheidungen ([[paper/STATUS]]).
+4. GPU-Folgearbeit nur mit Begründung (Regel 15b): shuf-Block unter SGD (BACKLOG 4) nur, falls das Paper es braucht.
 
 ## Nicht ändern (Hashes gebunden)
 

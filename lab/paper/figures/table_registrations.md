@@ -27,3 +27,5 @@
 | LM1 | K2 in a small language model (~79 % arithmetic tokens) | 2b70d8b9 | 4000–4009 | 10 | 20 | `lab/confirm/LM1_REGISTRATION.md` |
 | LM1F | K2-function in the LM1 models (ablation, no new training) | bfdab8d8 | 4000–4009 | 10 | 0 (reuses LM1) | `lab/confirm/LM1F_REGISTRATION.md` |
 | LM3 | K2 in the language model at ~8.7 % arithmetic tokens | ff1288a5 | 4010–4019 | 10 | 20 | `lab/confirm/LM3_REGISTRATION.md` |
+| R13 | K2 under clipped full-batch SGD with momentum | a77dbebb | 4400–4429 | 30 | 60 | `lab/confirm/R13_REGISTRATION.md` |
+| R14 | K2 at add 307 with 10 % data, after generalization | 68a0209c | 4430–4441 | 12 | 24 | `lab/confirm/R14_REGISTRATION.md` |

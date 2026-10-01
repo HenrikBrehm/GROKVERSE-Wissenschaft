@@ -27,7 +27,9 @@ BLOCKS = [("P1", "K2 (steering; add 113, mul 113, add 97, D59)"), ("P2d", "K2-fu
           ("L0", "K2 under i.i.d. minibatches (batch 256, 64)"), ("N54b", "minibatch lock-in clock vs batch size and lr"),
           # session 61: blocks confirmed in sessions 53-60 that the short draft cites
           ("R12", "R5 speed-up in add 97 and mul 113"), ("LM1", "K2 in a small language model (~79 % arithmetic tokens)"),
-          ("LM1F", "K2-function in the LM1 models (ablation, no new training)"), ("LM3", "K2 in the language model at ~8.7 % arithmetic tokens")]
+          ("LM1F", "K2-function in the LM1 models (ablation, no new training)"), ("LM3", "K2 in the language model at ~8.7 % arithmetic tokens"),
+          # session 68: blocks confirmed in session 67 that the short draft cites
+          ("R13", "K2 under clipped full-batch SGD with momentum"), ("R14", "K2 at add 307 with 10 % data, after generalization")]
 FILE_ID = {"N54b": "N54B"}   # manifest/job file names that differ from the block id
 NO_JOBS = {"LM1F"}             # re-analysis of stored LM1 models: no job list of its own
 

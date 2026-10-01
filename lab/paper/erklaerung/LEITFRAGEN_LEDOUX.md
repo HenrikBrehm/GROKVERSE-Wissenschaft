@@ -40,3 +40,14 @@ Angelegt in Sitzung 71 nach Regel 23: nur Fragen und Lesehinweise, keine fertige
 - Kann ich R15 in drei Sätzen einem Mitschüler erklären, ohne das Wort „Frequenz“ zu benutzen?
 - Welcher Teil von EXP-143 ist *unser* Ergebnis und welcher Teil steht schon bei LeDoux?
 - Was müsste EXP-144 zeigen, damit sich die Frage „Menge gegen Reihenfolge“ bei 0,3 % Daten überhaupt stellen lässt?
+
+## Nachtrag nach EXP-144 (Sitzung 72, 01.10. abends): Fragen zum Ergebnis
+
+Ergebnis in einem Satz (Zahlen in der [[experiments/EXP-144-ledoux-width/README|EXP-144-README]]): Das 4-fach breite Netz lernt bei zufälliger Reihenfolge ≈ 90 % der Trainingsaufgaben auswendig, bei sortierter Reihenfolge nur ≈ 26 %; die Regel lernt kein Lauf.
+
+- **Auswendig vs. Regel:** Was bedeutet Train 0.91 bei Test 0.001? Wie viele der 20 000 Testaufgaben sind das, und wie viele würde man durch Raten treffen (Tipp: 1/9973)?
+- **Breite:** Warum könnte ein breiteres Netz leichter auswendig lernen, ohne der Regel näher zu kommen? Was misst die Breite eigentlich – Speicherplatz oder Struktur?
+- **Sortierte Reihenfolge:** Warum lernt das Netz bei sortierter Reihenfolge die Trainingsaufgaben *schlechter* als bei zufälliger, obwohl es dieselben Aufgaben gleich oft sieht? (Denk daran, was jeder Batch dann enthält.)
+- **303, 202, 101:** In den Stride-Armen ist nicht 101 die stärkste Frequenz, sondern 303. Rechne 3 · 101 und 2 · 101 nach. Was sagt das über die Form der Funktion, die W_E speichert?
+- **wd 1.0:** Mit sehr starkem Weight Decay lernt kein Lauf etwas, aber in den Stride-Armen besteht W_E danach zu 85 % aus der Stride-Signatur. Wie kann ein Netz eine Struktur „tragen“, die ihm beim Lösen gar nicht hilft?
+- **Ehrlich berichten:** Warum ist „kein Lauf generalisiert im Budget“ kein Beleg dafür, dass LeDoux unrecht hat? Welche drei Unterschiede zu LeDoux' Aufbau würdest du einem Gutachter nennen?

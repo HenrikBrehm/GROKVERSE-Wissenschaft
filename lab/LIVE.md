@@ -1,30 +1,25 @@
 ---
 tags: [lab/live]
 ---
-# LIVE: Laborsitzung 71
+# LIVE: Laborsitzung 72
 
-- **Sitzungsstart:** 2026-10-01 15:19 Berlin (13:19Z, vom Runner)
-- **Deadline:** 2026-10-01 18:19 Berlin (16:19Z)
-- **Zuletzt aktualisiert:** 17:41
+- **Sitzungsstart:** 2026-10-01 17:49 Berlin (15:49Z, vom Runner)
+- **Deadline:** 2026-10-01 20:49 Berlin (18:49Z)
+- **Zuletzt aktualisiert:** 19:27
 
 ## Gerade
 
-- **Sitzung 71 beendet.** Pause nach der LeDoux-Linie (Regel 23) ist vorgemerkt; es rechnen nur noch EXP-144 (3 Läufe) und die Reste des EXP-143-Nebenarms beim GPU-Dienst.
-- Nächster geplanter Start: 01.10. 18:54 Berlin (wertet EXP-144 aus, danach „Pause aktiv“).
+- **Pause aktiv (Regel 23).** Die LeDoux-Linie ist vollständig ausgewertet und nachgerechnet. Der GPU-Dienst ist leer; es laufen keine Trainings.
+- **Sitzung 72 beendet.** Nächster geplanter Start: 01.10. 21:24 Berlin (runner-state.json). Er macht nur eine kurze Lagekontrolle und endet wieder mit „Pause aktiv“, bis du die Pause aufhebst.
 
 ## Als Nächstes
 
-1. EXP-144 auswerten (nächste Sitzung).
-2. Danach Pause (Regel 23).
+- Nichts rechnen. Für dich: neue Fragen zu EXP-144 in [[paper/erklaerung/LEITFRAGEN_LEDOUX]] (unten).
 
 ## Verlauf dieser Sitzung
-- 17:41 EXP-144, erster Lauf fertig: Das breitere Netz lernt 86 % der Trainingsaufgaben (kleines: 36 %), aber nicht die Regel. Sitzung gesichert.
-- 17:26 EXP-143 fertig: auch nach 512 Durchgängen kein Lernen der Regel → keine Aussage zu Menge gegen Reihenfolge; unabhängig nachgerechnet. Leitfragen zur LeDoux-Linie für dich angelegt ([[paper/erklaerung/LEITFRAGEN_LEDOUX]]).
-- 16:56 EXP-143 (250 000 Schritte) ausgewertet: keine Aussage zu Menge gegen Reihenfolge, weil das kleine Netz nichts lernt. Nachfolger EXP-144 mit 4-mal breiterem Netz geprüft, getestet und eingereicht.
-- 16:30 Paper: R15-Text nach unabhängiger Prüfung korrigiert (u. a. ein Fehler beim Zusammenbau des Manuskripts behoben).
-- 16:27 R15 unabhängig nachgerechnet (alle Werte stimmen); FINDINGS, Übersicht und Paper ergänzt.
-- 16:25 **R15 fertig: beide Lagen bestätigt** (Zahlen bis 400 mit 14 000 Paaren und bis 306 mit 9425 Paaren). Gezielt: 10/10 lernen. Zufall gleicher Größe: 0/10.
-- 15:54 EXP-143 gestartet (15:48): drei Läufe auf der Grafikkarte, schnell und stabil.
-- 15:34 **Vorläufe EXP-143 über 3 Seeds:** In allen drei prägt die gezielte Auswahl ihre 5 Ziele, und die sortierte Reihenfolge hebt Frequenz 101 auf Platz 1 (unabhängig nachgerechnet). Ob die Reihenfolge ein ganzes Muster ihres Sortierschlüssels einprägt (Oberwellen), bleibt unklar – das Signal ist zu schwach. Gromov-Zitat im Volltext wörtlich bestätigt.
-- 15:24 Seed 14301 wiederholt beide frühen Effekte: Die gezielte Auswahl prägt ihre 5 Ziele, die sortierte Reihenfolge hebt k = 101 auf Rang 1. Oberwellen-Test vorab im JOURNAL festgelegt.
-- 15:21 Start; STATE gelesen, kein STOP, Fenster offen; Dienst läuft (R15 20/30).
+- 19:25 Nebenarm EXP-143 (starker Weight Decay) fertig: lernt gar nichts; in den Läufen mit sortierter Reihenfolge besteht die Einbettung danach aber fast nur aus dem Muster der Reihenfolge. Damit ist EXP-143 abgeschlossen.
+- 19:19 **EXP-144 fertig und nachgerechnet:** Kein Lauf lernt die Regel. Bei zufälliger Reihenfolge lernt das breite Netz 86–91 % der Trainingsaufgaben auswendig, bei sortierter nur ≈ 26 %. „Menge gegen Reihenfolge“ bleibt bei 0,3 % Daten offen. Korrektur: Stärkste Frequenz bei sortierter Reihenfolge ist 303, nicht 101.
+- 18:57 F-stride 111 500/250 000: Train 0.36, Test ≈ 0.001.
+- 18:38 **EXP-144, 3 von 4 Läufen:** Das breite Netz lernt die Trainingsaufgaben fast (Spitze 91 %, Ende 86 %), aber keiner der Läufe lernt die Regel. Damit wieder keine Aussage zu „Menge gegen Reihenfolge“. Das passt zu LeDoux: Auch dort lernt die zufällige Reihenfolge nur auswendig.
+- 18:10 R-iid 108 500/250 000 Schritte: Train 0.88, Test ≈ 0; R-stride 107 500: Train 0.31, Test ≈ 0.001. Fertig ≈ 18:40.
+- 17:52 Start; STATE gelesen, kein STOP, Fenster offen; Dienst rechnet EXP-144 (1/4 fertig, 2 laufen, 1 wartet auf Speicher).

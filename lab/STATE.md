@@ -3,7 +3,7 @@ tags: [lab/state]
 ---
 # lab/STATE.md: aktueller Stand (höchstens ~80 Zeilen; Historie im [[JOURNAL]])
 
-_Zuletzt aktualisiert: 2026-10-01, 17:41 Berlin (Sitzung 71 beendet; **Regel 23: Pause nach der LeDoux-Linie**) (**Regel 20 Wochenplan gilt**; Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
+_Zuletzt aktualisiert: 2026-10-01, 19:26 Berlin (Sitzung 72; **Regel 23: Pause aktiv – LeDoux-Linie vollständig ausgewertet**) (Rechenfenster durchgehend bis 06.10. 00:00, dann bis 13:00)._
 
 Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [[BACKLOG]] · [[NOVEL_DIRECTIONS]] · [[paper/STATUS]] · [[reviews/ASTRA_2026-09-26|Astra-Review]]
 
@@ -17,7 +17,7 @@ Einstieg: [[LAB]] · Live: [[LIVE]] · [[FINDINGS]] · [[FINDINGS_DETAILS]] · [
 
 ## Beim GPU-Dienst (Regel 21, `lab/queue/status.json`)
 
-**Stand S71 (17:24) – REGEL 23 (Pause nach der LeDoux-Linie, Nutzer ≈ 17:15):** keine neuen Experimente/Jobdateien/Trainingsläufe. Dienst im DRAIN; danach laufen nur noch `52a7zzz_exp144_width` (EXP-144, 4 Läufe d 512, ≈ 1.8 h je Lauf) und die Reste von `52a8_exp143_ledoux` (wd-1.0-Nebenarm; F-iid fertig). EXP-139-Reste geparkt in `lab/queue/parked/` – **nicht wieder einreihen**. Ältere Angaben unten sind Historie.
+**Stand S72 (19:26) – REGEL 23, PAUSE AKTIV:** EXP-144 (4/4) und der EXP-143-Nebenarm wd 1.0 (4/4) sind fertig und ausgewertet; der Dienst hat keine offenen Dateien der LeDoux-Linie mehr. Keine neuen Jobdateien, nichts aus `lab/queue/parked/` wieder einreihen. **Stand S71 (17:24) – REGEL 23 (Pause nach der LeDoux-Linie, Nutzer ≈ 17:15):** keine neuen Experimente/Jobdateien/Trainingsläufe. Dienst im DRAIN; danach laufen nur noch `52a7zzz_exp144_width` (EXP-144, 4 Läufe d 512, ≈ 1.8 h je Lauf) und die Reste von `52a8_exp143_ledoux` (wd-1.0-Nebenarm; F-iid fertig). EXP-139-Reste geparkt in `lab/queue/parked/` – **nicht wieder einreihen**. Ältere Angaben unten sind Historie.
 
 Reihenfolge (14:10 gemessen): `52a6_exp141_alpha` (**EXP-141**, 11/12 fertig) → `52a7_r15_p401` (**R15** p 401, 30 Läufe, gpu_gb 4) → **`52a7z_exp143_wd01`** (**EXP-143 primär**, wd 0.1, 4 Läufe à 250 000 Schritte, gpu_gb 2.5, neu S70) → **`52a7zz_exp143_stride600k`** (2 Stride-Arme wd 0.1, 600 000 Schritte, raw_long; Q2/Q3 werden hier gelesen) → `52a8_exp143_ledoux` (Nebenarm wd 1.0) → `52b_exp139_p503` → `52c_exp139_p613`. Fertig: 52a, 52a5, 52a55 (EXP-140), **52a56 (R15 p 307, 30/30)**, **52a57 (EXP-142)**. Statuseinträge `52bz_…`/`52bzz_…` = Geister umbenannter Dateien (P-023; laufen am Ende leer). **Keine Jobdateien bei laufendem Dienst umbenennen** (Reihenfolge nur über neue Präfixe).
 
@@ -29,12 +29,11 @@ Reihenfolge (14:10 gemessen): `52a6_exp141_alpha` (**EXP-141**, 11/12 fertig) �
 
 **EXP-143 läuft seit 15:48 beim Dienst (S71):** wd-0.1-Arme ≈ 100 Schritte/s je Lauf (250 000 Schritte ≈ 45–60 min); bei Start Train ≈ 0.2, Test ≈ 0. **Nachtrag f ausgewertet (S71, nachgerechnet):** frühe Prägung durch Menge 3/3 Seeds, Stride k = 101 3/3; Oberwellen „unklar“ (schwach). Seeds 14300–14302 gesehen. **EXP-143 läuft seit 15:48 beim Dienst (S71):** wd-0.1-Arme ≈ 100 Schritte/s je Lauf (250 000 Schritte ≈ 45–60 min); bei Start Train ≈ 0.2, Test ≈ 0. **Nachtrag f ausgewertet (S71, nachgerechnet):** frühe Prägung durch Menge 3/3 Seeds, Stride k = 101 3/3; Oberwellen „unklar“ (schwach). Seeds 14300–14302 gesehen. **EXP-143** ([[experiments/EXP-143-ledoux-regime/README|README]], neu S70, Pilot): LeDoux-Regime p = 9973, 300 000 Paare, Batch 256; Arme R/F × iid/stride, Seed 14300; Lesarten Q1–Q3 vorab, gelten für den wd-0.1-Satz (Nachtrag c: wd 1.0 lernt bei kleinem B/N in L0 nicht); Nachtrag d (unabhängige Prüfung): Stride-Familie |99k mod p| ≤ 26, Q3 nur bei generalisiertem Arm, Q2/Q3 an den 600k-Armen. Erst nach R15 (Dienst). Läuft über den neuen Wrapper `lab/tools/freq_ban_large.py` (gestückelte Auswertung, Trainer unverändert; Gleichwertigkeit bei p 113 bitgleich geprüft). Auswertung: `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-143-ledoux-regime/analyze.py [--traj]` (gen, Top-5, Ziel- und Stride-Leistung 101 ± 1 / 1914 ± 1, getrennt nach wd).
 
-## Nächste Schritte (Regel 23)
+## Nächste Schritte (Regel 23 – Pause aktiv)
 
-1. **EXP-144** auswerten, sobald fertig (S71: F-iid fertig – kein gen, Train Spitze 0.911 / Ende 0.864; R-iid, R-stride, F-stride laufen, je ≈ 1 h): `PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-143-ledoux-regime/analyze.py --root lab/experiments/EXP-144-ledoux-width/raw --traj`; Q0 zuerst (Train ≥ 0.9?), dann Q1–Q3 nach README; unabhängig nachrechnen; README/LAB/JOURNAL. Kein Nachfolgeversuch (Regel 23).
-2. **EXP-143 Nebenarm wd 1.0** (`52a8`) nach Abschluss beschreibend in die README (F-iid: kein gen, Train 0.005, Test 0.003).
-3. EXP-143 primär ist ausgewertet (S71): Q1 keine Aussage, Q2 nicht im Budget (600k), Q3 nur beschreibend; LeDoux' Stride-Signatur reproduziert (bekannt, §5.1.2).
-4. Erlaubt nach Regel 23: Lernmaterial für den Nutzer als Leitfragen + Leseliste (nicht als fertiger Text), Tageserklärung. Keine neuen Ergebnisse ins Paper. Ist die LeDoux-Linie (inkl. EXP-144) ausgewertet: Sitzungen nach kurzer Lagekontrolle mit „Pause aktiv (Regel 23)“ in LIVE beenden.
+1. **Pause aktiv.** Die LeDoux-Linie ist abgeschlossen: EXP-143 (primär + Nebenarm wd 1.0) und EXP-144 (d 512) ausgewertet und nachgerechnet. Ergebnis: Kein Arm generalisiert in irgendeiner Einstellung; die Frage „Menge gegen Reihenfolge“ im LeDoux-Regime bleibt offen (Grenze (ii) im Paper unverändert). EXP-144: i.i.d. lernt mit d 512 auswendig (Train Spitze 0.91), Stride nicht (≈ 0.26); in den Stride-Armen dominieren 303 > 202 > 101.
+2. Jede weitere Sitzung: kurze Lagekontrolle (STOP, Dienst, LIVE), dann mit „Pause aktiv (Regel 23)“ in LIVE beenden, bis der Nutzer die Pause aufhebt. Keine neuen Experimente, Jobdateien oder Trainingsläufe; keine neuen Ergebnisse ins Paper.
+3. Erlaubt: Leitfragen/Leseliste für den Nutzer ([[paper/erklaerung/LEITFRAGEN_LEDOUX]]), Tageserklärung.
 
 ## Nicht ändern (Hashes gebunden)
 

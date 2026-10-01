@@ -1,8 +1,8 @@
 ---
 id: EXP-144
-status: laufend
+status: abgeschlossen
 datum: 2026-10-01
-tags: [exp/laufend]
+tags: [exp/abgeschlossen, befund/unklar]
 verwandt: ["[[experiments/EXP-143-ledoux-regime/README|EXP-143]]", "[[experiments/EXP-049-width-steering/README|EXP-049]]", "[[FINDINGS]]", "[[BACKLOG]]"]
 ---
 # EXP-144: LeDoux-Regime mit 4-facher Breite (d 512) – Pilot
@@ -44,6 +44,27 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 - **Hinweis zu Q0 (vor dem Lesen, ohne Änderung der Regel):** „Train ≥ 0.9 bis Schritt 250 000“ ist mehrdeutig (erreicht vs. am Ende). Berichtet werden beide Werte (Spitze und Ende); Q0 wird erst gelesen, wenn auch R-iid fertig ist.
 - Laufen beim Dienst: R-iid, R-stride, F-stride (je ≈ 1 h bei ≈ 100 Schritten/s).
 
-## Ergebnis
+## Ergebnis (Sitzung 72, 19:18 Berlin (gemessen); alle 4 Arme fertig, je 250 000 Schritte ≈ 214 Epochen)
 
-Offen.
+Auswertung: `EXP-143-ledoux-regime/analyze.py --root lab/experiments/EXP-144-ledoux-width/raw --traj`. **Kein Arm generalisiert.**
+
+| Arm | Train Spitze (Schritt) | Train Ende | Test höchstens | Top-5 am Ende | Ziele in Top-5 | T/med |
+|---|---|---|---|---|---|---|
+| F-iid | 0.911 (184 000) | 0.864 | 0.00095 | 1100, 1296, 1691, 2142, 2511 | 5 | 4.51 |
+| R-iid | 0.910 (184 000) | 0.862 | 0.00085 | 128, 1822, 2875, 3743, 4744 | 0 | 1.01 |
+| R-stride | 0.371 (122 000) | 0.254 | 0.00215 | 101, 202, 303, 504, 909 | 0 | 0.98 |
+| F-stride | 0.404 (120 000) | 0.270 | 0.0010 | 101, 202, 303, 1296, 2511 | 2 | 3.26 |
+
+**Lesarten (vorab):**
+- **Q0:** an der Spitze erfüllt (beide i.i.d.-Arme ≥ 0.9 ab Schritt 109 000), am Ende knapp nicht (0.864 / 0.862). Lesart: Die 4-fache Breite hebt die Anpassung an die Trainingsmenge von 0.36/0.41 (d 128) auf ≈ 0.9; Generalisierung bleibt im Budget aus. Mehr Breite allein macht das Regime für unsere Frage nicht lesbar.
+- **Q1 = „im Budget keine Aussage“** (F-iid und R-iid ohne gen).
+- **Q2 = „nicht im Budget“** (R-stride generalisiert nicht; Stride-Familie über k = 101 in den Top-5).
+- **Q3 nur beschreibend** (M1: F-stride generalisiert nicht). Muster wäre „beide“: Stride-Frequenzen (101 und Vielfache) und 2 der 5 F-Ziele in den Top-5.
+
+**Beschreibend:** In beiden Stride-Armen dominieren 303 > 202 > 101 (Verhältnis zum Median am Ende 129.5 / 93.6 / 77.6 in F-stride, 161.8 / 109.8 / 69.6 in R-stride; k = 101 also Rang 3, nicht Rang 1; über den Verlauf erreicht k = 101 bis ≈ 900 × Median). 202 und 303 liegen außerhalb der vorab definierten Stride-Familie (Residuen 52 und 78 > 26); Familienanteil und Familienmaß unterschätzen das Stride-Signal daher, Q2/Q3 ändern sich nicht. Die Stride-Reihenfolge senkt die Train-Genauigkeit gegenüber i.i.d. stark (0.25–0.27 gegen 0.86). Bei i.i.d. bleibt das Spektrum der R-Menge flach (Top-5 nur ≈ 1.2 × Median, also Rauschen), die F-Menge trägt ihre 5 Ziele durchgehend.
+
+**Einordnung:** passt zu LeDoux (§4.1.2/§5): i.i.d. lernt dort nur auswendig; Stride generalisiert dort erst bei Epoche 487 mit einem anderen Modell (2 Schichten, LayerNorm, Cosine-lr). Unser Budget (214 Epochen) und Modell (1 Schicht) reichen dafür nicht. Die Frage „Menge gegen Reihenfolge“ im LeDoux-Regime bleibt **offen**; Grenze (ii) im Paper bleibt unverändert. Kein Nachfolgeversuch (Regel 23).
+
+**Unabhängige Nachrechnung (19:19 gemessen, Claude-Agent, eigener numpy-Code, nur lesend):** alle Zahlen reproduziert; 4/4 completed, keine NaN, cuda, d 512, gleiche Init-Prüfsumme in allen Armen, Split-/Test-Hashes passen zu den Dateien. Übernommen: k = 101 ist Rang 3 (303 und 202 davor), ein früherer Eindruck „Rang 1“ war falsch; 202/303 liegen außerhalb der Familie. F-iid lief auf Commit d63580bc, die übrigen auf 201718a7 (kein Unterschied in lab/tools/ zwischen beiden).
+
+**Grenzen:** 1 Seed je Arm, Splits aus EXP-143 schon gesehen, ein Budget, andere Architektur als LeDoux. Exploration, keine Bestätigung.

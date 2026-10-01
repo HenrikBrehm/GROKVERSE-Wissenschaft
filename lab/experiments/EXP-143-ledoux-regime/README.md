@@ -134,6 +134,7 @@ Schritt 3000, T/med = Median der Zielleistungen / Median aller k; k = 101 als Le
 - **Das Modell lernt in diesem Regime nicht einmal die Trainingsmenge:** Train-Genauigkeit stagniert bzw. sinkt in der zweiten Hälfte (F-iid 0.38 bei 153 000 → 0.36). Die Frage „Menge gegen Reihenfolge“ ist mit d 128 hier nicht beantwortbar → Nachfolger [[experiments/EXP-144-ledoux-width/README|EXP-144]] (d 512).
 - **Beschreibend:** Die Menge prägt W_E auch ohne Lernen dauerhaft (F-iid: genau die 5 Ziele als Top-5 von Schritt 5000 bis 250 000, T/med Spitze ≈ 8). Die Stride-Reihenfolge erzeugt eine um zwei Größenordnungen stärkere Komponente bei k = 101 mit den exakten Vielfachen 202/303/404 (und k = 1); im Konfliktarm bleiben die Ziele daneben erhöht (T/med 4.8). Post hoc (JOURNAL S71 Zyklus 3): bis Schritt 5000 sind leicht die Oberwellen des Sortierschlüssels erhöht (201/302/403), zwischen 5 000 und 10 000 Schritten springt k = 101 von ≈ 5 auf ≈ 300 × Median, danach wachsen die Vielfachen von 101 – aus der Spur der Reihenfolge wird eine Mode von Z_p. Ein Seed, nur Energie.
 - Nebenarm wd 1.0 (`52a8`) läuft, wird beschreibend berichtet.
+- **Literatur (16:55):** Dieser Verlauf ist bei LeDoux beschrieben (§5.1.2: F = 101 Spitze ab Epoche 3, > 10× ab Epoche 14, dann 202 bei Epoche 21, 404 bei 39, 808 bei 61) – unser Modell reproduziert die Stride-Signatur, aber nicht sein Lernen (dort 90 % Train bei Epoche 140). #neu/bekannt.
 
 ## Ergebnis
 

@@ -5,12 +5,12 @@ tags: [lab/live]
 
 - **Sitzungsstart:** 2026-10-01 11:19 Berlin (09:19Z, vom Runner)
 - **Deadline:** 2026-10-01 14:19 Berlin (12:19Z)
-- **Zuletzt aktualisiert:** 12:03
+- **Zuletzt aktualisiert:** 12:28
 
 ## Gerade
 
 - **EXP-140 fertig:** Bei Zahlen bis 400 und 14 000 Paaren lernt das Netz mit gezielt gewählten Paaren nach ≈ 5 500 Schritten, mit gleich vielen *zufälligen* Paaren in 30 000 Schritten gar nicht (3 von 3 Seeds). Die Auswahl ersetzt dort fehlende Datenmenge (Vorversuch).
-- Deshalb **Bestätigungsblock R15** (10 frische Seeds, zwei Zellen, vorher festgelegt, unabhängig geprüft, eingefroren) beim GPU-Dienst: läuft seit 11:57 neben EXP-141 (4/12 fertig).
+- Deshalb **Bestätigungsblock R15** (10 frische Seeds, zwei Zellen, vorher festgelegt, unabhängig geprüft, eingefroren) beim GPU-Dienst: läuft seit 11:57: 6 von 30 Läufen (Zahlen bis 306) fertig. EXP-141 (5/12) und EXP-142 warten dahinter auf Grafikspeicher.
 
 ## Hinweis für den Assistenten (11:59)
 
@@ -22,6 +22,8 @@ tags: [lab/live]
 2. R15 auswerten nach 60/60 Läufen (nächste Sitzung).
 
 ## Verlauf dieser Sitzung
+- 12:27 Nachrechnung: alle Zahlen stimmen. Zwei meiner Deutungen waren zu stark und sind korrigiert: Die Prägung entsteht schon in den ersten 50–250 Schritten (vor dem Auswendiglernen); „p·log p“ ist von „p^1,2“ nicht zu unterscheiden.
+- 12:19 Lasse die beiden Nachauswertungen von heute unabhängig nachrechnen. Paper-Sätze für jeden R15-Ausgang vorab geschrieben.
 - 12:02 EXP-142 eingereiht: Liegt es an den Frequenzen oder nur daran, dass die Auswahl ungleichmäßig ist? Gleich ungleichmäßige Auswahl ohne Frequenzmuster, 3 Läufe.
 - 12:00 EXP-141: bei 16 100 Paaren lernen jetzt 2 Seeds mit beiden Datensätzen die Regel (spät).
 - 11:57 R15 eingefroren und eingereiht (60 Läufe).

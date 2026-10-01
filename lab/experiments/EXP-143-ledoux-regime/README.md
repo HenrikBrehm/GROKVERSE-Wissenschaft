@@ -85,7 +85,7 @@ bee06c667831d122cee63ba72e40b497bfa7acf9c95f7aafad657c825c789039 *split_add9973_
 
 ## Ergebnis Nachtrag e (Sitzung 70, 14:54 Berlin (gemessen); CPU, 1 Seed, 3000 Schritte ≈ 2.6 Epochen, Exploration)
 
-Kein Arm generalisiert in 3000 Schritten (erwartet; Test 1e-4). W_E-Spektrum bei Schritt 3000:
+Kein Arm generalisiert in 3000 Schritten (erwartet; Test 1e-4). W_E-Spektrum bei Schritt 3000 (Top-5 nach k sortiert, nicht nach Leistung):
 
 | Arm | Top-5 | T/med (Ziele) | k = 101 (Rang; Leistung/Median) | Familienanteil (Gleichvert. 0.0052) |
 |---|---|---|---|---|
@@ -99,6 +99,7 @@ Kein Arm generalisiert in 3000 Schritten (erwartet; Test 1e-4). W_E-Spektrum bei
 - **Konflikt (F-stride), beschreibend:** beide prägen nebeneinander – 101 auf Rang 1 und 3 der 5 Ziele in den Top-5; die Zielprägung ist schwächer als ohne Stride (T/med 1.36 gegen 1.66).
 - k = 151 steht schon bei der Initialisierung in den Top-5 (Init-Eigenheit, in allen Armen).
 - **Grenzen:** 1 Seed, CPU, keine Generalisierung, nur Repräsentationsenergie (keine Ablation), 3000 Schritte. Ob die frühe Prägung die spätere Lösung bestimmt, beantworten erst die GPU-Läufe.
+- **Unabhängige Nachrechnung (14:55, Claude-Agent, eigener numpy-Code, nur lesend):** alle Zahlen reproduziert. Placebo (10 000 zufällige 5er-Mengen ohne Ziele, Schritt 3000): beide F-Arme p < 1e-4 (Placebo-Maximum T/med ≈ 1.22), R-Arme p 0.62 / 0.92; Schritt 2000: F-iid p < 3e-4, F-stride p = 3e-4; Schritte 500/1000 nicht signifikant (p 0.2–0.77). k = 101: 2.00 / 2.76 × Median liegt über jedem Wert der i.i.d.-Arme (deren Maximum über alle k ≈ 1.45, 99.9-%-Quantil 1.34–1.47). **Übernommene Korrekturen:** (1) Der Stride-Effekt ist **eine einzelne Frequenz** (k = 101, genau am Rand der Familie: 99 · 101 ≡ 26), keine Anreicherung der Familie (ohne 101 Familienanteil 0.0050–0.0052; nächstbeste Familienränge 16/20 bzw. 230) – eine schwache frühe Prägung, keine Fourier-Lösung. (2) Die Mengenprägung ist ab ≈ 1.7 Epochen nachweisbar; „Top-5 = Ziele“ gilt nur für F-iid bei 2.56 Epochen, in F-stride ist sie schwächer (2511 nur Rang 8). k = 151 ist schon bei der Initialisierung oben (1.39 × bei Schritt 0), eine Init-Eigenheit.
 
 ## Ergebnis
 

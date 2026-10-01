@@ -1,8 +1,8 @@
 ---
 id: EXP-144
-status: vorbereitet
+status: laufend
 datum: 2026-10-01
-tags: [exp/vorbereitet]
+tags: [exp/laufend]
 verwandt: ["[[experiments/EXP-143-ledoux-regime/README|EXP-143]]", "[[experiments/EXP-049-width-steering/README|EXP-049]]", "[[FINDINGS]]", "[[BACKLOG]]"]
 ---
 # EXP-144: LeDoux-Regime mit 4-facher Breite (d 512) – Pilot
@@ -37,6 +37,12 @@ python lab/tools/guarded_run.py -- python lab/tools/test_freq_ban_large.py
 python lab/experiments/EXP-144-ledoux-width/make_jobs.py > lab/queue/staging/52a7zzz_exp144_width.jobs   (dann mv nach lab/queue/inbox/)
 PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments/EXP-143-ledoux-regime/analyze.py --root lab/experiments/EXP-144-ledoux-width/raw [--traj]
 ```
+
+## Zwischenstand (Sitzung 71, 17:40 Berlin (gemessen); 1 von 4 Armen fertig, keine Lesart gelesen)
+
+- **F-iid (d 512, 250 000 Schritte):** kein gen (Test höchstens 0.00095); Train-Genauigkeit steigt bis ≈ 15 000 Schritte auf ≈ 0.85, Spitze **0.911**, am Ende **0.864** (d 128: 0.36). Top-5 = die 5 Ziele von Schritt 2500 bis 250 000, T/med Spitze ≈ 5.5, am Ende 4.51; k = 101 neutral.
+- **Hinweis zu Q0 (vor dem Lesen, ohne Änderung der Regel):** „Train ≥ 0.9 bis Schritt 250 000“ ist mehrdeutig (erreicht vs. am Ende). Berichtet werden beide Werte (Spitze und Ende); Q0 wird erst gelesen, wenn auch R-iid fertig ist.
+- Laufen beim Dienst: R-iid, R-stride, F-stride (je ≈ 1 h bei ≈ 100 Schritten/s).
 
 ## Ergebnis
 

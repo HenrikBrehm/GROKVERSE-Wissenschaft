@@ -26,6 +26,10 @@ In EXP-143 (d 128, wd 0.1, 250 000 Schritte ≈ 213 Epochen) generalisiert keine
 - **Grenzen:** 1 Seed, Splits von EXP-143 schon gesehen (nur ihr Verhalten bei d 128), ein Budget, andere Architektur als LeDoux.
 - **Bereits gesehene Daten und davon beeinflusste Entscheidungen:** alle EXP-143-Ergebnisse bis 16:46 (drei fertige d-128-Arme, R-stride bis ≈ 100 000 Schritte; frühe CPU-Prägung, 3 Seeds) – sie haben die Wahl „mehr Breite“ und Q0 bestimmt; der d-512-Smoke (R-iid, 1500 Schritte).
 
+## Nachtrag a (Sitzung 71, 16:55 Berlin (gemessen), vor dem Start des ersten EXP-144-Laufs): LeDoux' Aufbau im Volltext
+
+LeDoux 2026 §4.1.2 (HTML-Volltext): zweischichtiger Pre-LayerNorm-Transformer, Einbettung 256, 4 Köpfe, Feedforward 2048; AdamW wd 0.1, β (0.9, 0.999), lr 1e-3 mit Cosine-Abfall über 5000 Epochen, Batch 256; Stride erreicht 90 % Train bei ≈ Epoche 140 und 99.5 % Test bei Epoche 487; **Random (i.i.d.) lernt dort nur auswendig und generalisiert in 5000 Epochen nicht.** Unser EXP-144: 1 Schicht ohne LayerNorm, d 512, Feedforward 2048 (gleich), β (0.9, 0.98), konstante lr, 213 Epochen. Folgen für die Lesart (keine Änderung an Q0–Q3): R-iid ohne gen ist bei LeDoux der erwartete Ausgang; die informative Zelle für Q1 ist F-iid; Q2 kann im 213-Epochen-Budget auch bei passendem Modell nur „nicht im Budget“ ergeben (LeDoux: Epoche 487).
+
 ## Befehle
 
 ```

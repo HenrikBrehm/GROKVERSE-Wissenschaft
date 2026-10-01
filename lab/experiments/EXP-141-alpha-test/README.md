@@ -11,7 +11,7 @@ Zurück zu [[LAB]]. **Exploration (3 Seeds × F/G je Zelle), keine Bestätigung.
 
 **Bezug zu FINDINGS:** K2 bei geringer Dichte (LeDoux-Einwand, Regel 20b). In den vergleichbaren 30 000-Schritt-Zellen trennt nur eine Schwelle N/p^α mit α ∈ [0.54, 1.78] Lernen von Nicht-Lernen. Zwei naheliegende Werte: α = 1 (jede Zahl-Einbettungszeile sieht ≈ 2N/p Paare je Schritt; Schwelle zwischen 27.8 [503/14 000 nein] und 30.7 [307/9425 ja]) und α = 5/3 (Margin-Theorie, Õ(p^{5/3}) Daten; Schwelle zwischen 0.595 [211/4452 nein] und 0.642 [401/14 000 ja]). EXP-139 trennt sie nicht. Begründung Regel 15b: ein einziger, scharf trennender Test statt weiterer Zellen; ersetzt in der Warteschlange den Vorrang der wenig informativen p-613-Zellen.
 
-## Vorab (Sitzung 68, 2026-10-01, geschrieben ≈ 10:15–10:22 Berlin, vor jedem EXP-141-Lauf)
+## Vorab (Sitzung 68, 2026-10-01, geschrieben 10:13–10:16 Berlin (gemessen), vor jedem EXP-141-Lauf)
 
 - **Frage:** Generalisiert add 503 mit N = 16 100 (N/p 32.0; N/p^{5/3} 0.51; 6.36 %) bzw. 18 100 Paaren (36.0; 0.57; 7.15 %) im Budget von 30 000 Schritten?
 - **Vorhersagen:** α = 1 → beide ja; α = 5/3 → beide nein.

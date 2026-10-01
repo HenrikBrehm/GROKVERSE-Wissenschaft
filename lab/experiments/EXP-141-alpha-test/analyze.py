@@ -1,4 +1,4 @@
-"""EXP-141 analysis (cloned from EXP-139 analyze.py, session 68 ~10:20 Berlin, before any EXP-141 run; only q1, EQ,
+"""EXP-141 analysis (cloned from EXP-139 analyze.py, session 68, 10:13-10:16 Berlin, before any EXP-141 run; only q1, EQ,
 paths, placebo salt and the self-test changed). EXP-141 reading (alpha test): both cells generalize -> 'passt zu alpha ~ 1 (Daten je Zahlzeile),
 nicht zu p^(5/3)'; neither -> 'passt zu p^(5/3), nicht zu alpha = 1 mit Schwelle <= 30.7'; only n18100 -> 'Schwelle in N/p bei p 503 zwischen 32 und 36
 (gegen 30.7 bei p 307): unentschieden'; only n16100 -> 'nicht monoton: unklar'. Q2 (steering) as EXP-139.

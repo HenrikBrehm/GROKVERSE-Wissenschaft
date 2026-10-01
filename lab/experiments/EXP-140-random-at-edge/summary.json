@@ -1,0 +1,34 @@
+{
+ "cells": [
+  {
+   "p": 401,
+   "cell": "n14000",
+   "verdict": "Konstruktion ermoeglicht Generalisierung",
+   "rows": [
+    {
+     "seed": 13900,
+     "gen_R": null,
+     "gen_E": 6150.0,
+     "final_test_R": 0.0012602093629539013,
+     "ratio": null
+    },
+    {
+     "seed": 13901,
+     "gen_R": null,
+     "gen_E": 5012.5,
+     "final_test_R": 0.002704341197386384,
+     "ratio": null
+    },
+    {
+     "seed": 13902,
+     "gen_R": null,
+     "gen_E": 5262.5,
+     "final_test_R": 0.0012261496158316731,
+     "ratio": null
+    }
+   ],
+   "problems": []
+  }
+ ],
+ "overall": "Inhaltssignal ersetzt Dichte (im Budget)"
+}

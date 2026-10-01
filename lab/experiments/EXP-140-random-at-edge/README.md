@@ -1,9 +1,9 @@
 ---
 id: EXP-140
-status: vorbereitet
+status: abgeschlossen
 datum: 2026-10-01
-tags: [exp/vorbereitet, neu/kandidat]
-verwandt: ["[[experiments/EXP-139-pair-count/README|EXP-139]]", "[[confirm/R5_REGISTRATION|R5]]", "[[FINDINGS]]", "[[NOVEL_DIRECTIONS]]"]
+tags: [exp/abgeschlossen, befund/positiv, neu/kandidat]
+verwandt: ["[[experiments/EXP-139-pair-count/README|EXP-139]]", "[[confirm/R5_REGISTRATION_DRAFT|R5]]", "[[FINDINGS]]", "[[NOVEL_DIRECTIONS]]"]
 ---
 # EXP-140: Generalisiert eine konstruierte Menge an der Datengrenze, wo eine gleich große Zufallsmenge es nicht tut? (Pilot)
 
@@ -34,4 +34,7 @@ PYTHONIOENCODING=utf-8 python lab/tools/guarded_run.py -- python lab/experiments
 
 ## Ergebnis
 
-Offen (vorbereitet; startet, sobald EXP-139 p 401/503 ausgewertet ist).
+**Sitzung 69 (01.10., 11:46 Berlin, gemessen), Pilot, nach Vorlage: Zelle 401/14 000 „Konstruktion ermöglicht Generalisierung“; gesamt „Inhaltssignal ersetzt Dichte (im Budget)“.** Alle 3 Zufallsarme R (Seeds 13900–13902, gleiche Init wie F/G) generalisieren in 30 000 Schritten nicht (Test 0.0012 / 0.0027 / 0.0012), die konstruierten Arme derselben Seeds bei gen_E 6150 / 5013 / 5263 (Mittel F/G). `analyze.py` → `summary.json`, keine Probleme.
+- **Zellenauswahl:** Nach der Vorab-Regel war nur 401/14 000 auswählbar (503/14 000 0/6; 503/9425 erst 2 von 6 Läufen fertig, beide ohne gen – formal noch offen, praktisch ausgeschlossen, da schon 14 000 Paare bei p 503 nicht reichen; wird nach Abschluss von EXP-139 geprüft).
+- **Lesart:** Bei 14 000 Paaren und p 401 (8.7 %) ersetzt die spektrale Konstruktion fehlende Dichte: Mit gleich vielen zufälligen Paaren lernt das Netz im Budget nicht, mit konstruierten nach ≈ 5 500 Schritten. Das ist R5 („konstruiert ≈ 6–7× früher“) an der Datengrenze in verschärfter Form (mindestens ×4.9–6.0, im Budget unbegrenzt) und die Mengen-Seite von LeDoux' §6.4.
+- **Grenzen:** Pilot (3 Seeds, eine Zelle, ein p), ein Budget (R kann später generalisieren; ein abgebrochener Lauf beweist nichts), Full-Batch, eine Architektur. Bestätigung nur mit frischen Seeds, eingefrorenem Manifest und – wichtiger – mindestens einer zweiten Zelle (z. B. 307/9425 oder 503/18 100).

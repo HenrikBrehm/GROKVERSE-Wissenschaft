@@ -11,7 +11,7 @@ Zurück zu [[paper/STATUS]] · [[confirm/R13_REGISTRATION]] · [[experiments/EXP
 
 ## Grenze (i), je Ausgang
 
-- **c01 und c0017 bestätigt:** *… was not evaluable; however, the steering of the embedding spectrum itself did not require Adam: under full-batch SGD with momentum and global gradient-norm clipping (learning rate 0.1, clip 0.1 or 0.017; R13, 15 fresh seeds each), Δ_pow at step 2000 was … [CI …] and … [CI …], although most runs had not fitted the training set by then. All results on learned solutions, persistence and timing are AdamW results.*
+- **c01 und c0017 bestätigt:** *… was not evaluable; however, the training set also steered the embedding spectrum under full-batch SGD with momentum and global gradient-norm clipping (learning rate 0.1, clip 0.1 or 0.017; R13, 15 fresh seeds each): Δ_pow at step 2000 was … [CI …] and … [CI …], although most runs had not fitted the training set by then; whether through pair structure or token frequencies was not separated under SGD. All results on learned solutions, persistence and timing are AdamW results.*
 - **nur c01 bestätigt:** wie oben, nur mit Clip 0.1; *with clip 0.017 (almost every step clipped) it was not confirmed (…).*
 - **nur c0017 bestätigt:** analog; Hinweis, dass der Standardfall (0.1) nicht bestätigt wurde.
 - **keiner bestätigt / nicht auswertbar:** Grenze (i) bleibt unverändert; Anhang J: *A confirmation of the embedding steering under clipped SGD with momentum (R13, …) was not confirmed (…) / not evaluable (…).*
@@ -22,3 +22,5 @@ Zurück zu [[paper/STATUS]] · [[confirm/R13_REGISTRATION]] · [[experiments/EXP
 - keine Aussage über gelernte Lösungen, Funktion (keine Ablation), Festlegung (K4) oder Geschwindigkeit (R5) unter SGD;
 - keine Deutung als Mechanismus („Adam-Normierung spielt keine Rolle“); höchstens: die Repräsentationsseite der Steuerung braucht Adams koordinatenweise Normierung nicht;
 - die Theorie erster Ordnung (Maskenspektrum im Gradienten) sagt diese Richtung für jedes Gradientenverfahren voraus – das wird als Einordnung genannt, nicht als neuer Befund.
+
+*Nachtrag 06:19 (nach der Prüfung vor dem Einfrieren):* Satz enger gefasst – unter SGD ist die Zählkontrolle (EXP-047 „shuf“) nicht gemacht; kein „did not require Adam“.

@@ -44,6 +44,7 @@ N_PER_COND, SEED_MIN, SEED_MAX = 15, 4400, 4429
 CONDS = ("c01", "c0017")
 CLIP = {"c01": 0.1, "c0017": 0.017}
 STEPS, SECONDARY_STEP, SGD_LR, SGD_MOM = 2000, 250, 0.1, 0.9
+REGISTERED_SEEDS = {"c01": list(range(4400, 4415)), "c0017": list(range(4415, 4430))}
 STOP_AFTER_GEN = 100_000                                 # never stop early: Delta_pow is read at 2000 in every run
 REGISTERED = {"experiment": EXPERIMENT, "p": P, "eps": EPS, "device": "cuda", "threads": 1, "steps": STEPS,
               "stop_after_gen": STOP_AFTER_GEN, "sgd_lr": SGD_LR, "sgd_momentum": SGD_MOM, "clip": dict(CLIP)}
@@ -68,6 +69,8 @@ def check_design(man: dict) -> None:
     flat = [x for v in seeds.values() for x in v]
     if len(set(flat)) != len(flat) or min(flat) < SEED_MIN or max(flat) > SEED_MAX:
         raise SystemExit(f"R13 manifest: seeds must be globally distinct and from the reserved block {SEED_MIN}-{SEED_MAX}")
+    if seeds != REGISTERED_SEEDS:                         # pre-freeze review s67: the registration fixes the assignment
+        raise SystemExit("R13 manifest: seeds differ from the registered assignment (c01 4400-4414, c0017 4415-4429)")
 
 
 def stem(cond: str, s: int, arm: str) -> str:
@@ -239,7 +242,7 @@ def analyze(manifest: Path) -> None:
 
 def selftest() -> None:
     seeds = {"c01": list(range(4400, 4415)), "c0017": list(range(4415, 4430))}
-    for bad in ({**seeds, "c01": seeds["c01"][:14]}, {**seeds, "c0017": seeds["c01"]}, {**seeds, "c01": [4400] * 15},
+    for bad in ({"c01": seeds["c0017"], "c0017": seeds["c01"]}, {**seeds, "c01": seeds["c01"][:14]}, {**seeds, "c0017": seeds["c01"]}, {**seeds, "c01": [4400] * 15},
                 {**seeds, "c0017": list(range(9000, 9015))}, {**seeds, "c01": [float(x) for x in seeds["c01"]]}, {"c01": seeds["c01"]}):
         try:
             check_design({"seeds": bad})

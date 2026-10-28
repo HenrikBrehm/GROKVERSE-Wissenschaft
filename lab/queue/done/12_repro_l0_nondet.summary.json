@@ -1,0 +1,11 @@
+{
+  "file": "12_repro_l0_nondet.jobs",
+  "finished_utc": "2026-09-29T08:27:28+00:00",
+  "jobs": 2,
+  "done": 2,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 3728 --split-file lab/paper/repro/out/l0/add113_steps30000_cuda/splits/seed3728_F.npy --test-file lab/paper/repro/out/l0/add113_steps30000_cuda/splits/seed3728_test.npy --steps 30000 --spectra-every 2500 --batch-size 64 --device cuda --threads 1 --out lab/paper/repro/out/l0_nondet/seed3728_F_bs64_rep1",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 3728 --split-file lab/paper/repro/out/l0/add113_steps30000_cuda/splits/seed3728_F.npy --test-file lab/paper/repro/out/l0/add113_steps30000_cuda/splits/seed3728_test.npy --steps 30000 --spectra-every 2500 --batch-size 64 --device cuda --threads 1 --out lab/paper/repro/out/l0_nondet/seed3728_F_bs64_rep2"
+  }
+}

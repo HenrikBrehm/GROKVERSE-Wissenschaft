@@ -1,0 +1,15 @@
+{
+  "file": "36_exp119_lm_r5.jobs",
+  "finished_utc": "2026-09-29T21:23:23+00:00",
+  "jobs": 6,
+  "done": 6,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3866 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3806_F.npy --test-file lab/experiments/EXP-119-lm-speed-r5/tests/seed3806_test.npy --steps 6000 --arith-facts 19 --loss answer --device cuda --out-root lab/experiments/EXP-119-lm-speed-r5/raw",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3866 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3806_G.npy --test-file lab/experiments/EXP-119-lm-speed-r5/tests/seed3806_test.npy --steps 6000 --arith-facts 19 --loss answer --device cuda --out-root lab/experiments/EXP-119-lm-speed-r5/raw",
+    "2": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3866 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3806_R.npy --test-file lab/experiments/EXP-119-lm-speed-r5/tests/seed3806_test.npy --steps 6000 --arith-facts 19 --loss answer --device cuda --out-root lab/experiments/EXP-119-lm-speed-r5/raw",
+    "3": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3867 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3807_F.npy --test-file lab/experiments/EXP-119-lm-speed-r5/tests/seed3807_test.npy --steps 6000 --arith-facts 19 --loss answer --device cuda --out-root lab/experiments/EXP-119-lm-speed-r5/raw",
+    "4": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3867 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3807_G.npy --test-file lab/experiments/EXP-119-lm-speed-r5/tests/seed3807_test.npy --steps 6000 --arith-facts 19 --loss answer --device cuda --out-root lab/experiments/EXP-119-lm-speed-r5/raw",
+    "5": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3867 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3807_R.npy --test-file lab/experiments/EXP-119-lm-speed-r5/tests/seed3807_test.npy --steps 6000 --arith-facts 19 --loss answer --device cuda --out-root lab/experiments/EXP-119-lm-speed-r5/raw"
+  }
+}

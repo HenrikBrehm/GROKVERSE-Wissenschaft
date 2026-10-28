@@ -1,0 +1,11 @@
+{
+  "file": "05_repro_l0_equiv.jobs",
+  "finished_utc": "2026-09-29T07:22:36+00:00",
+  "jobs": 2,
+  "done": 2,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 3720 --split-file lab/confirm/l0_splits/l0_seed3720_F.npy --test-file lab/confirm/l0_splits/l0_seed3720_test.npy --steps 2500 --spectra-every 250 --batch-size 256 --device cuda --threads 1 --out lab/paper/repro/out/l0_equiv/seed3720_F_bs256 --compare-to lab/confirm/l0_raw/EXP-018_baseline_seed3720_thr1_l0_seed3720_F_bs256_devcuda",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 3720 --split-file lab/confirm/l0_splits/l0_seed3720_F.npy --test-file lab/confirm/l0_splits/l0_seed3720_test.npy --steps 2500 --spectra-every 250 --batch-size 64 --device cuda --threads 1 --out lab/paper/repro/out/l0_equiv/seed3720_F_bs64 --compare-to lab/confirm/l0_raw/EXP-018_baseline_seed3720_thr1_l0_seed3720_F_bs64_devcuda"
+  }
+}

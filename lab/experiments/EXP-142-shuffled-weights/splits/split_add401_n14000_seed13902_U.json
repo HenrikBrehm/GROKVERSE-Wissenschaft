@@ -1,0 +1,32 @@
+{
+ "seed": 13902,
+ "p": 401,
+ "n_pairs": 14000,
+ "arm": "U",
+ "eps": 2.0,
+ "targets_F": [
+  45,
+  47,
+  61,
+  155,
+  166
+ ],
+ "mask_top5": [
+  27,
+  54,
+  103,
+  166,
+  194
+ ],
+ "mask_top5_overlap_F": 1,
+ "coverage_U": {
+  "sd_per_output": 5.484038306987971,
+  "sd_per_a": 5.531579062580487,
+  "min_per_output": 19
+ },
+ "coverage_F": {
+  "sd_per_output": 5.687178811660774,
+  "sd_per_a": 5.225094144686836,
+  "min_per_output": 21
+ }
+}

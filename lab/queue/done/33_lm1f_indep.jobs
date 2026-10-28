@@ -1,0 +1,2 @@
+#! workers=1 job_minutes=240 min_minutes=5 crash_minutes=0 gpu_gb=1
+C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/confirm/LM1F_independent_recompute.py --threads 4 --out lab/confirm/LM1F_independent_summary.json

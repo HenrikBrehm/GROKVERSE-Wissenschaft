@@ -1,0 +1,2 @@
+#! workers=1 job_minutes=180 min_minutes=5 crash_minutes=0 gpu_gb=1
+C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/confirm/confirm_lm1f.py

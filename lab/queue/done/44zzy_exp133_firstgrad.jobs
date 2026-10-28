@@ -1,0 +1,2 @@
+#! workers=1 job_minutes=60 min_minutes=5 stall_minutes=15 crash_minutes=10 gpu_gb=2.5
+C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-133-pythia-reset-numbers/first_gradient_reset.py --device cuda --threads 1

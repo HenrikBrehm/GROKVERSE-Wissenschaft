@@ -1,0 +1,11 @@
+{
+  "file": "37_exp121_flat_random.jobs",
+  "finished_utc": "2026-09-29T23:06:49+00:00",
+  "jobs": 2,
+  "done": 2,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3950 --split-file lab/experiments/EXP-121-lm-flat-random-arm/splits/s3850_Rf_m500.npy --test-file lab/experiments/EXP-121-lm-flat-random-arm/splits/s3850_Rf_test.npy --steps 4000 --arith-facts 19 --loss answer --device cuda --out-root lab/experiments/EXP-121-lm-flat-random-arm/raw",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3951 --split-file lab/experiments/EXP-121-lm-flat-random-arm/splits/s3851_Rf_m500.npy --test-file lab/experiments/EXP-121-lm-flat-random-arm/splits/s3851_Rf_test.npy --steps 4000 --arith-facts 19 --loss answer --device cuda --out-root lab/experiments/EXP-121-lm-flat-random-arm/raw"
+  }
+}

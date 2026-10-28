@@ -1,0 +1,18 @@
+{
+  "file": "44zzz_exp132_mul.jobs",
+  "finished_utc": "2026-09-30T19:43:41+00:00",
+  "jobs": 4,
+  "done": 0,
+  "failed": {
+    "0": "failed:stalled",
+    "1": "failed:stalled",
+    "2": "failed:stalled",
+    "3": "failed:stalled"
+  },
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-132-pythia-mul/ft_mul.py --seed 1000 --split-file lab/experiments/EXP-132-pythia-mul/splits/seed1000_F.npy --test-file lab/experiments/EXP-132-pythia-mul/splits/seed1000_test.npy --targets-file lab/experiments/EXP-132-pythia-mul/splits/seed1000.json --steps 4000 --out-root lab/experiments/EXP-132-pythia-mul/raw",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-132-pythia-mul/ft_mul.py --seed 1000 --split-file lab/experiments/EXP-132-pythia-mul/splits/seed1000_G.npy --test-file lab/experiments/EXP-132-pythia-mul/splits/seed1000_test.npy --targets-file lab/experiments/EXP-132-pythia-mul/splits/seed1000.json --steps 4000 --out-root lab/experiments/EXP-132-pythia-mul/raw",
+    "2": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-132-pythia-mul/ft_mul.py --seed 1001 --split-file lab/experiments/EXP-132-pythia-mul/splits/seed1001_F.npy --test-file lab/experiments/EXP-132-pythia-mul/splits/seed1001_test.npy --targets-file lab/experiments/EXP-132-pythia-mul/splits/seed1001.json --steps 4000 --out-root lab/experiments/EXP-132-pythia-mul/raw",
+    "3": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-132-pythia-mul/ft_mul.py --seed 1001 --split-file lab/experiments/EXP-132-pythia-mul/splits/seed1001_G.npy --test-file lab/experiments/EXP-132-pythia-mul/splits/seed1001_test.npy --targets-file lab/experiments/EXP-132-pythia-mul/splits/seed1001.json --steps 4000 --out-root lab/experiments/EXP-132-pythia-mul/raw"
+  }
+}

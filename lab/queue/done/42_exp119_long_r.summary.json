@@ -1,0 +1,10 @@
+{
+  "file": "42_exp119_long_r.jobs",
+  "finished_utc": "2026-09-30T03:44:49+00:00",
+  "jobs": 1,
+  "done": 1,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3866 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3806_R.npy --test-file lab/experiments/EXP-119-lm-speed-r5/tests/seed3806_test.npy --steps 16000 --arith-facts 19 --loss answer --device cuda --out-root lab/experiments/EXP-119-lm-speed-r5/raw_long"
+  }
+}

@@ -1,0 +1,313 @@
+{
+ "cells": [
+  {
+   "p": 503,
+   "cell": "n16100",
+   "train_frac": 0.06363409997272824,
+   "verdict_cal": "steuert",
+   "generalises": true,
+   "n_both_generalised": 3,
+   "n_evaluable": 3,
+   "n_not_generalised": 0,
+   "rows": [
+    {
+     "seed": 13910,
+     "gen": [
+      25600,
+      23100
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.9997298121452332
+      },
+      {
+       "train": 1.0,
+       "test": 0.9997171759605408
+      }
+     ],
+     "dpow_2000": 2.5868797619700574,
+     "dpow_post": 12.4509064572382,
+     "post_step": [
+      27000,
+      25000
+     ],
+     "dpow_pre": 9.452658283500355,
+     "pre_step": [
+      25000,
+      23000
+     ],
+     "placebo_q90": 3.3816827762191926,
+     "placebo_q99": 5.325817279965371,
+     "placebo_sd": 1.8357311506520688,
+     "top5_own_post": [
+      3,
+      4
+     ]
+    },
+    {
+     "seed": 13911,
+     "gen": [
+      28425,
+      17975
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 0.9998015761375427
+      }
+     ],
+     "dpow_2000": 2.40633885469291,
+     "dpow_post": 8.495084053248272,
+     "post_step": [
+      30000,
+      19000
+     ],
+     "dpow_pre": 6.361931120555424,
+     "pre_step": [
+      28000,
+      17000
+     ],
+     "placebo_q90": 3.072695361330576,
+     "placebo_q99": 4.340727331734962,
+     "placebo_sd": 1.556162466870177,
+     "top5_own_post": [
+      4,
+      3
+     ]
+    },
+    {
+     "seed": 13912,
+     "gen": [
+      15425,
+      14850
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 2.570792925527307,
+     "dpow_post": 11.859719497369484,
+     "post_step": [
+      17000,
+      16000
+     ],
+     "dpow_pre": 7.054886492865609,
+     "pre_step": [
+      15000,
+      14000
+     ],
+     "placebo_q90": 3.3382703557824644,
+     "placebo_q99": 5.145347615473444,
+     "placebo_sd": 1.752275275922604,
+     "top5_own_post": [
+      3,
+      3
+     ]
+    }
+   ],
+   "problems": []
+  },
+  {
+   "p": 503,
+   "cell": "n18100",
+   "train_frac": 0.07153895711219758,
+   "verdict_cal": "steuert",
+   "generalises": true,
+   "n_both_generalised": 3,
+   "n_evaluable": 3,
+   "n_not_generalised": 0,
+   "rows": [
+    {
+     "seed": 13910,
+     "gen": [
+      10275,
+      5575
+     ],
+     "final_acc": [
+      {
+       "train": 0.9991713166236877,
+       "test": 0.9975267052650452
+      },
+      {
+       "train": 1.0,
+       "test": 0.9999659657478333
+      }
+     ],
+     "dpow_2000": 4.05651970050592,
+     "dpow_post": 12.37829891341675,
+     "post_step": [
+      12000,
+      7000
+     ],
+     "dpow_pre": 7.525876380155667,
+     "pre_step": [
+      10000,
+      5000
+     ],
+     "placebo_q90": 3.4172380170490304,
+     "placebo_q99": 5.16472462455341,
+     "placebo_sd": 1.851029693489799,
+     "top5_own_post": [
+      5,
+      4
+     ]
+    },
+    {
+     "seed": 13911,
+     "gen": [
+      8775,
+      8175
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.9999915361404419
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 3.1708311745338866,
+     "dpow_post": 9.05282533218458,
+     "post_step": [
+      10000,
+      10000
+     ],
+     "dpow_pre": 6.164231300726636,
+     "pre_step": [
+      8000,
+      8000
+     ],
+     "placebo_q90": 3.1789850041960843,
+     "placebo_q99": 4.436545557340856,
+     "placebo_sd": 1.640563240023681,
+     "top5_own_post": [
+      5,
+      3
+     ]
+    },
+    {
+     "seed": 13912,
+     "gen": [
+      5200,
+      7425
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 0.9999915361404419
+      }
+     ],
+     "dpow_2000": 3.7569438792295093,
+     "dpow_post": 12.982638012504715,
+     "post_step": [
+      7000,
+      9000
+     ],
+     "dpow_pre": 7.485981768237271,
+     "pre_step": [
+      5000,
+      7000
+     ],
+     "placebo_q90": 3.1179050218831486,
+     "placebo_q99": 5.124148692203731,
+     "placebo_sd": 1.75382223162937,
+     "top5_own_post": [
+      3,
+      3
+     ]
+    }
+   ],
+   "problems": []
+  }
+ ],
+ "q1": {
+  "reading": "passt zu alpha ~ 1 (Daten je Zahlzeile), nicht zu p^(5/3)",
+  "generalises": {
+   "n16100": true,
+   "n18100": true
+  }
+ },
+ "q2": {
+  "reading": "K2 haelt bis zum kleinsten generalisierenden Anteil",
+  "smallest_fraction": 0.06363409997272824
+ },
+ "mask_prediction_check": {
+  "spearman_pooled": 0.6,
+  "n": 6
+ },
+ "threshold_fit": {
+  "fits": {
+   "pairs_per_p": true,
+   "fraction": false,
+   "n_pairs": true
+  },
+  "reading": "nicht getrennt"
+ },
+ "threshold_points": [
+  {
+   "p": 503,
+   "n_pairs": 16100,
+   "generalises": true,
+   "source": "EXP-139"
+  },
+  {
+   "p": 503,
+   "n_pairs": 18100,
+   "generalises": true,
+   "source": "EXP-139"
+  },
+  {
+   "p": 211,
+   "n_pairs": 4452,
+   "generalises": false,
+   "source": "EXP-137"
+  },
+  {
+   "p": 211,
+   "n_pairs": 6678,
+   "generalises": true,
+   "source": "EXP-137"
+  },
+  {
+   "p": 211,
+   "n_pairs": 8904,
+   "generalises": true,
+   "source": "EXP-137"
+  },
+  {
+   "p": 307,
+   "n_pairs": 9425,
+   "generalises": true,
+   "source": "EXP-137"
+  },
+  {
+   "p": 307,
+   "n_pairs": 14137,
+   "generalises": true,
+   "source": "EXP-137"
+  },
+  {
+   "p": 307,
+   "n_pairs": 18850,
+   "generalises": true,
+   "source": "EXP-137"
+  }
+ ]
+}

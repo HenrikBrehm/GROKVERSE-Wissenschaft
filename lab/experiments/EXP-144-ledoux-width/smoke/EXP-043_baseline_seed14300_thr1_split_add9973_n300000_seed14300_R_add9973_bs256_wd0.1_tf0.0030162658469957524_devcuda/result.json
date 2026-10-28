@@ -1,0 +1,329 @@
+{
+ "exp_id": "EXP-043",
+ "run_id": "EXP-043_baseline_seed14300_thr1_split_add9973_n300000_seed14300_R_add9973_bs256_wd0.1_tf0.0030162658469957524_devcuda",
+ "status": "completed",
+ "condition": "baseline",
+ "seed": 14300,
+ "t0": 2000,
+ "m": 5,
+ "ban_from_step": null,
+ "amendment": "2026-09-25b: projected grad + exp_avg; shrink_matched control",
+ "stop_after_generalization": 5000,
+ "split_seed": null,
+ "split_file": "lab/experiments/EXP-143-ledoux-regime/splits/split_add9973_n300000_seed14300_R.npy",
+ "test_file": "lab/experiments/EXP-143-ledoux-regime/splits/test_add9973_n20000.npy",
+ "switch_split_file": null,
+ "switch_step": null,
+ "split_value": null,
+ "warmup": 0,
+ "lr_scale": 1.0,
+ "we_init_scale": 1.0,
+ "plant_targets": null,
+ "plant_c": null,
+ "plant_noise": false,
+ "plant_delta_norm": null,
+ "pre_switch_betas": null,
+ "pre_switch_grad_every": 1,
+ "batch_size": 256,
+ "order": "iid",
+ "optimizer": "adamw",
+ "sgd_lr": null,
+ "sgd_momentum": 0.9,
+ "lr_scale_until": 250,
+ "lr_scale_after_switch": 1.0,
+ "lr_after_switch_steps": 500,
+ "alternate_every": 0,
+ "reset_at_switch": null,
+ "rewind_at_switch": null,
+ "rewind_from": null,
+ "spectra_at": [],
+ "device": "cuda",
+ "device_name": "AMD Radeon RX 7900 XT",
+ "init_checksum_shared": "58c07fbed1133230d7cf1b954d939f8979161f7aa8507354e8ebdc1acc54b098",
+ "max_steps": 1500,
+ "config": {
+  "p": 9973,
+  "task": "add",
+  "train_frac": 0.0030162658469957524,
+  "seed": 14300,
+  "arch": "transformer",
+  "d_model": 512,
+  "n_heads": 4,
+  "d_head": 128,
+  "d_mlp": 2048,
+  "n_ctx": 3,
+  "use_ln": false,
+  "init_scale": 1.0,
+  "lr": 0.001,
+  "weight_decay": 0.1,
+  "beta1": 0.9,
+  "beta2": 0.98,
+  "steps": 1500,
+  "grokfast": false,
+  "grokfast_alpha": 0.98,
+  "grokfast_lambda": 2.0,
+  "n_logged_steps": 150,
+  "device": "cuda",
+  "label": "",
+  "threads": 1,
+  "study": "arch25k",
+  "eval_every_train": 500,
+  "eval_every_test": 500,
+  "checkpoint_grid": [
+   0,
+   500,
+   1000,
+   2000,
+   3000,
+   4000,
+   5000,
+   6000,
+   7000,
+   8000,
+   9000,
+   10000,
+   12000,
+   14000,
+   16000,
+   18000,
+   20000,
+   22500,
+   25000
+  ],
+  "vocab_size": 9974,
+  "run_id": "txf_add_p9973_wd0.1_frac0.0030162658469957524_dm2048_seed14300_arch25k"
+ },
+ "fingerprint": "7ebde2506e8e395d02a64587f50c55c4825e686472eed192e4d1a7bd75e14a73",
+ "fingerprint_fields": {
+  "seed": 14300,
+  "condition": "baseline",
+  "t0": 2000,
+  "m": 5,
+  "steps": 1500,
+  "stop_after_gen": 5000,
+  "threads": 1,
+  "split_seed": null,
+  "switch_step": null,
+  "split_value": null,
+  "warmup": 0,
+  "alternate_every": 0,
+  "reset_at_switch": null,
+  "lr_scale": 1.0,
+  "we_init_scale": 1.0,
+  "spectra_at": [],
+  "p": 9973,
+  "task": "add",
+  "arch": "transformer",
+  "device": "cuda",
+  "save_model": false,
+  "split_file_sha256": "bee06c667831d122cee63ba72e40b497bfa7acf9c95f7aafad657c825c789039",
+  "test_file_sha256": "20dd43656d4d733f9cf46944bf16e6d849149914a58fc06c1b1875f9ade38284",
+  "switch_split_file_sha256": null,
+  "weight_decay": 0.1,
+  "train_frac": 0.0030162658469957524,
+  "batch_size": 256,
+  "fingerprint_version": 1
+ },
+ "split_hash": "b620df2bed041f2ceb10bf79f02f67594c0464822a24eda028e5889dabcd8c0e",
+ "test_hash": "e6938a98fe986de60508615ff8f4cd1017820085ad5940e07b2d2d43453e3485",
+ "switch_hash": null,
+ "git_commit": "80f0b6923ca41780c65dc0847095e5cc1effd314",
+ "versions": {
+  "python": "3.12.10",
+  "torch": "2.9.1+rocm7.2.1",
+  "numpy": "2.5.3"
+ },
+ "platform": "Windows-11-10.0.26200-SP0",
+ "argv": [
+  "lab/tools/freq_ban_large.py",
+  "--eval-every",
+  "500",
+  "--spectrum-every",
+  "500",
+  "--d-model",
+  "512",
+  "--",
+  "--seed",
+  "14300",
+  "--condition",
+  "baseline",
+  "--steps",
+  "1500",
+  "--stop-after-gen",
+  "5000",
+  "--threads",
+  "1",
+  "--device",
+  "cuda",
+  "--p",
+  "9973",
+  "--task",
+  "add",
+  "--train-frac",
+  "0.0030162658469957524",
+  "--split-file",
+  "lab/experiments/EXP-143-ledoux-regime/splits/split_add9973_n300000_seed14300_R.npy",
+  "--test-file",
+  "lab/experiments/EXP-143-ledoux-regime/splits/test_add9973_n20000.npy",
+  "--batch-size",
+  "256",
+  "--weight-decay",
+  "0.1",
+  "--out-root",
+  "lab/experiments/EXP-144-ledoux-width/smoke"
+ ],
+ "start_utc": "2026-10-01T14:45:22.568498+00:00",
+ "steps_completed": 1500,
+ "banned_freqs": null,
+ "events": {
+  "minibatch": {
+   "batch_size": 256,
+   "order": "iid",
+   "epochs_started": 2,
+   "steps_per_epoch": 1172,
+   "first_epochs": [
+    {
+     "step": 1,
+     "head_flat": [
+      41311855,
+      99376266,
+      12641115,
+      17821028,
+      82940437,
+      91194395,
+      26906031,
+      28326500,
+      4811399,
+      48833536,
+      37168578,
+      51102343
+     ],
+     "sha": "b5aedd8b082cb1c5"
+    },
+    {
+     "step": 1173,
+     "head_flat": [
+      96715229,
+      46234500,
+      93198519,
+      57635232,
+      46961819,
+      1868067,
+      53366254,
+      4598210,
+      46908639,
+      35306646,
+      68167767,
+      99218223
+     ],
+     "sha": "a7e6f5107b29c15e"
+    }
+   ]
+  }
+ },
+ "dense": {
+  "train_steps": [
+   0,
+   500,
+   1000,
+   1500
+  ],
+  "train_acc": [
+   8.333333333333333e-05,
+   0.0019933333333333335,
+   0.0012366666666666667,
+   0.016973333333333333
+  ],
+  "train_loss": [
+   9.211325872395832,
+   9.181806927083333,
+   9.170413854166666,
+   8.796053567708332
+  ],
+  "test_steps": [
+   0,
+   500,
+   1000,
+   1500
+  ],
+  "test_acc": [
+   5e-05,
+   0.0,
+   0.0,
+   0.0001
+  ],
+  "test_loss": [
+   9.212546875,
+   9.2097625,
+   9.210045703125,
+   9.3162728515625
+  ],
+  "eval_every_train": 500,
+  "eval_every_test": 500
+ },
+ "transitions": {
+  "primary": {
+   "train_thr": 0.99,
+   "test_thr": 0.95,
+   "memorization": {
+    "first_crossing_step": null,
+    "last_evaluated_step": 1500,
+    "eval_every": 500
+   },
+   "generalization": {
+    "first_crossing_step": null,
+    "last_evaluated_step": 1500,
+    "eval_every": 500
+   },
+   "grok_gap": null,
+   "grok_gap_interval": null
+  },
+  "sens_loose": {
+   "train_thr": 0.98,
+   "test_thr": 0.9,
+   "memorization": {
+    "first_crossing_step": null,
+    "last_evaluated_step": 1500,
+    "eval_every": 500
+   },
+   "generalization": {
+    "first_crossing_step": null,
+    "last_evaluated_step": 1500,
+    "eval_every": 500
+   },
+   "grok_gap": null,
+   "grok_gap_interval": null
+  },
+  "sens_strict": {
+   "train_thr": 1.0,
+   "test_thr": 0.99,
+   "memorization": {
+    "first_crossing_step": null,
+    "last_evaluated_step": 1500,
+    "eval_every": 500
+   },
+   "generalization": {
+    "first_crossing_step": null,
+    "last_evaluated_step": 1500,
+    "eval_every": 500
+   },
+   "grok_gap": null,
+   "grok_gap_interval": null
+  }
+ },
+ "elapsed_s": 39.7,
+ "sec_per_step": 0.02648,
+ "cuda_max_mem_mb": 2587.8,
+ "final_top_m_freqs": [
+  1386,
+  2114,
+  2672,
+  3404,
+  4036
+ ],
+ "final_acc": {
+  "train": 0.016973333333333333,
+  "test": 0.0001
+ },
+ "end_utc": "2026-10-01T14:46:02.279065+00:00"
+}

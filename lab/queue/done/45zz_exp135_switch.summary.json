@@ -1,0 +1,15 @@
+{
+  "file": "45zz_exp135_switch.jobs",
+  "finished_utc": "2026-10-01T02:30:46+00:00",
+  "jobs": 6,
+  "done": 6,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4100 --pair 4000 --t 250 --device cuda",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4101 --pair 4001 --t 250 --device cuda",
+    "2": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4100 --pair 4000 --t 1000 --device cuda",
+    "3": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4101 --pair 4001 --t 1000 --device cuda",
+    "4": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4100 --pair 4000 --t 3000 --device cuda",
+    "5": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-135-lm-switch-lockin/ft_switch.py --seed 4101 --pair 4001 --t 3000 --device cuda"
+  }
+}

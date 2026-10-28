@@ -9,6 +9,7 @@ tags: [lab/live]
 
 ## Gerade
 
+- **Runner angehalten (02.10., 02:32, Assistent mit Zustimmung des Nutzers; [[PROBLEME]] P-025).** Bis der Nutzer die Pause aufhebt, startet keine Laborsitzung mehr; die Angabe „Nächster geplanter Start“ unten gilt nicht mehr. Fortsetzen: `lab/runner/hourly_check_prompt.md`.
 - **Pause aktiv (Regel 23).** Lagekontrolle 02:30: keine STOP-Datei, GPU-Dienst idle (neu gestartet 02:28, PID 22868, keine Jobs, Inbox leer), nur der Dienst als Python-Prozess.
 - **Sitzung 115 beendet.** Nächster geplanter Start: 02.10. 06:04 Berlin (runner-state.json, 04:04Z). Er macht wieder nur eine kurze Lagekontrolle, bis du die Pause aufhebst.
 

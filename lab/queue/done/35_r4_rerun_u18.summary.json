@@ -1,0 +1,11 @@
+{
+  "file": "35_r4_rerun_u18.jobs",
+  "finished_utc": "2026-09-29T19:33:36+00:00",
+  "jobs": 2,
+  "done": 2,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2637 --split-file lab/paper/repro/out/r4/add113_steps8000_cuda/splits/u18_s1.npy --steps 8000 --spectra-every 250 --device cuda --threads 1 --out lab/paper/repro/out/r4_rerun_s53/u18_i1s1_a",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/paper/repro/train.py --seed 2637 --split-file lab/paper/repro/out/r4/add113_steps8000_cuda/splits/u18_s1.npy --steps 8000 --spectra-every 250 --device cuda --threads 1 --out lab/paper/repro/out/r4_rerun_s53/u18_i1s1_b"
+  }
+}

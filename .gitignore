@@ -19,3 +19,18 @@ lab/experiments/*/.failed
 lab/experiments/*/.refused
 lab/confirm/raw/
 lab/confirm/p3_raw/
+
+# lab/confirm: raw runs, smoke tests, bindings, splits, checkpoints
+lab/confirm/*_raw/
+lab/confirm/*_smoke/
+lab/confirm/*_bindings/
+lab/confirm/*_splits/
+*.pt
+*.npy
+lab/experiments/*/*/raw*/
+lab/queue/logs/
+lab/queue/*.lock
+lab/queue/status.json
+lab/queue/progress
+# private: contacts and draft mails (repo is public)
+lab/paper/outreach/

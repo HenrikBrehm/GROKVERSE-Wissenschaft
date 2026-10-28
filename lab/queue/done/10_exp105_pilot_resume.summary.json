@@ -1,0 +1,16 @@
+{
+  "file": "10_exp105_pilot_resume.jobs",
+  "finished_utc": "2026-09-29T08:20:45+00:00",
+  "jobs": 4,
+  "done": 2,
+  "failed": {
+    "1": "failed:124",
+    "2": "failed:124"
+  },
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3860 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3800_F.npy --test-file lab/experiments/EXP-105-lm-ladder-stage2/tests/seed3800_test.npy --steps 10000 --device cuda --out-root lab/experiments/EXP-105-lm-ladder-stage2/raw_pilot",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3860 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3800_G.npy --test-file lab/experiments/EXP-105-lm-ladder-stage2/tests/seed3800_test.npy --steps 10000 --device cuda --out-root lab/experiments/EXP-105-lm-ladder-stage2/raw_pilot",
+    "2": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3861 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3801_F.npy --test-file lab/experiments/EXP-105-lm-ladder-stage2/tests/seed3801_test.npy --steps 10000 --device cuda --out-root lab/experiments/EXP-105-lm-ladder-stage2/raw_pilot",
+    "3": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3861 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3801_G.npy --test-file lab/experiments/EXP-105-lm-ladder-stage2/tests/seed3801_test.npy --steps 10000 --device cuda --out-root lab/experiments/EXP-105-lm-ladder-stage2/raw_pilot"
+  }
+}

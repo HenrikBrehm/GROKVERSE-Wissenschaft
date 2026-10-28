@@ -1,0 +1,10 @@
+{
+  "file": "44zzy_exp133_firstgrad.jobs",
+  "finished_utc": "2026-09-30T17:54:39+00:00",
+  "jobs": 1,
+  "done": 1,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-133-pythia-reset-numbers/first_gradient_reset.py --device cuda --threads 1"
+  }
+}

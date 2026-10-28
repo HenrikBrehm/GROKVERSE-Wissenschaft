@@ -1,0 +1,367 @@
+{
+ "cells": [
+  {
+   "p": 401,
+   "cell": "n9425",
+   "train_frac": 0.05861281957201759,
+   "verdict_cal": "kein Lernen im Budget",
+   "generalises": false,
+   "n_both_generalised": 0,
+   "n_evaluable": 0,
+   "n_not_generalised": 6,
+   "rows": [
+    {
+     "seed": 13900,
+     "gen": [
+      null,
+      null
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.0011362435761839151
+      },
+      {
+       "train": 1.0,
+       "test": 0.0016316985711455345
+      }
+     ],
+     "dpow_2000": 1.614595042079439,
+     "dpow_post": null,
+     "post_step": null,
+     "dpow_pre": null,
+     "pre_step": null
+    },
+    {
+     "seed": 13901,
+     "gen": [
+      null,
+      null
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.0033823063131421804
+      },
+      {
+       "train": 1.0,
+       "test": 0.0017373956507071853
+      }
+     ],
+     "dpow_2000": 1.7468818140962925,
+     "dpow_post": null,
+     "post_step": null,
+     "dpow_pre": null,
+     "pre_step": null
+    },
+    {
+     "seed": 13902,
+     "gen": [
+      null,
+      null
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 0.0028075785376131535
+      },
+      {
+       "train": 1.0,
+       "test": 0.0009182433132082224
+      }
+     ],
+     "dpow_2000": 1.635466496196796,
+     "dpow_post": null,
+     "post_step": null,
+     "dpow_pre": null,
+     "pre_step": null
+    }
+   ],
+   "problems": []
+  },
+  {
+   "p": 401,
+   "cell": "n14000",
+   "train_frac": 0.08706413517328872,
+   "verdict_cal": "steuert",
+   "generalises": true,
+   "n_both_generalised": 3,
+   "n_evaluable": 3,
+   "n_not_generalised": 0,
+   "rows": [
+    {
+     "seed": 13900,
+     "gen": [
+      6575,
+      5725
+     ],
+     "final_acc": [
+      {
+       "train": 0.9959999918937683,
+       "test": 0.9895845055580139
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 3.9366951771263485,
+     "dpow_post": 11.559446196012491,
+     "post_step": [
+      8000,
+      7000
+     ],
+     "dpow_pre": 6.336147877995755,
+     "pre_step": [
+      6000,
+      5000
+     ],
+     "placebo_q90": 3.3745073050641063,
+     "placebo_q99": 5.552967866101285,
+     "placebo_sd": 1.8722357257226763,
+     "top5_own_post": [
+      4,
+      4
+     ]
+    },
+    {
+     "seed": 13901,
+     "gen": [
+      5600,
+      4425
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 4.7508441074444425,
+     "dpow_post": 11.247719989021725,
+     "post_step": [
+      7000,
+      6000
+     ],
+     "dpow_pre": 7.120043957209746,
+     "pre_step": [
+      5000,
+      4000
+     ],
+     "placebo_q90": 3.1700337543828363,
+     "placebo_q99": 5.406797419847255,
+     "placebo_sd": 1.898343865979351,
+     "top5_own_post": [
+      5,
+      5
+     ]
+    },
+    {
+     "seed": 13902,
+     "gen": [
+      5000,
+      5525
+     ],
+     "final_acc": [
+      {
+       "train": 1.0,
+       "test": 1.0
+      },
+      {
+       "train": 1.0,
+       "test": 1.0
+      }
+     ],
+     "dpow_2000": 3.8005004472816357,
+     "dpow_post": 7.90507992061453,
+     "post_step": [
+      6000,
+      7000
+     ],
+     "dpow_pre": 5.437939961182896,
+     "pre_step": [
+      4000,
+      5000
+     ],
+     "placebo_q90": 3.014600347861751,
+     "placebo_q99": 4.391795780444931,
+     "placebo_sd": 1.6637908194000266,
+     "top5_own_post": [
+      4,
+      4
+     ]
+    }
+   ],
+   "problems": []
+  },
+  {
+   "p": 503,
+   "cell": "n9425",
+   "train_frac": 0.037251639269749295,
+   "verdict_cal": "kein Lernen im Budget",
+   "generalises": false,
+   "n_both_generalised": 0,
+   "n_evaluable": 0,
+   "n_not_generalised": 0,
+   "rows": [],
+   "problems": [
+    "split_add503_n9425_seed13900_F: status running",
+    "split_add503_n9425_seed13901_F: fehlt oder doppelt",
+    "split_add503_n9425_seed13902_F: fehlt oder doppelt"
+   ]
+  },
+  {
+   "p": 503,
+   "cell": "n14000",
+   "train_frac": 0.05533399997628543,
+   "verdict_cal": "kein Lernen im Budget",
+   "generalises": false,
+   "n_both_generalised": 0,
+   "n_evaluable": 0,
+   "n_not_generalised": 0,
+   "rows": [],
+   "problems": [
+    "split_add503_n14000_seed13900_F: fehlt oder doppelt",
+    "split_add503_n14000_seed13901_F: fehlt oder doppelt",
+    "split_add503_n14000_seed13902_F: fehlt oder doppelt"
+   ]
+  },
+  {
+   "p": 613,
+   "cell": "n9425",
+   "train_frac": 0.02508189871969215,
+   "verdict_cal": "kein Lernen im Budget",
+   "generalises": false,
+   "n_both_generalised": 0,
+   "n_evaluable": 0,
+   "n_not_generalised": 0,
+   "rows": [],
+   "problems": [
+    "split_add613_n9425_seed13900_F: fehlt oder doppelt",
+    "split_add613_n9425_seed13901_F: fehlt oder doppelt",
+    "split_add613_n9425_seed13902_F: fehlt oder doppelt"
+   ]
+  },
+  {
+   "p": 613,
+   "cell": "n14000",
+   "train_frac": 0.03725693178521911,
+   "verdict_cal": "kein Lernen im Budget",
+   "generalises": false,
+   "n_both_generalised": 0,
+   "n_evaluable": 0,
+   "n_not_generalised": 0,
+   "rows": [],
+   "problems": [
+    "split_add613_n14000_seed13900_F: fehlt oder doppelt",
+    "split_add613_n14000_seed13901_F: fehlt oder doppelt",
+    "split_add613_n14000_seed13902_F: fehlt oder doppelt"
+   ]
+  }
+ ],
+ "q1": {
+  "reading": "Paarzahl 9425 reicht oberhalb p 307 nicht",
+  "equal_fraction_contrast": "Gleich-Anteil-Kontrast unentschieden",
+  "generalises": {
+   "401_n9425": false,
+   "401_n14000": true,
+   "503_n9425": false,
+   "503_n14000": false,
+   "613_n9425": false,
+   "613_n14000": false
+  }
+ },
+ "q2": {
+  "reading": "K2 haelt bis zum kleinsten generalisierenden Anteil",
+  "smallest_fraction": 0.08706413517328872
+ },
+ "mask_prediction_check": {
+  "spearman_pooled": 0.5,
+  "n": 3
+ },
+ "threshold_fit": {
+  "fits": {
+   "pairs_per_p": true,
+   "fraction": false,
+   "n_pairs": false
+  },
+  "reading": "Muster passt zu Paaren je Token"
+ },
+ "threshold_points": [
+  {
+   "p": 401,
+   "n_pairs": 9425,
+   "generalises": false,
+   "source": "EXP-139"
+  },
+  {
+   "p": 401,
+   "n_pairs": 14000,
+   "generalises": true,
+   "source": "EXP-139"
+  },
+  {
+   "p": 503,
+   "n_pairs": 9425,
+   "generalises": false,
+   "source": "EXP-139"
+  },
+  {
+   "p": 503,
+   "n_pairs": 14000,
+   "generalises": false,
+   "source": "EXP-139"
+  },
+  {
+   "p": 613,
+   "n_pairs": 9425,
+   "generalises": false,
+   "source": "EXP-139"
+  },
+  {
+   "p": 613,
+   "n_pairs": 14000,
+   "generalises": false,
+   "source": "EXP-139"
+  },
+  {
+   "p": 211,
+   "n_pairs": 4452,
+   "generalises": false,
+   "source": "EXP-137"
+  },
+  {
+   "p": 211,
+   "n_pairs": 6678,
+   "generalises": true,
+   "source": "EXP-137"
+  },
+  {
+   "p": 211,
+   "n_pairs": 8904,
+   "generalises": true,
+   "source": "EXP-137"
+  },
+  {
+   "p": 307,
+   "n_pairs": 9425,
+   "generalises": true,
+   "source": "EXP-137"
+  },
+  {
+   "p": 307,
+   "n_pairs": 14137,
+   "generalises": true,
+   "source": "EXP-137"
+  },
+  {
+   "p": 307,
+   "n_pairs": 18850,
+   "generalises": true,
+   "source": "EXP-137"
+  }
+ ]
+}

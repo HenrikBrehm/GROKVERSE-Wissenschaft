@@ -1,0 +1,10 @@
+{
+  "file": "29_lm1_smoke.jobs",
+  "finished_utc": "2026-09-29T10:33:54+00:00",
+  "jobs": 1,
+  "done": 1,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 4100 --split-file lab/confirm/lm1_splits/seed4000_F.npy --test-file lab/confirm/lm1_splits/seed4000_test.npy --steps 250 --arith-facts 19 --loss answer --device cuda --out-root lab/confirm/lm1_smoke"
+  }
+}

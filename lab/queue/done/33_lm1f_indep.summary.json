@@ -1,0 +1,10 @@
+{
+  "file": "33_lm1f_indep.jobs",
+  "finished_utc": "2026-09-29T22:43:21+00:00",
+  "jobs": 1,
+  "done": 1,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/confirm/LM1F_independent_recompute.py --threads 4 --out lab/confirm/LM1F_independent_summary.json"
+  }
+}

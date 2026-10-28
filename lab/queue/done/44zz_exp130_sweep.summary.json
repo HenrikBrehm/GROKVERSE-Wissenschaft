@@ -1,0 +1,13 @@
+{
+  "file": "44zz_exp130_sweep.jobs",
+  "finished_utc": "2026-09-30T17:54:35+00:00",
+  "jobs": 4,
+  "done": 4,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-130-pythia-functional-spectrum/ft_sweep.py --seed 4002 --split-file lab/confirm/lm1_splits/seed4002_F.npy --test-file lab/confirm/lm1_splits/seed4002_test.npy --targets-file lab/confirm/lm1_splits/seed4002.json --steps 4000 --out-root lab/experiments/EXP-130-pythia-functional-spectrum/raw",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-130-pythia-functional-spectrum/ft_sweep.py --seed 4002 --split-file lab/confirm/lm1_splits/seed4002_G.npy --test-file lab/confirm/lm1_splits/seed4002_test.npy --targets-file lab/confirm/lm1_splits/seed4002.json --steps 4000 --out-root lab/experiments/EXP-130-pythia-functional-spectrum/raw",
+    "2": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-130-pythia-functional-spectrum/ft_sweep.py --seed 4003 --split-file lab/confirm/lm1_splits/seed4003_F.npy --test-file lab/confirm/lm1_splits/seed4003_test.npy --targets-file lab/confirm/lm1_splits/seed4003.json --steps 4000 --out-root lab/experiments/EXP-130-pythia-functional-spectrum/raw",
+    "3": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-130-pythia-functional-spectrum/ft_sweep.py --seed 4003 --split-file lab/confirm/lm1_splits/seed4003_G.npy --test-file lab/confirm/lm1_splits/seed4003_test.npy --targets-file lab/confirm/lm1_splits/seed4003.json --steps 4000 --out-root lab/experiments/EXP-130-pythia-functional-spectrum/raw"
+  }
+}

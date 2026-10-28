@@ -1,0 +1,38 @@
+{
+ "intervention": "number rows of embed_in and embed_out re-initialised (Gaussian direction, mean pretrained norm)",
+ "wrapper_sha256": "857f91596747be84d55d499b7630b20983e827415c1c9b798f24636cbd02e2bf",
+ "ft_pythia_sha256": "2e622e17ec37e1145e1d3bdf73ea1404084b2ae2db6b3b6d8e99b7e7f3f13ace",
+ "argv": [
+  "--seed",
+  "4000",
+  "--split-file",
+  "lab/confirm/lm1_splits/seed4000_F.npy",
+  "--test-file",
+  "lab/experiments/EXP-133-pythia-reset-numbers/smoke/test100.npy",
+  "--targets-file",
+  "lab/confirm/lm1_splits/seed4000.json",
+  "--steps",
+  "2",
+  "--device",
+  "cpu",
+  "--threads",
+  "2",
+  "--out-root",
+  "lab/experiments/EXP-133-pythia-reset-numbers/smoke"
+ ],
+ "rng": [
+  133,
+  4000,
+  5
+ ],
+ "reset": {
+  "in": {
+   "pretrained_mean_row_norm": 0.7944856882095337,
+   "pretrained_row_norm_sd": 0.011611507274210453
+  },
+  "out": {
+   "pretrained_mean_row_norm": 3.1629488468170166,
+   "pretrained_row_norm_sd": 0.013606017455458641
+  }
+ }
+}

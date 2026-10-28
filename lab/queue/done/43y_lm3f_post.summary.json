@@ -1,0 +1,11 @@
+{
+  "file": "43y_lm3f_post.jobs",
+  "finished_utc": "2026-09-30T17:43:26+00:00",
+  "jobs": 2,
+  "done": 2,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/confirm/confirm_lm3f.py",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/confirm/LM3F_independent_recompute.py --threads 4 --out lab/confirm/LM3F_independent_summary.json"
+  }
+}

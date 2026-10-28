@@ -1,0 +1,11 @@
+{
+  "file": "45z_exp134_textpre.jobs",
+  "finished_utc": "2026-10-01T00:56:21+00:00",
+  "jobs": 2,
+  "done": 2,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-134-text-pretrain-steering/ft_textpre.py --seed 4100 --pair 4000 --device cuda",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-134-text-pretrain-steering/ft_textpre.py --seed 4101 --pair 4001 --device cuda"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "file": "11_exp105_pilot_resume_wrapper.jobs",
+  "finished_utc": "2026-09-29T08:27:02+00:00",
+  "jobs": 2,
+  "done": 2,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/resume_wrapper.py --seed 3860 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3800_G.npy --test-file lab/experiments/EXP-105-lm-ladder-stage2/tests/seed3800_test.npy --steps 10000 --device cuda --out-root lab/experiments/EXP-105-lm-ladder-stage2/raw_pilot",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/resume_wrapper.py --seed 3861 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3801_F.npy --test-file lab/experiments/EXP-105-lm-ladder-stage2/tests/seed3801_test.npy --steps 10000 --device cuda --out-root lab/experiments/EXP-105-lm-ladder-stage2/raw_pilot"
+  }
+}

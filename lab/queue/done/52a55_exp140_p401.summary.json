@@ -1,0 +1,12 @@
+{
+  "file": "52a55_exp140_p401.jobs",
+  "finished_utc": "2026-10-01T09:46:22+00:00",
+  "jobs": 3,
+  "done": 3,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-001-freq-ban/freq_ban.py --seed 13900 --condition baseline --steps 30000 --stop-after-gen 2000 --threads 1 --device cuda --p 401 --task add --train-frac 0.08706413517328872 --split-file lab/experiments/EXP-140-random-at-edge/splits/split_add401_n14000_seed13900_R.npy --spectra-at 50,250,500,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000,16000,17000,18000,19000,20000,21000,22000,23000,24000,25000,26000,27000,28000,29000,30000 --out-root lab/experiments/EXP-140-random-at-edge/raw",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-001-freq-ban/freq_ban.py --seed 13901 --condition baseline --steps 30000 --stop-after-gen 2000 --threads 1 --device cuda --p 401 --task add --train-frac 0.08706413517328872 --split-file lab/experiments/EXP-140-random-at-edge/splits/split_add401_n14000_seed13901_R.npy --spectra-at 50,250,500,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000,16000,17000,18000,19000,20000,21000,22000,23000,24000,25000,26000,27000,28000,29000,30000 --out-root lab/experiments/EXP-140-random-at-edge/raw",
+    "2": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-001-freq-ban/freq_ban.py --seed 13902 --condition baseline --steps 30000 --stop-after-gen 2000 --threads 1 --device cuda --p 401 --task add --train-frac 0.08706413517328872 --split-file lab/experiments/EXP-140-random-at-edge/splits/split_add401_n14000_seed13902_R.npy --spectra-at 50,250,500,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000,16000,17000,18000,19000,20000,21000,22000,23000,24000,25000,26000,27000,28000,29000,30000 --out-root lab/experiments/EXP-140-random-at-edge/raw"
+  }
+}

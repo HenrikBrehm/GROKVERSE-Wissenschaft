@@ -1,0 +1,13 @@
+{
+  "file": "45_exp125_lm_size.jobs",
+  "finished_utc": "2026-09-30T23:40:10+00:00",
+  "jobs": 4,
+  "done": 4,
+  "failed": {},
+  "commands": {
+    "0": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3868 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3808_F.npy --test-file lab/experiments/EXP-125-lm-size/tests/seed3808_test.npy --steps 6000 --arith-facts 19 --loss answer --d 512 --layers 8 --heads 8 --device cuda --out-root lab/experiments/EXP-125-lm-size/raw_d512",
+    "1": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3868 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3808_G.npy --test-file lab/experiments/EXP-125-lm-size/tests/seed3808_test.npy --steps 6000 --arith-facts 19 --loss answer --d 512 --layers 8 --heads 8 --device cuda --out-root lab/experiments/EXP-125-lm-size/raw_d512",
+    "2": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3869 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3809_F.npy --test-file lab/experiments/EXP-125-lm-size/tests/seed3809_test.npy --steps 6000 --arith-facts 19 --loss answer --d 512 --layers 8 --heads 8 --device cuda --out-root lab/experiments/EXP-125-lm-size/raw_d512",
+    "3": "C:/Users/henri/Documents/Brain/GROKVERSE_Wissenschaft/.venv-gpu/Scripts/python.exe lab/experiments/EXP-105-lm-ladder-stage2/lm_stage2.py --seed 3869 --split-file lab/experiments/EXP-102-lm-ladder-stage1/splits/seed3809_G.npy --test-file lab/experiments/EXP-125-lm-size/tests/seed3809_test.npy --steps 6000 --arith-facts 19 --loss answer --d 512 --layers 8 --heads 8 --device cuda --out-root lab/experiments/EXP-125-lm-size/raw_d512"
+  }
+}
